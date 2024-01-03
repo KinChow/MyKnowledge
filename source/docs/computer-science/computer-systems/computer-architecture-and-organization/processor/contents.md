@@ -8,9 +8,9 @@
 
 ## [NPU]()
 
-## [SOC](./soc/contents.md)
-
 ## [TPU]()
+
+## [SOC](./soc/soc.md)
 
 ## [其他芯片]()
 
