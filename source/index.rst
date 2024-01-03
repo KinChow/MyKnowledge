@@ -10,6 +10,6 @@ Let's wander about in the ocean of knowledge!
    :maxdepth: 5
    :caption: Contents:
 
-   docs/Contents.md
+   docs/contents.md
 
 
