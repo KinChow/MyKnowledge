@@ -1,8 +1,8 @@
 # 硬件
 
-## [adreno]()
+## [Adreno]()
 
-## [mali]()
+## [Mali](./mali/contents.md)
 
-## [nvidia]()
+## [Nvidia]()
 
