@@ -1,0 +1,25 @@
+site_name: MyKnowledge
+docs:
+  - Home: index.md
+theme:
+  name: material
+  features:
+    - navigation.tabs       # 顶部标签导航
+    - navigation.indexes    # 自动生成目录索引
+    - search.suggest        # 搜索建议
+  palette:
+    primary: indigo         # 主色调
+    accent: blue            # 强调色
+  font:
+    text: Roboto            # 正文字体
+    code: JetBrains Mono    # 代码字体
+locale: zh-CN
+plugins:
+  - mermaid2  # 插件名称
+  - search
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
