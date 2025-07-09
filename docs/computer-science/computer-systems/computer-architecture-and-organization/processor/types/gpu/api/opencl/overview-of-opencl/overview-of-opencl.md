@@ -185,6 +185,7 @@ OpenCL程序包括**主机端程序**和**内核（kernel）程序**
 
 ```mermaid
 stateDiagram
+direction LR
     [*] --> Queued : 任务派发
     Queued --> Submitted : 进入调度
     Submitted --> Ready : 资源就绪
@@ -252,9 +253,6 @@ OpenCL runtime允许开发者执行之前编译好的设备程序，能够加载
 
 
 ##### 索引空间
-
-
-![](./overview-of-opencl.assets/QcFPbiniHKHtB5UnQIN_bTg_pf9SQ5aOOPmTkNyhb9usxWivOCqTno9d49hXnmAV-Z-9QbfsGhnumKiWTAVmQSg.png)
 
 
 OpenCL运行时将会创建一个整数索引空间。索引空间是OpenCL支持的一个N维网格，称为NDRange，其中N为1、2或3。三个长度为N的数据确定了NDRange的以下特征：
