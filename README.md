@@ -27,6 +27,20 @@ MyKnowledge/
 └── README.md              # 项目说明
 ```
 
+## 📐 重构方案
+
+证据驱动知识系统的完整架构、数据 schema、source-first 写入规范、LLM 证据验证、Agent Skill、FastAPI 本地模式、Astro 静态模式、迁移计划和验收门禁见：[MyKnowledge 证据驱动知识系统设计](docs/myknowledge-system-design.md)。
+
+该文档当前是设计与实施规范，不代表目标能力已经全部实现；方案确认后按文档中的实施阶段逐步落地。
+
+重构交付文档：
+
+- [Feature List](docs/feature-list.md)：功能拆解、优先级、依赖和交付状态。
+- [ADR](docs/adr/README.md)：长期架构决策及其取舍原因。
+- [Technical Design](docs/technical-design/README.md)：具体实现边界、流程、失败处理和测试策略。
+- [Acceptance](docs/acceptance/README.md)：可执行验收场景和通过规则。
+- [Traceability Matrix](docs/traceability-matrix.md)：规范、Feature、实现设计、验收和测试的映射。
+
 ------
 
 ## 🛠️ 快速开始
