@@ -57,10 +57,19 @@ def _public_allowlisted(item: dict) -> bool:
     )
 
 
+def _scope_items(items: list[dict], scope: str) -> list[dict]:
+    """Apply scope filtering before any index/provider can see candidates."""
+    if scope == "public":
+        return [item for item in items if _public_allowlisted(item)]
+    if scope == "private":
+        return [item for item in items if item.get("vault_id") != "public"]
+    return list(items)
+
+
 class IndexBuilder:
     def __init__(self, root: Path | None): self.root = Path(root or ".").resolve()
     def build(self, items: list[dict], scope: str = "local") -> dict:
-        allowed = [x for x in items if scope != "public" or _public_allowlisted(x)]
+        allowed = _scope_items(items, scope)
         records = []
         for x in allowed:
             rec = {"object_ref": {"vault_id": x.get("vault_id"), "object_type": x.get("object_type", "wiki"), "object_id": x.get("object_id")}, "title": x.get("title"), "body": x.get("body") if x.get("availability", "available") == "available" else None, "snippet": None, "score": None, "availability": x.get("availability", "available"), "availability_reason": x.get("availability_reason", "none"), "confidentiality": x.get("confidentiality", "public"), "content_sha256": x.get("content_sha256"), "source_ref": x.get("source_ref")}
@@ -71,7 +80,7 @@ class SQLiteIndex:
     """Rebuildable SQLite FTS5 index with metadata kept outside the FTS table."""
     def __init__(self, path: Path): self.path = Path(path)
     def rebuild(self, items: list[dict], scope: str = "local") -> dict:
-        source_allowed = [x for x in items if scope != "public" or _public_allowlisted(x)]
+        source_allowed = _scope_items(items, scope)
         allowed = IndexBuilder(self.path.parent).build(items, scope)["items"]
         self.path.parent.mkdir(parents=True, exist_ok=True)
         fd, tmp = tempfile.mkstemp(prefix=".index.", suffix=".sqlite3", dir=self.path.parent); os.close(fd)
@@ -119,7 +128,7 @@ class Retriever:
 
     def search(self, query: str, scope: str = "local", top_k: int = 8) -> dict:
         if not isinstance(query, str) or len(query) > 4096 or top_k < 1 or top_k > 100: return {"schema_version": "query-result/v1", "items": [], "scope": scope, "method": "deterministic-fallback", "index_version": "none", "generated_from": "", "availability": "invalid", "availability_reason": "query_limit_exceeded", "degraded": True, "confidentiality_max": "public", "limits": ["query_limit_exceeded"], "warnings": []}
-        public = [x for x in self.items if scope != "public" or _public_allowlisted(x)]
+        public = _scope_items(self.items, scope)
         if self.qmd.available:
             try:
                 allowed_refs = {(x.get("vault_id"), x.get("object_type", "wiki"), x.get("object_id")): x for x in public}
