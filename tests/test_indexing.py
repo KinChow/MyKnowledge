@@ -30,4 +30,12 @@ class IndexingTests(unittest.TestCase):
             self.assertEqual(manifest["item_count"], 1)
             self.assertEqual(idx.search("SQLite")[0]["object_ref"]["object_id"], "pub")
 
+    def test_retriever_prefers_persistent_fts5_when_available(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "index.sqlite3"
+            SQLiteIndex(path).rebuild(ITEMS, "public")
+            result = Retriever(ITEMS, path).search("SQLite", "public")
+            self.assertEqual(result["method"], "fts5")
+            self.assertIn("qmd_unavailable", result["warnings"])
+
 if __name__ == "__main__": unittest.main()
