@@ -91,3 +91,7 @@ class ExtractorTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "extract_failed:trafilatura"):
                 TextExtractor().extract(b"<html><body>x</body></html>", "text/html")
 
+    def test_docx_extractor_does_not_fallback_to_binary_text(self):
+        with mock.patch.dict(sys.modules, {"docling": None, "docling.document_converter": None}):
+            with self.assertRaisesRegex(RuntimeError, "extractor_unavailable:docling"):
+                TextExtractor().extract(b"PK\x03\x04not-a-docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")

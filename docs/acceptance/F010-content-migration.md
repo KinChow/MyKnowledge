@@ -25,6 +25,11 @@
 - `apply_sample` 根据媒体类型复用 `TextExtractor`：HTML 走 Trafilatura、PDF 走 pypdf、文本走 UTF-8；extractor 缺失或失败时由 Source preview 返回结构化 blocked，不绕过 Source 门禁。
 - 边界：Office/Docling、全量 evidence replay 和最终发布切换仍待后续验收。
 
+## DOCX 抽取边界增量证据（2026-08-27）
+
+- `tests/ingest/test_extractor.py::ExtractorTests::test_docx_extractor_does_not_fallback_to_binary_text` 验证 DOCX 不会按 UTF-8 fallback；Docling 缺失时明确返回 `extractor_unavailable:docling`。
+- inventory 已记录 DOCX 的 `media_type` 与 `docling` extractor，依赖安装后才允许进入结构化抽取；当前环境未将 Docling 作为强制运行依赖。
+
 CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_sample` 验证 CLI 复用同一 preview/confirm/apply 实现并返回结构化 `applied`。
 
 ## AC-F010-001 迁移清单与状态边界
