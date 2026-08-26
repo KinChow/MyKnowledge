@@ -71,4 +71,15 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(result["state"], "disabled")
             self.assertEqual(store.answer("q-one", "a")["error_code"], "question_disabled")
 
+    def test_refresh_all_disables_missing_or_stale_wiki_reports(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            store.create(self.base(), wiki_report=REPORT)
+            second = self.base(); second["id"] = "q-two"; second["wiki_id"] = "wiki-missing"; store.create(second, wiki_report=REPORT)
+            result = store.refresh_all({"wiki-one": REPORT})
+            self.assertEqual(result["total"], 2)
+            self.assertEqual(result["disabled"], 1)
+            self.assertEqual(store.load("q-one")["status"], "enabled")
+            self.assertEqual(store.load("q-two")["status"], "disabled")
+
 if __name__ == "__main__": unittest.main()
