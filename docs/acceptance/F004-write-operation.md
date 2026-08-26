@@ -5,6 +5,12 @@
 - 状态：Implemented（2026-08-27；7 个通用 writer 测试通过；完整领域 writer 验收仍待后续补齐）
 - 实现证据：`tools/write_operation.py`、`tests/test_write_operation.py`、`tools/operation_store.py`、`tools/vault_lock.py`
 - 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；多 Vault fencing、projection/index 恢复和 retire 领域状态仍需后续验收。
+- 本轮增量：已增加 Vault fencing sidecar 与提交点校验；多 Vault 锁排序、projection/index 恢复和 retire 领域状态仍需后续验收。
+
+## 本轮证据（2026-08-29）
+
+- AC-F004-010：`tests/test_write_operation.py::WriteOperationTests::test_fencing_token_rejects_replaced_owner` 验证 owner sidecar 被替换后 `assert_owner()` 返回 `LockBusyError`，旧持有者不能继续提交。
+- AC-F004-005：全量 `tests/test_write_operation.py` 仍通过多文件失败回滚，fencing 检查位于每次文件替换之前。
 
 ## AC-F004-001 未确认不得 Apply
 
