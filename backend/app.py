@@ -43,6 +43,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
     app.state.capability_token_created_at = time.time()
     app.state.capability_token_ttl_seconds = 3600
+    app.state.capability_scopes = {"local-read", "private-read", "vault-check", "write"}
     app.state.capability_token_path = None
     if capability_token is None and root is not None:
         state_dir = app.state.root / "state"
@@ -86,7 +87,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
                 return JSONResponse(status_code=403, content={"detail": {"code": "origin_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback origin"}})
         return await call_next(request)
 
-    def require_capability(token: str | None, scope: str, audience: str | None = None, *, force: bool = False) -> None:
+    def require_capability(token: str | None, scope: str, audience: str | None = None, *, force: bool = False, required_scope: str | None = None) -> None:
         if scope == "public" and not force:
             return
         if not token:
@@ -97,6 +98,9 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             raise HTTPException(status_code=403, detail={"code": "capability_token_expired", "stage": "auth", "retryable": True, "next_action": "restart the local API for a fresh token"})
         if audience is not None and audience != "myknowledge-local-api":
             raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
+        needed = required_scope or ({"private": "private-read", "local": "local-read"}.get(scope) if scope != "public" else ("local-read" if force else None))
+        if needed is not None and needed not in app.state.capability_scopes:
+            raise HTTPException(status_code=403, detail={"code": "capability_scope_invalid", "stage": "auth", "retryable": False, "next_action": f"request capability scope {needed}"})
 
     def retrieve(req: RetrieveRequest, token: str | None = None, audience: str | None = None) -> dict:
         if req.scope not in {"public", "local", "private"}:
@@ -133,7 +137,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval, "availability": "unavailable", "availability_reason": "provider_unavailable", "confidentiality": retrieval["confidentiality_max"], "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
 
-    def require_write_capability(token: str | None, audience: str | None = None) -> None:
+    def require_write_capability(token: str | None, audience: str | None = None, *, required_scope: str = "write") -> None:
         if not token:
             raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
         if not secrets.compare_digest(token, app.state.capability_token):
@@ -142,6 +146,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             raise HTTPException(status_code=403, detail={"code": "capability_token_expired", "stage": "auth", "retryable": True, "next_action": "restart the local API for a fresh token"})
         if audience is not None and audience != "myknowledge-local-api":
             raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
+        if required_scope not in app.state.capability_scopes:
+            raise HTTPException(status_code=403, detail={"code": "capability_scope_invalid", "stage": "auth", "retryable": False, "next_action": f"request capability scope {required_scope}"})
 
     @app.post("/api/source/preview")
     def source_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
@@ -160,7 +166,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
 
     @app.get("/api/vault/check")
     def vault_check(x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
+        require_write_capability(x_myknowledge_capability, x_myknowledge_audience, required_scope="vault-check")
         return VaultRegistry(app.state.root).check()
 
     @app.post("/api/validate/{vault_id}/{object_type}/{object_id}")

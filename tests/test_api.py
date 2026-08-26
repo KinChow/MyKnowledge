@@ -46,6 +46,13 @@ def test_capability_token_expires_by_process_ttl():
     assert response.status_code == 403
     assert response.json()["detail"]["code"] == "capability_token_expired"
 
+def test_capability_scope_registry_is_enforced():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    client.app.state.capability_scopes = {"local-read"}
+    response = client.get("/api/vault/check", headers={"X-MyKnowledge-Capability": "token"})
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "capability_scope_invalid"
+
 def test_ask_is_explicitly_unavailable_offline():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
     body = client.post("/api/ask", headers={"X-MyKnowledge-Capability": "token"}, json={"query": "离线", "scope": "public"}).json()
