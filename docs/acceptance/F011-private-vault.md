@@ -34,6 +34,10 @@
 - `tests/test_vault_registry.py::VaultRegistryTests::test_object_index_keeps_same_ids_separate_by_owner` 验证两个 Vault 的同名 Wiki 以 `(vault_id, object_type, object_id)` 分别保留，索引值只含 owner/status 元数据，不暴露物理路径。
 - 同 Vault 重复 ID 由 `check()` 先报告冲突，`object_index()` 对冲突键标记 `availability: conflict`，不会静默覆盖。
 
+## Public projection 权限一致性增量证据（2026-08-27）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_private_public_projection_permission_is_rejected` 与 `test_internal_public_projection_permission_is_rejected` 验证 private 或 internal vault 声明 `allow_public_projection: true` 时，Registry 返回 `public_projection_confidentiality`；不会把保密内容交给 public generator。
+
 ## AC-F011-001 多个私有仓库挂载和合并
 
 - Given：public repo 与两个或更多独立 private Git repo（例如 `team-internal`、`personal-private`）均通过 manifest 声明，schema、vault confidentiality 和 `vault_id` 正确；
