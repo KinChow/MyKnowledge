@@ -21,6 +21,14 @@ try {
   execFileSync('node',['scripts/build-graph.mjs'],{stdio:'inherit'});
   execFileSync('node',['scripts/leak-gate.mjs','--scope','staging','src/content','public/generated'],{stdio:'inherit'});
   execFileSync('npx',['astro','build','--outDir','dist.next'],{stdio:'inherit'});
+  const catalog = JSON.parse(fs.readFileSync('public/generated/catalog.json', 'utf8'));
+  const routes = new Set(['/','/graph/']);
+  for (const item of catalog.items || []) {
+    const route = String(item.route || '').replace(/^\//, '').replace(/\/$/, '');
+    if (route) routes.add(`/${route}/`);
+  }
+  const sitemap = [...routes].sort().map((route) => `  <url><loc>${route}</loc></url>`).join('\n');
+  fs.writeFileSync('dist.next/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemap}\n</urlset>\n`, { mode: 0o600 });
   execFileSync('node',['scripts/validate-build.mjs','dist.next'],{stdio:'inherit'});
   execFileSync('node',['scripts/leak-gate.mjs','--scope','dist','dist.next'],{stdio:'inherit'});
   fs.rmSync('dist',{recursive:true,force:true});
