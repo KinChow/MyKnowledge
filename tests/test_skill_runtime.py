@@ -89,3 +89,11 @@ def test_skill_question_answer_preserves_scoring_mode_boundary(tmp_path: Path):
     assert deterministic["scoring_provider"] == "deterministic_rubric"
     invalid = dispatch("question_answer", {"question_id": "q-one", "response": "x", "scoring_mode": "other"}, root=tmp_path)
     assert invalid["error_code"] == "scoring_mode_invalid"
+
+
+def test_skill_question_create_requires_validator_backed_wiki_path(tmp_path: Path):
+    spec = {"id": "q-one", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
+    missing = dispatch("question_create", {"spec": spec}, root=tmp_path)
+    assert missing["error_code"] == "wiki_path_required"
+    traversal = dispatch("question_create", {"spec": spec, "wiki_path": "../wiki.md"}, root=tmp_path)
+    assert traversal["error_code"] == "path_invalid"
