@@ -11,6 +11,7 @@ from .inventory_legacy import inventory
 from .ingest.source_ingestor import SourceIngestor
 from .write_operation import WriteOperation
 from .front_matter import FrontMatter
+from .ingest.extractor import TextExtractor
 
 MIGRATION_VERSION = "legacy-migration/v1"
 
@@ -68,6 +69,7 @@ def preview(root: Path, docs_dir: Path | None = None) -> dict[str, Any]:
             "extractor": "markdown-pass-through",
             "extractor_version": MIGRATION_VERSION,
             "input_exists": target.is_file(),
+            "media_type": item.get("media_type", "text/markdown"),
         })
         route_map.append({"legacy_route": item["route"], "new_route": route, "status": "pending", "reason": "requires_link_repair_review"})
     result: dict[str, Any] = {
@@ -95,7 +97,8 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     if not confirmed:
         return {"state": "awaiting_confirmation", "writes_applied": False, "preview_sha256": plan["preview_sha256"], "item": item}
     source_id = item["source_target"]["object_id"]
-    source_request = {"source_type": "local-file", "input_path": str(root / legacy_path), "domain": "tools", "source_id": source_id, "media_type": "text/markdown"}
+    media_type = next((x.get("media_type", "text/markdown") for x in plan["items"] if x["legacy_path"] == legacy_path), "text/markdown")
+    source_request = {"source_type": "local-file", "input_path": str(root / legacy_path), "domain": "tools", "source_id": source_id, "media_type": media_type}
     source_preview = SourceIngestor(root).preview(source_request)
     if source_preview.get("state") != "previewed":
         return {"state": "blocked", "stage": "source_preview", "source": source_preview, "writes_applied": False}
@@ -106,7 +109,12 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     wiki_id = item["wiki_target"]["object_id"]
     wiki_path = f"wiki/tools/{wiki_id}.md"
     metadata = {"schema_version": "wiki/v1", "id": wiki_id, "title": Path(legacy_path).stem, "domain": "tools", "kind": "reference", "status": "draft", "publication_scope": "none", "confidentiality": "public", "tags": ["legacy-migration"], "aliases": [], "related": [], "sources": [source_id], "updated_at": "2026-08-27"}
-    repaired_body, link_report = _repair_links((root / legacy_path).read_text(encoding="utf-8"), legacy_path, plan)
+    raw = (root / legacy_path).read_bytes()
+    if media_type == "application/pdf":
+        extracted_body, _ = TextExtractor().extract(raw, media_type)
+    else:
+        extracted_body = raw.decode("utf-8", errors="replace")
+    repaired_body, link_report = _repair_links(extracted_body, legacy_path, plan)
     wiki_preview = WriteOperation(root).preview({wiki_path: FrontMatter.render(metadata, "# " + Path(legacy_path).stem + "\n\n" + repaired_body)}, operation_type="wiki", vault_id="public")
     if wiki_preview.get("state") != "previewed":
         return {"state": "blocked", "stage": "wiki_preview", "source": source_result, "wiki": wiki_preview, "writes_applied": True}
