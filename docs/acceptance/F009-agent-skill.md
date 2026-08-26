@@ -6,6 +6,10 @@
 - 实现证据：`skills/myknowledge/SKILL.md`、`tests/test_skill_contract.py`
 - 当前边界：已接入离线受控 runtime（action 白名单与 writer 委托）；尚未接入完整 source/wiki/publish/query API 调用、token 生命周期和 MCP server transport。
 
+## 练习评分路由增量证据（2026-08-27）
+
+- `tests/test_skill_runtime.py::test_skill_question_answer_preserves_scoring_mode_boundary` 验证 Skill 入口透传 `manual`/`deterministic`/`llm` 评分模式，并拒绝未知模式；实际评分仍由 `QuestionStore` 执行，Skill 不创建 provider、不直接写入 practice 文件。
+
 ## 本轮证据（2026-08-28）
 
 - AC-F009-001/002/006：`tests/test_skill_runtime.py::test_skill_runtime_write_preview_delegates_to_writer` 和 `test_skill_runtime_apply_requires_explicit_confirmation` 验证 Skill 只能通过现有 writer 生成 preview，Apply 未确认时返回 `awaiting_confirmation` 且工作树不变。

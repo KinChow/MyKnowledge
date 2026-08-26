@@ -113,7 +113,14 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
                 return {"state": "blocked", "error_code": "spec_required"}
             return store.create(spec)
         if action == "question_answer":
-            return store.answer(str(payload.get("question_id", "")), payload.get("response"))
+            scoring_mode = payload.get("scoring_mode", "manual")
+            if scoring_mode not in {"manual", "deterministic", "llm"}:
+                return {"state": "blocked", "error_code": "scoring_mode_invalid"}
+            return store.answer(
+                str(payload.get("question_id", "")),
+                payload.get("response"),
+                scoring_mode=scoring_mode,
+            )
         return store.review(str(payload.get("question_id", "")), payload.get("rating"))
     except (OSError, ValueError, TypeError) as exc:
         return {"state": "blocked", "error_code": str(exc)}
