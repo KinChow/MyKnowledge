@@ -63,6 +63,42 @@ class OperationStore:
         except (TypeError, ValueError):
             return True
 
+    def apply_preflight(
+        self, operation_id: str, expected_type: str, confirmed: bool
+    ) -> tuple[dict | None, dict | None]:
+        """两阶段写 apply 的通用前置校验（source_ingestor 与 evidence_anchor 共用）。
+
+        返回 (record, error_response)；error_response 为 None 表示可继续。
+        覆盖：加载失败（operation_not_found）、非 previewed、未确认、
+        operation_type 不匹配——与调用方锁内复查/TTL/业务逻辑解耦，
+        避免两个 apply 的状态判定漂移。
+        """
+        try:
+            record = self.load(operation_id)
+        except (OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError):
+            return None, {
+                "state": "blocked",
+                "operation_id": operation_id,
+                "error_code": "operation_not_found",
+            }
+        if record.get("state") != "previewed":
+            return record, {
+                "state": record.get("state"),
+                "operation_id": operation_id,
+            }
+        if not confirmed:
+            return record, {
+                "state": "awaiting_confirmation",
+                "operation_id": operation_id,
+            }
+        if record.get("operation_type") != expected_type:
+            return record, {
+                "state": "blocked",
+                "operation_id": operation_id,
+                "error_code": "operation_type_mismatch",
+            }
+        return record, None
+
     def load(self, operation_id: str) -> dict:
         """按 operation_id 读取 operation 记录；文件缺失或损坏时抛异常由调用方处理。"""
         safe_id(operation_id.removeprefix("op_"))

@@ -19,9 +19,10 @@ class LayoutGuardTests(unittest.TestCase):
     """机器强制：路径收口 RepoPaths、sha256_hex/fallback 零残留。"""
 
     def _tool_sources(self) -> list[tuple[str, str]]:
+        # 递归 glob：tools/validation/ 包（F002 拆分后）同样受守卫约束
         return [
-            (path.name, path.read_text(encoding="utf-8"))
-            for path in sorted(TOOLS_DIR.glob("*.py"))
+            (str(path.relative_to(TOOLS_DIR)), path.read_text(encoding="utf-8"))
+            for path in sorted(TOOLS_DIR.glob("**/*.py"))
             if path.name not in {"__init__.py", "paths.py"}
         ]
 

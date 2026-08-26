@@ -86,6 +86,22 @@ def canonical_quote(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
 
+def canonical_body(body: str) -> str:
+    """规范化正文（§6.6）：LF 统一、去行尾空白、折叠文件末尾空行为单个换行。
+
+    只做这四步，不做其他改写（不动大小写、标点、列表重排）。与 canonical_quote
+    同为契约级规范化原语（F007 发布 authority 计算 content hash 时复用）。
+    """
+    lines = [
+        line.rstrip()
+        for line in body.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    ]
+    while lines and lines[-1] == "":
+        lines.pop()
+    lines.append("")
+    return "\n".join(lines)
+
+
 def safe_id(value: str) -> str:
     """校验字符串是否为合法 ID（小写字母数字与连字符），不合法时抛 ValueError。"""
     if not SAFE_ID.fullmatch(value):
@@ -167,3 +183,26 @@ def read_stable(path: Path) -> tuple[bytes, os.stat_result]:
     ):
         raise RuntimeError("hash_mismatch")
     return data, after
+
+def glob_without_symlinks(base: Path, pattern: str) -> list[Path]:
+    """glob 但不穿透符号链接目录（C004：防越界读取仓库外文件）。
+
+    Python 3.14 的 Path.glob 尚无 follow_symlinks 参数，故手动校验
+    glob 结果的祖先链：任一中间目录为 symlink 即排除该命中。
+    """
+    results: list[Path] = []
+    for hit in base.glob(pattern):
+        try:
+            rel = hit.relative_to(base)
+        except ValueError:
+            continue
+        current = base
+        safe = True
+        for part in rel.parts[:-1]:
+            current = current / part
+            if current.is_symlink():
+                safe = False
+                break
+        if safe:
+            results.append(hit)
+    return results
