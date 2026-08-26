@@ -119,4 +119,11 @@ class QuestionTests(unittest.TestCase):
             result = store.answer("q-one", ["a", "a"])
             self.assertEqual(result["error_code"], "response_options_duplicate")
 
+    def test_choice_response_rejects_unknown_option_ids(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
+            self.assertEqual(store.answer("q-one", "missing")["error_code"], "response_option_unknown")
+            multi = self.base("multi_choice"); multi["id"] = "q-two"; store.create(multi, wiki_report=REPORT)
+            self.assertEqual(store.answer("q-two", ["a", "missing"])["error_code"], "response_option_unknown")
+
 if __name__ == "__main__": unittest.main()

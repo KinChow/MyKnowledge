@@ -153,6 +153,9 @@ class QuestionStore:
             return {"state": "blocked", "error_code": "question_disabled"}
         kind = question["type"]
         if kind == "single_choice":
+            option_ids = {item.get("id") for item in (question.get("options") or []) if isinstance(item, dict)}
+            if not isinstance(response, str) or response not in option_ids:
+                return {"state": "blocked", "error_code": "response_option_unknown"}
             score = 1.0 if response == question.get("correct_option_ids", [None])[0] else 0.0
             result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
         if kind == "multi_choice":
@@ -160,6 +163,9 @@ class QuestionStore:
             values = response if isinstance(response, list) else []
             if len(values) != len(set(values)):
                 return {"state": "blocked", "error_code": "response_options_duplicate"}
+            option_ids = {item.get("id") for item in (question.get("options") or []) if isinstance(item, dict)}
+            if any(not isinstance(value, str) or value not in option_ids for value in values):
+                return {"state": "blocked", "error_code": "response_option_unknown"}
             actual = set(values)
             score = 1.0 if actual == expected else 0.0
             result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
