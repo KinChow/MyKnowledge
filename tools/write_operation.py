@@ -79,6 +79,9 @@ class WriteOperation:
                         return {"state": "expired", "operation_id": operation_id, "error_code": "hash_mismatch"}
                     originals[path] = path.read_bytes() if path.exists() else None
                 try:
+                    intent_path = self.store.paths.commit_intent_file(operation_id)
+                    intent = {"schema_version": "commit-intent/v1", "operation_id": operation_id, "operation_type": record.get("operation_type"), "vault_id": vault_id, "files": [{"path": item["path"], "before_hash": item.get("before_hash"), "after_hash": sha256_bytes(item["content"].encode("utf-8"))} for item in record.get("files", [])]}
+                    atomic_write(intent_path, canonical_json(intent) + b"\n", 0o600)
                     for index, item in enumerate(record["files"]):
                         # Re-check fencing before every replacement so a recovered lock
                         # cannot allow an old writer to continue committing.
@@ -96,12 +99,34 @@ class WriteOperation:
                             atomic_write(path, content)
                     raise
                 applied = self.store.update(record, "applied", actor_id=actor_id, confirmation={"actor_type": "human", "actor_id": actor_id, "scope": "apply"}, applied_files=[x["path"] for x in record["files"]])
+                intent_path.unlink(missing_ok=True)
                 return {"state": "applied", "operation_id": operation_id, "applied_files": applied["applied_files"]}
         except LockBusyError:
             return VaultLock.lock_busy_response(operation_id)
         except OSError:
             self.store.update(record, "expired", error_code="apply_failed")
             return {"state": "expired", "operation_id": operation_id, "error_code": "apply_failed"}
+
+    def recover(self, operation_id: str) -> dict:
+        """Inspect an interrupted commit intent without guessing or overwriting files."""
+        try:
+            record = self.store.load(operation_id)
+            intent_path = self.store.paths.commit_intent_file(operation_id)
+            intent = __import__("json").loads(intent_path.read_text(encoding="utf-8"))
+            if record.get("state") != "previewed" or intent.get("schema_version") != "commit-intent/v1":
+                return {"state": "blocked", "operation_id": operation_id, "error_code": "recovery_invalid"}
+            states = []
+            for item in intent.get("files", []):
+                path = self._path(item["path"])
+                current = sha256_bytes(path.read_bytes()) if path.exists() else None
+                states.append({"path": item["path"], "current_hash": current, "expected_hash": item.get("after_hash"), "before_hash": item.get("before_hash")})
+            if all(item["current_hash"] == item["expected_hash"] for item in states):
+                applied = self.store.update(record, "applied", actor_id="recovery", confirmation={"actor_type": "human", "actor_id": "recovery", "scope": "apply"}, applied_files=[item["path"] for item in states])
+                intent_path.unlink(missing_ok=True)
+                return {"state": "applied", "operation_id": operation_id, "recovered": True, "applied_files": applied["applied_files"]}
+            return {"state": "recovery_required", "operation_id": operation_id, "error_code": "commit_intent_incomplete", "files": states}
+        except (OSError, ValueError, TypeError, KeyError, __import__("json").JSONDecodeError) as exc:
+            return {"state": "blocked", "operation_id": operation_id, "error_code": "recovery_invalid", "reason": str(exc)}
 
     def rename(self, source: str, target: str, *, vault_id: str = "public") -> dict:
         src, dst = self._path(source), self._path(target)

@@ -152,6 +152,25 @@ class WriteOperationTests(unittest.TestCase):
             retired = service.retire("old.md")
             self.assertEqual(service.store.load(retired["operation_id"])["operation_type"], "retire")
 
+    def test_commit_intent_is_removed_after_apply(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            op = service.preview({"a.md": "new"})["operation_id"]
+            self.assertEqual(service.apply(op, confirmed=True)["state"], "applied")
+            self.assertFalse((root / "state" / "commit-intents" / f"{op}.json").exists())
+
+    def test_recover_commit_intent_marks_fully_written_files_applied(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            preview = service.preview({"a.md": "new"}); op = preview["operation_id"]
+            record = service.store.load(op)
+            from tools.common import atomic_write, canonical_json
+            intent = {"schema_version": "commit-intent/v1", "operation_id": op, "operation_type": "write", "vault_id": "public", "files": [{"path": "a.md", "before_hash": None, "after_hash": sha256_bytes(b"new")}]}
+            atomic_write(root / "state" / "commit-intents" / f"{op}.json", canonical_json(intent) + b"\n", 0o600)
+            (root / "a.md").write_text("new", encoding="utf-8")
+            result = service.recover(op)
+            self.assertEqual(result["state"], "applied")
+
 
 if __name__ == "__main__":
     unittest.main()
