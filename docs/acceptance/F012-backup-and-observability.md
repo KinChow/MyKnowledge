@@ -29,6 +29,8 @@
 
 - AC-F012-006：`VaultLock.recover` 的恢复测试验证陈旧 owner sidecar 清理前先获取内核锁，并追加 `record_type: lock-recovery`、`record_sha256` 的 durable record；活锁不会被删除。
 
+- AC-F012-006/008：`tests/test_vault_registry.py::VaultRegistryTests::test_backup_rejects_manifest_with_rehashed_tampered_durable_record` 验证同时篡改 durable operation、entry hash 和 manifest hash 仍被 `durable_record_hash_mismatch` 阻断；release confirmation entries 还必须通过 `event_sha256` 校验。
+
 ## Practice owner 增量证据（2026-08-27）
 
 - AC-F012-005/007/008：`BackupManager.create_manifest` 和 `verify_manifest` 按 owner vault 记录 `practice/questions`、`practice/reviews` 的相对路径与 sha256；`tests/test_vault_registry.py::VaultRegistryTests::test_practice_entries_are_owner_scoped_and_restored` 验证空 checkout 恢复，`test_private_manifest_does_not_read_public_or_escape_owner` 验证 private manifest 不读取 public 内容或越过 owner 边界。

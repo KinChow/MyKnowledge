@@ -90,6 +90,24 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(failed["backup_state"], "failed")
             self.assertEqual(failed["error_code"], "hash_mismatch")
 
+    def test_backup_rejects_manifest_with_rehashed_tampered_durable_record(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root)
+            operation = root / "audit" / "operations" / "op-one.json"; operation.parent.mkdir(parents=True)
+            operation.write_text(json.dumps({"operation_id": "op-one", "state": "previewed", "record_sha256": "sha256:wrong"}) + "\n", encoding="utf-8")
+            manifest = manager.create_manifest("public")
+            data = json.loads((root / manifest["path"]).read_text())
+            # Simulate an attacker changing both entry and manifest hashes.
+            operation.write_text(json.dumps({"operation_id": "op-one", "state": "applied", "record_sha256": "sha256:wrong"}) + "\n", encoding="utf-8")
+            for entry in data["entries"]:
+                if entry["path"] == "audit/operations/op-one.json":
+                    entry["sha256"] = "sha256:" + __import__("hashlib").sha256(operation.read_bytes()).hexdigest()
+            data["manifest_sha256"] = "sha256:" + __import__("hashlib").sha256(__import__("tools.common", fromlist=["canonical_json"]).canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
+            (root / manifest["path"]).write_text(json.dumps(data), encoding="utf-8")
+            failed = manager.verify_manifest(root / manifest["path"])
+            self.assertEqual(failed["error_code"], "durable_record_hash_mismatch")
+
     def test_verified_manifest_restores_to_empty_checkout(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)

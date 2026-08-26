@@ -2,7 +2,8 @@
 from __future__ import annotations
 import hashlib, json, time, uuid
 from pathlib import Path
-from .common import atomic_write, canonical_json
+from .common import atomic_write, canonical_json, hash_canonical
+from .release_confirmation import validate_event
 from .vault_registry import VaultRegistry
 from .paths import RepoPaths
 
@@ -66,6 +67,15 @@ class BackupManager:
                 actual = "sha256:" + hashlib.sha256(entry_path.read_bytes()).hexdigest()
                 if actual != entry.get("sha256"):
                     raise ValueError("hash_mismatch")
+                rel_text = rel.as_posix()
+                if rel_text.startswith("audit/operations/"):
+                    record = json.loads(entry_path.read_text(encoding="utf-8"))
+                    if not record.get("record_sha256") or hash_canonical({k: v for k, v in record.items() if k != "record_sha256"}) != record.get("record_sha256"):
+                        raise ValueError("durable_record_hash_mismatch")
+                elif rel_text.startswith("release/public-confirmations/"):
+                    event = json.loads(entry_path.read_text(encoding="utf-8"))
+                    if not event.get("event_sha256") or not validate_event(event).get("valid"):
+                        raise ValueError("confirmation_record_invalid")
             relative = str(path.resolve().relative_to(owner_root.resolve()))
             return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
         except (OSError, ValueError, json.JSONDecodeError) as exc:
