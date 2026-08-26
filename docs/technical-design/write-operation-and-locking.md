@@ -26,6 +26,8 @@
 
 本轮多 Vault 锁调查（2026-08-27）：filelock 的每文件内核互斥与数据库/etcd 的全局锁排序、lease fencing 语义作为成熟基线；替代方案是按调用方输入顺序逐个获取锁，两个反向 operation 可能死锁，明确排除。`VaultLockGroup` 对 `vault_id` 去重后按 UTF-8 字典序获取，异常时逆序释放已取得锁；不提供跨仓库伪事务，部分 apply 仍由上层报告成功列表和补偿动作。
 
+本轮 Vault 路径绑定调查（2026-08-30）：Git worktree 的 `rev-parse --show-toplevel`（GPL-2.0，<https://git-scm.com/docs/git-rev-parse>）作为 owner 根的权威解析；etcd fencing token（Apache-2.0，<https://etcd.io/docs/v3.5/learning/api_guarantees/>）仅借鉴“锁和资源必须绑定同一 owner”的语义。替代方案是只用 `vault_id` 选择锁、仍把相对路径拼到 public root，会导致 private operation 写错仓库，明确排除。本轮 writer 将路径 containment、before hash、commit-intent 和锁统一绑定到同一 `vault_id` 的 checkout root；public 行为保持兼容，跨 Vault 伪事务仍不提供。
+
 ## 核心流程
 
 生成规范化 operation → 保存 Preview → 用户确认 → 获取写锁 → 校验输入和前置 hash → 在同一文件系统生成 canonical/projection staging → 最终校验 → 写 commit-intent 并 fsync → 原子提交 canonical 与 durable record → 原子替换 projection/index → 记录完成状态。

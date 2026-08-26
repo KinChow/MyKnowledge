@@ -14,6 +14,7 @@ from .common import atomic_write, canonical_json, crash_injection_point, hash_ca
 from .operation_store import OperationStore
 from .vault_lock import LockBusyError, VaultLock
 from .backup import BackupManager
+from .vault_registry import VaultRegistry
 
 
 class WriteOperation:
@@ -21,11 +22,15 @@ class WriteOperation:
         self.root = Path(root).resolve()
         self.store = OperationStore(self.root)
 
-    def _path(self, value: str) -> Path:
-        lexical = self.root / value
+    def _vault_root(self, vault_id: str) -> Path:
+        return self.root if vault_id == "public" else VaultRegistry(self.root).resolve_vault_path(vault_id)
+
+    def _path(self, value: str, vault_id: str = "public") -> Path:
+        vault_root = self._vault_root(vault_id)
+        lexical = vault_root / value
         # Reject symlink components before resolve; resolving first would turn a
         # seemingly safe in-repo link into an unintended write target.
-        current = self.root
+        current = vault_root
         for part in Path(value).parts:
             if part in {"", "."}:
                 continue
@@ -34,26 +39,32 @@ class WriteOperation:
                 raise ValueError("path_symlink")
         path = lexical.resolve()
         try:
-            path.relative_to(self.root)
+            path.relative_to(vault_root)
         except ValueError as exc:
             raise ValueError("path_outside_repo") from exc
-        if path == self.root:
+        if path == vault_root:
             raise ValueError("invalid_target")
         return path
+
+    def _operation_path(self, value: str, vault_id: str) -> Path:
+        # Preserve the unary public path call used by existing integrations and
+        # make private operations resolve against their owner checkout.
+        return self._path(value) if vault_id == "public" else self._path(value, vault_id)
 
     def preview(self, files: Mapping[str, str], *, operation_type: str = "write", vault_id: str = "public") -> dict:
         if not files:
             return {"state": "blocked", "error_code": "empty_write"}
         try:
             targets = []
+            vault_root = self._vault_root(vault_id)
             for name, content in sorted(files.items()):
                 if not isinstance(content, str):
                     return {"state": "blocked", "error_code": "content_not_string"}
-                path = self._path(name)
+                path = self._path(name, vault_id)
                 if path.exists() and path.stat().st_nlink > 1:
                     raise ValueError("path_hardlink")
                 before = sha256_bytes(path.read_bytes()) if path.exists() else None
-                targets.append({"path": str(path.relative_to(self.root)), "before_hash": before, "content": content})
+                targets.append({"path": str(path.relative_to(vault_root)), "before_hash": before, "content": content})
             input_hash = hash_canonical({"files": targets, "operation_type": operation_type, "vault_id": vault_id})
             diff_hash = hash_canonical({"files": [{"path": x["path"], "before_hash": x["before_hash"], "after_hash": sha256_bytes(x["content"].encode())} for x in targets]})
             record = self.store.new({"operation_type": operation_type, "target_vault": vault_id, "input_hash": input_hash, "diff_hash": diff_hash, "files": targets})
@@ -79,13 +90,13 @@ class WriteOperation:
                     return {"state": "expired", "operation_id": operation_id, "error_code": "operation_expired"}
                 originals: dict[Path, bytes | None] = {}
                 if record.get("operation_type") == "rename" and record.get("source_path"):
-                    source_path = self._path(str(record["source_path"]))
+                    source_path = self._operation_path(str(record["source_path"]), vault_id)
                     if not source_path.exists():
                         self.store.update(record, "expired", error_code="path_unresolved")
                         return {"state": "expired", "operation_id": operation_id, "error_code": "path_unresolved"}
                     originals[source_path] = source_path.read_bytes()
                 for item in record.get("files", []):
-                    path = self._path(item["path"])
+                    path = self._operation_path(item["path"], vault_id)
                     if path.exists() and path.stat().st_nlink > 1:
                         self.store.update(record, "expired", error_code="path_hardlink")
                         return {"state": "expired", "operation_id": operation_id, "error_code": "path_hardlink"}
@@ -103,12 +114,12 @@ class WriteOperation:
                         # cannot allow an old writer to continue committing.
                         lock.assert_owner()
                         if record.get("operation_type") == "purge":
-                            self._path(item["path"]).unlink()
+                            self._operation_path(item["path"], vault_id).unlink()
                         else:
-                            atomic_write(self._path(item["path"]), item["content"].encode("utf-8"))
+                            atomic_write(self._operation_path(item["path"], vault_id), item["content"].encode("utf-8"))
                         crash_injection_point(f"after_file_{index}")
                     if record.get("operation_type") == "rename" and record.get("source_path"):
-                        self._path(str(record["source_path"])).unlink()
+                        self._operation_path(str(record["source_path"]), vault_id).unlink()
                     crash_injection_point("before_commit")
                 except BaseException:
                     for path, content in originals.items():
@@ -139,7 +150,7 @@ class WriteOperation:
                 return {"state": "blocked", "operation_id": operation_id, "error_code": "recovery_invalid"}
             states = []
             for item in intent.get("files", []):
-                path = self._path(item["path"])
+                path = self._operation_path(item["path"], str(record.get("target_vault", "public")))
                 current = sha256_bytes(path.read_bytes()) if path.exists() else None
                 states.append({"path": item["path"], "current_hash": current, "expected_hash": item.get("after_hash"), "before_hash": item.get("before_hash")})
             if all(item["current_hash"] == item["expected_hash"] for item in states):
@@ -151,7 +162,7 @@ class WriteOperation:
             return {"state": "blocked", "operation_id": operation_id, "error_code": "recovery_invalid", "reason": str(exc)}
 
     def rename(self, source: str, target: str, *, vault_id: str = "public") -> dict:
-        src, dst = self._path(source), self._path(target)
+        src, dst = self._path(source, vault_id), self._path(target, vault_id)
         if not src.exists():
             return {"state": "blocked", "error_code": "path_unresolved"}
         if dst.exists():
@@ -165,14 +176,14 @@ class WriteOperation:
         return result
 
     def retire(self, target: str, *, vault_id: str = "public") -> dict:
-        path = self._path(target)
+        path = self._path(target, vault_id)
         if not path.exists():
             return {"state": "blocked", "error_code": "path_unresolved"}
         return self.preview({target: path.read_text(encoding="utf-8")}, operation_type="retire", vault_id=vault_id)
 
     def purge(self, target: str, *, vault_id: str = "public") -> dict:
         """Prepare an irreversible purge only after an independently verified backup."""
-        path = self._path(target)
+        path = self._path(target, vault_id)
         if not path.exists():
             return {"state": "blocked", "error_code": "path_unresolved"}
         status = next((item for item in BackupManager(self.root).status().get("vaults", []) if item.get("vault_id") == vault_id), None)
