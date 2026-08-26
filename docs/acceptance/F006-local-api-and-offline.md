@@ -129,3 +129,8 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 ## AC-F006-013 请求体大小门禁
 
 - Given：请求声明 `Content-Length` 超过 1 MiB；When：调用任意 API；Then：middleware 在 JSON 解析和 capability 处理前返回 413 `request_too_large`，不读取或写入 canonical/state；当前状态：通过 `tests/test_api.py::test_request_body_limit_is_fail_closed`。
+
+## Validate API 增量证据（2026-08-27）
+
+- `tests/test_api.py::test_validate_endpoint_requires_capability_and_reuses_wiki_validator` 验证 `/api/validate/{vault_id}/wiki/{object_id}` 缺 capability 返回 401，授权后按显式 owner 调用 WikiValidator 并返回 `validation-result/v1`。
+- API 不复制规则或直接修改 canonical Markdown；非 Wiki object type 返回结构化 `object_type_not_supported`。
