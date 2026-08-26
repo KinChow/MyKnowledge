@@ -8,9 +8,9 @@
 
 ## 目标与边界
 
-本轮成熟方案调查：SQLite FTS5 官方 BM25/highlight/external-content 设计（https://www.sqlite.org/fts5.html）与 QMD 2.8.3 的本地 BM25/vector/RRF 路由（https://github.com/tobi/qmd）。实现复用 FTS5 external-content + BM25；QMD 仍作为后续只读 adapter，不把缺失 QMD 伪装成成功。
+本轮成熟方案调查（2026-08-29）：SQLite FTS5 官方 BM25/highlight/external-content 设计（<https://www.sqlite.org/fts5.html>，public domain）用于持久确定性索引；QMD 2.8.3（<https://github.com/tobi/qmd>，MIT）作为本地 BM25/vector/RRF 默认适配器；SQLite/LIKE 纯文本扫描零依赖但排序和规模能力有限，只作为最终 fallback。实现直接复用 FTS5 external-content + BM25，记录 index scope 防止跨 scope 复用；QMD 缺失不会伪装成成功。
 
-本设计实现 public/local projection 的可重建索引，以及 QMD → SQLite FTS5 → deterministic LIKE 的只读检索链。QMD 是本地自然语言/混合查询的默认适配器，但其向量、rerank 和模型缓存能力是运行时可选项；第一阶段不要求自有 Embedding/FAISS/HybridRetriever。索引不是内容真相源，不能计算验证状态、改变发布状态或跨 Vault 放宽权限。
+本设计实现 public/local projection 的可重建索引，以及 QMD → SQLite FTS5 → deterministic LIKE 的只读检索链。当前 `Retriever` 在存在同 scope 的 SQLite 索引时实际走 FTS5，并以 `qmd_unavailable` 标记降级；索引缺失、scope 不匹配或损坏时回退 LIKE。QMD 的向量、rerank 和模型缓存能力是运行时可选项；第一阶段不要求自有 Embedding/FAISS/HybridRetriever。索引不是内容真相源，不能计算验证状态、改变发布状态或跨 Vault 放宽权限。
 
 ## 数据流
 

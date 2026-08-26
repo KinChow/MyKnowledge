@@ -5,6 +5,13 @@
 - 状态：Implemented（2026-08-29；projection/SQLite FTS5/fallback 基础能力，QMD 与完整恢复验收待补）
 - 实现证据：`tools/indexing.py`、`tests/test_indexing.py`
 
+## 本轮证据（2026-08-29）
+
+- AC-F005-001/002/006：`tests/test_indexing.py::IndexingTests::test_retriever_prefers_persistent_fts5_when_available` 验证持久索引存在且 scope 匹配时返回 `method: fts5`，并明确 `qmd_unavailable` 降级告警。
+- scope 隔离：SQLite 索引记录自身 scope；不匹配时不读取索引，回退确定性路径，避免 public 查询误读 local/private 内容。
+
+完整 QMD cache 权限、损坏索引保留旧版本和 unavailable 对象状态元数据仍待后续验收。
+
 ## AC-F005-001 Projection 隔离与可重建
 
 - Given：同时存在 public、private、draft、unavailable 和 deprecated 对象；
