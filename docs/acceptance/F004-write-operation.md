@@ -11,6 +11,7 @@
 
 - AC-F004-010：`tests/test_write_operation.py::WriteOperationTests::test_fencing_token_rejects_replaced_owner` 验证 owner sidecar 被替换后 `assert_owner()` 返回 `LockBusyError`，旧持有者不能继续提交。
 - AC-F004-005：全量 `tests/test_write_operation.py` 仍通过多文件失败回滚，fencing 检查位于每次文件替换之前。
+- AC-F004-007/009：`tests/test_write_operation.py::WriteOperationTests::test_tampered_durable_audit_blocks_apply` 验证篡改 `audit/operations` 后 Apply 在写入前返回 `hash_mismatch`，目标文件保持不存在。
 
 ## AC-F004-001 未确认不得 Apply
 

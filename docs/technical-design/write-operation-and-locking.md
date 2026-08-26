@@ -20,6 +20,8 @@
 
 本轮增量：借鉴数据库 fencing token/lease 的成熟边界，在 filelock 之外为每个 Vault 写入 `state/locks/<vault_id>.owner` sidecar（随机 `lock_token` + operation_id），每次文件替换前重新校验。token 不匹配即中止，sidecar 只由当前 owner 清理；这保留 filelock 的内核互斥，同时覆盖陈旧进程继续提交的风险。sidecar 是临时状态，不进入 audit、projection 或 public 输出。
 
+本轮再次复用 Git 提交哈希作为历史链，同时对每个 `audit/operations/<operation_id>.json` 做单条 `record_sha256` 自校验；Apply 前先校验 durable audit，再校验输入 hash，避免被篡改的 state/audit 驱动写入。该校验不引入自建 previous-record 链。
+
 ## 核心流程
 
 生成规范化 operation → 保存 Preview → 用户确认 → 获取写锁 → 校验输入和前置 hash → 在同一文件系统生成 canonical/projection staging → 最终校验 → 写 commit-intent 并 fsync → 原子提交 canonical 与 durable record → 原子替换 projection/index → 记录完成状态。
