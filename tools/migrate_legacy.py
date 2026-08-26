@@ -49,6 +49,8 @@ def preview(root: Path, docs_dir: Path | None = None) -> dict[str, Any]:
     report = inventory(root, docs_dir)
     drafts: list[dict[str, Any]] = []
     route_map: list[dict[str, str | None]] = []
+    seen_ids: dict[str, str] = {}
+    conflicts: list[dict[str, str]] = []
     for item in report["items"]:
         slug = _slug(Path(item["legacy_path"]).with_suffix("").as_posix())
         wiki_id = f"legacy-{slug}"
@@ -56,12 +58,18 @@ def preview(root: Path, docs_dir: Path | None = None) -> dict[str, Any]:
         route = "/legacy/" + slug
         target = root / item["legacy_path"]
         # Every draft remains pending until source/evidence and human review pass.
+        collision = seen_ids.get(wiki_id)
+        if collision is not None:
+            conflicts.append({"code": "stable_id_collision", "object_id": wiki_id, "first_legacy_path": collision, "legacy_path": item["legacy_path"]})
+        else:
+            seen_ids[wiki_id] = item["legacy_path"]
         drafts.append({
             "legacy_path": item["legacy_path"],
             "source_target": {"vault_id": "public", "object_type": "source", "object_id": source_id},
             "wiki_target": {"vault_id": "public", "object_type": "wiki", "object_id": wiki_id},
             "route": route,
-            "status": "pending",
+            "status": "blocked" if collision is not None else "pending",
+            "blocking_reason": "stable_id_collision" if collision is not None else None,
             "evidence_state": "pending",
             "publication_scope": "none",
             "content_verdict": "pending_manual_review",
@@ -79,6 +87,7 @@ def preview(root: Path, docs_dir: Path | None = None) -> dict[str, Any]:
         "classifier_version": report["classifier_version"],
         "items": drafts,
         "route_map": route_map,
+        "conflicts": conflicts,
         "completed": 0,
         "pending": len(drafts),
         "writes_applied": False,
@@ -95,7 +104,9 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     if item is None:
         return {"state": "blocked", "error_code": "legacy_item_not_found", "writes_applied": False}
     if not confirmed:
-        return {"state": "awaiting_confirmation", "writes_applied": False, "preview_sha256": plan["preview_sha256"], "item": item}
+            return {"state": "awaiting_confirmation", "writes_applied": False, "preview_sha256": plan["preview_sha256"], "item": item}
+    if item.get("status") == "blocked":
+        return {"state": "blocked", "error_code": item.get("blocking_reason", "migration_item_blocked"), "writes_applied": False, "item": item}
     source_id = item["source_target"]["object_id"]
     media_type = next((x.get("media_type", "text/markdown") for x in plan["items"] if x["legacy_path"] == legacy_path), "text/markdown")
     source_request = {"source_type": "local-file", "input_path": str(root / legacy_path), "domain": "tools", "source_id": source_id, "media_type": media_type}

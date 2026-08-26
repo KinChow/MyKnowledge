@@ -86,3 +86,16 @@ def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path
     assert (source.read_bytes(), wiki.read_bytes()) == first_bytes
     assert len(list((tmp_path / "sources").rglob("legacy-docs-guide-source.md"))) == 1
     assert len(list((tmp_path / "wiki").rglob("legacy-docs-guide.md"))) == 1
+
+
+def test_migration_preview_blocks_normalized_id_collision_before_writes(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "a").mkdir()
+    (docs / "a" / "one.md").write_text("# A\n", encoding="utf-8")
+    (docs / "a-one.md").write_text("# a\n", encoding="utf-8")
+    plan = preview(tmp_path)
+    assert plan["conflicts"][0]["code"] == "stable_id_collision"
+    blocked = [item for item in plan["items"] if item["status"] == "blocked"]
+    assert len(blocked) == 1
+    result = apply_sample(tmp_path, blocked[0]["legacy_path"], confirmed=True)
+    assert result == {"state": "blocked", "error_code": "stable_id_collision", "writes_applied": False, "item": blocked[0]}

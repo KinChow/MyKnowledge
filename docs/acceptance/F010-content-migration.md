@@ -36,6 +36,10 @@ CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_
 
 - `tests/test_migration.py::test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects` 验证同一输入重复确认迁移时，Source/Wiki 文件字节保持一致且不会生成重复对象；输入 tree hash 变化仍会生成不同 preview hash。该证据不替代跨 Vault rollback 演练。
 
+## 稳定 ID 冲突增量证据（2026-08-27）
+
+- `tests/test_migration.py::test_migration_preview_blocks_normalized_id_collision_before_writes` 验证规范化路径产生相同 Wiki ID 时，preview 输出 `stable_id_collision` 并将冲突项标为 blocked；确认 apply 在任何 Source/Wiki 写入前拒绝，不按输入顺序覆盖对象。
+
 ## AC-F010-001 迁移清单与状态边界
 
 - Given：现有 docs 内容；
