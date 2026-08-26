@@ -10,6 +10,8 @@
 
 ## 本轮证据（2026-08-30）
 
+- `tests/test_vault_registry.py::test_available_scopes_include_private_when_private_vault_is_ready` 验证 `VaultCheckReport.available_scopes` 按可用 owner 派生 `public`、`local`、`private`；private vault 缺失时只保留 `public/local`，不会把不可用仓库伪装为 private 可用。
+
 - AC-F011-001/003：`tests/test_vault_registry.py::VaultRegistryTests::test_same_object_id_across_vaults_is_not_a_conflict` 验证两个可用 Vault 各自拥有同名 Wiki 时不冲突且各计数为 1；`test_duplicate_object_id_inside_one_vault_is_reported_without_paths` 验证同 Vault 重复 ID 返回 `duplicate_object_id`。
 - SEC/owner 边界：冲突项只包含 `{vault_id, object_type, object_id}`，测试确认报告不包含 workspace 物理路径。
 

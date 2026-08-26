@@ -34,6 +34,17 @@ class VaultRegistryTests(unittest.TestCase):
             states = {x["vault_id"]: x["state"] for x in report["vaults"]}
             self.assertEqual(states["private"], "unavailable")
             self.assertEqual(states["public"], "available")
+            self.assertEqual(report["available_scopes"], ["public", "local"])
+
+    def test_available_scopes_include_private_when_private_vault_is_ready(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            for vault in (public, private):
+                vault.mkdir(); subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+            report = VaultRegistry(public, manifest).check()
+            self.assertEqual(report["available_scopes"], ["public", "local", "private"])
 
     def test_same_object_id_across_vaults_is_not_a_conflict(self):
         with tempfile.TemporaryDirectory() as d:

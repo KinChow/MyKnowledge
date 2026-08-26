@@ -130,7 +130,14 @@ class VaultRegistry:
                         seen_objects.add(key)
                         count += 1
             status["object_count"] = count
-        report = {"schema_version": "vault-check/v1", "generated_from": "sha256:" + hashlib.sha256(str(self.root).encode()).hexdigest(), "vaults": statuses, "conflicts": conflicts, "affected_object_refs": affected, "backup_summary": {"unverified_vault_ids": [x["vault_id"] for x in statuses if x["backup_state"] != "verified"]}, "available_scopes": ["public"] if any(x["vault_id"] == "public" and x["state"] == "available" for x in statuses) else [], "report_sha256": ""}
+        available_scopes: list[str] = []
+        if any(item["vault_id"] == "public" and item["state"] == "available" for item in statuses):
+            available_scopes.append("public")
+        if any(item["state"] == "available" for item in statuses):
+            available_scopes.append("local")
+        if any(item["vault_id"] != "public" and item["state"] == "available" for item in statuses):
+            available_scopes.append("private")
+        report = {"schema_version": "vault-check/v1", "generated_from": "sha256:" + hashlib.sha256(str(self.root).encode()).hexdigest(), "vaults": statuses, "conflicts": conflicts, "affected_object_refs": affected, "backup_summary": {"unverified_vault_ids": [x["vault_id"] for x in statuses if x["backup_state"] != "verified"]}, "available_scopes": available_scopes, "report_sha256": ""}
         report["report_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in report.items() if k != "report_sha256"})).hexdigest()
         return report
 
