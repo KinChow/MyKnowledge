@@ -20,6 +20,8 @@
 
 ## 本轮状态派生证据（2026-08-27）
 
+- `tests/test_vault_registry.py::VaultRegistryTests::test_backup_not_configured_warning_has_safe_next_action` 验证未配置 private target 时逐 Vault 报告 `backup_not_configured` 和脱敏 `next_action`，不泄露 workspace path，也不把状态提升为 verified。
+
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_status_derives_failed_from_corrupt_latest_manifest` 验证已配置 target 的最近 durable manifest 被篡改或结构损坏时，`backup_status` 派生为 `failed/manifest_invalid`。
 - 状态边界：只有 target 配置仍为 `configured`；本轮不会因 manifest 存在而伪造 `verified`，完整 entries、audit chain 与隔离恢复仍须通过 `verify_manifest`/恢复演练。
 

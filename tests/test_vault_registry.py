@@ -36,6 +36,16 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(states["public"], "available")
             self.assertEqual(report["available_scopes"], ["public", "local"])
 
+    def test_backup_not_configured_warning_has_safe_next_action(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: .}}\n  - {{id: private, path: missing, confidentiality: internal}}\n", encoding="utf-8")
+            warning = next(item for item in BackupManager(root, manifest).status()["backup_summary"]["warning"] if item["vault_id"] == "private")
+            self.assertEqual(warning["code"], "backup_not_configured")
+            self.assertNotIn(str(root), json.dumps(warning))
+            self.assertIn("configure", warning["next_action"])
+
     def test_available_scopes_include_private_when_private_vault_is_ready(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); public = root / "public"; private = root / "private"

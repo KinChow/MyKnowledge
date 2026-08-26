@@ -33,7 +33,7 @@ class BackupManager:
                 vault["backup_reason"] = "manifest_unreadable"
         report["backup_summary"]["unverified_vault_ids"] = [x["vault_id"] for x in report["vaults"] if x["backup_state"] != "verified"]
         report["backup_summary"]["warning"] = [
-            {"vault_id": v["vault_id"], "code": "backup_not_configured"}
+            {"vault_id": v["vault_id"], "code": "backup_not_configured", "next_action": "configure and verify an owner-scoped backup target"}
             for v in report["vaults"] if v["backup_state"] == "unconfigured" and v["vault_id"] != "public"
         ]
         return report
