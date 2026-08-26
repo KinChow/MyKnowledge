@@ -71,6 +71,7 @@ class URLFetcher:
         ``fetch_blocked:*`` 错误码的 RuntimeError，损坏压缩数据与未知 charset 一并归一。
         """
         current = url
+        pinned_ips: dict[str, str] = {}
         for _ in range(self.max_redirects + 1):
             parsed = urllib.parse.urlparse(current)
             try:
@@ -88,6 +89,10 @@ class URLFetcher:
             if not host or host.endswith((".local", ".internal")):
                 raise RuntimeError("fetch_blocked:host_policy")
             ip = self._resolve_public_ip(host)
+            previous_ip = pinned_ips.get(host)
+            if previous_ip is not None and previous_ip != ip:
+                raise RuntimeError("fetch_blocked:dns_rebinding_blocked")
+            pinned_ips[host] = ip
             port = port or (443 if parsed.scheme == "https" else 80)
             connection = (
                 _PinnedHTTPSConnection(ip, host, port, self.timeout)

@@ -69,3 +69,21 @@ class FetcherTests(unittest.TestCase):
             )
             self.assertEqual(result["state"], "blocked")
             self.assertEqual(result["errors"][0]["code"], "fetch_blocked:url_policy")
+
+    def test_userinfo_url_is_blocked(self):
+        with self.assertRaisesRegex(RuntimeError, "fetch_blocked:url_policy"):
+            URLFetcher().fetch("http://user:pass@example.com/")
+
+    def test_dns_rebinding_is_reported_separately(self):
+        class Response:
+            status = 302
+            def getheader(self, name): return "http://example.com/next"
+            def read(self, size=-1): return b""
+        class Connection:
+            def __init__(self, *args, **kwargs): pass
+            def request(self, *args, **kwargs): pass
+            def getresponse(self): return Response()
+            def close(self): pass
+        with mock.patch("tools.ingest.fetcher.http.client.HTTPConnection", Connection), mock.patch.object(URLFetcher, "_resolve_public_ip", side_effect=["93.184.216.34", "93.184.216.35"]):
+            with self.assertRaisesRegex(RuntimeError, "dns_rebinding_blocked"):
+                URLFetcher().fetch("http://example.com/start")
