@@ -1,12 +1,14 @@
 # Agent Skill 受控读写实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-28；canonical Skill 与路由边界已落地）
 - 相关 Feature：F009
 - 相关规范：SKILL、OPS、SEC、IDX
 - 相关 ADR：ADR-0006、ADR-0007
 - 相关验收：[F009](../acceptance/F009-agent-skill.md)
 
 ## Canonical 位置
+
+本轮成熟方案调查：参考 MCP Python SDK 的 tool/resource/stdio 分层（https://github.com/modelcontextprotocol/python-sdk）和仓库现有受控 Skill 的 front matter + 运行规则；本地 canonical Skill 只做路由与安全约束，不复制领域写入实现。
 
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 

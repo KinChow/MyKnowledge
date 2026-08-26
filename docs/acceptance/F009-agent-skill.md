@@ -2,7 +2,9 @@
 
 - Feature：F009
 - 相关规范：SKILL、OPS、SEC
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-28；canonical Skill 基础契约，完整运行验收待补）
+- 实现证据：`skills/myknowledge/SKILL.md`、`tests/test_skill_contract.py`
+- 当前边界：尚未接入完整 source/wiki/publish/query API 调用、token 生命周期和 MCP server transport。
 
 ## AC-F009-001 Skill 是唯一写入口
 
@@ -10,6 +12,7 @@
 - When：执行 source/wiki/query/validate/publish 工作流；
 - Then：Skill 只能调用领域 CLI/API，所有写入经过 preview、confirmation、hash 和 writer；
 - 失败时不变量：Skill 不直接编辑 Markdown、manifest、queries 或 state。
+- 对应测试：`tests/test_skill_contract.py::test_canonical_skill_exists_and_routes_through_tools`；当前状态：通过。
 
 ## AC-F009-007 Canonical Skill 来源
 
@@ -17,6 +20,7 @@
 - When：Agent 初始化 MyKnowledge Skill；
 - Then：仍可从当前 checkout 的 `skills/myknowledge/` 加载并调用，外部副本不是运行依赖；
 - 失败时不变量：不能回退到未审计的同名外部 Skill。
+- 对应测试：`tests/test_skill_contract.py::test_canonical_skill_exists_and_routes_through_tools`；当前状态：通过。
 
 ## AC-F009-002 Preview 与 Apply 门禁
 
