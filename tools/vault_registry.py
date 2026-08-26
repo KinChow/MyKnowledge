@@ -35,6 +35,27 @@ class VaultRegistry:
             return "unconfigured"
         return "configured"
 
+    def resolve_vault_path(self, vault_id: str) -> Path:
+        """Resolve one owner checkout without exposing its path in reports."""
+        data = self._load()
+        workspace = self.root if data.get("workspace_root") in (None, "") else Path(data["workspace_root"]).expanduser().resolve()
+        layout = data.get("layout", "direct-checkout")
+        for item in data["vaults"]:
+            if str(item.get("id", "")) != vault_id:
+                continue
+            raw_path = item.get("path")
+            if raw_path == "." and vault_id == data.get("public_vault_id", "public") and layout == "direct-checkout":
+                path = self.root
+            elif not isinstance(raw_path, str) or not raw_path or Path(raw_path).is_absolute():
+                raise ValueError("path_invalid")
+            else:
+                path = (workspace / raw_path).resolve()
+            path.relative_to(workspace)
+            if not path.is_dir():
+                raise ValueError("vault_unavailable")
+            return path
+        raise ValueError("vault_not_found")
+
     def check(self) -> dict:
         data = self._load()
         layout = data.get("layout", "direct-checkout")

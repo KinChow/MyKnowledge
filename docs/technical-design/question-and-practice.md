@@ -15,6 +15,8 @@
 
 本轮简答评分调查（2026-08-27）：`py-fsrs` 6.3.2（MIT，<https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler>）不负责答案评分；Anki 24.x / AnkiDroid 2.19（GPL-3.0，<https://github.com/ankitects/anki>、<https://github.com/ankidroid/Anki-Android>）采用 note/card/review 分离，本轮仅借鉴状态边界。替代基线为无依赖的固定间隔/Leitner rubric：可离线复现但不能理解开放表达，因此采用 deterministic rubric 作为基线、人工复核为默认，LLM 仅通过注入 provider 可选启用。LLM client 参考 OpenAI Python 1.x（Apache-2.0，<https://github.com/openai/openai-python>）的可注入边界，但 QuestionStore 不创建网络 client；缺失或离线时返回 `provider_unavailable`，升级只影响 adapter，不改变 `question/v1` 或 practice 格式。
 
+本轮 practice 备份调查（2026-08-27）：Git bundle/checkout 的对象哈希与显式空目录恢复（GPL-2.0，<https://git-scm.com/docs/git-bundle>）适合离线、可审计的 owner checkout；SQLite Online Backup API（Public Domain，<https://sqlite.org/backup.html>）适合一致性快照。替代方案 rsync（GPL-3.0，<https://github.com/WayneD/rsync>）只复制文件，无法表达 `(vault_id, object_id)` owner 或 manifest 自校验，因此不作为恢复判据。MyKnowledge 复用 manifest 的相对路径/sha256/空 target/失败清理边界，并把 practice/questions 与 practice/reviews 纳入所属 vault；不复制 Git/SQLite 内部格式，也不把外部 target、凭据或 token 写入记录。
+
 ## 契约与边界
 
 Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 claim 的 Wiki content/evidence hash。题目、答案、解析、评分和 review state 位于 `practice/questions/`，不进入 public projection/index/Pagefind。Wiki hash 或 evidence 状态变化后，题目必须由上层重校验并标记 disabled。
@@ -23,4 +25,4 @@ Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 cl
 
 ## 当前限制
 
-基础实现尚未接入完整 Preview/Apply operation、批量失效迁移和 practice backup/restore 演练；FastAPI 练习 API 与 FSRS 6.3.2 运行时已接入并有回归测试。
+基础实现尚未接入完整 Preview/Apply operation、批量失效迁移和外部 target 传输；practice backup/restore 已接入 F012 owner-scoped manifest，完整跨仓库恢复演练仍待补。FastAPI 练习 API 与 FSRS 6.3.2 运行时已接入并有回归测试。
