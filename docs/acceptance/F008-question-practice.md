@@ -38,6 +38,10 @@
 
 - Given：多个本地题目分别绑定仍有效、已变化或缺失的 Wiki；When：执行 `refresh_all(wiki_reports)`；Then：有效题目保持 enabled，stale/missing claim 题目变为 disabled 并保留原文件和 review 记录；当前状态：通过 `tests/test_question.py::QuestionTests::test_refresh_all_disables_missing_or_stale_wiki_reports`。
 
+## AC-F008-009 Practice API scoring mode
+
+- Given：带 capability 的练习 API 请求；When：传入 `scoring_mode=deterministic` 或 `scoring_mode=llm`；Then：分别返回 rubric 评分或 provider unavailable，非法模式被 FastAPI schema 拒绝，API 不创建网络 provider；当前状态：通过 `tests/test_api.py::test_practice_api_exposes_deterministic_mode_and_llm_unavailable`。
+
 ## 本轮证据（2026-08-30）
 
 - AC-F008-002/003：`tests/test_question.py::QuestionTests::test_claim_hash_change_disables_question` 验证 claim content hash 变化后题目变为 `disabled`，后续作答返回 `question_disabled`。

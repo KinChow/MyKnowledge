@@ -143,3 +143,16 @@ def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
     assert links.json()["items"] == [{"vault_id": "private", "object_type": "wiki", "object_id": "consumer"}]
     public_read = client.get("/api/read/public/wiki/same")
     assert public_read.json()["body"] == "public"
+
+
+def test_practice_api_exposes_deterministic_mode_and_llm_unavailable(tmp_path: Path):
+    from tools.question import QuestionStore
+    report = {"valid": True, "object_ref": {"object_type": "wiki"}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
+    spec = {"id": "q-one", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
+    QuestionStore(tmp_path).create(spec, wiki_report=report)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    deterministic = client.post("/api/practice/q-one/answer", params={"scope": "local", "scoring_mode": "deterministic"}, headers=headers, json="包含核心")
+    assert deterministic.status_code == 200 and deterministic.json()["scoring_provider"] == "deterministic_rubric"
+    unavailable = client.post("/api/practice/q-one/answer", params={"scope": "local", "scoring_mode": "llm"}, headers=headers, json="x")
+    assert unavailable.status_code == 200 and unavailable.json()["reason"] == "provider_unavailable"
