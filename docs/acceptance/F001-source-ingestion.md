@@ -156,3 +156,7 @@
 
 - `test_dns_rebinding_is_reported_separately` 验证同一 hostname 在 redirect 链中解析到不同 IP 时返回 `fetch_blocked:dns_rebinding_blocked`。
 - `test_userinfo_url_is_blocked` 验证 URL 中包含 username/password 时返回 `fetch_blocked:url_policy`，不会建立连接。
+
+## Timeout 增量证据（2026-08-27）
+
+- `tests/ingest/test_fetcher.py::FetcherTests::test_request_timeout_is_structured_and_connection_is_closed` 注入连接超时，验证统一返回 `fetch_blocked:request_failed` 并执行连接关闭；不会生成响应正文或归档半成品。
