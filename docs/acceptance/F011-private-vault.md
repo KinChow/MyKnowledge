@@ -29,6 +29,11 @@
 - AC-F011-010/012：`VaultRegistry.effective_confidentiality` 对 owner 与 upstream 取最高等级；public 上游包含 internal 时结果为 `internal`，全 public 保持 `public`。该结果仅用于派生门禁，不改变 canonical 事实。
 - 边界：本轮未实现跨 vault copy/move、private projection 合并和恢复演练，F011 仍为 Implemented（部分）。
 
+## Owner-aware object index 增量证据（2026-08-27）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_object_index_keeps_same_ids_separate_by_owner` 验证两个 Vault 的同名 Wiki 以 `(vault_id, object_type, object_id)` 分别保留，索引值只含 owner/status 元数据，不暴露物理路径。
+- 同 Vault 重复 ID 由 `check()` 先报告冲突，`object_index()` 对冲突键标记 `availability: conflict`，不会静默覆盖。
+
 ## AC-F011-001 多个私有仓库挂载和合并
 
 - Given：public repo 与两个或更多独立 private Git repo（例如 `team-internal`、`personal-private`）均通过 manifest 声明，schema、vault confidentiality 和 `vault_id` 正确；
