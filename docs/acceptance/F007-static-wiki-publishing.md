@@ -21,6 +21,10 @@
 - AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。
 - validator 只校验 allowlist/schema/path 边界，不生成或提升 `public_release`；当前仓库没有真实 Wiki/人工 confirmation，因此仍不标记 Accepted。
 
+## Active content / Mermaid callback 增量证据（2026-08-27）
+
+- `tests/test_frontend_projection.py::test_leak_gate_rejects_active_html_and_mermaid_callbacks` 验证 input-tree leak gate 拒绝 `<iframe>` 与 Mermaid `click ... href https://...` callback；同时拒绝事件处理器属性和危险 URL，避免静态页面执行外部脚本或导航。
+
 ## 离线空 projection 构建证据（2026-08-27）
 
 - 在 `frontend/` 执行 `npm run validate:config`、`npm run validate:docs`、`npm run validate:legacy`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 和 `npm run build` 均通过。
