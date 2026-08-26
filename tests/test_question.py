@@ -41,6 +41,21 @@ class QuestionTests(unittest.TestCase):
             store._file("q-one").write_text(__import__("json").dumps(q), encoding="utf-8")
             self.assertEqual(store.answer("q-one", "answer")["error_code"], "question_disabled")
 
+    def test_short_answer_deterministic_rubric_and_provider_boundaries(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); short = self.base("short_answer")
+            short["rubric"] = ["核心概念", {"label": "因果关系", "keywords": ["因为", "所以"]}]
+            store.create(short, wiki_report=REPORT)
+            result = store.answer("q-one", "包含核心概念，因为输入变化所以输出变化", scoring_mode="deterministic")
+            self.assertEqual(result["state"], "graded")
+            self.assertEqual(result["score"], 1.0)
+            self.assertEqual(result["scoring_provider"], "deterministic_rubric")
+            self.assertEqual(store.answer("q-one", "x", scoring_mode="llm")["reason"], "provider_unavailable")
+            observed = store.answer("q-one", "x", scoring_mode="llm", scorer=lambda _: {"score": 0.5, "rationale": "部分覆盖"})
+            self.assertEqual(observed["score"], 0.5)
+            self.assertEqual(observed["scoring_provider"], "llm")
+            self.assertEqual(store.answer("q-one", "x", scoring_mode="other")["error_code"], "scoring_mode_invalid")
+
     def test_fsrs_unavailable_is_explicit(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)

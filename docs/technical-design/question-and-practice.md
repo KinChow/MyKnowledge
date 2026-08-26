@@ -13,11 +13,13 @@
 
 本轮增量调查（2026-08-30）：继续采用 `py-fsrs` 的 Scheduler/Card/Rating adapter，不复制其调度算法；Anki 的 card/review state 分离作为状态持久化参考。练习 API 复用本地 FastAPI capability boundary；替代方案是把答案写入 canonical Wiki，因会污染事实链和 public projection，明确排除。
 
+本轮简答评分调查（2026-08-27）：`py-fsrs` 6.3.2（MIT，<https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler>）不负责答案评分；Anki 24.x / AnkiDroid 2.19（GPL-3.0，<https://github.com/ankitects/anki>、<https://github.com/ankidroid/Anki-Android>）采用 note/card/review 分离，本轮仅借鉴状态边界。替代基线为无依赖的固定间隔/Leitner rubric：可离线复现但不能理解开放表达，因此采用 deterministic rubric 作为基线、人工复核为默认，LLM 仅通过注入 provider 可选启用。LLM client 参考 OpenAI Python 1.x（Apache-2.0，<https://github.com/openai/openai-python>）的可注入边界，但 QuestionStore 不创建网络 client；缺失或离线时返回 `provider_unavailable`，升级只影响 adapter，不改变 `question/v1` 或 practice 格式。
+
 ## 契约与边界
 
 Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 claim 的 Wiki content/evidence hash。题目、答案、解析、评分和 review state 位于 `practice/questions/`，不进入 public projection/index/Pagefind。Wiki hash 或 evidence 状态变化后，题目必须由上层重校验并标记 disabled。
 
-`QuestionStore` 负责 schema/绑定/评分和状态持久化；`refresh_status()` 在 Wiki content/evidence hash 或 evidence 状态变化时将题目设为 `disabled`，避免继续复习陈旧事实。作答结果以 append-only `practice/reviews/<question_id>.jsonl` 本地记录并 fsync；FSRS 只负责 review scheduling，不拥有事实、证据或隐私规则。`/api/practice/{question_id}/answer|review` 仅允许 local/private capability 调用，不能绕过 validator 或公开 practice 数据。
+`QuestionStore` 负责 schema/绑定/评分和状态持久化；`refresh_status()` 在 Wiki content/evidence hash 或 evidence 状态变化时将题目设为 `disabled`，避免继续复习陈旧事实。简答默认人工复核，也支持无网络 deterministic rubric（字符串或 `{keywords: [...]}`）及显式注入 LLM provider；provider 只能返回 0..1 score 和可选短 rationale，异常、缺失或 malformed 输出统一为 `unavailable`。作答结果以 append-only `practice/reviews/<question_id>.jsonl` 本地记录并 fsync；FSRS 只负责 review scheduling，不拥有事实、证据或隐私规则。`/api/practice/{question_id}/answer|review` 仅允许 local/private capability 调用，不能绕过 validator 或公开 practice 数据。
 
 ## 当前限制
 

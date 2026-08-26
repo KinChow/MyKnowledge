@@ -25,13 +25,18 @@
 
 - Given：practice 题目包含答案、解析和 review state；When：生成 public projection；Then：public 输入、索引和静态构建不读取 practice；当前状态：由 F007 leak gate 集成验收待补。
 
+## AC-F008-006 简答评分 provider 边界
+
+- Given：简答题 rubric；When：分别以人工、deterministic 和注入 LLM provider 评分；Then：人工返回 `manual_review`，deterministic 按 rubric 可重复计算 0..1 分数，LLM 缺失/异常/malformed 返回 `unavailable`；provider endpoint、密钥和原始 prompt 不写入 practice 记录。
+- 对应测试：`tests/test_question.py::QuestionTests::test_short_answer_deterministic_rubric_and_provider_boundaries`；当前状态：通过。
+
 ## 本轮证据（2026-08-30）
 
 - AC-F008-002/003：`tests/test_question.py::QuestionTests::test_claim_hash_change_disables_question` 验证 claim content hash 变化后题目变为 `disabled`，后续作答返回 `question_disabled`。
 - AC-F008-005：`tests/test_api.py::test_practice_api_is_private_and_does_not_bypass_validator` 验证练习 API 缺 capability 时返回 401，携带 capability 但题目不存在时返回结构化 `question_not_found`，不会绕过题目服务。
 - AC-F008-004：`.venv` 中实际安装 `fsrs==6.3.2` 后，`tests/test_question.py::QuestionTests::test_fsrs_unavailable_is_explicit` 验证真实 `scheduled` 结果与 Card state 持久化；依赖缺失路径仍由 adapter 返回 `unavailable/provider_unavailable`，不伪造调度成功。
 
-真实 FSRS 版本回归、practice backup/restore、public build 全量输入扫描和简答 LLM 辅助评分仍待闭合。
+真实 FSRS 版本回归、practice backup/restore、public build 全量输入扫描仍待闭合；简答 provider 边界已通过 AC-F008-006。
 
 ## 评分记录增量证据（2026-08-30）
 
