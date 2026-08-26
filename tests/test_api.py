@@ -143,6 +143,18 @@ def test_retrieve_enforces_policy_vault_limit():
     assert response.status_code == 400
     assert response.json()["detail"]["code"] == "query_limit_exceeded"
 
+def test_api_passes_vault_allowlist_into_retriever_before_search():
+    class RecordingRetriever:
+        def __init__(self): self.calls = []
+        def search(self, query, scope="local", top_k=8, vault_ids=None):
+            self.calls.append((query, scope, top_k, vault_ids))
+            return {"schema_version":"query-result/v1","items":[],"scope":scope,"method":"deterministic-fallback","index_version":"none","generated_from":"","availability":"available","availability_reason":"none","degraded":True,"confidentiality_max":"public","limits":[],"warnings":[]}
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    retriever = RecordingRetriever(); client.app.state.retriever = retriever
+    response = client.post("/api/retrieve", headers={"X-MyKnowledge-Capability":"token"}, json={"query":"x","scope":"private","vault_ids":["private"]})
+    assert response.status_code == 200
+    assert retriever.calls == [("x", "private", 8, ["private"])]
+
 
 def test_request_body_limit_is_fail_closed():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
