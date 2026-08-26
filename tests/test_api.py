@@ -114,3 +114,25 @@ def test_vault_check_requires_capability(tmp_path: Path):
     result = client.get("/api/vault/check", headers={"X-MyKnowledge-Capability": "token"})
     assert result.status_code == 200
     assert result.json()["schema_version"] == "vault-check/v1"
+
+
+def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
+    public = tmp_path / "public"; private = tmp_path / "private"
+    public.mkdir(); private.mkdir()
+    import subprocess
+    for vault in (public, private): subprocess.run(["git", "init", "-q", str(vault)], check=True)
+    (public / "wiki").mkdir(); (public / "wiki" / "same.md").write_text("public", encoding="utf-8")
+    (private / "wiki").mkdir(); (private / "wiki" / "same.md").write_text("private", encoding="utf-8")
+    (private / "wiki" / "consumer.md").write_text("See same.md", encoding="utf-8")
+    config = public / "config"; config.mkdir()
+    (config / "vaults.local.yaml").write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {tmp_path}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+    client = TestClient(create_app(root=public, capability_token="token"))
+    response = client.get("/api/read/private/wiki/same", params={"scope": "private"}, headers={"X-MyKnowledge-Capability": "token"})
+    assert response.status_code == 200
+    assert response.json()["body"] == "private"
+    assert response.json()["path"] == "wiki/same.md"
+    links = client.get("/api/backlinks/private/wiki/same", params={"scope": "private"}, headers={"X-MyKnowledge-Capability": "token"})
+    assert links.status_code == 200
+    assert links.json()["items"] == [{"vault_id": "private", "object_type": "wiki", "object_id": "consumer"}]
+    public_read = client.get("/api/read/public/wiki/same")
+    assert public_read.json()["body"] == "public"
