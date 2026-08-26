@@ -1,6 +1,6 @@
 # Astro/Starlight 静态 Wiki 发布实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-28；Astro 工程骨架与 projection build 基础链路）
 - 相关 Feature：F007、F010、F011
 - 相关规范：WEB、SEC、IDX、WIKI、MIG
 - 相关 ADR：ADR-0002、ADR-0007、ADR-0009
@@ -44,7 +44,7 @@
 
 当前 POC 通过 `MYKNOWLEDGE_CONTENT_MODE=legacy-validation` 读取旧根目录 `docs/`，但会排除 `acceptance/`、`adr/`、`technical-design/`、`deferred/` 和根目录治理文档；最近基线为 276 篇内容文章、224 条显式关系、19 条未解析链接。它自动生成 `src/content/docs/`、`public/generated/catalog.json`、`graph.json` 和 `compatibility-report.json`，只能用于迁移基线，不能作为 release input。正式发布必须使用 `MYKNOWLEDGE_CONTENT_MODE=projection`，读取 `queries/public/manifest.json`；manifest 缺失、schema 不匹配或任一 item 不满足 public allowlist 时 fail-closed。
 
-当前代码已实现 projection 输入的路径/正文 hash/人工 confirmation/Front Matter/图谱输入隔离校验、独立 leak-gate 扫描器和 `dist.next` 原子提升/旧 dist 保留；临时 projection fixture 已通过 Astro/Pagefind/graph/leak gate 回归。F007 仍未完成：真实 public manifest、正式 Pagefind 中文/混合查询 fixture、上游 projection generator、正式 CI 发布证据和人工发布演练尚未落地。不能把 `npm run validate:legacy` 或临时 fixture 的通过结果解释为 F007 已 Accepted。
+当前工程已恢复 Astro/Starlight 依赖、projection adapter、catalog/graph 生成、构建失败保留旧 dist 和 leak gate 基础脚本。真实 public manifest、正式 Pagefind 中文/混合查询 fixture、人工 release confirmation、完整三段 leak gate 和 CI 发布证据仍未落地，不能把本轮工程骨架标记为 F007 Accepted。
 
 ## 3. 发布输入契约
 
