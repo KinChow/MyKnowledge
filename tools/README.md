@@ -60,7 +60,7 @@ Evidence 使用 Unicode code-point 半开区间、TextQuoteSelector、selector h
 python3 -m tools.cli validate wiki/computer-science/transformer.md --root .
 ```
 
-对 Wiki canonical 文件执行 schema 校验（`config/json-schema/wiki-v1.json`）与跨字段规则，输出派生字段（evidence_state / validation_state / strength / availability / publishable）、内容 hash 与字段级错误；退出码 0 表示校验通过。手写派生字段（vault_id / content_sha256 / evidence_sha256 等 14 个）一律拒绝。
+对 Wiki canonical 文件执行 schema 校验（`config/json-schema/wiki-v1.json`）与跨字段规则，输出派生字段（evidence_state / validation_state / strength / availability / publishable）、内容 hash 与字段级错误；退出码 0 表示校验通过。手写派生字段（vault_id / content_sha256 / evidence_sha256 等 15 个）一律拒绝。
 
 ## 本次试迁移
 

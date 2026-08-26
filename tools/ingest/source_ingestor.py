@@ -18,7 +18,7 @@ import zlib
 from pathlib import Path
 from typing import NamedTuple, Protocol
 
-from .common import (
+from ..common import (
     atomic_write,
     canonical_json,
     crash_injection_point,
@@ -31,11 +31,11 @@ from .common import (
 )
 from .extractor import TextExtractor
 from .fetcher import URLFetcher
-from .front_matter import FrontMatter
-from .operation_store import OperationStore
-from .paths import RepoPaths
+from ..front_matter import FrontMatter
+from ..operation_store import OperationStore
+from ..paths import RepoPaths
 from .source_validator import SourceValidator
-from .vault_lock import LockBusyError, VaultLock
+from ..vault_lock import LockBusyError, VaultLock
 
 
 def _block_error_code(exc: Exception) -> str:
@@ -258,24 +258,11 @@ class SourceIngestor:
         actor_id: str = "local-user",
     ) -> dict:
         """确认并执行导入操作：锁内复查状态/TTL，所有失败路径返回结构化错误。"""
-        try:
-            record = self.store.load(operation_id)
-        except (OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError):
-            return {
-                "state": "blocked",
-                "operation_id": operation_id,
-                "error_code": "operation_not_found",
-            }
-        if record.get("state") != "previewed":
-            return {"state": record.get("state"), "operation_id": operation_id}
-        if not confirmed:
-            return {"state": "awaiting_confirmation", "operation_id": operation_id}
-        if record.get("operation_type") != "source_ingest":
-            return {
-                "state": "blocked",
-                "operation_id": operation_id,
-                "error_code": "operation_type_mismatch",
-            }
+        record, preflight_error = self.store.apply_preflight(
+            operation_id, "source_ingest", confirmed
+        )
+        if preflight_error is not None:
+            return preflight_error
         try:
             with VaultLock(self.root, "public", operation_id):
                 record = self.store.load(operation_id)
@@ -324,13 +311,13 @@ class SourceIngestor:
                             "error_code": "hash_mismatch",
                             "operation_id": operation_id,
                         }
-                    if sha256_bytes(data) != record["input_hash"] or (
-                        stat.st_dev,
-                        stat.st_ino,
-                        stat.st_size,
-                        stat.st_mtime_ns,
-                    ) != tuple(
-                        record["stat"][k] for k in ("dev", "ino", "size", "mtime_ns")
+                    stat_fields = record.get("stat") or {}
+                    stat_keys = ("dev", "ino", "size", "mtime_ns")
+                    if (
+                        sha256_bytes(data) != record["input_hash"]
+                        or not all(k in stat_fields for k in stat_keys)
+                        or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
+                        != tuple(stat_fields[k] for k in stat_keys)
                     ):
                         self.store.update(
                             record, "expired", error_code="hash_mismatch"
@@ -514,8 +501,10 @@ class SourceIngestor:
                 except OSError:
                     # 提交点（store.update applied）之前失败：仅当本次新建
                     # （preview 时目标不存在）才删除已写入的 source；覆盖场景
-                    # 保留旧文件（无条件 unlink 会误删旧版本）。sidecar 是运行
-                    # 缓存一并清理。archive 内容寻址保留无害，返回结构化错误。
+                    # 新内容保留在 source 文件、待重放提交（atomic_write 已替换
+                    # 旧文件，旧内容不可恢复——重放 recovery 使 manifest/state
+                    # 与新内容一致，无人重放时为静默不一致态，属已知权衡）。
+                    # sidecar 是运行缓存一并清理。archive 内容寻址保留无害。
                     if record.get("target_hash") is None:
                         try:
                             source_path.unlink(missing_ok=True)

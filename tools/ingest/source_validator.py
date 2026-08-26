@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .common import (
+from ..common import (
     ACQUISITIONS,
     DOMAINS,
     SOURCE_TYPES,
@@ -15,7 +15,7 @@ from .common import (
     safe_id,
     sha256_text,
 )
-from .front_matter import FrontMatter
+from ..front_matter import FrontMatter
 
 
 class SourceValidator:

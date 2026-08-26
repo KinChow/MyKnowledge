@@ -2,8 +2,8 @@
 
 - Feature：F001
 - 相关规范：SRC、ARC、SEC
-- 状态：Implemented（2026-08-26，commit 24098e8；29/29 验收测试通过）
-- 测试运行：`.venv/bin/python -m pytest tests/test_f001.py -v`
+- 状态：Implemented（2026-08-26；58/58 验收测试通过，含进程级崩溃注入与异常路径）
+- 测试运行：`.venv/bin/python -m pytest tests/ -v`
 
 ## AC-F001-001 网络来源成功归档
 
@@ -12,7 +12,7 @@
 - Then：生成合法 Source、不可变 text snapshot 和 `snapshot_sha256`（若保留本地原件再记录 `file_sha256`）；
 - 失败时不变量：不能生成无来源或无 hash 的可发布对象；
 - 自动化级别：Integration。
-- 对应测试：`test_url_fetch_success_archives_with_origin_url`（正路径：source/snapshot/manifest 全部落盘且出处 URL 写入 `retrieval.url`/`resolved_url`）、`test_url_preview_not_schema_blocked`
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_url_fetch_success_archives_with_origin_url`（正路径：source/snapshot/manifest 全部落盘且出处 URL 写入 `retrieval.url`/`resolved_url`）、`tests/ingest/test_source_ingestor.py::test_url_preview_not_schema_blocked`
 - 当前状态：通过。真实网络抓取由 AC-007/010 的策略测试覆盖。
 
 ## AC-F001-002 来源不完整时拒绝
@@ -21,7 +21,7 @@
 - When：执行导入；
 - Then：操作失败且不产生半成品；
 - 自动化级别：Integration。
-- 对应测试：`test_url_preview_not_schema_blocked`（私网 URL → `fetch_blocked:private_network`）、`test_invalid_cross_fields_are_rejected`、`test_preview_non_string_body_blocked`
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_url_preview_not_schema_blocked`（私网 URL → `fetch_blocked:private_network`）、`tests/ingest/test_source_ingestor.py::test_invalid_cross_fields_are_rejected`、`test_preview_non_string_body_blocked`
 - 当前状态：通过。preview 失败不创建 operation，无半成品。
 
 ## AC-F001-003 raw 归档遵守 LFS 门禁
@@ -40,8 +40,8 @@
 - Then：Source 使用 `source_type: local-file`、`retrieval.acquisition: local-file`，记录 `file_sha256`、extractor/version、不可变 text snapshot 和 evidence selector；原 URL 仅作为历史出处；
 - 失败时不变量：缺少文件 hash、snapshot 或 selector 时不得写入可发布 Source，文件变化不得覆盖旧 snapshot；
 - 自动化级别：Integration。
-- 对应测试：`test_html_extraction_omits_active_content`、`test_pdf_extraction`、`test_extractor_register_open_for_extension`
-- 当前状态：通过。`local.file_sha256`/`local.path_ref`/snapshot 写入由 `test_personal_note_preview_apply_and_anchor` 与 `validate_source_file` 校验；原 URL 历史出处经 `retrieval.url` 字段承载（AC-001 测试覆盖）。
+- 对应测试：`tests/ingest/test_extractor.py::test_html_extraction_omits_active_content`、`tests/ingest/test_extractor.py::test_pdf_extraction`、`tests/ingest/test_extractor.py::test_extractor_register_open_for_extension`
+- 当前状态：通过。`local.file_sha256`/`local.path_ref`/snapshot 写入由 `tests/ingest/test_source_ingestor.py::test_personal_note_preview_apply_and_anchor` 与 `validate_source_file` 校验；原 URL 历史出处经 `retrieval.url` 字段承载（AC-001 测试覆盖）。
 
 ## AC-F001-005 personal-note 也有权威 snapshot
 
@@ -50,7 +50,7 @@
 - Then：工具以 canonical note body 生成不可变 `archive/text` snapshot，写入 `retrieval.acquisition: personal-note`、`snapshot_sha256` 和可选 evidence item；
 - 失败时不变量：不能用当前可变 Markdown 正文替代 snapshot，也不能把 personal-note 当成 external source；
 - 自动化级别：Unit/Integration。
-- 对应测试：`test_personal_note_preview_apply_and_anchor`
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_personal_note_preview_apply_and_anchor`
 - 当前状态：通过（含 emoji/代码标点的锚定与 evidence 写回）。
 
 ## AC-F001-006 snapshot manifest 追加且 owner 可追溯
@@ -60,7 +60,7 @@
 - Then：物理内容可以去重，但每个 `(vault_id, source_id, snapshot_sha256)` 的 owner、路径、可用性和 hash 记录保留；旧 manifest 行不被原地覆盖；
 - 失败时不变量：不能因去重丢失 owner、把新版本覆盖旧证据或仅凭 snapshot hash 绕过 Vault 权限；
 - 自动化级别：Unit/Integration。
-- 对应测试：`test_manifest_deduplicates_snapshot_keeps_owners`（相同内容 → archive 去重 1 个、manifest 2 行 owner 各自保留）、`test_manifest_corrupt_line_tolerated`、`test_manifest_invalid_utf8_tolerated`
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_manifest_deduplicates_snapshot_keeps_owners`（相同内容 → archive 去重 1 个、manifest 2 行 owner 各自保留）、`tests/ingest/test_source_ingestor.py::test_manifest_corrupt_line_tolerated`、`tests/ingest/test_source_ingestor.py::test_manifest_invalid_utf8_tolerated`
 - 当前状态：通过。
 
 ## AC-F001-007 URL 抓取防 SSRF 与大小边界
@@ -70,7 +70,7 @@
 - Then：操作返回 `fetch_blocked`，记录脱敏原因，不写入 source、snapshot、raw 或 operation 半成品；
 - 失败时不变量：不能通过 redirect、DNS rebinding、Cookie 或嵌入凭据访问内网，也不能把响应正文/凭据写入日志；
 - 自动化级别：Security/Integration。
-- 对应测试：`test_url_policy_rejects_private_and_unsafe_targets`（file scheme、127.0.0.1）、`test_invalid_port_url_blocked`、`test_url_preview_not_schema_blocked`
+- 对应测试：`tests/ingest/test_fetcher.py::test_url_policy_rejects_private_and_unsafe_targets`（file scheme、127.0.0.1）、`tests/ingest/test_fetcher.py::test_invalid_port_url_blocked`、`tests/ingest/test_source_ingestor.py::test_url_preview_not_schema_blocked`
 - 当前状态：部分。redirect 链逐跳校验、`response_limit`/`max_redirects`/timeout 有实现但无单独测试；`.local`/`.internal` 主机策略有实现（`host_policy`）无测试。
 
 ## AC-F001-008 local-file 读取竞态
@@ -80,7 +80,7 @@
 - Then：重新计算 hash 后返回 `hash_mismatch` 或 `path_unresolved`，旧 snapshot 保持不变且不写入新 Source；
 - 失败时不变量：不能使用 preview 读取的旧/未知内容继续 Apply，不能把绝对路径写入 canonical/public artifact；
 - 自动化级别：Security/Integration/Failure injection。
-- 对应测试：`test_local_file_hash_mismatch_blocks_apply`、`test_local_file_deleted_returns_path_unresolved`、`test_target_change_does_not_leave_snapshot`、`test_local_file_symlink_retarget_blocks_apply`（hard link 改指 → `path_unresolved`）、`test_apply_failure_rolls_back_source`、`test_apply_recovery_after_partial_write`（崩溃后幂等恢复）
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_local_file_hash_mismatch_blocks_apply`、`tests/ingest/test_source_ingestor.py::test_local_file_deleted_returns_path_unresolved`、`tests/ingest/test_source_ingestor.py::test_target_change_does_not_leave_snapshot`、`tests/ingest/test_source_ingestor.py::test_local_file_symlink_retarget_blocks_apply`（hard link 改指 → `path_unresolved`）、`tests/ingest/test_source_ingestor.py::test_apply_failure_rolls_back_source`、`tests/ingest/test_source_ingestor.py::test_apply_recovery_after_partial_write`（崩溃后幂等恢复）
 - 当前状态：通过（含 failure injection 与崩溃恢复重放）。绝对路径仅写入 `state/local-sources` sidecar（0600、被 git 忽略），不进 canonical/public artifact。
 
 ## AC-F001-009 Source acquisition 交叉字段
@@ -90,7 +90,7 @@
 - Then：返回字段级 `schema_invalid`，不创建 operation 或半成品；
 - 失败时不变量：不能通过原始资料类型、可变当前文件或空 URL 绕过 local-file/personal-note snapshot 契约；
 - 自动化级别：Unit/Security。
-- 对应测试：`test_invalid_cross_fields_are_rejected`；发布后文件校验由 `SourceValidator.validate_source_file` 提供（含 `local.file_sha256`/`path_ref`/`snapshot_sha256`/`retrieval.acquisition`）
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_invalid_cross_fields_are_rejected`；发布后文件校验由 `SourceValidator.validate_source_file` 提供（含 `local.file_sha256`/`path_ref`/`snapshot_sha256`/`retrieval.acquisition`）
 - 当前状态：通过。
 
 ## AC-F001-010 URL scheme、DNS pinning 与解压上限
@@ -100,7 +100,7 @@
 - Then：分别返回 `fetch_blocked`、`dns_rebinding_blocked` 或 `decompression_limit_exceeded`，连接只使用已检查并 pin 的 IP，Host/SNI 与 URL 一致；
 - 失败时不变量：不能以重试、代理、编码路径或重定向绕过目标检查，也不能在归档前产生正文/raw/凭据半成品；
 - 自动化级别：Security/Integration/Failure injection。
-- 对应测试：`test_invalid_port_url_blocked`、`test_bounded_gzip_rejects_expansion`、`test_url_policy_rejects_private_and_unsafe_targets`
+- 对应测试：`tests/ingest/test_fetcher.py::test_invalid_port_url_blocked`、`tests/ingest/test_fetcher.py::test_bounded_gzip_rejects_expansion`、`tests/ingest/test_fetcher.py::test_url_policy_rejects_private_and_unsafe_targets`
 - 当前状态：部分。解析全部地址→任一私网即拒→连接直连已校验 IP、Host/SNI 用原主机名（与业界 AutoGPT 修复方案一致），行为已防住 DNS rebinding；错误码未细分——重定向后解析到私网返回 `fetch_blocked:private_network` 而非 `dns_rebinding_blocked`；userinfo 拦截有实现无单独测试。
 
 ## AC-F001-011 Evidence 锚定生成 selector 与 hash
@@ -110,7 +110,7 @@
 - Then：生成 `TextQuoteSelector`（`exact` 逐字取自 snapshot，`prefix`/`suffix` 各取相邻 32 个 code point）和 `TextPositionSelector`（Unicode code-point 半开区间 `[start, end)`），计算 `selector_sha256` 与 `quote_sha256`，经 preview/apply 与 per-vault 写锁写回 source 的 `evidence_items`；
 - 失败时不变量：偏移量不得按 UTF-8 字节或 UTF-16 code unit 计算；`prefix`/`suffix` 不得单独作为匹配依据；工具不得改写归档 snapshot；不得绕过 preview/apply 直接写文件；
 - 自动化级别：Unit/Integration。
-- 对应测试：`test_personal_note_preview_apply_and_anchor`（含 emoji 的 code-point 偏移断言）、`test_anchor_evidence_ttl_expires`、`test_anchor_lock_busy_returns_structured`
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_personal_note_preview_apply_and_anchor`（含 emoji 的 code-point 偏移断言）、`tests/anchor/test_evidence_anchor.py::test_anchor_evidence_ttl_expires`、`tests/anchor/test_evidence_anchor.py::test_anchor_lock_busy_returns_structured`
 - 当前状态：通过。
 
 ## AC-F001-012 锚定的歧义、短引文与漂移
@@ -120,7 +120,7 @@
 - Then：分别返回 `selector_unresolved`、`ambiguous_selector`（要求扩大选区）、长度拒绝、以及 `stale` 并要求在新 snapshot 上重新锚定；同一 `(source_id, snapshot_sha256, start, end)` 重复锚定返回既有 `evidence_id`；
 - 失败时不变量：多处命中时不得自行选取第一个；snapshot 漂移后不得自动迁移偏移量；批量模式（`--from-jsonl`）不得降低唯一性与长度标准，未解析行必须进入 `unresolved` 报告；
 - 自动化级别：Unit/Integration。
-- 对应测试：`test_ambiguous_and_short_quotes`、`test_anchor_selector_unresolved`、`test_anchor_stale_on_snapshot_change`、`test_anchor_repeat_idempotent`
+- 对应测试：`tests/anchor/test_evidence_anchor.py::test_ambiguous_and_short_quotes`、`tests/anchor/test_evidence_anchor.py::test_anchor_selector_unresolved`、`tests/anchor/test_evidence_anchor.py::test_anchor_stale_on_snapshot_change`、`tests/anchor/test_evidence_anchor.py::test_anchor_repeat_idempotent`
 - 当前状态：通过。`--from-jsonl` 批量模式已实现（CLI 冒烟验证：ok 1 行 + unresolved 1 行，退出码 2）。
 
 ## AC-F001-013 锚定工具与验证器共用同一归一实现
@@ -130,14 +130,14 @@
 - Then：两个值必须相同；该一致性测试常驻 CI；
 - 失败时不变量：工具侧不得另写一份 `canonical_quote()`；两份实现漂移时必须由该测试失败暴露，而不是等到引文匹配不上时才发现；
 - 自动化级别：Unit。
-- 对应测试：`test_personal_note_preview_apply_and_anchor`（`evidence["quote_sha256"] == SourceValidator.quote_sha256(...)` 常驻断言）
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_personal_note_preview_apply_and_anchor`（`evidence["quote_sha256"] == SourceValidator.quote_sha256(...)` 常驻断言）
 - 当前状态：通过。`canonical_quote()` 为 `tools/common.py` 单一实现；`SourceValidator.quote_sha256` 走独立调用路径重算，锚定与验证两条路径由断言锁死。
 
 ---
 
 ## 验收记录
 
-- 测试：52/52 通过（2026-08-26，Python 3.14.2 / pytest 8.4.2，含 F001 29 + F002 12 + 结构守卫 3 + 进程级崩溃注入 2）
+- 测试：58/58 通过（2026-08-26，Python 3.14.2 / pytest 8.4.2；F001 37 + F002 18 + 守卫 3）
 - 崩溃注入：source apply 4 个提交点 + anchor apply 2 个提交点真实 SIGKILL 后重放恢复（WAL 语义 + flock 内核自动释放）
 - 人工验证：`--from-jsonl` 批量锚定 CLI 冒烟——ok 1 行（生成 operation/evidence）+ unresolved 1 行（snapshot 缺失归入报告，退出码 2）
 - 复核人：zhouzijian01

@@ -10,8 +10,8 @@ from __future__ import annotations
 import sys
 
 from tools.evidence_anchor import main as anchor_main
-from tools.source_ingestor import main as source_main
-from tools.wiki_validator import main as validate_main
+from tools.ingest.source_ingestor import main as source_main
+from tools.validation.validator import main as validate_main
 
 COMMANDS = {
     "source": source_main,

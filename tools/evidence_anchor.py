@@ -41,7 +41,7 @@ class EvidenceAnchor:
         引文过短、未命中或多处命中时分别抛 ValueError（quote_too_short、
         selector_unresolved、ambiguous_selector），不做自动选取。
         """
-        if len(exact) < min_chars:
+        if len(canonical_quote(exact)) < min_chars:
             raise ValueError("quote_too_short")
         hits = [i for i in range(len(snapshot)) if snapshot.startswith(exact, i)]
         if not hits:
@@ -135,24 +135,11 @@ class EvidenceAnchor:
         actor_id: str = "local-user",
     ) -> dict:
         """确认并执行锚定操作：TTL/状态在锁内复查，快照漂移返回 stale。"""
-        try:
-            record = self.store.load(operation_id)
-        except (OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError):
-            return {
-                "state": "blocked",
-                "operation_id": operation_id,
-                "error_code": "operation_not_found",
-            }
-        if record.get("state") != "previewed":
-            return {"state": record.get("state"), "operation_id": operation_id}
-        if not confirmed:
-            return {"state": "awaiting_confirmation", "operation_id": operation_id}
-        if record.get("operation_type") != "anchor_evidence":
-            return {
-                "state": "blocked",
-                "operation_id": operation_id,
-                "error_code": "operation_type_mismatch",
-            }
+        record, preflight_error = self.store.apply_preflight(
+            operation_id, "anchor_evidence", confirmed
+        )
+        if preflight_error is not None:
+            return preflight_error
         try:
             with VaultLock(self.root, "public", operation_id):
                 record = self.store.load(operation_id)
@@ -227,6 +214,14 @@ class EvidenceAnchor:
                         "state": "expired",
                         "operation_id": operation_id,
                         "error_code": str(exc),
+                    }
+                except (OSError, UnicodeError):
+                    # 写路径 I/O 失败（C002）：与 source_ingestor 对齐为结构化错误
+                    self.store.update(record, "expired", error_code="apply_failed")
+                    return {
+                        "state": "expired",
+                        "operation_id": operation_id,
+                        "error_code": "apply_failed",
                     }
                 crash_injection_point("before_commit")
                 try:
