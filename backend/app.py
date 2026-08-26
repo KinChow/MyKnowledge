@@ -1,6 +1,7 @@
 """FastAPI local adapter (F006)."""
 from __future__ import annotations
 import os
+import time
 import secrets
 from pathlib import Path
 from typing import Any
@@ -40,6 +41,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     app.state.root = Path(root or ".").resolve()
     app.state.retriever = Retriever(items or [])
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
+    app.state.capability_token_created_at = time.time()
+    app.state.capability_token_ttl_seconds = 3600
     app.state.capability_token_path = None
     if capability_token is None and root is not None:
         state_dir = app.state.root / "state"
@@ -90,6 +93,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
         if not secrets.compare_digest(token, app.state.capability_token):
             raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
+        if time.time() - app.state.capability_token_created_at > app.state.capability_token_ttl_seconds:
+            raise HTTPException(status_code=403, detail={"code": "capability_token_expired", "stage": "auth", "retryable": True, "next_action": "restart the local API for a fresh token"})
         if audience is not None and audience != "myknowledge-local-api":
             raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
 
@@ -128,6 +133,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
         if not secrets.compare_digest(token, app.state.capability_token):
             raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
+        if time.time() - app.state.capability_token_created_at > app.state.capability_token_ttl_seconds:
+            raise HTTPException(status_code=403, detail={"code": "capability_token_expired", "stage": "auth", "retryable": True, "next_action": "restart the local API for a fresh token"})
         if audience is not None and audience != "myknowledge-local-api":
             raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
 

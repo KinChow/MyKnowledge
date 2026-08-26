@@ -24,6 +24,14 @@ def test_capability_audience_is_checked_when_supplied():
     assert response.status_code == 403
     assert response.json()["detail"]["code"] == "capability_audience_invalid"
 
+
+def test_capability_token_expires_by_process_ttl():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    client.app.state.capability_token_created_at -= client.app.state.capability_token_ttl_seconds + 1
+    response = client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": "token"}, json={"query": "内部", "scope": "local"})
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "capability_token_expired"
+
 def test_ask_is_explicitly_unavailable_offline():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
     body = client.post("/api/ask", json={"query": "离线", "scope": "public"}).json()
