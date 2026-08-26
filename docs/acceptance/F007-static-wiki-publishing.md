@@ -26,6 +26,13 @@
 - AC-F007-006/016：`tests/test_frontend_projection.py::test_release_lock_blocks_concurrent_build` 验证已有 `state/public-release.lock` 时构建立即返回 `release_lock_held`（退出码 2），不触碰正式 dist；正常构建后 lock 会清理。
 - 完整 warning allowlist、陈旧锁人工恢复、真实 public confirmation 和多页面 sitemap/Pagefind 闭包仍待验收。
 
+## Public release confirmation 增量证据（2026-08-30）
+
+- AC-F007-009/022/025：`tests/test_release_confirmation.py::test_public_release_event_is_hashed_and_written` 验证 public release event 的 schema、target、human actor、input-tree scope 和 canonical event hash，并以 append-only 文件写入。
+- `test_public_release_event_rejects_private_reason_or_target` 验证 private target 与 URL/private reason 均被 fail-closed 拒绝。
+
+事件校验不等于已发布页面；当前仍没有真实 Wiki 的完整 validation attestation、release-input hash 和最终多页面发布闭包。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；

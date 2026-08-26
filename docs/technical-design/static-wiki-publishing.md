@@ -50,6 +50,8 @@
 
 发布编排增量复用 POSIX `O_EXCL` lockfile 语义：`build-release.mjs` 在仓库 `state/public-release.lock` 建立 0600 锁，构建失败保留旧 `dist`，正常退出才释放锁；已存在锁一律返回 `release_lock_held`，不按超时自动删除，陈旧锁需人工恢复。
 
+public release 事件使用独立 `tools/release_confirmation.py` 校验 `public-release-confirmation/v1`：target 必须是 public Wiki、actor 必须为 human、reason 不得含 URL/路径/private 字样，leak-gate scope 固定为 `input-tree`，事件 hash 由去除自身 hash 的 canonical JSON 计算。写入采用 append-only `release/public-confirmations/<event_id>.json`，不由 Agent/CI 自动生成。
+
 ## 3. 发布输入契约
 
 ### 3.1 Public projection manifest
