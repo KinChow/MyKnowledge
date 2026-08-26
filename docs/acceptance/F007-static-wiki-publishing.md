@@ -16,6 +16,12 @@
 
 本轮落地的 `queries/public/manifest.json` 是空 allowlist，确保 projection 模式在无 public 条目时可确定性运行；条目必须由后续 projection generator 根据人工确认和当前 hash 生成，不能手写伪造发布状态。
 
+## Starlight projection collection 增量证据（2026-08-27）
+
+- `frontend/src/content.config.ts` 使用 Starlight 官方 `docsLoader()` 与 `docsSchema()`；内容集合只接收 `prepare-content.mjs` 从已校验 `public-projection/v1` manifest 复制的 Markdown。
+- `tests/test_frontend_projection.py::test_starlight_content_collection_uses_projection_output` 验证配置不会回退到直接扫描 `docs/`；同文件多页 fixture 验证 route/catalog/graph 闭包。
+- 前端门禁 `validate:config`、`validate:docs`、`validate:legacy`、projection validator 和 `npm run build` 均通过；空 public manifest 只生成首页，仍保持 fail-closed。
+
 ## Projection validator 增量证据（2026-08-30）
 
 - AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。

@@ -10,6 +10,13 @@ SCRIPT = Path(__file__).parents[1] / "frontend" / "scripts" / "validate-projecti
 FRONTEND = Path(__file__).parents[1] / "frontend"
 
 
+def test_starlight_content_collection_uses_projection_output():
+    config = (FRONTEND / "src/content.config.ts").read_text(encoding="utf-8")
+    assert "docsLoader" in config
+    assert "docsSchema" in config
+    assert "defineCollection" in config
+
+
 def run_manifest(tmp_path: Path, manifest: dict) -> subprocess.CompletedProcess:
     path = tmp_path / "manifest.json"
     path.write_text(json.dumps(manifest), encoding="utf-8")
