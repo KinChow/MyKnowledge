@@ -31,6 +31,10 @@
 
 - `POST /api/citation/replay` 复用 W3C Web Annotation TextQuote/TextPosition replay；`tests/test_api.py::test_citation_replay_api_is_read_only_and_capability_scoped` 验证 local scope 缺 capability 时拒绝，带 token 时只读返回 `citation-replay/v1/valid`，未知 URL 字段由 Pydantic 拒绝。
 
+## Vault allowlist 前置增量证据（2026-08-27）
+
+- `tests/test_api.py::test_api_passes_vault_allowlist_into_retriever_before_search` 验证 API 把显式 `vault_ids` 传入 Retriever，由统一检索层在 QMD/FTS5/LIKE 候选构造前应用 owner allowlist，不再以响应后裁剪代替权限边界。
+
 ## AC-F006-001 API 与 CLI 一致
 
 - Given：同一 public/local projection；

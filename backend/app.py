@@ -114,11 +114,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         require_capability(token, req.scope, audience)
         if len(req.vault_ids or []) > 16:
             raise HTTPException(status_code=400, detail={"code": "query_limit_exceeded", "stage": "request", "retryable": False, "next_action": "reduce vault_ids"})
-        result = app.state.retriever.search(req.query, req.scope, req.top_k)
-        if req.vault_ids:
-            allowed = set(req.vault_ids)
-            result["items"] = [x for x in result["items"] if x["object_ref"]["vault_id"] in allowed]
-        return result
+        return app.state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
 
     @app.get("/api/health")
     def health() -> dict:
