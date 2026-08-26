@@ -57,12 +57,16 @@ COMMANDS["vault"] = vault_main
 def backup_main(argv: list[str]) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Local backup status/manifest")
-    parser.add_argument("action", choices=["status", "manifest"])
+    parser.add_argument("action", choices=["status", "manifest", "verify"])
     parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
     parser.add_argument("--vault-id", default="public")
     args = parser.parse_args(argv)
     manager = BackupManager(args.root)
-    result = manager.status() if args.action == "status" else manager.create_manifest(args.vault_id)
+    if args.action == "status": result = manager.status()
+    elif args.action == "manifest": result = manager.create_manifest(args.vault_id)
+    else:
+        if not args.manifest: parser.error("--manifest is required for verify")
+        result = manager.verify_manifest(args.manifest)
     print(json.dumps(result, ensure_ascii=False, indent=2)); return 0
 
 COMMANDS["backup"] = backup_main
