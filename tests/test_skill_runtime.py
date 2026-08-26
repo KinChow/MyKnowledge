@@ -97,3 +97,14 @@ def test_skill_question_create_requires_validator_backed_wiki_path(tmp_path: Pat
     assert missing["error_code"] == "wiki_path_required"
     traversal = dispatch("question_create", {"spec": spec, "wiki_path": "../wiki.md"}, root=tmp_path)
     assert traversal["error_code"] == "path_invalid"
+
+def test_skill_question_create_delegates_validated_report(tmp_path: Path):
+    from unittest import mock
+    wiki = tmp_path / "wiki" / "one.md"; wiki.parent.mkdir(parents=True); wiki.write_text("# one\n", encoding="utf-8")
+    spec = {"id": "q-one", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
+    report = {"valid": True, "object_ref": {"object_type": "wiki"}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
+    with mock.patch("tools.skill_runtime.WikiValidator.validate", return_value=report) as validate, mock.patch("tools.skill_runtime.QuestionStore.create", return_value={"state": "created"}) as create:
+        result = dispatch("question_create", {"spec": spec, "wiki_path": "wiki/one.md"}, root=tmp_path)
+    assert result["state"] == "created"
+    validate.assert_called_once_with(wiki)
+    create.assert_called_once_with(spec, wiki_path=wiki, wiki_report=report)

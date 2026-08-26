@@ -13,6 +13,7 @@
 ## Question create validator 路由增量证据（2026-08-27）
 
 - `tests/test_skill_runtime.py::test_skill_question_create_requires_validator_backed_wiki_path` 验证题目创建必须提供相对 `wiki_path`；Skill 先调用 `WikiValidator` 再委托 `QuestionStore`，缺路径或路径穿越直接拒绝，不能绕过 claim/evidence 绑定。
+- `tests/test_skill_runtime.py::test_skill_question_create_delegates_validated_report` 进一步验证合法路径的调用顺序和参数：validator 报告原样传入 QuestionStore，不由 Skill 伪造或替换。
 
 ## 本轮证据（2026-08-28）
 
