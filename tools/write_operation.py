@@ -13,6 +13,7 @@ from typing import Mapping
 from .common import atomic_write, canonical_json, crash_injection_point, hash_canonical, sha256_bytes
 from .operation_store import OperationStore
 from .vault_lock import LockBusyError, VaultLock
+from .backup import BackupManager
 
 
 class WriteOperation:
@@ -49,7 +50,7 @@ class WriteOperation:
             return {"state": "blocked", "error_code": str(exc)}
 
     def apply(self, operation_id: str, *, confirmed: bool = False, actor_id: str = "local-user") -> dict:
-        record, error = self.store.apply_preflight(operation_id, ("write", "source", "wiki", "rename", "retire"), confirmed)
+        record, error = self.store.apply_preflight(operation_id, ("write", "source", "wiki", "rename", "retire", "purge"), confirmed)
         if error is not None:
             return error
         vault_id = str(record.get("target_vault", "public"))
@@ -86,7 +87,10 @@ class WriteOperation:
                         # Re-check fencing before every replacement so a recovered lock
                         # cannot allow an old writer to continue committing.
                         lock.assert_owner()
-                        atomic_write(self._path(item["path"]), item["content"].encode("utf-8"))
+                        if record.get("operation_type") == "purge":
+                            self._path(item["path"]).unlink()
+                        else:
+                            atomic_write(self._path(item["path"]), item["content"].encode("utf-8"))
                         crash_injection_point(f"after_file_{index}")
                     if record.get("operation_type") == "rename" and record.get("source_path"):
                         self._path(str(record["source_path"])).unlink()
@@ -150,3 +154,13 @@ class WriteOperation:
         if not path.exists():
             return {"state": "blocked", "error_code": "path_unresolved"}
         return self.preview({target: path.read_text(encoding="utf-8")}, operation_type="retire", vault_id=vault_id)
+
+    def purge(self, target: str, *, vault_id: str = "public") -> dict:
+        """Prepare an irreversible purge only after an independently verified backup."""
+        path = self._path(target)
+        if not path.exists():
+            return {"state": "blocked", "error_code": "path_unresolved"}
+        status = next((item for item in BackupManager(self.root).status().get("vaults", []) if item.get("vault_id") == vault_id), None)
+        if not status or status.get("backup_state") != "verified":
+            return {"state": "blocked", "error_code": "backup_not_verified", "vault_id": vault_id, "next_action": "verify an owner-scoped backup before purge"}
+        return self.preview({target: path.read_text(encoding="utf-8")}, operation_type="purge", vault_id=vault_id)
