@@ -23,6 +23,8 @@
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_status_derives_failed_from_corrupt_latest_manifest` 验证已配置 target 的最近 durable manifest 被篡改或结构损坏时，`backup_status` 派生为 `failed/manifest_invalid`。
 - 状态边界：只有 target 配置仍为 `configured`；本轮不会因 manifest 存在而伪造 `verified`，完整 entries、audit chain 与隔离恢复仍须通过 `verify_manifest`/恢复演练。
 
+- `tests/test_vault_registry.py::VaultRegistryTests::test_valid_manifest_alone_does_not_claim_verified_target` 进一步验证：即使 manifest 本身校验通过，未完成恢复演练时状态仍为 `configured`，不会把单次校验结果冒充完整备份准出。
+
 ## Symlink/hard-link 恢复边界证据（2026-08-27）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_rejects_hardlink_entries` 验证 owner Vault 中 hard-link 条目在 manifest 生成阶段返回 `entry_hardlink`，不把 Vault 外部 inode 纳入备份。
