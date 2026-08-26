@@ -200,6 +200,22 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(vault["backup_state"], "failed")
             self.assertEqual(vault["backup_reason"], "manifest_invalid")
 
+    def test_valid_manifest_alone_does_not_claim_verified_target(self):
+        """配置了 target 但未完成恢复演练时，状态保持 configured。"""
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            config = root / "manifest.yaml"
+            config.write_text(
+                f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\n"
+                "vaults:\n  - {id: public, path: ., private_git_remote: file://backup}\n",
+                encoding="utf-8",
+            )
+            manager = BackupManager(root, config)
+            created = manager.create_manifest("public")
+            assert manager.verify_manifest(root / created["path"])["backup_state"] == "verified"
+            vault = next(item for item in manager.status()["vaults"] if item["vault_id"] == "public")
+            self.assertEqual(vault["backup_state"], "configured")
+
     def test_backup_rejects_hardlink_entries(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
