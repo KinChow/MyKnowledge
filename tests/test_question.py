@@ -45,7 +45,8 @@ class QuestionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
             result = store.review("q-one", 3)
-            self.assertIn(result["state"], {"unavailable", "scheduled"})
+            self.assertEqual(result["state"], "scheduled")
+            self.assertEqual(store.load("q-one")["review_state"]["state"], 1)
 
     def test_claim_hash_change_disables_question(self):
         with tempfile.TemporaryDirectory() as d:
