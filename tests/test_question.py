@@ -69,6 +69,8 @@ class QuestionTests(unittest.TestCase):
             store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
             result = store.review("q-one", 3)
             self.assertEqual(result["state"], "scheduled")
+            self.assertEqual(result["review_state_schema"], "fsrs-card/v1")
+            self.assertRegex(result["scheduler_version"], r"^\d+\.\d+")
             self.assertEqual(store.load("q-one")["review_state"]["state"], 1)
 
     def test_fsrs_persisted_card_can_be_reviewed_again(self):

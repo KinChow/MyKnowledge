@@ -7,6 +7,7 @@ FSRS is an optional runtime adapter: absence is reported explicitly.
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import os
 import time
@@ -28,9 +29,14 @@ QUESTION_FIELDS = {
 
 class FSRSAdapter:
     def __init__(self) -> None:
+        self.version = "unavailable"
         try:
             from fsrs import Scheduler, Card, Rating  # type: ignore
             self._Scheduler, self._Card, self._Rating = Scheduler, Card, Rating
+            try:
+                self.version = importlib.metadata.version("fsrs")
+            except importlib.metadata.PackageNotFoundError:
+                self.version = "unknown"
         except ImportError:
             self._Scheduler = self._Card = self._Rating = None
 
@@ -40,15 +46,19 @@ class FSRSAdapter:
 
     def review(self, state: dict | None, rating: int) -> dict:
         if not self.available:
-            return {"state": "unavailable", "reason": "provider_unavailable", "scheduler": "fsrs"}
+            return {"state": "unavailable", "reason": "provider_unavailable", "scheduler": "fsrs", "scheduler_version": self.version}
         try:
             scheduler = self._Scheduler()
-            card = self._Card.from_dict(state) if state else self._Card()
+            card_state = state.get("card") if isinstance(state, dict) and isinstance(state.get("card"), dict) else state
+            card = self._Card.from_dict(card_state) if card_state else self._Card()
             result = scheduler.review_card(card, self._Rating(rating))
             next_card = result.card if hasattr(result, "card") else result[0]
-            return {"state": "scheduled", "scheduler": "fsrs", "rating": rating, "card": next_card.to_dict()}
+            card_dict = next_card.to_dict()
+            return {**card_dict, "state": "scheduled", "scheduler": "fsrs",
+                    "scheduler_version": self.version, "review_state_schema": "fsrs-card/v1",
+                    "rating": rating, "card": card_dict}
         except Exception as exc:  # adapter failures are explicit, never a fake schedule
-            return {"state": "unavailable", "reason": "scheduler_error", "detail": type(exc).__name__, "scheduler": "fsrs"}
+            return {"state": "unavailable", "reason": "scheduler_error", "detail": type(exc).__name__, "scheduler": "fsrs", "scheduler_version": self.version}
 
 
 class QuestionStore:
@@ -243,6 +253,9 @@ class QuestionStore:
         question = self.load(question_id)
         result = self.fsrs.review(question.get("review_state"), rating)
         if result.get("state") == "scheduled":
-            question["review_state"] = result["card"]
+            question["review_state"] = {**result["card"], "scheduler": result["scheduler"],
+                                         "scheduler_version": result["scheduler_version"],
+                                         "review_state_schema": result["review_state_schema"],
+                                         "rating": result["rating"]}
             atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
         return result

@@ -53,6 +53,8 @@
 - AC-F008-005：`tests/test_api.py::test_practice_api_is_private_and_does_not_bypass_validator` 验证练习 API 缺 capability 时返回 401，携带 capability 但题目不存在时返回结构化 `question_not_found`，不会绕过题目服务。
 - AC-F008-004：`.venv` 中实际安装 `fsrs==6.3.2` 后，`tests/test_question.py::QuestionTests::test_fsrs_unavailable_is_explicit` 验证真实 `scheduled` 结果与 Card state 持久化；依赖缺失路径仍由 adapter 返回 `unavailable/provider_unavailable`，不伪造调度成功。
 
+本轮状态兼容增量证据（2026-08-30）：`FSRSAdapter` 在保留 `Card.to_dict()` 顶层字段的同时写入 `review_state_schema=fsrs-card/v1` 和实际 `scheduler_version`；同一测试验证真实安装版本和 schema，后续 review 可从持久化状态继续调度，升级/缺失时不会伪造成功。
+
 真实 FSRS 版本回归、practice backup/restore、public build 全量输入扫描仍待闭合；简答 provider 边界已通过 AC-F008-006。
 
 ## 评分记录增量证据（2026-08-30）
