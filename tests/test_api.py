@@ -86,3 +86,9 @@ def test_non_loopback_host_is_rejected():
     response = client.post("/api/retrieve", headers={"Host": "remote.example", "X-MyKnowledge-Capability": "token"}, json={"query": "离线", "scope": "public"})
     assert response.status_code == 403
     assert response.json()["detail"]["code"] == "host_not_allowed"
+
+def test_retrieve_enforces_policy_vault_limit():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    response = client.post("/api/retrieve", json={"query": "x", "scope": "public", "vault_ids": [f"v-{i}" for i in range(17)]})
+    assert response.status_code == 400
+    assert response.json()["detail"]["code"] == "query_limit_exceeded"

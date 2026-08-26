@@ -13,10 +13,10 @@ from tools.question import QuestionStore
 
 class RetrieveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    query: str = Field(min_length=1, max_length=4096)
+    query: str = Field(min_length=1, max_length=4000)
     scope: str = "public"
     vault_ids: list[str] | None = None
-    top_k: int = Field(default=8, ge=1, le=100)
+    top_k: int = Field(default=8, ge=1, le=50)
     include_sources: bool = False
     include_archive: bool = False
 
@@ -59,6 +59,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         if req.scope not in {"public", "local", "private"}:
             raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
         require_capability(token, req.scope)
+        if len(req.vault_ids or []) > 16:
+            raise HTTPException(status_code=400, detail={"code": "query_limit_exceeded", "stage": "request", "retryable": False, "next_action": "reduce vault_ids"})
         result = app.state.retriever.search(req.query, req.scope, req.top_k)
         if req.vault_ids:
             allowed = set(req.vault_ids)
@@ -74,7 +76,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return retrieve(req, x_myknowledge_capability)
 
     @app.get("/api/query")
-    def query_get(q: str = Query(min_length=1, max_length=4096), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=100), x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+    def query_get(q: str = Query(min_length=1, max_length=4000), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=50), x_myknowledge_capability: str | None = Header(default=None)) -> dict:
         ids = [x for x in vault_ids.split(",") if x] if vault_ids else None
         return retrieve(RetrieveRequest(query=q, scope=scope, vault_ids=ids, top_k=top_k), x_myknowledge_capability)
 
