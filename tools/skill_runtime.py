@@ -111,7 +111,18 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
             spec = payload.get("spec")
             if not isinstance(spec, dict):
                 return {"state": "blocked", "error_code": "spec_required"}
-            return store.create(spec)
+            wiki_path = payload.get("wiki_path")
+            if not isinstance(wiki_path, str) or not wiki_path:
+                return {"state": "blocked", "error_code": "wiki_path_required"}
+            candidate = (root / wiki_path).resolve()
+            try:
+                candidate.relative_to(root)
+            except ValueError:
+                return {"state": "blocked", "error_code": "path_invalid"}
+            if not candidate.is_file() or candidate.is_symlink():
+                return {"state": "blocked", "error_code": "wiki_not_found"}
+            report = WikiValidator(root).validate(candidate)
+            return store.create(spec, wiki_path=candidate, wiki_report=report)
         if action == "question_answer":
             scoring_mode = payload.get("scoring_mode", "manual")
             if scoring_mode not in {"manual", "deterministic", "llm"}:
