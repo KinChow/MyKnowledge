@@ -34,6 +34,10 @@
 
 ## AC-F005-002 检索 fallback 契约
 
+## Private scope 隔离增量证据（2026-08-27）
+
+- `tests/test_indexing.py::IndexingTests::test_private_scope_excludes_public_owner` 验证 IndexBuilder 与 Retriever 共用 scope 过滤，`scope=private` 不把 public owner 混入 QMD/FTS5/LIKE 候选；public allowlist 与 private owner 边界在 provider 之前生效。
+
 - Given：QMD、SQLite FTS5 或 LIKE fallback 依次可用/不可用；
 - When：执行相同查询；
 - Then：按 QMD → FTS5 → LIKE 顺序降级，返回相同 QueryResult schema，并明确 `degraded` 状态；

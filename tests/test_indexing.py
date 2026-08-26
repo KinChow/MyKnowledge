@@ -20,6 +20,12 @@ class IndexingTests(unittest.TestCase):
         result = IndexBuilder(None).build([ITEMS[0], draft, unreleased, internal], "public")
         self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
 
+    def test_private_scope_excludes_public_owner(self):
+        result = IndexBuilder(None).build(ITEMS, "private")
+        self.assertEqual({x["object_ref"]["vault_id"] for x in result["items"]}, {"private"})
+        result = Retriever(ITEMS).search("SQLite", "private")
+        self.assertEqual({x["object_ref"]["vault_id"] for x in result["items"]}, {"private"})
+
     def test_local_keeps_owner_and_hides_unavailable_body(self):
         result = IndexBuilder(None).build(ITEMS)
         down = next(x for x in result["items"] if x["object_ref"]["object_id"] == "down")
