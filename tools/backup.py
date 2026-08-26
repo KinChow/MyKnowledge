@@ -13,6 +13,25 @@ class BackupManager:
 
     def status(self) -> dict:
         report = self.registry.check()
+        # A configured target is not verified merely because a manifest exists.
+        # A malformed newest durable manifest is, however, an observable failure.
+        for vault in report["vaults"]:
+            if vault.get("backup_state") != "configured" or vault.get("state") != "available":
+                continue
+            try:
+                owner = self.registry.resolve_vault_path(vault["vault_id"])
+                manifests = sorted((owner / "audit" / "backup").glob("*.json"))
+                if not manifests:
+                    continue
+                data = json.loads(manifests[-1].read_text(encoding="utf-8"))
+                expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
+                if data.get("schema_version") != "backup-manifest/v1" or data.get("manifest_sha256") != expected or not isinstance(data.get("entries"), list):
+                    vault["backup_state"] = "failed"
+                    vault["backup_reason"] = "manifest_invalid"
+            except (OSError, ValueError, json.JSONDecodeError):
+                vault["backup_state"] = "failed"
+                vault["backup_reason"] = "manifest_unreadable"
+        report["backup_summary"]["unverified_vault_ids"] = [x["vault_id"] for x in report["vaults"] if x["backup_state"] != "verified"]
         report["backup_summary"]["warning"] = [
             {"vault_id": v["vault_id"], "code": "backup_not_configured"}
             for v in report["vaults"] if v["backup_state"] == "unconfigured" and v["vault_id"] != "public"

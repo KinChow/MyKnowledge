@@ -26,4 +26,4 @@
 
 ## 测试与演练
 
-测试覆盖多 Vault 独立状态、备份目标缺失、备份校验失败、空仓恢复、损坏 snapshot、丢失/篡改 audit 或 confirmation record、audit sequence gap/previous hash mismatch、部分多 Vault Apply、旧 projection 保留和日志脱敏。恢复演练报告记录时间、工具版本、输入 manifest hash、校验结果、恢复后 object/snapshot/evidence/attestation hash 集合、audit chain 验证结果和人工复核人；缺少任一 durable record 必须保持 `failed`/`unconfigured`。
+测试覆盖多 Vault 独立状态、备份目标缺失、备份校验失败、空仓恢复、损坏 snapshot、丢失/篡改 audit 或 confirmation record、audit sequence gap/previous hash mismatch、部分多 Vault Apply、旧 projection 保留和日志脱敏。恢复演练报告记录时间、工具版本、输入 manifest hash、校验结果、恢复后 object/snapshot/evidence/attestation hash 集合、audit chain 验证结果和人工复核人；缺少任一 durable record 必须保持 `failed`/`unconfigured`。`BackupManager.status` 对已配置 Vault 的最近 durable manifest 做 schema/self-hash/entries 结构检查；损坏派生为 `failed`，manifest 存在本身不会提升为 `verified`。

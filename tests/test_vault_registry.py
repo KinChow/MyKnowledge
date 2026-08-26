@@ -173,6 +173,21 @@ class VaultRegistryTests(unittest.TestCase):
                 result = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(result["error_code"], "restore_target_not_empty")
 
+    def test_backup_status_derives_failed_from_corrupt_latest_manifest(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            config = root / "manifest.yaml"
+            config.write_text(f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: ., private_git_remote: file://backup}}\n", encoding="utf-8")
+            manager = BackupManager(root, config)
+            created = manager.create_manifest("public")
+            path = root / created["path"]
+            data = json.loads(path.read_text(encoding="utf-8")); data["entries"] = "corrupt"
+            path.write_text(json.dumps(data), encoding="utf-8")
+            status = manager.status()
+            vault = status["vaults"][0]
+            self.assertEqual(vault["backup_state"], "failed")
+            self.assertEqual(vault["backup_reason"], "manifest_invalid")
+
 
 if __name__ == "__main__":
     unittest.main()
