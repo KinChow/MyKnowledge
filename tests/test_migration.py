@@ -72,3 +72,17 @@ def test_migrate_cli_applies_confirmed_sample(tmp_path: Path):
     result = subprocess.run([sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--apply-sample", "docs/cli.md", "--confirm"], capture_output=True, text=True, check=False)
     assert result.returncode == 0
     assert json.loads(result.stdout)["state"] == "applied"
+
+
+def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "guide.md").write_text("# Guide\n\nStable content.\n", encoding="utf-8")
+    first = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    source = tmp_path / "sources" / "tools" / "legacy-docs-guide-source.md"
+    wiki = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    first_bytes = (source.read_bytes(), wiki.read_bytes())
+    second = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    assert first["state"] == second["state"] == "applied"
+    assert (source.read_bytes(), wiki.read_bytes()) == first_bytes
+    assert len(list((tmp_path / "sources").rglob("legacy-docs-guide-source.md"))) == 1
+    assert len(list((tmp_path / "wiki").rglob("legacy-docs-guide.md"))) == 1

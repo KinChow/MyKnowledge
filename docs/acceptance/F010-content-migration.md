@@ -3,7 +3,7 @@
 - Feature：F010
 - 相关规范：MIG、SRC、WIKI、EVD
 - 状态：Implemented（2026-08-28；inventory 基础能力，Source-first 迁移尚未完成）
-- 实现证据：`tools/inventory_legacy.py`、`tests/test_inventory.py`
+- 实现证据：`tools/inventory_legacy.py`、`tools/migrate_legacy.py`、`tests/test_inventory.py`、`tests/test_migration.py`
 - 当前边界：已生成只读 Source-first migration preview、草稿目标和 route map；尚未执行真实 source/wiki 写入、证据绑定、route 修复和 rollback 演练。
 
 ## 本轮证据（2026-08-28）
@@ -31,6 +31,10 @@
 - inventory 已记录 DOCX 的 `media_type` 与 `docling` extractor，依赖安装后才允许进入结构化抽取；当前环境未将 Docling 作为强制运行依赖。
 
 CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_sample` 验证 CLI 复用同一 preview/confirm/apply 实现并返回结构化 `applied`。
+
+## 幂等性增量证据（2026-08-27）
+
+- `tests/test_migration.py::test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects` 验证同一输入重复确认迁移时，Source/Wiki 文件字节保持一致且不会生成重复对象；输入 tree hash 变化仍会生成不同 preview hash。该证据不替代跨 Vault rollback 演练。
 
 ## AC-F010-001 迁移清单与状态边界
 
