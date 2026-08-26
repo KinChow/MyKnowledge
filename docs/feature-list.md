@@ -24,7 +24,7 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 | F005 | Public/Local 索引与检索 | P1 | F001–F004 | [F005](./acceptance/F005-index-and-retrieval.md) |
 | F006 | FastAPI 本地服务与离线降级 | P1 | F005 | [F006](./acceptance/F006-local-api-and-offline.md) |
 | F007 | Astro/Starlight 公共静态 Wiki 和发布门禁 | P1 | F002, F003, F005, F011（public projection） | [F007](./acceptance/F007-static-wiki-publishing.md) |
-| F008 | Question 题型、claim 绑定和面试练习（后续） | Deferred | F002, F003（主链路稳定后） | [Deferred 设计](./deferred/f008-question-design.md)，验收待单独编写 |
+| F008 | Question 题型、claim 绑定和面试练习 | P1 | F002, F003 | [F008](./acceptance/F008-question-practice.md) |
 | F009 | Agent Skill 受控读写 | P1 | F004–F006 | [F009](./acceptance/F009-agent-skill.md) |
 | F010 | 存量内容迁移和质量清理 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md) |
 | F011 | Private Vaults 独立私有 Git 子仓库（0..N） | P1 | F001–F004、SEC 契约 | [F011](./acceptance/F011-private-vault.md) |
@@ -39,7 +39,7 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 - 前置依赖、交付物和完成定义；
 - 当前状态和可复核证据。
 
-当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（通用 writer，领域验收未闭合）；F011 已进入 `Implemented`（只读 Registry，完整 Vault 验收未闭合）；F012 已进入 `Implemented`（状态与 manifest 基础能力，完整恢复验收未闭合）；F005–F010（含 F008）仍为 `Designed`，尚未声称代码 `Implemented` 或 `Accepted`；验收文档中的 `Not Implemented` 是有意保留的事实边界。当前 checkout 还没有 `skills/myknowledge/SKILL.md` 和领域 writer/backend；F009 的 canonical Skill 文件存在性本身是验收门，不得从文档路径的预留描述推断已实现。
+当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（通用 writer，领域验收未闭合）；F008 已进入 `Implemented`（题目 schema、绑定、评分和 FSRS adapter 基础能力，完整验收未闭合）；F011 已进入 `Implemented`（只读 Registry，完整 Vault 验收未闭合）；F012 已进入 `Implemented`（状态与 manifest 基础能力，完整恢复验收未闭合）；F005–F007、F009–F010 仍为 `Designed`，尚未声称代码 `Implemented` 或 `Accepted`；验收文档中的 `Not Implemented` 是有意保留的事实边界。当前 checkout 还没有 `skills/myknowledge/SKILL.md` 和领域 writer/backend；F009 的 canonical Skill 文件存在性本身是验收门，不得从文档路径的预留描述推断已实现。
 
 F008 已转入本轮独立 Feature，不改变 Source → Wiki → Evidence 主链路；题型为单选题、多选题和面向面试的简答题，复习调度采用 FSRS，题目与复习状态仅保留在 local/private，不进入 public projection。
 

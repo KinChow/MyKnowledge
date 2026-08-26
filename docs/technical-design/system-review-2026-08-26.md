@@ -81,7 +81,7 @@ git diff --check
 | F001–F004 | Designed；规范和验收已补齐，领域 writer/backend 尚未实现 |
 | F005–F006 | Designed；QMD → FTS5 → deterministic fallback 契约已写明，运行时尚未交付 |
 | F007 | Designed/Not Implemented；构建脚本和 fail-closed POC 可运行，真实 manifest、正式搜索 fixture、人工发布演练和 CI 发布证据未完成 |
-| F008 | Deferred；只保留单选、多选、面向面试简答题的范围，Question/FSRS 不在当前 schema/验收 |
+| F008 | 已启动；单选、多选、面向面试简答题，FSRS 与完整运行面按独立 Acceptance 闭合 |
 | F009 | Designed/Not Implemented；`skills/myknowledge/SKILL.md` 和领域 writer/backend 尚不存在，不能创建误导性的空 Skill |
 | F010 | Designed；迁移仍以 legacy 基线为输入，未声称内容迁移完成 |
 | F011 | Designed；支持 `0..N` Vault 的契约已补齐，真实外挂仓库挂载/冲突演练未完成 |

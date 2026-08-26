@@ -1,7 +1,7 @@
-# F008 Question / 面试练习（Deferred）
+# F008 Question / 面试练习（历史占位）
 
-- 状态：Deferred
-- 当前主链路：不实现、不读取、不索引 Question、题库或复习状态
+- 状态：Superseded（正式设计见 [Question 与面试练习实现设计](../technical-design/question-and-practice.md)）
+- 当前主链路：F008 已独立启用；public 主链路仍不读取、不索引 Question、题库或复习状态
 - 依赖：Source/Wiki/Claim/Evidence 契约稳定后再设计
 
 ## 已确定范围
@@ -14,7 +14,7 @@ F008 只覆盖三类题目：
 
 题目必须从已验证的 Wiki claim 派生，不能成为 Source/Evidence 的事实载体。题目、答案、解析和练习状态的保密级别不得低于所属 Wiki；公开静态 Wiki 不读取题目答案或解析。
 
-## 尚未决策
+## 历史未决事项
 
 以下内容留到 F008 正式设计，不在当前系统规范或验收中预设实现：
 
@@ -31,4 +31,4 @@ F008 只覆盖三类题目：
 
 ## 设计入口
 
-正式启动 F008 时，应新增独立 Technical Design、Acceptance 和 Traceability 条目；主系统设计只保留本页链接，不把历史草案当作现行 schema。
+本页仅保留启动前的历史边界，不是现行 schema；现行契约、验收和追踪以 Technical Design、Acceptance 和 Traceability Matrix 为准。

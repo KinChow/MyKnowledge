@@ -1,0 +1,133 @@
+"""F008 question authoring, scoring and local review state.
+
+Question facts are derived from a validated Wiki claim.  Answers and review
+state live under ``practice/`` and are never consumed by public projection.
+FSRS is an optional runtime adapter: absence is reported explicitly.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import time
+from pathlib import Path
+from typing import Any
+
+from .common import atomic_write, canonical_json, safe_id
+from .front_matter import FrontMatter
+from .paths import RepoPaths
+from .validation.validator import WikiValidator
+
+QUESTION_SCHEMA = "question/v1"
+QUESTION_TYPES = {"single_choice", "multi_choice", "short_answer"}
+
+
+class FSRSAdapter:
+    def __init__(self) -> None:
+        try:
+            from fsrs import Scheduler, Card, Rating  # type: ignore
+            self._Scheduler, self._Card, self._Rating = Scheduler, Card, Rating
+        except ImportError:
+            self._Scheduler = self._Card = self._Rating = None
+
+    @property
+    def available(self) -> bool:
+        return self._Scheduler is not None
+
+    def review(self, state: dict | None, rating: int) -> dict:
+        if not self.available:
+            return {"state": "unavailable", "reason": "provider_unavailable", "scheduler": "fsrs"}
+        try:
+            scheduler = self._Scheduler()
+            card = self._Card.from_dict(state) if state else self._Card()
+            result = scheduler.review_card(card, self._Rating(rating))
+            next_card = result.card if hasattr(result, "card") else result[0]
+            return {"state": "scheduled", "scheduler": "fsrs", "rating": rating, "card": next_card.to_dict()}
+        except Exception as exc:  # adapter failures are explicit, never a fake schedule
+            return {"state": "unavailable", "reason": "scheduler_error", "detail": type(exc).__name__, "scheduler": "fsrs"}
+
+
+class QuestionStore:
+    def __init__(self, root: Path) -> None:
+        self.root = Path(root).resolve()
+        self.paths = RepoPaths(self.root)
+        self.fsrs = FSRSAdapter()
+
+    def _file(self, question_id: str) -> Path:
+        safe_id(question_id)
+        return self.paths.practice_questions / f"{question_id}.json"
+
+    @staticmethod
+    def _validate_spec(spec: dict) -> list[dict]:
+        errors: list[dict] = []
+        if spec.get("type") not in QUESTION_TYPES:
+            errors.append({"code": "question_type_invalid"})
+        try:
+            safe_id(str(spec.get("id", "")))
+        except ValueError:
+            errors.append({"code": "question_id_invalid"})
+        if not isinstance(spec.get("prompt"), str) or not spec["prompt"].strip():
+            errors.append({"code": "prompt_required"})
+        for field in ("wiki_id", "claim_id"):
+            if not isinstance(spec.get(field), str) or not spec[field].strip():
+                errors.append({"code": f"{field}_required"})
+        if spec.get("type") in {"single_choice", "multi_choice"}:
+            options = spec.get("options")
+            correct = spec.get("correct_option_ids")
+            if not isinstance(options, list) or len(options) < 2:
+                errors.append({"code": "options_required"})
+            if not isinstance(correct, list) or not correct:
+                errors.append({"code": "correct_options_required"})
+            if spec.get("type") == "single_choice" and isinstance(correct, list) and len(correct) != 1:
+                errors.append({"code": "single_choice_requires_one_answer"})
+        if spec.get("type") == "short_answer" and not isinstance(spec.get("rubric"), list):
+            errors.append({"code": "rubric_required"})
+        return errors
+
+    def _wiki_report(self, wiki_path: Path) -> dict:
+        return WikiValidator(self.root).validate(wiki_path)
+
+    def create(self, spec: dict, *, wiki_path: Path | None = None, wiki_report: dict | None = None) -> dict:
+        errors = self._validate_spec(spec)
+        report = wiki_report or (self._wiki_report(wiki_path) if wiki_path else None)
+        if not report or not report.get("valid"):
+            errors.append({"code": "wiki_unverified"})
+        else:
+            derived = report.get("derived") or {}
+            if report.get("object_ref", {}).get("object_type") != "wiki" or derived.get("evidence_state") not in {"supported", "corroborated"}:
+                errors.append({"code": "wiki_claim_unverified"})
+        if errors:
+            return {"state": "blocked", "errors": errors}
+        claim_id = str(spec["claim_id"])
+        claim = {"vault_id": spec.get("vault_id", "public"), "wiki_id": spec["wiki_id"], "claim_id": claim_id, "content_sha256": report.get("hashes", {}).get("content_sha256"), "evidence_sha256": report.get("hashes", {}).get("evidence_sha256")}
+        question = {"schema_version": QUESTION_SCHEMA, "id": spec["id"], "type": spec["type"], "confidentiality": spec.get("confidentiality", "public"), "wiki_claim": claim, "prompt": spec["prompt"], "options": spec.get("options"), "correct_option_ids": spec.get("correct_option_ids"), "answer": spec.get("answer"), "explanation": spec.get("explanation"), "rubric": spec.get("rubric"), "status": "enabled", "created_at": time.time(), "review_state": None}
+        question["content_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in question.items() if k not in {"created_at", "review_state", "content_sha256"}})).hexdigest()
+        atomic_write(self._file(question["id"]), canonical_json(question) + b"\n", 0o600)
+        return {"state": "created", "question": question}
+
+    def load(self, question_id: str) -> dict:
+        return json.loads(self._file(question_id).read_text(encoding="utf-8"))
+
+    def answer(self, question_id: str, response: Any) -> dict:
+        question = self.load(question_id)
+        if question.get("status") != "enabled":
+            return {"state": "blocked", "error_code": "question_disabled"}
+        kind = question["type"]
+        if kind == "single_choice":
+            score = 1.0 if response == question.get("correct_option_ids", [None])[0] else 0.0
+            return {"state": "graded", "score": score, "correct": score == 1.0}
+        if kind == "multi_choice":
+            expected = set(question.get("correct_option_ids") or [])
+            actual = set(response if isinstance(response, list) else [])
+            score = 1.0 if actual == expected else 0.0
+            return {"state": "graded", "score": score, "correct": score == 1.0}
+        return {"state": "manual_review", "rubric": question.get("rubric", []), "response": response}
+
+    def review(self, question_id: str, rating: int) -> dict:
+        if rating not in {1, 2, 3, 4}:
+            return {"state": "blocked", "error_code": "rating_invalid"}
+        question = self.load(question_id)
+        result = self.fsrs.review(question.get("review_state"), rating)
+        if result.get("state") == "scheduled":
+            question["review_state"] = result["card"]
+            atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
+        return result

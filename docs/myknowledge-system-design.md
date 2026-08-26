@@ -1359,7 +1359,7 @@ canonical snapshot 已在提取阶段固定文本边界，因此匹配不再粗�
 
 ## 7. F008 Question/练习延期边界（非当前规范）
 
-旧的 Question 字段、四选一模板、答案门禁和复习状态已经从主系统规范删除，避免实现者把历史草案当作当前契约。F008 的唯一占位入口是 [F008 Deferred 设计](./deferred/f008-question-design.md)：目前只确认未来讨论单选题、多选题和面向面试的简答题；Question schema、答案/解析校验、判分、复习状态以及是否采用 FSRS 都尚未决策。当前运行时、索引、Skill、迁移和验收不得创建、读取或推断 Question/题库/复习状态。
+旧的 Question 字段和四选一模板已废弃。F008 现行契约见 [Question 与面试练习实现设计](./technical-design/question-and-practice.md)：支持单选题、多选题和面向面试的简答题，绑定已验证 Wiki claim，复习调度采用 FSRS；题目、答案、解析和复习状态仅位于 local/private，public 运行时仍不得读取 practice。
 
 ## 8. LLM 证据验证
 
@@ -1769,7 +1769,7 @@ public index 只包含 `public_publishable: true` 的 wiki；local index 包含�
 
 ### 10.4 Question/复习（后续 F008，不属于当前运行面）
 
-当前版本不提供 quiz/review API，不生成 Question，不判分，也不写入复习状态。F008 将单独设计单选题、多选题和面向面试的简答题，包括题目 schema、claim 绑定、答案/解析校验、是否采用 FSRS、local state 和备份边界。
+F008 提供独立 Question/练习服务；题目 schema、claim 绑定、答案/解析校验、FSRS local state 和备份边界见其 Technical Design。public API、索引和静态构建仍不读取题目答案、解析或复习状态。
 
 ## 11. 索引与查询技术
 
