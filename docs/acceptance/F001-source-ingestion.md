@@ -160,3 +160,7 @@
 ## Timeout 增量证据（2026-08-27）
 
 - `tests/ingest/test_fetcher.py::FetcherTests::test_request_timeout_is_structured_and_connection_is_closed` 注入连接超时，验证统一返回 `fetch_blocked:request_failed` 并执行连接关闭；不会生成响应正文或归档半成品。
+
+## 本地域名策略增量证据（2026-08-27）
+
+- `tests/ingest/test_fetcher.py::FetcherTests::test_local_domain_suffix_is_blocked_before_dns_resolution` 验证 `.internal`/`.local` 主机在 DNS 解析前返回 `fetch_blocked:host_policy`；不建立连接、不触发解析，降低内网名称探测风险。

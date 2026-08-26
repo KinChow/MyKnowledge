@@ -84,6 +84,15 @@ class FetcherTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "fetch_blocked:url_policy"):
             URLFetcher().fetch("http://user:pass@example.com/")
 
+    def test_local_domain_suffix_is_blocked_before_dns_resolution(self):
+        fetcher = URLFetcher()
+        with mock.patch.object(URLFetcher, "_resolve_public_ip") as resolve:
+            with self.assertRaisesRegex(RuntimeError, "fetch_blocked:host_policy"):
+                fetcher.fetch("http://service.internal/")
+            resolve.assert_not_called()
+        with self.assertRaisesRegex(RuntimeError, "fetch_blocked:host_policy"):
+            fetcher.fetch("http://printer.local/")
+
     def test_dns_rebinding_is_reported_separately(self):
         class Response:
             status = 302
