@@ -4,7 +4,14 @@
 - 相关规范：SKILL、OPS、SEC
 - 状态：Implemented（2026-08-28；canonical Skill 基础契约，完整运行验收待补）
 - 实现证据：`skills/myknowledge/SKILL.md`、`tests/test_skill_contract.py`
-- 当前边界：尚未接入完整 source/wiki/publish/query API 调用、token 生命周期和 MCP server transport。
+- 当前边界：已接入离线受控 runtime（action 白名单与 writer 委托）；尚未接入完整 source/wiki/publish/query API 调用、token 生命周期和 MCP server transport。
+
+## 本轮证据（2026-08-28）
+
+- AC-F009-001/002/006：`tests/test_skill_runtime.py::test_skill_runtime_write_preview_delegates_to_writer` 和 `test_skill_runtime_apply_requires_explicit_confirmation` 验证 Skill 只能通过现有 writer 生成 preview，Apply 未确认时返回 `awaiting_confirmation` 且工作树不变。
+- AC-F009-006/010：`test_skill_runtime_rejects_unknown_and_dangerous_actions` 验证未知 action 和 shell/command 等危险字段返回结构化 `skill_action_not_allowed`/`skill_payload_forbidden`。
+
+这些测试证明的是 runtime 安全边界和委托关系，不等同于 MCP transport、token 生命周期、provider 保密策略或完整发布流程已 Accepted。
 
 ## AC-F009-001 Skill 是唯一写入口
 

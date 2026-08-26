@@ -83,6 +83,19 @@ def question_main(argv: list[str]) -> int:
 COMMANDS["question"] = question_main
 COMMANDS["inventory"] = inventory_main
 
+def skill_main(argv: list[str]) -> int:
+    import argparse, json
+    from tools.skill_runtime import dispatch
+    parser = argparse.ArgumentParser(description="Controlled MyKnowledge Skill runtime")
+    parser.add_argument("action", choices=sorted(__import__("tools.skill_runtime", fromlist=["ALLOWED_ACTIONS"]).ALLOWED_ACTIONS))
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--payload", type=__import__("pathlib").Path)
+    args = parser.parse_args(argv)
+    payload = json.loads(args.payload.read_text(encoding="utf-8")) if args.payload else {}
+    print(json.dumps(dispatch(args.action, payload, root=args.root), ensure_ascii=False, indent=2)); return 0
+
+COMMANDS["skill"] = skill_main
+
 
 def main(argv: list[str] | None = None) -> int:
     """分派子命令到对应工具：source 导入归档，anchor 证据锚定，validate Wiki
