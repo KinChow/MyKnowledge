@@ -1,6 +1,6 @@
 import unittest, tempfile
 from pathlib import Path
-from tools.indexing import IndexBuilder, Retriever, SQLiteIndex
+from tools.indexing import IndexBuilder, QMDAdapter, Retriever, SQLiteIndex
 
 ITEMS = [
     {"vault_id": "public", "object_id": "pub", "title": "公开知识", "body": "SQLite 检索", "public_publishable": True, "content_sha256": "sha256:p"},
@@ -37,5 +37,14 @@ class IndexingTests(unittest.TestCase):
             result = Retriever(ITEMS, path).search("SQLite", "public")
             self.assertEqual(result["method"], "fts5")
             self.assertIn("qmd_unavailable", result["warnings"])
+
+    def test_qmd_cache_probe_is_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            cache = Path(d) / "cache"; cache.mkdir(mode=0o755)
+            adapter = QMDAdapter(cache, command="missing-qmd")
+            self.assertFalse(adapter.available)
+            self.assertEqual(adapter.unavailable_reason(), "provider_unavailable")
+            adapter = QMDAdapter(cache, command="sh")
+            self.assertEqual(adapter.unavailable_reason(), "cache_permissions")
 
 if __name__ == "__main__": unittest.main()

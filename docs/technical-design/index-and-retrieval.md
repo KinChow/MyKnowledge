@@ -12,6 +12,8 @@
 
 本设计实现 public/local projection 的可重建索引，以及 QMD → SQLite FTS5 → deterministic LIKE 的只读检索链。当前 `Retriever` 在存在同 scope 的 SQLite 索引时实际走 FTS5，并以 `qmd_unavailable` 标记降级；索引缺失、scope 不匹配或损坏时回退 LIKE。QMD 的向量、rerank 和模型缓存能力是运行时可选项；第一阶段不要求自有 Embedding/FAISS/HybridRetriever。索引不是内容真相源，不能计算验证状态、改变发布状态或跨 Vault 放宽权限。
 
+`QMDAdapter` 在调用前检查可执行程序、cache 本地目录、0700 权限及不位于 Git 工作树；检查失败返回 `provider_unavailable`/`cache_permissions`/`cache_in_git`，不下载、不联网，继续 FTS5/LIKE。
+
 ## 数据流
 
 ```text
