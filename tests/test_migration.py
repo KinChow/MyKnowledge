@@ -64,3 +64,11 @@ def test_sample_apply_repairs_only_inventory_links_and_reports_unresolved(tmp_pa
     body = (tmp_path / "wiki" / "tools" / "legacy-docs-guide.md").read_text(encoding="utf-8")
     assert "](/legacy/docs-target)" in body
     assert "](missing.md)" in body
+
+
+def test_migrate_cli_applies_confirmed_sample(tmp_path: Path):
+    import json, subprocess, sys
+    docs = tmp_path / "docs"; docs.mkdir(); (docs / "cli.md").write_text("# CLI\n", encoding="utf-8")
+    result = subprocess.run([sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--apply-sample", "docs/cli.md", "--confirm"], capture_output=True, text=True, check=False)
+    assert result.returncode == 0
+    assert json.loads(result.stdout)["state"] == "applied"
