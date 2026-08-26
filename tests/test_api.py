@@ -59,6 +59,17 @@ def test_ask_is_explicitly_unavailable_offline():
     assert body["availability"] == "unavailable"
     assert body["answer"] is None
 
+def test_citation_replay_api_is_read_only_and_capability_scoped():
+    from tools.evidence_anchor import EvidenceAnchor
+    snapshot = "可回放的证据文本。"
+    citation = EvidenceAnchor.anchor(snapshot, snapshot, min_chars=1)
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    assert client.post("/api/citation/replay", json={"citation": citation, "snapshot": snapshot}).status_code == 401
+    response = client.post("/api/citation/replay", params={"scope": "local"}, headers={"X-MyKnowledge-Capability": "token"}, json={"citation": citation, "snapshot": snapshot})
+    assert response.status_code == 200
+    assert response.json()["state"] == "valid"
+    assert client.post("/api/citation/replay", params={"scope": "local"}, headers={"X-MyKnowledge-Capability": "token"}, json={"citation": citation, "snapshot": snapshot, "url": "https://evil.example"}).status_code == 422
+
 def test_public_read_and_backlinks(tmp_path: Path):
     wiki = tmp_path / "wiki" / "guide"
     wiki.mkdir(parents=True)

@@ -27,6 +27,10 @@
 
 - `tests/test_api.py::test_capability_scope_registry_is_enforced` 验证进程 capability registry 缺少 `vault-check` 时，`GET /api/vault/check` 返回 `capability_scope_invalid`；token、audience、TTL 与具体 endpoint scope 分层校验，默认 scope 集合为 `local-read`、`private-read`、`vault-check`、`write`。
 
+## Citation replay API 增量证据（2026-08-27）
+
+- `POST /api/citation/replay` 复用 W3C Web Annotation TextQuote/TextPosition replay；`tests/test_api.py::test_citation_replay_api_is_read_only_and_capability_scoped` 验证 local scope 缺 capability 时拒绝，带 token 时只读返回 `citation-replay/v1/valid`，未知 URL 字段由 Pydantic 拒绝。
+
 ## AC-F006-001 API 与 CLI 一致
 
 - Given：同一 public/local projection；
