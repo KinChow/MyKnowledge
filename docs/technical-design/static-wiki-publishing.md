@@ -46,6 +46,8 @@
 
 当前工程已恢复 Astro/Starlight 依赖、projection adapter、catalog/graph 生成、构建失败保留旧 dist 和 leak gate 基础脚本。真实 public manifest、正式 Pagefind 中文/混合查询 fixture、人工 release confirmation、完整三段 leak gate 和 CI 发布证据仍未落地，不能把本轮工程骨架标记为 F007 Accepted。
 
+本轮增量调查（2026-08-30）：继续复用 Astro/Starlight static output、Pagefind final-HTML index 和 Quartz graph closure；新增独立 projection validator，参考 Starlight content collection 的 schema-first fail-fast 习惯。替代方案是直接信任 manifest 字符串字段，无法防止 duplicate ID、编码路径穿越或 practice/source/archive 混入，明确不采用。
+
 ## 3. 发布输入契约
 
 ### 3.1 Public projection manifest

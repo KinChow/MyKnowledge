@@ -16,6 +16,11 @@
 
 本轮落地的 `queries/public/manifest.json` 是空 allowlist，确保 projection 模式在无 public 条目时可确定性运行；条目必须由后续 projection generator 根据人工确认和当前 hash 生成，不能手写伪造发布状态。
 
+## Projection validator 增量证据（2026-08-30）
+
+- AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。
+- validator 只校验 allowlist/schema/path 边界，不生成或提升 `public_release`；当前仓库没有真实 Wiki/人工 confirmation，因此仍不标记 Accepted。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；
