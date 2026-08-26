@@ -83,18 +83,20 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
                 return JSONResponse(status_code=403, content={"detail": {"code": "origin_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback origin"}})
         return await call_next(request)
 
-    def require_capability(token: str | None, scope: str) -> None:
+    def require_capability(token: str | None, scope: str, audience: str | None = None) -> None:
         if scope == "public":
             return
         if not token:
             raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
         if not secrets.compare_digest(token, app.state.capability_token):
             raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
+        if audience is not None and audience != "myknowledge-local-api":
+            raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
 
-    def retrieve(req: RetrieveRequest, token: str | None = None) -> dict:
+    def retrieve(req: RetrieveRequest, token: str | None = None, audience: str | None = None) -> dict:
         if req.scope not in {"public", "local", "private"}:
             raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
-        require_capability(token, req.scope)
+        require_capability(token, req.scope, audience)
         if len(req.vault_ids or []) > 16:
             raise HTTPException(status_code=400, detail={"code": "query_limit_exceeded", "stage": "request", "retryable": False, "next_action": "reduce vault_ids"})
         result = app.state.retriever.search(req.query, req.scope, req.top_k)
@@ -108,43 +110,45 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return {"schema_version": "health/v1", "status": "ok", "api": "local"}
 
     @app.post("/api/retrieve")
-    def retrieve_post(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        return retrieve(req, x_myknowledge_capability)
+    def retrieve_post(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        return retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
 
     @app.get("/api/query")
-    def query_get(q: str = Query(min_length=1, max_length=4000), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=50), x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+    def query_get(q: str = Query(min_length=1, max_length=4000), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=50), x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
         ids = [x for x in vault_ids.split(",") if x] if vault_ids else None
-        return retrieve(RetrieveRequest(query=q, scope=scope, vault_ids=ids, top_k=top_k), x_myknowledge_capability)
+        return retrieve(RetrieveRequest(query=q, scope=scope, vault_ids=ids, top_k=top_k), x_myknowledge_capability, x_myknowledge_audience)
 
     @app.post("/api/ask")
-    def ask(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        retrieval = retrieve(req, x_myknowledge_capability)
+    def ask(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval, "availability": "unavailable", "availability_reason": "provider_unavailable", "confidentiality": retrieval["confidentiality_max"], "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
 
-    def require_write_capability(token: str | None) -> None:
+    def require_write_capability(token: str | None, audience: str | None = None) -> None:
         if not token:
             raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
         if not secrets.compare_digest(token, app.state.capability_token):
             raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
+        if audience is not None and audience != "myknowledge-local-api":
+            raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
 
     @app.post("/api/source/preview")
-    def source_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability)
+    def source_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "operation-preview/v1", **app.state.writer.preview(req.files, operation_type="source", vault_id=req.vault_id)}
 
     @app.post("/api/wiki/preview")
-    def wiki_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability)
+    def wiki_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "operation-preview/v1", **app.state.writer.preview(req.files, operation_type="wiki", vault_id=req.vault_id)}
 
     @app.post("/api/operation/{operation_id}/apply")
-    def operation_apply(operation_id: str, req: ApplyRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability)
+    def operation_apply(operation_id: str, req: ApplyRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "operation-result/v1", **app.state.writer.apply(operation_id, confirmed=req.confirmed, actor_id=req.actor_id)}
 
     @app.get("/api/vault/check")
-    def vault_check(x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability)
+    def vault_check(x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
         return VaultRegistry(app.state.root).check()
 
     @app.post("/api/validate/{vault_id}/{object_type}/{object_id}")

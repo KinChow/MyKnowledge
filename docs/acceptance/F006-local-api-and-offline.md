@@ -134,3 +134,8 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 
 - `tests/test_api.py::test_validate_endpoint_requires_capability_and_reuses_wiki_validator` 验证 `/api/validate/{vault_id}/wiki/{object_id}` 缺 capability 返回 401，授权后按显式 owner 调用 WikiValidator 并返回 `validation-result/v1`。
 - API 不复制规则或直接修改 canonical Markdown；非 Wiki object type 返回结构化 `object_type_not_supported`。
+
+## Capability audience 增量证据（2026-08-27）
+
+- `tests/test_api.py::test_capability_audience_is_checked_when_supplied` 验证带有错误 `X-MyKnowledge-Audience` 的有效 token 返回 `capability_audience_invalid`，不会进入检索或写入逻辑。
+- 合法 audience 固定为 `myknowledge-local-api`；未提供该兼容 header 的既有本地调用保持原 token/scope 行为，便于离线 CLI 逐步升级。
