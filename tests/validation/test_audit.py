@@ -185,6 +185,28 @@ class AuditTests(AuditSetup):
         records = [json.loads(p.read_text(encoding="utf-8")) for p in self._reports()]
         self.assertTrue(all(r["schema_version"] != SCHEMA_VERSION for r in records))
 
+    def test_incomplete_coverage_rejects_extra_claim(self):
+        """provider 增加请求之外的 claim 也必须整次 not_run。"""
+        payload = _payload()
+        payload["claims"].append(
+            {
+                "claim_id": "unexpected",
+                "verdict": "supported",
+                "targets": [{"source_id": "test-source", "evidence_id": "e1"}],
+                "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
+                "applied_rule_refs": ["VAL-001"],
+                "rationale": "额外 claim 不属于本次请求",
+                "rationale_offsets": [
+                    {"source_id": "test-source", "evidence_id": "e1", "start": 0, "end": 10}
+                ],
+            }
+        )
+        outcome = self._run(payload)
+        self.assertEqual(outcome["validation_state"], "not_run")
+        self.assertEqual(outcome["not_run_reason"], "incomplete_coverage")
+        records = [json.loads(p.read_text(encoding="utf-8")) for p in self._reports()]
+        self.assertTrue(all(r["schema_version"] != SCHEMA_VERSION for r in records))
+
     def test_incomplete_coverage_missing_quote(self):
         """supporting_quotes 未覆盖全部 target → incomplete_coverage。"""
         payload = _payload()
