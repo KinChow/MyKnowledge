@@ -153,6 +153,30 @@ class VaultRegistry:
         result["code"] = "ok"
         return result
 
+    def object_index(self) -> dict[tuple[str, str, str], dict]:
+        """Build an owner-aware local object index with no physical paths in values."""
+        report = self.check()
+        index: dict[tuple[str, str, str], dict] = {}
+        for status in report["vaults"]:
+            vault_id = status["vault_id"]
+            if status["state"] != "available":
+                continue
+            try:
+                root = self.resolve_vault_path(vault_id)
+            except (OSError, ValueError):
+                continue
+            for object_type, folder in (("wiki", "wiki"), ("source", "sources")):
+                base = root / folder
+                for path in sorted(base.rglob("*.md")) if base.is_dir() else []:
+                    if not path.is_file() or path.is_symlink():
+                        continue
+                    key = (vault_id, object_type, path.stem)
+                    if key in index:
+                        index[key] = {"vault_id": vault_id, "object_type": object_type, "object_id": path.stem, "availability": "conflict", "availability_reason": "duplicate_object_id"}
+                        continue
+                    index[key] = {"vault_id": vault_id, "object_type": object_type, "object_id": path.stem, "availability": "available", "availability_reason": "none"}
+        return index
+
     @staticmethod
     def effective_confidentiality(owner_confidentiality: str, upstream_confidentialities: list[str] | None = None) -> str:
         """Propagate the highest confidentiality from owner and upstream objects."""

@@ -88,6 +88,18 @@ class VaultRegistryTests(unittest.TestCase):
         self.assertEqual(VaultRegistry.effective_confidentiality("public", ["internal"]), "internal")
         self.assertEqual(VaultRegistry.effective_confidentiality("public", ["public"]), "public")
 
+    def test_object_index_keeps_same_ids_separate_by_owner(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            for vault in (public, private):
+                (vault / "wiki").mkdir(parents=True); (vault / "wiki" / "same.md").write_text("x", encoding="utf-8")
+                subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private}}\n", encoding="utf-8")
+            index = VaultRegistry(public, manifest).object_index()
+            self.assertEqual(set(index), {("public", "wiki", "same"), ("private", "wiki", "same")})
+            self.assertEqual({item["availability"] for item in index.values()}, {"available"})
+
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
