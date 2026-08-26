@@ -21,6 +21,12 @@
 - AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。
 - validator 只校验 allowlist/schema/path 边界，不生成或提升 `public_release`；当前仓库没有真实 Wiki/人工 confirmation，因此仍不标记 Accepted。
 
+## 离线空 projection 构建证据（2026-08-27）
+
+- 在 `frontend/` 执行 `npm run validate:config`、`npm run validate:docs`、`npm run validate:legacy`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 和 `npm run build` 均通过。
+- release build 生成静态 Astro 输出并完成 Pagefind 索引（2 个 HTML，包含 404 与首页）；输入树、staging 和最终 dist 的 leak gate 均返回 `findings: []`，`build_valid` 通过。
+- 该证据只证明无 public 条目时构建链离线可运行和 fail-closed；当前 projection 仍为空，真实 Wiki、多语言检索和浏览器交互验收待补。
+
 ## Release lock 增量证据（2026-08-30）
 
 - AC-F007-006/016：`tests/test_frontend_projection.py::test_release_lock_blocks_concurrent_build` 验证已有 `state/public-release.lock` 时构建立即返回 `release_lock_held`（退出码 2），不触碰正式 dist；正常构建后 lock 会清理。
