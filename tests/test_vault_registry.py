@@ -73,6 +73,21 @@ class VaultRegistryTests(unittest.TestCase):
             report = VaultRegistry(root, manifest).check()
             self.assertEqual(report["vaults"][0]["reason"], "path_invalid")
 
+    def test_reference_rejects_cross_vault_even_when_target_exists(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            for vault in (public, private):
+                vault.mkdir(); subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private}}\n", encoding="utf-8")
+            result = VaultRegistry(public, manifest).validate_reference("public", "private", "source", "s")
+            self.assertFalse(result["valid"])
+            self.assertEqual(result["code"], "cross_vault_reference")
+
+    def test_effective_confidentiality_propagates_from_upstream(self):
+        self.assertEqual(VaultRegistry.effective_confidentiality("public", ["internal"]), "internal")
+        self.assertEqual(VaultRegistry.effective_confidentiality("public", ["public"]), "public")
+
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
