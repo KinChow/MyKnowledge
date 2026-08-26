@@ -16,6 +16,14 @@ def test_private_scope_requires_capability():
     assert client.post("/api/retrieve", json={"query": "内部", "scope": "local"}).status_code == 401
     assert client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": "token"}, json={"query": "内部", "scope": "local"}).status_code == 200
 
+
+def test_capability_audience_is_checked_when_supplied():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token", "X-MyKnowledge-Audience": "other-service"}
+    response = client.post("/api/retrieve", headers=headers, json={"query": "内部", "scope": "local"})
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "capability_audience_invalid"
+
 def test_ask_is_explicitly_unavailable_offline():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
     body = client.post("/api/ask", json={"query": "离线", "scope": "public"}).json()
