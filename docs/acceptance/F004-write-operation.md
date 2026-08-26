@@ -13,6 +13,8 @@
 - AC-F004-005：全量 `tests/test_write_operation.py` 仍通过多文件失败回滚，fencing 检查位于每次文件替换之前。
 - AC-F004-007/009：`tests/test_write_operation.py::WriteOperationTests::test_tampered_durable_audit_blocks_apply` 验证篡改 `audit/operations` 后 Apply 在写入前返回 `hash_mismatch`，目标文件保持不存在。
 
+- AC-F004-010：`tests/test_write_operation.py::WriteOperationTests::test_stale_lock_recovery_requires_free_kernel_lock_and_writes_audit` 验证释放内核锁后恢复 orphan owner sidecar 并写入 `lock-recovery` 审计；`test_stale_lock_recovery_does_not_break_live_lock` 验证活锁返回 `lock_busy`。
+
 ## AC-F004-001 未确认不得 Apply
 
 - Given：存在 Preview 但没有用户确认；

@@ -27,6 +27,8 @@
 
 - AC-F012-006：`tests/test_write_operation.py::WriteOperationTests::test_tampered_durable_audit_blocks_apply` 验证 durable operation audit 的单条 `record_sha256` 不匹配时写入被阻断；顺序与删除证据仍由 Git 历史提供，不引入自建链。
 
+- AC-F012-006：`VaultLock.recover` 的恢复测试验证陈旧 owner sidecar 清理前先获取内核锁，并追加 `record_type: lock-recovery`、`record_sha256` 的 durable record；活锁不会被删除。
+
 ## Practice owner 增量证据（2026-08-27）
 
 - AC-F012-005/007/008：`BackupManager.create_manifest` 和 `verify_manifest` 按 owner vault 记录 `practice/questions`、`practice/reviews` 的相对路径与 sha256；`tests/test_vault_registry.py::VaultRegistryTests::test_practice_entries_are_owner_scoped_and_restored` 验证空 checkout 恢复，`test_private_manifest_does_not_read_public_or_escape_owner` 验证 private manifest 不读取 public 内容或越过 owner 边界。

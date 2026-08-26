@@ -22,6 +22,8 @@
 
 本轮再次复用 Git 提交哈希作为历史链，同时对每个 `audit/operations/<operation_id>.json` 做单条 `record_sha256` 自校验；Apply 前先校验 durable audit，再校验输入 hash，避免被篡改的 state/audit 驱动写入。该校验不引入自建 previous-record 链。
 
+本轮陈旧锁恢复调查（2026-08-27）：filelock 3.32.4（MIT，<https://github.com/tox-dev/py-filelock>）的内核互斥与进程退出释放作为活锁判据；SQLite WAL（Public Domain，<https://sqlite.org/wal.html>）和 etcd lease/fencing（Apache-2.0，<https://github.com/etcd-io/etcd>）仅借鉴 fencing/恢复语义。替代方案是按 mtime/PID 直接删除 lock 文件，会与活进程竞态，明确排除。`VaultLock.recover` 先非阻塞获取 filelock，再写 `record_type: lock-recovery` durable audit 并删除 owner sidecar；活锁返回 `lock_busy`，不执行静默清理。
+
 ## 核心流程
 
 生成规范化 operation → 保存 Preview → 用户确认 → 获取写锁 → 校验输入和前置 hash → 在同一文件系统生成 canonical/projection staging → 最终校验 → 写 commit-intent 并 fsync → 原子提交 canonical 与 durable record → 原子替换 projection/index → 记录完成状态。
