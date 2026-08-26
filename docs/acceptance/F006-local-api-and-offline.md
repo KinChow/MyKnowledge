@@ -139,3 +139,8 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 
 - `tests/test_api.py::test_capability_audience_is_checked_when_supplied` 验证带有错误 `X-MyKnowledge-Audience` 的有效 token 返回 `capability_audience_invalid`，不会进入检索或写入逻辑。
 - 合法 audience 固定为 `myknowledge-local-api`；未提供该兼容 header 的既有本地调用保持原 token/scope 行为，便于离线 CLI 逐步升级。
+
+## Capability TTL 增量证据（2026-08-27）
+
+- `tests/test_api.py::test_capability_token_expires_by_process_ttl` 将进程 token 时间推进超过 3600 秒，验证请求返回 `capability_token_expired`，并提示重启本地 API 获取新 token。
+- TTL 只存在进程状态中，不把过期时间或凭据写入 public/canonical 数据；旧 token 仍先经过恒定时间比较和 audience/scope 门禁。
