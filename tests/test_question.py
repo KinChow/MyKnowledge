@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 from tools.question import QuestionStore
 
-REPORT = {"valid": True, "object_ref": {"object_type": "wiki"}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:content", "evidence_sha256": "sha256:evidence"}}
+REPORT = {"valid": True, "object_ref": {"object_type": "wiki", "object_id": "wiki-one"}, "metadata": {"evidence": [{"claim_id": "claim-one"}]}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:content", "evidence_sha256": "sha256:evidence"}}
 
 class QuestionTests(unittest.TestCase):
     def base(self, kind="single_choice"):
@@ -21,6 +21,14 @@ class QuestionTests(unittest.TestCase):
             result = store.create(self.base(), wiki_report={"valid": False})
             self.assertEqual(result["state"], "blocked")
             self.assertIn("wiki_unverified", {e["code"] for e in result["errors"]})
+
+    def test_create_rejects_wiki_or_claim_identity_mismatch(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            wrong_wiki = store.create({**self.base(), "wiki_id": "other-wiki"}, wiki_report=REPORT)
+            self.assertIn("wiki_id_mismatch", {e["code"] for e in wrong_wiki["errors"]})
+            wrong_claim = store.create({**self.base(), "claim_id": "other-claim"}, wiki_report=REPORT)
+            self.assertIn("claim_not_found", {e["code"] for e in wrong_claim["errors"]})
 
     def test_single_and_multi_choice_scoring(self):
         with tempfile.TemporaryDirectory() as d:
@@ -94,7 +102,9 @@ class QuestionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
             store.create(self.base(), wiki_report=REPORT)
-            second = self.base(); second["id"] = "q-two"; second["wiki_id"] = "wiki-missing"; store.create(second, wiki_report=REPORT)
+            second = self.base(); second["id"] = "q-two"; second["wiki_id"] = "wiki-missing"
+            missing_report = {**REPORT, "object_ref": {"object_type": "wiki", "object_id": "wiki-missing"}}
+            store.create(second, wiki_report=missing_report)
             result = store.refresh_all({"wiki-one": REPORT})
             self.assertEqual(result["total"], 2)
             self.assertEqual(result["disabled"], 1)

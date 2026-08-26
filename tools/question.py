@@ -109,6 +109,15 @@ class QuestionStore:
             derived = report.get("derived") or {}
             if report.get("object_ref", {}).get("object_type") != "wiki" or derived.get("evidence_state") not in {"supported", "corroborated"}:
                 errors.append({"code": "wiki_claim_unverified"})
+            if report.get("object_ref", {}).get("object_id") != spec.get("wiki_id"):
+                errors.append({"code": "wiki_id_mismatch"})
+            claim_ids = {
+                item.get("claim_id")
+                for item in (report.get("metadata", {}).get("evidence") or [])
+                if isinstance(item, dict)
+            }
+            if spec.get("claim_id") not in claim_ids:
+                errors.append({"code": "claim_not_found"})
         if errors:
             return {"state": "blocked", "errors": errors}
         claim_id = str(spec["claim_id"])
