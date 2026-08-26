@@ -12,6 +12,11 @@
 
 完整 QMD cache 权限、损坏索引保留旧版本和 unavailable 对象状态元数据仍待后续验收。
 
+## Public allowlist 收紧增量证据（2026-08-27）
+
+- `tests/test_indexing.py::IndexingTests::test_public_projection_requires_complete_release_allowlist` 验证 public index 同时要求 `vault_id=public`、`public_publishable=true`、`public_release=true`、`status=published` 和有效保密等级 `public`；draft、未确认发布和 internal 条目均被排除。
+- 该 allowlist 由 IndexBuilder、SQLite FTS5 rebuild 和 Retriever 共用，避免不同检索路径产生权限不一致；完整真实 QMD/向量质量验收仍待补。
+
 本轮 unavailable 元数据增量证据（2026-08-27）：`tests/test_indexing.py::IndexingTests::test_unavailable_metadata_is_searchable_without_body` 验证 LIKE fallback 可命中 unavailable 标题，返回 `availability_reason: vault_unavailable` 且不返回 snippet/body。
 
 ## QMD runtime 增量证据（2026-08-30）

@@ -3,7 +3,7 @@ from pathlib import Path
 from tools.indexing import IndexBuilder, QMDAdapter, Retriever, SQLiteIndex
 
 ITEMS = [
-    {"vault_id": "public", "object_id": "pub", "title": "公开知识", "body": "SQLite 检索", "public_publishable": True, "content_sha256": "sha256:p"},
+    {"vault_id": "public", "object_id": "pub", "title": "公开知识", "body": "SQLite 检索", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "content_sha256": "sha256:p"},
     {"vault_id": "private", "object_id": "priv", "title": "私有知识", "body": "SQLite 检索", "confidentiality": "internal", "public_publishable": False, "content_sha256": "sha256:i"},
     {"vault_id": "private", "object_id": "down", "title": "不可用", "body": "secret", "availability": "unavailable", "availability_reason": "vault_unavailable", "confidentiality": "internal"},
 ]
@@ -11,6 +11,13 @@ ITEMS = [
 class IndexingTests(unittest.TestCase):
     def test_public_projection_filters_private(self):
         result = IndexBuilder(None).build(ITEMS, "public")
+        self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
+
+    def test_public_projection_requires_complete_release_allowlist(self):
+        draft = {**ITEMS[0], "object_id": "draft", "status": "draft"}
+        unreleased = {**ITEMS[0], "object_id": "unreleased", "public_release": False}
+        internal = {**ITEMS[0], "object_id": "internal", "effective_confidentiality": "internal"}
+        result = IndexBuilder(None).build([ITEMS[0], draft, unreleased, internal], "public")
         self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
 
     def test_local_keeps_owner_and_hides_unavailable_body(self):
