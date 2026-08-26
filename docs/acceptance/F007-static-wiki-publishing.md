@@ -6,7 +6,15 @@
 - 实现设计：[静态 Wiki 发布](../technical-design/static-wiki-publishing.md)
 - 状态：Implemented（2026-08-28；工程骨架与 fail-closed 基础能力，完整静态发布验收待补）
 - 实现证据：`frontend/package.json`、`frontend/astro.config.mjs`、`frontend/scripts/prepare-content.mjs`、`frontend/scripts/build-release.mjs`、`frontend/scripts/leak-gate.mjs`
-- 当前边界：仓库暂无真实 `queries/public/manifest.json`，Pagefind、graph browser、人工 release confirmation 和完整 leak-gate/旧 dist 演练尚未完成。
+- 当前边界：已加入可审计的空 `public-projection/v1` manifest 作为离线输入门；真实发布条目、Pagefind、graph browser、人工 release confirmation 和完整 leak-gate/旧 dist 演练尚未完成。
+
+## 本轮成熟方案调查（2026-08-28）
+
+- Astro 7.1.3 + Starlight 0.41.4（MIT，<https://github.com/withastro/astro>、<https://github.com/withastro/starlight>）：复用静态输出、内容目录和 sidebar 结构；限制是不会替 MyKnowledge 判断 public allowlist，输入仍由 manifest adapter 控制。
+- Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）：复用构建后离线索引；限制是只索引最终 HTML，不能作为权限过滤或 canonical 数据源。
+- 替代方案 Quartz（MIT，<https://github.com/jackyzha0/quartz>）提供 Markdown/图谱范式，但其默认内容扫描范围过宽，本轮仅借用 graph/catalog 闭包思路，不直接扫描 `docs/`、`source/` 或 private vault。
+
+本轮落地的 `queries/public/manifest.json` 是空 allowlist，确保 projection 模式在无 public 条目时可确定性运行；条目必须由后续 projection generator 根据人工确认和当前 hash 生成，不能手写伪造发布状态。
 
 ## AC-F007-001 只构建 public projection
 
