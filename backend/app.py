@@ -10,6 +10,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from tools.indexing import Retriever
 from tools.common import atomic_write, safe_id
 from tools.question import QuestionStore
+from tools.write_operation import WriteOperation
+from tools.vault_registry import VaultRegistry
 
 class RetrieveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -19,6 +21,18 @@ class RetrieveRequest(BaseModel):
     top_k: int = Field(default=8, ge=1, le=50)
     include_sources: bool = False
     include_archive: bool = False
+
+
+class WritePreviewRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    files: dict[str, str] = Field(min_length=1)
+    vault_id: str = "public"
+
+
+class ApplyRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    confirmed: bool = False
+    actor_id: str = Field(default="local-user", min_length=1, max_length=128)
 
 def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
     app = FastAPI(title="MyKnowledge Local API", version="v1")
@@ -34,6 +48,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         atomic_write(token_path, app.state.capability_token.encode("ascii") + b"\n", 0o600)
         app.state.capability_token_path = token_path
     app.state.practice = QuestionStore(app.state.root)
+    app.state.writer = WriteOperation(app.state.root)
 
     @app.middleware("http")
     async def local_origin_guard(request: Request, call_next):
@@ -84,6 +99,32 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     def ask(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
         retrieval = retrieve(req, x_myknowledge_capability)
         return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval, "availability": "unavailable", "availability_reason": "provider_unavailable", "confidentiality": retrieval["confidentiality_max"], "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
+
+    def require_write_capability(token: str | None) -> None:
+        if not token:
+            raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
+        if not secrets.compare_digest(token, app.state.capability_token):
+            raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
+
+    @app.post("/api/source/preview")
+    def source_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability)
+        return {"schema_version": "operation-preview/v1", **app.state.writer.preview(req.files, operation_type="source", vault_id=req.vault_id)}
+
+    @app.post("/api/wiki/preview")
+    def wiki_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability)
+        return {"schema_version": "operation-preview/v1", **app.state.writer.preview(req.files, operation_type="wiki", vault_id=req.vault_id)}
+
+    @app.post("/api/operation/{operation_id}/apply")
+    def operation_apply(operation_id: str, req: ApplyRequest, x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability)
+        return {"schema_version": "operation-result/v1", **app.state.writer.apply(operation_id, confirmed=req.confirmed, actor_id=req.actor_id)}
+
+    @app.get("/api/vault/check")
+    def vault_check(x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability)
+        return VaultRegistry(app.state.root).check()
 
     def object_path(vault_id: str, object_type: str, object_id: str) -> Path:
         try:

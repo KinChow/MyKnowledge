@@ -92,3 +92,25 @@ def test_retrieve_enforces_policy_vault_limit():
     response = client.post("/api/retrieve", json={"query": "x", "scope": "public", "vault_ids": [f"v-{i}" for i in range(17)]})
     assert response.status_code == 400
     assert response.json()["detail"]["code"] == "query_limit_exceeded"
+
+
+def test_source_and_wiki_preview_apply_require_capability_and_confirmation(tmp_path: Path):
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    body = {"files": {"wiki/api.md": "# API\n"}, "vault_id": "public"}
+    assert client.post("/api/wiki/preview", json=body).status_code == 401
+    preview = client.post("/api/wiki/preview", headers={"X-MyKnowledge-Capability": "token"}, json=body)
+    assert preview.status_code == 200
+    operation_id = preview.json()["operation_id"]
+    blocked = client.post(f"/api/operation/{operation_id}/apply", headers={"X-MyKnowledge-Capability": "token"}, json={})
+    assert blocked.json()["state"] == "awaiting_confirmation"
+    applied = client.post(f"/api/operation/{operation_id}/apply", headers={"X-MyKnowledge-Capability": "token"}, json={"confirmed": True})
+    assert applied.json()["state"] == "applied"
+    assert (tmp_path / "wiki" / "api.md").read_text() == "# API\n"
+
+
+def test_vault_check_requires_capability(tmp_path: Path):
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.get("/api/vault/check").status_code == 401
+    result = client.get("/api/vault/check", headers={"X-MyKnowledge-Capability": "token"})
+    assert result.status_code == 200
+    assert result.json()["schema_version"] == "vault-check/v1"

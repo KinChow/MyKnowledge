@@ -49,7 +49,7 @@ class WriteOperation:
             return {"state": "blocked", "error_code": str(exc)}
 
     def apply(self, operation_id: str, *, confirmed: bool = False, actor_id: str = "local-user") -> dict:
-        record, error = self.store.apply_preflight(operation_id, ("write", "rename", "retire"), confirmed)
+        record, error = self.store.apply_preflight(operation_id, ("write", "source", "wiki", "rename", "retire"), confirmed)
         if error is not None:
             return error
         vault_id = str(record.get("target_vault", "public"))
