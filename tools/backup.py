@@ -78,6 +78,11 @@ class BackupManager:
             if status.get("state") != "available":
                 raise ValueError("vault_unavailable")
             owner_root = self.registry.resolve_vault_path(vault_id)
+            expected_dir = (owner_root / "audit" / "backup").resolve()
+            try:
+                path.resolve().relative_to(expected_dir)
+            except ValueError as exc:
+                raise ValueError("manifest_owner_mismatch") from exc
             for entry in data.get("entries", []):
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
