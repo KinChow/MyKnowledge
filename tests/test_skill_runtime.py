@@ -39,6 +39,16 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
     assert not (tmp_path / "wiki" / "mcp.md").exists()
 
 
+def test_mcp_server_enforces_configured_capability_for_sensitive_actions(tmp_path: Path):
+    async def exercise():
+        server = create_server(tmp_path, capability_token="mcp-secret")
+        _, denied = await server.call_tool("myknowledge_dispatch", {"action": "write_preview", "payload": {"files": {"wiki/mcp.md": "# MCP\n"}}})
+        assert denied["error_code"] == "capability_token_invalid"
+        _, allowed = await server.call_tool("myknowledge_dispatch", {"action": "write_preview", "payload": {"files": {"wiki/mcp.md": "# MCP\n"}}, "capability_token": "mcp-secret"})
+        assert allowed["state"] == "previewed"
+    asyncio.run(exercise())
+
+
 def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
     body = tmp_path / "wiki" / "one.md"; body.parent.mkdir(parents=True); body.write_text("中文 projection", encoding="utf-8")
     manifest = {"schema_version": "public-projection/v1", "projection": "public", "items": [{"id": "one", "vault_id": "public", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "body_path": "wiki/one.md", "title": "One"}]}
