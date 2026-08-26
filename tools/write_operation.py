@@ -54,7 +54,7 @@ class WriteOperation:
             return error
         vault_id = str(record.get("target_vault", "public"))
         try:
-            with VaultLock(self.root, vault_id, operation_id):
+            with VaultLock(self.root, vault_id, operation_id) as lock:
                 record = self.store.load(operation_id)
                 if record.get("state") != "previewed":
                     result = {"state": record.get("state"), "operation_id": operation_id}
@@ -80,6 +80,9 @@ class WriteOperation:
                     originals[path] = path.read_bytes() if path.exists() else None
                 try:
                     for index, item in enumerate(record["files"]):
+                        # Re-check fencing before every replacement so a recovered lock
+                        # cannot allow an old writer to continue committing.
+                        lock.assert_owner()
                         atomic_write(self._path(item["path"]), item["content"].encode("utf-8"))
                         crash_injection_point(f"after_file_{index}")
                     if record.get("operation_type") == "rename" and record.get("source_path"):

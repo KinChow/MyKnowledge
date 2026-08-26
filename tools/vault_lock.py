@@ -13,13 +13,14 @@ filelock 在 Unix 上封装 fcntl.flock、Windows 上封装 msvcrt；持锁进�
 
 from __future__ import annotations
 
-import time
+import json, secrets, time
 from pathlib import Path
 
 from filelock import FileLock, Timeout
 
 from .common import safe_id
 from .paths import RepoPaths
+from .common import atomic_write
 
 
 class LockBusyError(RuntimeError):
@@ -37,6 +38,8 @@ class VaultLock:
         self._vault_id = safe_id(vault_id)
         self._operation_id = operation_id
         self._lock = FileLock(RepoPaths(root).lock_file(self._vault_id))
+        self._owner_file = RepoPaths(root).lock_file(self._vault_id).with_suffix(".owner")
+        self.lock_token = secrets.token_urlsafe(24)
         self._acquired = False
 
     def __enter__(self) -> VaultLock:
@@ -45,6 +48,7 @@ class VaultLock:
         except Timeout:
             raise LockBusyError() from None
         self._acquired = True
+        atomic_write(self._owner_file, json.dumps({"operation_id": self._operation_id, "lock_token": self.lock_token}).encode("utf-8"), 0o600)
         # 记录当前持有者，便于人工排查归属（诊断信息写入失败不影响锁本身）
         try:
             self._lock.write_lock_file(
@@ -54,8 +58,21 @@ class VaultLock:
             pass
         return self
 
+    def assert_owner(self) -> None:
+        try:
+            data = json.loads(self._owner_file.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            raise LockBusyError("lock_owner_missing") from exc
+        if data.get("operation_id") != self._operation_id or data.get("lock_token") != self.lock_token:
+            raise LockBusyError("lock_fence_mismatch")
+
     def __exit__(self, *exc_info: object) -> None:
         if self._acquired:
+            try:
+                self.assert_owner()
+                self._owner_file.unlink(missing_ok=True)
+            except LockBusyError:
+                pass
             self._lock.release()
             self._acquired = False
 

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import tempfile
+import json
 import unittest
 from pathlib import Path
 from unittest import mock
 
 from tools.common import sha256_bytes
-from tools.vault_lock import VaultLock
+from tools.vault_lock import LockBusyError, VaultLock
 from tools.write_operation import WriteOperation
 
 
@@ -55,6 +56,15 @@ class WriteOperationTests(unittest.TestCase):
             with lock:
                 result = service.apply(op, confirmed=True)
             self.assertEqual(result["error_code"], "lock_busy")
+
+    def test_fencing_token_rejects_replaced_owner(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            lock = VaultLock(root, "public", "op-one")
+            with lock:
+                lock._owner_file.write_text(json.dumps({"operation_id": "op-two", "lock_token": "stolen"}), encoding="utf-8")
+                with self.assertRaises(LockBusyError):
+                    lock.assert_owner()
 
     def test_multi_file_failure_rolls_back(self):
         with tempfile.TemporaryDirectory() as d:
