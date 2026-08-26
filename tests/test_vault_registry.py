@@ -186,12 +186,29 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
             (root / "wiki").mkdir(); (root / "wiki" / "item.md").write_text("# item\n", encoding="utf-8")
-            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            config = root / "manifest.yaml"
+            config.write_text(f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: ., private_git_remote: opaque-backup}}\n", encoding="utf-8")
+            manager = BackupManager(root, config); manifest = manager.create_manifest("public")
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 restored = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(restored["state"], "restored")
                 self.assertEqual((target / "wiki" / "item.md").read_text(encoding="utf-8"), "# item\n")
+            status = manager.status()
+            self.assertEqual(next(v for v in status["vaults"] if v["vault_id"] == "public")["backup_state"], "verified")
+
+    def test_restore_marker_tampering_does_not_derive_verified(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            config = root / "manifest.yaml"
+            config.write_text(f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: ., private_git_remote: opaque-backup}}\n", encoding="utf-8")
+            manager = BackupManager(root, config); manifest = manager.create_manifest("public")
+            with tempfile.TemporaryDirectory() as out:
+                manager.restore_manifest(root / manifest["path"], Path(out) / "checkout")
+            marker = next((root / "audit" / "backup" / "restores").glob("*.json"))
+            value = json.loads(marker.read_text(encoding="utf-8")); value["state"] = "forged"; marker.write_text(json.dumps(value), encoding="utf-8")
+            status = manager.status()
+            self.assertEqual(next(v for v in status["vaults"] if v["vault_id"] == "public")["backup_state"], "configured")
 
     def test_practice_entries_are_owner_scoped_and_restored(self):
         with tempfile.TemporaryDirectory() as d:
