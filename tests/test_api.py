@@ -29,6 +29,9 @@ def test_private_scope_requires_capability():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
     assert client.post("/api/retrieve", json={"query": "内部", "scope": "local"}).status_code == 401
     assert client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": "token"}, json={"query": "内部", "scope": "local"}).status_code == 200
+    private = client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": "token"}, json={"query": "内部", "scope": "private"})
+    assert private.status_code == 400
+    assert private.json()["detail"]["code"] == "vault_ids_required"
 
 
 def test_capability_audience_is_checked_when_supplied():

@@ -112,6 +112,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         if req.scope not in {"public", "local", "private"}:
             raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
         require_capability(token, req.scope, audience)
+        if req.scope == "private" and not req.vault_ids:
+            raise HTTPException(status_code=400, detail={"code": "vault_ids_required", "stage": "request", "retryable": False, "next_action": "select one or more internal vault_ids"})
         if len(req.vault_ids or []) > 16:
             raise HTTPException(status_code=400, detail={"code": "query_limit_exceeded", "stage": "request", "retryable": False, "next_action": "reduce vault_ids"})
         return app.state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
