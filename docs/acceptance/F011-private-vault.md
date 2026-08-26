@@ -29,6 +29,10 @@
 
 ## 本轮 Registry 引用与保密等级证据（2026-08-27）
 
+## 冲突 projection 增量证据（2026-08-30）
+
+- `VaultRegistry.local_projection()` 现在读取 `check()` 的冲突 owner triple；同一 Vault 内重复 `(object_type, object_id)` 不进入 local/private projection，只在 `vault-check/v1` 保留 `duplicate_object_id` 诊断。`tests/test_vault_registry.py::VaultRegistryTests::test_local_projection_excludes_same_vault_conflicts` 验证两个路径同名对象不会被排序选择或覆盖。
+
 - AC-F011-010：`tests/test_vault_registry.py::VaultRegistryTests::test_reference_rejects_cross_vault_even_when_target_exists` 验证目标 vault 可用且对象 ID 合法时，owner=`public` 指向 `private` 仍返回 `cross_vault_reference`，不会按全局 ID 猜测 owner。
 - AC-F011-010/012：`VaultRegistry.effective_confidentiality` 对 owner 与 upstream 取最高等级；public 上游包含 internal 时结果为 `internal`，全 public 保持 `public`。该结果仅用于派生门禁，不改变 canonical 事实。
 - 边界：本轮未实现跨 vault copy/move、private projection 合并和恢复演练，F011 仍为 Implemented（部分）。

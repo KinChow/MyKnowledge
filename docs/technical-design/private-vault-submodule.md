@@ -42,6 +42,8 @@
 ### 本轮 local projection 合并调查（2026-08-30）
 
 - Git worktree/submodule（Git 2.45.2，GPL-2.0，<https://git-scm.com/docs/git-worktree>、<https://git-scm.com/book/en/v2/Git-Tools-Submodules>）：复用独立 checkout、HEAD 和 owner 根；限制是 Git 不定义跨仓库知识对象的合并语义，因此不能直接把路径或全局 ID 当作 owner。
+
+本轮冲突投影调查（2026-08-30）：Git index/merge 的 unresolved conflict 采用 fail-closed，必须先解决冲突才能生成可消费树；本项目复用该边界，在 `local-projection/v1` 中跳过同一 Vault 重复 owner triple，仅在 `vault check` 保留冲突诊断。替代方案是按路径排序或多数版本选择一个，会静默改变知识事实；不采用。跨 Vault 同名对象仍按 owner triple 独立保留。
 - Backstage Software Catalog（v1.32.0，Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）：复用显式实体 ref/owner manifest、稳定排序和缺失实体可诊断的思路；限制是 Catalog 面向服务元数据，不提供 Markdown 正文保密或 public projection，因此只借用 manifest 形状，不引入其运行时。
 - 替代方案：按 `object_id` 做全局字典覆盖，或把 private 内容复制到 public projection 后再过滤。两者在同名对象、Vault 故障和日志导出时都会读错 owner 或产生泄漏，明确排除。
 
