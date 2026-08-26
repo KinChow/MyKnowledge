@@ -93,3 +93,7 @@
 
 - Given：MCP client 连接当前 checkout 的 stdio server；When：执行 `tools/list` 和 `tools/call`；Then：只暴露结构化 `myknowledge_dispatch`，action 仍经过既有白名单和 writer，server 启动时固定 root，payload 不能注入命令或路径；stdio 不可用时返回启动错误而不执行写入。
 - 对应测试：`tests/test_skill_runtime.py::test_mcp_server_exposes_one_controlled_tool_bound_to_checkout`；当前状态：通过（官方 `mcp==1.29.1`）。
+
+## AC-F009-012 Public query/read projection 路由
+
+- Given：public manifest 同时包含 published/public 与 private、draft 或未发布条目；When：Skill 执行 `query`/`read`；Then：只读取 public allowlist，返回统一 QueryResult/read result，private/local scope 返回 `skill_public_query_only` 或 `skill_private_read_requires_api`，不扫描任意路径；当前状态：通过 `tests/test_skill_runtime.py::test_skill_public_query_and_read_use_projection_allowlist`。

@@ -3,6 +3,7 @@ import asyncio
 
 from tools.skill_runtime import dispatch
 from tools.mcp_server import create_server
+import json
 
 
 def test_skill_runtime_rejects_unknown_and_dangerous_actions(tmp_path: Path):
@@ -35,3 +36,14 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
         assert result["state"] == "previewed"
     asyncio.run(exercise())
     assert not (tmp_path / "wiki" / "mcp.md").exists()
+
+
+def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
+    body = tmp_path / "wiki" / "one.md"; body.parent.mkdir(parents=True); body.write_text("中文 projection", encoding="utf-8")
+    manifest = {"schema_version": "public-projection/v1", "projection": "public", "items": [{"id": "one", "vault_id": "public", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "body_path": "wiki/one.md", "title": "One"}]}
+    (tmp_path / "queries" / "public").mkdir(parents=True); (tmp_path / "queries" / "public" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    query = dispatch("query", {"query": "projection", "scope": "public"}, root=tmp_path)
+    assert query["schema_version"] == "query-result/v1" and query["items"][0]["object_ref"]["object_id"] == "one"
+    read = dispatch("read", {"vault_id": "public", "object_id": "one"}, root=tmp_path)
+    assert read["body"] == "中文 projection"
+    assert dispatch("query", {"query": "projection", "scope": "private"}, root=tmp_path)["error_code"] == "skill_public_query_only"
