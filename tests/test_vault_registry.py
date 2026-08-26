@@ -200,6 +200,14 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(vault["backup_state"], "failed")
             self.assertEqual(vault["backup_reason"], "manifest_invalid")
 
+    def test_backup_rejects_hardlink_entries(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "wiki").mkdir(); source = root / "outside"; source.write_text("secret", encoding="utf-8")
+            (root / "wiki" / "linked.md").hardlink_to(source)
+            with self.assertRaisesRegex(ValueError, "entry_hardlink"):
+                BackupManager(root).create_manifest("public")
+
 
 if __name__ == "__main__":
     unittest.main()
