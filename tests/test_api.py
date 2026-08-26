@@ -1,8 +1,21 @@
 from fastapi.testclient import TestClient
 from backend.app import create_app
 from pathlib import Path
+import json
+import tempfile
 
 ITEMS = [{"vault_id": "public", "object_id": "one", "title": "公开条目", "body": "离线查询", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "content_sha256": "sha256:one"}, {"vault_id": "private", "object_id": "secret", "title": "私有条目", "body": "内部", "confidentiality": "internal"}]
+
+def test_create_app_loads_public_projection_when_items_are_not_injected():
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        manifest = root / "queries" / "public" / "manifest.json"
+        manifest.parent.mkdir(parents=True)
+        manifest.write_text(json.dumps({"schema_version": "public-projection/v1", "projection": "public", "items": [ITEMS[0]]}), encoding="utf-8")
+        client = TestClient(create_app(root=root))
+        result = client.get("/api/query", params={"q": "离线", "scope": "public"})
+        assert result.status_code == 200
+        assert [item["object_ref"]["object_id"] for item in result.json()["items"]] == ["one"]
 
 def test_get_post_query_equivalent():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
