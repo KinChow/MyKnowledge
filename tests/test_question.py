@@ -82,4 +82,22 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(store.load("q-one")["status"], "enabled")
             self.assertEqual(store.load("q-two")["status"], "disabled")
 
+    def test_choice_schema_rejects_duplicate_and_unknown_option_ids(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            duplicate = self.base("single_choice")
+            duplicate["options"] = [{"id": "a", "text": "4"}, {"id": "a", "text": "also 4"}]
+            result = store.create(duplicate, wiki_report=REPORT)
+            self.assertIn("option_ids_invalid", {item["code"] for item in result["errors"]})
+            unknown = self.base("single_choice"); unknown["correct_option_ids"] = ["missing"]
+            result = store.create(unknown, wiki_report=REPORT)
+            self.assertIn("correct_option_id_unknown", {item["code"] for item in result["errors"]})
+
+    def test_multi_choice_response_rejects_duplicate_ids(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); spec = self.base("multi_choice"); spec["correct_option_ids"] = ["a", "b"]
+            store.create(spec, wiki_report=REPORT)
+            result = store.answer("q-one", ["a", "a"])
+            self.assertEqual(result["error_code"], "response_options_duplicate")
+
 if __name__ == "__main__": unittest.main()
