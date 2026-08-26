@@ -16,7 +16,7 @@ API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`；对�
 
 本轮写入 API 调查（2026-08-27）：FastAPI 0.115+（MIT，<https://github.com/fastapi/fastapi>）与 Pydantic 2.x（MIT，<https://github.com/pydantic/pydantic>）复用类型约束、`extra=forbid` 和 OpenAPI schema；Starlette 0.48+ TestClient（BSD-3-Clause，<https://github.com/encode/starlette>）作为同步契约测试。替代方案为直接暴露 `http.server`/手写 JSON 解析，无法提供同等 schema 拒绝和 ASGI middleware 边界，明确不采用。新增 source/wiki preview、operation apply、vault check 只委托现有 `WriteOperation`/`VaultRegistry`，不在 API 层直接编辑 canonical Markdown；SDK 离线安装后运行不需要网络，升级需重跑 API 与安全测试。
 
-本轮请求体门禁调查（2026-08-27）：Starlette middleware（BSD-3-Clause，<https://github.com/encode/starlette>）提供请求头/流式边界钩子，FastAPI 保持统一错误响应；替代方案是依赖业务 Pydantic `max_length`，无法阻止超大 JSON 在解析前消耗内存，因此不采用。当前 API 在 middleware 读取 `Content-Length`，超过 1 MiB 返回 `request_too_large`，不执行 capability、解析或写入；分块请求仍由部署层 body limit 约束，后续需补运行时 streaming 计数。
+本轮请求体门禁调查（2026-08-27）：Starlette middleware（BSD-3-Clause，<https://github.com/encode/starlette>）提供请求头/流式边界钩子，FastAPI 保持统一错误响应；替代方案是依赖业务 Pydantic `max_length`，无法阻止超大 JSON 在解析前消耗内存，因此不采用。当前 API 在 middleware 读取 `Content-Length`，超过 1 MiB 返回 `request_too_large`，并对无该头的 chunked 请求按 chunk 有界计数；未超限 body 缓存后交给下游，超限请求不执行 capability、解析或写入。升级 Starlette/FastAPI 后需重跑流式门禁测试。
 
 citation replay 复用 W3C Web Annotation 的 TextQuote/TextPosition 语义（<https://www.w3.org/TR/annotation-model/>，W3C Recommendation）：`tools.citation.replay` 只读校验 snapshot、Unicode 半开区间、exact 与 hash，不将模型返回的标题/URL 当作证据。替代方案是仅信任模型引用，无法抵抗正文漂移，明确不采用。
 
