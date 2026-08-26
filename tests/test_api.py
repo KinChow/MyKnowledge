@@ -94,6 +94,13 @@ def test_retrieve_enforces_policy_vault_limit():
     assert response.json()["detail"]["code"] == "query_limit_exceeded"
 
 
+def test_request_body_limit_is_fail_closed():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    response = client.post("/api/retrieve", headers={"Content-Length": str(1_048_577), "X-MyKnowledge-Capability": "token"}, content=b"{}")
+    assert response.status_code == 413
+    assert response.json()["detail"]["code"] == "request_too_large"
+
+
 def test_source_and_wiki_preview_apply_require_capability_and_confirmation(tmp_path: Path):
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     body = {"files": {"wiki/api.md": "# API\n"}, "vault_id": "public"}

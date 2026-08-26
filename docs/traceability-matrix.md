@@ -37,7 +37,7 @@
 | 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | IDX-002 | F005/F006/F009 | ADR-0007 | [index-and-retrieval](./technical-design/index-and-retrieval.md), [local-api-and-offline](./technical-design/local-api-and-offline.md) | AC-F005-001/002/003/004/005/006, AC-F006-001/002/004/005/007, AC-F009-005 | tests/test_indexing.py（projection/FTS5/同 scope 路由/QMD cache fail-closed/fallback）；QMD/API 完整场景待补 | Implemented（部分） |
-| API-001 | F006/F009 | ADR-0006/0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md), [agent-skill](./technical-design/agent-skill.md) | AC-F006-001/003/005/006/007/008/009/010/011/012, AC-F009-005/006 | tests/test_api.py + tests/test_citation.py（query/retrieve/ask/read/backlinks/preview/apply/vault-check/private owner/token/Origin-Host/资源限制/citation replay 基础；完整 API/Skill 待补） | Implemented（部分） |
+| API-001 | F006/F009 | ADR-0006/0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md), [agent-skill](./technical-design/agent-skill.md) | AC-F006-001/003/005/006/007/008/009/010/011/012/013, AC-F009-005/006 | tests/test_api.py + tests/test_citation.py（query/retrieve/ask/read/backlinks/preview/apply/vault-check/private owner/body-limit/token/Origin-Host/资源限制/citation replay 基础；完整 API/Skill 待补） | Implemented（部分） |
 | API-002 | F006/F009 | ADR-0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md) | AC-F006-002/004/005/009/010, AC-F009-004/005 | 待实现 | Designed |
 | WEB-003 | F007 | ADR-0009 | [static-wiki-publishing](./technical-design/static-wiki-publishing.md) | AC-F007-001/002/003/004/005/006/007/008/009/010/011/012/013/014/015/016/017/018/019/020/021/022/023/024/025/026 | queries/public/manifest.json + tests/test_frontend_projection.py + tests/test_release_confirmation.py（schema/多页 catalog-graph/路径/重复 ID/release lock/confirmation replay fail-closed；真实发布与完整 leak gate 待补） | Implemented（部分） |
 | WEB-001 | F007 | ADR-0009 | [static-wiki-publishing](./technical-design/static-wiki-publishing.md) | AC-F007-001/005/006/009/012/013/014/015/016/017/018/019/020/021/022/023/024/025 | frontend 工程骨架；真实 projection/浏览器/leak gate 待补 | Implemented（部分） |
@@ -67,7 +67,7 @@
 | F003 | AC-F003-001, AC-F003-002, AC-F003-003, AC-F003-004, AC-F003-005, AC-F003-006, AC-F003-007, AC-F003-008, AC-F003-009, AC-F003-010, AC-F003-011, AC-F003-012, AC-F003-013, AC-F003-014, AC-F003-015, AC-F003-016 |
 | F004 | AC-F004-001, AC-F004-002, AC-F004-003, AC-F004-004, AC-F004-005, AC-F004-006, AC-F004-007, AC-F004-008, AC-F004-009, AC-F004-010, AC-F004-011 |
 | F005 | AC-F005-001, AC-F005-002, AC-F005-003, AC-F005-004, AC-F005-005, AC-F005-006 |
-| F006 | AC-F006-001, AC-F006-002, AC-F006-003, AC-F006-004, AC-F006-005, AC-F006-006, AC-F006-007, AC-F006-008, AC-F006-009, AC-F006-010, AC-F006-011, AC-F006-012 |
+| F006 | AC-F006-001, AC-F006-002, AC-F006-003, AC-F006-004, AC-F006-005, AC-F006-006, AC-F006-007, AC-F006-008, AC-F006-009, AC-F006-010, AC-F006-011, AC-F006-012, AC-F006-013 |
 | F007 | AC-F007-001, AC-F007-002, AC-F007-003, AC-F007-004, AC-F007-005, AC-F007-006, AC-F007-007, AC-F007-008, AC-F007-009, AC-F007-010, AC-F007-011, AC-F007-012, AC-F007-013, AC-F007-014, AC-F007-015, AC-F007-016, AC-F007-017, AC-F007-018, AC-F007-019, AC-F007-020, AC-F007-021, AC-F007-022, AC-F007-023, AC-F007-024, AC-F007-025, AC-F007-026 |
 | F009 | AC-F009-001, AC-F009-002, AC-F009-003, AC-F009-004, AC-F009-005, AC-F009-006, AC-F009-007, AC-F009-008, AC-F009-009, AC-F009-010, AC-F009-011 |
 | F010 | AC-F010-001, AC-F010-002, AC-F010-003 |

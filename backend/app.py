@@ -49,9 +49,18 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         app.state.capability_token_path = token_path
     app.state.practice = QuestionStore(app.state.root)
     app.state.writer = WriteOperation(app.state.root)
+    app.state.max_request_body_bytes = 1_048_576
 
     @app.middleware("http")
     async def local_origin_guard(request: Request, call_next):
+        content_length = request.headers.get("content-length")
+        if content_length:
+            try:
+                oversized = int(content_length) > app.state.max_request_body_bytes
+            except ValueError:
+                oversized = True
+            if oversized:
+                return JSONResponse(status_code=413, content={"detail": {"code": "request_too_large", "stage": "request", "retryable": False, "next_action": "reduce request body"}})
         if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
             host = (request.headers.get("host") or "").split(":", 1)[0].lower()
             origin = request.headers.get("origin")
