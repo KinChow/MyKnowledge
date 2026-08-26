@@ -17,10 +17,12 @@ try {
 if(fs.existsSync('dist')) fs.cpSync('dist','dist.previous',{recursive:true});
 try {
   execFileSync('node',['scripts/prepare-content.mjs'],{stdio:'inherit'});
+  execFileSync('node',['scripts/leak-gate.mjs','--scope','input-tree','../queries/public','../release/public-confirmations'],{stdio:'inherit'});
   execFileSync('node',['scripts/build-graph.mjs'],{stdio:'inherit'});
+  execFileSync('node',['scripts/leak-gate.mjs','--scope','staging','src/content','public/generated'],{stdio:'inherit'});
   execFileSync('npx',['astro','build','--outDir','dist.next'],{stdio:'inherit'});
   execFileSync('node',['scripts/validate-build.mjs','dist.next'],{stdio:'inherit'});
-  execFileSync('node',['scripts/leak-gate.mjs','dist.next'],{stdio:'inherit'});
+  execFileSync('node',['scripts/leak-gate.mjs','--scope','dist','dist.next'],{stdio:'inherit'});
   fs.rmSync('dist',{recursive:true,force:true});
   fs.renameSync('dist.next','dist');
 } catch(error) {

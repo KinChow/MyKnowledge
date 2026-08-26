@@ -1,6 +1,6 @@
 # Astro/Starlight 静态 Wiki 发布实现设计
 
-- 状态：Implemented（2026-08-28；Astro 工程骨架与 projection build 基础链路）
+- 状态：Implemented（2026-08-27；Astro 工程骨架、projection build 与 input-tree/staging/dist 三阶段 leak gate）
 - 相关 Feature：F007、F010、F011
 - 相关规范：WEB、SEC、IDX、WIKI、MIG
 - 相关 ADR：ADR-0002、ADR-0007、ADR-0009
