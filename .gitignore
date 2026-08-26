@@ -1,28 +1,17 @@
 site
 .superpowers/
-frontend/node_modules/
-frontend/dist/
-frontend/.astro/
-frontend/src/content/docs/
-frontend/public/generated/
+__pycache__/
+*.py[cod]
+# frontend 暂整体屏蔽（含 node_modules/dist/.astro/staging 等全部生成物）
+frontend/
 config/vaults.local.yaml
 config/vaults.local.*.yaml
-state/local-sources/
+# 工具运行时状态整体屏蔽（operations/locks/local-sources 等）
+state/
 queries/local/
-state/operations/
-state/llm-validation/
-state/leak-gate/
-state/reading/
-state/locks/
-state/*.lock
-state/capability-token
-frontend/.staging/
-frontend/dist.previous/
-frontend/dist.next/
-frontend/state/
-# Durable audit/confirmation records are intentionally outside state/ and are tracked
-# in the owning vault. They must never be added to this ignore list.
 rag-index.jsonl
 *.sqlite3
 *.sqlite3-shm
 *.sqlite3-wal
+
+.venv/

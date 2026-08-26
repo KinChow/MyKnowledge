@@ -1,0 +1,69 @@
+"""Vault 独占写锁：基于 filelock 库的跨平台文件锁。
+
+来源：https://github.com/tox-dev/py-filelock（MIT License，v3.32.4）
+filelock 在 Unix 上封装 fcntl.flock、Windows 上封装 msvcrt；持锁进程退出
+（含崩溃）时内核自动释放锁，无 PID 复用误判，锁文件常驻不删除，不存在
+"删除残留锁"的删除-创建竞态。非阻塞获取（timeout=0）失败即 lock_busy。
+
+已知限制（R006）：不支持 flock 的文件系统（如部分 NFS）上 filelock 会
+静默降级为时间戳软锁，"崩溃自动释放"保证失效、互斥依赖旧锁过期——本工具
+面向本地仓库（macOS/Linux 本地文件系统），如未来支持 NFS 挂载的仓库需要
+启动时检测锁类型并在 soft lock 下降级为告警或拒绝。
+"""
+
+from __future__ import annotations
+
+import time
+from pathlib import Path
+
+from filelock import FileLock, Timeout
+
+from .common import safe_id
+from .paths import RepoPaths
+
+
+class LockBusyError(RuntimeError):
+    """vault 写锁被其他进程占用（专用异常类型，按类型捕获而非字符串比较）。"""
+
+
+class VaultLock:
+    """按 Vault 独占写锁（上下文管理器）。
+
+    锁文件在 state/locks/ 下常驻（内容仅用于诊断）；互斥由 filelock 内部
+    的系统锁保证。``lock_busy`` 语义：非阻塞获取失败即抛 LockBusyError。
+    """
+
+    def __init__(self, root: Path, vault_id: str, operation_id: str) -> None:
+        self._vault_id = safe_id(vault_id)
+        self._operation_id = operation_id
+        self._lock = FileLock(RepoPaths(root).lock_file(self._vault_id))
+        self._acquired = False
+
+    def __enter__(self) -> VaultLock:
+        try:
+            self._lock.acquire(timeout=0)
+        except Timeout:
+            raise LockBusyError() from None
+        self._acquired = True
+        # 记录当前持有者，便于人工排查归属（诊断信息写入失败不影响锁本身）
+        try:
+            self._lock.write_lock_file(
+                {"operation_id": self._operation_id, "acquired_at": time.time()}
+            )
+        except (AttributeError, OSError):
+            pass
+        return self
+
+    def __exit__(self, *exc_info: object) -> None:
+        if self._acquired:
+            self._lock.release()
+            self._acquired = False
+
+    @staticmethod
+    def lock_busy_response(operation_id: str) -> dict:
+        """构造 lock_busy 结构化错误响应（source_ingestor 与 evidence_anchor 共用）。"""
+        return {
+            "state": "blocked",
+            "operation_id": operation_id,
+            "error_code": "lock_busy",
+        }
