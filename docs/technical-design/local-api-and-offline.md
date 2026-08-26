@@ -6,9 +6,13 @@
 - 相关 ADR：ADR-0006、ADR-0007
 - 相关验收：[F006](../acceptance/F006-local-api-and-offline.md)
 
-## 本轮成熟方案调查
+## 本轮成熟方案调查（F006-2026-08-28）
 
-复用 FastAPI 官方 `Depends`/Pydantic 请求模型和 Starlette `TestClient`；API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`。loopback/capability、完整 read/backlinks/write 端点和 token 文件轮换仍待后续验收。
+- FastAPI 0.115+（<https://github.com/fastapi/fastapi>，MIT）与 Pydantic v2：直接复用请求模型、字段约束和 OpenAPI 路由；限制是它不提供内容授权或 token 生命周期，因此 scope/capability 仍由本地 adapter 管理。
+- Starlette TestClient（<https://www.starlette.io/testclient/>，BSD-3-Clause）作为同步集成测试入口，直接复用 HTTP 层行为；限制是仅覆盖进程内服务，不替代真实 loopback/Origin/Host 安全测试。
+- 替代基线：直接使用 Python `http.server`（PSF License）可减少依赖，但缺少 Pydantic 校验、统一错误和 ASGI 测试生态，本轮不采用。
+
+API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`；对象 read/backlinks 只解析显式 `vault_id`，并复用 `safe_id`。外部依赖离线可安装后不需要网络调用；升级 FastAPI/Pydantic 可能改变校验/错误细节，需重新跑 API 契约测试。token、正文和私有路径不交给框架日志，能力边界由 MyKnowledge 保留。
 
 ## 目标与边界
 
