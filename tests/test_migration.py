@@ -83,9 +83,11 @@ def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path
     first_bytes = (source.read_bytes(), wiki.read_bytes())
     second = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
     assert first["state"] == second["state"] == "applied"
+    assert second.get("replayed") is True
     assert (source.read_bytes(), wiki.read_bytes()) == first_bytes
     assert len(list((tmp_path / "sources").rglob("legacy-docs-guide-source.md"))) == 1
     assert len(list((tmp_path / "wiki").rglob("legacy-docs-guide.md"))) == 1
+    assert len(list((tmp_path / "audit" / "migrations").glob("*.json"))) == 1
 
 
 def test_migration_preview_blocks_normalized_id_collision_before_writes(tmp_path: Path):

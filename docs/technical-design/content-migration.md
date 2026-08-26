@@ -12,6 +12,8 @@
 
 本轮代表性样本调查（2026-08-27）：继续复用 Quartz v4（MIT）的 content pipeline、Dendron（AGPL-3.0）的层级/链接迁移清单、Trafilatura 2.2+（Apache-2.0）与 Docling 2.x（MIT）的抽取器候选。`apply_sample` 使用现有 SourceIngestor 的 local-file 稳定读取、snapshot/hash 和 manifest，再用 WriteOperation 生成 `status: draft` Wiki；直接复制 `docs/` 到 `wiki/` 会绕过 Source/evidence/confirmation，明确排除。抽取器缺失、输入竞态或写入失败均保持 pending/blocked，旧 docs 永不改写。
 
+本轮迁移幂等调查（2026-08-30）：Dendron 的迁移清单/稳定 ID（AGPL-3.0，<https://github.com/dendronhq/dendron>）与 Quartz 的 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）都把输入路径和内容摘要作为可重放边界；替代方案是每次重复执行底层 writer，虽然文件最终可能相同，却无法证明同一迁移意图，也会重复触发 Source/provider。采用 owner-local `audit/migrations` durable record，以 `legacy_path + body_sha256 + migration_version` 为幂等键；命中时直接重放既有结果，输入 hash 改变则生成新记录并重新经过 Source-first 门禁。记录不包含绝对路径或正文。
+
 DOCX 仅通过 Docling handler 处理；未安装时返回 `extractor_unavailable:docling`，禁止退回二进制 UTF-8 解码。
 
 链接修复增量（2026-08-27）：参考 Quartz 的 canonical absolute link 与 Dendron 的 route rewrite，`apply_sample` 只把 inventory 中可确定映射的相对 `.md` 链接改为 `/legacy/...` route；外部 URL、绝对路径和 unresolved target 原样保留，并在结果中分别记录 `repaired`/`unresolved`。不扫描或改写原 `docs/`。
