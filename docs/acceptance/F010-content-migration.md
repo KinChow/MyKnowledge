@@ -4,7 +4,14 @@
 - 相关规范：MIG、SRC、WIKI、EVD
 - 状态：Implemented（2026-08-28；inventory 基础能力，Source-first 迁移尚未完成）
 - 实现证据：`tools/inventory_legacy.py`、`tests/test_inventory.py`
-- 当前边界：尚未生成 source/wiki 草稿、证据绑定、route 修复和 rollback 演练。
+- 当前边界：已生成只读 Source-first migration preview、草稿目标和 route map；尚未执行真实 source/wiki 写入、证据绑定、route 修复和 rollback 演练。
+
+## 本轮证据（2026-08-28）
+
+- AC-F010-001/002：`tests/test_migration.py::test_migration_preview_is_source_first_and_does_not_write` 验证 preview 同时生成 source/wiki 稳定目标、`pending_manual_review`、`evidence_state: pending` 和 `writes_applied: false`，且原 `docs/` 文件字节不变。
+- AC-F010-003：`test_migration_preview_changes_with_input_tree` 验证输入正文变化会改变 preview hash，避免复用旧迁移结果。
+
+当前证据只覆盖确定性 preview 和回滚前置边界；真实抽取、evidence replay、链接修复及发布切换仍待人工/集成验收。
 
 ## AC-F010-001 迁移清单与状态边界
 
