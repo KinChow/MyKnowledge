@@ -3,6 +3,7 @@ from __future__ import annotations
 import tempfile
 import json
 import unittest
+import subprocess
 from pathlib import Path
 from unittest import mock
 
@@ -12,6 +13,22 @@ from tools.write_operation import WriteOperation
 
 
 class WriteOperationTests(unittest.TestCase):
+    def test_private_vault_write_uses_owner_checkout_root(self):
+        with tempfile.TemporaryDirectory() as d:
+            workspace = Path(d); public = workspace / "public"; private = workspace / "private"
+            public.mkdir(); private.mkdir()
+            subprocess.run(["git", "init", "-q", str(public)], check=True)
+            subprocess.run(["git", "init", "-q", str(private)], check=True)
+            manifest = workspace / "vaults.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {workspace}\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+            service = WriteOperation(public)
+            with mock.patch("tools.write_operation.VaultRegistry", lambda root: __import__("tools.vault_registry", fromlist=["VaultRegistry"]).VaultRegistry(root, manifest)):
+                preview = service.preview({"wiki/private.md": "secret"}, vault_id="private")
+                self.assertEqual(preview["state"], "previewed")
+                self.assertEqual(service.apply(preview["operation_id"], confirmed=True)["state"], "applied")
+            self.assertEqual((private / "wiki" / "private.md").read_text(encoding="utf-8"), "secret")
+            self.assertFalse((public / "wiki" / "private.md").exists())
+
     def test_preview_is_read_only_and_apply_requires_confirmation(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

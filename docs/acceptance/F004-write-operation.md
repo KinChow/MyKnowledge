@@ -127,3 +127,8 @@
 
 - `test_purge_requires_verified_owner_backup` 验证未达到 owner Vault `backup_state=verified` 时，`purge()` 返回 `backup_not_verified`，目标文件保持不变。
 - Apply 仅接受通过该前置创建的 `purge` operation；删除前仍在锁内复查 hash，失败回滚恢复原文件。外部 target 未配置时不会伪造 verified。
+
+## Private Vault 路径绑定增量证据（2026-08-30）
+
+- `WriteOperation.preview/apply/recover/rename/retire/purge` 现在将文件路径和 `vault_id` 绑定到同一 owner checkout；private operation 不再把相对路径解析到 public root。
+- `tests/test_write_operation.py::test_private_vault_write_uses_owner_checkout_root` 验证 private 文件只写入 private checkout，public checkout 不出现同名目标；现有 public 故障注入和回滚测试仍保持通过。
