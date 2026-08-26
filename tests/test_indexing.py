@@ -1,0 +1,25 @@
+import unittest
+from tools.indexing import IndexBuilder, Retriever
+
+ITEMS = [
+    {"vault_id": "public", "object_id": "pub", "title": "公开知识", "body": "SQLite 检索", "public_publishable": True, "content_sha256": "sha256:p"},
+    {"vault_id": "private", "object_id": "priv", "title": "私有知识", "body": "SQLite 检索", "confidentiality": "internal", "public_publishable": False, "content_sha256": "sha256:i"},
+    {"vault_id": "private", "object_id": "down", "title": "不可用", "body": "secret", "availability": "unavailable", "availability_reason": "vault_unavailable", "confidentiality": "internal"},
+]
+
+class IndexingTests(unittest.TestCase):
+    def test_public_projection_filters_private(self):
+        result = IndexBuilder(None).build(ITEMS, "public")
+        self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
+
+    def test_local_keeps_owner_and_hides_unavailable_body(self):
+        result = IndexBuilder(None).build(ITEMS)
+        down = next(x for x in result["items"] if x["object_ref"]["object_id"] == "down")
+        self.assertIsNone(down["body"]); self.assertEqual(down["object_ref"]["vault_id"], "private")
+
+    def test_fallback_search_and_limits(self):
+        retriever = Retriever(ITEMS)
+        self.assertEqual(retriever.search("SQLite", "public")["items"][0]["object_ref"]["object_id"], "pub")
+        self.assertEqual(retriever.search("x", top_k=101)["availability_reason"], "query_limit_exceeded")
+
+if __name__ == "__main__": unittest.main()

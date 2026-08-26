@@ -36,7 +36,7 @@
 
 | 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| IDX-002 | F005/F006/F009 | ADR-0007 | [index-and-retrieval](./technical-design/index-and-retrieval.md), [local-api-and-offline](./technical-design/local-api-and-offline.md) | AC-F005-001/002/003/004/005/006, AC-F006-001/002/004/005/007, AC-F009-005 | 待实现 | Designed |
+| IDX-002 | F005/F006/F009 | ADR-0007 | [index-and-retrieval](./technical-design/index-and-retrieval.md), [local-api-and-offline](./technical-design/local-api-and-offline.md) | AC-F005-001/002/003/004/005/006, AC-F006-001/002/004/005/007, AC-F009-005 | tests/test_indexing.py（基础）；FTS5/QMD/API 待补 | Implemented（部分） |
 | API-001 | F006/F009 | ADR-0006/0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md), [agent-skill](./technical-design/agent-skill.md) | AC-F006-001/003/005/007/008/009/010, AC-F009-005/006 | 待实现 | Designed |
 | API-002 | F006/F009 | ADR-0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md) | AC-F006-002/004/005/009/010, AC-F009-004/005 | 待实现 | Designed |
 | WEB-001 | F007 | ADR-0009 | [static-wiki-publishing](./technical-design/static-wiki-publishing.md) | AC-F007-001/005/006/009/012/013/014/015/016/017/018/019/020/021/022/023/024/025 | 待实现 | Designed |
