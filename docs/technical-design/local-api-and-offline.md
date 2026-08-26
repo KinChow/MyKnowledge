@@ -14,6 +14,8 @@
 
 API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`；对象 read/backlinks 只解析显式 `vault_id`，并复用 `safe_id`。当服务由显式 `root` 启动且未注入测试 token 时，启动会原子轮换 `state/capability-token`，设置目录 0700、文件 0600；token 只保存在进程状态和受保护文件，旧进程 token 不再接受。POST/写请求还由 Starlette middleware 校验 loopback Host/Origin，跨站请求在 capability 之前拒绝。外部依赖离线可安装后不需要网络调用；升级 FastAPI/Pydantic 可能改变校验/错误细节，需重新跑 API 契约测试。token、正文和私有路径不交给框架日志，能力边界由 MyKnowledge 保留。
 
+citation replay 复用 W3C Web Annotation 的 TextQuote/TextPosition 语义（<https://www.w3.org/TR/annotation-model/>，W3C Recommendation）：`tools.citation.replay` 只读校验 snapshot、Unicode 半开区间、exact 与 hash，不将模型返回的标题/URL 当作证据。替代方案是仅信任模型引用，无法抵抗正文漂移，明确不采用。
+
 ## 目标与边界
 
 FastAPI 是本机 adapter，不是第二个内容真相源。它读取 Vault Registry、canonical projection 和索引，写入只能提交 operation preview/apply；不提供公网监听、账号系统或服务端权限继承。
