@@ -112,6 +112,10 @@ class RepoPaths:
     def config_dir(self) -> Path:
         return self.root / "config"
 
+    @property
+    def vaults_local_manifest(self) -> Path:
+        return self.config_dir / "vaults.local.yaml"
+
     # ---- state 扩展（§4：llm-validation / reading 运行缓存） ----
     @property
     def state_llm_validation(self) -> Path:

@@ -1,6 +1,6 @@
 # Private Vaults 子仓库（0..N）实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-27；只读 Vault Registry 基础能力已落地）
 - 相关 Feature：F011、F007、F012
 - 相关规范：SYS、SEC、SRC、ARC、WIKI、OPS
 - 相关 ADR：ADR-0002、ADR-0003、ADR-0006、ADR-0009
@@ -24,6 +24,14 @@
 - 在 public repo 中加密存储 internal 正文；
 - 自动 commit、push、reset、submodule update 或删除用户数据；
 - 将 private vault 的内容复制到第二套数据库作为事实源。
+
+## 2.1 本轮成熟方案调查（2026-08-27）
+
+- Git worktree/submodule：复用 Git 的 `rev-parse --show-toplevel`、HEAD 和独立工作树边界；Registry 只读检查，不执行 update、reset 或 push。
+- YAML manifest：复用 PyYAML safe loader 和版本化 manifest；路径经过 realpath、workspace containment 和不重叠检查，不把绝对路径写入共享报告。
+- 最小权限原则：采用显式声明而非自动扫描 `../vaults`；不存在的 optional vault 只影响自身状态。
+
+本轮结论：`tools/vault_registry.py` 先交付只读 `VaultCheckReport` 与 `vault check`，对象合并、跨 Vault 写锁、备份恢复和 projection generator 作为后续增量，不伪造 F011 Accepted。
 
 ## 2. 当前基线与目录
 

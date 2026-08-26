@@ -44,7 +44,7 @@
 | WEB-003 | F007/F010 | ADR-0009 | [static-wiki-publishing](./technical-design/static-wiki-publishing.md) | AC-F007-001/008/011/012/013/014/015/016/017/018, AC-F010-001/003 | 待实现 | Designed |
 | SEC-002 | F007/F011 | ADR-0002/0009 | [private-vault-submodule](./technical-design/private-vault-submodule.md), [static-wiki-publishing](./technical-design/static-wiki-publishing.md) | AC-F007-004/009, AC-F011-006/010/012/013/014 | 待实现 | Designed |
 | SEC-003 | F011 | ADR-0002 | [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F011-005/007/012/013/014 | 待实现 | Designed |
-| OPS-002 | F011 | ADR-0002/0006 | [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F011-001/002/003/004/008/009/011/014/015/016 | 待实现 | Designed |
+| OPS-002 | F011 | ADR-0002/0006 | [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F011-001/002/003/004/008/009/011/014/015/016 | tests/test_vault_registry.py（Registry 基础）；领域场景待补 | Implemented（部分） |
 | SKILL-001 | F009 | ADR-0006/0007 | [agent-skill](./technical-design/agent-skill.md) | AC-F009-001/002/003/004/005/006/007/008/009/010 | 待实现 | Designed |
 | VAL-002 | F003/F009/F011 | ADR-0001/0002/0010 | [wiki-claim-validation](./technical-design/wiki-claim-validation.md), [agent-skill](./technical-design/agent-skill.md) | AC-F003-008/011/012/013/014/015/016, AC-F009-004/008/009, AC-F011-007 | 待实现 | Designed |
 | MIG-001 | F010 | ADR-0001/0005 | [content-migration](./technical-design/content-migration.md) | AC-F010-001/002/003 | 待实现 | Designed |
