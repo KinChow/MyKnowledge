@@ -1,0 +1,97 @@
+"""Private vault registry and read-only readiness report (F011)."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+
+import yaml
+
+from .common import canonical_json, safe_id
+from .paths import RepoPaths
+
+
+class VaultRegistry:
+    def __init__(self, root: Path, manifest: Path | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.manifest = manifest or RepoPaths(self.root).vaults_local_manifest
+
+    def _load(self) -> dict:
+        if self.manifest.exists():
+            data = yaml.safe_load(self.manifest.read_text(encoding="utf-8")) or {}
+        else:
+            data = {"schema_version": 1, "layout": "direct-checkout", "workspace_root": None, "public_vault_id": "public", "vaults": [{"id": "public", "path": ".", "type": "git-checkout", "confidentiality": "public", "required": True, "allow_public_projection": True, "backup_state": "unconfigured"}]}
+        if not isinstance(data, dict) or not isinstance(data.get("vaults"), list):
+            raise ValueError("manifest_invalid")
+        return data
+
+    @staticmethod
+    def _backup_state(item: dict) -> str:
+        remote = item.get("private_git_remote")
+        backup = item.get("encrypted_backup_target")
+        if not remote and not backup:
+            return "unconfigured"
+        return "configured"
+
+    def check(self) -> dict:
+        data = self._load()
+        layout = data.get("layout", "direct-checkout")
+        if layout not in {"direct-checkout", "superproject"}:
+            raise ValueError("layout_invalid")
+        workspace = self.root if data.get("workspace_root") in (None, "") else Path(data["workspace_root"]).expanduser().resolve()
+        statuses: list[dict] = []
+        resolved: list[tuple[str, Path]] = []
+        seen: set[str] = set()
+        for item in data["vaults"]:
+            vault_id = str(item.get("id", ""))
+            status = {"vault_id": vault_id, "state": "unavailable", "reason": "manifest_invalid", "backup_state": self._backup_state(item), "object_count": None}
+            try:
+                safe_id(vault_id)
+                if vault_id in seen:
+                    raise ValueError("duplicate_vault_id")
+                seen.add(vault_id)
+                raw_path = item.get("path")
+                if raw_path == "." and vault_id == data.get("public_vault_id", "public") and layout == "direct-checkout":
+                    path = self.root
+                elif not isinstance(raw_path, str) or not raw_path or Path(raw_path).is_absolute():
+                    raise ValueError("path_invalid")
+                else:
+                    path = (workspace / raw_path).resolve()
+                try:
+                    path.relative_to(workspace)
+                except ValueError as exc:
+                    raise ValueError("path_invalid") from exc
+                for other_id, other in resolved:
+                    if path == other or path in other.parents or other in path.parents:
+                        raise ValueError("path_overlap")
+                resolved.append((vault_id, path))
+                if not path.is_dir():
+                    raise ValueError("vault_unavailable")
+                probe = subprocess.run(["git", "-C", str(path), "rev-parse", "--show-toplevel"], capture_output=True, text=True, timeout=5, check=False)
+                if probe.returncode != 0 or Path(probe.stdout.strip()).resolve() != path:
+                    raise ValueError("git_worktree_invalid")
+                head = subprocess.run(["git", "-C", str(path), "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5, check=False)
+                status.update({"state": "available", "reason": "none", "head_sha256": "sha256:" + hashlib.sha256(head.stdout.strip().encode()).hexdigest() if head.returncode == 0 else None})
+            except (OSError, ValueError, subprocess.SubprocessError) as exc:
+                status["reason"] = str(exc)
+            statuses.append(status)
+        statuses.sort(key=lambda x: x["vault_id"])
+        report = {"schema_version": "vault-check/v1", "generated_from": "sha256:" + hashlib.sha256(str(self.root).encode()).hexdigest(), "vaults": statuses, "conflicts": [], "affected_object_refs": [], "backup_summary": {"unverified_vault_ids": [x["vault_id"] for x in statuses if x["backup_state"] != "verified"]}, "available_scopes": ["public"] if any(x["vault_id"] == "public" and x["state"] == "available" for x in statuses) else [], "report_sha256": ""}
+        report["report_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in report.items() if k != "report_sha256"})).hexdigest()
+        return report
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    parser = argparse.ArgumentParser(description="Check MyKnowledge vaults")
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--manifest", type=Path)
+    args = parser.parse_args(argv)
+    try:
+        print(json.dumps(VaultRegistry(args.root, args.manifest).check(), ensure_ascii=False, indent=2))
+        return 0
+    except (OSError, ValueError) as exc:
+        print(json.dumps({"state": "blocked", "error_code": str(exc)}, ensure_ascii=False))
+        return 2

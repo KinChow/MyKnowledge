@@ -4,7 +4,9 @@
 - 相关规范：SEC、SYS、SRC、ARC、OPS、WEB
 - 相关 ADR：ADR-0002、ADR-0003、ADR-0009
 - 实现设计：[Private Vault 子仓库](../technical-design/private-vault-submodule.md)
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-27；4 个 Registry 基础场景通过；完整 Vault/Projection/Backup 验收仍待补齐）
+- 实现证据：`tools/vault_registry.py`、`tools/paths.py`、`tools/cli.py`、`tests/test_vault_registry.py`
+- 当前边界：当前只实现只读 manifest 解析、路径隔离、Git worktree 检查和 backup state 派生；对象合并、跨 Vault 引用、逐 Vault fencing、private projection 与恢复演练尚未完成。
 
 ## AC-F011-001 多个私有仓库挂载和合并
 
@@ -13,6 +15,8 @@
 - Then：全部可用 vault 的 source/wiki/archive 可按 `(vault_id, object_type, object_id)` 合并，private source/wiki/archive 进入 `queries/local` 并保留 owner `vault_id`，public projection 仍只包含 public 对象；每个 vault 都有独立状态报告；
 - 失败时不变量：不把任一 private 正文、路径、remote 或凭据写入 public 生成物；不同 vault 的同名对象不能按 manifest 顺序覆盖或隐式选择 owner；
 - 自动化级别：Integration。
+- 对应测试：`tests/test_vault_registry.py::VaultRegistryTests::test_multiple_vaults_and_unavailable_isolated`
+- 当前状态：部分通过（Registry 隔离已通过，对象合并待实现）。
 
 ## AC-F011-002 单个 Vault 不可用时的隔离降级
 

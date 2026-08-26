@@ -15,6 +15,7 @@ from tools.validation.audit import main as audit_main
 from tools.validation.confirm import main as confirm_main
 from tools.validation.validator import main as validate_main
 from tools.write_operation import WriteOperation
+from tools.vault_registry import main as vault_main
 
 COMMANDS = {
     "source": source_main,
@@ -47,6 +48,7 @@ def write_main(argv: list[str]) -> int:
 
 
 COMMANDS["write"] = write_main
+COMMANDS["vault"] = vault_main
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -63,6 +65,7 @@ def main(argv: list[str] | None = None) -> int:
             "  audit     LLM 证据审计（provider 调用 + 覆盖义务 + 报告写入）\n"
             "  confirm   人工审计确认（operation-confirmation/v1 写入）\n"
             "  write     通用 Preview/Apply 写入（F004）",
+            "  vault     Vault Registry 只读检查（F011）",
             file=sys.stderr,
         )
         return 2
