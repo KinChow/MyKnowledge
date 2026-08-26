@@ -21,21 +21,21 @@ class BackupManager:
     def create_manifest(self, vault_id: str = "public") -> dict:
         status = next((x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None)
         if status is None: raise ValueError("vault_not_found")
+        owner_root = self.registry.resolve_vault_path(vault_id)
         backup_id = "backup_" + uuid.uuid4().hex
         entries = []
-        if vault_id == "public":
-            for folder in ("sources", "wiki", "archive", "audit"):
-                base = self.root / folder
-                if not base.is_dir():
-                    continue
-                for item in sorted(base.rglob("*")):
-                    if item.is_file() and not item.is_symlink():
-                        entries.append({"path": str(item.relative_to(self.root)), "sha256": "sha256:" + hashlib.sha256(item.read_bytes()).hexdigest(), "size": item.stat().st_size})
-        data = {"schema_version": "backup-manifest/v1", "backup_id": backup_id, "vault_id": vault_id, "generated_at": time.time(), "vault_state": status["state"], "backup_state": status["backup_state"], "head_sha256": status.get("head_sha256"), "entries": entries}
+        for folder in ("sources", "wiki", "archive", "audit", "practice"):
+            base = owner_root / folder
+            if not base.is_dir():
+                continue
+            for item in sorted(base.rglob("*")):
+                if item.is_file() and not item.is_symlink():
+                    entries.append({"path": str(item.relative_to(owner_root)), "sha256": "sha256:" + hashlib.sha256(item.read_bytes()).hexdigest(), "size": item.stat().st_size})
+        data = {"schema_version": "backup-manifest/v1", "backup_id": backup_id, "vault_id": vault_id, "owner_root": ".", "generated_at": time.time(), "vault_state": status["state"], "backup_state": status["backup_state"], "head_sha256": status.get("head_sha256"), "entries": entries}
         data["manifest_sha256"] = "sha256:" + hashlib.sha256(canonical_json(data)).hexdigest()
-        path = RepoPaths(self.root).audit_backup / f"{backup_id}.json"
+        path = RepoPaths(owner_root).audit_backup / f"{backup_id}.json"
         atomic_write(path, canonical_json(data) + b"\n", 0o600)
-        return {**data, "path": str(path.relative_to(self.root))}
+        return {**data, "path": str(path.relative_to(owner_root))}
 
     def verify_manifest(self, manifest_path: Path) -> dict:
         """Verify one durable manifest without changing Vault or backup state."""
@@ -55,14 +55,18 @@ class BackupManager:
                 raise ValueError("vault_not_found")
             if status.get("state") != "available":
                 raise ValueError("vault_unavailable")
+            owner_root = self.registry.resolve_vault_path(vault_id)
             for entry in data.get("entries", []):
-                entry_path = self.root / str(entry.get("path", ""))
+                rel = Path(str(entry.get("path", "")))
+                if rel.is_absolute() or ".." in rel.parts:
+                    raise ValueError("entry_path_invalid")
+                entry_path = owner_root / rel
                 if not entry_path.is_file() or entry_path.is_symlink():
                     raise ValueError("entry_missing")
                 actual = "sha256:" + hashlib.sha256(entry_path.read_bytes()).hexdigest()
                 if actual != entry.get("sha256"):
                     raise ValueError("hash_mismatch")
-            relative = str(path.resolve().relative_to(self.root.resolve()))
+            relative = str(path.resolve().relative_to(owner_root.resolve()))
             return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             try:
@@ -86,13 +90,14 @@ class BackupManager:
         if not source_manifest.is_absolute():
             source_manifest = self.root / source_manifest
         data = json.loads(source_manifest.read_text(encoding="utf-8"))
+        owner_root = self.registry.resolve_vault_path(str(data.get("vault_id", "")))
         created: list[Path] = []
         try:
             for entry in data.get("entries", []):
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
-                source = self.root / rel
+                source = owner_root / rel
                 destination = target / rel
                 if not source.is_file() or source.is_symlink():
                     raise ValueError("entry_missing")

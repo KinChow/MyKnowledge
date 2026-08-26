@@ -101,6 +101,36 @@ class VaultRegistryTests(unittest.TestCase):
                 self.assertEqual(restored["state"], "restored")
                 self.assertEqual((target / "wiki" / "item.md").read_text(encoding="utf-8"), "# item\n")
 
+    def test_practice_entries_are_owner_scoped_and_restored(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            practice = root / "practice" / "questions"; practice.mkdir(parents=True)
+            (practice / "q-private.json").write_text('{"answer":"secret"}\n', encoding="utf-8")
+            (root / "practice" / "reviews").mkdir(parents=True)
+            (root / "practice" / "reviews" / "q-private.jsonl").write_text('{"score":1}\n', encoding="utf-8")
+            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            paths = {entry["path"] for entry in manifest["entries"]}
+            self.assertIn("practice/questions/q-private.json", paths)
+            self.assertIn("practice/reviews/q-private.jsonl", paths)
+            with tempfile.TemporaryDirectory() as out:
+                restored = manager.restore_manifest(root / manifest["path"], Path(out) / "checkout")
+                self.assertEqual(restored["state"], "restored")
+                self.assertEqual((Path(out) / "checkout" / "practice" / "questions" / "q-private.json").read_text(), '{"answer":"secret"}\n')
+
+    def test_private_manifest_does_not_read_public_or_escape_owner(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            public.mkdir(); private.mkdir()
+            for vault in (public, private): subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            (public / "wiki").mkdir(); (public / "wiki" / "public.md").write_text("public", encoding="utf-8")
+            (private / "practice" / "questions").mkdir(parents=True); (private / "practice" / "questions" / "q.md").write_text("secret", encoding="utf-8")
+            manifest_path = root / "manifest.yaml"
+            manifest_path.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+            manager = BackupManager(public, manifest_path); result = manager.create_manifest("private")
+            paths = {entry["path"] for entry in result["entries"]}
+            self.assertEqual(paths, {"practice/questions/q.md"})
+            self.assertTrue(manager.verify_manifest(private / result["path"])["backup_state"] == "verified")
+
     def test_restore_requires_empty_target(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
