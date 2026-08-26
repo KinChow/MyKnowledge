@@ -1,0 +1,25 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F009",
+  "status": "Implemented (partial)",
+  "generated_from": "37e8e1ee3606a3ee7116e670af753fd468a22f12",
+  "acceptance_document": "docs/acceptance/F009-agent-skill.md",
+  "scenario_ids": [
+    "AC-F009-001",
+    "AC-F009-002",
+    "AC-F009-003",
+    "AC-F009-004",
+    "AC-F009-005",
+    "AC-F009-006",
+    "AC-F009-007",
+    "AC-F009-008",
+    "AC-F009-009",
+    "AC-F009-010"
+  ],
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "verification": {
+    "python_command": ".venv/bin/python -m pytest -q",
+    "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
+    "remote_push": false
+  }
+}

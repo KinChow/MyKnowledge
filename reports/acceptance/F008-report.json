@@ -1,0 +1,20 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F008",
+  "status": "Implemented (partial)",
+  "generated_from": "37e8e1ee3606a3ee7116e670af753fd468a22f12",
+  "acceptance_document": "docs/acceptance/F008-question-practice.md",
+  "scenario_ids": [
+    "AC-F008-001",
+    "AC-F008-002",
+    "AC-F008-003",
+    "AC-F008-004",
+    "AC-F008-005"
+  ],
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "verification": {
+    "python_command": ".venv/bin/python -m pytest -q",
+    "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
+    "remote_push": false
+  }
+}

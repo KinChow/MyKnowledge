@@ -1,0 +1,40 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F007",
+  "status": "Implemented (partial)",
+  "generated_from": "37e8e1ee3606a3ee7116e670af753fd468a22f12",
+  "acceptance_document": "docs/acceptance/F007-static-wiki-publishing.md",
+  "scenario_ids": [
+    "AC-F007-001",
+    "AC-F007-002",
+    "AC-F007-003",
+    "AC-F007-004",
+    "AC-F007-005",
+    "AC-F007-006",
+    "AC-F007-007",
+    "AC-F007-008",
+    "AC-F007-009",
+    "AC-F007-010",
+    "AC-F007-011",
+    "AC-F007-012",
+    "AC-F007-013",
+    "AC-F007-014",
+    "AC-F007-015",
+    "AC-F007-016",
+    "AC-F007-017",
+    "AC-F007-018",
+    "AC-F007-019",
+    "AC-F007-020",
+    "AC-F007-021",
+    "AC-F007-022",
+    "AC-F007-023",
+    "AC-F007-024",
+    "AC-F007-025"
+  ],
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "verification": {
+    "python_command": ".venv/bin/python -m pytest -q",
+    "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
+    "remote_push": false
+  }
+}

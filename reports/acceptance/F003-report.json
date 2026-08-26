@@ -1,0 +1,31 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F003",
+  "status": "Implemented (partial)",
+  "generated_from": "37e8e1ee3606a3ee7116e670af753fd468a22f12",
+  "acceptance_document": "docs/acceptance/F003-evidence-validation.md",
+  "scenario_ids": [
+    "AC-F003-001",
+    "AC-F003-002",
+    "AC-F003-003",
+    "AC-F003-004",
+    "AC-F003-005",
+    "AC-F003-006",
+    "AC-F003-007",
+    "AC-F003-008",
+    "AC-F003-009",
+    "AC-F003-010",
+    "AC-F003-011",
+    "AC-F003-012",
+    "AC-F003-013",
+    "AC-F003-014",
+    "AC-F003-015",
+    "AC-F003-016"
+  ],
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "verification": {
+    "python_command": ".venv/bin/python -m pytest -q",
+    "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
+    "remote_push": false
+  }
+}
