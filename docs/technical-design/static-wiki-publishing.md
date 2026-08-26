@@ -48,6 +48,8 @@
 
 本轮增量调查（2026-08-30）：继续复用 Astro/Starlight static output、Pagefind final-HTML index 和 Quartz graph closure；新增独立 projection validator，参考 Starlight content collection 的 schema-first fail-fast 习惯。替代方案是直接信任 manifest 字符串字段，无法防止 duplicate ID、编码路径穿越或 practice/source/archive 混入，明确不采用。
 
+发布编排增量复用 POSIX `O_EXCL` lockfile 语义：`build-release.mjs` 在仓库 `state/public-release.lock` 建立 0600 锁，构建失败保留旧 `dist`，正常退出才释放锁；已存在锁一律返回 `release_lock_held`，不按超时自动删除，陈旧锁需人工恢复。
+
 ## 3. 发布输入契约
 
 ### 3.1 Public projection manifest
