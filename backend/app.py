@@ -4,7 +4,8 @@ import os
 import secrets
 from pathlib import Path
 from typing import Any
-from fastapi import Body, FastAPI, Header, HTTPException, Query
+from fastapi import Body, FastAPI, Header, HTTPException, Query, Request
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 from tools.indexing import Retriever
 from tools.common import atomic_write, safe_id
@@ -33,6 +34,18 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         atomic_write(token_path, app.state.capability_token.encode("ascii") + b"\n", 0o600)
         app.state.capability_token_path = token_path
     app.state.practice = QuestionStore(app.state.root)
+
+    @app.middleware("http")
+    async def local_origin_guard(request: Request, call_next):
+        if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+            host = (request.headers.get("host") or "").split(":", 1)[0].lower()
+            origin = request.headers.get("origin")
+            allowed_hosts = {"127.0.0.1", "localhost", "testserver"}
+            if host and host not in allowed_hosts:
+                return JSONResponse(status_code=403, content={"detail": {"code": "host_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback host"}})
+            if origin and not (origin.startswith("http://127.0.0.1") or origin.startswith("http://localhost") or origin.startswith("http://testserver")):
+                return JSONResponse(status_code=403, content={"detail": {"code": "origin_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback origin"}})
+        return await call_next(request)
 
     def require_capability(token: str | None, scope: str) -> None:
         if scope == "public":

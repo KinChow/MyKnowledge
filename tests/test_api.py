@@ -74,3 +74,15 @@ def test_capability_token_rotates_with_secure_permissions(tmp_path: Path):
     assert token_two != token_one
     client = TestClient(second)
     assert client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": token_one}, json={"query": "x", "scope": "local"}).status_code == 403
+
+def test_cross_origin_post_is_rejected_before_capability_check():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    response = client.post("/api/retrieve", headers={"Origin": "https://evil.example", "X-MyKnowledge-Capability": "token"}, json={"query": "离线", "scope": "public"})
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "origin_not_allowed"
+
+def test_non_loopback_host_is_rejected():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    response = client.post("/api/retrieve", headers={"Host": "remote.example", "X-MyKnowledge-Capability": "token"}, json={"query": "离线", "scope": "public"})
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "host_not_allowed"

@@ -62,6 +62,10 @@
 
 Origin/Host allowlist、audience/scope token registry、优雅退出清理和 citation replay 仍待后续验收。
 
+## Origin/Host 增量证据（2026-08-30）
+
+- AC-F006-006/008：`tests/test_api.py::test_cross_origin_post_is_rejected_before_capability_check` 和 `test_non_loopback_host_is_rejected` 验证跨站 Origin、非 loopback Host 在 capability 校验前分别返回 `origin_not_allowed`/`host_not_allowed`。
+
 ## AC-F006-006 本机 API 写保护
 
 - Given：本机页面、未授权脚本或远程客户端请求 write/validate/index/publish POST 端点；
