@@ -12,6 +12,10 @@
 
 完整 QMD cache 权限、损坏索引保留旧版本和 unavailable 对象状态元数据仍待后续验收。
 
+## QMD runtime 增量证据（2026-08-30）
+
+- AC-F005-006：`tests/test_indexing.py::IndexingTests::test_qmd_cache_probe_is_fail_closed` 验证缺少 QMD 可执行程序返回 `provider_unavailable`，cache 非 0700 返回 `cache_permissions`；adapter 不发起网络或下载。
+
 ## AC-F005-001 Projection 隔离与可重建
 
 - Given：同时存在 public、private、draft、unavailable 和 deprecated 对象；

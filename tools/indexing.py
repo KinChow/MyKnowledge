@@ -1,8 +1,32 @@
 """Projection index and deterministic retrieval (F005)."""
 from __future__ import annotations
-import json, sqlite3, os, tempfile
+import json, sqlite3, os, tempfile, shutil
 from pathlib import Path
 from .common import canonical_json, hash_canonical
+
+
+class QMDAdapter:
+    """Read-only QMD capability probe; never downloads or executes network work."""
+    def __init__(self, cache_dir: Path | None = None, command: str = "qmd"):
+        self.cache_dir = Path(cache_dir).resolve() if cache_dir else None
+        self.command = command
+
+    def unavailable_reason(self) -> str | None:
+        if shutil.which(self.command) is None:
+            return "provider_unavailable"
+        if self.cache_dir is None:
+            return "cache_unconfigured"
+        if not self.cache_dir.is_dir():
+            return "cache_unavailable"
+        if (self.cache_dir.stat().st_mode & 0o777) != 0o700:
+            return "cache_permissions"
+        if any(part == ".git" for part in self.cache_dir.parts):
+            return "cache_in_git"
+        return None
+
+    @property
+    def available(self) -> bool:
+        return self.unavailable_reason() is None
 
 class IndexBuilder:
     def __init__(self, root: Path | None): self.root = Path(root or ".").resolve()
@@ -46,9 +70,10 @@ class SQLiteIndex:
             db.close()
 
 class Retriever:
-    def __init__(self, items: list[dict], index_path: Path | None = None):
+    def __init__(self, items: list[dict], index_path: Path | None = None, qmd: QMDAdapter | None = None):
         self.items = items
         self.index_path = Path(index_path) if index_path else None
+        self.qmd = qmd or QMDAdapter()
 
     def search(self, query: str, scope: str = "local", top_k: int = 8) -> dict:
         if not isinstance(query, str) or len(query) > 4096 or top_k < 1 or top_k > 100: return {"schema_version": "query-result/v1", "items": [], "scope": scope, "method": "deterministic-fallback", "index_version": "none", "generated_from": "", "availability": "invalid", "availability_reason": "query_limit_exceeded", "degraded": True, "confidentiality_max": "public", "limits": ["query_limit_exceeded"], "warnings": []}
@@ -59,7 +84,7 @@ class Retriever:
                 if index.scope() != scope:
                     raise ValueError("index_scope_mismatch")
                 indexed = index.search(query, top_k)
-                return {"schema_version": "query-result/v1", "items": indexed, "scope": scope, "method": "fts5", "index_version": "fts5/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": True, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in indexed) else "public", "limits": [], "warnings": ["qmd_unavailable"]}
+                return {"schema_version": "query-result/v1", "items": indexed, "scope": scope, "method": "fts5", "index_version": "fts5/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": True, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in indexed) else "public", "limits": [], "warnings": ["qmd_unavailable", self.qmd.unavailable_reason() or "none"]}
             except (OSError, sqlite3.Error, ValueError):
                 pass
         q = query.casefold(); hits = [x for x in public if x.get("availability", "available") == "available" and q in (str(x.get("title", "")) + "\n" + str(x.get("body", ""))).casefold()]
