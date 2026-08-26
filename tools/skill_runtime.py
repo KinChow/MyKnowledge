@@ -20,6 +20,16 @@ from .common import safe_id
 
 ALLOWED_ACTIONS = frozenset({"skill_status", "query", "read", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
+ACTION_FIELDS = {
+    "skill_status": set(), "query": {"query", "scope", "top_k"},
+    "read": {"vault_id", "object_id"}, "write_preview": {"files", "operation_type", "vault_id"},
+    "write_apply": {"operation_id", "confirmed", "actor_id"},
+    "source_preview": {"request"}, "source_apply": {"operation_id", "confirmed", "actor_id"},
+    "wiki_validate": {"wiki_path"}, "publish_preview": {"wiki_path"},
+    "vault_check": set(), "backup_status": set(), "backup_manifest": {"vault_id"},
+    "question_create": {"spec", "wiki_path"}, "question_answer": {"question_id", "response", "scoring_mode"},
+    "question_review": {"question_id", "rating"},
+}
 
 
 def _public_projection_items(root: Path) -> list[dict[str, Any]]:
@@ -47,6 +57,9 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
         return {"state": "blocked", "error_code": "skill_action_not_allowed", "action": action}
     if not isinstance(payload, dict) or any(key in FORBIDDEN_KEYS for key in payload):
         return {"state": "blocked", "error_code": "skill_payload_forbidden"}
+    unknown = sorted(set(payload) - ACTION_FIELDS[action])
+    if unknown:
+        return {"state": "blocked", "error_code": "skill_payload_unknown_field", "fields": unknown}
     root = Path(root).resolve()
     try:
         if action == "skill_status":

@@ -9,6 +9,7 @@ import json
 def test_skill_runtime_rejects_unknown_and_dangerous_actions(tmp_path: Path):
     assert dispatch("shell", {}, root=tmp_path)["error_code"] == "skill_action_not_allowed"
     assert dispatch("vault_check", {"command": "git status"}, root=tmp_path)["error_code"] == "skill_payload_forbidden"
+    assert dispatch("query", {"query": "x", "provider_url": "https://example.invalid"}, root=tmp_path)["error_code"] == "skill_payload_unknown_field"
 
 
 def test_skill_runtime_write_preview_delegates_to_writer(tmp_path: Path):

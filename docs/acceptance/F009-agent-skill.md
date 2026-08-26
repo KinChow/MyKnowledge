@@ -8,6 +8,11 @@
 
 ## 练习评分路由增量证据（2026-08-27）
 
+## Action schema 增量证据（2026-08-27）
+
+- `tools.skill_runtime.dispatch` 为每个受控 action 建立显式字段白名单；`tests/test_skill_runtime.py::test_skill_runtime_rejects_unknown_and_dangerous_actions` 验证 query 携带未审计 `provider_url` 时返回 `skill_payload_unknown_field`，不会进入 Retriever 或 provider。
+- 该边界复用 MCP Python SDK 的结构化 tool input 思路（MIT）；Skill 仍保留 MyKnowledge 自己的 writer、Vault、confirmation 和 public leak 门禁。
+
 - `tests/test_skill_runtime.py::test_skill_question_answer_preserves_scoring_mode_boundary` 验证 Skill 入口透传 `manual`/`deterministic`/`llm` 评分模式，并拒绝未知模式；实际评分仍由 `QuestionStore` 执行，Skill 不创建 provider、不直接写入 practice 文件。
 
 ## Question create validator 路由增量证据（2026-08-27）
