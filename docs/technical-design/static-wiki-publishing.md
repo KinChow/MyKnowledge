@@ -50,6 +50,8 @@
 
 本轮多页集成调查（2026-08-27）：Astro 7.1.3/Starlight 0.41.4（MIT）与 Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）继续作为静态输出/离线索引方案；Quartz v4（MIT，<https://github.com/jackyzha0/quartz>）仅借鉴 catalog-to-graph 闭包。替代方案是直接扫描 `docs/` 或由前端动态读取 local index，会把治理文档、practice 或 private 内容带入发布，明确排除。临时 fixture 在独立 root 运行 prepare-content/build-graph，不改生产 manifest、canonical 或 dist。
 
+本轮 sitemap 增量调查（2026-08-30）：Astro 7.1.3 的静态构建和官方 sitemap integration（MIT，<https://docs.astro.build/en/guides/integrations-guide/sitemap/>）要求配置可发布的绝对 `site`；当前离线 checkout 没有正式发布域名，因此不伪造外部 URL。替代方案参考 Quartz v4（MIT）的静态 route closure，从同一 public catalog 在 `dist.next` 生成相对 URL sitemap，并在提升 dist 前验证 URL 集合精确等于首页、图谱页和 catalog routes。该方案全离线、无新增依赖；未来配置正式域名时可替换为 `@astrojs/sitemap` adapter，但必须保持相同闭包校验和数据格式边界。
+
 发布编排增量复用 POSIX `O_EXCL` lockfile 语义：`build-release.mjs` 在仓库 `state/public-release.lock` 建立 0600 锁，构建失败保留旧 `dist`，正常退出才释放锁；已存在锁一律返回 `release_lock_held`，不按超时自动删除，陈旧锁需人工恢复。
 
 public release 事件使用独立 `tools/release_confirmation.py` 校验 `public-release-confirmation/v1`：target 必须是 public Wiki、actor 必须为 human、reason 不得含 URL/路径/private 字样，leak-gate scope 固定为 `input-tree`，事件 hash 由去除自身 hash 的 canonical JSON 计算。写入采用 append-only `release/public-confirmations/<event_id>.json`，不由 Agent/CI 自动生成。`prepare-content.mjs` 对每个 manifest item 重新读取该 event，校验 target/object ID/event hash 后才复制正文；手写 `public_release` 或缺失 event 不能进入 staging。

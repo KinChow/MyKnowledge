@@ -50,6 +50,11 @@
 - AC-F007-006/016：`tests/test_frontend_projection.py::test_release_lock_blocks_concurrent_build` 验证已有 `state/public-release.lock` 时构建立即返回 `release_lock_held`（退出码 2），不触碰正式 dist；正常构建后 lock 会清理。
 - 完整 warning allowlist、陈旧锁人工恢复、真实 public confirmation 和多页面 sitemap/Pagefind 闭包仍待验收。
 
+## 本轮 sitemap 闭包增量证据（2026-08-30）
+
+- `frontend/scripts/build-release.mjs` 在 Astro 静态构建成功后按 catalog 生成确定性 `dist/sitemap.xml`，仅包含 `/`、`/graph/` 和 public catalog routes；`validate-build.mjs` 拒绝重复、缺失或额外 URL。
+- `npm run build` 在空 projection 上通过 Pagefind、sitemap、graph 和 dist leak gate；Astro 未配置外部 `site` 时仍不联网，sitemap 使用站内相对 URL。该证据不替代真实多文章浏览器验收。
+
 ## Public release confirmation 增量证据（2026-08-30）
 
 - AC-F007-009/022/025：`tests/test_release_confirmation.py::test_public_release_event_is_hashed_and_written` 验证 public release event 的 schema、target、human actor、input-tree scope 和 canonical event hash，并以 append-only 文件写入。
