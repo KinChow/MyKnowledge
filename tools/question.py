@@ -84,8 +84,13 @@ class QuestionStore:
             correct = spec.get("correct_option_ids")
             if not isinstance(options, list) or len(options) < 2:
                 errors.append({"code": "options_required"})
+            option_ids = [item.get("id") for item in options if isinstance(item, dict)] if isinstance(options, list) else []
+            if len(option_ids) != len(set(option_ids)) or any(not isinstance(value, str) or not value for value in option_ids):
+                errors.append({"code": "option_ids_invalid"})
             if not isinstance(correct, list) or not correct:
                 errors.append({"code": "correct_options_required"})
+            elif any(value not in option_ids for value in correct) or len(set(correct)) != len(correct):
+                errors.append({"code": "correct_option_id_unknown"})
             if spec.get("type") == "single_choice" and isinstance(correct, list) and len(correct) != 1:
                 errors.append({"code": "single_choice_requires_one_answer"})
         if spec.get("type") == "short_answer" and not isinstance(spec.get("rubric"), list):
@@ -152,7 +157,10 @@ class QuestionStore:
             result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
         if kind == "multi_choice":
             expected = set(question.get("correct_option_ids") or [])
-            actual = set(response if isinstance(response, list) else [])
+            values = response if isinstance(response, list) else []
+            if len(values) != len(set(values)):
+                return {"state": "blocked", "error_code": "response_options_duplicate"}
+            actual = set(values)
             score = 1.0 if actual == expected else 0.0
             result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
         if scoring_mode not in {"manual", "deterministic", "llm"}:

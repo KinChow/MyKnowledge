@@ -53,3 +53,9 @@
 ## 评分记录增量证据（2026-08-30）
 
 - AC-F008-003/005：自动评分和简答 manual review 结果追加到 `practice/reviews/<question_id>.jsonl`，写入后显式 fsync；该目录不在 public projection 输入范围内。
+
+## 题型字段一致性增量证据（2026-08-27）
+
+- `test_choice_schema_rejects_duplicate_and_unknown_option_ids` 验证选项 ID 必须唯一，正确答案只能引用已声明选项。
+- `test_multi_choice_response_rejects_duplicate_ids` 验证多选作答不接受重复 option ID，避免集合归一化掩盖非法输入。
+- 题型校验仍独立于 FSRS；调度器不参与事实、claim 或隐私判定。
