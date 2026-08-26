@@ -60,13 +60,15 @@ class SQLiteIndex:
     """Rebuildable SQLite FTS5 index with metadata kept outside the FTS table."""
     def __init__(self, path: Path): self.path = Path(path)
     def rebuild(self, items: list[dict], scope: str = "local") -> dict:
+        source_allowed = [x for x in items if scope != "public" or (x.get("vault_id") == "public" and x.get("public_publishable") is True)]
         allowed = IndexBuilder(self.path.parent).build(items, scope)["items"]
         self.path.parent.mkdir(parents=True, exist_ok=True)
         fd, tmp = tempfile.mkstemp(prefix=".index.", suffix=".sqlite3", dir=self.path.parent); os.close(fd)
         try:
             db = sqlite3.connect(tmp)
-            db.execute("CREATE TABLE index_info (scope TEXT NOT NULL)")
-            db.execute("INSERT INTO index_info(scope) VALUES(?)", (scope,))
+            generated_from = hash_canonical(source_allowed)
+            db.execute("CREATE TABLE index_info (scope TEXT NOT NULL, generated_from TEXT NOT NULL)")
+            db.execute("INSERT INTO index_info(scope,generated_from) VALUES(?,?)", (scope, generated_from))
             db.execute("CREATE TABLE metadata (rowid INTEGER PRIMARY KEY, object_ref TEXT, title TEXT, body TEXT, availability TEXT, availability_reason TEXT, confidentiality TEXT, content_sha256 TEXT, source_ref TEXT)")
             db.execute("CREATE VIRTUAL TABLE documents USING fts5(title, body, content='metadata', content_rowid='rowid')")
             for row in allowed:
@@ -75,7 +77,7 @@ class SQLiteIndex:
             db.execute("INSERT INTO documents(documents) VALUES('rebuild')"); db.commit(); db.close(); os.replace(tmp, self.path)
         finally:
             if os.path.exists(tmp): os.unlink(tmp)
-        return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":hash_canonical(allowed), "item_count":len(allowed), "index_version":"fts5/v1"}
+        return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":generated_from, "item_count":len(allowed), "index_version":"fts5/v1"}
     def search(self, query: str, top_k: int = 8) -> list[dict]:
         db = sqlite3.connect(self.path); rows = db.execute("SELECT m.object_ref,m.title,m.body,bm25(documents),m.availability,m.availability_reason,m.confidentiality,m.content_sha256,m.source_ref FROM documents JOIN metadata m ON documents.rowid=m.rowid WHERE documents MATCH ? ORDER BY bm25(documents) LIMIT ?", (query, top_k)).fetchall(); db.close()
         return [{"object_ref":json.loads(r[0]),"title":r[1],"snippet":(r[2] or "")[:240],"score":float(r[3]),"availability":r[4],"availability_reason":r[5],"confidentiality":r[6],"content_sha256":r[7],"source_ref":r[8]} for r in rows]
@@ -84,6 +86,13 @@ class SQLiteIndex:
         db = sqlite3.connect(self.path)
         try:
             return str(db.execute("SELECT scope FROM index_info LIMIT 1").fetchone()[0])
+        finally:
+            db.close()
+
+    def generated_from(self) -> str:
+        db = sqlite3.connect(self.path)
+        try:
+            return str(db.execute("SELECT generated_from FROM index_info LIMIT 1").fetchone()[0])
         finally:
             db.close()
 
@@ -116,6 +125,8 @@ class Retriever:
                 index = SQLiteIndex(self.index_path)
                 if index.scope() != scope:
                     raise ValueError("index_scope_mismatch")
+                if index.generated_from() != hash_canonical(public):
+                    raise ValueError("index_stale")
                 indexed = index.search(query, top_k)
                 return {"schema_version": "query-result/v1", "items": indexed, "scope": scope, "method": "fts5", "index_version": "fts5/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": True, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in indexed) else "public", "limits": [], "warnings": ["qmd_unavailable", self.qmd.unavailable_reason() or "none"]}
             except (OSError, sqlite3.Error, ValueError):

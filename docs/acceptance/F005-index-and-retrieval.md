@@ -72,3 +72,8 @@
 - `tests/test_indexing.py::IndexingTests::test_qmd_results_are_normalized_and_projection_allowlisted` 使用注入式 QMD provider 验证候选结果必须重新映射到当前 projection allowlist，private/未知 owner 不会进入 public QueryResult。
 - `QMDAdapter.search` 仅调用本地 `qmd search ... --json`，检查 cache 权限和 Git 边界；命令失败、schema 无效或 provider 不可用时继续 FTS5/LIKE，不能伪造 qmd 成功。
 - 边界：真实 QMD 安装、向量模型和 RRF 质量仍属于环境验收，当前不标记 F005 Accepted。
+
+## SQLite index freshness 证据（2026-08-27）
+
+- `tests/test_indexing.py::IndexingTests::test_retriever_rejects_stale_fts5_index` 验证 canonical projection 内容变化后，旧 SQLite index 的 `generated_from` 不匹配即被拒绝并回退 deterministic fallback。
+- `SQLiteIndex` 将 scope 与输入集合 hash 写入 `index_info`；旧版本/损坏 schema 按不可用处理，不会把陈旧命中报告为 FTS5 正常结果。
