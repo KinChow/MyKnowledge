@@ -130,6 +130,17 @@ class QuestionTests(unittest.TestCase):
             result = store.create(unknown, wiki_report=REPORT)
             self.assertIn("correct_option_id_unknown", {item["code"] for item in result["errors"]})
 
+    def test_question_schema_rejects_unknown_and_type_specific_fields(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            unknown = {**self.base(), "provider_url": "https://example.invalid"}
+            result = store.create(unknown, wiki_report=REPORT)
+            self.assertIn("unknown_field", {item["code"] for item in result["errors"]})
+            short = self.base("short_answer")
+            short["options"] = [{"id": "a", "text": "wrong"}]
+            result = store.create(short, wiki_report=REPORT)
+            self.assertIn("field_not_allowed", {item["code"] for item in result["errors"]})
+
     def test_multi_choice_response_rejects_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d)); spec = self.base("multi_choice"); spec["correct_option_ids"] = ["a", "b"]

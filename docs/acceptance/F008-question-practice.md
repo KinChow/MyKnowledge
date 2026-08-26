@@ -1,5 +1,10 @@
 # F008 Question / 面试练习验收
 
+## Strict question schema 增量证据（2026-08-27）
+
+- `QuestionStore._validate_spec` 现在拒绝 `question/v1` 未声明字段，并拒绝简答题携带选择题专属 `options`/`correct_option_ids`；`tests/test_question.py::QuestionTests::test_question_schema_rejects_unknown_and_type_specific_fields` 覆盖未知 provider URL 和题型字段污染。
+- 该边界延续 FSRS 6.3.2（MIT）仅负责 review scheduling、Anki note/card 分离仅作状态参考；题目事实、claim 绑定与隐私字段由 MyKnowledge schema 保留。
+
 - Feature：F008
 - 状态：Implemented（基础能力；完整验收未闭合）
 - 实现证据：`tools/question.py`、`tests/test_question.py`
