@@ -29,7 +29,7 @@
 
 - AC-F008-002/003：`tests/test_question.py::QuestionTests::test_claim_hash_change_disables_question` 验证 claim content hash 变化后题目变为 `disabled`，后续作答返回 `question_disabled`。
 - AC-F008-005：`tests/test_api.py::test_practice_api_is_private_and_does_not_bypass_validator` 验证练习 API 缺 capability 时返回 401，携带 capability 但题目不存在时返回结构化 `question_not_found`，不会绕过题目服务。
-- AC-F008-004：FSRS 缺失时仍返回 `unavailable/provider_unavailable`，不伪造调度成功。
+- AC-F008-004：`.venv` 中实际安装 `fsrs==6.3.2` 后，`tests/test_question.py::QuestionTests::test_fsrs_unavailable_is_explicit` 验证真实 `scheduled` 结果与 Card state 持久化；依赖缺失路径仍由 adapter 返回 `unavailable/provider_unavailable`，不伪造调度成功。
 
 真实 FSRS 版本回归、practice backup/restore、public build 全量输入扫描和简答 LLM 辅助评分仍待闭合。
 

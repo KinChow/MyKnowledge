@@ -7,7 +7,7 @@
 
 ## 成熟方案调查
 
-- FSRS 官方 `py-fsrs`（MIT，https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler）：本地 Scheduler/Card/Rating 模型；MyKnowledge 通过 adapter 调用，依赖缺失时返回 `unavailable`。
+- FSRS 官方 `py-fsrs` Python 包 `fsrs` 6.3.2（MIT，<https://github.com/open-spaced-repetition/free-spaced-repetition-scheduler>）：本地 Scheduler/Card/Rating 模型；MyKnowledge 通过 adapter 调用并持久化 `Card.to_dict()`，依赖缺失时仍返回 `unavailable`。
 - Anki/AnkiDroid（https://github.com/ankitects/anki、https://github.com/ankidroid/Anki-Android）：借鉴 note/card/review state 分离和本地状态边界，不复用其 deck 数据格式。
 - 固定间隔/Leitner：作为调度替代基线，仅用于方案对照，本轮不自研替代 FSRS。
 
@@ -21,4 +21,4 @@ Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 cl
 
 ## 当前限制
 
-基础实现尚未接入完整 Preview/Apply operation、FastAPI 练习 API、FSRS 已安装运行时、批量失效迁移和 backup/restore 演练；这些属于后续 F008 验收增量。
+基础实现尚未接入完整 Preview/Apply operation、批量失效迁移和 practice backup/restore 演练；FastAPI 练习 API 与 FSRS 6.3.2 运行时已接入并有回归测试。

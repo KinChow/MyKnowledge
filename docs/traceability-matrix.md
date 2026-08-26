@@ -53,7 +53,7 @@
 | BAK-002 | F012/F011 | ADR-0002/0003 | [backup-and-observability](./technical-design/backup-and-observability.md), [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F012-005/007/008/AC-F011-009/011/018 | 待实现 | Designed |
 | SEC-004 | F006/F009/F011 | ADR-0002/0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md), [agent-skill](./technical-design/agent-skill.md), [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F006-006/008/009, AC-F009-009, AC-F011-017 | 待实现 | Designed |
 | SCH-001 | F002 | ADR-0001/0006 | [schema validation](./technical-design/schema-validation.md) | AC-F002-001/003/004/006/007 | 待实现 | Designed |
-| QST-001 | F008 | ADR-0008 | [question-and-practice](./technical-design/question-and-practice.md) | AC-F008-001/002/003/004/005 | tests/test_question.py + tests/test_api.py（hash 失效、评分记录、FSRS unavailable、practice API 基础）；恢复/leak gate 待补 | Implemented（部分） |
+| QST-001 | F008 | ADR-0008 | [question-and-practice](./technical-design/question-and-practice.md) | AC-F008-001/002/003/004/005 | tests/test_question.py + tests/test_api.py（hash 失效、评分记录、FSRS 6.3.2 调度、practice API 基础）；恢复/leak gate 待补 | Implemented（部分） |
 | SEC-005 | F007/F011 | ADR-0002/0009 | [static-wiki-publishing](./technical-design/static-wiki-publishing.md), [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F007-021/022/023/024/025, AC-F011-012/013/014 | 待实现 | Designed |
 
 ## 验收场景完整覆盖
