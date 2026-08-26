@@ -85,7 +85,11 @@
 - 未决项（不影响 Implemented，阻却 Accepted）：
   - `cross_vault_reference` 的完整语义依赖 private Vault 挂载（F011），当前仅覆盖显式 target.vault_id 拒绝；
   - conflicting/partial/corroborated/verified 由 validation report（F003 定义契约）驱动，F002 定义了消费字段（verdict/claim_verdicts/corroborated）但报告生成属于 F003；
-  - `public_publishable` 的 public-safe confirmation event 判定（release/public-confirmations/）随 F007 发布 authority 落地。
+- `public_publishable` 的 public-safe confirmation event 判定（release/public-confirmations/）随 F007 发布 authority 落地。
+
+## Front matter 重复键增量证据（2026-08-27）
+
+- `tests/test_front_matter.py::FrontMatterTests::test_duplicate_yaml_keys_are_rejected` 验证 YAML front matter 的重复 key 返回 `front_matter_invalid_yaml`，不会采用后值覆盖前值；该门禁复用 PyYAML SafeLoader 的安全解析边界，保护 schema、状态和保密字段的一致性。
 
 ## Evidence ID 唯一性增量证据（2026-08-27）
 

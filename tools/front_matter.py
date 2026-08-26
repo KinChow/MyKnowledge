@@ -14,6 +14,25 @@ import yaml
 import frontmatter
 
 
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """SafeLoader variant that rejects ambiguous duplicate mapping keys."""
+
+
+def _construct_unique_mapping(loader: _UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False):
+    mapping = {}
+    for key_node, value_node in node.value:
+        key = loader.construct_object(key_node, deep=deep)
+        if key in mapping:
+            raise ValueError(f"duplicate_yaml_key:{key}")
+        mapping[key] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+_UniqueKeyLoader.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _construct_unique_mapping
+)
+
+
 class FrontMatter:
     """Markdown YAML front matter 的解析与渲染（``---`` 包裹头部）。"""
 
@@ -25,8 +44,10 @@ class FrontMatter:
         if text.find("\n---\n", 4) < 0:
             raise ValueError("front_matter_unterminated")
         try:
+            header = text[4 : text.find("\n---\n", 4)]
+            yaml.load(header, Loader=_UniqueKeyLoader)
             post = frontmatter.loads(text)
-        except yaml.YAMLError as exc:
+        except (yaml.YAMLError, ValueError) as exc:
             raise ValueError("front_matter_invalid_yaml") from exc
         return post.metadata or {}, post.content
 
