@@ -170,6 +170,14 @@ class AuditTests(AuditSetup):
         self.assertEqual(outcome["validation_state"], "not_run")
         self.assertEqual(outcome["not_run_reason"], "provider_unavailable")
 
+    def test_provider_timeout_exception_is_normalized_to_not_run(self):
+        class TimeoutProvider(FakeProvider):
+            def audit(self, request: dict, response_schema: dict) -> ProviderResult:
+                raise TimeoutError("deadline")
+        outcome = run_audit(self.root, self.wiki_path, TimeoutProvider())
+        self.assertEqual(outcome["validation_state"], "not_run")
+        self.assertEqual(outcome["not_run_reason"], "context_exceeded")
+
     def test_model_self_declared_not_run_rejected(self):
         """AC-F003-014：模型自行声明 not_run 被拒绝（协议不可用）。"""
         outcome = self._run(_payload(not_run="provider_unavailable"))
