@@ -34,6 +34,7 @@
 ## Vault allowlist 前置增量证据（2026-08-27）
 
 - `tests/test_api.py::test_api_passes_vault_allowlist_into_retriever_before_search` 验证 API 把显式 `vault_ids` 传入 Retriever，由统一检索层在 QMD/FTS5/LIKE 候选构造前应用 owner allowlist，不再以响应后裁剪代替权限边界。
+- `tests/test_api.py::test_private_scope_requires_capability` 同时验证 `scope=private` 缺少显式 `vault_ids` 时返回 `vault_ids_required`，不会隐式查询全部 private Vault。
 
 ## AC-F006-001 API 与 CLI 一致
 
