@@ -1,12 +1,14 @@
 # 存量内容迁移与质量清理实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-28；legacy inventory 基础能力）
 - 相关 Feature：F010
 - 相关规范：MIG、SRC、WIKI、EVD、WEB
 - 相关 ADR：ADR-0001、ADR-0005、ADR-0009
 - 相关验收：[F010](../acceptance/F010-content-migration.md)
 
 ## 迁移原则
+
+本轮成熟方案调查：借鉴 Quartz/Dendron 的路径与 route map 思路、Trafilatura/Docling 的来源形态分类边界；inventory 只做确定性扫描，不把 URL/字数推断为事实正确性，也不改写旧 `docs/`。
 
 旧 `docs/` 是迁移输入，不是迁移后的 canonical source。迁移器只生成 inventory、preview、source/wiki draft 和 route map，不自动把内容标记为 published，也不改写旧文件。
 

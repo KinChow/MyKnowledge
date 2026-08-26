@@ -18,6 +18,7 @@ from tools.write_operation import WriteOperation
 from tools.vault_registry import main as vault_main
 from tools.backup import BackupManager
 from tools.question import QuestionStore
+from tools.inventory_legacy import main as inventory_main
 
 COMMANDS = {
     "source": source_main,
@@ -80,6 +81,7 @@ def question_main(argv: list[str]) -> int:
     print(json.dumps(result, ensure_ascii=False, indent=2)); return 0
 
 COMMANDS["question"] = question_main
+COMMANDS["inventory"] = inventory_main
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -99,6 +101,7 @@ def main(argv: list[str] | None = None) -> int:
             "  vault     Vault Registry 只读检查（F011）",
             "  backup    备份状态与 durable manifest（F012）",
             "  question  Question 创建、作答与复习（F008）",
+            "  inventory 生成 legacy 内容迁移清单（F010）",
             file=sys.stderr,
         )
         return 2
