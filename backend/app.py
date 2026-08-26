@@ -1,12 +1,13 @@
 """FastAPI local adapter (F006)."""
 from __future__ import annotations
+import os
 import secrets
 from pathlib import Path
 from typing import Any
 from fastapi import Body, FastAPI, Header, HTTPException, Query
 from pydantic import BaseModel, ConfigDict, Field
 from tools.indexing import Retriever
-from tools.common import safe_id
+from tools.common import atomic_write, safe_id
 from tools.question import QuestionStore
 
 class RetrieveRequest(BaseModel):
@@ -20,9 +21,17 @@ class RetrieveRequest(BaseModel):
 
 def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
     app = FastAPI(title="MyKnowledge Local API", version="v1")
+    app.state.root = Path(root or ".").resolve()
     app.state.retriever = Retriever(items or [])
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
-    app.state.root = Path(root or ".").resolve()
+    app.state.capability_token_path = None
+    if capability_token is None and root is not None:
+        state_dir = app.state.root / "state"
+        state_dir.mkdir(parents=True, exist_ok=True)
+        os.chmod(state_dir, 0o700)
+        token_path = state_dir / "capability-token"
+        atomic_write(token_path, app.state.capability_token.encode("ascii") + b"\n", 0o600)
+        app.state.capability_token_path = token_path
     app.state.practice = QuestionStore(app.state.root)
 
     def require_capability(token: str | None, scope: str) -> None:

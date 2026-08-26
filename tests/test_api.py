@@ -61,3 +61,16 @@ def test_practice_api_is_private_and_does_not_bypass_validator(tmp_path: Path):
     response = client.post("/api/practice/q-one/answer", params={"scope": "local"}, headers={"X-MyKnowledge-Capability": "token"}, json="a")
     assert response.status_code == 404
     assert response.json()["detail"]["code"] == "question_not_found"
+
+def test_capability_token_rotates_with_secure_permissions(tmp_path: Path):
+    first = create_app(root=tmp_path)
+    token_path = tmp_path / "state" / "capability-token"
+    token_one = token_path.read_text(encoding="utf-8").strip()
+    assert first.state.capability_token == token_one
+    assert (tmp_path / "state").stat().st_mode & 0o777 == 0o700
+    assert token_path.stat().st_mode & 0o777 == 0o600
+    second = create_app(root=tmp_path)
+    token_two = token_path.read_text(encoding="utf-8").strip()
+    assert token_two != token_one
+    client = TestClient(second)
+    assert client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": token_one}, json={"query": "x", "scope": "local"}).status_code == 403

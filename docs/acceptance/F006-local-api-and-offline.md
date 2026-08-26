@@ -55,6 +55,13 @@
 
 以上证据不代表 token 生命周期、Origin/Host、private vault 实体读取、citation replay 或写入端点已完成；这些场景仍保持待补状态。
 
+## Token 生命周期增量证据（2026-08-30）
+
+- AC-F006-009：`tests/test_api.py::test_capability_token_rotates_with_secure_permissions` 验证服务启动写入 token 文件，`state/` 权限为 0700、token 文件为 0600，连续启动生成不同 token，旧 token 返回 `403 capability_token_invalid`。
+- 测试注入的固定 token 仅用于进程内 fixture；生产式显式 root 启动路径使用随机 token 文件，不提供 HTTP 获取端点。
+
+Origin/Host allowlist、audience/scope token registry、优雅退出清理和 citation replay 仍待后续验收。
+
 ## AC-F006-006 本机 API 写保护
 
 - Given：本机页面、未授权脚本或远程客户端请求 write/validate/index/publish POST 端点；
