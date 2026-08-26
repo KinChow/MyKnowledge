@@ -13,10 +13,12 @@ from .question import QuestionStore
 from .vault_registry import VaultRegistry
 from .write_operation import WriteOperation
 from .indexing import Retriever
+from .ingest.source_ingestor import SourceIngestor
+from .validation.validator import WikiValidator
 import json
 from .common import safe_id
 
-ALLOWED_ACTIONS = frozenset({"query", "read", "write_preview", "write_apply", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
+ALLOWED_ACTIONS = frozenset({"query", "read", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
 
 
@@ -68,6 +70,27 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
             return WriteOperation(root).preview(files, operation_type=str(payload.get("operation_type", "write")), vault_id=str(payload.get("vault_id", "public")))
         if action == "write_apply":
             return WriteOperation(root).apply(str(payload.get("operation_id", "")), confirmed=payload.get("confirmed") is True, actor_id=str(payload.get("actor_id", "local-user")))
+        if action == "source_preview":
+            request = payload.get("request")
+            if not isinstance(request, dict):
+                return {"state": "blocked", "error_code": "source_request_required"}
+            return SourceIngestor(root).preview(request)
+        if action == "source_apply":
+            return SourceIngestor(root).apply(str(payload.get("operation_id", "")), confirmed=payload.get("confirmed") is True, actor_id=str(payload.get("actor_id", "local-user")))
+        if action in {"wiki_validate", "publish_preview"}:
+            wiki_path = payload.get("wiki_path")
+            if not isinstance(wiki_path, str) or not wiki_path:
+                return {"state": "blocked", "error_code": "wiki_path_required"}
+            candidate = (root / wiki_path).resolve()
+            try:
+                candidate.relative_to(root)
+            except ValueError:
+                return {"state": "blocked", "error_code": "path_invalid"}
+            report = WikiValidator(root).validate(candidate)
+            if action == "wiki_validate":
+                return report
+            derived = report.get("derived") or {}
+            return {"state": "previewed" if report.get("valid") else "blocked", "wiki_report": report, "public_publishable": derived.get("public_publishable", False), "private_publishable": derived.get("private_publishable", False)}
         if action == "vault_check":
             return VaultRegistry(root).check()
         if action == "backup_status":

@@ -47,3 +47,25 @@ def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
     read = dispatch("read", {"vault_id": "public", "object_id": "one"}, root=tmp_path)
     assert read["body"] == "中文 projection"
     assert dispatch("query", {"query": "projection", "scope": "private"}, root=tmp_path)["error_code"] == "skill_public_query_only"
+
+
+def test_skill_source_preview_and_apply_delegate_to_source_service(tmp_path: Path):
+    request = {"source_type": "personal-note", "domain": "tools", "source_id": "skill-source", "body": "A source body"}
+    preview = dispatch("source_preview", {"request": request}, root=tmp_path)
+    assert preview["state"] == "previewed"
+    blocked = dispatch("source_apply", {"operation_id": preview["operation_id"]}, root=tmp_path)
+    assert blocked["state"] == "awaiting_confirmation"
+    applied = dispatch("source_apply", {"operation_id": preview["operation_id"], "confirmed": True}, root=tmp_path)
+    assert applied["state"] == "applied"
+
+
+def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path):
+    wiki = tmp_path / "wiki" / "skill.md"
+    wiki.parent.mkdir(parents=True)
+    wiki.write_text("---\nschema_version: wiki/v1\nid: skill\nkind: knowledge\ntitle: Skill\nstatus: draft\npublication_scope: none\nconfidentiality: public\nsources: []\nevidence: []\n---\n\n# Skill\n", encoding="utf-8")
+    result = dispatch("wiki_validate", {"wiki_path": "wiki/skill.md"}, root=tmp_path)
+    assert result["object_ref"]["object_id"] == "skill"
+    preview = dispatch("publish_preview", {"wiki_path": "wiki/skill.md"}, root=tmp_path)
+    assert preview["state"] == "blocked"
+    assert "wiki_report" in preview
+    assert dispatch("wiki_validate", {"wiki_path": "../secret.md"}, root=tmp_path)["error_code"] == "path_invalid"
