@@ -42,6 +42,17 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(result["error_code"], "hash_mismatch")
             self.assertEqual(target.read_text(encoding="utf-8"), "other")
 
+    def test_tampered_durable_audit_blocks_apply(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            op = service.preview({"a.md": "new"})["operation_id"]
+            audit = root / "audit" / "operations" / f"{op}.json"
+            value = json.loads(audit.read_text(encoding="utf-8")); value["state"] = "applied"
+            audit.write_text(json.dumps(value), encoding="utf-8")
+            result = service.apply(op, confirmed=True)
+            self.assertEqual(result["error_code"], "hash_mismatch")
+            self.assertFalse((root / "a.md").exists())
+
     def test_path_escape_is_blocked(self):
         with tempfile.TemporaryDirectory() as d:
             result = WriteOperation(Path(d)).preview({"../escape.md": "x"})

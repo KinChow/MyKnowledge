@@ -23,6 +23,10 @@
 - AC-F012-002/005/007：`tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 验证已校验 manifest 可恢复到显式空 checkout；`test_restore_requires_empty_target` 验证非空目标返回 `restore_target_not_empty`，不会覆盖用户文件。
 - 恢复过程只复制 manifest 已列出的 owner entries，路径穿越、缺失文件或 hash 异常会失败并清理已创建文件；不修改 public/其他 Vault。
 
+## Durable operation 校验增量证据（2026-08-30）
+
+- AC-F012-006：`tests/test_write_operation.py::WriteOperationTests::test_tampered_durable_audit_blocks_apply` 验证 durable operation audit 的单条 `record_sha256` 不匹配时写入被阻断；顺序与删除证据仍由 Git 历史提供，不引入自建链。
+
 ## AC-F012-001 逐 Vault 状态
 
 - Given：多个 private Vault 的 remote/backup 状态不同；

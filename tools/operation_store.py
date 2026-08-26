@@ -81,6 +81,9 @@ class OperationStore:
                 "operation_id": operation_id,
                 "error_code": "operation_not_found",
             }
+        audit_error = self.verify_audit(operation_id)
+        if audit_error is not None:
+            return record, {"state": "blocked", "operation_id": operation_id, "error_code": audit_error}
         if record.get("state") != "previewed":
             error = {
                 "state": record.get("state"),
@@ -109,6 +112,19 @@ class OperationStore:
         path = self.paths.state_operation_file(operation_id)
         with path.open(encoding="utf-8") as handle:
             return json.load(handle)
+
+    def verify_audit(self, operation_id: str) -> str | None:
+        """Return an error code when the durable audit snapshot is missing/tampered."""
+        try:
+            safe_id(operation_id.removeprefix("op_"))
+            data = json.loads(self.paths.operation_file(operation_id).read_text(encoding="utf-8"))
+            stored = data.get("record_sha256")
+            if not stored:
+                return "hash_mismatch"
+            actual = hash_canonical({k: v for k, v in data.items() if k != "record_sha256"})
+            return None if stored == actual and data.get("operation_id") == operation_id else "hash_mismatch"
+        except (OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError):
+            return "hash_mismatch"
 
     def update(self, record: dict, state: str, **fields: object) -> dict:
         """更新 operation 状态与字段：先写审计（预提交），state 最后写入作为提交点。"""
