@@ -99,3 +99,7 @@ git diff --check
 ## 结论
 
 本次 review 已修复当前文档、配置契约和 POC 校验器之间的主要矛盾，并补齐 F002/F007 的 schema、链接、页面集合与确认流程追踪门。设计可以进入实现阶段，但当前仍是“设计完成、核心运行时未交付”的状态；任何发布、备份恢复或 Agent 写入能力都必须等待对应 Feature 的真实实现和验收证据。
+
+## 历史状态纠偏（2026-08-30）
+
+本文上方的 Feature 表和“尚未关闭的交付阻断”是 2026-08-26 的历史快照，不代表当前 checkout。后续增量已落地并分别提交：F004 writer 与 private owner-root（`7ab2f86`）、F005 Registry projection 索引（`7961a21`）、F006 public projection 启动加载（`e5994b8`）、F007 sitemap 闭包（`9f1a2be`）、F009 MCP capability（`2571609`）、F010 durable migration replay（`4556c50`）、F011 local projection（`8ce4de9`）、F012 restore marker/offline bundle（`8d5f10e`、`9406eec`、`d6d4c7f`）。当前权威状态以 `docs/feature-list.md`、各 Feature Acceptance 和最新测试/报告为准；这些 Feature 仍多为 `Implemented（部分）`，不能由本纠偏段落推导为 `Accepted`。
