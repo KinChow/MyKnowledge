@@ -4,7 +4,9 @@
 - 相关规范：WEB、SEC、IDX、MIG
 - 相关 ADR：ADR-0007、ADR-0009
 - 实现设计：[静态 Wiki 发布](../technical-design/static-wiki-publishing.md)
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-28；工程骨架与 fail-closed 基础能力，完整静态发布验收待补）
+- 实现证据：`frontend/package.json`、`frontend/astro.config.mjs`、`frontend/scripts/prepare-content.mjs`、`frontend/scripts/build-release.mjs`、`frontend/scripts/leak-gate.mjs`
+- 当前边界：仓库暂无真实 `queries/public/manifest.json`，Pagefind、graph browser、人工 release confirmation 和完整 leak-gate/旧 dist 演练尚未完成。
 
 ## AC-F007-001 只构建 public projection
 
@@ -13,6 +15,7 @@
 - Then：catalog、HTML、sitemap、graph 和 Pagefind 只包含 `public_publishable == true` 的 Wiki；
 - 失败时不变量：未发布、证据冲突、internal 或 deprecated 对象不得以正文、标题、ID 或链接形式出现；
 - 自动化级别：Integration。
+- 当前状态：待真实 public manifest fixture。
 
 ## AC-F007-002 catalog、路由和图谱闭包
 

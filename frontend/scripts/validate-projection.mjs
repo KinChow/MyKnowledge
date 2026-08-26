@@ -1,0 +1,1 @@
+import fs from 'node:fs'; const p='../queries/public/manifest.json'; if(!fs.existsSync(p)) throw new Error('manifest_missing'); JSON.parse(fs.readFileSync(p,'utf8')); console.log('projection_input_valid');
