@@ -21,6 +21,11 @@
 - AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。
 - validator 只校验 allowlist/schema/path 边界，不生成或提升 `public_release`；当前仓库没有真实 Wiki/人工 confirmation，因此仍不标记 Accepted。
 
+## Release lock 增量证据（2026-08-30）
+
+- AC-F007-006/016：`tests/test_frontend_projection.py::test_release_lock_blocks_concurrent_build` 验证已有 `state/public-release.lock` 时构建立即返回 `release_lock_held`（退出码 2），不触碰正式 dist；正常构建后 lock 会清理。
+- 完整 warning allowlist、陈旧锁人工恢复、真实 public confirmation 和多页面 sitemap/Pagefind 闭包仍待验收。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；
