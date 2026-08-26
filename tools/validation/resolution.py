@@ -85,7 +85,8 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
 
 
 def resolve_and_verify(
-    metadata: dict, evidence: list[dict], paths, quote_min_chars: int
+    metadata: dict, evidence: list[dict], paths, quote_min_chars: int,
+    owner_vault_id: str = OWNER_VAULT_ID,
 ) -> dict:
     """解析全部 claim target 并校验 supporting_quotes；结果供派生字段计算。"""
     errors: list[dict] = []
@@ -117,7 +118,7 @@ def resolve_and_verify(
                     {"code": "source_not_declared", "path": f"evidence.{claim_id}",
                      "reason": f"target 引用了未在 sources 声明的 source: {source_id}"}
                 )
-            if target.get("vault_id") and target["vault_id"] != OWNER_VAULT_ID:
+            if target.get("vault_id") and target["vault_id"] != owner_vault_id:
                 errors.append(
                     {"code": "cross_vault_reference",
                      "path": f"evidence.{claim_id}.targets.{source_id}",
@@ -143,7 +144,7 @@ def resolve_and_verify(
                     "source_id": source_id,
                     "evidence_id": evidence_id,
                     "resolved_object_ref": {
-                        "vault_id": OWNER_VAULT_ID,
+                        "vault_id": owner_vault_id,
                         "object_type": "source",
                         "object_id": source_id,
                     },

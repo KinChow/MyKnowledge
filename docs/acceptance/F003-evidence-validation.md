@@ -10,6 +10,11 @@
   private vault 挂载（当前单 vault 阶段按 unavailable 处理，保留最近 evidence_state）；
   真实 LLM 端到端集成测试依赖运行时 provider（ducc/ducx 冒烟已通过，未纳入离线测试）
 
+## Private owner context 增量证据（2026-08-30）
+
+- `WikiValidator(..., vault_id=...)` 现在把显式 owner 贯穿 validation report、resolved target 和 `evidence_sha256`；`tests/validation/test_wiki_schema.py::test_private_validator_preserves_explicit_owner_vault` 验证 private validator 不再伪造 `vault_id: public`。
+- 跨 Vault target 仍由 resolution fail-closed；owner 参数只修正解析上下文，不改变引用权限或 public projection 边界。
+
 ## AC-F003-001 Claim 显式绑定 Evidence
 
 - Given：知识型 Wiki 包含可验证 Claim；

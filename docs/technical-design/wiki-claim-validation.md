@@ -105,3 +105,7 @@ LLM 不可用**不是**阻断项：记 `validation_state: not_run` + `not_run_re
 ## Provider 运行时边界
 
 LLM provider 由 Codex/Claude Code 加载的 MyKnowledge Skill 在运行时选择和注入。具体 endpoint、模型版本和密钥读取方式不属于用户决策，也不写入验证 schema、Vault manifest、Git 或普通审计日志。验证器只依赖 Skill 提供的结构化结果，因此可以替换供应商而不改变验证结果 schema。没有可用或不满足 confidentiality 要求的 provider 时记 `not_run`，不做能力协商，也不阻断人工审计通道。
+
+## Owner context 增量调查（2026-08-30）
+
+Git worktree owner root（GPL-2.0，<https://git-scm.com/docs/git-rev-parse>）和 W3C Web Annotation 的资源标识边界（W3C Recommendation，<https://www.w3.org/TR/annotation-model/>）作为成熟基线：验证请求必须显式绑定 owner，selector/hash 解析不能只依赖裸 object/snapshot ID。替代方案是继续使用全局 `OWNER_VAULT_ID=public` 常量，会使 private checkout 的 resolved ref、evidence hash 和报告 owner 错误；本轮将 `vault_id` 作为 `WikiValidator` 上下文贯穿 domain resolution、evidence hash、derived report，同时仍拒绝跨 owner target。该参数不写回 canonical front matter，也不降低 confidentiality 门禁。
