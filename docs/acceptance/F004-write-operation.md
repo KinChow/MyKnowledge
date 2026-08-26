@@ -117,6 +117,10 @@
 - `test_rename_and_retire_have_distinct_operation_types` 现在执行 retire Apply，并验证 owner Vault 生成 `audit/retire/<operation_id>.json`（`retire-marker/v1`、目标相对路径和内容 hash）。原文件保留，便于回放和恢复，不执行不可逆删除。
 - 边界：purge、projection/index 消费 retired 状态及跨 Vault staging 仍待后续验收。
 
+## Symlink/hard-link target 增量证据（2026-08-27）
+
+- `tests/test_write_operation.py::WriteOperationTests::test_symlink_and_hardlink_targets_are_rejected` 验证 preview 阶段拒绝仓库内 symlink 和共享 inode hard-link；apply 阶段也会再次检查 hard-link，避免路径或 inode 竞态绕过原子写入边界。
+
 ## Purge 备份前置证据（2026-08-27）
 
 - `test_purge_requires_verified_owner_backup` 验证未达到 owner Vault `backup_state=verified` 时，`purge()` 返回 `backup_not_verified`，目标文件保持不变。

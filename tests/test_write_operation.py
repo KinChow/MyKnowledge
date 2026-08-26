@@ -58,6 +58,15 @@ class WriteOperationTests(unittest.TestCase):
             result = WriteOperation(Path(d)).preview({"../escape.md": "x"})
             self.assertEqual(result["error_code"], "path_outside_repo")
 
+    def test_symlink_and_hardlink_targets_are_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); target = root / "real.md"; target.write_text("old", encoding="utf-8")
+            (root / "alias.md").symlink_to(target)
+            service = WriteOperation(root)
+            self.assertEqual(service.preview({"alias.md": "new"})["error_code"], "path_symlink")
+            linked = root / "linked.md"; linked.hardlink_to(target)
+            self.assertEqual(service.preview({"linked.md": "new"})["error_code"], "path_hardlink")
+
     def test_lock_busy_is_structured(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
