@@ -8,7 +8,13 @@
 
 ## Canonical 位置
 
-本轮成熟方案调查：参考 MCP Python SDK 的 tool/resource/stdio 分层（https://github.com/modelcontextprotocol/python-sdk）和仓库现有受控 Skill 的 front matter + 运行规则；本地 canonical Skill 只做路由与安全约束，不复制领域写入实现。
+本轮成熟方案调查（2026-08-28）：
+
+- MCP Python SDK（<https://github.com/modelcontextprotocol/python-sdk>，MIT，main/2026-08）：复用 tool/resource/stdio 的能力边界设计；限制是 SDK 不替 MyKnowledge 管理 Vault、confirmation 或 public leak policy，因此本轮先落地同样的结构化 action boundary，暂不宣称已接通 MCP transport。
+- Claude/Codex tool boundary（MCP specification，<https://modelcontextprotocol.io/specification>，MIT 文档）：复用“工具只能暴露声明能力、参数结构化、错误可诊断”的原则；限制是宿主授权和 token 生命周期属于部署层，仍由本地 runtime 约束。
+- 替代方案：直接暴露 shell/脚本调用（Python subprocess）实现面最小，但会允许任意命令、绕过 writer 和审计，故明确不采用。
+
+本轮新增 `tools.skill_runtime.dispatch` 作为离线可测试的受控 adapter：action 白名单、危险字段拒绝、所有写入委托现有领域服务；MCP stdio/HTTP transport 仍是后续工作。依赖均可离线安装，升级 SDK/宿主只影响 transport，不改变领域 operation schema。
 
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 
