@@ -1,10 +1,14 @@
 # FastAPI 本地服务与离线降级实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-28；FastAPI retrieve/query/ask 基础运行面）
 - 相关 Feature：F006
 - 相关规范：API、IDX、SEC
 - 相关 ADR：ADR-0006、ADR-0007
 - 相关验收：[F006](../acceptance/F006-local-api-and-offline.md)
+
+## 本轮成熟方案调查
+
+复用 FastAPI 官方 `Depends`/Pydantic 请求模型和 Starlette `TestClient`；API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`。loopback/capability、完整 read/backlinks/write 端点和 token 文件轮换仍待后续验收。
 
 ## 目标与边界
 

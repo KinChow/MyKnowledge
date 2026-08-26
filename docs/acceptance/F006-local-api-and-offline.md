@@ -2,7 +2,9 @@
 
 - Feature：F006
 - 相关规范：API、IDX、SEC
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-28；retrieve/query/ask 基础能力，完整 API 验收待补）
+- 实现证据：`backend/app.py`、`tests/test_api.py`、`requirements.txt`
+- 当前边界：read/backlinks/source/wiki preview/apply、token 生命周期、Origin/Host、citation replay 和完整 offline integration 尚未完成。
 
 ## AC-F006-001 API 与 CLI 一致
 
@@ -10,6 +12,7 @@
 - When：通过 FastAPI 和离线 CLI 查询；
 - Then：两者返回相同 QueryResult、状态和引用边界；
 - 失败时不变量：API 不直接修改 canonical Markdown。
+- 对应测试：`tests/test_api.py::test_get_post_query_equivalent`；当前状态：通过。
 
 ## AC-F006-002 后端不可用时降级
 
@@ -17,6 +20,7 @@
 - When：访问 public 静态站或离线查询；
 - Then：public 浏览、搜索和图谱仍可用；受影响的写入、验证或 local 能力返回明确 `unavailable`；
 - 失败时不变量：不得伪造验证通过或写入成功。
+- 对应测试：`tests/test_api.py::test_ask_is_explicitly_unavailable_offline`；当前状态：通过。
 
 ## AC-F006-003 同名对象的显式 Vault 路由
 
@@ -41,6 +45,7 @@
 - Then：API、CLI 和 Skill 返回同一 QueryResult/错误 schema；private scope 要求显式 Vault，未知 scope 或跨 Vault owner 返回结构化错误，不按 manifest 顺序猜测；
 - 失败时不变量：错误响应不泄漏 private path/正文/凭据，降级 method 不伪装为 qmd/hybrid；
 - 自动化级别：Unit/Integration/Security。
+- 对应测试：`tests/test_api.py::test_private_scope_requires_capability`；当前状态：通过基础 token 门。
 
 ## AC-F006-006 本机 API 写保护
 
