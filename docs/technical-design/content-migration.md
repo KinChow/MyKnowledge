@@ -10,6 +10,8 @@
 
 本轮成熟方案调查（2026-08-28）：Quartz（<https://github.com/jackyzha0/quartz>，MIT）和 Dendron（<https://github.com/dendronhq/dendron>，AGPL-3.0）分别提供 route/backlink 图谱与层级迁移经验；本轮只复用 route map/幂等清单思想，避免直接采用会扫描整个工作树的默认导入器。Trafilatura（<https://github.com/adbar/trafilatura>，Apache-2.0）和 Docling（<https://github.com/docling-project/docling>，MIT）可作为 HTML/PDF 抽取器，但其网络/二进制依赖和抽取不确定性不适合直接写 canonical；当前 preview 对 Markdown 采用确定性 pass-through，其他载体保留 extractor 待定。
 
+本轮代表性样本调查（2026-08-27）：继续复用 Quartz v4（MIT）的 content pipeline、Dendron（AGPL-3.0）的层级/链接迁移清单、Trafilatura 2.2+（Apache-2.0）与 Docling 2.x（MIT）的抽取器候选。`apply_sample` 使用现有 SourceIngestor 的 local-file 稳定读取、snapshot/hash 和 manifest，再用 WriteOperation 生成 `status: draft` Wiki；直接复制 `docs/` 到 `wiki/` 会绕过 Source/evidence/confirmation，明确排除。抽取器缺失、输入竞态或写入失败均保持 pending/blocked，旧 docs 永不改写。
+
 旧 `docs/` 是迁移输入，不是迁移后的 canonical source。`tools/migrate_legacy.py` 只生成 inventory、preview、source/wiki draft 描述和 route map，不自动把内容标记为 published，也不改写旧文件。外部抽取器缺失时结果必须保持 pending，不能伪造完成。
 
 ## 阶段
