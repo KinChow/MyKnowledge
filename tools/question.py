@@ -107,6 +107,19 @@ class QuestionStore:
     def load(self, question_id: str) -> dict:
         return json.loads(self._file(question_id).read_text(encoding="utf-8"))
 
+    def refresh_status(self, question_id: str, wiki_report: dict) -> dict:
+        """Revalidate the claim binding and disable stale questions atomically."""
+        question = self.load(question_id)
+        claim = question.get("wiki_claim", {})
+        hashes = wiki_report.get("hashes", {}) if isinstance(wiki_report, dict) else {}
+        valid = bool(wiki_report.get("valid")) and (wiki_report.get("derived") or {}).get("evidence_state") in {"supported", "corroborated"}
+        valid = valid and claim.get("content_sha256") == hashes.get("content_sha256") and claim.get("evidence_sha256") == hashes.get("evidence_sha256")
+        if not valid and question.get("status") != "disabled":
+            question["status"] = "disabled"
+            question["disabled_reason"] = "claim_binding_stale"
+            atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
+        return {"state": "enabled" if valid else "disabled", "question_id": question_id, "reason": None if valid else "claim_binding_stale"}
+
     def answer(self, question_id: str, response: Any) -> dict:
         question = self.load(question_id)
         if question.get("status") != "enabled":

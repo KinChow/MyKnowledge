@@ -54,3 +54,10 @@ def test_object_route_rejects_path_traversal_and_unknown_type(tmp_path: Path):
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     assert client.get("/api/read/public/wiki/%2E%2E").status_code == 422
     assert client.get("/api/read/public/unknown/id").status_code == 404
+
+def test_practice_api_is_private_and_does_not_bypass_validator(tmp_path: Path):
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.post("/api/practice/q-one/answer", json="a").status_code == 401
+    response = client.post("/api/practice/q-one/answer", params={"scope": "local"}, headers={"X-MyKnowledge-Capability": "token"}, json="a")
+    assert response.status_code == 404
+    assert response.json()["detail"]["code"] == "question_not_found"

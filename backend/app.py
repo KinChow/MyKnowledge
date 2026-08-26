@@ -3,10 +3,11 @@ from __future__ import annotations
 import secrets
 from pathlib import Path
 from typing import Any
-from fastapi import FastAPI, Header, HTTPException, Query
+from fastapi import Body, FastAPI, Header, HTTPException, Query
 from pydantic import BaseModel, ConfigDict, Field
 from tools.indexing import Retriever
 from tools.common import safe_id
+from tools.question import QuestionStore
 
 class RetrieveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -22,6 +23,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     app.state.retriever = Retriever(items or [])
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
     app.state.root = Path(root or ".").resolve()
+    app.state.practice = QuestionStore(app.state.root)
 
     def require_capability(token: str | None, scope: str) -> None:
         if scope == "public":
@@ -89,6 +91,22 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             if path.is_file() and needle in path.read_text(encoding="utf-8", errors="ignore"):
                 results.append({"vault_id": "public", "object_type": "wiki", "object_id": path.stem})
         return {"schema_version": "backlinks-result/v1", "target": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "items": results}
+
+    @app.post("/api/practice/{question_id}/answer")
+    def practice_answer(question_id: str, response: Any = Body(...), scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, scope)
+        try:
+            return {"schema_version": "practice-answer/v1", **app.state.practice.answer(question_id, response)}
+        except (OSError, ValueError):
+            raise HTTPException(status_code=404, detail={"code": "question_not_found", "stage": "practice", "retryable": False, "next_action": "check question_id"})
+
+    @app.post("/api/practice/{question_id}/review")
+    def practice_review(question_id: str, rating: int, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, scope)
+        try:
+            return {"schema_version": "practice-review/v1", **app.state.practice.review(question_id, rating)}
+        except (OSError, ValueError):
+            raise HTTPException(status_code=404, detail={"code": "question_not_found", "stage": "practice", "retryable": False, "next_action": "check question_id"})
 
     return app
 
