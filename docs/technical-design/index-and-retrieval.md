@@ -14,6 +14,8 @@
 
 `QMDAdapter` 在调用前检查可执行程序、cache 本地目录、0700 权限及不位于 Git 工作树；检查失败返回 `provider_unavailable`/`cache_permissions`/`cache_in_git`，不下载、不联网，继续 FTS5/LIKE。
 
+本轮 unavailable 元数据调查（2026-08-27）：SQLite FTS5 external-content（Public Domain，<https://sqlite.org/fts5.html>）允许索引可检索 metadata 与独立正文列；QMD 2.8.3（MIT，<https://github.com/tobi/qmd>）同样将状态/正文作为不同字段。替代方案是遇到 Vault 故障直接丢弃记录，会把“不可用”误报为“未找到”，不采用。LIKE fallback 现在可按标题命中 unavailable 对象，返回 owner/hash/status 元数据且 `snippet=null`；不会读取或生成隐藏正文 chunk。升级索引实现需保持 `query-result/v1` 和该隐私边界。
+
 ## 数据流
 
 ```text

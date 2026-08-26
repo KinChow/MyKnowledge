@@ -23,6 +23,12 @@ class IndexingTests(unittest.TestCase):
         self.assertEqual(retriever.search("SQLite", "public")["items"][0]["object_ref"]["object_id"], "pub")
         self.assertEqual(retriever.search("x", top_k=101)["availability_reason"], "query_limit_exceeded")
 
+    def test_unavailable_metadata_is_searchable_without_body(self):
+        result = Retriever(ITEMS).search("不可用", "local")
+        self.assertEqual(result["items"][0]["availability"], "unavailable")
+        self.assertEqual(result["items"][0]["availability_reason"], "vault_unavailable")
+        self.assertIsNone(result["items"][0]["snippet"])
+
     def test_sqlite_fts5_rebuild_and_search(self):
         with tempfile.TemporaryDirectory() as d:
             idx = SQLiteIndex(Path(d) / "index.sqlite3")
