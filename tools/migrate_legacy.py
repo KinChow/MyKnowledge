@@ -103,6 +103,15 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     item = next((x for x in plan["items"] if x["legacy_path"] == legacy_path), None)
     if item is None:
         return {"state": "blocked", "error_code": "legacy_item_not_found", "writes_applied": False}
+    migration_key = hashlib.sha256(canonical_json({"legacy_path": legacy_path, "body_sha256": item["body_sha256"], "migration_version": MIGRATION_VERSION})).hexdigest()
+    record_path = root / "audit" / "migrations" / f"{migration_key}.json"
+    if record_path.is_file():
+        try:
+            record = __import__("json").loads(record_path.read_text(encoding="utf-8"))
+            if record.get("schema_version") == "migration-record/v1" and record.get("migration_key") == migration_key:
+                return {**record.get("result", {}), "replayed": True}
+        except (OSError, ValueError, TypeError):
+            pass
     if not confirmed:
             return {"state": "awaiting_confirmation", "writes_applied": False, "preview_sha256": plan["preview_sha256"], "item": item}
     if item.get("status") == "blocked":
@@ -130,7 +139,12 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     if wiki_preview.get("state") != "previewed":
         return {"state": "blocked", "stage": "wiki_preview", "source": source_result, "wiki": wiki_preview, "writes_applied": True}
     wiki_result = WriteOperation(root).apply(wiki_preview["operation_id"], confirmed=True, actor_id="migration")
-    return {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path, "link_repair": link_report}
+    result = {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path, "link_repair": link_report}
+    if result["state"] == "applied":
+        record = {"schema_version": "migration-record/v1", "migration_key": migration_key, "legacy_path": legacy_path, "body_sha256": item["body_sha256"], "result": result}
+        record_path.parent.mkdir(parents=True, exist_ok=True)
+        record_path.write_bytes(canonical_json(record) + b"\n")
+    return result
 
 
 def main(argv: list[str] | None = None) -> int:
