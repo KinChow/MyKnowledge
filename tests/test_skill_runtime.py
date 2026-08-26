@@ -49,6 +49,14 @@ def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
     assert dispatch("query", {"query": "projection", "scope": "private"}, root=tmp_path)["error_code"] == "skill_public_query_only"
 
 
+def test_skill_status_is_fail_closed_for_canonical_skill(tmp_path: Path):
+    assert dispatch("skill_status", {}, root=tmp_path)["error_code"] == "skill_unavailable"
+    skill = tmp_path / "skills" / "myknowledge" / "SKILL.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text("name: myknowledge\nUse tools.cli with explicit human confirmation.\n", encoding="utf-8")
+    assert dispatch("skill_status", {}, root=tmp_path)["state"] == "available"
+
+
 def test_skill_source_preview_and_apply_delegate_to_source_service(tmp_path: Path):
     request = {"source_type": "personal-note", "domain": "tools", "source_id": "skill-source", "body": "A source body"}
     preview = dispatch("source_preview", {"request": request}, root=tmp_path)

@@ -18,7 +18,7 @@ from .validation.validator import WikiValidator
 import json
 from .common import safe_id
 
-ALLOWED_ACTIONS = frozenset({"query", "read", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
+ALLOWED_ACTIONS = frozenset({"skill_status", "query", "read", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
 
 
@@ -49,6 +49,15 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
         return {"state": "blocked", "error_code": "skill_payload_forbidden"}
     root = Path(root).resolve()
     try:
+        if action == "skill_status":
+            skill = root / "skills" / "myknowledge" / "SKILL.md"
+            if not skill.is_file() or skill.is_symlink():
+                return {"state": "unavailable", "error_code": "skill_unavailable", "reason": "canonical_skill_missing"}
+            text = skill.read_text(encoding="utf-8")
+            required = ("name: myknowledge", "tools.cli", "explicit human confirmation")
+            if any(marker not in text for marker in required):
+                return {"state": "unavailable", "error_code": "skill_unavailable", "reason": "canonical_skill_invalid"}
+            return {"state": "available", "schema_version": "skill-status/v1", "skill": "myknowledge"}
         if action == "query":
             if str(payload.get("scope", "public")) != "public" or not isinstance(payload.get("query"), str):
                 return {"state": "blocked", "error_code": "skill_public_query_only"}

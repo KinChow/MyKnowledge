@@ -103,3 +103,8 @@
 - `tests/test_skill_runtime.py::test_skill_source_preview_and_apply_delegate_to_source_service` 验证 source preview/apply 委托 `SourceIngestor`，未确认时保持 `awaiting_confirmation`，确认后才写入。
 - `tests/test_skill_runtime.py::test_skill_wiki_validate_and_publish_preview_are_domain_only` 验证 wiki 校验和 publish preview 委托 `WikiValidator`，路径越界返回 `path_invalid`，发布预览不会直接编辑 Markdown。
 - F009 仍为 Implemented（部分）：token 生命周期、完整 publish confirmation、provider capability 和全量 API parity 尚未闭合。
+
+## Canonical Skill runtime 门禁证据（2026-08-27）
+
+- `tests/test_skill_runtime.py::test_skill_status_is_fail_closed_for_canonical_skill` 验证当前 checkout 缺少或损坏 `skills/myknowledge/SKILL.md` 时返回 `skill_unavailable`，合法 canonical 文件才返回 `skill-status/v1/available`。
+- `skill_status` 为只读检查，不从外部副本回退，也不触发任何写入、发布或 provider 调用。
