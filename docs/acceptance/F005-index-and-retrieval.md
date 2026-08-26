@@ -37,6 +37,7 @@
 ## Private scope 隔离增量证据（2026-08-27）
 
 - `tests/test_indexing.py::IndexingTests::test_private_scope_excludes_public_owner` 验证 IndexBuilder 与 Retriever 共用 scope 过滤，`scope=private` 不把 public owner 混入 QMD/FTS5/LIKE 候选；public allowlist 与 private owner 边界在 provider 之前生效。
+- `test_vault_allowlist_is_applied_before_retrieval_result_generation` 验证显式 `vault_ids` 在 Retriever 内部过滤，调用方不再依赖检索完成后的结果裁剪来表达 owner 权限。
 
 - Given：QMD、SQLite FTS5 或 LIKE fallback 依次可用/不可用；
 - When：执行相同查询；
