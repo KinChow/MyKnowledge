@@ -8,9 +8,9 @@
 
 ## 迁移原则
 
-本轮成熟方案调查：借鉴 Quartz/Dendron 的路径与 route map 思路、Trafilatura/Docling 的来源形态分类边界；inventory 只做确定性扫描，不把 URL/字数推断为事实正确性，也不改写旧 `docs/`。
+本轮成熟方案调查（2026-08-28）：Quartz（<https://github.com/jackyzha0/quartz>，MIT）和 Dendron（<https://github.com/dendronhq/dendron>，AGPL-3.0）分别提供 route/backlink 图谱与层级迁移经验；本轮只复用 route map/幂等清单思想，避免直接采用会扫描整个工作树的默认导入器。Trafilatura（<https://github.com/adbar/trafilatura>，Apache-2.0）和 Docling（<https://github.com/docling-project/docling>，MIT）可作为 HTML/PDF 抽取器，但其网络/二进制依赖和抽取不确定性不适合直接写 canonical；当前 preview 对 Markdown 采用确定性 pass-through，其他载体保留 extractor 待定。
 
-旧 `docs/` 是迁移输入，不是迁移后的 canonical source。迁移器只生成 inventory、preview、source/wiki draft 和 route map，不自动把内容标记为 published，也不改写旧文件。
+旧 `docs/` 是迁移输入，不是迁移后的 canonical source。`tools/migrate_legacy.py` 只生成 inventory、preview、source/wiki draft 描述和 route map，不自动把内容标记为 published，也不改写旧文件。外部抽取器缺失时结果必须保持 pending，不能伪造完成。
 
 ## 阶段
 

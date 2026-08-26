@@ -19,6 +19,7 @@ from tools.vault_registry import main as vault_main
 from tools.backup import BackupManager
 from tools.question import QuestionStore
 from tools.inventory_legacy import main as inventory_main
+from tools.migrate_legacy import main as migrate_main
 
 COMMANDS = {
     "source": source_main,
@@ -82,6 +83,7 @@ def question_main(argv: list[str]) -> int:
 
 COMMANDS["question"] = question_main
 COMMANDS["inventory"] = inventory_main
+COMMANDS["migrate"] = migrate_main
 
 def skill_main(argv: list[str]) -> int:
     import argparse, json
