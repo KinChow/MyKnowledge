@@ -199,6 +199,51 @@ class BackupManager:
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
+    def restore_bundle(self, bundle: Path, target: Path) -> dict:
+        """Restore a verified offline bundle into an explicitly empty checkout."""
+        bundle = Path(bundle).resolve()
+        target = Path(target).expanduser().resolve()
+        if target == self.root or self.root in target.parents:
+            return {"state": "blocked", "error_code": "restore_target_invalid"}
+        checked = self.verify_bundle(bundle)
+        if checked.get("backup_state") != "verified":
+            return {"state": "blocked", "error_code": checked.get("error_code", "bundle_unverified")}
+        if target.exists() and any(target.iterdir()):
+            return {"state": "blocked", "error_code": "restore_target_not_empty"}
+        target.mkdir(parents=True, exist_ok=True)
+        created: list[Path] = []
+        try:
+            data = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+            for entry in data.get("entries", []):
+                rel = Path(str(entry.get("path", "")))
+                if rel.is_absolute() or ".." in rel.parts:
+                    raise ValueError("entry_path_invalid")
+                source = bundle / "payload" / rel
+                destination = target / rel
+                if not source.is_file() or source.is_symlink() or source.stat().st_nlink > 1:
+                    raise ValueError("entry_missing")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                atomic_write(destination, source.read_bytes(), 0o600)
+                created.append(destination)
+            marker = {"schema_version": "backup-restore-record/v1", "backup_id": data.get("backup_id"), "vault_id": data.get("vault_id"), "manifest_sha256": checked["manifest_sha256"], "restored_entries": len(created), "state": "restored", "recorded_at": time.time()}
+            marker["record_sha256"] = "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
+            marker_path = target / "audit" / "backup" / "restores" / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json"
+            atomic_write(marker_path, canonical_json(marker) + b"\n", 0o600)
+            return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target), "manifest_sha256": checked["manifest_sha256"]}
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            for path in reversed(created):
+                path.unlink(missing_ok=True)
+            for directory in sorted((p for p in target.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True):
+                try:
+                    directory.rmdir()
+                except OSError:
+                    pass
+            try:
+                target.rmdir()
+            except OSError:
+                pass
+            return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+
     def restore_manifest(self, manifest_path: Path, target: Path) -> dict:
         """Restore verified local entries into an explicitly empty checkout."""
         target = Path(target).resolve()

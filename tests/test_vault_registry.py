@@ -220,6 +220,22 @@ class VaultRegistryTests(unittest.TestCase):
                 import shutil
                 shutil.rmtree(bundle, ignore_errors=True)
 
+    def test_backup_bundle_restores_to_empty_checkout_and_cleans_on_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root); created = manager.create_manifest("public")
+            bundle = root.parent / (root.name + "-bundle"); target = root.parent / (root.name + "-restored")
+            try:
+                manager.export_bundle(root / created["path"], bundle)
+                restored = manager.restore_bundle(bundle, target)
+                self.assertEqual(restored["state"], "restored")
+                self.assertEqual((target / "wiki" / "note.md").read_text(encoding="utf-8"), "note")
+                self.assertTrue(list((target / "audit" / "backup" / "restores").glob("*.json")))
+            finally:
+                import shutil
+                shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(target, ignore_errors=True)
+
     def test_backup_manifest_must_live_under_declared_owner(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)

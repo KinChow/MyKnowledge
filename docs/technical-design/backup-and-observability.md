@@ -16,6 +16,8 @@
 
 本轮 bundle 增量：在 manifest 副本之外增加无压缩 `manifest.json + payload/<relative-path>` 离线 bundle，逐项复用 manifest hash 校验和 owner/path/symlink/hardlink 门禁。bundle 验证不读取 canonical checkout，也不改变 Vault 状态；未来恢复入口必须从 bundle 重建空 checkout 后再生成本地 restore marker。
 
+当前已实现 `restore_bundle`：先验证 bundle，再要求空 target，按 manifest 相对路径原子写入并在 target 内记录 `backup-restore-record/v1`。任一条目失败会清理已写文件和空目录；恢复结果是可审计证据，不自动修改源 Vault 的 `backup_state`。
+
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
 ## 备份内容与恢复
