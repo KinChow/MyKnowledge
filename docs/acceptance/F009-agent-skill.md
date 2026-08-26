@@ -97,3 +97,9 @@
 ## AC-F009-012 Public query/read projection 路由
 
 - Given：public manifest 同时包含 published/public 与 private、draft 或未发布条目；When：Skill 执行 `query`/`read`；Then：只读取 public allowlist，返回统一 QueryResult/read result，private/local scope 返回 `skill_public_query_only` 或 `skill_private_read_requires_api`，不扫描任意路径；当前状态：通过 `tests/test_skill_runtime.py::test_skill_public_query_and_read_use_projection_allowlist`。
+
+## 本轮领域路由证据（2026-08-27）
+
+- `tests/test_skill_runtime.py::test_skill_source_preview_and_apply_delegate_to_source_service` 验证 source preview/apply 委托 `SourceIngestor`，未确认时保持 `awaiting_confirmation`，确认后才写入。
+- `tests/test_skill_runtime.py::test_skill_wiki_validate_and_publish_preview_are_domain_only` 验证 wiki 校验和 publish preview 委托 `WikiValidator`，路径越界返回 `path_invalid`，发布预览不会直接编辑 Markdown。
+- F009 仍为 Implemented（部分）：token 生命周期、完整 publish confirmation、provider capability 和全量 API parity 尚未闭合。
