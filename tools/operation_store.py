@@ -64,7 +64,7 @@ class OperationStore:
             return True
 
     def apply_preflight(
-        self, operation_id: str, expected_type: str, confirmed: bool
+        self, operation_id: str, expected_type: str | tuple[str, ...], confirmed: bool
     ) -> tuple[dict | None, dict | None]:
         """两阶段写 apply 的通用前置校验（source_ingestor 与 evidence_anchor 共用）。
 
@@ -82,16 +82,20 @@ class OperationStore:
                 "error_code": "operation_not_found",
             }
         if record.get("state") != "previewed":
-            return record, {
+            error = {
                 "state": record.get("state"),
                 "operation_id": operation_id,
             }
+            if record.get("applied_files"):
+                error["applied_files"] = record["applied_files"]
+            return record, error
         if not confirmed:
             return record, {
                 "state": "awaiting_confirmation",
                 "operation_id": operation_id,
             }
-        if record.get("operation_type") != expected_type:
+        allowed_types = (expected_type,) if isinstance(expected_type, str) else expected_type
+        if record.get("operation_type") not in allowed_types:
             return record, {
                 "state": "blocked",
                 "operation_id": operation_id,

@@ -14,6 +14,7 @@ from tools.ingest.source_ingestor import main as source_main
 from tools.validation.audit import main as audit_main
 from tools.validation.confirm import main as confirm_main
 from tools.validation.validator import main as validate_main
+from tools.write_operation import WriteOperation
 
 COMMANDS = {
     "source": source_main,
@@ -22,6 +23,30 @@ COMMANDS = {
     "audit": audit_main,
     "confirm": confirm_main,
 }
+
+
+def write_main(argv: list[str]) -> int:
+    """Minimal JSON interface for generic F004 write operations."""
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(description="Preview/apply generic writes")
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--files", type=__import__("pathlib").Path, help="JSON object mapping relative paths to UTF-8 content")
+    parser.add_argument("--apply")
+    parser.add_argument("--confirm", action="store_true")
+    args = parser.parse_args(argv)
+    service = WriteOperation(args.root)
+    if args.apply:
+        print(json.dumps(service.apply(args.apply, confirmed=args.confirm), ensure_ascii=False, indent=2))
+    elif args.files:
+        print(json.dumps(service.preview(json.loads(args.files.read_text(encoding="utf-8"))), ensure_ascii=False, indent=2))
+    else:
+        parser.error("--files or --apply is required")
+    return 0
+
+
+COMMANDS["write"] = write_main
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -36,7 +61,8 @@ def main(argv: list[str] | None = None) -> int:
             "  anchor    Evidence 锚定（在快照中定位引文生成 selector）\n"
             "  validate  Wiki 确定性校验（schema + 跨字段规则 + 派生字段）\n"
             "  audit     LLM 证据审计（provider 调用 + 覆盖义务 + 报告写入）\n"
-            "  confirm   人工审计确认（operation-confirmation/v1 写入）",
+            "  confirm   人工审计确认（operation-confirmation/v1 写入）\n"
+            "  write     通用 Preview/Apply 写入（F004）",
             file=sys.stderr,
         )
         return 2
