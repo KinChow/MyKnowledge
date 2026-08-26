@@ -18,6 +18,11 @@
 - AC-F012-005/008：`BackupManager.create_manifest` 为 public owner 记录 sources/wiki/archive/audit 文件的相对路径、sha256 和 size；`verify_manifest` 逐项重算并在缺失或 hash 变化时返回 `failed`。
 - 备份 manifest 不包含绝对路径、token、remote URL 或私有 Vault 内容；外部 target 未配置时仍保持 `unconfigured`。
 
+## 空仓恢复增量证据（2026-08-30）
+
+- AC-F012-002/005/007：`tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 验证已校验 manifest 可恢复到显式空 checkout；`test_restore_requires_empty_target` 验证非空目标返回 `restore_target_not_empty`，不会覆盖用户文件。
+- 恢复过程只复制 manifest 已列出的 owner entries，路径穿越、缺失文件或 hash 异常会失败并清理已创建文件；不修改 public/其他 Vault。
+
 ## AC-F012-001 逐 Vault 状态
 
 - Given：多个 private Vault 的 remote/backup 状态不同；
