@@ -24,6 +24,15 @@ from wiki_fixtures import (
 
 
 class SchemaTests(WikiTestCase):
+    def test_private_validator_preserves_explicit_owner_vault(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            wiki = root / "wiki" / "planned.md"
+            wiki.parent.mkdir(parents=True)
+            wiki.write_text("---\nschema_version: wiki/v1\nid: planned\ntitle: Planned\ndomain: tools\nkind: reference\nstatus: planned\n---\n", encoding="utf-8")
+            report = WikiValidator(root, vault_id="team-internal").validate(wiki)
+            assert report["object_ref"]["vault_id"] == "team-internal"
+
     def test_derived_fields_rejected(self):
         """AC-F002-003：手写派生字段 → derived_field_mismatch，逐字段拒绝。"""
         for field, value in [
@@ -80,4 +89,3 @@ class SchemaTests(WikiTestCase):
         self.assertTrue(
             any(e["code"] == "schema_invalid" for e in report["errors"])
         )
-

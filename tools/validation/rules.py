@@ -55,7 +55,8 @@ def check_index_links(body: str, paths) -> list[dict]:
 
 
 def domain_rules(
-    metadata: dict, body: str, paths, quote_min_chars: int
+    metadata: dict, body: str, paths, quote_min_chars: int,
+    owner_vault_id: str = "public",
 ) -> tuple[list[dict], list[dict], dict]:
     """跨字段规则：状态组合、planned 约束、kind 分支、证据结构与引文校验。
 
@@ -168,7 +169,7 @@ def domain_rules(
 
     # 引用解析 + supporting_quotes 逐字校验（§6.9）；resolution 沿调用链传递
     resolution_result = resolution.resolve_and_verify(
-        metadata, evidence, paths, quote_min_chars
+        metadata, evidence, paths, quote_min_chars, owner_vault_id
     )
     errors.extend(resolution_result["errors"])
     warnings.extend(resolution_result["warnings"])

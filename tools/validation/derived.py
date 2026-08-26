@@ -85,7 +85,7 @@ def load_validation_report(
     return verdict_latest if verdict_latest is not None else notrun_latest
 
 
-def evidence_sha256(metadata: dict, resolution: dict) -> str:
+def evidence_sha256(metadata: dict, resolution: dict, owner_vault_id: str = OWNER_VAULT_ID) -> str:
     """evidence_sha256 = sha256(canonical_json(解析后 evidence 含 resolved ref))。"""
     # 预构建查找表（R009）：O(T²) → O(T)
     ref_index = {
@@ -99,7 +99,7 @@ def evidence_sha256(metadata: dict, resolution: dict) -> str:
             source_id = target.get("source_id")
             evidence_id = target.get("evidence_id")
             ref = ref_index.get((source_id, evidence_id)) or {
-                "vault_id": OWNER_VAULT_ID,
+                "vault_id": owner_vault_id,
                 "object_type": "source",
                 "object_id": source_id,
             }
@@ -112,7 +112,7 @@ def evidence_sha256(metadata: dict, resolution: dict) -> str:
             )
         resolved.append(
             {
-                "vault_id": OWNER_VAULT_ID,  # F015：owner 归属入证据摘要（§hash_inputs）
+                "vault_id": owner_vault_id,  # F015：owner 归属入证据摘要（§hash_inputs）
                 "claim_id": claim.get("claim_id"),
                 "claim": claim.get("claim"),
                 "support": claim.get("support"),
@@ -217,6 +217,7 @@ def compute_derived(
     report: dict | None,
     hashes: dict,
     paths,
+    owner_vault_id: str = OWNER_VAULT_ID,
 ) -> dict:
     """按 §6.8 计算全部派生字段（不入 canonical、不写回文件）。"""
     status = metadata.get("status")
@@ -307,7 +308,7 @@ def compute_derived(
     )
 
     return {
-        "vault_id": OWNER_VAULT_ID,
+        "vault_id": owner_vault_id,
         "evidence_state": evidence_state,
         "validation_state": validation_state,
         "not_run_reason": (
