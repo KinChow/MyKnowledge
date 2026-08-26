@@ -129,7 +129,7 @@ class QuestionStore:
             atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
         return {"state": "enabled" if valid else "disabled", "question_id": question_id, "reason": None if valid else "claim_binding_stale"}
 
-    def answer(self, question_id: str, response: Any) -> dict:
+    def answer(self, question_id: str, response: Any, *, scoring_mode: str = "manual", scorer: Any = None) -> dict:
         question = self.load(question_id)
         if question.get("status") != "enabled":
             return {"state": "blocked", "error_code": "question_disabled"}
@@ -142,7 +142,44 @@ class QuestionStore:
             actual = set(response if isinstance(response, list) else [])
             score = 1.0 if actual == expected else 0.0
             result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
-        result = {"state": "manual_review", "rubric": question.get("rubric", []), "response": response}; self._record_answer(question_id, result, response); return result
+        if scoring_mode not in {"manual", "deterministic", "llm"}:
+            return {"state": "blocked", "error_code": "scoring_mode_invalid"}
+        if scoring_mode == "manual":
+            result = {"state": "manual_review", "rubric": question.get("rubric", []), "response": response}
+            self._record_answer(question_id, result, response)
+            return result
+        if scoring_mode == "deterministic":
+            rubric = question.get("rubric") or []
+            matched = 0
+            criteria = []
+            normalized = str(response).casefold()
+            for item in rubric:
+                if isinstance(item, str):
+                    criterion, keywords = item, [item]
+                elif isinstance(item, dict) and isinstance(item.get("keywords"), list):
+                    criterion, keywords = item.get("label", "criterion"), item["keywords"]
+                else:
+                    continue
+                ok = bool(keywords) and all(str(word).casefold() in normalized for word in keywords)
+                criteria.append({"criterion": criterion, "matched": ok})
+                matched += int(ok)
+            score = matched / len(criteria) if criteria else 0.0
+            result = {"state": "graded", "scoring_provider": "deterministic_rubric", "score": score, "correct": score == 1.0, "criteria": criteria}
+            self._record_answer(question_id, result, response)
+            return result
+        if not callable(scorer):
+            return {"state": "unavailable", "reason": "provider_unavailable", "scoring_provider": "llm"}
+        try:
+            observed = scorer({"question": question, "response": response, "rubric": question.get("rubric", [])})
+        except Exception as exc:
+            return {"state": "unavailable", "reason": "provider_error", "detail": type(exc).__name__, "scoring_provider": "llm"}
+        if not isinstance(observed, dict) or not isinstance(observed.get("score"), (int, float)) or not 0 <= float(observed["score"]) <= 1:
+            return {"state": "unavailable", "reason": "provider_malformed", "scoring_provider": "llm"}
+        result = {"state": "graded", "scoring_provider": "llm", "score": float(observed["score"]), "correct": float(observed["score"]) == 1.0}
+        if isinstance(observed.get("rationale"), str):
+            result["rationale"] = observed["rationale"][:2000]
+        self._record_answer(question_id, result, response)
+        return result
 
     def review(self, question_id: str, rating: int) -> dict:
         if rating not in {1, 2, 3, 4}:
