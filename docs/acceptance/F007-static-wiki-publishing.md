@@ -33,6 +33,11 @@
 
 事件校验不等于已发布页面；当前仍没有真实 Wiki 的完整 validation attestation、release-input hash 和最终多页面发布闭包。
 
+## Prepare confirmation replay 增量证据（2026-08-30）
+
+- AC-F007-009/012/025：`tests/test_frontend_projection.py::test_prepare_content_requires_matching_confirmation` 使用临时 projection fixture 验证 manifest item 缺失 `public-release-confirmation/v1` 时，prepare 在生成 catalog/page 之前返回 `confirmation_missing`。
+- prepare 现在会校验 event schema、human approve、public Wiki target、object ID 和 canonical event hash；confirmation 校验不等于最终发布，仍需完整 validation/release-input/leak-gate 闭包。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；

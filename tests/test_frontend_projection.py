@@ -1,5 +1,6 @@
 import json
 import subprocess
+import shutil
 from pathlib import Path
 
 
@@ -41,3 +42,13 @@ def test_release_lock_blocks_concurrent_build():
         assert "release_lock_held" in result.stderr
     finally:
         lock.unlink(missing_ok=True)
+
+
+def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
+    root = tmp_path / "repo"; frontend = tmp_path / "frontend"; frontend.mkdir()
+    script = frontend / "prepare-content.mjs"; shutil.copy(Path(__file__).parents[1] / "frontend/scripts/prepare-content.mjs", script)
+    body = root / "wiki" / "item.md"; body.parent.mkdir(parents=True); body.write_text("# Item\n", encoding="utf-8")
+    manifest = {"schema_version":"public-projection/v1","projection":"public","items":[{"id":"item","vault_id":"public","public_publishable":True,"public_release":True,"status":"published","effective_confidentiality":"public","body_path":"wiki/item.md","public_confirmation_path":"release/public-confirmations/event-one.json"}]}
+    (root / "queries" / "public").mkdir(parents=True); (root / "queries" / "public" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    result = subprocess.run(["node", str(script)], cwd=frontend, env={**__import__("os").environ, "MYKNOWLEDGE_ROOT": str(root), "MYKNOWLEDGE_CONTENT_MODE":"projection"}, capture_output=True, text=True, check=False)
+    assert result.returncode != 0 and "confirmation_missing" in result.stderr
