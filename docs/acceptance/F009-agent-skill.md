@@ -88,3 +88,8 @@
 - Then：只有当前仓库中通过版本控制的 canonical Skill 可以被加载；缺失或校验失败时返回 `skill_unavailable`，不执行任何写入/发布操作；
 - 失败时不变量：不能静默加载外部副本、直接编辑文件或把“Skill 已加载”当作领域功能已实现；
 - 自动化级别：Repository/Security。
+
+## AC-F009-011 MCP stdio transport
+
+- Given：MCP client 连接当前 checkout 的 stdio server；When：执行 `tools/list` 和 `tools/call`；Then：只暴露结构化 `myknowledge_dispatch`，action 仍经过既有白名单和 writer，server 启动时固定 root，payload 不能注入命令或路径；stdio 不可用时返回启动错误而不执行写入。
+- 对应测试：`tests/test_skill_runtime.py::test_mcp_server_exposes_one_controlled_tool_bound_to_checkout`；当前状态：通过（官方 `mcp==1.29.1`）。

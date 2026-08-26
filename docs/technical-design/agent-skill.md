@@ -16,6 +16,8 @@
 
 本轮新增 `tools.skill_runtime.dispatch` 作为离线可测试的受控 adapter：action 白名单、危险字段拒绝、所有写入委托现有领域服务；MCP stdio/HTTP transport 仍是后续工作。依赖均可离线安装，升级 SDK/宿主只影响 transport，不改变领域 operation schema。
 
+本轮 transport 调查（2026-08-27）：官方 MCP Python SDK `mcp==1.29.1`（MIT，<https://github.com/modelcontextprotocol/python-sdk>）的 `FastMCP`/`run_stdio_async` 直接复用标准 `tools/list` 与 `tools/call`，并提供结构化 input/output schema；MCP Specification 2025-06（MIT 文档，<https://modelcontextprotocol.io/specification/2025-06-18>）约束 JSON-RPC、stdio 消息边界和工具声明。替代方案是自研 JSON-RPC loop 或直接暴露 shell，前者增加协议兼容风险，后者绕过 capability/writer，均不采用。`tools/mcp_server.py` 只提供一个 `myknowledge_dispatch` 薄适配器，checkout root 在启动时固定，payload 不得选择路径或命令；SDK 缺失时启动失败为 `mcp_unavailable`，离线运行不需要网络。
+
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 
 ## 能力面
