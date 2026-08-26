@@ -14,6 +14,8 @@
 
 API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`；对象 read/backlinks 只解析显式 `vault_id`，并复用 `safe_id`。当服务由显式 `root` 启动且未注入测试 token 时，启动会原子轮换 `state/capability-token`，设置目录 0700、文件 0600；token 只保存在进程状态和受保护文件，旧进程 token 不再接受。POST/写请求还由 Starlette middleware 校验 loopback Host/Origin，跨站请求在 capability 之前拒绝。外部依赖离线可安装后不需要网络调用；升级 FastAPI/Pydantic 可能改变校验/错误细节，需重新跑 API 契约测试。token、正文和私有路径不交给框架日志，能力边界由 MyKnowledge 保留。
 
+本轮写入 API 调查（2026-08-27）：FastAPI 0.115+（MIT，<https://github.com/fastapi/fastapi>）与 Pydantic 2.x（MIT，<https://github.com/pydantic/pydantic>）复用类型约束、`extra=forbid` 和 OpenAPI schema；Starlette 0.48+ TestClient（BSD-3-Clause，<https://github.com/encode/starlette>）作为同步契约测试。替代方案为直接暴露 `http.server`/手写 JSON 解析，无法提供同等 schema 拒绝和 ASGI middleware 边界，明确不采用。新增 source/wiki preview、operation apply、vault check 只委托现有 `WriteOperation`/`VaultRegistry`，不在 API 层直接编辑 canonical Markdown；SDK 离线安装后运行不需要网络，升级需重跑 API 与安全测试。
+
 citation replay 复用 W3C Web Annotation 的 TextQuote/TextPosition 语义（<https://www.w3.org/TR/annotation-model/>，W3C Recommendation）：`tools.citation.replay` 只读校验 snapshot、Unicode 半开区间、exact 与 hash，不将模型返回的标题/URL 当作证据。替代方案是仅信任模型引用，无法抵抗正文漂移，明确不采用。
 
 ## 目标与边界

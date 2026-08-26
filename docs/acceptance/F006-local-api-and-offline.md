@@ -111,3 +111,8 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 - Then：只有完整 ObjectRef、owner Vault、解压后 snapshot hash、TextQuote exact、TextPosition Unicode code-point 半开区间和 selector hash 均匹配时 citation 有效；缺失、冲突、近似匹配或 hash 错误返回结构化不可用结果；
 - 失败时不变量：不能用当前 source Markdown、压缩 blob hash、标题或 URL 替代权威 snapshot/selector，也不能把无效 citation 作为生成答案依据；
 - 自动化级别：Unit/Integration/Security。
+
+## AC-F006-011 Source/Wiki preview 与 operation apply
+
+- Given：调用方提交 source 或 wiki 文件变更；When：调用 preview、未确认 apply、确认 apply；Then：缺 capability 被拒绝，preview 只生成 operation/hash 不改工作树，未确认返回 `awaiting_confirmation`，确认后通过同一 writer 原子应用；`GET /api/vault/check` 同样要求 capability。
+- 对应测试：`tests/test_api.py::test_source_and_wiki_preview_apply_require_capability_and_confirmation`、`test_vault_check_requires_capability`；当前状态：通过。
