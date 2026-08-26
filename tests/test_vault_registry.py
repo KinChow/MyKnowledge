@@ -168,6 +168,16 @@ class VaultRegistryTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "projection_scope_invalid"):
                 VaultRegistry(root).local_projection("public")
 
+    def test_local_projection_excludes_same_vault_conflicts(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki" / "one").mkdir(parents=True); (root / "wiki" / "two").mkdir(parents=True)
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "wiki" / "one" / "same.md").write_text("# first\n", encoding="utf-8")
+            (root / "wiki" / "two" / "same.md").write_text("# second\n", encoding="utf-8")
+            projection = VaultRegistry(root).local_projection()
+            self.assertEqual(projection["items"], [])
+            self.assertEqual(VaultRegistry(root).check()["conflicts"][0]["code"], "duplicate_object_id")
+
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

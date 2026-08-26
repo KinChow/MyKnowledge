@@ -204,6 +204,13 @@ class VaultRegistry:
         public_id = str(data.get("public_vault_id", "public"))
         config = {str(item.get("id")): item for item in data["vaults"]}
         report = self.check()
+        conflicted = {
+            (ref.get("vault_id"), ref.get("object_type"), ref.get("object_id"))
+            for item in report.get("conflicts", [])
+            if isinstance(item, dict)
+            for ref in [item.get("object_ref") or {}]
+            if isinstance(ref, dict)
+        }
         items: list[dict] = []
         for status in report["vaults"]:
             vault_id = status["vault_id"]
@@ -223,6 +230,10 @@ class VaultRegistry:
                 paths = sorted(base.rglob("*.md")) if base.is_dir() else []
                 for path in paths:
                     if not path.is_file() or path.is_symlink():
+                        continue
+                    if (vault_id, object_type, path.stem) in conflicted:
+                        # A duplicate owner key cannot be safely selected for a
+                        # derived projection; leave it visible only in check().
                         continue
                     body = path.read_text(encoding="utf-8")
                     title = next((line[2:].strip() for line in body.splitlines() if line.startswith("# ")), path.stem)
