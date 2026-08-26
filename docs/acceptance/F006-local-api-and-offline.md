@@ -120,3 +120,7 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 ## AC-F006-012 Private owner read/backlinks
 
 - Given：两个显式挂载 vault 拥有同名 Wiki；When：携带 capability 调用 `/api/read/{vault_id}` 和 `/api/backlinks/{vault_id}`；Then：只读取指定 owner，返回 vault-relative path 和 owner ObjectRef，public/private scope 不交叉；当前状态：通过 `tests/test_api.py::test_private_vault_read_and_backlinks_are_owner_scoped`。
+
+## AC-F006-013 请求体大小门禁
+
+- Given：请求声明 `Content-Length` 超过 1 MiB；When：调用任意 API；Then：middleware 在 JSON 解析和 capability 处理前返回 413 `request_too_large`，不读取或写入 canonical/state；当前状态：通过 `tests/test_api.py::test_request_body_limit_is_fail_closed`。
