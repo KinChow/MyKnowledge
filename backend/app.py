@@ -61,6 +61,17 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
                 oversized = True
             if oversized:
                 return JSONResponse(status_code=413, content={"detail": {"code": "request_too_large", "stage": "request", "retryable": False, "next_action": "reduce request body"}})
+        # Content-Length is optional for chunked requests. Buffer only up to the
+        # configured cap, then expose the validated body to downstream handlers.
+        if request.method in {"POST", "PUT", "PATCH", "DELETE"} and not content_length:
+            chunks: list[bytes] = []
+            total = 0
+            async for chunk in request.stream():
+                total += len(chunk)
+                if total > app.state.max_request_body_bytes:
+                    return JSONResponse(status_code=413, content={"detail": {"code": "request_too_large", "stage": "request", "retryable": False, "next_action": "reduce request body"}})
+                chunks.append(chunk)
+            request._body = b"".join(chunks)
         if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
             host = (request.headers.get("host") or "").split(":", 1)[0].lower()
             origin = request.headers.get("origin")

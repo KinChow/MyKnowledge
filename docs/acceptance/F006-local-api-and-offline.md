@@ -67,6 +67,11 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 - AC-F006-006/008：`tests/test_api.py::test_cross_origin_post_is_rejected_before_capability_check` 和 `test_non_loopback_host_is_rejected` 验证跨站 Origin、非 loopback Host 在 capability 校验前分别返回 `origin_not_allowed`/`host_not_allowed`。
 - AC-F006-007：`tests/test_api.py::test_retrieve_enforces_policy_vault_limit` 验证超过 policy `max_vault_ids=16` 返回 `query_limit_exceeded`，不静默截断。
 
+## 流式请求体门禁证据（2026-08-27）
+
+- Starlette middleware 在缺失 `Content-Length` 的 chunked 请求上按 chunk 累加 body，超过 1 MiB 返回 `request_too_large`；未超限 body 才交给 FastAPI/Pydantic handler。
+- 该门禁与 Content-Length 快速路径共用同一上限，不执行 capability、解析或写入超限请求；API 回归 17 项通过。真实网络服务器上的 chunked 压测仍需部署环境验收。
+
 ## Citation replay 增量证据（2026-08-30）
 
 - AC-F006-010：`tests/test_citation.py::test_citation_replay_uses_unicode_codepoint_offsets` 验证 emoji/CJK 场景的 Unicode code-point offset 与 TextQuote/TextPosition replay。
