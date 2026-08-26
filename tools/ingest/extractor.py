@@ -39,6 +39,10 @@ class TextExtractor:
             lambda data, media_type: "pdf" in media_type or data.startswith(b"%PDF"),
             self._extract_pdf,
         )
+        self.register(
+            lambda data, media_type: "wordprocessingml.document" in media_type or data.startswith(b"PK\x03\x04") and "docx" in media_type,
+            self._extract_docx,
+        )
 
     def register(self, match: MatchFn, handler: ExtractFn) -> None:
         """注册提取器：match 判定 (data, media_type) 是否命中，handler 执行提取。"""
@@ -92,3 +96,21 @@ class TextExtractor:
         except Exception as exc:
             raise RuntimeError("extract_failed:pypdf") from exc
         return text, "pypdf/" + __version__
+
+    def _extract_docx(self, data: bytes, media_type: str) -> tuple[str, str]:
+        """DOCX extraction via Docling; absence is an explicit blocked boundary."""
+        try:
+            from importlib.metadata import version
+            from docling.document_converter import DocumentConverter
+        except ImportError as exc:
+            raise RuntimeError("extractor_unavailable:docling") from exc
+        try:
+            import tempfile
+            from pathlib import Path
+            with tempfile.NamedTemporaryFile(suffix=".docx") as handle:
+                handle.write(data); handle.flush()
+                document = DocumentConverter().convert(Path(handle.name)).document
+                text = document.export_to_markdown()
+        except Exception as exc:
+            raise RuntimeError("extract_failed:docling") from exc
+        return text.strip(), "docling/" + version("docling")
