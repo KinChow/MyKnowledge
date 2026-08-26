@@ -33,6 +33,8 @@
 
 本轮结论：`tools/vault_registry.py` 先交付只读 `VaultCheckReport` 与 `vault check`，对象合并、跨 Vault 写锁、备份恢复和 projection generator 作为后续增量，不伪造 F011 Accepted。
 
+本轮增量调查（2026-08-30）：Git worktree/submodule 的 owner 边界继续作为挂载基线；参考 Git object namespace 和显式 registry 的做法，在每个可用 Vault 内扫描 `wiki/` 与 `sources/` 的稳定 ID。跨 Vault 相同 `(object_type, object_id)` 不冲突；同一 Vault 重复 ID 形成阻断级 `duplicate_object_id`。扫描报告只输出 ObjectRef 与计数，不输出物理路径，降低 public/共享日志泄漏风险。
+
 ## 2. 当前基线与目录
 
 当前仓库是 `public` vault。每个 private repo 与 public repo 使用相同的对象目录和 schema 版本，但拥有独立 Git 历史：

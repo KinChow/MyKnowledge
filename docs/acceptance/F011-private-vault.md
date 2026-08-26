@@ -6,7 +6,14 @@
 - 实现设计：[Private Vault 子仓库](../technical-design/private-vault-submodule.md)
 - 状态：Implemented（2026-08-27；4 个 Registry 基础场景通过；完整 Vault/Projection/Backup 验收仍待补齐）
 - 实现证据：`tools/vault_registry.py`、`tools/paths.py`、`tools/cli.py`、`tests/test_vault_registry.py`
-- 当前边界：当前只实现只读 manifest 解析、路径隔离、Git worktree 检查和 backup state 派生；对象合并、跨 Vault 引用、逐 Vault fencing、private projection 与恢复演练尚未完成。
+- 当前边界：当前实现只读 manifest 解析、路径隔离、Git worktree 检查、owner-aware 对象扫描和 backup state 派生；跨 Vault 引用、逐 Vault 写入、private projection 与恢复演练尚未完成。
+
+## 本轮证据（2026-08-30）
+
+- AC-F011-001/003：`tests/test_vault_registry.py::VaultRegistryTests::test_same_object_id_across_vaults_is_not_a_conflict` 验证两个可用 Vault 各自拥有同名 Wiki 时不冲突且各计数为 1；`test_duplicate_object_id_inside_one_vault_is_reported_without_paths` 验证同 Vault 重复 ID 返回 `duplicate_object_id`。
+- SEC/owner 边界：冲突项只包含 `{vault_id, object_type, object_id}`，测试确认报告不包含 workspace 物理路径。
+
+对象实际合并 projection、跨 Vault 引用阻断、private/public confidentiality 传染和恢复仍待后续验收。
 
 ## AC-F011-001 多个私有仓库挂载和合并
 

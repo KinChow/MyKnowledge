@@ -35,6 +35,29 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(states["private"], "unavailable")
             self.assertEqual(states["public"], "available")
 
+    def test_same_object_id_across_vaults_is_not_a_conflict(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            for vault in (public, private):
+                (vault / "wiki").mkdir(parents=True)
+                (vault / "wiki" / "same.md").write_text("# Same\n", encoding="utf-8")
+                subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"""schema_version: 1\nlayout: superproject\nworkspace_root: {root}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private}}\n""", encoding="utf-8")
+            report = VaultRegistry(public, manifest).check()
+            self.assertEqual(report["conflicts"], [])
+            self.assertEqual({x["object_count"] for x in report["vaults"]}, {1})
+
+    def test_duplicate_object_id_inside_one_vault_is_reported_without_paths(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki" / "a").mkdir(parents=True); (root / "wiki" / "b").mkdir(parents=True)
+            (root / "wiki" / "a" / "same.md").write_text("a", encoding="utf-8")
+            (root / "wiki" / "b" / "same.md").write_text("b", encoding="utf-8")
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            report = VaultRegistry(root).check()
+            self.assertEqual(report["conflicts"][0]["code"], "duplicate_object_id")
+            self.assertNotIn(str(root), json.dumps(report))
+
     def test_overlap_and_duplicate_are_reported(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); (root / "a").mkdir(); subprocess.run(["git", "init", "-q", str(root / "a")], check=True)
