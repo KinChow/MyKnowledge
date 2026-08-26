@@ -16,6 +16,11 @@ def test_starlight_content_collection_uses_projection_output():
     assert "docsSchema" in config
     assert "defineCollection" in config
 
+def test_graph_page_is_static_and_reads_generated_graph_only():
+    page = (FRONTEND / "src/pages/graph.astro").read_text(encoding="utf-8")
+    assert "public/generated/graph.json" in page
+    assert "sources" not in page and "practice" not in page and "queries/local" not in page
+
 
 def run_manifest(tmp_path: Path, manifest: dict) -> subprocess.CompletedProcess:
     path = tmp_path / "manifest.json"
