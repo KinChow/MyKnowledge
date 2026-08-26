@@ -74,6 +74,10 @@ class RepoPaths:
     def audit_backup(self) -> Path:
         return self.root / "audit" / "backup"
 
+    @property
+    def audit_retire(self) -> Path:
+        return self.root / "audit" / "retire"
+
     # ---- release（public-safe 确认事件，§6.8） ----
     @property
     def release_confirmations(self) -> Path:
