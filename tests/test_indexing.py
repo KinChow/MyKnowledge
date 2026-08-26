@@ -1,6 +1,8 @@
 import unittest, tempfile
+import subprocess
 from pathlib import Path
 from tools.indexing import IndexBuilder, QMDAdapter, Retriever, SQLiteIndex
+from tools.vault_registry import VaultRegistry
 
 ITEMS = [
     {"vault_id": "public", "object_id": "pub", "title": "公开知识", "body": "SQLite 检索", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "content_sha256": "sha256:p"},
@@ -12,6 +14,19 @@ class IndexingTests(unittest.TestCase):
     def test_public_projection_filters_private(self):
         result = IndexBuilder(None).build(ITEMS, "public")
         self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
+
+    def test_registry_projection_feeds_owner_aware_index(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            for vault, title in ((public, "Public"), (private, "Private")):
+                (vault / "wiki").mkdir(parents=True)
+                (vault / "wiki" / "same.md").write_text(f"# {title}\nSQLite", encoding="utf-8")
+                subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+            result = IndexBuilder(root).build_from_registry(VaultRegistry(public, manifest))
+            self.assertEqual({x["object_ref"]["vault_id"] for x in result["items"]}, {"public", "private"})
+            self.assertTrue(result["projection_sha256"].startswith("sha256:"))
 
     def test_public_projection_requires_complete_release_allowlist(self):
         draft = {**ITEMS[0], "object_id": "draft", "status": "draft"}

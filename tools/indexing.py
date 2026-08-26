@@ -68,6 +68,22 @@ def _scope_items(items: list[dict], scope: str) -> list[dict]:
 
 class IndexBuilder:
     def __init__(self, root: Path | None): self.root = Path(root or ".").resolve()
+
+    def build_from_registry(self, registry, scope: str = "local") -> dict:
+        """Build the index contract from an owner-aware Vault projection."""
+        projection = registry.local_projection(scope)
+        result = self.build(projection["items"], scope)
+        unavailable = projection.get("unavailable_vaults", [])
+        if unavailable:
+            result["degraded"] = True
+            result["warnings"] = [
+                "vault_unavailable:" + str(item["vault_id"]) + ":" + str(item["reason"])
+                for item in unavailable
+            ]
+        result["generated_from"] = projection["generated_from"]
+        result["projection_sha256"] = projection["projection_sha256"]
+        return result
+
     def build(self, items: list[dict], scope: str = "local") -> dict:
         allowed = _scope_items(items, scope)
         records = []
