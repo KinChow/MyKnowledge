@@ -59,3 +59,7 @@
 - `test_choice_schema_rejects_duplicate_and_unknown_option_ids` 验证选项 ID 必须唯一，正确答案只能引用已声明选项。
 - `test_multi_choice_response_rejects_duplicate_ids` 验证多选作答不接受重复 option ID，避免集合归一化掩盖非法输入。
 - 题型校验仍独立于 FSRS；调度器不参与事实、claim 或隐私判定。
+
+## 作答 option allowlist 增量证据（2026-08-27）
+
+- `tests/test_question.py::QuestionTests::test_choice_response_rejects_unknown_option_ids` 验证单选/多选答案只能引用题目声明的 option ID；未知 ID 返回 `response_option_unknown`，不会写入评分记录或被降级为普通错误。
