@@ -26,7 +26,7 @@
 | WIKI-002 | F002 | ADR-0004 | wiki-claim-validation | AC-F002-003/004 | 待实现 | Designed |
 | EVD-001 | F003 | ADR-0001/0005 | wiki-claim-validation | AC-F003-001/002/004/005/006/012 | 待实现 | Designed |
 | VAL-001 | F003 | ADR-0005/0010 | wiki-claim-validation | AC-F003-003/007/008/011/012/013/014/015/016 | tests/validation/test_audit.py + tests/validation/test_provider.py + tests/validation/test_ruleset.py（schema/覆盖完整性含额外 claim 拒绝/引文二次校验/报告幂等/规则集 stale/Agent CLI 与编排层 timeout 归一）；真实 provider 与 cross-vault 集成待补 | Implemented（部分） |
-| OPS-001 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-001/002/003/004/005/006/010/011 | tests/test_write_operation.py（preview/apply/回滚/fencing/stale lock recovery/durable audit 校验、symlink/hard-link target 拒绝）；领域场景待补 | Implemented（部分） |
+| OPS-001 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-001/002/003/004/005/006/010/011 | tests/test_write_operation.py（preview/apply/回滚/commit-intent 显式恢复/fencing/stale lock recovery/durable audit 校验、symlink/hard-link target 拒绝）；领域场景待补 | Implemented（部分） |
 | ARC-003 | F001/F003 | ADR-0003/0005 | source-ingestion, wiki-claim-validation | AC-F001-007/008/010, AC-F003-009/010/011 | 待实现 | Designed |
 | ARC-004 | F001/F011/F012 | ADR-0003/0002 | source-ingestion, private-vault-submodule, backup-and-observability | AC-F001-006, AC-F011-004, AC-F012-005 | 待实现 | Designed |
 | OPS-003 | F004/F011/F012 | ADR-0006/0002 | write-operation-and-locking, private-vault-submodule, backup-and-observability | AC-F004-007/008, AC-F011-016/018, AC-F012-004/005 | tests/test_write_operation.py（VaultLockGroup 排序、去重、失败释放）；跨仓库 apply/恢复待补 | Implemented（部分） |

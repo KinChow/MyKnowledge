@@ -149,6 +149,25 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "old")
             self.assertFalse((root / "b.md").exists())
 
+    def test_failed_apply_keeps_intent_for_explicit_recovery(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "a.md").write_text("old", encoding="utf-8")
+            service = WriteOperation(root)
+            op = service.preview({"a.md": "new", "b.md": "created"})["operation_id"]
+            original = service._path
+            calls = {"n": 0}
+            def fail_after_first(name):
+                calls["n"] += 1
+                if calls["n"] == 3:
+                    raise OSError("injected")
+                return original(name)
+            with mock.patch.object(service, "_path", side_effect=fail_after_first):
+                result = service.apply(op, confirmed=True)
+            self.assertEqual(result["error_code"], "apply_failed")
+            self.assertTrue((root / "state" / "commit-intents" / f"{op}.json").exists())
+            self.assertEqual(service.recover(op)["state"], "recovery_required")
+            self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "old")
+
     def test_rename_and_retire_have_distinct_operation_types(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

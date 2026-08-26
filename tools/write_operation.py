@@ -135,7 +135,7 @@ class WriteOperation:
             record = self.store.load(operation_id)
             intent_path = self.store.paths.commit_intent_file(operation_id)
             intent = __import__("json").loads(intent_path.read_text(encoding="utf-8"))
-            if record.get("state") != "previewed" or intent.get("schema_version") != "commit-intent/v1":
+            if record.get("state") not in {"previewed", "expired"} or intent.get("schema_version") != "commit-intent/v1":
                 return {"state": "blocked", "operation_id": operation_id, "error_code": "recovery_invalid"}
             states = []
             for item in intent.get("files", []):

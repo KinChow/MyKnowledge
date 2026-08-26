@@ -108,6 +108,8 @@
 
 ## Commit-intent 恢复增量证据（2026-08-27）
 
+- `test_failed_apply_keeps_intent_for_explicit_recovery` 验证多文件 apply 故障回滚后不会静默删除 commit-intent；旧 canonical 保持不变，显式 `recover()` 返回 `recovery_required`，等待人工/上层决定继续或重做。
+
 - `test_commit_intent_is_removed_after_apply` 验证正常 Apply 在 durable applied record 写入后清理临时 intent。
 - `test_recover_commit_intent_marks_fully_written_files_applied` 验证进程在文件写完但 applied record 尚未落盘时，恢复检查按 after hash 重建 applied 状态；hash 不完整时返回 `recovery_required`，不覆盖用户文件。
 - 边界：projection/index 重建与跨 Vault staging 仍待后续验收，F004 仍为 Implemented（部分）。
