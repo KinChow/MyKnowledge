@@ -151,3 +151,8 @@
 
 - `tests/ingest/test_fetcher.py::FetcherTests::test_redirect_is_rechecked_and_response_limit_is_enforced` 验证 redirect 后逐跳重新解析，并在响应超过 `max_bytes` 时返回 `fetch_blocked:response_limit`。
 - `test_redirect_limit_is_explicit` 验证超过 `max_redirects` 返回 `fetch_blocked:redirect_limit`；连接仍只使用通过公网 IP 校验的 pin。
+
+## DNS rebinding/userinfo 增量证据（2026-08-27）
+
+- `test_dns_rebinding_is_reported_separately` 验证同一 hostname 在 redirect 链中解析到不同 IP 时返回 `fetch_blocked:dns_rebinding_blocked`。
+- `test_userinfo_url_is_blocked` 验证 URL 中包含 username/password 时返回 `fetch_blocked:url_policy`，不会建立连接。
