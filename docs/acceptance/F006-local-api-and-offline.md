@@ -97,6 +97,12 @@
 
 Origin/Host allowlist、audience/scope token registry、优雅退出清理和 citation replay 仍待后续验收。
 
+## Uvicorn loopback 启动增量证据（2026-08-30）
+
+- `python -m backend.server --root <root> --port <port>` 复用 FastAPI app factory 与 Uvicorn ASGI runner，默认只绑定 `127.0.0.1`，`--host 0.0.0.0` 等远程 bind 在启动参数层拒绝。
+- `tests/test_api.py::test_uvicorn_loopback_runner_serves_health_and_rotates_token` 启动真实子进程，通过 loopback HTTP 请求 `/api/health` 和匿名 public `/api/query`，并验证 token 文件为 `0600`；`test_server_runner_rejects_remote_bind` 覆盖远程 bind fail-closed。
+- 该证据闭合真实 HTTP runner 的基础场景，但不替代跨平台部署、长时间运行和浏览器环境验收。
+
 ## Origin/Host 增量证据（2026-08-30）
 
 - AC-F006-006/008：`tests/test_api.py::test_cross_origin_post_is_rejected_before_capability_check` 和 `test_non_loopback_host_is_rejected` 验证跨站 Origin、非 loopback Host 在 capability 校验前分别返回 `origin_not_allowed`/`host_not_allowed`。

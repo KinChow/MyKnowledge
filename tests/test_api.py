@@ -3,8 +3,48 @@ from backend.app import create_app
 from pathlib import Path
 import json
 import tempfile
+import socket
+import subprocess
+import sys
+import time
+from urllib.request import urlopen
+from backend.server import _loopback_host
 
 ITEMS = [{"vault_id": "public", "object_id": "one", "title": "公开条目", "body": "离线查询", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "content_sha256": "sha256:one"}, {"vault_id": "private", "object_id": "secret", "title": "私有条目", "body": "内部", "confidentiality": "internal"}]
+
+def test_server_runner_rejects_remote_bind():
+    import argparse
+    assert _loopback_host("127.0.0.1") == "127.0.0.1"
+    try:
+        _loopback_host("0.0.0.0")
+    except argparse.ArgumentTypeError as error:
+        assert "remote bind" in str(error)
+    else:
+        raise AssertionError("remote bind must be rejected")
+
+def test_uvicorn_loopback_runner_serves_health_and_rotates_token():
+    with tempfile.TemporaryDirectory() as directory, socket.socket() as probe:
+        probe.bind(("127.0.0.1", 0)); port = probe.getsockname()[1]
+        probe.close()
+        process = subprocess.Popen([sys.executable, "-m", "backend.server", "--root", directory, "--port", str(port)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            deadline = time.time() + 8
+            while time.time() < deadline:
+                try:
+                    with urlopen(f"http://127.0.0.1:{port}/api/health", timeout=0.3) as response:
+                        assert response.status == 200
+                        assert json.loads(response.read())["status"] == "ok"
+                        break
+                except OSError:
+                    time.sleep(0.05)
+            else:
+                raise AssertionError("uvicorn did not become ready")
+            token_path = Path(directory) / "state" / "capability-token"
+            assert token_path.stat().st_mode & 0o777 == 0o600
+            with urlopen(f"http://127.0.0.1:{port}/api/query?q=offline&scope=public", timeout=1) as response:
+                assert response.status == 200
+        finally:
+            process.terminate(); process.wait(timeout=5)
 
 def test_create_app_loads_public_projection_when_items_are_not_injected():
     with tempfile.TemporaryDirectory() as directory:
