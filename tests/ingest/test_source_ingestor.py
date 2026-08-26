@@ -51,6 +51,11 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(
                 len((root / "archive" / "manifest.jsonl").read_text().splitlines()), 1
             )
+            entry = json.loads((root / "archive" / "manifest.jsonl").read_text().splitlines()[0])
+            for field in ("record_id", "vault_id", "owner_object_ref", "snapshot_sha256", "archive_path", "extractor", "normalization_version", "canonical_byte_length", "record_sha256"):
+                self.assertIn(field, entry)
+            self.assertEqual(entry["vault_id"], "public")
+            self.assertEqual(entry["owner_object_ref"], {"type": "source", "id": "personal-note-one"})
             self.assertTrue(
                 (
                     root
@@ -639,4 +644,3 @@ class SourceIngestorTests(unittest.TestCase):
                     self.assertEqual(
                         replayed["state"], "applied", f"{point}: 重放失败: {proc.stderr}"
                     )
-
