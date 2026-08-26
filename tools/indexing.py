@@ -1,6 +1,6 @@
 """Projection index and deterministic retrieval (F005)."""
 from __future__ import annotations
-import json, sqlite3
+import json, sqlite3, os, tempfile
 from pathlib import Path
 from .common import canonical_json, hash_canonical
 
@@ -13,6 +13,28 @@ class IndexBuilder:
             rec = {"object_ref": {"vault_id": x.get("vault_id"), "object_type": x.get("object_type", "wiki"), "object_id": x.get("object_id")}, "title": x.get("title"), "body": x.get("body") if x.get("availability", "available") == "available" else None, "snippet": None, "score": None, "availability": x.get("availability", "available"), "availability_reason": x.get("availability_reason", "none"), "confidentiality": x.get("confidentiality", "public"), "content_sha256": x.get("content_sha256"), "source_ref": x.get("source_ref")}
             records.append(rec)
         return {"schema_version": "query-result/v1", "items": records, "scope": scope, "method": "fts5", "index_version": "fts5/v1", "generated_from": hash_canonical(allowed), "availability": "available", "availability_reason": "none", "degraded": False, "confidentiality_max": "internal" if any(x["confidentiality"] == "internal" for x in records) else "public", "limits": [], "warnings": []}
+
+class SQLiteIndex:
+    """Rebuildable SQLite FTS5 index with metadata kept outside the FTS table."""
+    def __init__(self, path: Path): self.path = Path(path)
+    def rebuild(self, items: list[dict], scope: str = "local") -> dict:
+        allowed = IndexBuilder(self.path.parent).build(items, scope)["items"]
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        fd, tmp = tempfile.mkstemp(prefix=".index.", suffix=".sqlite3", dir=self.path.parent); os.close(fd)
+        try:
+            db = sqlite3.connect(tmp)
+            db.execute("CREATE TABLE metadata (rowid INTEGER PRIMARY KEY, object_ref TEXT, title TEXT, body TEXT, availability TEXT, availability_reason TEXT, confidentiality TEXT, content_sha256 TEXT, source_ref TEXT)")
+            db.execute("CREATE VIRTUAL TABLE documents USING fts5(title, body, content='metadata', content_rowid='rowid')")
+            for row in allowed:
+                ref = json.dumps(row["object_ref"], ensure_ascii=False, sort_keys=True)
+                db.execute("INSERT INTO metadata(object_ref,title,body,availability,availability_reason,confidentiality,content_sha256,source_ref) VALUES(?,?,?,?,?,?,?,?)", (ref,row["title"],row["body"],row["availability"],row["availability_reason"],row["confidentiality"],row["content_sha256"],row["source_ref"]))
+            db.execute("INSERT INTO documents(documents) VALUES('rebuild')"); db.commit(); db.close(); os.replace(tmp, self.path)
+        finally:
+            if os.path.exists(tmp): os.unlink(tmp)
+        return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":hash_canonical(allowed), "item_count":len(allowed), "index_version":"fts5/v1"}
+    def search(self, query: str, top_k: int = 8) -> list[dict]:
+        db = sqlite3.connect(self.path); rows = db.execute("SELECT m.object_ref,m.title,m.body,bm25(documents),m.availability,m.availability_reason,m.confidentiality,m.content_sha256,m.source_ref FROM documents JOIN metadata m ON documents.rowid=m.rowid WHERE documents MATCH ? ORDER BY bm25(documents) LIMIT ?", (query, top_k)).fetchall(); db.close()
+        return [{"object_ref":json.loads(r[0]),"title":r[1],"snippet":(r[2] or "")[:240],"score":float(r[3]),"availability":r[4],"availability_reason":r[5],"confidentiality":r[6],"content_sha256":r[7],"source_ref":r[8]} for r in rows]
 
 class Retriever:
     def __init__(self, items: list[dict]): self.items = items

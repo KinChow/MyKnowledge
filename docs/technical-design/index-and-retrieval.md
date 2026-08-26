@@ -1,6 +1,6 @@
 # Public/Local 索引与检索实现设计
 
-- 状态：Implemented（2026-08-27；projection 隔离与 deterministic fallback 基础能力）
+- 状态：Implemented（2026-08-29；projection 隔离、SQLite FTS5 与 deterministic fallback）
 - 相关 Feature：F005
 - 相关规范：IDX、SEC
 - 相关 ADR：ADR-0007
@@ -8,7 +8,7 @@
 
 ## 目标与边界
 
-本轮成熟方案调查：SQLite FTS5 官方 BM25/highlight/external-content 设计（https://www.sqlite.org/fts5.html）与 QMD 2.8.3 的本地 BM25/vector/RRF 路由（https://github.com/tobi/qmd）。当前实现先闭合统一 QueryResult、public allowlist 和 deterministic fallback；QMD/SQLite 持久索引作为后续增量接入，不把降级伪装成默认能力。
+本轮成熟方案调查：SQLite FTS5 官方 BM25/highlight/external-content 设计（https://www.sqlite.org/fts5.html）与 QMD 2.8.3 的本地 BM25/vector/RRF 路由（https://github.com/tobi/qmd）。实现复用 FTS5 external-content + BM25；QMD 仍作为后续只读 adapter，不把缺失 QMD 伪装成成功。
 
 本设计实现 public/local projection 的可重建索引，以及 QMD → SQLite FTS5 → deterministic LIKE 的只读检索链。QMD 是本地自然语言/混合查询的默认适配器，但其向量、rerank 和模型缓存能力是运行时可选项；第一阶段不要求自有 Embedding/FAISS/HybridRetriever。索引不是内容真相源，不能计算验证状态、改变发布状态或跨 Vault 放宽权限。
 

@@ -39,7 +39,7 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 - 前置依赖、交付物和完成定义；
 - 当前状态和可复核证据。
 
-当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（通用 writer，领域验收未闭合）；F005 已进入 `Implemented`（projection/fallback 基础能力，完整 FTS5/QMD 验收未闭合）；F006 已进入 `Implemented`（FastAPI retrieve/query/ask 基础能力，完整 API 验收未闭合）；F007 已进入 `Implemented`（Astro 工程骨架，真实 projection/浏览器/leak gate 验收未闭合）；F008 已进入 `Implemented`（题目 schema、绑定、评分和 FSRS adapter 基础能力，完整验收未闭合）；F009 已进入 `Implemented`（canonical Skill 基础契约，完整运行验收未闭合）；F010 已进入 `Implemented`（legacy inventory 基础能力，Source-first 迁移未闭合）；F011 已进入 `Implemented`（只读 Registry，完整 Vault 验收未闭合）；F012 已进入 `Implemented`（状态与 manifest 基础能力，完整恢复验收未闭合）。
+当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（通用 writer，领域验收未闭合）；F005 已进入 `Implemented`（projection、SQLite FTS5 与 fallback，QMD/完整恢复验收未闭合）；F006 已进入 `Implemented`（FastAPI retrieve/query/ask 基础能力，完整 API 验收未闭合）；F007 已进入 `Implemented`（Astro 工程骨架，真实 projection/浏览器/leak gate 验收未闭合）；F008 已进入 `Implemented`（题目 schema、绑定、评分和 FSRS adapter 基础能力，完整验收未闭合）；F009 已进入 `Implemented`（canonical Skill 基础契约，完整运行验收未闭合）；F010 已进入 `Implemented`（legacy inventory 基础能力，Source-first 迁移未闭合）；F011 已进入 `Implemented`（只读 Registry，完整 Vault 验收未闭合）；F012 已进入 `Implemented`（状态与 manifest 基础能力，完整恢复验收未闭合）。
 
 F008 已转入本轮独立 Feature，不改变 Source → Wiki → Evidence 主链路；题型为单选题、多选题和面向面试的简答题，复习调度采用 FSRS，题目与复习状态仅保留在 local/private，不进入 public projection。
 
