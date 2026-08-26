@@ -1,6 +1,6 @@
 # 写操作与锁实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-27；通用 writer 与基础验收已落地）
 - 相关 Feature：F004
 - 相关规范：OPS、SEC
 - 相关 ADR：ADR-0006
@@ -9,6 +9,14 @@
 ## 目标与非目标
 
 目标是实现 Preview → 用户确认 → Apply、幂等、逐 Vault 排他锁、原子落盘、rename/move 和废弃操作。Agent Skill 只调用本设计定义的 operation API，不拥有第二套写入规则。不可重建的确认、发布和验证摘要写入 owner vault 的 `audit/`；`state/` 只保存可清理的运行态。
+
+## 本轮成熟方案调查（2026-08-27）
+
+- `filelock` v3.32.4（MIT，https://github.com/tox-dev/py-filelock）：复用跨平台排他锁和进程退出自动释放；MyKnowledge 额外保留 vault/token/audit 语义。
+- SQLite WAL/transaction（https://sqlite.org/wal.html）：复用原子提交与恢复思想；当前 operation metadata 仍以 JSON durable record 保存，避免引入不必要的数据库迁移。
+- Dendron vault refactor（https://github.com/dendronhq/dendron）：借鉴 vault 内路径重构和链接迁移边界；实际 source/wiki 状态和 evidence 门禁仍由 MyKnowledge 领域服务负责。
+
+本轮结论：通用 writer 复用 `filelock`、`atomic_write`（临时文件、fsync、rename）和现有 `OperationStore`，不复制 Source/Wiki 校验逻辑；所有目标路径先做仓库根目录约束，领域 writer 后续通过同一接口接入。
 
 ## 核心流程
 

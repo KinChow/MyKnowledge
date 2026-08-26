@@ -2,7 +2,9 @@
 
 - Feature：F004
 - 相关规范：OPS、SEC
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-27；7 个通用 writer 测试通过；完整领域 writer 验收仍待后续补齐）
+- 实现证据：`tools/write_operation.py`、`tests/test_write_operation.py`、`tools/operation_store.py`、`tools/vault_lock.py`
+- 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；多 Vault fencing、projection/index 恢复和 retire 领域状态仍需后续验收。
 
 ## AC-F004-001 未确认不得 Apply
 
@@ -10,6 +12,8 @@
 - When：执行 Apply；
 - Then：操作被拒绝且目标文件不变；
 - 自动化级别：Integration。
+- 对应测试：`tests/test_write_operation.py::WriteOperationTests::test_preview_is_read_only_and_apply_requires_confirmation`
+- 当前状态：通过。
 
 ## AC-F004-002 重复 Apply 幂等
 
@@ -17,6 +21,8 @@
 - When：重复执行 Apply；
 - Then：返回原结果，不产生重复对象或损坏索引；
 - 自动化级别：Integration。
+- 对应测试：`tests/test_write_operation.py::WriteOperationTests::test_apply_is_idempotent`
+- 当前状态：通过。
 
 ## AC-F004-003 并发写入保持一致
 

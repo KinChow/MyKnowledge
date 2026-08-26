@@ -39,9 +39,9 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 - 前置依赖、交付物和完成定义；
 - 当前状态和可复核证据。
 
-当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F005–F012（不含延后的 F008）均为 `Designed`，尚未声称代码 `Implemented` 或 `Accepted`；验收文档中的 `Not Implemented` 是有意保留的事实边界。当前 checkout 还没有 `skills/myknowledge/SKILL.md` 和领域 writer/backend；F009 的 canonical Skill 文件存在性本身是验收门，不得从文档路径的预留描述推断已实现。
+当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（通用 writer，领域验收未闭合）；F005–F012（含 F008）仍为 `Designed`，尚未声称代码 `Implemented` 或 `Accepted`；验收文档中的 `Not Implemented` 是有意保留的事实边界。当前 checkout 还没有 `skills/myknowledge/SKILL.md` 和领域 writer/backend；F009 的 canonical Skill 文件存在性本身是验收门，不得从文档路径的预留描述推断已实现。
 
-F008 已明确后续单独设计，不属于当前 Source → Wiki → Evidence → Vault → Skill → public static Wiki 主链路的交付依赖。题型范围暂定为单选题、多选题和面向面试的简答题；是否采用 FSRS、题目生成方式、判分和复习策略待 F008 设计时确定，当前不实现 Question/复习迁移。
+F008 已转入本轮独立 Feature，不改变 Source → Wiki → Evidence 主链路；题型为单选题、多选题和面向面试的简答题，复习调度采用 FSRS，题目与复习状态仅保留在 local/private，不进入 public projection。
 
 ## 实施顺序
 
