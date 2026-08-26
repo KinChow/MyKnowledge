@@ -141,6 +141,7 @@
 - 崩溃注入：source apply 4 个提交点 + anchor apply 2 个提交点真实 SIGKILL 后重放恢复（WAL 语义 + flock 内核自动释放）
 - 人工验证：`--from-jsonl` 批量锚定 CLI 冒烟——ok 1 行（生成 operation/evidence）+ unresolved 1 行（snapshot 缺失归入报告，退出码 2）
 - 复核人：zhouzijian01
+- 基线垂直切片：`tests/test_end_to_end.py::test_source_to_wiki_evidence_chain_is_replayable` 串联 Source preview/apply、snapshot、EvidenceAnchor selector、Wiki validation 和 evidence hash replay；原始输入与 canonical 事实链均可复核。
 - 未决项（不影响 Implemented，阻却 Accepted）：
   - AC-003：raw 归档/LFS 门禁随 raw 功能启用时落地；
   - AC-010：`dns_rebinding_blocked` 错误码细分、userinfo 单独测试；
