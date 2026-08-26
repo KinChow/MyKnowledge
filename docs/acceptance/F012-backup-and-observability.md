@@ -23,6 +23,11 @@
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_status_derives_failed_from_corrupt_latest_manifest` 验证已配置 target 的最近 durable manifest 被篡改或结构损坏时，`backup_status` 派生为 `failed/manifest_invalid`。
 - 状态边界：只有 target 配置仍为 `configured`；本轮不会因 manifest 存在而伪造 `verified`，完整 entries、audit chain 与隔离恢复仍须通过 `verify_manifest`/恢复演练。
 
+## Symlink/hard-link 恢复边界证据（2026-08-27）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_backup_rejects_hardlink_entries` 验证 owner Vault 中 hard-link 条目在 manifest 生成阶段返回 `entry_hardlink`，不把 Vault 外部 inode 纳入备份。
+- manifest 校验和恢复阶段同时拒绝 symlink/hard-link；路径 containment 之外不依赖文件名判断安全性。
+
 ## 空仓恢复增量证据（2026-08-30）
 
 - AC-F012-002/005/007：`tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 验证已校验 manifest 可恢复到显式空 checkout；`test_restore_requires_empty_target` 验证非空目标返回 `restore_target_not_empty`，不会覆盖用户文件。

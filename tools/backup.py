@@ -50,6 +50,8 @@ class BackupManager:
                 continue
             for item in sorted(base.rglob("*")):
                 if item.is_file() and not item.is_symlink():
+                    if item.stat().st_nlink > 1:
+                        raise ValueError("entry_hardlink")
                     entries.append({"path": str(item.relative_to(owner_root)), "sha256": "sha256:" + hashlib.sha256(item.read_bytes()).hexdigest(), "size": item.stat().st_size})
         data = {"schema_version": "backup-manifest/v1", "backup_id": backup_id, "vault_id": vault_id, "owner_root": ".", "generated_at": time.time(), "vault_state": status["state"], "backup_state": status["backup_state"], "head_sha256": status.get("head_sha256"), "entries": entries}
         data["manifest_sha256"] = "sha256:" + hashlib.sha256(canonical_json(data)).hexdigest()
@@ -83,6 +85,8 @@ class BackupManager:
                 entry_path = owner_root / rel
                 if not entry_path.is_file() or entry_path.is_symlink():
                     raise ValueError("entry_missing")
+                if entry_path.stat().st_nlink > 1:
+                    raise ValueError("entry_hardlink")
                 actual = "sha256:" + hashlib.sha256(entry_path.read_bytes()).hexdigest()
                 if actual != entry.get("sha256"):
                     raise ValueError("hash_mismatch")
@@ -130,6 +134,8 @@ class BackupManager:
                 destination = target / rel
                 if not source.is_file() or source.is_symlink():
                     raise ValueError("entry_missing")
+                if source.stat().st_nlink > 1:
+                    raise ValueError("entry_hardlink")
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 atomic_write(destination, source.read_bytes(), 0o600)
                 created.append(destination)
