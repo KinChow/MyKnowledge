@@ -16,3 +16,6 @@ class FrontMatterTests(unittest.TestCase):
         self.assertEqual(metadata, {})
         self.assertEqual(body, "body")
 
+    def test_duplicate_yaml_keys_are_rejected(self):
+        with self.assertRaisesRegex(ValueError, "front_matter_invalid_yaml"):
+            FrontMatter.parse("---\nid: first\nid: second\n---\nbody")
