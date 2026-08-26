@@ -18,7 +18,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 ## P0 设计
 
 - [Source 导入与归档](./source-ingestion-and-archive.md)
-- [证据锚定（anchor_evidence）](./evidence-anchoring.md)
+- [证据锚定（evidence_anchor）](./evidence-anchoring.md)
 - [Wiki Claim 验证](./wiki-claim-validation.md)
 - [可执行 Schema Validator](./schema-validation.md)
 - [写操作与锁](./write-operation-and-locking.md)

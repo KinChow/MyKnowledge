@@ -1,4 +1,4 @@
-# 证据锚定实现设计（anchor_evidence）
+# 证据锚定实现设计（evidence_anchor）
 
 - 状态：Draft
 - 相关 Feature：F001、F003
@@ -56,7 +56,7 @@ snapshot 漂移（重新抓取产生新 `snapshot_sha256`）后，旧 evidence i
 
 ## 与写入协议的关系
 
-写回 source 走 §9 的 preview/apply 两阶段与 per-vault 排他锁，和 `create_source.py` 完全一致：preview 不改工作树、apply 原子写入并记录 operation record。它不是「小改动所以可以直接写文件」的例外。
+写回 source 走 §9 的 preview/apply 两阶段与 per-vault 排他锁，和 `source_ingestor.py`（Source 导入与归档）完全一致：preview 不改工作树、apply 原子写入并记录 operation record。它不是「小改动所以可以直接写文件」的例外。
 
 同一 `(source_id, snapshot_sha256, start, end)` 重复锚定时返回既有 `evidence_id`，不产生重复条目。
 
@@ -70,7 +70,7 @@ snapshot 漂移（重新抓取产生新 `snapshot_sha256`）后，旧 evidence i
 
 | 情况 | 行为 |
 | --- | --- |
-| source 不存在或无归档 snapshot | 拒绝，提示先 `archive_source.py` |
+| source 不存在或无归档 snapshot | 拒绝，提示先 `source_ingestor.py` |
 | snapshot 解压失败或 hash 不匹配 | `snapshot_hash_mismatch`，不写入 |
 | `exact` 在 snapshot 中找不到 | `selector_unresolved`，提示引文可能来自别的来源 |
 | `exact` 多处命中且无法消歧 | `ambiguous_selector`，要求扩大选区 |

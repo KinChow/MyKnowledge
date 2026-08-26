@@ -13,7 +13,7 @@
 ## 模块边界
 
 - `source_parser`：解析输入和 front matter；
-- `archive_source`：抓取、不可变 snapshot、压缩和 hash；
+- `source_ingestor`：抓取、不可变 snapshot、压缩和 hash；
 - `evidence_builder`：从 snapshot 生成 TextQuote/TextPosition selector，并记录 extractor/normalization 版本；
 - `vault_registry`：从 `public + 0..N` 个 vault 中解析明确的 target `vault_id`，阻止 internal 写入允许 public projection 的 vault，并返回逐 vault 可用性/备份状态；
 - `source_validator`：确定性规则校验；
