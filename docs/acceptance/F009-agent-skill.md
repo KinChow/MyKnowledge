@@ -118,6 +118,11 @@
 - `tests/test_skill_runtime.py::test_skill_wiki_validate_and_publish_preview_are_domain_only` 验证 wiki 校验和 publish preview 委托 `WikiValidator`，路径越界返回 `path_invalid`，发布预览不会直接编辑 Markdown。
 - F009 仍为 Implemented（部分）：token 生命周期、完整 publish confirmation、provider capability 和全量 API parity 尚未闭合。
 
+## MCP capability 增量证据（2026-08-30）
+
+- `create_server(..., capability_token=...)` 对写入、校验、备份和练习 action 启用恒时 token 校验；public query/read 在未配置 token 时仍可运行。
+- `tests/test_skill_runtime.py::test_mcp_server_enforces_configured_capability_for_sensitive_actions` 验证敏感 action 缺少或使用错误 token 时阻断，正确 token 才进入既有 writer。该边界不替代 operation confirmation/hash 门禁。
+
 ## Canonical Skill runtime 门禁证据（2026-08-27）
 
 - `tests/test_skill_runtime.py::test_skill_status_is_fail_closed_for_canonical_skill` 验证当前 checkout 缺少或损坏 `skills/myknowledge/SKILL.md` 时返回 `skill_unavailable`，合法 canonical 文件才返回 `skill-status/v1/available`。
