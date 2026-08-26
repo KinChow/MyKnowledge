@@ -88,6 +88,13 @@ class RepoPaths:
         return self.state_operations / f"{operation_id}.json"
 
     @property
+    def state_commit_intents(self) -> Path:
+        return self.root / "state" / "commit-intents"
+
+    def commit_intent_file(self, operation_id: str) -> Path:
+        return self.state_commit_intents / f"{operation_id}.json"
+
+    @property
     def state_locks(self) -> Path:
         return self.root / "state" / "locks"
 

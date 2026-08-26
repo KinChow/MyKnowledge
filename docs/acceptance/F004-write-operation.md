@@ -105,3 +105,9 @@
 - Then：恢复动作先检查 PID/进程启动时间并写入 `lock-recovery` durable audit；新锁生成新的 `lock_token`，旧进程在任一提交点因 token 不匹配被拒绝；默认不按超时自动删除；
 - 失败时不变量：不能出现双写、静默覆盖、误删新锁或把未审计的恢复当作成功；
 - 自动化级别：Security/Integration/Failure injection。
+
+## Commit-intent 恢复增量证据（2026-08-27）
+
+- `test_commit_intent_is_removed_after_apply` 验证正常 Apply 在 durable applied record 写入后清理临时 intent。
+- `test_recover_commit_intent_marks_fully_written_files_applied` 验证进程在文件写完但 applied record 尚未落盘时，恢复检查按 after hash 重建 applied 状态；hash 不完整时返回 `recovery_required`，不覆盖用户文件。
+- 边界：projection/index 重建与跨 Vault staging 仍待后续验收，F004 仍为 Implemented（部分）。
