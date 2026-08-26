@@ -265,3 +265,7 @@
 - `tests/test_frontend_projection.py::test_validate_build_rejects_pagefind_count_mismatch` 验证 Pagefind `page_count` 与产出的 HTML 数量不一致时 `validate-build` fail-closed。
 - `frontend/scripts/validate-build.mjs` 在存在 Pagefind 时校验所有语言索引总页数与 HTML 文件数，并确保不小于 catalog；存在 sitemap 时逐条检查 catalog route 闭包。
 - 空 projection 生产构建实际通过，Pagefind 报告 2 个固定 HTML 页面，集合校验通过；真实多文章 sitemap/浏览器检索仍待环境验收。
+
+## Confirmation nonce replay 增量证据（2026-08-27）
+
+- `tests/test_release_confirmation.py::test_public_release_nonce_cannot_be_reused_by_another_event` 验证不同 `event_id`/`operation_id` 也不能复用已消费的 confirmation nonce，返回 `confirmation_nonce_reused`；事件仍保持 append-only，不能靠改文件名重放人工批准。

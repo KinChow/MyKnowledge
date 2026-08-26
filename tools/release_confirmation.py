@@ -51,5 +51,14 @@ def write_event(root: Path, event: dict[str, Any]) -> dict[str, Any]:
     path = RepoPaths(root).release_confirmations / f"{event['event_id']}.json"
     if path.exists():
         return {"state": "blocked", "error_code": "event_exists"}
+    # Nonces are one-shot across event IDs; otherwise an attacker could replay
+    # a valid approval by changing only the event filename/operation metadata.
+    for existing in path.parent.glob("*.json"):
+        try:
+            data = json.loads(existing.read_text(encoding="utf-8"))
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+        if data.get("confirmation_nonce") == event.get("confirmation_nonce"):
+            return {"state": "blocked", "error_code": "confirmation_nonce_reused"}
     atomic_write(path, json.dumps(event, ensure_ascii=False, indent=2).encode("utf-8"), 0o600)
     return {"state": "created", "event_sha256": result["event_sha256"], "path": str(path.relative_to(Path(root).resolve()))}
