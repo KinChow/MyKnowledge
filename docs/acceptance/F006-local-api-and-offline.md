@@ -23,6 +23,10 @@
 
 - `tests/test_api.py::test_non_public_read_requires_capability_even_when_vault_unavailable` 额外验证省略 `scope` 但指定非 public `vault_id` 时仍返回 `capability_token_required`；read/backlinks 不会因默认 public scope 绕过 owner 权限。
 
+## Capability scope registry 增量证据（2026-08-27）
+
+- `tests/test_api.py::test_capability_scope_registry_is_enforced` 验证进程 capability registry 缺少 `vault-check` 时，`GET /api/vault/check` 返回 `capability_scope_invalid`；token、audience、TTL 与具体 endpoint scope 分层校验，默认 scope 集合为 `local-read`、`private-read`、`vault-check`、`write`。
+
 ## AC-F006-001 API 与 CLI 一致
 
 - Given：同一 public/local projection；
