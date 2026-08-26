@@ -1,0 +1,23 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F012",
+  "status": "Implemented (partial)",
+  "generated_from": "37e8e1ee3606a3ee7116e670af753fd468a22f12",
+  "acceptance_document": "docs/acceptance/F012-backup-and-observability.md",
+  "scenario_ids": [
+    "AC-F012-001",
+    "AC-F012-002",
+    "AC-F012-003",
+    "AC-F012-004",
+    "AC-F012-005",
+    "AC-F012-006",
+    "AC-F012-007",
+    "AC-F012-008"
+  ],
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "verification": {
+    "python_command": ".venv/bin/python -m pytest -q",
+    "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
+    "remote_push": false
+  }
+}
