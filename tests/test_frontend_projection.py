@@ -93,3 +93,15 @@ def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):
     result = subprocess.run(["node", str(script), "--scope", "input-tree", str(tmp_path)], capture_output=True, text=True, check=False)
     assert result.returncode != 0
     assert json.loads(result.stderr)["schema_version"] == "public-input-leak-gate/v1"
+
+
+def test_validate_build_rejects_pagefind_count_mismatch(tmp_path: Path):
+    target = tmp_path / "dist"; (target / "pagefind").mkdir(parents=True)
+    (target / "index.html").write_text("<html></html>", encoding="utf-8")
+    (target / "pagefind" / "pagefind-entry.json").write_text(json.dumps({"languages": {"zh-cn": {"page_count": 2}}}), encoding="utf-8")
+    (tmp_path / "public" / "generated").mkdir(parents=True)
+    (tmp_path / "public" / "generated" / "catalog.json").write_text(json.dumps({"items": []}), encoding="utf-8")
+    (tmp_path / "public" / "generated" / "graph.json").write_text(json.dumps({"nodes": [], "edges": []}), encoding="utf-8")
+    script = Path(__file__).parents[1] / "frontend/scripts/validate-build.mjs"
+    result = subprocess.run(["node", str(script), str(target)], cwd=tmp_path, capture_output=True, text=True, check=False)
+    assert result.returncode != 0 and "pagefind_html_count_mismatch" in result.stderr
