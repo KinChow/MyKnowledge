@@ -65,6 +65,7 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 ## Origin/Host 增量证据（2026-08-30）
 
 - AC-F006-006/008：`tests/test_api.py::test_cross_origin_post_is_rejected_before_capability_check` 和 `test_non_loopback_host_is_rejected` 验证跨站 Origin、非 loopback Host 在 capability 校验前分别返回 `origin_not_allowed`/`host_not_allowed`。
+- AC-F006-007：`tests/test_api.py::test_retrieve_enforces_policy_vault_limit` 验证超过 policy `max_vault_ids=16` 返回 `query_limit_exceeded`，不静默截断。
 
 ## AC-F006-006 本机 API 写保护
 
