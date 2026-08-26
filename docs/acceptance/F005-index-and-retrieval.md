@@ -83,6 +83,11 @@
 - `QMDAdapter.search` 仅调用本地 `qmd search ... --json`，检查 cache 权限和 Git 边界；命令失败、schema 无效或 provider 不可用时继续 FTS5/LIKE，不能伪造 qmd 成功。
 - 边界：真实 QMD 安装、向量模型和 RRF 质量仍属于环境验收，当前不标记 F005 Accepted。
 
+## 本轮 Registry projection 接入证据（2026-08-30）
+
+- `IndexBuilder.build_from_registry()` 直接消费 F011 `local-projection/v1`，不自行扫描 Vault；同名对象按 owner 三元组保留，并把 projection hash 写入 `QueryResult.generated_from/projection_sha256`。
+- `tests/test_indexing.py::test_registry_projection_feeds_owner_aware_index` 通过两个独立 Git vault 验证 public/private 同名 Wiki 均进入 local index 且 owner 不覆盖。QMD、向量模型和大规模质量仍待环境验收。
+
 ## SQLite index freshness 证据（2026-08-27）
 
 - `tests/test_indexing.py::IndexingTests::test_retriever_rejects_stale_fts5_index` 验证 canonical projection 内容变化后，旧 SQLite index 的 `generated_from` 不匹配即被拒绝并回退 deterministic fallback。

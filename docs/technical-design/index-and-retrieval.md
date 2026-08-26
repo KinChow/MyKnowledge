@@ -16,6 +16,8 @@
 
 本轮 unavailable 元数据调查（2026-08-27）：SQLite FTS5 external-content（Public Domain，<https://sqlite.org/fts5.html>）允许索引可检索 metadata 与独立正文列；QMD 2.8.3（MIT，<https://github.com/tobi/qmd>）同样将状态/正文作为不同字段。替代方案是遇到 Vault 故障直接丢弃记录，会把“不可用”误报为“未找到”，不采用。LIKE fallback 现在可按标题命中 unavailable 对象，返回 owner/hash/status 元数据且 `snippet=null`；不会读取或生成隐藏正文 chunk。升级索引实现需保持 `query-result/v1` 和该隐私边界。
 
+本轮 Registry projection 接入调查（2026-08-30）：SQLite FTS5（SQLite 3.46，Public Domain，<https://sqlite.org/fts5.html>）继续用于离线、事务化和可重建索引；Tantivy 0.22（MIT，<https://github.com/quickwit-oss/tantivy>）作为替代方案，吞吐和分词扩展更强，但会引入 Rust/native 依赖及新的索引格式升级边界。MyKnowledge 当前数据量和 fallback 契约优先选择 FTS5，直接消费 F011 的 `local-projection/v1`；索引层不自行扫描 Vault，也不重新推断 owner。故障 Vault 通过 projection 的状态元数据进入 warnings，正文只来自可用 owner。未来替换 backend 必须保持 `query-result/v1`、projection hash 和同一 confidentiality 边界。
+
 ## 数据流
 
 ```text
