@@ -16,6 +16,7 @@ from tools.validation.confirm import main as confirm_main
 from tools.validation.validator import main as validate_main
 from tools.write_operation import WriteOperation
 from tools.vault_registry import main as vault_main
+from tools.backup import BackupManager
 
 COMMANDS = {
     "source": source_main,
@@ -50,6 +51,19 @@ def write_main(argv: list[str]) -> int:
 COMMANDS["write"] = write_main
 COMMANDS["vault"] = vault_main
 
+def backup_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Local backup status/manifest")
+    parser.add_argument("action", choices=["status", "manifest"])
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--vault-id", default="public")
+    args = parser.parse_args(argv)
+    manager = BackupManager(args.root)
+    result = manager.status() if args.action == "status" else manager.create_manifest(args.vault_id)
+    print(json.dumps(result, ensure_ascii=False, indent=2)); return 0
+
+COMMANDS["backup"] = backup_main
+
 
 def main(argv: list[str] | None = None) -> int:
     """分派子命令到对应工具：source 导入归档，anchor 证据锚定，validate Wiki
@@ -66,6 +80,7 @@ def main(argv: list[str] | None = None) -> int:
             "  confirm   人工审计确认（operation-confirmation/v1 写入）\n"
             "  write     通用 Preview/Apply 写入（F004）",
             "  vault     Vault Registry 只读检查（F011）",
+            "  backup    备份状态与 durable manifest（F012）",
             file=sys.stderr,
         )
         return 2

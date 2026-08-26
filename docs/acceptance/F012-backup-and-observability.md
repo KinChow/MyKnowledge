@@ -2,7 +2,9 @@
 
 - Feature：F012
 - 相关规范：SEC、OPS
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-27；基础状态/manifest 已实现，完整恢复验收待补齐）
+- 实现证据：`tools/backup.py`、`tools/vault_registry.py`、`tools/cli.py`
+- 当前边界：当前未实现外部 target 传输、空仓恢复演练、durable record 全量校验和 verified 状态派生。
 
 ## AC-F012-001 逐 Vault 状态
 
@@ -11,6 +13,8 @@
 - Then：逐 Vault 输出 `backup_state`、最近结果、未配置告警和受影响对象；
 - 失败时不变量：不能用全局状态掩盖单 Vault 风险。
 - 自动化级别：Integration。
+- 对应测试：`tests/test_vault_registry.py::VaultRegistryTests::test_public_only_fallback_is_available`
+- 当前状态：部分通过（状态输出已实现）。
 
 ## AC-F012-002 空仓恢复演练
 

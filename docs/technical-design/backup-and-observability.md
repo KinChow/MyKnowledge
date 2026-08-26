@@ -1,12 +1,14 @@
 # 备份、恢复与可观测性实现设计
 
-- 状态：Draft
+- 状态：Implemented（2026-08-27；逐 Vault 状态与 durable manifest 基础能力已落地）
 - 相关 Feature：F012
 - 相关规范：SEC、OPS、ARC
 - 相关 ADR：ADR-0002、ADR-0003、ADR-0006
 - 相关验收：[F012](../acceptance/F012-backup-and-observability.md)
 
 ## 逐 Vault 备份状态
+
+本轮成熟方案调查：复用 Git HEAD/worktree 校验、SQLite WAL 的提交/恢复思想和 append-only manifest；不自动上传、checkout、reset、commit 或 push。`tools/backup.py` 只负责状态读取与 owner vault manifest 写入，真正 target 传输和空仓恢复作为后续验收增量。
 
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
