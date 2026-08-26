@@ -191,6 +191,68 @@ class VaultRegistry:
                     index[key] = {"vault_id": vault_id, "object_type": object_type, "object_id": path.stem, "availability": "available", "availability_reason": "none"}
         return index
 
+    def local_projection(self, scope: str = "local") -> dict:
+        """Build a deterministic owner-aware projection for local/private reads.
+
+        This is a derived view: public publishing continues to use its dedicated
+        allowlist generator. Unavailable vaults remain diagnosable without being
+        represented as an empty, available vault.
+        """
+        if scope not in {"local", "private"}:
+            raise ValueError("projection_scope_invalid")
+        data = self._load()
+        public_id = str(data.get("public_vault_id", "public"))
+        config = {str(item.get("id")): item for item in data["vaults"]}
+        report = self.check()
+        items: list[dict] = []
+        for status in report["vaults"]:
+            vault_id = status["vault_id"]
+            if scope == "private" and vault_id == public_id:
+                continue
+            if status["state"] != "available":
+                continue
+            try:
+                vault_root = self.resolve_vault_path(vault_id)
+            except (OSError, ValueError):
+                continue
+            confidentiality = str(config.get(vault_id, {}).get(
+                "confidentiality", "public" if vault_id == public_id else "internal"
+            ))
+            for object_type, folder in (("wiki", "wiki"), ("source", "sources")):
+                base = vault_root / folder
+                paths = sorted(base.rglob("*.md")) if base.is_dir() else []
+                for path in paths:
+                    if not path.is_file() or path.is_symlink():
+                        continue
+                    body = path.read_text(encoding="utf-8")
+                    title = next((line[2:].strip() for line in body.splitlines() if line.startswith("# ")), path.stem)
+                    items.append({
+                        "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": path.stem},
+                        "vault_id": vault_id,
+                        "object_type": object_type,
+                        "object_id": path.stem,
+                        "title": title,
+                        "body": body,
+                        "content_sha256": "sha256:" + hashlib.sha256(body.encode("utf-8")).hexdigest(),
+                        "availability": "available",
+                        "availability_reason": "none",
+                        "confidentiality": confidentiality,
+                    })
+        items.sort(key=lambda item: (item["vault_id"], item["object_type"], item["object_id"]))
+        unavailable = [
+            {"vault_id": x["vault_id"], "state": x["state"], "reason": x["reason"]}
+            for x in report["vaults"]
+            if x["state"] != "available" and (scope == "local" or x["vault_id"] != public_id)
+        ]
+        return {
+            "schema_version": "local-projection/v1",
+            "scope": scope,
+            "generated_from": report["report_sha256"],
+            "items": items,
+            "unavailable_vaults": unavailable,
+            "projection_sha256": "sha256:" + hashlib.sha256(canonical_json({"scope": scope, "items": items, "unavailable_vaults": unavailable})).hexdigest(),
+        }
+
     @staticmethod
     def effective_confidentiality(owner_confidentiality: str, upstream_confidentialities: list[str] | None = None) -> str:
         """Propagate the highest confidentiality from owner and upstream objects."""
