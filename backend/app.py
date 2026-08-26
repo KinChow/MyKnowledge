@@ -161,8 +161,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return VaultRegistry(app.state.root).check()
 
     @app.post("/api/validate/{vault_id}/{object_type}/{object_id}")
-    def validate_object(vault_id: str, object_type: str, object_id: str, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability)
+    def validate_object(vault_id: str, object_type: str, object_id: str, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
         if object_type != "wiki":
             raise HTTPException(status_code=404, detail={"code": "object_type_not_supported", "stage": "validate", "retryable": False, "next_action": "validate a wiki object"})
         path = object_path(vault_id, object_type, object_id)
@@ -186,15 +186,15 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return matches[0]
 
     @app.get("/api/read/{vault_id}/{object_type}/{object_id}")
-    def read_object(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope)
+    def read_object(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
         path = object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
         return {"schema_version": "read-result/v1", "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "path": str(path.relative_to(owner_root)), "body": path.read_text(encoding="utf-8")}
 
     @app.get("/api/backlinks/{vault_id}/{object_type}/{object_id}")
-    def backlinks(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope)
+    def backlinks(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
         object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
         base = owner_root / "wiki"; results = []
@@ -205,16 +205,16 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return {"schema_version": "backlinks-result/v1", "target": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "items": results}
 
     @app.post("/api/practice/{question_id}/answer")
-    def practice_answer(question_id: str, response: Any = Body(...), scoring_mode: str = Query(default="manual", pattern="^(manual|deterministic|llm)$"), scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope)
+    def practice_answer(question_id: str, response: Any = Body(...), scoring_mode: str = Query(default="manual", pattern="^(manual|deterministic|llm)$"), scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {"schema_version": "practice-answer/v1", **app.state.practice.answer(question_id, response, scoring_mode=scoring_mode)}
         except (OSError, ValueError):
             raise HTTPException(status_code=404, detail={"code": "question_not_found", "stage": "practice", "retryable": False, "next_action": "check question_id"})
 
     @app.post("/api/practice/{question_id}/review")
-    def practice_review(question_id: str, rating: int, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope)
+    def practice_review(question_id: str, rating: int, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {"schema_version": "practice-review/v1", **app.state.practice.review(question_id, rating)}
         except (OSError, ValueError):
