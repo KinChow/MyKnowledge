@@ -54,6 +54,15 @@ class IndexingTests(unittest.TestCase):
             self.assertEqual(result["method"], "deterministic-fallback")
             self.assertIn("fts5_unavailable", result["warnings"])
 
+    def test_rebuild_retains_previous_index(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "index.sqlite3"
+            SQLiteIndex(path).rebuild(ITEMS, "public")
+            SQLiteIndex(path).rebuild([ITEMS[0]], "public")
+            previous = path.with_suffix(".sqlite3.previous")
+            self.assertTrue(previous.exists())
+            self.assertEqual(SQLiteIndex(previous).scope(), "public")
+
     def test_qmd_cache_probe_is_fail_closed(self):
         with tempfile.TemporaryDirectory() as d:
             cache = Path(d) / "cache"; cache.mkdir(mode=0o755)

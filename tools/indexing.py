@@ -74,10 +74,14 @@ class SQLiteIndex:
             for row in allowed:
                 ref = json.dumps(row["object_ref"], ensure_ascii=False, sort_keys=True)
                 db.execute("INSERT INTO metadata(object_ref,title,body,availability,availability_reason,confidentiality,content_sha256,source_ref) VALUES(?,?,?,?,?,?,?,?)", (ref,row["title"],row["body"],row["availability"],row["availability_reason"],row["confidentiality"],row["content_sha256"],row["source_ref"]))
-            db.execute("INSERT INTO documents(documents) VALUES('rebuild')"); db.commit(); db.close(); os.replace(tmp, self.path)
+            db.execute("INSERT INTO documents(documents) VALUES('rebuild')"); db.commit(); db.close()
+            previous = self.path.with_suffix(self.path.suffix + ".previous")
+            if self.path.exists():
+                os.replace(self.path, previous)
+            os.replace(tmp, self.path)
         finally:
             if os.path.exists(tmp): os.unlink(tmp)
-        return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":generated_from, "item_count":len(allowed), "index_version":"fts5/v1"}
+        return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":generated_from, "item_count":len(allowed), "index_version":"fts5/v1", "previous_path": str(previous.name) if self.path.with_suffix(self.path.suffix + ".previous").exists() else None}
     def search(self, query: str, top_k: int = 8) -> list[dict]:
         db = sqlite3.connect(self.path); rows = db.execute("SELECT m.object_ref,m.title,m.body,bm25(documents),m.availability,m.availability_reason,m.confidentiality,m.content_sha256,m.source_ref FROM documents JOIN metadata m ON documents.rowid=m.rowid WHERE documents MATCH ? ORDER BY bm25(documents) LIMIT ?", (query, top_k)).fetchall(); db.close()
         return [{"object_ref":json.loads(r[0]),"title":r[1],"snippet":(r[2] or "")[:240],"score":float(r[3]),"availability":r[4],"availability_reason":r[5],"confidentiality":r[6],"content_sha256":r[7],"source_ref":r[8]} for r in rows]

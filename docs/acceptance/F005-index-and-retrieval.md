@@ -77,3 +77,8 @@
 
 - `tests/test_indexing.py::IndexingTests::test_retriever_rejects_stale_fts5_index` 验证 canonical projection 内容变化后，旧 SQLite index 的 `generated_from` 不匹配即被拒绝并回退 deterministic fallback。
 - `SQLiteIndex` 将 scope 与输入集合 hash 写入 `index_info`；旧版本/损坏 schema 按不可用处理，不会把陈旧命中报告为 FTS5 正常结果。
+
+## 损坏索引恢复增量证据（2026-08-27）
+
+- `tests/test_indexing.py::IndexingTests::test_rebuild_retains_previous_index` 验证 SQLite rebuild 成功替换时保留 `<index>.previous`，上一版本仍可独立读取。
+- 临时事务或新索引写入失败时不触碰现有 index；查询发现损坏/陈旧索引时回退 deterministic fallback，等待显式 rebuild。
