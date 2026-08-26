@@ -19,6 +19,12 @@ def test_public_post_requires_capability_but_public_get_remains_anonymous():
     assert retrieve.status_code == ask.status_code == 401
     assert retrieve.json()["detail"]["code"] == "capability_token_required"
 
+def test_get_query_rejects_unknown_parameters():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    response = client.get("/api/query", params={"q": "离线", "scope": "public", "include_private": "true"})
+    assert response.status_code == 400
+    assert response.json()["detail"]["code"] == "schema_invalid"
+
 def test_private_scope_requires_capability():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
     assert client.post("/api/retrieve", json={"query": "内部", "scope": "local"}).status_code == 401

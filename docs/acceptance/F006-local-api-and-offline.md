@@ -15,6 +15,10 @@
 
 - `tests/test_api.py::test_validate_endpoint_rejects_wrong_capability_audience` 验证 validate 端点拒绝错误 `X-MyKnowledge-Audience`；read/backlinks/practice 端点同样透传固定 audience `myknowledge-local-api` 校验，避免只有检索/写入接口具备 audience 边界。
 
+## GET query 参数白名单增量证据（2026-08-27）
+
+- `tests/test_api.py::test_get_query_rejects_unknown_parameters` 验证 `/api/query` 对未知 query 参数返回 `schema_invalid`，避免 GET alias 静默忽略例如 `include_private` 的未定义字段并与 POST `extra=forbid` 契约产生歧义。
+
 ## AC-F006-001 API 与 CLI 一致
 
 - Given：同一 public/local projection；
