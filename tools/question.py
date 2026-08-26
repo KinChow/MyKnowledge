@@ -20,6 +20,10 @@ from .validation.validator import WikiValidator
 
 QUESTION_SCHEMA = "question/v1"
 QUESTION_TYPES = {"single_choice", "multi_choice", "short_answer"}
+QUESTION_FIELDS = {
+    "id", "type", "vault_id", "wiki_id", "claim_id", "prompt", "confidentiality",
+    "options", "correct_option_ids", "answer", "explanation", "rubric",
+}
 
 
 class FSRSAdapter:
@@ -68,7 +72,12 @@ class QuestionStore:
     @staticmethod
     def _validate_spec(spec: dict) -> list[dict]:
         errors: list[dict] = []
-        if spec.get("type") not in QUESTION_TYPES:
+        if not isinstance(spec, dict):
+            return [{"code": "question_spec_invalid"}]
+        for field in sorted(set(spec) - QUESTION_FIELDS):
+            errors.append({"code": "unknown_field", "field": field})
+        question_type = spec.get("type")
+        if question_type not in QUESTION_TYPES:
             errors.append({"code": "question_type_invalid"})
         try:
             safe_id(str(spec.get("id", "")))
@@ -79,7 +88,7 @@ class QuestionStore:
         for field in ("wiki_id", "claim_id"):
             if not isinstance(spec.get(field), str) or not spec[field].strip():
                 errors.append({"code": f"{field}_required"})
-        if spec.get("type") in {"single_choice", "multi_choice"}:
+        if question_type in {"single_choice", "multi_choice"}:
             options = spec.get("options")
             correct = spec.get("correct_option_ids")
             if not isinstance(options, list) or len(options) < 2:
@@ -91,10 +100,14 @@ class QuestionStore:
                 errors.append({"code": "correct_options_required"})
             elif any(value not in option_ids for value in correct) or len(set(correct)) != len(correct):
                 errors.append({"code": "correct_option_id_unknown"})
-            if spec.get("type") == "single_choice" and isinstance(correct, list) and len(correct) != 1:
+            if question_type == "single_choice" and isinstance(correct, list) and len(correct) != 1:
                 errors.append({"code": "single_choice_requires_one_answer"})
-        if spec.get("type") == "short_answer" and not isinstance(spec.get("rubric"), list):
-            errors.append({"code": "rubric_required"})
+        if question_type == "short_answer":
+            if not isinstance(spec.get("rubric"), list):
+                errors.append({"code": "rubric_required"})
+            for field in ("options", "correct_option_ids"):
+                if field in spec and spec[field] is not None:
+                    errors.append({"code": "field_not_allowed", "field": field, "type": question_type})
         return errors
 
     def _wiki_report(self, wiki_path: Path) -> dict:
