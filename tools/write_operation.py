@@ -22,7 +22,17 @@ class WriteOperation:
         self.store = OperationStore(self.root)
 
     def _path(self, value: str) -> Path:
-        path = (self.root / value).resolve()
+        lexical = self.root / value
+        # Reject symlink components before resolve; resolving first would turn a
+        # seemingly safe in-repo link into an unintended write target.
+        current = self.root
+        for part in Path(value).parts:
+            if part in {"", "."}:
+                continue
+            current = current / part
+            if current.is_symlink():
+                raise ValueError("path_symlink")
+        path = lexical.resolve()
         try:
             path.relative_to(self.root)
         except ValueError as exc:
@@ -40,6 +50,8 @@ class WriteOperation:
                 if not isinstance(content, str):
                     return {"state": "blocked", "error_code": "content_not_string"}
                 path = self._path(name)
+                if path.exists() and path.stat().st_nlink > 1:
+                    raise ValueError("path_hardlink")
                 before = sha256_bytes(path.read_bytes()) if path.exists() else None
                 targets.append({"path": str(path.relative_to(self.root)), "before_hash": before, "content": content})
             input_hash = hash_canonical({"files": targets, "operation_type": operation_type, "vault_id": vault_id})
@@ -74,6 +86,9 @@ class WriteOperation:
                     originals[source_path] = source_path.read_bytes()
                 for item in record.get("files", []):
                     path = self._path(item["path"])
+                    if path.exists() and path.stat().st_nlink > 1:
+                        self.store.update(record, "expired", error_code="path_hardlink")
+                        return {"state": "expired", "operation_id": operation_id, "error_code": "path_hardlink"}
                     current = sha256_bytes(path.read_bytes()) if path.exists() else None
                     if current != item.get("before_hash"):
                         self.store.update(record, "expired", error_code="hash_mismatch")
