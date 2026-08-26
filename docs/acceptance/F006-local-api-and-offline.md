@@ -11,6 +11,10 @@
 - `tests/test_api.py::test_public_post_requires_capability_but_public_get_remains_anonymous` 验证 public `GET /api/query` 保持匿名兼容，而 `POST /api/retrieve` 与 `POST /api/ask` 即使请求 public scope 也必须携带当前进程 capability。
 - `test_get_post_query_equivalent` 验证授权后的 POST 与匿名 public GET 仍返回同一 `query-result/v1`；该门禁不改变 Origin/Host 和请求体大小在业务处理前 fail-closed 的顺序。
 
+## Capability audience 覆盖增量证据（2026-08-27）
+
+- `tests/test_api.py::test_validate_endpoint_rejects_wrong_capability_audience` 验证 validate 端点拒绝错误 `X-MyKnowledge-Audience`；read/backlinks/practice 端点同样透传固定 audience `myknowledge-local-api` 校验，避免只有检索/写入接口具备 audience 边界。
+
 ## AC-F006-001 API 与 CLI 一致
 
 - Given：同一 public/local projection；

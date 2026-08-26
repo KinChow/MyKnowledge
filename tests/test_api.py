@@ -156,6 +156,13 @@ def test_validate_endpoint_requires_capability_and_reuses_wiki_validator(tmp_pat
     assert response.json()["schema_version"] == "validation-result/v1"
     assert response.json()["object_ref"]["vault_id"] == "public"
 
+def test_validate_endpoint_rejects_wrong_capability_audience(tmp_path: Path):
+    wiki = tmp_path / "wiki" / "target.md"; wiki.parent.mkdir(parents=True); wiki.write_text("---\nschema_version: wiki/v1\nid: target\ntitle: Target\nkind: reference\nstatus: planned\n---\n# Target\n", encoding="utf-8")
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    response = client.post("/api/validate/public/wiki/target", headers={"X-MyKnowledge-Capability": "token", "X-MyKnowledge-Audience": "wrong"})
+    assert response.status_code == 403
+    assert response.json()["detail"]["code"] == "capability_audience_invalid"
+
 
 def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
     public = tmp_path / "public"; private = tmp_path / "private"
