@@ -28,6 +28,16 @@ class BackupManager:
                 if data.get("schema_version") != "backup-manifest/v1" or data.get("manifest_sha256") != expected or not isinstance(data.get("entries"), list):
                     vault["backup_state"] = "failed"
                     vault["backup_reason"] = "manifest_invalid"
+                else:
+                    restore_dir = owner / "audit" / "backup" / "restores"
+                    markers = sorted(restore_dir.glob(f"{data.get('backup_id', '')}-*.json")) if restore_dir.is_dir() else []
+                    for marker_path in reversed(markers):
+                        marker = json.loads(marker_path.read_text(encoding="utf-8"))
+                        marker_hash = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in marker.items() if k != "record_sha256"})).hexdigest()
+                        if marker.get("schema_version") == "backup-restore-record/v1" and marker.get("manifest_sha256") == expected and marker.get("record_sha256") == marker_hash and marker.get("state") == "restored":
+                            vault["backup_state"] = "verified"
+                            vault["backup_reason"] = "isolated_restore_verified"
+                            break
             except (OSError, ValueError, json.JSONDecodeError):
                 vault["backup_state"] = "failed"
                 vault["backup_reason"] = "manifest_unreadable"
@@ -144,6 +154,11 @@ class BackupManager:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 atomic_write(destination, source.read_bytes(), 0o600)
                 created.append(destination)
+            marker = {"schema_version": "backup-restore-record/v1", "backup_id": data.get("backup_id"), "vault_id": data.get("vault_id"), "manifest_sha256": checked["manifest_sha256"], "restored_entries": len(created), "state": "restored", "recorded_at": time.time()}
+            marker["record_sha256"] = "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
+            marker_dir = owner_root / "audit" / "backup" / "restores"
+            marker_dir.mkdir(parents=True, exist_ok=True)
+            atomic_write(marker_dir / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json", canonical_json(marker) + b"\n", 0o600)
             return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target)}
         except (OSError, ValueError) as exc:
             for path in reversed(created):

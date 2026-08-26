@@ -36,6 +36,8 @@
 
 ## 空仓恢复增量证据（2026-08-30）
 
+- `tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 现验证成功隔离恢复写入 owner-scoped `backup-restore-record/v1` 后，`vault check/status` 才派生 `backup_state: verified`；`test_restore_marker_tampering_does_not_derive_verified` 验证 marker 篡改回到 `configured`。
+
 - AC-F012-002/005/007：`tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 验证已校验 manifest 可恢复到显式空 checkout；`test_restore_requires_empty_target` 验证非空目标返回 `restore_target_not_empty`，不会覆盖用户文件。
 - 恢复过程只复制 manifest 已列出的 owner entries，路径穿越、缺失文件或 hash 异常会失败并清理已创建文件；不修改 public/其他 Vault。
 
