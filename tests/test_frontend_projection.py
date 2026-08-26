@@ -94,6 +94,15 @@ def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):
     assert result.returncode != 0
     assert json.loads(result.stderr)["schema_version"] == "public-input-leak-gate/v1"
 
+def test_leak_gate_rejects_active_html_and_mermaid_callbacks(tmp_path: Path):
+    target = tmp_path / "wiki"; target.mkdir()
+    (target / "unsafe.md").write_text("<iframe src=\"https://evil.example\"></iframe>\n", encoding="utf-8")
+    result = subprocess.run(["node", str(Path(__file__).parents[1] / "frontend/scripts/leak-gate.mjs"), "--scope", "input-tree", str(target)], capture_output=True, text=True, check=False)
+    assert result.returncode == 2
+    (target / "unsafe.md").write_text("```mermaid\ngraph TD\nclick A href https://evil.example\n```\n", encoding="utf-8")
+    result = subprocess.run(["node", str(Path(__file__).parents[1] / "frontend/scripts/leak-gate.mjs"), "--scope", "input-tree", str(target)], capture_output=True, text=True, check=False)
+    assert result.returncode == 2
+
 
 def test_validate_build_rejects_pagefind_count_mismatch(tmp_path: Path):
     target = tmp_path / "dist"; (target / "pagefind").mkdir(parents=True)
