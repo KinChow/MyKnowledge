@@ -86,3 +86,7 @@
   - `cross_vault_reference` 的完整语义依赖 private Vault 挂载（F011），当前仅覆盖显式 target.vault_id 拒绝；
   - conflicting/partial/corroborated/verified 由 validation report（F003 定义契约）驱动，F002 定义了消费字段（verdict/claim_verdicts/corroborated）但报告生成属于 F003；
   - `public_publishable` 的 public-safe confirmation event 判定（release/public-confirmations/）随 F007 发布 authority 落地。
+
+## Evidence ID 唯一性增量证据（2026-08-27）
+
+- `tests/validation/test_wiki_resolution.py::ResolutionTests::test_duplicate_evidence_id_is_rejected` 验证同一 Source 内重复 `evidence_id` 返回 `duplicate_evidence_id`，不会按最后一条静默覆盖。

@@ -77,6 +77,9 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
                  "reason": f"evidence item {item_id} 的 position 非法"}
             )
             continue
+        if item_id in items:
+            errors.append({"code": "duplicate_evidence_id", "path": f"sources.{source_id}.evidence_items.{item_id}", "reason": "同一 Source 内 evidence_id 必须唯一"})
+            continue
         items[item_id] = item
     return {"metadata": metadata, "evidence_items": items, "path": hits[0]}, errors
 

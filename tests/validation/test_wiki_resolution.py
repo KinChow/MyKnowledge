@@ -24,6 +24,18 @@ from wiki_fixtures import (
 
 
 class ResolutionTests(WikiTestCase):
+    def test_duplicate_evidence_id_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            source = root / "sources" / "tools" / "dup.md"; source.parent.mkdir(parents=True)
+            metadata = {"schema_version": "source/v1", "id": "dup", "domain": "tools", "source_type": "personal-note", "origin": "personal", "retrieval": {"acquisition": "personal-note"}, "snapshot_sha256": "sha256:s", "evidence_items": [{"evidence_id": "e1", "snapshot_sha256": "sha256:s"}, {"evidence_id": "e1", "snapshot_sha256": "sha256:s"}]}
+            source.write_text(FrontMatter.render(metadata, "body"), encoding="utf-8")
+            from tools.paths import RepoPaths
+            from tools.validation.resolution import resolve_source
+            resolved, errors = resolve_source("dup", RepoPaths(root))
+            self.assertIsNotNone(resolved)
+            self.assertIn("duplicate_evidence_id", {item["code"] for item in errors})
+
     def test_owner_vault_reference_resolution(self):
         """AC-F002-005：target 解析为完整 object ref；显式跨 Vault target 拒绝。"""
         # 正常解析：resolved ref 进入 evidence hash 且稳定可复现
@@ -182,4 +194,3 @@ class ResolutionTests(WikiTestCase):
         report = WikiValidator(root).validate(wiki_path)
         self.assertTrue(report["valid"], report["errors"])
         self.assertEqual(report["derived"]["strength"], "personal")
-
