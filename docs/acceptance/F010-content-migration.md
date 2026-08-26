@@ -17,6 +17,8 @@
 
 当前证据只覆盖确定性 preview 和回滚前置边界；真实抽取、evidence replay、链接修复及发布切换仍待人工/集成验收。
 
+本轮链接修复增量：`tests/test_migration.py::test_sample_apply_repairs_only_inventory_links_and_reports_unresolved` 验证已知 legacy link 重写到稳定 route，unresolved link 进入报告，外部 URL 保持不变；修复只发生在 draft Wiki。
+
 ## AC-F010-001 迁移清单与状态边界
 
 - Given：现有 docs 内容；
@@ -41,3 +43,4 @@
 - Then：每条链接标记已修复/待人工处理，迁移失败可保留旧 public dist 和 canonical 内容；
 - 失败时不变量：不得删除无法解释的旧对象。
 - 自动化级别：Repository/Integration。
+- 对应测试：`tests/test_migration.py::test_sample_apply_repairs_only_inventory_links_and_reports_unresolved`；已知链接会重写，unresolved 链接保留并记录，原 `docs/` 不变。

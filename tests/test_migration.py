@@ -51,3 +51,16 @@ def test_sample_apply_missing_item_is_fail_closed(tmp_path: Path):
     result = apply_sample(tmp_path, "docs/missing.md", confirmed=True)
     assert result["state"] == "blocked"
     assert result["writes_applied"] is False
+
+
+def test_sample_apply_repairs_only_inventory_links_and_reports_unresolved(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "target.md").write_text("# Target\n", encoding="utf-8")
+    (docs / "guide.md").write_text("# Guide\n\n[Target](target.md) [Missing](missing.md) [Web](https://example.com)\n", encoding="utf-8")
+    result = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    assert result["state"] == "applied"
+    assert result["link_repair"]["repaired"] == [{"from": "target.md", "to": "/legacy/docs-target"}]
+    assert result["link_repair"]["unresolved"] == ["missing.md"]
+    body = (tmp_path / "wiki" / "tools" / "legacy-docs-guide.md").read_text(encoding="utf-8")
+    assert "](/legacy/docs-target)" in body
+    assert "](missing.md)" in body

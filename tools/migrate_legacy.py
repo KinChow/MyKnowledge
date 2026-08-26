@@ -20,6 +20,29 @@ def _slug(value: str) -> str:
     return value or "untitled"
 
 
+def _repair_links(body: str, legacy_path: str, plan: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    """Rewrite only links with a deterministic inventory mapping."""
+    route_by_path = {item["legacy_path"]: item["route"] for item in plan["items"]}
+    unresolved: list[str] = []
+    repaired: list[dict[str, str]] = []
+    pattern = re.compile(r"(\[[^\]]+\]\()([^)#]+)(#[^)]+)?(\))")
+    parent = Path(legacy_path).parent
+
+    def replace(match: re.Match[str]) -> str:
+        prefix, target, anchor, suffix = match.groups()
+        if re.match(r"(?:[a-zA-Z][a-zA-Z0-9+.-]*:|//|/)", target):
+            return match.group(0)
+        candidate = (parent / target).as_posix()
+        if candidate in route_by_path:
+            new_target = route_by_path[candidate] + (anchor or "")
+            repaired.append({"from": target, "to": new_target})
+            return prefix + new_target + suffix
+        unresolved.append(target)
+        return match.group(0)
+
+    return pattern.sub(replace, body), {"repaired": repaired, "unresolved": unresolved}
+
+
 def preview(root: Path, docs_dir: Path | None = None) -> dict[str, Any]:
     root = Path(root).resolve()
     report = inventory(root, docs_dir)
@@ -83,11 +106,12 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     wiki_id = item["wiki_target"]["object_id"]
     wiki_path = f"wiki/tools/{wiki_id}.md"
     metadata = {"schema_version": "wiki/v1", "id": wiki_id, "title": Path(legacy_path).stem, "domain": "tools", "kind": "reference", "status": "draft", "publication_scope": "none", "confidentiality": "public", "tags": ["legacy-migration"], "aliases": [], "related": [], "sources": [source_id], "updated_at": "2026-08-27"}
-    wiki_preview = WriteOperation(root).preview({wiki_path: FrontMatter.render(metadata, "# " + Path(legacy_path).stem + "\n\n" + (root / legacy_path).read_text(encoding="utf-8"))}, operation_type="wiki", vault_id="public")
+    repaired_body, link_report = _repair_links((root / legacy_path).read_text(encoding="utf-8"), legacy_path, plan)
+    wiki_preview = WriteOperation(root).preview({wiki_path: FrontMatter.render(metadata, "# " + Path(legacy_path).stem + "\n\n" + repaired_body)}, operation_type="wiki", vault_id="public")
     if wiki_preview.get("state") != "previewed":
         return {"state": "blocked", "stage": "wiki_preview", "source": source_result, "wiki": wiki_preview, "writes_applied": True}
     wiki_result = WriteOperation(root).apply(wiki_preview["operation_id"], confirmed=True, actor_id="migration")
-    return {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path}
+    return {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path, "link_repair": link_report}
 
 
 def main(argv: list[str] | None = None) -> int:
