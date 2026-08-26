@@ -123,6 +123,26 @@ class BackupManager:
                 relative = None
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc), "path": relative}
 
+    def export_manifest(self, manifest_path: Path, target: Path) -> dict:
+        """Copy a verified owner manifest to an explicit external target.
+
+        This is transport evidence only; it never derives ``verified`` status.
+        """
+        checked = self.verify_manifest(manifest_path)
+        if checked.get("backup_state") != "verified":
+            return {"state": "blocked", "error_code": checked.get("error_code", "manifest_unverified")}
+        source = Path(manifest_path)
+        if not source.is_absolute():
+            source = self.root / source
+        destination = Path(target).expanduser().resolve()
+        if destination == self.root or self.root in destination.parents:
+            return {"state": "blocked", "error_code": "backup_target_invalid"}
+        if destination.exists() and destination.is_dir():
+            destination = destination / source.name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write(destination, source.read_bytes(), 0o600)
+        return {"state": "exported", "backup_state": "configured", "manifest_sha256": checked["manifest_sha256"], "target": str(destination)}
+
     def restore_manifest(self, manifest_path: Path, target: Path) -> dict:
         """Restore verified local entries into an explicitly empty checkout."""
         target = Path(target).resolve()

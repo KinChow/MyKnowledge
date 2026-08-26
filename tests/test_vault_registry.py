@@ -185,6 +185,22 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(failed["backup_state"], "failed")
             self.assertEqual(failed["error_code"], "hash_mismatch")
 
+    def test_backup_manifest_can_be_exported_without_claiming_verified_target(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root)
+            created = manager.create_manifest("public")
+            external = root.parent / (root.name + "-backup-target")
+            try:
+                external.mkdir()
+                result = manager.export_manifest(root / created["path"], external)
+                self.assertEqual(result["state"], "exported")
+                self.assertEqual(result["backup_state"], "configured")
+                self.assertTrue((external / Path(created["path"]).name).is_file())
+            finally:
+                (external / Path(created["path"]).name).unlink(missing_ok=True)
+                external.rmdir() if external.is_dir() else None
+
     def test_backup_manifest_must_live_under_declared_owner(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
