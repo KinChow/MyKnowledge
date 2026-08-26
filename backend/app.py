@@ -12,6 +12,7 @@ from tools.common import atomic_write, safe_id
 from tools.question import QuestionStore
 from tools.write_operation import WriteOperation
 from tools.vault_registry import VaultRegistry
+from tools.validation.validator import WikiValidator
 
 class RetrieveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -145,6 +146,15 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     def vault_check(x_myknowledge_capability: str | None = Header(default=None)) -> dict:
         require_write_capability(x_myknowledge_capability)
         return VaultRegistry(app.state.root).check()
+
+    @app.post("/api/validate/{vault_id}/{object_type}/{object_id}")
+    def validate_object(vault_id: str, object_type: str, object_id: str, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+        require_write_capability(x_myknowledge_capability)
+        if object_type != "wiki":
+            raise HTTPException(status_code=404, detail={"code": "object_type_not_supported", "stage": "validate", "retryable": False, "next_action": "validate a wiki object"})
+        path = object_path(vault_id, object_type, object_id)
+        report = WikiValidator(VaultRegistry(app.state.root).resolve_vault_path(vault_id)).validate(path)
+        return {"schema_version": "validation-result/v1", "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "report": report}
 
     def object_path(vault_id: str, object_type: str, object_id: str) -> Path:
         try:

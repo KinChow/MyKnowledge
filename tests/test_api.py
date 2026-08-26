@@ -123,6 +123,16 @@ def test_vault_check_requires_capability(tmp_path: Path):
     assert result.json()["schema_version"] == "vault-check/v1"
 
 
+def test_validate_endpoint_requires_capability_and_reuses_wiki_validator(tmp_path: Path):
+    wiki = tmp_path / "wiki" / "target.md"; wiki.parent.mkdir(parents=True); wiki.write_text("---\nschema_version: wiki/v1\nid: target\ntitle: Target\ndomain: tools\nkind: reference\nstatus: planned\n---\n# Target\n", encoding="utf-8")
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.post("/api/validate/public/wiki/target").status_code == 401
+    response = client.post("/api/validate/public/wiki/target", headers={"X-MyKnowledge-Capability": "token"})
+    assert response.status_code == 200
+    assert response.json()["schema_version"] == "validation-result/v1"
+    assert response.json()["object_ref"]["vault_id"] == "public"
+
+
 def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
     public = tmp_path / "public"; private = tmp_path / "private"
     public.mkdir(); private.mkdir()
