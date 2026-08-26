@@ -18,6 +18,11 @@
 - AC-F012-005/008：`BackupManager.create_manifest` 为 public owner 记录 sources/wiki/archive/audit 文件的相对路径、sha256 和 size；`verify_manifest` 逐项重算并在缺失或 hash 变化时返回 `failed`。
 - 备份 manifest 不包含绝对路径、token、remote URL 或私有 Vault 内容；外部 target 未配置时仍保持 `unconfigured`。
 
+## 本轮状态派生证据（2026-08-27）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_backup_status_derives_failed_from_corrupt_latest_manifest` 验证已配置 target 的最近 durable manifest 被篡改或结构损坏时，`backup_status` 派生为 `failed/manifest_invalid`。
+- 状态边界：只有 target 配置仍为 `configured`；本轮不会因 manifest 存在而伪造 `verified`，完整 entries、audit chain 与隔离恢复仍须通过 `verify_manifest`/恢复演练。
+
 ## 空仓恢复增量证据（2026-08-30）
 
 - AC-F012-002/005/007：`tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 验证已校验 manifest 可恢复到显式空 checkout；`test_restore_requires_empty_target` 验证非空目标返回 `restore_target_not_empty`，不会覆盖用户文件。
