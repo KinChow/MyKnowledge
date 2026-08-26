@@ -171,10 +171,10 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return {"schema_version": "backlinks-result/v1", "target": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "items": results}
 
     @app.post("/api/practice/{question_id}/answer")
-    def practice_answer(question_id: str, response: Any = Body(...), scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
+    def practice_answer(question_id: str, response: Any = Body(...), scoring_mode: str = Query(default="manual", pattern="^(manual|deterministic|llm)$"), scope: str = "local", x_myknowledge_capability: str | None = Header(default=None)) -> dict:
         require_capability(x_myknowledge_capability, scope)
         try:
-            return {"schema_version": "practice-answer/v1", **app.state.practice.answer(question_id, response)}
+            return {"schema_version": "practice-answer/v1", **app.state.practice.answer(question_id, response, scoring_mode=scoring_mode)}
         except (OSError, ValueError):
             raise HTTPException(status_code=404, detail={"code": "question_not_found", "stage": "practice", "retryable": False, "next_action": "check question_id"})
 

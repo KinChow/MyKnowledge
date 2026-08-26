@@ -19,6 +19,8 @@
 
 本轮批量失效调查（2026-08-27）：Anki/AnkiDroid 的 note/card 引用在内容变更后重新调度或暂停，FSRS 只处理 review state；替代方案是删除旧题目，会破坏 review history 和审计可追溯性，因此采用逐题 `disabled` 保留文件与记录。`refresh_all()` 按 `wiki_id` 报告重放所有本地题目，缺失报告按不可信处理并禁用，不把 stale claim 当成新事实。
 
+本轮练习 API 调查（2026-08-27）：FastAPI/Pydantic 的枚举 query 参数（MIT）用于把评分模式纳入 OpenAPI 契约；替代方案是让请求体携带任意 `provider`/URL，会扩大网络和能力边界，明确排除。API 只允许 `manual|deterministic|llm`，LLM provider 由进程外注入，缺失时返回 `provider_unavailable`。
+
 ## 契约与边界
 
 Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 claim 的 Wiki content/evidence hash。题目、答案、解析、评分和 review state 位于 `practice/questions/`，不进入 public projection/index/Pagefind。Wiki hash 或 evidence 状态变化后，题目必须由上层重校验并标记 disabled。
