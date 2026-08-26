@@ -6,9 +6,11 @@
 - 实现设计：[Private Vault 子仓库](../technical-design/private-vault-submodule.md)
 - 状态：Implemented（2026-08-27；4 个 Registry 基础场景通过；完整 Vault/Projection/Backup 验收仍待补齐）
 - 实现证据：`tools/vault_registry.py`、`tools/paths.py`、`tools/cli.py`、`tests/test_vault_registry.py`
-- 当前边界：当前实现只读 manifest 解析、路径隔离、Git worktree 检查、owner-aware 对象扫描和 backup state 派生；跨 Vault 引用、逐 Vault 写入、private projection 与恢复演练尚未完成。
+- 当前边界：当前实现只读 manifest 解析、路径隔离、Git worktree 检查、owner-aware 对象扫描、local projection 合并和 backup state 派生；跨 Vault 引用、逐 Vault 写入与恢复演练尚未完成。
 
 ## 本轮证据（2026-08-30）
+
+- AC-F011-002/004/011/014：`VaultRegistry.local_projection()` 生成 `local-projection/v1`，按 `(vault_id, object_type, object_id)` 稳定排序合并同名对象；`scope=private` 只返回 internal vault，故障 vault 仅保留 `{vault_id,state,reason}` 诊断，不伪装为空仓。证据：`tests/test_vault_registry.py::test_local_projection_merges_same_ids_with_owner_and_private_scope`、`test_local_projection_keeps_unavailable_vault_diagnostic`。
 
 - `tests/test_vault_registry.py::test_available_scopes_include_private_when_private_vault_is_ready` 验证 `VaultCheckReport.available_scopes` 按可用 owner 派生 `public`、`local`、`private`；private vault 缺失时只保留 `public/local`，不会把不可用仓库伪装为 private 可用。
 

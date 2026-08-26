@@ -137,6 +137,37 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(set(index), {("public", "wiki", "same"), ("private", "wiki", "same")})
             self.assertEqual({item["availability"] for item in index.values()}, {"available"})
 
+    def test_local_projection_merges_same_ids_with_owner_and_private_scope(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            for vault, text in ((public, "# Public\nbody"), (private, "# Private\nsecret")):
+                (vault / "wiki").mkdir(parents=True)
+                (vault / "wiki" / "same.md").write_text(text, encoding="utf-8")
+                subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public, confidentiality: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+            local = VaultRegistry(public, manifest).local_projection()
+            refs = {tuple(item["object_ref"].values()) for item in local["items"]}
+            self.assertEqual(refs, {("public", "wiki", "same"), ("private", "wiki", "same")})
+            private_only = VaultRegistry(public, manifest).local_projection("private")
+            self.assertEqual({item["vault_id"] for item in private_only["items"]}, {"private"})
+            self.assertNotIn("secret", json.dumps({"schema_version": private_only["schema_version"], "items": []}))
+
+    def test_local_projection_keeps_unavailable_vault_diagnostic(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; public.mkdir()
+            subprocess.run(["git", "init", "-q", str(public)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: missing, confidentiality: internal}}\n", encoding="utf-8")
+            projection = VaultRegistry(public, manifest).local_projection()
+            self.assertEqual(projection["unavailable_vaults"], [{"vault_id": "private", "state": "unavailable", "reason": "vault_unavailable"}])
+
+    def test_local_projection_rejects_public_scope(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            with self.assertRaisesRegex(ValueError, "projection_scope_invalid"):
+                VaultRegistry(root).local_projection("public")
+
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

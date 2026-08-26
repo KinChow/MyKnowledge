@@ -39,6 +39,14 @@
 
 本轮 API owner 调查（2026-08-27）：Git 独立 worktree/submodule owner root（GPL-2.0，<https://git-scm.com/docs/git-worktree>）与 PyYAML safe loader（MIT，<https://github.com/yaml/pyyaml>）继续作为成熟隔离方案；替代方案是按全局 `object_id` 搜索或按 manifest 顺序猜测 owner，会在同名对象时泄漏/读错内容，明确排除。API 只接受显式 `vault_id`，通过 Registry realpath 解析 owner，返回 vault-relative path；private 内容不进入 public projection。新增 `VaultRegistry.validate_reference` 复用该 owner 边界并对跨 vault 目标 fail-closed；`effective_confidentiality` 复用最高等级传染规则。离线模式仅依赖本地 manifest/checkout，不上传正文；manifest 字段变化会使报告 hash 改变并要求重新校验。
 
+### 本轮 local projection 合并调查（2026-08-30）
+
+- Git worktree/submodule（Git 2.45.2，GPL-2.0，<https://git-scm.com/docs/git-worktree>、<https://git-scm.com/book/en/v2/Git-Tools-Submodules>）：复用独立 checkout、HEAD 和 owner 根；限制是 Git 不定义跨仓库知识对象的合并语义，因此不能直接把路径或全局 ID 当作 owner。
+- Backstage Software Catalog（v1.32.0，Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）：复用显式实体 ref/owner manifest、稳定排序和缺失实体可诊断的思路；限制是 Catalog 面向服务元数据，不提供 Markdown 正文保密或 public projection，因此只借用 manifest 形状，不引入其运行时。
+- 替代方案：按 `object_id` 做全局字典覆盖，或把 private 内容复制到 public projection 后再过滤。两者在同名对象、Vault 故障和日志导出时都会读错 owner 或产生泄漏，明确排除。
+
+本轮结论：新增离线、可重建的 `local-projection/v1` 生成器。每条记录始终带 `{vault_id, object_type, object_id}`，同名对象并存；可用 Vault 才提供正文和 content hash，不可用 Vault 只保留 Vault 级状态元数据。该生成器只为 `local`/显式 `private` 查询服务，public projection 仍由 public allowlist 生成器独立负责，绝不读取 private 正文。输出不含物理路径、remote、凭据或 private lineage。
+
 ## 2. 当前基线与目录
 
 当前仓库是 `public` vault。每个 private repo 与 public repo 使用相同的对象目录和 schema 版本，但拥有独立 Git 历史：
