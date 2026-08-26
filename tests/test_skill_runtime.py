@@ -81,7 +81,7 @@ def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path)
 
 def test_skill_question_answer_preserves_scoring_mode_boundary(tmp_path: Path):
     from tools.question import QuestionStore
-    report = {"valid": True, "object_ref": {"object_type": "wiki"}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
+    report = {"valid": True, "object_ref": {"object_type": "wiki", "object_id": "wiki-one"}, "metadata": {"evidence": [{"claim_id": "claim-one"}]}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
     spec = {"id": "q-one", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
     QuestionStore(tmp_path).create(spec, wiki_report=report)
     deterministic = dispatch("question_answer", {"question_id": "q-one", "response": "核心", "scoring_mode": "deterministic"}, root=tmp_path)
@@ -102,7 +102,7 @@ def test_skill_question_create_delegates_validated_report(tmp_path: Path):
     from unittest import mock
     wiki = tmp_path / "wiki" / "one.md"; wiki.parent.mkdir(parents=True); wiki.write_text("# one\n", encoding="utf-8")
     spec = {"id": "q-one", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
-    report = {"valid": True, "object_ref": {"object_type": "wiki"}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
+    report = {"valid": True, "object_ref": {"object_type": "wiki", "object_id": "wiki-one"}, "metadata": {"evidence": [{"claim_id": "claim-one"}]}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
     with mock.patch("tools.skill_runtime.WikiValidator.validate", return_value=report) as validate, mock.patch("tools.skill_runtime.QuestionStore.create", return_value={"state": "created"}) as create:
         result = dispatch("question_create", {"spec": spec, "wiki_path": "wiki/one.md"}, root=tmp_path)
     assert result["state"] == "created"
