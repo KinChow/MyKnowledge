@@ -13,6 +13,11 @@
 
 该证据不代表外部备份已配置、空仓恢复已完成或 Vault 可持久标记为 verified；未配置目标仍必须报告 `backup_not_configured`。
 
+## 外部 target manifest 导出增量证据（2026-08-30）
+
+- `BackupManager.export_manifest()` 将已校验的 owner manifest 原子复制到用户显式指定的外部 target；target 位于仓库内会被拒绝，输出不含 remote、凭据或正文。
+- `tests/test_vault_registry.py::test_backup_manifest_can_be_exported_without_claiming_verified_target` 验证导出结果为 `state: exported`、`backup_state: configured`，不会因存在外部副本直接派生 `verified`。完整内容传输和隔离恢复仍需单独演练。
+
 ## Entries 增量证据（2026-08-30）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_manifest_must_live_under_declared_owner` 验证备份 manifest 必须位于声明 Vault 的 `audit/backup/` 下，复制到外部路径后返回 `manifest_owner_mismatch`，不会跨 Vault 复用校验结果。
