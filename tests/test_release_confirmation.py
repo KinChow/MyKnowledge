@@ -18,3 +18,9 @@ def test_public_release_event_rejects_private_reason_or_target(tmp_path: Path):
     assert validate_event(bad)["error_code"] == "reason_not_public_safe"
     bad = {**event(), "target_vault": "private"}
     assert validate_event(bad)["error_code"] == "event_authority_invalid"
+
+def test_public_release_nonce_cannot_be_reused_by_another_event(tmp_path: Path):
+    assert write_event(tmp_path, event())["state"] == "created"
+    replay = {**event(), "event_id": "event-two", "operation_id": "op-two"}
+    result = write_event(tmp_path, replay)
+    assert result == {"state": "blocked", "error_code": "confirmation_nonce_reused"}
