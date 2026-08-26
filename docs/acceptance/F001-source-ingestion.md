@@ -146,3 +146,8 @@
   - AC-003：raw 归档/LFS 门禁随 raw 功能启用时落地；
   - AC-010：`dns_rebinding_blocked` 错误码细分、userinfo 单独测试；
   - AC-007：redirect 链、响应大小/时间上限的单独测试。
+
+## URL redirect/response 门禁证据（2026-08-27）
+
+- `tests/ingest/test_fetcher.py::FetcherTests::test_redirect_is_rechecked_and_response_limit_is_enforced` 验证 redirect 后逐跳重新解析，并在响应超过 `max_bytes` 时返回 `fetch_blocked:response_limit`。
+- `test_redirect_limit_is_explicit` 验证超过 `max_redirects` 返回 `fetch_blocked:redirect_limit`；连接仍只使用通过公网 IP 校验的 pin。
