@@ -120,8 +120,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--docs", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--apply-sample", metavar="LEGACY_PATH", help="apply one representative sample through Source/Wiki gates")
+    parser.add_argument("--confirm", action="store_true", help="confirm the selected sample apply")
     args = parser.parse_args(argv)
-    data = json.dumps(preview(args.root, args.docs), ensure_ascii=False, indent=2) + "\n"
+    result = apply_sample(args.root, args.apply_sample, confirmed=args.confirm, docs_dir=args.docs) if args.apply_sample else preview(args.root, args.docs)
+    data = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
         args.output.write_text(data, encoding="utf-8")
     else:

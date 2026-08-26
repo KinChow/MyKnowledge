@@ -19,6 +19,8 @@
 
 本轮链接修复增量：`tests/test_migration.py::test_sample_apply_repairs_only_inventory_links_and_reports_unresolved` 验证已知 legacy link 重写到稳定 route，unresolved link 进入报告，外部 URL 保持不变；修复只发生在 draft Wiki。
 
+CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_sample` 验证 CLI 复用同一 preview/confirm/apply 实现并返回结构化 `applied`。
+
 ## AC-F010-001 迁移清单与状态边界
 
 - Given：现有 docs 内容；

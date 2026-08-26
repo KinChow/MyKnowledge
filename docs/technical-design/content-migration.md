@@ -14,6 +14,8 @@
 
 链接修复增量（2026-08-27）：参考 Quartz 的 canonical absolute link 与 Dendron 的 route rewrite，`apply_sample` 只把 inventory 中可确定映射的相对 `.md` 链接改为 `/legacy/...` route；外部 URL、绝对路径和 unresolved target 原样保留，并在结果中分别记录 `repaired`/`unresolved`。不扫描或改写原 `docs/`。
 
+CLI 增量（2026-08-27）：`python -m tools.cli migrate --apply-sample <legacy-path> --confirm` 仅是 `apply_sample` 的薄入口，未提供 `--confirm` 时返回 `awaiting_confirmation`；CLI 不拥有第二套迁移规则。
+
 旧 `docs/` 是迁移输入，不是迁移后的 canonical source。`tools/migrate_legacy.py` 只生成 inventory、preview、source/wiki draft 描述和 route map，不自动把内容标记为 published，也不改写旧文件。外部抽取器缺失时结果必须保持 pending，不能伪造完成。
 
 ## 阶段
