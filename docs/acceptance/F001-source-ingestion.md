@@ -149,6 +149,10 @@
 
 ## URL redirect/response 门禁证据（2026-08-27）
 
+## Append-only manifest 字段增量证据（2026-08-27）
+
+- `tests/ingest/test_source_ingestor.py::SourceIngestorTests::test_personal_note_preview_apply_and_anchor` 直接断言 manifest 每行包含 `record_id`、owner ObjectRef、snapshot/archive/extractor、normalization、canonical length 和 `record_sha256`；重复 Apply 仍只有一行。
+
 - `tests/ingest/test_fetcher.py::FetcherTests::test_redirect_is_rechecked_and_response_limit_is_enforced` 验证 redirect 后逐跳重新解析，并在响应超过 `max_bytes` 时返回 `fetch_blocked:response_limit`。
 - `test_redirect_limit_is_explicit` 验证超过 `max_redirects` 返回 `fetch_blocked:redirect_limit`；连接仍只使用通过公网 IP 校验的 pin。
 
