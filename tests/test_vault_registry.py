@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import subprocess
+import json
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
 
 from tools.vault_registry import VaultRegistry
+from tools.backup import BackupManager
 
 
 class VaultRegistryTests(unittest.TestCase):
@@ -47,6 +49,22 @@ class VaultRegistryTests(unittest.TestCase):
             manifest.write_text("""schema_version: 1\nlayout: superproject\nworkspace_root: %s\nvaults:\n  - {id: public, path: ../outside}\n""" % root, encoding="utf-8")
             report = VaultRegistry(root, manifest).check()
             self.assertEqual(report["vaults"][0]["reason"], "path_invalid")
+
+    def test_backup_manifest_verification_detects_tampering(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root)
+            manifest = manager.create_manifest("public")
+            checked = manager.verify_manifest(root / manifest["path"])
+            self.assertEqual(checked["backup_state"], "verified")
+            path = root / manifest["path"]
+            data = json.loads(path.read_text(encoding="utf-8"))
+            data["entries"] = [{"tampered": True}]
+            path.write_text(json.dumps(data), encoding="utf-8")
+            failed = manager.verify_manifest(path)
+            self.assertEqual(failed["backup_state"], "failed")
+            self.assertEqual(failed["error_code"], "hash_mismatch")
 
 
 if __name__ == "__main__":

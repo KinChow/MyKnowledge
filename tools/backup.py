@@ -27,3 +27,30 @@ class BackupManager:
         path = RepoPaths(self.root).audit_backup / f"{backup_id}.json"
         atomic_write(path, canonical_json(data) + b"\n", 0o600)
         return {**data, "path": str(path.relative_to(self.root))}
+
+    def verify_manifest(self, manifest_path: Path) -> dict:
+        """Verify one durable manifest without changing Vault or backup state."""
+        path = Path(manifest_path)
+        if not path.is_absolute():
+            path = self.root / path
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            if data.get("schema_version") != "backup-manifest/v1":
+                raise ValueError("manifest_schema_invalid")
+            expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
+            if data.get("manifest_sha256") != expected:
+                raise ValueError("hash_mismatch")
+            vault_id = str(data.get("vault_id", ""))
+            status = next((x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None)
+            if status is None:
+                raise ValueError("vault_not_found")
+            if status.get("state") != "available":
+                raise ValueError("vault_unavailable")
+            relative = str(path.resolve().relative_to(self.root.resolve()))
+            return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            try:
+                relative = str(path.resolve().relative_to(self.root.resolve()))
+            except ValueError:
+                relative = None
+            return {"state": "failed", "backup_state": "failed", "error_code": str(exc), "path": relative}
