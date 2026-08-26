@@ -11,6 +11,10 @@
 - AC-F010-001/002：`tests/test_migration.py::test_migration_preview_is_source_first_and_does_not_write` 验证 preview 同时生成 source/wiki 稳定目标、`pending_manual_review`、`evidence_state: pending` 和 `writes_applied: false`，且原 `docs/` 文件字节不变。
 - AC-F010-003：`test_migration_preview_changes_with_input_tree` 验证输入正文变化会改变 preview hash，避免复用旧迁移结果。
 
+## 代表性样本增量证据（2026-08-27）
+
+- AC-F010-002/003：`tests/test_migration.py::test_representative_sample_applies_source_then_draft_wiki` 验证样本先经 local-file Source preview/apply，再由 WriteOperation 写入 `status: draft` Wiki；`test_sample_apply_missing_item_is_fail_closed` 验证未知输入不会写入。原 `docs/guide.md` 保持不变，迁移结果不含绝对路径。
+
 当前证据只覆盖确定性 preview 和回滚前置边界；真实抽取、evidence replay、链接修复及发布切换仍待人工/集成验收。
 
 ## AC-F010-001 迁移清单与状态边界

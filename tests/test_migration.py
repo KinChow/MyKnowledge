@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tools.migrate_legacy import preview
+from tools.migrate_legacy import apply_sample, preview
 
 
 def test_migration_preview_is_source_first_and_does_not_write(tmp_path: Path):
@@ -28,3 +28,26 @@ def test_migration_preview_changes_with_input_tree(tmp_path: Path):
     first = preview(tmp_path)["preview_sha256"]
     path.write_text("# B\n", encoding="utf-8")
     assert preview(tmp_path)["preview_sha256"] != first
+
+
+def test_representative_sample_applies_source_then_draft_wiki(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    source = docs / "guide.md"; source.write_text("# Guide\n\nA migrated note.\n", encoding="utf-8")
+    pending = apply_sample(tmp_path, "docs/guide.md")
+    assert pending["state"] == "awaiting_confirmation"
+    applied = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    assert applied["state"] == "applied"
+    assert applied["writes_applied"] is True
+    assert source.exists()
+    source_file = tmp_path / "sources" / "tools" / "legacy-docs-guide-source.md"
+    wiki_file = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    assert source_file.exists() and wiki_file.exists()
+    assert "status: draft" in wiki_file.read_text(encoding="utf-8")
+    assert "A migrated note." in source_file.read_text(encoding="utf-8")
+
+
+def test_sample_apply_missing_item_is_fail_closed(tmp_path: Path):
+    (tmp_path / "docs").mkdir()
+    result = apply_sample(tmp_path, "docs/missing.md", confirmed=True)
+    assert result["state"] == "blocked"
+    assert result["writes_applied"] is False

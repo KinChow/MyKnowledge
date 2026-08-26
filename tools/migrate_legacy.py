@@ -8,6 +8,9 @@ from typing import Any
 
 from .common import canonical_json
 from .inventory_legacy import inventory
+from .ingest.source_ingestor import SourceIngestor
+from .write_operation import WriteOperation
+from .front_matter import FrontMatter
 
 MIGRATION_VERSION = "legacy-migration/v1"
 
@@ -59,6 +62,34 @@ def preview(root: Path, docs_dir: Path | None = None) -> dict[str, Any]:
     return result
 
 
+def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_dir: Path | None = None) -> dict[str, Any]:
+    """Migrate one Markdown sample through the real Source-first write gates."""
+    root = Path(root).resolve()
+    plan = preview(root, docs_dir)
+    item = next((x for x in plan["items"] if x["legacy_path"] == legacy_path), None)
+    if item is None:
+        return {"state": "blocked", "error_code": "legacy_item_not_found", "writes_applied": False}
+    if not confirmed:
+        return {"state": "awaiting_confirmation", "writes_applied": False, "preview_sha256": plan["preview_sha256"], "item": item}
+    source_id = item["source_target"]["object_id"]
+    source_request = {"source_type": "local-file", "input_path": str(root / legacy_path), "domain": "tools", "source_id": source_id, "media_type": "text/markdown"}
+    source_preview = SourceIngestor(root).preview(source_request)
+    if source_preview.get("state") != "previewed":
+        return {"state": "blocked", "stage": "source_preview", "source": source_preview, "writes_applied": False}
+    source_result = SourceIngestor(root).apply(source_preview["operation_id"], confirmed=True, actor_id="migration")
+    source_result = {key: value for key, value in source_result.items() if key != "source_path"}
+    if source_result.get("state") != "applied":
+        return {"state": "blocked", "stage": "source_apply", "source": source_result, "writes_applied": False}
+    wiki_id = item["wiki_target"]["object_id"]
+    wiki_path = f"wiki/tools/{wiki_id}.md"
+    metadata = {"schema_version": "wiki/v1", "id": wiki_id, "title": Path(legacy_path).stem, "domain": "tools", "kind": "reference", "status": "draft", "publication_scope": "none", "confidentiality": "public", "tags": ["legacy-migration"], "aliases": [], "related": [], "sources": [source_id], "updated_at": "2026-08-27"}
+    wiki_preview = WriteOperation(root).preview({wiki_path: FrontMatter.render(metadata, "# " + Path(legacy_path).stem + "\n\n" + (root / legacy_path).read_text(encoding="utf-8"))}, operation_type="wiki", vault_id="public")
+    if wiki_preview.get("state") != "previewed":
+        return {"state": "blocked", "stage": "wiki_preview", "source": source_result, "wiki": wiki_preview, "writes_applied": True}
+    wiki_result = WriteOperation(root).apply(wiki_preview["operation_id"], confirmed=True, actor_id="migration")
+    return {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path}
+
+
 def main(argv: list[str] | None = None) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Preview legacy Source-first migration")
@@ -72,4 +103,3 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(data, end="")
     return 0
-
