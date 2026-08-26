@@ -1,6 +1,6 @@
 """Backup status and durable manifest primitives (F012, local-only)."""
 from __future__ import annotations
-import hashlib, json, time, uuid
+import hashlib, json, time, uuid, shutil
 from pathlib import Path
 from .common import atomic_write, canonical_json, hash_canonical
 from .release_confirmation import validate_event
@@ -142,6 +142,62 @@ class BackupManager:
         destination.parent.mkdir(parents=True, exist_ok=True)
         atomic_write(destination, source.read_bytes(), 0o600)
         return {"state": "exported", "backup_state": "configured", "manifest_sha256": checked["manifest_sha256"], "target": str(destination)}
+
+    def export_bundle(self, manifest_path: Path, target: Path) -> dict:
+        """Export manifest and listed owner files into an explicit offline bundle."""
+        checked = self.verify_manifest(manifest_path)
+        if checked.get("backup_state") != "verified":
+            return {"state": "blocked", "error_code": checked.get("error_code", "manifest_unverified")}
+        source_manifest = Path(manifest_path)
+        if not source_manifest.is_absolute():
+            source_manifest = self.root / source_manifest
+        bundle = Path(target).expanduser().resolve()
+        if bundle == self.root or self.root in bundle.parents:
+            return {"state": "blocked", "error_code": "backup_target_invalid"}
+        if bundle.exists() and any(bundle.iterdir()):
+            return {"state": "blocked", "error_code": "backup_target_not_empty"}
+        bundle.mkdir(parents=True, exist_ok=True)
+        data = json.loads(source_manifest.read_text(encoding="utf-8"))
+        owner_root = self.registry.resolve_vault_path(str(data.get("vault_id", "")))
+        try:
+            atomic_write(bundle / "manifest.json", source_manifest.read_bytes(), 0o600)
+            for entry in data.get("entries", []):
+                rel = Path(str(entry.get("path", "")))
+                if rel.is_absolute() or ".." in rel.parts:
+                    raise ValueError("entry_path_invalid")
+                source = owner_root / rel
+                if not source.is_file() or source.is_symlink() or source.stat().st_nlink > 1:
+                    raise ValueError("entry_invalid")
+                destination = bundle / "payload" / rel
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                atomic_write(destination, source.read_bytes(), 0o600)
+            return {"state": "exported", "backup_state": "configured", "manifest_sha256": checked["manifest_sha256"], "target": str(bundle), "entry_count": len(data.get("entries", []))}
+        except (OSError, ValueError) as exc:
+            shutil.rmtree(bundle, ignore_errors=True)
+            return {"state": "failed", "error_code": str(exc)}
+
+    @staticmethod
+    def verify_bundle(bundle: Path) -> dict:
+        """Verify an offline bundle without reading any canonical checkout."""
+        bundle = Path(bundle).resolve()
+        try:
+            data = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+            expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
+            if data.get("schema_version") != "backup-manifest/v1" or data.get("manifest_sha256") != expected:
+                raise ValueError("hash_mismatch")
+            for entry in data.get("entries", []):
+                rel = Path(str(entry.get("path", "")))
+                if rel.is_absolute() or ".." in rel.parts:
+                    raise ValueError("entry_path_invalid")
+                path = bundle / "payload" / rel
+                if not path.is_file() or path.is_symlink() or path.stat().st_nlink > 1:
+                    raise ValueError("entry_missing")
+                actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+                if actual != entry.get("sha256"):
+                    raise ValueError("hash_mismatch")
+            return {"state": "verified", "backup_state": "verified", "manifest_sha256": expected, "entry_count": len(data.get("entries", []))}
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
     def restore_manifest(self, manifest_path: Path, target: Path) -> dict:
         """Restore verified local entries into an explicitly empty checkout."""
