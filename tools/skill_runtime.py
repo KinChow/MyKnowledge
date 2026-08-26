@@ -12,9 +12,31 @@ from .backup import BackupManager
 from .question import QuestionStore
 from .vault_registry import VaultRegistry
 from .write_operation import WriteOperation
+from .indexing import Retriever
+import json
+from .common import safe_id
 
-ALLOWED_ACTIONS = frozenset({"write_preview", "write_apply", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
+ALLOWED_ACTIONS = frozenset({"query", "read", "write_preview", "write_apply", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
+
+
+def _public_projection_items(root: Path) -> list[dict[str, Any]]:
+    manifest_path = root / "queries" / "public" / "manifest.json"
+    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if data.get("schema_version") != "public-projection/v1" or data.get("projection") != "public":
+        raise ValueError("manifest_invalid")
+    items: list[dict[str, Any]] = []
+    for item in data.get("items", []):
+        if item.get("vault_id") != "public" or item.get("public_publishable") is not True or item.get("public_release") is not True or item.get("status") != "published" or item.get("effective_confidentiality") != "public":
+            continue
+        rel = Path(str(item.get("body_path", "")))
+        if rel.is_absolute() or ".." in rel.parts or not rel.parts or rel.parts[0] != "wiki":
+            raise ValueError("projection_path_invalid")
+        body_path = root / rel
+        if not body_path.is_file() or body_path.is_symlink():
+            raise ValueError("projection_body_unavailable")
+        items.append({**item, "object_type": "wiki", "object_id": item["id"], "body": body_path.read_text(encoding="utf-8"), "availability": "available", "confidentiality": "public"})
+    return items
 
 
 def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) -> dict[str, Any]:
@@ -25,6 +47,20 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
         return {"state": "blocked", "error_code": "skill_payload_forbidden"}
     root = Path(root).resolve()
     try:
+        if action == "query":
+            if str(payload.get("scope", "public")) != "public" or not isinstance(payload.get("query"), str):
+                return {"state": "blocked", "error_code": "skill_public_query_only"}
+            items = _public_projection_items(root)
+            return Retriever(items).search(payload["query"], "public", int(payload.get("top_k", 8)))
+        if action == "read":
+            if payload.get("vault_id", "public") != "public":
+                return {"state": "blocked", "error_code": "skill_private_read_requires_api"}
+            object_id = str(payload.get("object_id", ""))
+            safe_id(object_id)
+            item = next((x for x in _public_projection_items(root) if x["object_id"] == object_id), None)
+            if item is None:
+                return {"state": "blocked", "error_code": "object_not_found"}
+            return {"schema_version": "read-result/v1", "object_ref": {"vault_id": "public", "object_type": "wiki", "object_id": object_id}, "path": item["body_path"], "body": item["body"]}
         if action == "write_preview":
             files = payload.get("files")
             if not isinstance(files, dict):
@@ -49,4 +85,3 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
         return store.review(str(payload.get("question_id", "")), payload.get("rating"))
     except (OSError, ValueError, TypeError) as exc:
         return {"state": "blocked", "error_code": str(exc)}
-

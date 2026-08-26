@@ -18,6 +18,8 @@
 
 本轮 transport 调查（2026-08-27）：官方 MCP Python SDK `mcp==1.29.1`（MIT，<https://github.com/modelcontextprotocol/python-sdk>）的 `FastMCP`/`run_stdio_async` 直接复用标准 `tools/list` 与 `tools/call`，并提供结构化 input/output schema；MCP Specification 2025-06（MIT 文档，<https://modelcontextprotocol.io/specification/2025-06-18>）约束 JSON-RPC、stdio 消息边界和工具声明。替代方案是自研 JSON-RPC loop 或直接暴露 shell，前者增加协议兼容风险，后者绕过 capability/writer，均不采用。`tools/mcp_server.py` 只提供一个 `myknowledge_dispatch` 薄适配器，checkout root 在启动时固定，payload 不得选择路径或命令；SDK 缺失时启动失败为 `mcp_unavailable`，离线运行不需要网络。
 
+本轮查询路由调查（2026-08-27）：Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）和 SQLite FTS5（Public Domain，<https://sqlite.org/fts5.html>）分别作为 public build/search 与本地 fallback；替代方案是 Skill 直接扫描任意 checkout 路径，会绕过 projection allowlist 和 confidentiality 门禁，明确排除。`query`/`read` action 只加载 public manifest 声明的 published/public 条目，local/private 必须转 API 并提供 capability；结果复用 `query-result/v1`，不写入 canonical 或索引。
+
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 
 ## 能力面
