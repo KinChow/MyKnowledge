@@ -77,3 +77,15 @@ def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path)
     assert preview["state"] == "blocked"
     assert "wiki_report" in preview
     assert dispatch("wiki_validate", {"wiki_path": "../secret.md"}, root=tmp_path)["error_code"] == "path_invalid"
+
+
+def test_skill_question_answer_preserves_scoring_mode_boundary(tmp_path: Path):
+    from tools.question import QuestionStore
+    report = {"valid": True, "object_ref": {"object_type": "wiki"}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
+    spec = {"id": "q-one", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
+    QuestionStore(tmp_path).create(spec, wiki_report=report)
+    deterministic = dispatch("question_answer", {"question_id": "q-one", "response": "核心", "scoring_mode": "deterministic"}, root=tmp_path)
+    assert deterministic["state"] == "graded"
+    assert deterministic["scoring_provider"] == "deterministic_rubric"
+    invalid = dispatch("question_answer", {"question_id": "q-one", "response": "x", "scoring_mode": "other"}, root=tmp_path)
+    assert invalid["error_code"] == "scoring_mode_invalid"
