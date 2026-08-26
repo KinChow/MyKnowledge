@@ -70,6 +70,10 @@ class RepoPaths:
     def audit_validation(self, object_type: str, object_id: str) -> Path:
         return self.root / "audit" / "validation" / object_type / object_id
 
+    @property
+    def audit_backup(self) -> Path:
+        return self.root / "audit" / "backup"
+
     # ---- release（public-safe 确认事件，§6.8） ----
     @property
     def release_confirmations(self) -> Path:

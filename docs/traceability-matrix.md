@@ -48,7 +48,7 @@
 | SKILL-001 | F009 | ADR-0006/0007 | [agent-skill](./technical-design/agent-skill.md) | AC-F009-001/002/003/004/005/006/007/008/009/010 | 待实现 | Designed |
 | VAL-002 | F003/F009/F011 | ADR-0001/0002/0010 | [wiki-claim-validation](./technical-design/wiki-claim-validation.md), [agent-skill](./technical-design/agent-skill.md) | AC-F003-008/011/012/013/014/015/016, AC-F009-004/008/009, AC-F011-007 | 待实现 | Designed |
 | MIG-001 | F010 | ADR-0001/0005 | [content-migration](./technical-design/content-migration.md) | AC-F010-001/002/003 | 待实现 | Designed |
-| BAK-001 | F012 | ADR-0002/0006 | [backup-and-observability](./technical-design/backup-and-observability.md) | AC-F012-001/002/003/004/006/007/008 | 待实现 | Designed |
+| BAK-001 | F012 | ADR-0002/0006 | [backup-and-observability](./technical-design/backup-and-observability.md) | AC-F012-001/002/003/004/006/007/008 | tools/backup.py + tests/test_vault_registry.py（基础）；恢复场景待补 | Implemented（部分） |
 | BAK-002 | F012/F011 | ADR-0002/0003 | [backup-and-observability](./technical-design/backup-and-observability.md), [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F012-005/007/008/AC-F011-009/011/018 | 待实现 | Designed |
 | SEC-004 | F006/F009/F011 | ADR-0002/0007 | [local-api-and-offline](./technical-design/local-api-and-offline.md), [agent-skill](./technical-design/agent-skill.md), [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F006-006/008/009, AC-F009-009, AC-F011-017 | 待实现 | Designed |
 | SCH-001 | F002 | ADR-0001/0006 | [schema validation](./technical-design/schema-validation.md) | AC-F002-001/003/004/006/007 | 待实现 | Designed |
