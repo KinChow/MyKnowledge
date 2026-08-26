@@ -242,3 +242,10 @@
 - Then：generator 忽略手写字段，只从 `release/public-confirmations/<event_id>.json` 与 public owner `audit/operations/<operation_id>.json` 派生；任一记录缺失/不匹配或 hash 变化都得到 `public_release: false` 并阻断发布，旧 event append-only 保留；
 - 失败时不变量：不能只改 Front Matter、manifest 字符串、LLM verdict、Agent/CI 输出或临时 state 绕过人工确认；
 - 自动化级别：Repository/Security/Integration/Manual review。
+
+## 本轮三阶段 leak gate 证据（2026-08-27）
+
+- 命令：`cd frontend && npm run build`。
+- 结果：构建前输入树报告为 `public-input-leak-gate/v1`（scope=`input-tree`），staging 报告为 `public-leak-gate/v1`（scope=`staging`），最终 dist 报告为 `public-leak-gate/v1`（scope=`dist`）；三份报告 `findings=[]`，Astro/Pagefind 构建成功。
+- 自动化复现：`tests/test_frontend_projection.py::test_leak_gate_reports_input_scope_and_rejects_practice` 验证 input scope schema 和 practice 内容拒绝；`npm run validate:docs`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 均通过。
+- 边界：本证据覆盖 AC-F007-017/019/024 的离线构建门禁，不代表真实内容发布、浏览器检索闭包或 Mermaid 安全场景已 Accepted。

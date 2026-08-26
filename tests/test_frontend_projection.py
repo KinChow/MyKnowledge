@@ -84,3 +84,12 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     graph_data = json.loads((frontend / "public/generated/graph.json").read_text())
     assert {x["id"] for x in graph_data["nodes"]} == {"one", "two"}
     assert graph_data["edges"] == [{"source":"one","target":"two"}]
+
+
+def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):
+    script = Path(__file__).parents[1] / "frontend/scripts/leak-gate.mjs"
+    target = tmp_path / "practice" / "questions"; target.mkdir(parents=True)
+    (target / "q.json").write_text('{"answer":"secret"}', encoding="utf-8")
+    result = subprocess.run(["node", str(script), "--scope", "input-tree", str(tmp_path)], capture_output=True, text=True, check=False)
+    assert result.returncode != 0
+    assert json.loads(result.stderr)["schema_version"] == "public-input-leak-gate/v1"
