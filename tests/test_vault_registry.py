@@ -90,6 +90,26 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(failed["backup_state"], "failed")
             self.assertEqual(failed["error_code"], "hash_mismatch")
 
+    def test_verified_manifest_restores_to_empty_checkout(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "wiki").mkdir(); (root / "wiki" / "item.md").write_text("# item\n", encoding="utf-8")
+            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            with tempfile.TemporaryDirectory() as out:
+                target = Path(out) / "checkout"
+                restored = manager.restore_manifest(root / manifest["path"], target)
+                self.assertEqual(restored["state"], "restored")
+                self.assertEqual((target / "wiki" / "item.md").read_text(encoding="utf-8"), "# item\n")
+
+    def test_restore_requires_empty_target(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            with tempfile.TemporaryDirectory() as out:
+                target = Path(out) / "checkout"; target.mkdir(); (target / "keep").write_text("x")
+                result = manager.restore_manifest(root / manifest["path"], target)
+                self.assertEqual(result["error_code"], "restore_target_not_empty")
+
 
 if __name__ == "__main__":
     unittest.main()

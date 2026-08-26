@@ -70,3 +70,37 @@ class BackupManager:
             except ValueError:
                 relative = None
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc), "path": relative}
+
+    def restore_manifest(self, manifest_path: Path, target: Path) -> dict:
+        """Restore verified local entries into an explicitly empty checkout."""
+        target = Path(target).resolve()
+        if target == self.root or self.root in target.parents:
+            return {"state": "blocked", "error_code": "restore_target_invalid"}
+        checked = self.verify_manifest(manifest_path)
+        if checked.get("backup_state") != "verified":
+            return {"state": "blocked", "error_code": checked.get("error_code", "manifest_unverified")}
+        target.mkdir(parents=True, exist_ok=True)
+        if any(target.iterdir()):
+            return {"state": "blocked", "error_code": "restore_target_not_empty"}
+        source_manifest = Path(manifest_path)
+        if not source_manifest.is_absolute():
+            source_manifest = self.root / source_manifest
+        data = json.loads(source_manifest.read_text(encoding="utf-8"))
+        created: list[Path] = []
+        try:
+            for entry in data.get("entries", []):
+                rel = Path(str(entry.get("path", "")))
+                if rel.is_absolute() or ".." in rel.parts:
+                    raise ValueError("entry_path_invalid")
+                source = self.root / rel
+                destination = target / rel
+                if not source.is_file() or source.is_symlink():
+                    raise ValueError("entry_missing")
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                atomic_write(destination, source.read_bytes(), 0o600)
+                created.append(destination)
+            return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target)}
+        except (OSError, ValueError) as exc:
+            for path in reversed(created):
+                path.unlink(missing_ok=True)
+            return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
