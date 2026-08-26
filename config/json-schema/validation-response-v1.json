@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wiki-validation/v1",
+  "title": "wiki-validation/v1 — LLM 证据审计输出契约",
+  "description": "跨 provider adapter 的唯一输出契约（§8.2 / wiki-claim-validation.md）。单次调用必须返回完整 claim/target/quote 集合；malformed、覆盖不全、模型自声明 not_run 都不是模型判断失败而是协议不可用（not_run）。",
+  "type": "object",
+  "required": ["wiki_id", "verdict", "claims", "call_id"],
+  "additionalProperties": false,
+  "properties": {
+    "wiki_id": { "type": "string" },
+    "verdict": { "enum": ["pass", "fail"] },
+    "call_id": { "type": "string" },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claim_id",
+          "verdict",
+          "targets",
+          "supporting_quotes",
+          "applied_rule_refs",
+          "rationale",
+          "rationale_offsets"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": { "type": "string" },
+          "verdict": {
+            "enum": ["supported", "partially_supported", "unsupported", "contradicted", "unmapped"]
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["source_id", "evidence_id"],
+              "additionalProperties": false,
+              "properties": {
+                "source_id": { "type": "string" },
+                "evidence_id": { "type": "string" }
+              }
+            }
+          },
+          "supporting_quotes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["evidence_id", "exact"],
+              "additionalProperties": false,
+              "properties": {
+                "evidence_id": { "type": "string" },
+                "exact": { "type": "string" }
+              }
+            }
+          },
+          "observations": {
+            "type": "array",
+            "description": "per-target 结构化 observation（corroboration-v1 输入）：每条与 supporting_quotes 的 evidence_id 一一对应；observation 必须描述对应 target 的引文，不能合并多个 source 的判断",
+            "items": {
+              "type": "object",
+              "required": ["evidence_id"],
+              "additionalProperties": false,
+              "properties": {
+                "evidence_id": { "type": "string" },
+                "subject": { "type": "string" },
+                "predicate": { "type": "string" },
+                "object": { "type": "string" },
+                "qualifiers": { "type": "object" }
+              }
+            }
+          },
+          "applied_rule_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "rationale": { "type": "string", "maxLength": 1000 },
+          "rationale_offsets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["source_id", "evidence_id", "start", "end"],
+              "additionalProperties": false,
+              "properties": {
+                "source_id": { "type": "string" },
+                "evidence_id": { "type": "string" },
+                "start": { "type": "integer", "minimum": 0 },
+                "end": { "type": "integer", "minimum": 0 }
+              }
+            }
+          },
+          "advisory": { "type": "boolean", "default": false },
+          "observation": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "subject": { "type": "string" },
+              "predicate": { "type": "string" },
+              "object": { "type": "string" },
+              "qualifiers": { "type": "object" }
+            }
+          },
+          "independence": {
+            "type": "object",
+            "required": ["group_id", "basis"],
+            "additionalProperties": false,
+            "properties": {
+              "group_id": { "type": "string" },
+              "basis": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["source_id", "evidence_id"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "source_id": { "type": "string" },
+                    "evidence_id": { "type": "string" },
+                    "provenance_field": {
+                      "enum": ["publisher", "derived_from", "independence_group"]
+                    },
+                    "offset": {
+                      "type": "object",
+                      "required": ["start", "end"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "start": { "type": "integer", "minimum": 0 },
+                        "end": { "type": "integer", "minimum": 0 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "unmapped_claims": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "contradictions": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "not_run": {
+      "type": ["null", "string"],
+      "description": "模型自行声明 not_run 必须被拒绝（§8.3）：not_run 只能由运行时观测事实产生"
+    }
+  }
+}

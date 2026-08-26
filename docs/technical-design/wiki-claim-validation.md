@@ -58,7 +58,7 @@
 
 人工审计是对当前 `(content_sha256, evidence_sha256)` 的一次显式背书，写入 durable `operation-confirmation/v1`（`scope: publish`、`decision: approve|reject`），内容包含：确认时刻的两个内容 hash、`DeterministicReport` 摘要 hash、LLM 审计状态（`not_run` / `pass` / `fail` / `stale_ruleset` 及其 `ruleset_sha256`）与历史 fail 次数。
 
-正文、语义字段或 evidence 变化使确认失效，必须重新审计。规则集变化**不**使确认失效，只标记 LLM 结论 `stale_ruleset`。确认记录写入 owner `audit/validation/`，只依赖 Git 历史提供顺序与防篡改，不再自建 hash chain。
+正文、语义字段或 evidence 变化使确认失效，必须重新审计。规则集变化**不**使确认失效，只标记 LLM 结论 `stale_ruleset`（AC-F003-015）。确认记录写入 owner `audit/validation/`，只依赖 Git 历史提供顺序与防篡改，不再自建 hash chain。
 
 
 ## Validator 契约
@@ -69,24 +69,7 @@ Provider adapter 输入固定为 `ValidationRequest`，输出只能是 schema ve
 
 Provider 能力不足、不可用、超时或返回 malformed 输出时，结果是 `validation_state: not_run` + 结构化 `not_run_reason`（`provider_unavailable` / `offline` / `context_exceeded` / `malformed_output` / `incomplete_coverage`），**不是** `fail`，也不触发能力协商。这是 LLM 可选化的直接推论：不可用是环境事实，不是审计结论。操作者主动跳过不写审计报告，因此没有 `skipped_by_operator` 这个值。报告只保存 opaque provider identity 与 `not_run_reason`，不保存 endpoint、模型版本、密钥或完整请求响应。
 
-## LLM 规范审计（依据规范，不做自由裁量）
-
-审计不问「这条 claim 对不对」，只问「这条 claim 在给定引文下是否违反了列出的规范条目」。因此请求里必须带规则集：
-
-- `ruleset`：条目数组，每条含 `spec_id`（如 `VAL`/`EVD`）、`rule_id`、规则原文；
-- `ruleset_sha256`：canonical JSON hash，随审计结论一并持久化；
-- 每条 verdict 必须带 `applied_rule_refs`。无法映射到任一规则条目的意见记为 `advisory`，只作为人工审计的参考展示，**不参与 pass/fail 判定**；
-- 顶层 verdict 只有在所有 claim verdict 均为 `supported`、无 `advisory` 之外的规则违反、且逐字 quote 校验全部通过时才是 `pass`。
-
-`ruleset_sha256` 变化与内容 hash 变化等效：既有 LLM 审计结论立即失效，需重新审计或以 `not_run` 走人工审计通道。
-
-单次调用，`temperature=0`，持久化 `call_id`、`input_hash`、`ruleset_sha256`、`schema_version`。不做多次采样聚合——确定性采样下重复调用要么恒同（无信息量）要么说明 provider 并非确定性（声明失效），两种情况都不该用「取最保守」掩盖。
-
-## 人工审计
-
-人工审计是对当前 `(content_sha256, evidence_sha256)` 的一次显式背书，写入 durable `operation-confirmation/v1`（`scope: publish`、`decision: approve|reject`），内容包含：确认时刻的两个内容 hash、`DeterministicReport` 摘要 hash、LLM 审计状态（`not_run` / `pass` 及其 `ruleset_sha256`）、以及审计人看到的 advisory 列表 hash。
-
-正文、语义字段、evidence 或 ruleset 任一变化都使确认失效，必须重新审计——不存在「小改不用重审」的豁免。审计记录写入 owner `audit/validation/`，只依赖 Git 历史提供顺序与防篡改，不再自建 hash chain。
+`wiki-validation/v1` 是唯一跨 adapter 契约（请求侧不再单独定型 `wiki-validation-request/v1`，请求结构随契约同版本演进）。每个 claim verdict 只能是 `supported`、`partially_supported`、`unsupported`、`contradicted`、`unmapped`，并必须带 `applied_rule_refs` 与引用区间；单次调用必须返回完整 claim/target/quote 集合与 call ID。顶层 verdict 为 `pass` 的条件是：覆盖义务全部满足、全部 claim verdict 为 `supported`、逐字 quote 校验全部通过、且无 advisory 之外的规则违反。任一 `contradicted`/`unsupported` 即 `fail`。malformed、缺 claim、target 漂移、上下文截断、覆盖不全都不是「模型判断失败」而是协议不可用，记 `not_run` + `not_run_reason`，交由人工审计通道继续。
 
 ### Multi-source corroboration/conflict 算法（`corroboration-v1`）
 

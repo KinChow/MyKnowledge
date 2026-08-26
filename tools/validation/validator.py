@@ -107,6 +107,8 @@ class WikiValidator:
         )
         report["hashes"] = hashes
         report["validation_report"] = validation_report
+        # F003：确定性 resolution（resolved_targets/sources/provenance）对审计层可见
+        report["resolution"] = resolution
         return report
 
     def _report(
@@ -127,6 +129,7 @@ class WikiValidator:
             "derived": None,
             "hashes": None,
             "validation_report": None,
+            "resolution": None,
         }
 
 

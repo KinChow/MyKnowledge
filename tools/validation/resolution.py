@@ -8,7 +8,6 @@ LCS 诊断）。纯函数式：输入路径/参数，输出 resolution 数据对
 from __future__ import annotations
 
 import difflib
-from pathlib import Path
 
 from ..common import canonical_quote, glob_without_symlinks
 from ..front_matter import FrontMatter
@@ -199,48 +198,56 @@ def resolve_and_verify(
     }
 
 
+def read_snapshot_scope(
+    evidence_item: dict, paths
+) -> tuple[str | None, str | None]:
+    """读取 evidence item 的 snapshot 并限定 TextPositionSelector 范围。
+
+    §6.9：匹配目标必须是 selector 限定的 snapshot 范围；返回
+    (scope_text, error_code|None)，error_code ∈ {snapshot_missing,
+    selector_unresolved}。verify_quote 与 audit 的审计上下文共用
+    （F003 review R002：钳制实现单份，边界规则变更只改一处）。
+    """
+    snapshot_sha256 = evidence_item.get("snapshot_sha256")
+    if not snapshot_sha256:
+        return None, "snapshot_missing"
+    snapshot_path = paths.snapshot_file(snapshot_sha256)
+    if not snapshot_path.exists():
+        return None, "snapshot_missing"
+    try:
+        snapshot = snapshot_path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError):
+        return None, "snapshot_missing"
+    position = evidence_item.get("position")
+    if not isinstance(position, dict):
+        return None, "selector_unresolved"
+    start = position.get("start")
+    end = position.get("end")
+    if not isinstance(start, int) or not isinstance(end, int):
+        return None, "selector_unresolved"
+    # 钳制边界防越界（R003）
+    start = max(0, min(start, len(snapshot)))
+    end = max(0, min(end, len(snapshot)))
+    return snapshot[start:end], None
+
+
 def verify_quote(
     evidence_item: dict, exact: str, paths, quote_min_chars: int
 ) -> dict | None:
     """在 evidence item 的 TextPositionSelector 范围内逐字校验引文（§6.9）。"""
-    snapshot_sha256 = evidence_item.get("snapshot_sha256")
-    if not snapshot_sha256:
-        return {"code": "snapshot_missing", "path": "evidence",
-                "reason": f"evidence item 缺少 snapshot_sha256"}
-    snapshot_path = paths.snapshot_file(snapshot_sha256)
-    if not snapshot_path.exists():
+    scope, scope_error = read_snapshot_scope(evidence_item, paths)
+    if scope_error == "snapshot_missing":
         return {
             "code": "snapshot_missing", "path": "evidence",
-            "reason": f"snapshot 不存在: {snapshot_path}",
+            "reason": f"snapshot 缺失或不可读: {evidence_item.get('snapshot_sha256')}",
         }
-    try:
-        snapshot = snapshot_path.read_text(encoding="utf-8")
-    except (OSError, UnicodeError):
-        return {
-            "code": "snapshot_missing", "path": "evidence",
-            "reason": f"snapshot 不可读: {snapshot_path}",
-        }
-    # §6.9：匹配目标必须是 selector 限定的 snapshot 范围；position 缺失或
-    # 非法时返回 selector_unresolved，不得静默回退全快照匹配（F008）
-    position = evidence_item.get("position")
-    if not isinstance(position, dict):
+    if scope_error == "selector_unresolved":
         return {
             "code": "selector_unresolved", "path": "evidence",
             "reason": (
                 "evidence item 缺少 TextPositionSelector，无法限定匹配范围"
             ),
         }
-    start = position.get("start")
-    end = position.get("end")
-    if not isinstance(start, int) or not isinstance(end, int):
-        return {
-            "code": "selector_unresolved", "path": "evidence",
-            "reason": "TextPositionSelector 的 start/end 必须为整数",
-        }
-    # 钳制边界防越界（R003）
-    start = max(0, min(start, len(snapshot)))
-    end = max(0, min(end, len(snapshot)))
-    scope = snapshot[start:end]
     canon_scope = canonical_quote(scope)
     canon_exact = canonical_quote(exact)
     if len(canon_exact) < quote_min_chars:
@@ -255,8 +262,9 @@ def verify_quote(
             "code": "quote_mismatch", "path": "evidence",
             "reason": (
                 f"引文未在 target 指向的 snapshot 范围内逐字命中。"
-                f"snapshot_sha256={snapshot_sha256} evidence_id={evidence_item.get('id')} "
-                f"selector=[{start},{end}) scope_len={len(canon_scope)} quote_len={len(canon_exact)} "
+                f"snapshot_sha256={evidence_item.get('snapshot_sha256')} "
+                f"evidence_id={evidence_item.get('id')} "
+                f"scope_len={len(canon_scope)} quote_len={len(canon_exact)} "
                 f"lcs_pos={block.a} lcs_len={block.size}"
             ),
         }

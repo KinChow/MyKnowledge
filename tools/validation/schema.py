@@ -38,15 +38,24 @@ FORBIDDEN_DERIVED_FIELDS = frozenset(
 )
 
 
-def load_schema() -> dict:
-    """加载可执行 JSON Schema（代码资源，随包路径解析，与数据根 --root 解耦）。"""
+def load_json_schema(filename: str) -> dict:
+    """加载 config/json-schema/ 下指定 schema 文件（代码资源，随包路径解析）。
+
+    F002/F003 共用（audit 的 wiki-validation/v1 与 wiki-v1.json 同一加载路径，
+    避免两处复制）。
+    """
     path = (
         Path(__file__).resolve().parent.parent.parent
         / "config"
         / "json-schema"
-        / "wiki-v1.json"
+        / filename
     )
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_schema() -> dict:
+    """加载可执行 JSON Schema（代码资源，随包路径解析，与数据根 --root 解耦）。"""
+    return load_json_schema("wiki-v1.json")
 
 
 def check_derived_fields(metadata: dict) -> list[dict]:
