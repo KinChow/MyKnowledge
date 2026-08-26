@@ -249,3 +249,9 @@
 - 结果：构建前输入树报告为 `public-input-leak-gate/v1`（scope=`input-tree`），staging 报告为 `public-leak-gate/v1`（scope=`staging`），最终 dist 报告为 `public-leak-gate/v1`（scope=`dist`）；三份报告 `findings=[]`，Astro/Pagefind 构建成功。
 - 自动化复现：`tests/test_frontend_projection.py::test_leak_gate_reports_input_scope_and_rejects_practice` 验证 input scope schema 和 practice 内容拒绝；`npm run validate:docs`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 均通过。
 - 边界：本证据覆盖 AC-F007-017/019/024 的离线构建门禁，不代表真实内容发布、浏览器检索闭包或 Mermaid 安全场景已 Accepted。
+
+## Pagefind/HTML 集合校验增量证据（2026-08-27）
+
+- `tests/test_frontend_projection.py::test_validate_build_rejects_pagefind_count_mismatch` 验证 Pagefind `page_count` 与产出的 HTML 数量不一致时 `validate-build` fail-closed。
+- `frontend/scripts/validate-build.mjs` 在存在 Pagefind 时校验所有语言索引总页数与 HTML 文件数，并确保不小于 catalog；存在 sitemap 时逐条检查 catalog route 闭包。
+- 空 projection 生产构建实际通过，Pagefind 报告 2 个固定 HTML 页面，集合校验通过；真实多文章 sitemap/浏览器检索仍待环境验收。
