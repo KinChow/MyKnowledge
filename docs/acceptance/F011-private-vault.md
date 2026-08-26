@@ -13,6 +13,14 @@
 - AC-F011-001/003：`tests/test_vault_registry.py::VaultRegistryTests::test_same_object_id_across_vaults_is_not_a_conflict` 验证两个可用 Vault 各自拥有同名 Wiki 时不冲突且各计数为 1；`test_duplicate_object_id_inside_one_vault_is_reported_without_paths` 验证同 Vault 重复 ID 返回 `duplicate_object_id`。
 - SEC/owner 边界：冲突项只包含 `{vault_id, object_type, object_id}`，测试确认报告不包含 workspace 物理路径。
 
+## Private API owner 增量证据（2026-08-27）
+
+- AC-F011-001/006/010：`tests/test_api.py::test_private_vault_read_and_backlinks_are_owner_scoped` 使用两个独立 Git vault 创建同名 Wiki；显式 `vault_id=private` 读取 private 正文和 backlinks，响应仅返回 owner-relative path，public 路由仍读取 public 正文，不按全局 object ID 猜测。
+
+## AC-F011-019 Private owner API 路由
+
+- Given：多个可用 vault 存在同名 object ID；When：使用 capability 调用 read/backlinks 并显式指定 `vault_id`；Then：API 通过 Registry owner root 定位对象，只返回指定 vault 的正文、backlinks 和 vault-relative path；当前状态：通过上述测试。
+
 对象实际合并 projection、跨 Vault 引用阻断、private/public confidentiality 传染和恢复仍待后续验收。
 
 ## AC-F011-001 多个私有仓库挂载和合并

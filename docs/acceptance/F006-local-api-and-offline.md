@@ -116,3 +116,7 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 
 - Given：调用方提交 source 或 wiki 文件变更；When：调用 preview、未确认 apply、确认 apply；Then：缺 capability 被拒绝，preview 只生成 operation/hash 不改工作树，未确认返回 `awaiting_confirmation`，确认后通过同一 writer 原子应用；`GET /api/vault/check` 同样要求 capability。
 - 对应测试：`tests/test_api.py::test_source_and_wiki_preview_apply_require_capability_and_confirmation`、`test_vault_check_requires_capability`；当前状态：通过。
+
+## AC-F006-012 Private owner read/backlinks
+
+- Given：两个显式挂载 vault 拥有同名 Wiki；When：携带 capability 调用 `/api/read/{vault_id}` 和 `/api/backlinks/{vault_id}`；Then：只读取指定 owner，返回 vault-relative path 和 owner ObjectRef，public/private scope 不交叉；当前状态：通过 `tests/test_api.py::test_private_vault_read_and_backlinks_are_owner_scoped`。
