@@ -23,6 +23,10 @@ class IndexingTests(unittest.TestCase):
     def test_private_scope_excludes_public_owner(self):
         result = IndexBuilder(None).build(ITEMS, "private")
         self.assertEqual({x["object_ref"]["vault_id"] for x in result["items"]}, {"private"})
+
+    def test_vault_allowlist_is_applied_before_retrieval_result_generation(self):
+        result = Retriever(ITEMS).search("SQLite", "local", vault_ids=["public"])
+        self.assertEqual({x["object_ref"]["vault_id"] for x in result["items"]}, {"public"})
         result = Retriever(ITEMS).search("SQLite", "private")
         self.assertEqual({x["object_ref"]["vault_id"] for x in result["items"]}, {"private"})
 
