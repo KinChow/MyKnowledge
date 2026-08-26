@@ -79,6 +79,7 @@ class VaultRegistryTests(unittest.TestCase):
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             manager = BackupManager(root)
             manifest = manager.create_manifest("public")
+            self.assertTrue(manifest["entries"] == [] or all("path" in x and "sha256" in x for x in manifest["entries"]))
             checked = manager.verify_manifest(root / manifest["path"])
             self.assertEqual(checked["backup_state"], "verified")
             path = root / manifest["path"]

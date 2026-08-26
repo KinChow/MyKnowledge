@@ -13,6 +13,11 @@
 
 该证据不代表外部备份已配置、空仓恢复已完成或 Vault 可持久标记为 verified；未配置目标仍必须报告 `backup_not_configured`。
 
+## Entries 增量证据（2026-08-30）
+
+- AC-F012-005/008：`BackupManager.create_manifest` 为 public owner 记录 sources/wiki/archive/audit 文件的相对路径、sha256 和 size；`verify_manifest` 逐项重算并在缺失或 hash 变化时返回 `failed`。
+- 备份 manifest 不包含绝对路径、token、remote URL 或私有 Vault 内容；外部 target 未配置时仍保持 `unconfigured`。
+
 ## AC-F012-001 逐 Vault 状态
 
 - Given：多个 private Vault 的 remote/backup 状态不同；

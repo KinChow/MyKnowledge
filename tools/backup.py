@@ -22,7 +22,16 @@ class BackupManager:
         status = next((x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None)
         if status is None: raise ValueError("vault_not_found")
         backup_id = "backup_" + uuid.uuid4().hex
-        data = {"schema_version": "backup-manifest/v1", "backup_id": backup_id, "vault_id": vault_id, "generated_at": time.time(), "vault_state": status["state"], "backup_state": status["backup_state"], "head_sha256": status.get("head_sha256"), "entries": []}
+        entries = []
+        if vault_id == "public":
+            for folder in ("sources", "wiki", "archive", "audit"):
+                base = self.root / folder
+                if not base.is_dir():
+                    continue
+                for item in sorted(base.rglob("*")):
+                    if item.is_file() and not item.is_symlink():
+                        entries.append({"path": str(item.relative_to(self.root)), "sha256": "sha256:" + hashlib.sha256(item.read_bytes()).hexdigest(), "size": item.stat().st_size})
+        data = {"schema_version": "backup-manifest/v1", "backup_id": backup_id, "vault_id": vault_id, "generated_at": time.time(), "vault_state": status["state"], "backup_state": status["backup_state"], "head_sha256": status.get("head_sha256"), "entries": entries}
         data["manifest_sha256"] = "sha256:" + hashlib.sha256(canonical_json(data)).hexdigest()
         path = RepoPaths(self.root).audit_backup / f"{backup_id}.json"
         atomic_write(path, canonical_json(data) + b"\n", 0o600)
@@ -46,6 +55,13 @@ class BackupManager:
                 raise ValueError("vault_not_found")
             if status.get("state") != "available":
                 raise ValueError("vault_unavailable")
+            for entry in data.get("entries", []):
+                entry_path = self.root / str(entry.get("path", ""))
+                if not entry_path.is_file() or entry_path.is_symlink():
+                    raise ValueError("entry_missing")
+                actual = "sha256:" + hashlib.sha256(entry_path.read_bytes()).hexdigest()
+                if actual != entry.get("sha256"):
+                    raise ValueError("hash_mismatch")
             relative = str(path.resolve().relative_to(self.root.resolve()))
             return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
         except (OSError, ValueError, json.JSONDecodeError) as exc:
