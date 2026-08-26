@@ -53,4 +53,18 @@ class IndexingTests(unittest.TestCase):
             adapter = QMDAdapter(cache, command="sh")
             self.assertEqual(adapter.unavailable_reason(), "cache_permissions")
 
+    def test_qmd_results_are_normalized_and_projection_allowlisted(self):
+        class FakeQMD:
+            available = True
+            def search(self, query, top_k=8):
+                return [
+                    {"object_ref": {"vault_id": "public", "object_type": "wiki", "object_id": "pub"}, "score": 0.9},
+                    {"object_ref": {"vault_id": "private", "object_type": "wiki", "object_id": "priv"}, "score": 1.0},
+                ]
+            def unavailable_reason(self):
+                return None
+        result = Retriever(ITEMS, qmd=FakeQMD()).search("SQLite", "public")
+        self.assertEqual(result["method"], "qmd")
+        self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
+
 if __name__ == "__main__": unittest.main()

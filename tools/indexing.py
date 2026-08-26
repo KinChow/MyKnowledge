@@ -1,6 +1,6 @@
 """Projection index and deterministic retrieval (F005)."""
 from __future__ import annotations
-import json, sqlite3, os, tempfile, shutil
+import json, sqlite3, os, tempfile, shutil, subprocess
 from pathlib import Path
 from .common import canonical_json, hash_canonical
 
@@ -27,6 +27,24 @@ class QMDAdapter:
     @property
     def available(self) -> bool:
         return self.unavailable_reason() is None
+
+    def search(self, query: str, top_k: int = 8) -> list[dict]:
+        """Run an installed QMD CLI in its isolated cache and parse JSON output."""
+        reason = self.unavailable_reason()
+        if reason:
+            raise RuntimeError(reason)
+        completed = subprocess.run(
+            [self.command, "search", query, "--json", "-n", str(top_k)],
+            cwd=self.cache_dir, capture_output=True, text=True, timeout=10, check=False,
+        )
+        if completed.returncode != 0:
+            raise RuntimeError("provider_error")
+        data = json.loads(completed.stdout or "[]")
+        if isinstance(data, dict):
+            data = data.get("results", data.get("items", []))
+        if not isinstance(data, list) or any(not isinstance(item, dict) for item in data):
+            raise ValueError("provider_schema_invalid")
+        return data[:top_k]
 
 class IndexBuilder:
     def __init__(self, root: Path | None): self.root = Path(root or ".").resolve()
@@ -78,6 +96,21 @@ class Retriever:
     def search(self, query: str, scope: str = "local", top_k: int = 8) -> dict:
         if not isinstance(query, str) or len(query) > 4096 or top_k < 1 or top_k > 100: return {"schema_version": "query-result/v1", "items": [], "scope": scope, "method": "deterministic-fallback", "index_version": "none", "generated_from": "", "availability": "invalid", "availability_reason": "query_limit_exceeded", "degraded": True, "confidentiality_max": "public", "limits": ["query_limit_exceeded"], "warnings": []}
         public = [x for x in self.items if scope != "public" or (x.get("vault_id") == "public" and x.get("public_publishable") is True)]
+        if self.qmd.available:
+            try:
+                allowed_refs = {(x.get("vault_id"), x.get("object_type", "wiki"), x.get("object_id")): x for x in public}
+                candidates = self.qmd.search(query, top_k)
+                items = []
+                for candidate in candidates:
+                    ref = candidate.get("object_ref") or {"vault_id": candidate.get("vault_id"), "object_type": candidate.get("object_type", "wiki"), "object_id": candidate.get("object_id")}
+                    source = allowed_refs.get((ref.get("vault_id"), ref.get("object_type", "wiki"), ref.get("object_id")))
+                    if source is None:
+                        continue
+                    available = source.get("availability", "available") == "available"
+                    items.append({"object_ref": {"vault_id": ref.get("vault_id"), "object_type": ref.get("object_type", "wiki"), "object_id": ref.get("object_id")}, "title": source.get("title"), "snippet": str(source.get("body", ""))[:240] if available else None, "score": candidate.get("score"), "availability": "available" if available else "unavailable", "availability_reason": "none" if available else source.get("availability_reason", "unavailable"), "confidentiality": source.get("confidentiality", "public"), "content_sha256": source.get("content_sha256"), "source_ref": source.get("source_ref")})
+                return {"schema_version": "query-result/v1", "items": items, "scope": scope, "method": "qmd", "index_version": "qmd/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": False, "confidentiality_max": "internal" if any(x["confidentiality"] == "internal" for x in items) else "public", "limits": [], "warnings": []}
+            except (OSError, RuntimeError, ValueError, json.JSONDecodeError):
+                pass
         if self.index_path and self.index_path.exists():
             try:
                 index = SQLiteIndex(self.index_path)
