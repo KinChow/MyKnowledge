@@ -20,6 +20,7 @@ from tools.backup import BackupManager
 from tools.question import QuestionStore
 from tools.inventory_legacy import main as inventory_main
 from tools.migrate_legacy import main as migrate_main
+from tools.vault_lock import VaultLock
 
 COMMANDS = {
     "source": source_main,
@@ -53,6 +54,16 @@ def write_main(argv: list[str]) -> int:
 
 COMMANDS["write"] = write_main
 COMMANDS["vault"] = vault_main
+
+def lock_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Recover an orphaned vault lock")
+    parser.add_argument("action", choices=["recover"]); parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--vault-id", required=True); parser.add_argument("--operation-id", required=True); parser.add_argument("--actor-id", default="local-user")
+    args = parser.parse_args(argv)
+    print(json.dumps(VaultLock.recover(args.root, args.vault_id, args.operation_id, args.actor_id), ensure_ascii=False, indent=2)); return 0
+
+COMMANDS["lock"] = lock_main
 
 def backup_main(argv: list[str]) -> int:
     import argparse, json

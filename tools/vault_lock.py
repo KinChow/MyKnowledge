@@ -18,7 +18,7 @@ from pathlib import Path
 
 from filelock import FileLock, Timeout
 
-from .common import safe_id
+from .common import safe_id, canonical_json, hash_canonical
 from .paths import RepoPaths
 from .common import atomic_write
 
@@ -84,3 +84,31 @@ class VaultLock:
             "operation_id": operation_id,
             "error_code": "lock_busy",
         }
+
+    @staticmethod
+    def recover(root: Path, vault_id: str, operation_id: str, actor_id: str = "local-user") -> dict:
+        """Recover an orphaned owner sidecar only after acquiring the kernel lock."""
+        vault_id = safe_id(vault_id)
+        safe_id(operation_id.removeprefix("op_"))
+        paths = RepoPaths(Path(root))
+        lock = FileLock(paths.lock_file(vault_id))
+        owner_file = paths.lock_file(vault_id).with_suffix(".owner")
+        try:
+            lock.acquire(timeout=0)
+        except Timeout:
+            return {"state": "blocked", "error_code": "lock_busy", "vault_id": vault_id, "operation_id": operation_id}
+        try:
+            try:
+                old = json.loads(owner_file.read_text(encoding="utf-8"))
+            except (OSError, ValueError, json.JSONDecodeError):
+                return {"state": "blocked", "error_code": "lock_owner_missing", "vault_id": vault_id, "operation_id": operation_id}
+            record = {"schema_version": "audit-record/v1", "record_type": "lock-recovery", "vault_id": vault_id, "operation_id": operation_id, "old_operation_id": old.get("operation_id"), "actor_id": actor_id, "recovered_at": time.time()}
+            record["record_sha256"] = hash_canonical(record)
+            audit_dir = Path(root).resolve() / "audit" / "operations"
+            audit_dir.mkdir(parents=True, exist_ok=True)
+            audit_path = audit_dir / f"lock-recovery-{secrets.token_hex(12)}.json"
+            atomic_write(audit_path, canonical_json(record) + b"\n", 0o600)
+            owner_file.unlink(missing_ok=True)
+            return {"state": "recovered", "vault_id": vault_id, "operation_id": operation_id, "record_sha256": record["record_sha256"]}
+        finally:
+            lock.release()
