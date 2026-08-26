@@ -86,8 +86,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
                 return JSONResponse(status_code=403, content={"detail": {"code": "origin_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback origin"}})
         return await call_next(request)
 
-    def require_capability(token: str | None, scope: str, audience: str | None = None) -> None:
-        if scope == "public":
+    def require_capability(token: str | None, scope: str, audience: str | None = None, *, force: bool = False) -> None:
+        if scope == "public" and not force:
             return
         if not token:
             raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
@@ -116,6 +116,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
 
     @app.post("/api/retrieve")
     def retrieve_post(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True)
         return retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
 
     @app.get("/api/query")
@@ -125,6 +126,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
 
     @app.post("/api/ask")
     def ask(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        require_capability(x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True)
         retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval, "availability": "unavailable", "availability_reason": "provider_unavailable", "confidentiality": retrieval["confidentiality_max"], "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
 
