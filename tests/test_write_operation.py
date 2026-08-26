@@ -151,6 +151,11 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(record["operation_type"], "rename")
             retired = service.retire("old.md")
             self.assertEqual(service.store.load(retired["operation_id"])["operation_type"], "retire")
+            result = service.apply(retired["operation_id"], confirmed=True)
+            self.assertEqual(result["state"], "applied")
+            marker = root / "audit" / "retire" / f"{retired['operation_id']}.json"
+            self.assertTrue(marker.exists())
+            self.assertEqual(json.loads(marker.read_text())["schema_version"], "retire-marker/v1")
 
     def test_commit_intent_is_removed_after_apply(self):
         with tempfile.TemporaryDirectory() as d:

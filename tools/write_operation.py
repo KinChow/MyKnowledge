@@ -99,6 +99,9 @@ class WriteOperation:
                             atomic_write(path, content)
                     raise
                 applied = self.store.update(record, "applied", actor_id=actor_id, confirmation={"actor_type": "human", "actor_id": actor_id, "scope": "apply"}, applied_files=[x["path"] for x in record["files"]])
+                if record.get("operation_type") == "retire":
+                    marker = {"schema_version": "retire-marker/v1", "operation_id": operation_id, "vault_id": vault_id, "target": record["files"][0]["path"], "content_sha256": sha256_bytes(record["files"][0]["content"].encode("utf-8"))}
+                    atomic_write(self.store.paths.audit_retire / f"{operation_id}.json", canonical_json(marker) + b"\n", 0o600)
                 intent_path.unlink(missing_ok=True)
                 return {"state": "applied", "operation_id": operation_id, "applied_files": applied["applied_files"]}
         except LockBusyError:
