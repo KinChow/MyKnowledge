@@ -10,6 +10,8 @@
 
 本轮成熟方案调查（2026-08-30）：Git-based backup/restore（<https://git-scm.com/docs>，GPL-2.0 文档/实现）复用 HEAD/worktree 可验证提交；SQLite backup API/WAL（<https://sqlite.org/backup.html>，public domain）复用一致性快照思想；替代方案是 rsync 文件复制（GPL-3.0），但缺少 owner record/hash manifest 和 Git 历史语义，本轮不采用。`tools/backup.py` 现在为 public owner 生成 sources/wiki/archive/audit 的相对路径 hash entries，并逐项离线重算；恢复时要求显式空 target、先验证 manifest 再原子写入并在失败时清理 staging。不自动上传、checkout、reset、commit 或 push，真实外部 target 仍保持未配置边界。
 
+本轮 durable record 校验调查（2026-08-27）：Git 的对象哈希/提交历史（GPL-2.0）作为删除与重排证据，SQLite WAL/backup API（Public Domain）作为一致性快照参考；替代方案是只相信 manifest entry hash，攻击者可同步修改 manifest 后伪造记录，因此不采用。`verify_manifest` 对 `audit/operations/*.json` 重算 `record_sha256`，对 `release/public-confirmations/*.json` 重算并验证 `event_sha256`；记录本身无效时即使 manifest entry hash 被重写也返回失败。该校验离线运行，不保存 URL、凭据或正文摘要之外的敏感数据。
+
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
 ## 备份内容与恢复
