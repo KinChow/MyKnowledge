@@ -139,3 +139,5 @@
 ## Provider timeout 兼容性增量证据（2026-08-27）
 
 - `tests/validation/test_provider.py::test_agent_cli_timeout_maps_to_context_exceeded_without_pid_attribute` 注入标准库 `TimeoutExpired`（无 pid 属性），验证 Agent CLI adapter 返回 `context_exceeded`，并以 best-effort 方式执行进程组清理，不产生未捕获异常或伪造 fail。
+
+- `tests/validation/test_audit.py::AuditTests::test_provider_timeout_exception_is_normalized_to_not_run` 验证注入 provider 直接抛出 `TimeoutError` 时，编排层仍写入结构化 `not_run/context_exceeded`，不把 provider 实现异常暴露为审计结论。

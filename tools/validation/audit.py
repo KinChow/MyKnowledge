@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import time
 from pathlib import Path
 
@@ -29,7 +30,7 @@ from .derived import (
     SCHEMA_VERSION,
     fail_history,
 )
-from .provider import ProviderResult
+from .provider import ProviderResult, build_input_hash
 from .resolution import read_snapshot_scope, verify_quote
 from .schema import load_json_schema
 from .validator import WikiValidator
@@ -452,7 +453,20 @@ def run_audit(
     request = build_validation_request(vreport, ruleset_data, paths)
     response_schema = load_response_schema()
 
-    result = provider.audit(request, response_schema)
+    try:
+        result = provider.audit(request, response_schema)
+    except (TimeoutError, subprocess.TimeoutExpired) as exc:
+        result = ProviderResult(
+            getattr(provider, "identity", provider.__class__.__name__),
+            "call_unavailable", build_input_hash(request),
+            error_code="context_exceeded", error_message=type(exc).__name__,
+        )
+    except OSError as exc:
+        result = ProviderResult(
+            getattr(provider, "identity", provider.__class__.__name__),
+            "call_unavailable", build_input_hash(request),
+            error_code="provider_unavailable", error_message=type(exc).__name__,
+        )
     object_id = str(vreport["metadata"].get("id", ""))
     hashes = vreport["hashes"]
 
