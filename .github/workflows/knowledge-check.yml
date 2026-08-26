@@ -1,0 +1,79 @@
+name: Knowledge site check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'config/**'
+      - 'skills/**'
+      - 'tools/**'
+      - 'backend/**'
+      - 'frontend/**'
+      - 'queries/public/**'
+      - 'release/public-confirmations/**'
+      - 'docs/traceability-matrix.md'
+      - '.github/workflows/knowledge-check.yml'
+  push:
+    paths:
+      - 'docs/**'
+      - 'config/**'
+      - 'skills/**'
+      - 'tools/**'
+      - 'backend/**'
+      - 'frontend/**'
+      - 'queries/public/**'
+      - 'release/public-confirmations/**'
+      - 'docs/traceability-matrix.md'
+      - '.github/workflows/knowledge-check.yml'
+
+jobs:
+  migration-baseline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run validate:config
+      - run: npm run validate:docs
+      - run: npm run validate:legacy
+        name: Validate migration baseline (not F007 release acceptance)
+
+  public-projection:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect public projection manifest
+        id: projection
+        shell: bash
+        run: |
+          if [[ -f ../queries/public/manifest.json ]]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "No queries/public/manifest.json; projection validation is deferred until migration creates it."
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.projection.outputs.present == 'true'
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        if: steps.projection.outputs.present == 'true'
+      - run: npm run validate:config
+        if: steps.projection.outputs.present == 'true'
+      - run: npm run validate:docs
+        if: steps.projection.outputs.present == 'true'
+      - run: npm run validate:projection
+        if: steps.projection.outputs.present == 'true'
+        name: Validate public projection and release gates

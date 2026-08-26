@@ -10,8 +10,8 @@
 | :------------- | :----------------------------------------------------------- |
 | **多格式记录** | 支持 Markdown、图片、视频、PDF 等多种格式，满足全场景知识记录需求 |
 | **智能分类**   | 通过标签系统和目录树实现三维分类，支持自定义分类维度         |
-| **全文检索**   | 基于关键词的快速搜索，支持布尔运算符和模糊匹配               |
-| **云端同步**   | 自动备份至 GitHub/Gitee，以便在不同设备上访问        |
+| **全文检索**   | 本地自然语言/混合检索默认使用 QMD；不可用时回退 FTS5 和 SQLite LIKE |
+| **版本与同步** | public repo 使用 Git 管理；private Git remote 和加密备份位置当前待配置，不默认声称已同步或已备份 |
 | **版本控制**   | 内置 Git 版本管理，随时回溯历史版本                          |
 
 ------
@@ -20,12 +20,28 @@
 
 ```bash
 MyKnowledge/
-├── docs/                  # 知识库核心目录
-│   └── index.md           # 知识库入口
-├── mkdocs.yml             # 站点配置
-├── requirements.txt       # 依赖列表
+├── docs/                  # 迁移中的原始内容与设计文档
+├── frontend/              # Astro/Starlight 静态 Wiki（public projection 消费者）
+├── sources/               # 目标 Source 层（实现后创建）
+├── wiki/                  # 目标 Wiki 层（实现后创建）
+├── config/                # schema、policy 和 public + 0..N vault 示例
+├── mkdocs.yml             # 迁移期间的旧站点回退配置
+├── requirements.txt       # Python 依赖列表
 └── README.md              # 项目说明
 ```
+
+需要同时挂载多个外挂仓库时，使用仅本机存在的私有 workspace（不提交到 public repo）：
+
+```text
+MyKnowledge-workspace/
+├── public/                 # 当前 MyKnowledge public repo checkout
+└── vaults/
+    ├── team-internal/      # private repo 或 submodule checkout
+    ├── personal-private/   # 可选
+    └── research-private/   # 可选
+```
+
+当前仓库也可以不搬目录，直接作为 `public` vault 运行，并在被忽略的 local manifest 中填写一个或多个 `vaults/*` 路径。两种布局使用同一个 Vault Registry 和对象模型。
 
 ## 📐 重构方案
 
@@ -47,8 +63,9 @@ MyKnowledge/
 
 ### 前置要求
 
-- Python 3.8+
+- Python 3.11+
 - Git 2.20+
+- Node.js 22+（本地自然语言/混合检索默认使用 QMD；QMD 不可用时自动回退 SQLite FTS5，再回退 SQLite LIKE；Astro 版本以 `frontend/package-lock.json` 为准）
 
 ### 1. 环境配置
 
@@ -57,14 +74,37 @@ MyKnowledge/
 git clone https://github.com/KinChow/MyKnowledge.git
 cd MyKnowledge
 
-# 安装依赖（推荐方式）
+# 安装 Python 依赖（Source/后端/工具）
 pip install -r requirements.txt
 
 # 或手动安装核心组件
+# 迁移期间的旧 MkDocs 回退（正式静态 Wiki 使用 frontend）
 pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
 ```
 
 ### 2. 本地运行
+
+迁移基线预览（当前 `npm run dev` 默认读取 legacy `docs/`，不代表 public release）：
+
+```bash
+cd frontend
+npm ci
+npm run dev
+```
+
+访问 ➡️ [http://127.0.0.1:4321](http://127.0.0.1:4321/)。该模式只用于迁移基线和内容回归。
+
+正式 public projection 预览/验证必须显式选择投影输入，并在 manifest、人工确认和 leak gate 全部满足后才可构建：
+
+```bash
+cd frontend
+MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection
+MYKNOWLEDGE_CONTENT_MODE=projection npm run dev
+```
+
+正式前端只读取 `queries/public` 或 public projection，不读取 private vault；当前仓库没有正式 manifest 时，上述 projection 命令会 fail-closed。
+
+迁移期间的旧站点回退：
 
 ```bash
 mkdocs serve
@@ -74,18 +114,24 @@ mkdocs serve
 
 ### 3. 内容创作
 
-1. 在 `docs/` 目录下创建 `.md` 文件
-2. 使用 Markdown 语法编写内容
-3. 实时预览会自动刷新
+1. 通过 Source-first 工具导入或创建 `sources/` 记录；不要把无来源正文直接标记为 published。
+2. 通过 Wiki writer 创建 claim/evidence target，并经过 deterministic/LLM 验证和 Preview/Apply。
+3. 公开站点只消费 `public_publishable` projection；`public_release` 默认是 `false`，只有人工对当前 hash 改为 `true` 并完成 public confirmation 才能发布；internal 内容写入用户明确选择的 private vault，并在私有发布时显示告警。
 
 ### 4. 部署发布
 
 ```bash
-# 部署到 GitHub Pages
-# cd ../orgname.github.io/
-# mkdocs gh-deploy --config-file ../my-project/mkdocs.yml --remote-branch main
-cd ../KinChow.github.io/
-mkdocs gh-deploy --config-file ../MyKnowledge/mkdocs.yml --remote-branch main
+# 正式 public 发布前必须先在 frontend 中完成 projection、人工确认和三段 leak gate：
+cd frontend
+MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection
+# 本仓库当前只生成并验证 dist，不自动 deploy；实际 GitHub Pages 命令
+# 由部署仓库维护，且 public CI 不得 checkout 任何 private vault。
+```
+
+迁移期间如需发布旧 MkDocs 站点，仍可显式使用回退链路：
+
+```bash
+mkdocs gh-deploy --config-file ./mkdocs.yml --remote-branch main
 
 # 自定义部署路径（示例）
 mkdocs build --site-dir ../public_knowledge/

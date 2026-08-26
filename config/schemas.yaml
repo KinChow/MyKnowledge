@@ -1,0 +1,895 @@
+schema_version: 1
+
+# Canonical schema registry. Runtime validators own the complete JSON Schema;
+# this file fixes the names and version identifiers shared by all adapters.
+objects:
+  source: source/v1
+  wiki: wiki/v1
+  evidence_item: evidence-item/v1
+  snapshot_manifest: snapshot-manifest/v1
+  local_file_sidecar: local-file-sidecar/v1
+  operation: operation/v1
+  public_projection: public-projection/v1
+  query_result: query-result/v1
+  ask_result: ask-result/v1
+  vault_manifest: vault-manifest/v1
+  human_audit_confirmation: operation-confirmation/v1
+  vault_status: vault-status/v1
+  public_confirmation: public-release-confirmation/v1
+  leak_gate_report: public-leak-gate/v1
+  input_leak_gate_report: public-input-leak-gate/v1
+  build_manifest: build-manifest/v1
+  audit_record: audit-record/v1
+  backup_manifest: backup-manifest/v1
+  citation: citation/v1
+  capability_token: capability-token/v1
+
+# Field-level contracts are the registry consumed by the executable JSON
+# Schemas and domain rule layer. They do not make an object executable-valid
+# by themselves; the matching versioned JSON Schema is still required.
+field_contracts:
+  source:
+    schema_version: source/v1
+    required_fields:
+      - id
+      - title
+      - domain
+      - origin
+      - source_type
+      - confidentiality
+      - captured_at
+      - read_status
+      - evidence_status
+      - tags
+      - aliases
+      - related
+      - retrieval
+      - evidence_items
+      - content_sha256
+    allowed_fields:
+      - id
+      - title
+      - domain
+      - origin
+      - source_type
+      - provenance
+      - confidentiality
+      - url
+      - url_status
+      - local
+      - captured_at
+      - tags
+      - aliases
+      - read_status
+      - evidence_status
+      - related
+      - part_of
+      - retrieval
+      - evidence_items
+      - content_sha256
+  wiki:
+    schema_version: wiki/v1
+    required_fields:
+      - id
+      - title
+      - domain
+      - kind
+      - status
+      - publication_scope
+      - confidentiality
+      - tags
+      - aliases
+      - related
+      - sources
+      - evidence
+      - updated_at
+      - content_sha256
+      - evidence_sha256
+    allowed_fields:
+      - id
+      - title
+      - domain
+      - kind
+      - status
+      - publication_scope
+      - confidentiality
+      - tags
+      - aliases
+      - related
+      - part_of
+      - sources
+      - evidence
+      - updated_at
+      - content_sha256
+      - evidence_sha256
+  evidence_item:
+    schema_version: evidence-item/v1
+    required_fields: [id, snapshot_sha256, locator, selector_sha256, quote_sha256]
+    allowed_fields: [id, snapshot_sha256, locator, selector_sha256, quote_sha256]
+  citation:
+    schema_version: citation/v1
+    required_fields: [object_ref, content_sha256, locator]
+    allowed_fields: [object_ref, content_sha256, locator]
+    locator_schema: citation-locator/v1
+    locator_forms: [source, evidence, text-quote, text-position]
+    replay_requires:
+      - resolve_object_ref_with_vault_id
+      - resolve_snapshot_by_owner_vault
+      - verify_snapshot_sha256_after_decompression
+      - verify_text_quote_selector
+      - verify_text_position_selector
+      - verify_selector_sha256_when_present
+    locator_common_fields: [type, object_ref, snapshot_sha256, selectors]
+    selector_collection:
+      required_types: [TextQuoteSelector, TextPositionSelector]
+      exact_match_required: true
+      offset_space: unicode-code-point
+      interval: half-open
+    source_form:
+      required_fields: [type, object_ref, snapshot_sha256, source_locator, selectors]
+    evidence_form:
+      required_fields: [type, object_ref, evidence_ref, snapshot_sha256, selector_sha256]
+    text_quote_form:
+      required_fields: [type, object_ref, snapshot_sha256, selectors]
+    text_position_form:
+      required_fields: [type, object_ref, snapshot_sha256, selectors]
+  capability_token:
+    schema_version: capability-token/v1
+    required_fields: []
+    allowed_fields: []
+    storage_path: state/capability-token
+    parent_directory: state
+    file_mode: '0600'
+    parent_directory_mode: '0700'
+    random_bytes: 32
+    rotate_on_process_start: true
+    no_http_retrieval_endpoint: true
+    transport: [protected-process-environment, inherited-file-descriptor]
+    forbidden_locations: [url, query_string, cookie, browser-storage, repository, log]
+    comparison: constant-time
+    audience: myknowledge-local-api
+    scopes: [public-read, local-read, private-read, vault-check, write]
+    missing_error: capability_token_required
+    invalid_error: capability_token_invalid
+  operation:
+    schema_version: operation/v1
+    required_fields:
+      - operation_id
+      - operation_kind
+      - target_ref
+      - target_vault
+      - state
+      - input_hash
+      - before_hashes
+      - created_at
+      - expires_at
+      - policy_version
+      - schema_version
+    allowed_fields:
+      - operation_id
+      - operation_kind
+      - target_ref
+      - target_vault
+      - source_vault_ids
+      - state
+      - input_hash
+      - before_hashes
+      - after_hashes
+      - diff_sha256
+      - confirmation_event_sha256
+      - public_release_confirmation_ref
+      - confirmation_nonce
+      - confirmation_consumed_at
+      - release_input_sha256
+      - reviewed_content_sha256
+      - reviewed_evidence_sha256
+      - leak_gate_report_sha256
+      - actor_type
+      - actor_id
+      - confirmed_at
+      - created_at
+      - expires_at
+      - policy_version
+      - schema_version
+      - error
+  human_audit_confirmation:
+    # ADR-0010: the mandatory publish gate. Replaces validation-attestation/v1;
+    # it records that a human endorsed this exact content, and what the optional
+    # LLM spec audit reported at that moment.
+    schema_version: operation-confirmation/v1
+    required_fields:
+      - confirmation_sha256
+      - owner_vault_id
+      - target_ref
+      - scope
+      - decision
+      - actor_type
+      - schema_version
+      - wiki_content_sha256
+      - wiki_evidence_sha256
+      - deterministic_report_sha256
+      - validation_state
+      - created_at
+    allowed_fields:
+      - confirmation_sha256
+      - owner_vault_id
+      - target_ref
+      - scope
+      - decision
+      - actor_type
+      - actor_id
+      - schema_version
+      - wiki_content_sha256
+      - wiki_evidence_sha256
+      - deterministic_report_sha256
+      - evidence_bindings
+      - validation_state
+      - ruleset_sha256
+      - historical_fail_count
+      - created_at
+      - report_sha256
+  backup_manifest:
+    schema_version: backup-manifest/v1
+    required_fields:
+      - schema_version
+      - backup_id
+      - vault_id
+      - generated_at
+      - source_revision
+      - target_kind
+      - entries
+      - lfs_objects
+      - audit_chain_heads
+      - manifest_sha256
+    durable_path: audit/backup/<backup_id>.json
+    target_kinds: [private_git_remote, encrypted_backup_target, combined]
+    key_material_policy: opaque-key-reference-only
+    allowed_fields:
+      - schema_version
+      - backup_id
+      - vault_id
+      - generated_at
+      - source_revision
+      - target_kind
+      - target_identity_opaque
+      - encryption
+      - entries
+      - lfs_objects
+      - audit_chain_heads
+      - tool_version
+      - manifest_sha256
+
+public_projection:
+  allowed_manifest_fields:
+    - schema_version
+    - projection
+    - generated_from
+    - generated_at
+    - generatedAt
+    - policy_version
+    - manifest_sha256
+    - generator_version
+    - items
+  required_item_fields:
+    - id
+    - object_type
+    - vault_id
+    - title
+    - domain
+    - kind
+    - strength
+    - route
+    - body_path
+    - attachments
+    - public_confirmation_path
+    - status
+    - publication_scope
+    - public_publishable
+    - public_release
+    - release_input_sha256
+    - public_confirmation_sha256
+    - public_lineage_commitment
+    - effective_confidentiality
+    - validation_state
+    - evidence_state
+    - links
+    - content_sha256
+    - evidence_sha256
+    - leak_gate_report_sha256
+    - leak_gate_report_scope
+  allowed_vault_id: public
+  allowed_object_type: wiki
+  body_hash_must_match: true
+  confirmation_event_must_match: true
+  public_metadata_fields:
+    - id
+    - title
+    - domain
+    - kind
+    - status
+    - publication_scope
+    - effective_confidentiality
+    - validation_state
+    - evidence_state
+    - strength
+    - content_sha256
+    - evidence_sha256
+    - leak_gate_report_scope
+  manifest_hash_volatile_fields:
+    - generated_at
+    - generatedAt
+    - manifest_sha256
+  leak_gate_report_scopes: [input-item, input-tree, dist]
+  input_leak_gate_schema_version: public-input-leak-gate/v1
+  dist_leak_gate_schema_version: public-leak-gate/v1
+
+vault_manifest:
+  schema_version: vault-manifest/v1
+  required_fields: [schema_version, layout, workspace_root, public_vault_id, vaults]
+  allowed_fields: [schema_version, layout, workspace_root, public_vault_id, vaults]
+  layouts: [direct-checkout, superproject]
+  vault_required_fields:
+    - id
+    - path
+    - type
+    - confidentiality
+    - required
+    - allow_public_projection
+    - expected_branch
+    - expected_commit
+    - provider_policy
+    - private_git_remote
+    - encrypted_backup_target
+    - backup_state
+  vault_allowed_fields:
+    - id
+    - path
+    - type
+    - confidentiality
+    - required
+    - allow_public_projection
+    - expected_branch
+    - expected_commit
+    - provider_policy
+    - private_git_remote
+    - encrypted_backup_target
+    - backup_state
+  public_owner: public
+  max_vaults: 64
+  path_policy: relative-to-workspace-root-disjoint-realpath
+  private_targets_must_be_null_in_example: true
+
+vault_check:
+  schema_version: vault-check/v1
+  required_fields:
+    - generated_from
+    - vaults
+    - conflicts
+    - affected_object_refs
+    - backup_summary
+    - available_scopes
+    - report_sha256
+
+query_result:
+  scopes: [public, local, private]
+  canonical_endpoint: POST /api/retrieve
+  compatibility_endpoint: GET /api/query
+  compatibility_endpoint_must_match_canonical: true
+  required_fields:
+    - schema_version
+    - items
+    - scope
+    - method
+    - index_version
+    - generated_from
+    - availability
+    - availability_reason
+    - degraded
+    - confidentiality_max
+    - limits
+    - warnings
+  item_required_fields:
+    - object_ref
+    - availability
+    - availability_reason
+    - confidentiality
+    - content_sha256
+  item_optional_fields: [title, route, snippet, score, source_ref, evidence_refs]
+  content_hash_nullable_rule: "null only when no canonical content hash exists; preserve a known hash for unavailable objects"
+  availability_aggregation:
+    all_dependencies_available: available
+    mixed_available_and_unavailable: available_with_item_warnings
+    no_usable_index_or_scope: unavailable
+    unresolved_conflict_prevents_selection: conflict
+    malformed_request: error
+  private_scope_requires_explicit_vault_ids: true
+  request:
+    required_fields: [query, scope]
+    optional_fields: [vault_ids, top_k, include_sources, include_archive]
+    max_query_chars_policy: retrieval.max_query_chars
+    max_top_k_policy: retrieval.max_top_k
+    max_vault_ids_policy: retrieval.max_vault_ids
+    unknown_fields: reject
+
+ask_result:
+  schema_version: ask-result/v1
+  required_fields:
+    - schema_version
+    - answer
+    - citations
+    - retrieval
+    - availability
+    - availability_reason
+    - confidentiality
+    - limits
+    - warnings
+  retrieval_schema: query-result/v1
+  citations_must_reference_retrieval_items: true
+  citation_required_fields: [object_ref, content_sha256, locator]
+  citation_locator_types: [source, evidence, text-quote, text-position]
+  citation_schema: citation/v1
+  citation_locator_schema: citation-locator/v1
+  answer_null_when_unavailable: true
+
+api:
+  query_alias: GET /api/query
+  retrieve_endpoint: POST /api/retrieve
+  ask_endpoint: POST /api/ask
+  query_alias_semantics: construct-the-same-retrieve-request
+  error_required_fields: [code, stage, retryable, next_action]
+  read_only_methods: [GET /api/health, GET /api/query, GET /api/read, GET /api/backlinks, GET /api/vault/check]
+  anonymous_read_methods: [GET /api/health, GET /api/query, GET /api/read, GET /api/backlinks]
+  anonymous_read_scope: public
+  non_public_read_scopes_require_capability_token: true
+  vault_check_requires_capability_token: true
+  capability_token_header: X-MyKnowledge-Capability
+  capability_token_methods:
+    - POST /api/source/preview
+    - POST /api/wiki/preview
+    - POST /api/operation/{operation_id}/apply
+    - POST /api/validate/{vault_id}/{object_type}/{object_id}
+    - POST /api/retrieve
+    - POST /api/ask
+  capability_token_schema: capability-token/v1
+  retrieve_response_schema: query-result/v1
+  ask_response_schema: ask-result/v1
+  ask_response_fields: [schema_version, answer, citations, retrieval, availability, availability_reason, confidentiality, limits, warnings]
+
+source_cross_field_rules:
+  local_file:
+    when: source_type == local-file
+    require:
+      - retrieval.acquisition == local-file
+      - local.file_sha256
+      - local.path_ref
+      - "local.path_ref startswith local-sidecar:"
+      - retrieval.snapshot_sha256
+  personal_note:
+    when: source_type == personal-note
+    require:
+      - origin == personal
+      - retrieval.acquisition == personal-note
+      - retrieval.snapshot_sha256
+  input_path:
+    when: request.input_path is present
+    require:
+      - source_type == local-file
+# Deferred schemas are intentionally not loaded by the current runtime.
+deferred_objects:
+  question: question/v1-deferred       # F008 only
+reports:
+  deterministic_validation: deterministic-validation/v1
+  llm_validation: wiki-validation/v1
+  vault_check: vault-check/v1
+  public_leak_gate: public-leak-gate/v1
+  public_input_leak_gate: public-input-leak-gate/v1
+  build_manifest: build-manifest/v1
+
+validation:
+  # ADR-0010: the LLM spec audit is OPTIONAL. Provider capability negotiation is
+  # therefore deleted: "provider cannot do it" resolves to not_run + reason, not
+  # to a fail-closed capability handshake. Request and response share one
+  # contract, so there is no separate request schema.
+  response_schema: wiki-validation/v1
+  samples: 1
+  sampling: temperature-zero-single-call
+  wiki_verdicts: [pass, fail]
+  claim_verdicts: [supported, partially_supported, unsupported, contradicted, unmapped]
+  claim_verdict_required_fields: [applied_rule_refs, quote_sha256, quote_offsets]
+  ruleset:
+    # Rules are referenced, never copied: extraction reads the spec section at
+    # run time so there is no second hand-maintained rule table to drift.
+    rule_ref_fields: [doc, section, extract_sha256]
+    ruleset_hash_rule: ruleset_sha256 = sha256(canonical_json(rule_refs))
+    unmappable_opinion_state: advisory
+    advisory_participates_in_verdict: false
+  coverage_obligations:
+    every_claim_times_target_required: true
+    advisory_only_counts_as_uncovered: true
+    rationale_requires_source_offsets: true
+    partial_delivery_accepted: false
+  not_run_reasons:
+    - provider_unavailable
+    - offline
+    - context_exceeded
+    - malformed_output
+    - incomplete_coverage
+  model_may_self_declare_not_run: false
+  operator_skip_writes_report: false
+  malformed_or_context_overflow_state: not_run
+  ruleset_change_state: stale_ruleset
+  ruleset_change_invalidates_human_confirmation: false
+  corroboration:
+    schema_version: corroboration-v1
+    observation_fields: [subject, predicate, object, qualifiers, observation_sha256]
+    comparison_results: [supports_same, conflicts, version_scoped, unresolved]
+    conflict_requires_distinct_independence_groups: true
+    conflict_requires_overlapping_scope: true
+    numeric_default: exact
+    implicit_numeric_tolerance: false
+    normalization: unicode-nfc-preserve-code-identifiers
+    # Independence must be argued from provenance, never inferred from domains.
+    independence_evidence_fields: [publisher, derived_from, independence_group]
+    independence_from_domain_forbidden: true
+    unprovable_independence_state: independence_unknown
+  untrusted_context:
+    source_is_data_not_instructions: true
+    tools_disabled: true
+    external_urls_disabled: true
+
+events:
+  # ADR-0010 / 3->2 merge: apply confirmation, private publish confirmation and
+  # the internal-release warning ack collapse into one versioned type keyed by
+  # `scope`. `public-release-confirmation/v1` stays separate on purpose: public
+  # release is the one irreversible outward action, so a mistyped scope value
+  # must not be able to express it.
+  operation_confirmation: operation-confirmation/v1
+  public_release_confirmation: public-release-confirmation/v1
+
+event_contracts:
+  common_required:
+    - event_type
+    - event_id
+    - operation_id
+    - target_ref
+    - actor_type
+    - decision
+    - confirmed_at
+    - event_sha256
+  common_allowed:
+    - event_type
+    - event_id
+    - operation_id
+    - target_ref
+    - target_vault
+    - actor_type
+    - actor_id
+    - decision
+    - confirmed_at
+    - reason
+    - diff_sha256
+    - event_sha256
+    - precondition_hashes
+    - consumed_at
+  operation_confirmation_scopes: [apply, publish_private]
+  operation_confirmation_required:
+    - scope
+    - precondition_hashes
+  # scope: publish_private additionally requires content_sha256, evidence_sha256
+  # and target_vault; when the effective confidentiality is internal it also
+  # requires warning_code + warning_text_sha256 (the former standalone ack).
+  operation_confirmation_publish_private_required:
+    - content_sha256
+    - evidence_sha256
+    - target_vault
+  operation_confirmation_internal_required:
+    - warning_code
+    - warning_text_sha256
+  operation_confirmation_allowed:
+    - event_type
+    - event_id
+    - operation_id
+    - target_ref
+    - target_vault
+    - scope
+    - actor_type
+    - actor_id
+    - decision
+    - confirmed_at
+    - content_sha256
+    - evidence_sha256
+    - warning_code
+    - warning_text_sha256
+    - diff_sha256
+    - precondition_hashes
+    - reason
+    - event_sha256
+  public_release_confirmation_required:
+    - actor_id
+    - reason
+    - confirmation_nonce
+    - release_input_sha256
+    - reviewed_content_sha256
+    - reviewed_evidence_sha256
+    - leak_gate_report_sha256
+    - leak_gate_report_scope
+  public_release_confirmation_allowed:
+    - event_type
+    - event_id
+    - operation_id
+    - target_ref
+    - target_vault
+    - actor_type
+    - actor_id
+    - decision
+    - confirmed_at
+    - reason
+    - confirmation_nonce
+    - release_input_sha256
+    - reviewed_content_sha256
+    - reviewed_evidence_sha256
+    - leak_gate_report_sha256
+    - leak_gate_report_scope
+    - diff_sha256
+    - event_sha256
+  hash_rule: event_sha256 = sha256(canonical_json(event_without_event_sha256))
+  # Only the public release path carries a one-shot nonce. For apply and private
+  # publish, hash binding already defeats replay: any input change makes the
+  # event stop matching. Public release keeps it because it is irreversible.
+  nonce_rule: public_release_only__generated_in_preview_and_consumed_once
+  public_safe_forbidden_fields:
+    - source_vault_ids
+    - private_object_ids
+    - private_paths
+    - private_snapshot_hashes
+    - private_content
+    - private_operation_fields
+
+public_release_authority:
+  field: public_release
+  default: false
+  frontmatter_direct_write: forbidden
+  materialized_projection_only: true
+  authoritative_records:
+    confirmation_event: release/public-confirmations/<event_id>.json
+    target_operation: audit/operations/<operation_id>.json
+    source_lineage_operation: source-owner-vault/audit/operations/<operation_id>.json
+  derive_true_when:
+    - confirmation_event_schema_valid
+    - confirmation_event_actor_type_human
+    - confirmation_event_decision_approve
+    - confirmation_event_nonce_unconsumed
+    - confirmation_event_matches_current_release_input_sha256
+    - confirmation_event_matches_current_content_sha256
+    - confirmation_event_matches_current_evidence_sha256
+    - confirmation_event_matches_current_input_leak_gate_hash
+    - target_operation_record_hash_chain_valid
+    - target_operation_record_matches_confirmation_event
+    - target_ref_owner_is_public
+  hash_change_behavior: retain-old-event-but-derive-false
+  missing_record_behavior: derive-false-and-block-publish
+
+audit:
+  record_schema: audit-record/v1
+  record_types: [operation, validation, vault-check, backup, release, lock-recovery]
+  required_fields:
+    - record_type
+    - record_id
+    - vault_id
+    - target_ref
+    - created_at
+    - policy_version
+    - schema_version
+    - record_sha256
+  hash_rule: record_sha256 = sha256(canonical_json(record_without_record_sha256))
+  # Ordering and tamper evidence come from Git history: each commit digest covers
+  # the tree and points at its parent, so history is already a hash chain. A
+  # second self-built chain over the same files duplicates that guarantee with a
+  # weaker implementation (no signatures, no witnesses, can diverge from Git).
+  ordering_authority: git-history
+  append_only: true
+  integrity_mismatch: hash_mismatch
+
+object_ref:
+  key: [vault_id, object_type, object_id]
+  id_scope: per-vault
+
+operation:
+  states: [created, previewed, awaiting_confirmation, applied, applied_index_pending, blocked, expired, rejected, failed]
+  projection_pending_is_not_publishable: true
+
+hashes:
+  snapshot: sha256(canonical_snapshot_text_utf8)
+  content: sha256(canonical_body)
+  semantic: sha256(canonical_json(parsed_semantic_fields))
+  evidence: sha256(canonical_json(parsed_evidence_block))
+  release_input: sha256(canonical_json(public_release_input_fields))
+  selector: sha256(canonical_json(selector_with_snapshot_and_normalization))
+
+release_input_fields:
+  - body
+  - body_path
+  - attachments
+  - public_metadata
+  - links
+  - route
+  - public_lineage_commitment
+  - policy_version
+  - schema_version
+
+# Hash inputs are explicit so adapters cannot silently choose different scopes.
+hash_inputs:
+  source_semantic:
+    - vault_id
+    - origin
+    - source_type
+    - read_status
+    - evidence_status
+    - confidentiality
+    - retrieval.acquisition
+    - retrieval.snapshot_sha256
+    - retrieval.extractor_name
+    - retrieval.extractor_version
+    - retrieval.extractor_options_hash
+    - retrieval.normalization_version
+    - local.file_sha256
+  wiki_semantic:
+    - vault_id
+    - kind
+    - confidentiality
+    - sources
+  wiki_evidence:
+    - owner_vault_id
+    - evidence.claim_id
+    - evidence.claim
+    - evidence.targets
+    - evidence.targets.resolved_object_ref
+    - evidence.support
+    - evidence.supporting_quotes
+  excluded_from_content_hash:
+    - title
+    - domain
+    - tags
+    - aliases
+    - related
+    - status
+    - updated_at
+    - validation_state
+    - public_release
+    - public_confirmation_sha256
+
+availability:
+  object_states: [available, unavailable, conflict, invalid]
+  reason_codes:
+    - none
+    - vault_unavailable
+    - upstream_unavailable
+    - submodule_uninitialized
+    - git_unreadable
+    - revision_mismatch
+    - dirty
+    - conflict
+    - invalid
+    - path_unresolved
+    - selector_unresolved
+    - snapshot_missing
+    - snapshot_hash_mismatch
+    - cross_vault_reference
+    - provider_unavailable
+    - index_unavailable
+  vault_states: [available, unavailable, revision_mismatch, dirty, conflict, invalid]
+  unavailable_is_not_missing: true
+
+backup:
+  states: [unconfigured, configured, verified, failed]
+  target_kinds: [private_git_remote, encrypted_backup_target]
+  state_machine:
+    unconfigured:
+      enter_when: no_backup_target_is_configured
+      allows: [read, reversible_edit]
+      blocks: [purge, destructive_restore, overwrite_restore]
+    configured:
+      enter_when: at_least_one_target_configured_and_credentials_resolve
+      reset_on: [target_identity_change, verification_expired]
+      next_states: [verified, failed, unconfigured]
+    verified:
+      enter_when: all_configured_targets_pass_integrity_and_empty_restore
+      requires_fresh_manifest: true
+      next_states: [failed, configured, unconfigured]
+    failed:
+      enter_when: [backup_upload_failed, integrity_failed, restore_failed, audit_chain_failed, target_unreachable]
+      next_states: [configured, verified, unconfigured]
+  durable_manifest_path: audit/backup/<backup_id>.json
+  verification_expiry_seconds: 2592000
+  durable_record_required: true
+  target_change_requires_reverification: true
+  shared_blob_cache_is_not_backup: true
+  verified_requires:
+    - backup_manifest_hash
+    - backup_integrity_check
+    - isolated_empty_checkout_restore
+    - restored_owner_hash_set_match
+
+references:
+  default_scope: owner-vault
+  canonical_object_ref: [vault_id, object_type, object_id]
+  cross_vault_content_references: forbidden
+
+durable_records:
+  operation_path: audit/operations/<operation_id>.json
+  validation_path: audit/validation/<object_type>/<object_id>/<attestation_sha256>.json
+  public_confirmation_path: release/public-confirmations/<event_id>.json
+  backup_manifest_path: audit/backup/<backup_id>.json
+  temporary_state_is_not_authoritative: true
+
+confirmation:
+  required_fields:
+    - event_type
+    - event_id
+    - operation_id
+    - target_ref
+    - actor_type
+    - decision
+    - confirmation_nonce
+    - confirmed_at
+    - event_sha256
+  human_actor_value: human
+  nonce_single_use: true
+  hash_encoding: canonical-json-utf8
+
+canonicalization:
+  json: utf8-recursive-key-sort-no-extra-whitespace
+  text: canonical-text-v1
+  quote: quote-normalization-v1
+  offsets: unicode-code-point-half-open
+
+projection:
+  public_owner_vault_id: public
+  public_only_object_type: wiki
+  public_release_default: false
+  local_unavailable_metadata_without_body: true
+  public_safe_forbidden_fields:
+    - private_vault_ids
+    - private_object_ids
+    - private_paths
+    - source_vault_ids
+    - source_snapshot_exact
+  max_body_bytes: 2000000
+
+build:
+  schema_version: build-manifest/v1
+  required_fields:
+    - schema_version
+    - operation_id
+    - mode
+    - manifest_sha256
+    - policy_version
+    - projection_schema_version
+    - generator_version
+    - node_version
+    - astro_version
+    - pagefind_present
+    - pagefind_version
+    - warnings
+    - input_leak_gate
+    - leak_gate
+    - generated_at
+  leak_gate_fields: [scope, result, report_sha256]
+  input_leak_gate_scope: input-tree
+  dist_leak_gate_scope: dist
+  release_lock_required_fields:
+    - schema_version
+    - operation_id
+    - lock_token
+    - fencing_token
+    - pid
+    - host
+    - started_at
+    - heartbeat_at
+    - heartbeat_file
+  release_lock_fencing: token-and-inode
+  release_lock_heartbeat_schema: release-lock-heartbeat/v1
+  warning_policy: blocking-unknown-v1
+  advisory_warning_patterns:
+    - 'Some chunks are larger than [0-9]+ kB after minification'
+    - 'Entry docs.*404 was not found'

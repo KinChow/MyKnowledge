@@ -1,0 +1,71 @@
+# F012 备份、恢复和可观测性验收
+
+- Feature：F012
+- 相关规范：SEC、OPS
+- 状态：Not Implemented
+
+## AC-F012-001 逐 Vault 状态
+
+- Given：多个 private Vault 的 remote/backup 状态不同；
+- When：执行 `vault check`；
+- Then：逐 Vault 输出 `backup_state`、最近结果、未配置告警和受影响对象；
+- 失败时不变量：不能用全局状态掩盖单 Vault 风险。
+- 自动化级别：Integration。
+
+## AC-F012-002 空仓恢复演练
+
+- Given：某 Vault 已配置并标记可备份；
+- When：恢复到空 checkout；
+- Then：object ID、snapshot hash、evidence binding 和 projection 可重建；
+- 失败时不变量：不修改 public 或其他 Vault。
+- 自动化级别：Recovery/Integration。
+
+## AC-F012-003 操作可观测性
+
+- Given：挂载、索引、发布、恢复或失败操作；
+- When：查看报告；
+- Then：可按 operation_id/vault_id/hash 定位阶段、错误和恢复建议；
+- 失败时不变量：日志不包含凭据、private path、selector exact 或敏感正文。
+- 自动化级别：Integration/Security。
+
+## AC-F012-004 持久审计与临时状态分离
+
+- Given：public release、private publish、验证和 purge 操作完成，或本机 `state/` 被清理；
+- When：在干净 checkout 重新执行 check/projection；
+- Then：owner vault 的 `audit/operations/`、`audit/validation/` 和 public-safe `release/public-confirmations/` 足以验证当前 hash/确认状态；临时 state 丢失只触发重新生成，不改变事实记录；
+- 失败时不变量：不能用被忽略的 state 缓存或日志声称人工确认、验证或可恢复性存在；
+- 自动化级别：Repository/Integration。
+
+## AC-F012-005 备份 manifest 完整性
+
+- Given：Vault 已配置备份目标，包含 snapshot、evidence、validation attestation、private publish 和 public-safe confirmation record；
+- When：生成备份 manifest 并在空 checkout 恢复；
+- Then：manifest 含 owner ObjectRef、HEAD/submodule/LFS、对象/快照/evidence/attestation/operation/confirmation hash 和自身 `manifest_sha256`；恢复后重新生成的 hash 集合一致；
+- 失败时不变量：缺少任一 durable record、校验失败或备份只含临时 state 时不得标记 `verified`，不得修改其他 Vault；
+- 自动化级别：Recovery/Integration/Security。
+
+备份状态只允许 `unconfigured`、`configured`、`verified`、`failed`；shared snapshot blob cache 即使存在，也不能替代 owner Vault 的 manifest 或备份对象。
+
+## AC-F012-006 Durable record 完整性由 record_sha256 与 Git 历史保证
+
+- Given：owner Vault 的 operation/validation/release durable record 中，一条被篡改内容、一条被删除、一条被重复；
+- When：执行 `vault check`、备份 manifest 生成或空仓恢复；
+- Then：被篡改的记录因 `record_sha256` 自校验失败返回 `hash_mismatch`；删除与重排由 `git log` 暴露，不由自建 chain 检测；Vault 不得标记 `verified`，相关 publish/restore 阻断；
+- 失败时不变量：不得为 durable record 引入 `sequence`/`previous_record_sha256`/`chain_scope` 自建哈希链——Git commit 已是哈希链，重复实现更弱且可能与 Git 历史不一致；不能依赖 state/log 掩盖篡改；锁恢复必须有 `lock-recovery` 记录；
+- 自动化级别：Unit/Repository/Recovery/Security。
+
+## AC-F012-007 Backup state transitions
+
+- Given：某 private Vault 依次处于无 target、配置一个 target、完成验证、target 身份变化、验证过期和恢复失败；
+- When：执行 backup、restore 和 `vault check`；
+- Then：状态严格按 `unconfigured -> configured -> verified`，失败进入 `failed`，target 变化/过期回到 `configured`，删除所有 target 回到 `unconfigured`；`verified` 只允许在所有已配置 target 的 manifest integrity、audit chain 和隔离空仓恢复都通过后产生；
+- 失败时不变量：不能因为 shared blob cache、最近一次成功上传或作者手写字段把 Vault 标为 `verified`，未验证 Vault 的 purge/覆盖式恢复仍被阻断；
+- 自动化级别：Unit/Integration/Recovery。
+
+## AC-F012-008 Durable backup manifest 与密钥引用
+
+- Given：Vault 生成备份，包含 snapshot（可物理去重）、LFS、operation/validation/release audit 和加密 target；
+- When：检查 `audit/backup/<backup_id>.json` 并恢复到空 checkout；
+- Then：manifest 自身 hash、owner ObjectRef、snapshot/archive/LFS、audit chain heads、target kind 和恢复后 hash 集合均可校验；remote/加密配置只保存 opaque identity/key reference，不保存 URL、密钥或 token；每个 owner Vault 都有独立 manifest/恢复记录；
+- 失败时不变量：缺少 durable manifest、owner 记录或 key reference 解析失败不得标记 `verified`，不能用共享 blob cache 替代 owner Vault 的备份；
+- 自动化级别：Repository/Security/Recovery。

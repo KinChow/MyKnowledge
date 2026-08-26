@@ -24,3 +24,67 @@
 - When：并发执行；
 - Then：只有一个持有锁，另一个可重试或明确失败，仓库不出现半成品；
 - 自动化级别：Integration。
+
+## AC-F004-004 blocked 与 hash 失效
+
+- Given：Preview 缺少来源、Vault/provider 不可用，或 Apply 前输入/registry hash 发生变化；
+- When：执行 Apply；
+- Then：操作进入 `blocked` 或 `expired`，目标文件、索引和旧 projection 保持不变，并返回可执行的 `next_action`；
+- 失败时不变量：不得留下可自动续写的半成品或把 blocked 当作成功；
+- 自动化级别：Unit/Integration。
+
+## AC-F004-005 原子多文件 Apply 与恢复
+
+- Given：rename/move/retire/purge 或多 Vault operation 在写临时文件或索引阶段中断；
+- When：注入进程崩溃、跨设备 staging 或单 Vault Apply 失败；
+- Then：同一文件系统内要么全部原子完成，要么旧文件/旧索引保持不变；跨 Vault 失败保留 staging、成功列表和恢复说明，不自动回滚用户变更；
+- 失败时不变量：不产生半写文件、静默覆盖或伪造全局事务成功；
+- 自动化级别：Failure injection/Integration。
+
+## AC-F004-006 确认事件绑定
+
+- Given：存在同一 operation 的 `operation-confirmation/v1` 事件与 precondition hashes；
+- When：执行 Apply 或重复消费事件；
+- Then：只有 `actor_type: human`、`scope` 合法且 hash 完全匹配时成功；事件只消费一次，hash 变化后必须重新 preview；
+- 失败时不变量：Agent/LLM/CI 不能自行生成确认或把 `public_release` 改为 true；
+- 自动化级别：Security/Integration。
+
+## AC-F004-007 Durable record 与一次性 nonce
+
+- Given：Apply 使用 `operation-confirmation/v1` 与当前 precondition hashes；public release 另用带一次性 nonce 的 `public-release-confirmation/v1`；`state/` 可被清理；
+- When：完成 Apply、重复消费事件，或删除临时 state 后重新检查；
+- Then：owner vault 的 `audit/operations/<operation_id>.json` 保留结果、event hash 和 after hashes，public release 另存 nonce 的 `consumed_at`；重复消费返回原结果，不能再次写入；
+- 失败时不变量：不能仅凭 state/log 声称已确认；不能复用 public release nonce；durable record 缺失时不得生成 publishable projection；apply 与私有发布不得引入一次性 nonce——hash 绑定已挡住重放；
+- 自动化级别：Repository/Integration/Security。
+
+## AC-F004-011 确认事件 3 → 2 合并后的边界
+
+- Given：确认事件只有 `operation-confirmation/v1`（`scope: apply | publish_private`）与 `public-release-confirmation/v1`；分别构造：缺 `content_sha256`/`evidence_sha256`/`target_vault` 的 `scope: publish_private`、缺 `warning_code`/`warning_text_sha256` 的 internal 私有发布、`scope: public_release`、以及用 `operation-confirmation/v1` 冒充 public release；
+- When：校验事件并执行 Apply / public release；
+- Then：前两种按缺字段拒绝；`public_release` 不是合法 scope 值，词表校验直接拒绝；public release 只接受 `public-release-confirmation/v1`；
+- 失败时不变量：**public release 不得被表达为 `operation-confirmation/v1` 的任何 scope 值**——它是唯一不可撤销的对外行为，独立事件类型使"写错一个 scope 值就公开了 internal 内容"在 schema 层不可表达；internal 告警确认虽已并入私有发布事件，仍必须展示且不可静默跳过；
+- 自动化级别：Unit/Security。
+
+## AC-F004-008 多 Vault 锁顺序
+
+- Given：operation 同时涉及两个或更多 Vault，另一个 operation 以不同输入顺序并发执行；
+- When：获取锁并 Apply；
+- Then：所有 operation 按排序后的 `vault_id` 获取 `state/locks/<vault_id>.lock`，不会死锁；失败保留 staging 和成功列表；
+- 失败时不变量：不得静默覆盖、跨设备伪原子替换或伪造全局事务成功；
+- 自动化级别：Integration/Failure injection。
+
+## AC-F004-009 Canonical 提交与索引失败恢复
+
+- Given：单 Vault operation 已通过最终校验，但 projection/index 写入阶段被故障注入中断；或进程在 commit-intent 与 commit marker 之间退出；
+- When：重启 writer/recovery 并执行同一 operation 的状态查询；
+- Then：无 marker 时按 intent 恢复旧 canonical 文件，有 marker 时保留新 canonical 文件并重建 projection；在索引恢复前状态为 `applied_index_pending`，不生成新的 `public_publishable`，恢复完成后追加不可变 `applied` record；
+- 失败时不变量：不能留下半写文件、静默覆盖用户修改、把旧 projection 当成新内容，或重复消费 confirmation nonce；
+- 自动化级别：Failure injection/Recovery。
+
+## AC-F004-010 陈旧锁恢复与 fencing token
+
+- Given：writer 持有某 Vault 锁后进程挂起或退出，另一个进程执行显式 `lock recover`，旧进程随后尝试继续写入；
+- When：恢复锁、重试 commit-intent/canonical/projection 替换和释放；
+- Then：恢复动作先检查 PID/进程启动时间并写入 `lock-recovery` durable audit；新锁生成新的 `lock_token`，旧进程在任一提交点因 token 不匹配被拒绝；默认不按超时自动删除；
+- 失败时不变量：不能出现双写、静默覆盖、误删新锁或把未审计的恢复当作成功；
+- 自动化级别：Security/Integration/Failure injection。

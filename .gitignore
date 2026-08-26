@@ -1,1 +1,28 @@
 site
+.superpowers/
+frontend/node_modules/
+frontend/dist/
+frontend/.astro/
+frontend/src/content/docs/
+frontend/public/generated/
+config/vaults.local.yaml
+config/vaults.local.*.yaml
+state/local-sources/
+queries/local/
+state/operations/
+state/llm-validation/
+state/leak-gate/
+state/reading/
+state/locks/
+state/*.lock
+state/capability-token
+frontend/.staging/
+frontend/dist.previous/
+frontend/dist.next/
+frontend/state/
+# Durable audit/confirmation records are intentionally outside state/ and are tracked
+# in the owning vault. They must never be added to this ignore list.
+rag-index.jsonl
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal

@@ -1,0 +1,79 @@
+# F009 Agent Skill 受控读写验收
+
+- Feature：F009
+- 相关规范：SKILL、OPS、SEC
+- 状态：Not Implemented
+
+## AC-F009-001 Skill 是唯一写入口
+
+- Given：Codex/Claude Code 从当前仓库 `skills/myknowledge/` 加载 MyKnowledge Skill；
+- When：执行 source/wiki/query/validate/publish 工作流；
+- Then：Skill 只能调用领域 CLI/API，所有写入经过 preview、confirmation、hash 和 writer；
+- 失败时不变量：Skill 不直接编辑 Markdown、manifest、queries 或 state。
+
+## AC-F009-007 Canonical Skill 来源
+
+- Given：本地不存在外部 Skill 仓库或外部同步副本；
+- When：Agent 初始化 MyKnowledge Skill；
+- Then：仍可从当前 checkout 的 `skills/myknowledge/` 加载并调用，外部副本不是运行依赖；
+- 失败时不变量：不能回退到未审计的同名外部 Skill。
+
+## AC-F009-002 Preview 与 Apply 门禁
+
+- Given：存在未确认或 hash 已变化的 operation；
+- When：Skill 请求 Apply；
+- Then：操作被拒绝并返回阻断原因；确认只绑定当前 operation；
+- 失败时不变量：不产生部分写入。
+
+## AC-F009-003 Vault 与保密边界
+
+- Given：多个 Vault、internal source 或 unavailable Vault；
+- When：Skill 选择 target 或执行查询/发布；
+- Then：必须显式使用稳定 `vault_id`，执行 provider/保密检查，按对象返回 unavailable；
+- 其中不可用对象必须返回 `availability: unavailable` 和阻断码 `upstream_unavailable`，不能改写 `evidence_state` 为 missing；
+- 失败时不变量：不能跨 Vault 引用或把 internal 投影到 public。
+
+## AC-F009-004 Provider runtime 注入
+
+- Given：Skill runtime 提供或不提供可用 provider；
+- When：执行 LLM 规范审计；
+- Then：provider 可用时调用并按 `wiki-validation/v1` 校验输出；不可用、超时或输出 malformed 时返回 `validation_state: not_run` + 结构化 `not_run_reason`，不阻断人工审计通道；endpoint、模型和密钥不进入仓库或普通日志。
+- 失败时不变量：不做 provider capability 协商；不得把 provider 缺失记为 `fail`；不得把 `not_run` 表述为已验证。
+- 自动化级别：Unit/Integration。
+
+## AC-F009-008 Provider 不可用不是审计结论
+
+- Given：provider 不支持结构化输出、无法容纳当前 evidence 上下文、或返回不符合 schema 的响应；
+- When：执行 LLM 规范审计；
+- Then：一律返回 `validation_state: not_run` 与对应 `not_run_reason`（`provider_unavailable`/`context_exceeded`/`malformed_output`），报告只记录 opaque provider identity 与原因；确定性校验与人工审计不受影响；
+- 失败时不变量：不得把接口能力缺失解释为"模型不够聪明"，也不得用不满足契约的响应伪造 `pass`；不得因此阻断发布；
+- 自动化级别：Unit/Integration。
+
+## AC-F009-009 Internal 内容的 provider 边界
+
+- Given：Skill 需要审计 internal source；
+- When：选择 provider 并执行审计；
+- Then：只有满足 runtime 保密策略的 provider 才会被调用；不满足时返回 `validation_state: not_run` + `not_run_reason: provider_unavailable`；
+- 失败时不变量：不能把 internal 正文发给不满足保密要求的 provider，不能记录 endpoint/key/完整 prompt 或 response；
+- 自动化级别：Security/Integration。
+
+## AC-F009-005 查询契约
+
+- Given：QMD、FTS5 或 LIKE fallback；
+- When：Skill 执行 query/read；
+- Then：返回统一 QueryResult，并保留 evidence/source 定位和 confidentiality；
+- 失败时不变量：查询不触发写入。
+
+## AC-F009-006 错误和审计
+
+- Given：操作失败、被拒绝或需要人工确认；
+- When：Skill 返回结果；
+- Then：返回 operation_id、错误 code、下一步动作和安全摘要，不返回凭据或敏感正文。
+
+## AC-F009-010 Canonical Skill 文件存在性
+
+- Given：Agent 初始化当前 checkout 的 MyKnowledge 能力；`skills/myknowledge/SKILL.md` 缺失、损坏或试图从未审计的外部同名 Skill 回退；
+- When：Skill loader 启动；
+- Then：只有当前仓库中通过版本控制的 canonical Skill 可以被加载；缺失或校验失败时返回 `skill_unavailable`，不执行任何写入/发布操作；
+- 失败时不变量：不能静默加载外部副本、直接编辑文件或把“Skill 已加载”当作领域功能已实现；
+- 自动化级别：Repository/Security。
