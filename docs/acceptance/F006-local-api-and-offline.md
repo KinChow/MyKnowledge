@@ -2,7 +2,7 @@
 
 - Feature：F006
 - 相关规范：API、IDX、SEC
-- 状态：Implemented（2026-08-28；retrieve/query/ask 基础能力，完整 API 验收待补）
+- 状态：Implemented（2026-08-28；retrieve/query/ask/read/backlinks 基础能力，完整 API 验收待补）
 - 实现证据：`backend/app.py`、`tests/test_api.py`、`requirements.txt`
 - 当前边界：read/backlinks/source/wiki preview/apply、token 生命周期、Origin/Host、citation replay 和完整 offline integration 尚未完成。
 
@@ -46,6 +46,14 @@
 - 失败时不变量：错误响应不泄漏 private path/正文/凭据，降级 method 不伪装为 qmd/hybrid；
 - 自动化级别：Unit/Integration/Security。
 - 对应测试：`tests/test_api.py::test_private_scope_requires_capability`；当前状态：通过基础 token 门。
+
+## 新增本轮证据（2026-08-28）
+
+- AC-F006-003：`test_public_read_and_backlinks` 验证显式 `public/wiki/object_id` 路由、正文读取和 backlinks owner；`test_read_missing_object_is_structured_404` 验证 `object_not_found` 结构化错误。通过基础 public 场景。
+- AC-F006-005/008：`test_non_public_read_requires_capability_even_when_vault_unavailable` 验证 local read 缺 token 返回 401，携带 token 后返回 `vault_unavailable` 而非猜测 owner。通过基础授权边界。
+- AC-F006-003/006：`test_object_route_rejects_path_traversal_and_unknown_type` 验证非法 object id 返回 422、未知 object type 不解析为 source。通过路径安全基础场景。
+
+以上证据不代表 token 生命周期、Origin/Host、private vault 实体读取、citation replay 或写入端点已完成；这些场景仍保持待补状态。
 
 ## AC-F006-006 本机 API 写保护
 
