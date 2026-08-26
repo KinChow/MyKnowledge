@@ -112,3 +112,35 @@ class VaultLock:
             return {"state": "recovered", "vault_id": vault_id, "operation_id": operation_id, "record_sha256": record["record_sha256"]}
         finally:
             lock.release()
+
+
+class VaultLockGroup:
+    """Acquire multiple Vault locks in UTF-8 stable order to prevent deadlocks."""
+
+    def __init__(self, root: Path, vault_ids: list[str] | tuple[str, ...], operation_id: str) -> None:
+        self.root = Path(root)
+        self.vault_ids = tuple(sorted({safe_id(str(value)) for value in vault_ids}))
+        self.operation_id = operation_id
+        self.locks: list[VaultLock] = []
+
+    def __enter__(self) -> "VaultLockGroup":
+        try:
+            for vault_id in self.vault_ids:
+                lock = VaultLock(self.root, vault_id, self.operation_id)
+                lock.__enter__()
+                self.locks.append(lock)
+            return self
+        except BaseException:
+            for lock in reversed(self.locks):
+                lock.__exit__(None, None, None)
+            self.locks.clear()
+            raise
+
+    def assert_owner(self) -> None:
+        for lock in self.locks:
+            lock.assert_owner()
+
+    def __exit__(self, *exc_info: object) -> None:
+        for lock in reversed(self.locks):
+            lock.__exit__(*exc_info)
+        self.locks.clear()
