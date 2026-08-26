@@ -62,6 +62,20 @@ def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
     result = subprocess.run(["node", str(script)], cwd=frontend, env={**__import__("os").environ, "MYKNOWLEDGE_ROOT": str(root), "MYKNOWLEDGE_CONTENT_MODE":"projection"}, capture_output=True, text=True, check=False)
     assert result.returncode != 0 and "confirmation_missing" in result.stderr
 
+def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path):
+    root = tmp_path / "repo"; frontend = tmp_path / "frontend"; frontend.mkdir()
+    script = frontend / "prepare-content.mjs"; script.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(Path(__file__).parents[1] / "frontend/scripts/prepare-content.mjs", script)
+    body = root / "wiki" / "item.md"; body.parent.mkdir(parents=True); body.write_text("# Item\n", encoding="utf-8")
+    from tools.release_confirmation import write_event
+    (root / "release" / "public-confirmations").mkdir(parents=True)
+    event = {"schema_version":"public-release-confirmation/v1", "event_id":"event-one", "operation_id":"op-one", "target_ref":{"vault_id":"public","object_type":"wiki","object_id":"item"}, "target_vault":"public", "actor_type":"human", "actor_id":"alice", "decision":"approve", "release_input_sha256":"sha256:old", "reviewed_content_sha256":"sha256:old", "reviewed_evidence_sha256":"sha256:evidence", "leak_gate_report_sha256":"sha256:leak", "leak_gate_report_scope":"input-tree", "reason":"Reviewed public release", "confirmation_nonce":"nonce-one"}
+    written = write_event(root, event)
+    manifest = {"schema_version":"public-projection/v1","projection":"public","items":[{"id":"item","vault_id":"public","public_publishable":True,"public_release":True,"status":"published","effective_confidentiality":"public","body_path":"wiki/item.md","public_confirmation_path":"release/public-confirmations/event-one.json","public_confirmation_sha256":written["event_sha256"],"release_input_sha256":"sha256:new","content_sha256":"sha256:old","evidence_sha256":"sha256:evidence"}]}
+    (root / "queries" / "public").mkdir(parents=True); (root / "queries" / "public" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    result = subprocess.run(["node", str(script)], cwd=frontend, env={**os.environ, "MYKNOWLEDGE_ROOT":str(root), "MYKNOWLEDGE_CONTENT_MODE":"projection"}, capture_output=True, text=True)
+    assert result.returncode != 0 and "confirmation_precondition_mismatch" in result.stderr
+
 
 def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     root = tmp_path / "repo"; frontend = tmp_path / "frontend"; frontend.mkdir()
@@ -76,10 +90,11 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     (root / "release" / "public-confirmations").mkdir(parents=True)
     items = []
     for ident, title, links in (("one", "One", ["two"]), ("two", "Two", [])):
-        event = {"schema_version":"public-release-confirmation/v1", "event_id":f"event-{ident}", "operation_id":f"op-{ident}", "target_ref":{"vault_id":"public","object_type":"wiki","object_id":ident}, "target_vault":"public", "actor_type":"human", "actor_id":"alice", "decision":"approve", "release_input_sha256":"sha256:input", "reviewed_content_sha256":"sha256:content", "reviewed_evidence_sha256":"sha256:evidence", "leak_gate_report_sha256":"sha256:leak", "leak_gate_report_scope":"input-tree", "reason":"Reviewed public release", "confirmation_nonce":f"nonce-{ident}"}
-        written = write_event(root, event)
         body = (wiki / f"{ident}.md").read_bytes()
-        items.append({"id":ident,"vault_id":"public","public_publishable":True,"public_release":True,"status":"published","effective_confidentiality":"public","body_path":f"wiki/{ident}.md","public_confirmation_path":f"release/public-confirmations/event-{ident}.json","content_sha256":"sha256:" + hashlib.sha256(body).hexdigest(),"title":title,"route":ident,"links":links})
+        content_hash = "sha256:" + hashlib.sha256(body).hexdigest()
+        event = {"schema_version":"public-release-confirmation/v1", "event_id":f"event-{ident}", "operation_id":f"op-{ident}", "target_ref":{"vault_id":"public","object_type":"wiki","object_id":ident}, "target_vault":"public", "actor_type":"human", "actor_id":"alice", "decision":"approve", "release_input_sha256":"sha256:input", "reviewed_content_sha256":content_hash, "reviewed_evidence_sha256":"sha256:evidence", "leak_gate_report_sha256":"sha256:leak", "leak_gate_report_scope":"input-tree", "reason":"Reviewed public release", "confirmation_nonce":f"nonce-{ident}"}
+        written = write_event(root, event)
+        items.append({"id":ident,"vault_id":"public","public_publishable":True,"public_release":True,"status":"published","effective_confidentiality":"public","body_path":f"wiki/{ident}.md","public_confirmation_path":f"release/public-confirmations/event-{ident}.json","public_confirmation_sha256":written["event_sha256"],"release_input_sha256":"sha256:input","content_sha256":content_hash,"evidence_sha256":"sha256:evidence","title":title,"route":ident,"links":links})
     (root / "queries" / "public" / "manifest.json").write_text(json.dumps({"schema_version":"public-projection/v1","projection":"public","generated_from":"fixture","items":items}), encoding="utf-8")
     env = {**os.environ, "MYKNOWLEDGE_ROOT": str(root), "MYKNOWLEDGE_CONTENT_MODE":"projection"}
     prepared = subprocess.run(["node", str(frontend / "scripts" / "prepare-content.mjs")], cwd=frontend, env=env, capture_output=True, text=True)
