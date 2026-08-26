@@ -43,6 +43,16 @@ class FetcherTests(unittest.TestCase):
         with mock.patch("tools.ingest.fetcher.http.client.HTTPConnection", Connection), mock.patch.object(URLFetcher, "_resolve_public_ip", return_value="93.184.216.34"):
             with self.assertRaisesRegex(RuntimeError, "redirect_limit"):
                 URLFetcher(max_redirects=1).fetch("http://example.com/start")
+
+    def test_request_timeout_is_structured_and_connection_is_closed(self):
+        class Connection:
+            closed = False
+            def __init__(self, *args, **kwargs): pass
+            def request(self, *args, **kwargs): raise TimeoutError("deadline")
+            def close(self): self.closed = True
+        with mock.patch("tools.ingest.fetcher.http.client.HTTPConnection", Connection), mock.patch.object(URLFetcher, "_resolve_public_ip", return_value="93.184.216.34"):
+            with self.assertRaisesRegex(RuntimeError, "fetch_blocked:request_failed"):
+                URLFetcher(timeout=0.01).fetch("http://example.com/start")
     def test_bounded_gzip_rejects_expansion(self):
         """AC-F001-010：解压炸弹超限被拒绝。"""
         compressed = gzip.compress(b"A" * 10000)
