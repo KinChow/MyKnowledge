@@ -201,6 +201,25 @@ class VaultRegistryTests(unittest.TestCase):
                 (external / Path(created["path"]).name).unlink(missing_ok=True)
                 external.rmdir() if external.is_dir() else None
 
+    def test_backup_bundle_exports_and_verifies_owner_entries(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root)
+            created = manager.create_manifest("public")
+            bundle = root.parent / (root.name + "-bundle")
+            try:
+                exported = manager.export_bundle(root / created["path"], bundle)
+                self.assertEqual(exported["state"], "exported")
+                verified = BackupManager.verify_bundle(bundle)
+                self.assertEqual(verified["backup_state"], "verified")
+                payload = bundle / "payload" / "wiki" / "note.md"
+                payload.write_text("tampered", encoding="utf-8")
+                self.assertEqual(BackupManager.verify_bundle(bundle)["error_code"], "hash_mismatch")
+            finally:
+                import shutil
+                shutil.rmtree(bundle, ignore_errors=True)
+
     def test_backup_manifest_must_live_under_declared_owner(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)

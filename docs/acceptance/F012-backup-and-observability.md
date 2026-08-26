@@ -17,6 +17,7 @@
 
 - `BackupManager.export_manifest()` 将已校验的 owner manifest 原子复制到用户显式指定的外部 target；target 位于仓库内会被拒绝，输出不含 remote、凭据或正文。
 - `tests/test_vault_registry.py::test_backup_manifest_can_be_exported_without_claiming_verified_target` 验证导出结果为 `state: exported`、`backup_state: configured`，不会因存在外部副本直接派生 `verified`。完整内容传输和隔离恢复仍需单独演练。
+- `BackupManager.export_bundle()`/`verify_bundle()` 增加 offline bundle（manifest + payload）逐项导出与校验；`test_backup_bundle_exports_and_verifies_owner_entries` 验证 payload 篡改返回 `hash_mismatch`。bundle 校验成功仍只是传输证据，不替代隔离恢复准出。
 
 ## Entries 增量证据（2026-08-30）
 
