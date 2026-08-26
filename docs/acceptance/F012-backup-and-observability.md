@@ -15,6 +15,8 @@
 
 ## Entries 增量证据（2026-08-30）
 
+- `tests/test_vault_registry.py::VaultRegistryTests::test_backup_manifest_must_live_under_declared_owner` 验证备份 manifest 必须位于声明 Vault 的 `audit/backup/` 下，复制到外部路径后返回 `manifest_owner_mismatch`，不会跨 Vault 复用校验结果。
+
 - AC-F012-005/008：`BackupManager.create_manifest` 为 public owner 记录 sources/wiki/archive/audit 文件的相对路径、sha256 和 size；`verify_manifest` 逐项重算并在缺失或 hash 变化时返回 `failed`。
 - 备份 manifest 不包含绝对路径、token、remote URL 或私有 Vault 内容；外部 target 未配置时仍保持 `unconfigured`。
 

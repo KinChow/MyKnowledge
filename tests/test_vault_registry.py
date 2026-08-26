@@ -154,6 +154,16 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(failed["backup_state"], "failed")
             self.assertEqual(failed["error_code"], "hash_mismatch")
 
+    def test_backup_manifest_must_live_under_declared_owner(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root)
+            created = manager.create_manifest("public")
+            copied = root / "outside-backup.json"
+            copied.write_bytes((root / created["path"]).read_bytes())
+            result = manager.verify_manifest(copied)
+            self.assertEqual(result["error_code"], "manifest_owner_mismatch")
+
     def test_backup_rejects_manifest_with_rehashed_tampered_durable_record(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
