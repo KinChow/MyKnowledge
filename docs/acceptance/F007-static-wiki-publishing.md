@@ -38,6 +38,10 @@
 - AC-F007-009/012/025：`tests/test_frontend_projection.py::test_prepare_content_requires_matching_confirmation` 使用临时 projection fixture 验证 manifest item 缺失 `public-release-confirmation/v1` 时，prepare 在生成 catalog/page 之前返回 `confirmation_missing`。
 - prepare 现在会校验 event schema、human approve、public Wiki target、object ID 和 canonical event hash；confirmation 校验不等于最终发布，仍需完整 validation/release-input/leak-gate 闭包。
 
+## 多页 projection 增量证据（2026-08-27）
+
+- AC-F007-001/002/013：`tests/test_frontend_projection.py::test_projection_prepare_and_graph_build_multi_page_fixture` 在隔离临时 checkout 中生成两篇 public Wiki 与人工 confirmation，运行 `prepare-content.mjs` 和 `build-graph.mjs`；catalog 节点集合为 `{one,two}`，唯一边为 `one -> two`，未读取 practice/source/private 内容。该证据不替代真实 Astro/Pagefind 浏览器验收。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；
