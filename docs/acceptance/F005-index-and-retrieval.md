@@ -2,7 +2,8 @@
 
 - Feature：F005
 - 相关规范：IDX、SEC
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-27；projection/fallback 基础能力，完整 FTS5/QMD 索引验收待补）
+- 实现证据：`tools/indexing.py`、`tests/test_indexing.py`
 
 ## AC-F005-001 Projection 隔离与可重建
 
@@ -10,6 +11,7 @@
 - When：生成 public/local index；
 - Then：public 只包含 `public_publishable`，local 只包含允许读取的可用对象并保留 `vault_id`；索引带输入 hash 和 schema version；
 - 失败时不变量：索引失败保留上一版索引，不产生半成品。
+- 对应测试：`tests/test_indexing.py::IndexingTests::test_public_projection_filters_private`；当前状态：通过。
 
 ## AC-F005-002 检索 fallback 契约
 
@@ -49,3 +51,4 @@
 - Then：请求超限返回 `query_limit_exceeded`/`request_too_large`；QMD 仅读取 local projection，在权限为 `0700` 的本机 cache 中运行且 network-disabled；不满足条件时降级到 FTS5/LIKE，并保留统一 QueryResult；
 - 失败时不变量：不能静默截断、扩大 scope、把 QMD 结果写回 canonical 或把 cache/内部正文提交到 public Git；
 - 自动化级别：Unit/Security/Integration。
+- 对应测试：`tests/test_indexing.py::IndexingTests::test_fallback_search_and_limits`；当前状态：基础 fallback 通过。
