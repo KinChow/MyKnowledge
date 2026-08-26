@@ -17,6 +17,7 @@ from wiki_fixtures import (
     WikiTestCase,
     _base_wiki,
     _evidence_item,
+    _install_spec_doc,
     _make_source,
     _write_wiki,
     root_replace,
@@ -50,11 +51,13 @@ class DerivedTests(WikiTestCase):
     def test_validation_report_drives_states(self):
         """§6.8：LLM 验证报告驱动 conflicting/partial/corroborated/verified。
 
-        F003：报告必须绑定当前 (content, evidence) hash，旧内容报告视为未运行。
+        F003：报告必须绑定当前 (content, evidence) hash + ruleset_sha256
+        （真实产物格式 validation-report/v1）；旧内容/旧格式报告视为未运行。
         """
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         root = Path(directory.name)
+        _install_spec_doc(root)
         _make_source(
             root,
             "test-source",
@@ -65,11 +68,16 @@ class DerivedTests(WikiTestCase):
         wiki_path = _write_wiki(root, _base_wiki())
         first = WikiValidator(root).validate(wiki_path)
         hashes = first["hashes"]
+        from tools.validation.ruleset import load_ruleset
+
+        current_ruleset = load_ruleset(root)
 
         def _report(verdict: str, claim_verdicts: dict) -> dict:
             return {
+                "schema_version": "validation-report/v1",
                 "verdict": verdict,
                 "claim_verdicts": claim_verdicts,
+                "ruleset_sha256": current_ruleset["ruleset_sha256"],
                 "wiki_content_sha256": hashes["content_sha256"],
                 "wiki_evidence_sha256": hashes["evidence_sha256"],
             }
@@ -93,6 +101,18 @@ class DerivedTests(WikiTestCase):
         self.assertEqual(report["derived"]["validation_state"], "pass")
         self.assertEqual(report["derived"]["strength"], "verified")
         self.assertEqual(report["derived"]["evidence_state"], "supported")
+        # AC-F003-015：规则集变化只标 stale_ruleset，不使人工确认失效
+        (report_dir / "attestation1.json").write_text(
+            json.dumps(
+                {
+                    **_report("pass", {"c1": "supported"}),
+                    "ruleset_sha256": "sha256:" + "0" * 64,
+                }
+            ),
+            encoding="utf-8",
+        )
+        report = WikiValidator(root).validate(wiki_path)
+        self.assertEqual(report["derived"]["validation_state"], "stale_ruleset")
         # F003：不绑定当前 hash 的报告视为未运行（旧内容不得驱动 verified）
         (report_dir / "attestation1.json").write_text(
             json.dumps({"verdict": "pass", "claim_verdicts": {"c1": "supported"}}),

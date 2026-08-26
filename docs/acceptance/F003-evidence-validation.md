@@ -2,7 +2,13 @@
 
 - Feature：F003
 - 相关规范：EVD、VAL
-- 状态：Not Implemented
+- 状态：Implemented（2026-08-27，102/102 测试通过）
+- 实现证据：`tools/validation/{audit,provider,ruleset,corroboration,confirm}.py`、
+  `config/json-schema/validation-response-v1.json`、`config/policy.yaml`
+  `validation.ruleset.rule_ids`、`tests/validation/test_{audit,ruleset,corroboration}.py`
+- 剩余待界定：AC-F003-006/010 的 cross-vault unavailable 完整语义依赖 F011
+  private vault 挂载（当前单 vault 阶段按 unavailable 处理，保留最近 evidence_state）；
+  真实 LLM 端到端集成测试依赖运行时 provider（ducc/ducx 冒烟已通过，未纳入离线测试）
 
 ## AC-F003-001 Claim 显式绑定 Evidence
 

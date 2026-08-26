@@ -107,6 +107,14 @@ validation:
     advisory_participates_in_verdict: false
     change_state: stale_ruleset
     change_invalidates_human_confirmation: false
+    # 参与审计的规范条目（spec ID，见 §21 规范 ID 基线）。规则原文不落副本，
+    # 运行时按 (doc, section) 从规范文档实时抽取并计算 extract_sha256。
+    rule_ids:
+      - WIKI-001
+      - EVD-001
+      - VAL-001
+      - VAL-002
+      - ARC-002
   coverage_obligations:
     every_claim_times_target_required: true
     advisory_only_counts_as_uncovered: true

@@ -55,6 +55,19 @@ QUOTE_EXACT = "用于引文匹配的原文片段，以及更多"
 SOURCE_BODY = "这是一个足够长的 source 正文，包含" + QUOTE_EXACT + "填充内容。"
 
 
+def _install_spec_doc(root: Path) -> None:
+    """把仓库真实规范文档复制到测试 root（ruleset 抽取的 fixture 须来自真实产物）。
+
+    F003：ruleset_sha256 依赖 docs/myknowledge-system-design.md 实时抽取；
+    测试临时目录没有该文档时，pass 报告会被保守标 stale_ruleset。
+    """
+    repo_root = Path(__file__).resolve().parent.parent
+    src = repo_root / "docs" / "myknowledge-system-design.md"
+    target = root / "docs" / "myknowledge-system-design.md"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+
+
 def _make_source(
     root: Path,
     source_id: str,

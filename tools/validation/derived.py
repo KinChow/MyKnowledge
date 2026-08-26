@@ -9,10 +9,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ..common import canonical_body, hash_canonical, sha256_text
+from ..common import hash_canonical, sha256_text
 from .schema import OWNER_VAULT_ID
 
 BLOCKED_EVIDENCE_STATES = {"missing", "partial", "conflicting", "unresolved", "stale"}
+
+# 审计记录 schema 版本（audit.py 与 derived.py 共用，避免循环导入）
+SCHEMA_VERSION = "validation-report/v1"
+NOT_RUN_SCHEMA_VERSION = "validation-notrun/v1"
 
 
 def read_json_dict(path: Path) -> dict | None:
@@ -31,38 +35,54 @@ def read_json_dict(path: Path) -> dict | None:
 def load_validation_report(
     object_id: str, hashes: dict | None, paths
 ) -> dict | None:
-    """读取 owner Vault 内最近一次 LLM 验证报告（audit/validation/wiki/<id>/）。
+    """读取 owner Vault 内最近一次 LLM 验证记录（audit/validation/wiki/<id>/）。
 
     F003（hash 绑定）：报告必须绑定当前 (content, evidence) hash，否则视为
     过期无效（旧报告不得驱动 validation_state/verified）。F002 只消费
     verdict/claim_verdicts/corroborated；报告缺失或非法视为未运行。
+
+    优先级：绑定当前 hash 的最新 ``validation-report/v1``（verdict 类）优先
+    ——pass/fail 是已验证的客观证据；``validation-notrun/v1`` 是环境事实，
+    只在没有 verdict 报告时用于展示 not_run_reason，不覆盖 pass/fail。
     """
     base = paths.audit_validation("wiki", object_id)
     if not base.exists():
         return None
     try:
         candidates = sorted(base.glob("*.json"))
-        if not candidates:
-            return None
-        latest = max(candidates, key=lambda p: p.stat().st_mtime)
     except OSError:
         return None
-    report = read_json_dict(latest)
-    if report is None:
-        return None
-    if hashes is not None:
-        rec_content = report.get("wiki_content_sha256") or report.get(
-            "content_sha256"
-        )
-        rec_evidence = report.get("wiki_evidence_sha256") or report.get(
-            "evidence_sha256"
-        )
-        if (
-            rec_content != hashes["content_sha256"]
-            or rec_evidence != hashes["evidence_sha256"]
-        ):
-            return None  # 报告绑定的是旧内容，视为未运行
-    return report
+    verdict_latest: dict | None = None
+    notrun_latest: dict | None = None
+    verdict_mtime = notrun_mtime = 0.0
+    for path in candidates:
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            continue
+        record = read_json_dict(path)
+        if record is None:
+            continue
+        version = record.get("schema_version")
+        if version not in (SCHEMA_VERSION, NOT_RUN_SCHEMA_VERSION):
+            continue
+        if hashes is not None:
+            rec_content = record.get("wiki_content_sha256") or record.get(
+                "content_sha256"
+            )
+            rec_evidence = record.get("wiki_evidence_sha256") or record.get(
+                "evidence_sha256"
+            )
+            if (
+                rec_content != hashes["content_sha256"]
+                or rec_evidence != hashes["evidence_sha256"]
+            ):
+                continue  # 绑定的是旧内容，视为过期
+        if version == SCHEMA_VERSION and mtime > verdict_mtime:
+            verdict_latest, verdict_mtime = record, mtime
+        elif version == NOT_RUN_SCHEMA_VERSION and mtime > notrun_mtime:
+            notrun_latest, notrun_mtime = record, mtime
+    return verdict_latest if verdict_latest is not None else notrun_latest
 
 
 def evidence_sha256(metadata: dict, resolution: dict) -> str:
@@ -103,6 +123,93 @@ def evidence_sha256(metadata: dict, resolution: dict) -> str:
     return hash_canonical(resolved)
 
 
+def fail_history(object_id: str, paths) -> dict:
+    """扫描 append-only 审计报告，统计历史 fail 次数与最近一次 fail 的规则条目。
+
+    AC-F003-016：历史 fail 可见（不锁定、可重跑）；人工审计界面必须展示。
+    报告文件名是内容标识（与时间无关），"最近一次"按 st_mtime 取（㉒），
+    不按文件名排序。报告缺失/目录不存在返回零值，不抛异常。
+    """
+    base = paths.audit_validation("wiki", object_id)
+    fail_count = 0
+    last_fail_rule_refs: list = []
+    last_mtime = 0.0
+    if base.exists():
+        for path in sorted(base.glob("*.json")):
+            try:
+                mtime = path.stat().st_mtime
+            except OSError:
+                continue
+            record = read_json_dict(path)
+            if record is None:
+                continue
+            if record.get("schema_version") != SCHEMA_VERSION:
+                continue
+            if record.get("verdict") != "fail":
+                continue
+            fail_count += 1
+            if mtime > last_mtime:
+                last_mtime = mtime
+                last_fail_rule_refs = sorted(
+                    {
+                        ref
+                        for claim in record.get("claims", [])
+                        if isinstance(claim, dict)
+                        for ref in claim.get("applied_rule_refs", [])
+                    }
+                )
+    return {"fail_count": fail_count, "last_fail_rule_refs": last_fail_rule_refs}
+
+
+def _latest_evidence_state(object_id: str, paths) -> str | None:
+    """取最近一次审计报告中的 corroboration evidence_state（不要求 hash 绑定）。
+
+    AC-F003-010：availability unavailable 时保留最近可计算的 evidence_state，
+    首次计算才为 unresolved。
+    """
+    base = paths.audit_validation("wiki", object_id)
+    if not base.exists():
+        return None
+    latest: dict | None = None
+    latest_mtime = 0.0
+    for path in sorted(base.glob("*.json")):
+        try:
+            mtime = path.stat().st_mtime
+        except OSError:
+            continue
+        record = read_json_dict(path)
+        if record is None or record.get("schema_version") != SCHEMA_VERSION:
+            continue
+        if mtime > latest_mtime:
+            latest, latest_mtime = record, mtime
+    if latest is None:
+        return None
+    corroboration = latest.get("corroboration")
+    if isinstance(corroboration, dict):
+        state = corroboration.get("evidence_state")
+        if isinstance(state, str):
+            return state
+    return None
+
+
+def _ruleset_stale(report: dict, paths) -> bool:
+    """报告 ruleset_sha256 与当前规则集不一致 → stale_ruleset（AC-F003-015）。
+
+    规则措辞/章节重排改变 extract_sha256 → ruleset_sha256 变化 → 标记
+    stale_ruleset（可见、不阻断、可重跑）；人工确认只绑定 (content, evidence)
+    hash，**仍然有效**。当前规则集无法计算（规范文档缺失）时保守按 stale。
+    """
+    from .ruleset import load_ruleset
+
+    rec_ruleset = report.get("ruleset_sha256")
+    if not isinstance(rec_ruleset, str):
+        return True  # 报告缺 ruleset 绑定：无法确认一致，保守 stale
+    current = load_ruleset(paths.root)
+    if current["errors"]:
+        return True
+    return current["ruleset_sha256"] != rec_ruleset
+
+
 def compute_derived(
     metadata: dict,
     body: str,
@@ -117,14 +224,6 @@ def compute_derived(
     scope = metadata.get("publication_scope")
     confidentiality = metadata.get("confidentiality", "public")
 
-    # validation_state（§6.8：只表达 LLM 规范审计运行结果）
-    if report and report.get("verdict") == "pass":
-        validation_state = "pass"
-    elif report and report.get("verdict") == "fail":
-        validation_state = "fail"
-    else:
-        validation_state = "not_run"
-
     # availability（§6.8 运行时派生）
     availability = "available"
     availability_reason = "none"
@@ -136,6 +235,22 @@ def compute_derived(
     if resolution.get("total_targets") == 0:
         availability = "unavailable"
         availability_reason = "selector_unresolved"
+
+    # validation_state（§6.8：只表达 LLM 规范审计运行结果）
+    # F003：unavailable 优先（AC-F003-010）；stale_ruleset 由报告 ruleset_sha256
+    # 与当前规则集不一致产生（AC-F003-015，可见、不阻断）；not_run 记录只提供
+    # not_run_reason，不覆盖 pass/fail 报告。
+    if availability == "unavailable":
+        validation_state = "unavailable"
+    elif report and report.get("verdict") == "pass":
+        if _ruleset_stale(report, paths):
+            validation_state = "stale_ruleset"
+        else:
+            validation_state = "pass"
+    elif report and report.get("verdict") == "fail":
+        validation_state = "fail"
+    else:
+        validation_state = "not_run"
 
     # evidence_state（§6.8 优先级表，阻断级命中第一条）
     evidence_state = compute_evidence_state(
@@ -195,6 +310,11 @@ def compute_derived(
         "vault_id": OWNER_VAULT_ID,
         "evidence_state": evidence_state,
         "validation_state": validation_state,
+        "not_run_reason": (
+            report.get("not_run_reason")
+            if report is not None and validation_state == "not_run"
+            else None
+        ),
         "availability": availability,
         "availability_reason": availability_reason,
         "effective_confidentiality": effective_confidentiality,
@@ -203,6 +323,7 @@ def compute_derived(
         "public_publishable": public_publishable,
         "public_release": False,  # F002 阶段恒 false；真实派生由 F007 发布 authority 完成
         "publication_warning": publication_warning,
+        "fail_history": fail_history(object_id, paths),
     }
 
 
@@ -222,7 +343,10 @@ def compute_evidence_state(
     if not evidence or resolution.get("total_targets") == 0:
         return "missing"
     if availability == "unavailable":
-        return "unresolved"
+        # AC-F003-010：unavailable 保留最近可计算的 evidence_state，
+        # 首次计算才为 unresolved；不伪装成 missing
+        object_id = str(metadata.get("id", ""))
+        return _latest_evidence_state(object_id, paths) or "unresolved"
     # snapshot 漂移：evidence item 的 snapshot_sha256 与归档实际内容不符
     for target in resolution.get("resolved_targets", []):
         snapshot_path = paths.snapshot_file(target["snapshot_sha256"])
@@ -235,6 +359,29 @@ def compute_evidence_state(
         if actual != target["snapshot_sha256"]:
             return "stale"
     if report:
+        # F003：per-claim verdict 优先（单 target 时 corroboration 聚合无信号，
+        # contradicted/unsupported 必须反映到 evidence_state）；
+        # 然后 corroboration.evidence_state（多 source 一致性聚合）；
+        # 旧格式兼容 claim_verdicts。
+        claim_verdicts = [
+            c.get("verdict")
+            for c in report.get("claims", [])
+            if isinstance(c, dict) and isinstance(c.get("verdict"), str)
+        ]
+        if "contradicted" in claim_verdicts:
+            return "conflicting"
+        if any(
+            v in {"partially_supported", "unsupported", "unmapped"}
+            for v in claim_verdicts
+        ):
+            return "partial"
+        corroboration = report.get("corroboration")
+        if isinstance(corroboration, dict):
+            state = corroboration.get("evidence_state")
+            if state in {"conflicting", "corroborated", "unresolved"}:
+                return state
+            if state == "supported":
+                return "supported"
         # R001：claim_verdicts 仅接受 list/tuple 或 dict（values），其他形状视为无；
         # corroborated 严格 is True（字符串 "false" 不算）
         verdicts = report.get("claim_verdicts")
