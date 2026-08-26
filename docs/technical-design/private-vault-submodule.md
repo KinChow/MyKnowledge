@@ -35,7 +35,7 @@
 
 本轮增量调查（2026-08-30）：Git worktree/submodule 的 owner 边界继续作为挂载基线；参考 Git object namespace 和显式 registry 的做法，在每个可用 Vault 内扫描 `wiki/` 与 `sources/` 的稳定 ID。跨 Vault 相同 `(object_type, object_id)` 不冲突；同一 Vault 重复 ID 形成阻断级 `duplicate_object_id`。扫描报告只输出 ObjectRef 与计数，不输出物理路径，降低 public/共享日志泄漏风险。
 
-本轮 API owner 调查（2026-08-27）：Git 独立 worktree/submodule owner root（GPL-2.0，<https://git-scm.com/docs/git-worktree>）与 PyYAML safe loader（MIT，<https://github.com/yaml/pyyaml>）继续作为成熟隔离方案；替代方案是按全局 `object_id` 搜索或按 manifest 顺序猜测 owner，会在同名对象时泄漏/读错内容，明确排除。API 只接受显式 `vault_id`，通过 Registry realpath 解析 owner，返回 vault-relative path；private 内容不进入 public projection。
+本轮 API owner 调查（2026-08-27）：Git 独立 worktree/submodule owner root（GPL-2.0，<https://git-scm.com/docs/git-worktree>）与 PyYAML safe loader（MIT，<https://github.com/yaml/pyyaml>）继续作为成熟隔离方案；替代方案是按全局 `object_id` 搜索或按 manifest 顺序猜测 owner，会在同名对象时泄漏/读错内容，明确排除。API 只接受显式 `vault_id`，通过 Registry realpath 解析 owner，返回 vault-relative path；private 内容不进入 public projection。新增 `VaultRegistry.validate_reference` 复用该 owner 边界并对跨 vault 目标 fail-closed；`effective_confidentiality` 复用最高等级传染规则。离线模式仅依赖本地 manifest/checkout，不上传正文；manifest 字段变化会使报告 hash 改变并要求重新校验。
 
 ## 2. 当前基线与目录
 

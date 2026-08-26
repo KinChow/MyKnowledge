@@ -127,6 +127,39 @@ class VaultRegistry:
         report["report_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in report.items() if k != "report_sha256"})).hexdigest()
         return report
 
+    def validate_reference(self, owner_vault_id: str, target_vault_id: str | None = None,
+                           object_type: str = "source", object_id: str = "") -> dict:
+        """Validate an owner-scoped reference without guessing across vaults."""
+        owner = safe_id(str(owner_vault_id))
+        target = owner if target_vault_id in (None, "") else safe_id(str(target_vault_id))
+        result = {"valid": False, "code": None, "owner_vault_id": owner,
+                  "target_vault_id": target, "object_ref": {
+                      "vault_id": target, "object_type": object_type, "object_id": object_id}}
+        if target != owner:
+            result["code"] = "cross_vault_reference"
+            return result
+        report = self.check()
+        status = next((item for item in report["vaults"] if item["vault_id"] == target), None)
+        if status is None:
+            result["code"] = "vault_not_found"
+            return result
+        if status["state"] != "available":
+            result["code"] = "vault_unavailable"
+            return result
+        if any(conflict.get("object_ref") == result["object_ref"] for conflict in report["conflicts"]):
+            result["code"] = "duplicate_object_id"
+            return result
+        result["valid"] = True
+        result["code"] = "ok"
+        return result
+
+    @staticmethod
+    def effective_confidentiality(owner_confidentiality: str, upstream_confidentialities: list[str] | None = None) -> str:
+        """Propagate the highest confidentiality from owner and upstream objects."""
+        levels = {"public": 0, "internal": 1}
+        values = [owner_confidentiality, *(upstream_confidentialities or [])]
+        return "internal" if max((levels.get(value, 1) for value in values), default=0) else "public"
+
 
 def main(argv: list[str] | None = None) -> int:
     import argparse
