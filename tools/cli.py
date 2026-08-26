@@ -60,6 +60,7 @@ def backup_main(argv: list[str]) -> int:
     parser.add_argument("action", choices=["status", "manifest", "verify"])
     parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
     parser.add_argument("--vault-id", default="public")
+    parser.add_argument("--manifest", type=__import__("pathlib").Path)
     args = parser.parse_args(argv)
     manager = BackupManager(args.root)
     if args.action == "status": result = manager.status()
