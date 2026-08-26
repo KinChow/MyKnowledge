@@ -63,3 +63,7 @@
 ## 作答 option allowlist 增量证据（2026-08-27）
 
 - `tests/test_question.py::QuestionTests::test_choice_response_rejects_unknown_option_ids` 验证单选/多选答案只能引用题目声明的 option ID；未知 ID 返回 `response_option_unknown`，不会写入评分记录或被降级为普通错误。
+
+## Wiki/Claim identity 增量证据（2026-08-27）
+
+- `tests/test_question.py::QuestionTests::test_create_rejects_wiki_or_claim_identity_mismatch` 验证题目创建时 `wiki_id` 必须匹配当前验证报告 owner object，`claim_id` 必须存在于该报告的 evidence claim 集合；不匹配分别返回 `wiki_id_mismatch`/`claim_not_found`，防止跨页面或不存在 Claim 的错误绑定。
