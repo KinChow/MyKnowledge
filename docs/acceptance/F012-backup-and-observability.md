@@ -4,7 +4,14 @@
 - 相关规范：SEC、OPS
 - 状态：Implemented（2026-08-27；基础状态/manifest 已实现，完整恢复验收待补齐）
 - 实现证据：`tools/backup.py`、`tools/vault_registry.py`、`tools/cli.py`
-- 当前边界：当前未实现外部 target 传输、空仓恢复演练、durable record 全量校验和 verified 状态派生。
+- 当前边界：已实现 durable manifest 生成与离线 hash 校验；当前未实现外部 target 传输、空仓恢复演练、durable record 全量校验和持久 verified 状态派生。
+
+## 本轮证据（2026-08-28）
+
+- AC-F012-005/006：`tests/test_vault_registry.py::VaultRegistryTests::test_backup_manifest_verification_detects_tampering` 验证生成的 `backup-manifest/v1` 自身 hash 可校验，内容被篡改后返回 `backup_state: failed` 与 `hash_mismatch`。
+- AC-F012-008：同一测试验证 manifest 验证结果包含 owner `vault_id`、manifest hash 和仓库相对路径；校验过程不上传、不修改 Vault 文件。
+
+该证据不代表外部备份已配置、空仓恢复已完成或 Vault 可持久标记为 verified；未配置目标仍必须报告 `backup_not_configured`。
 
 ## AC-F012-001 逐 Vault 状态
 
