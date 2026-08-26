@@ -476,7 +476,7 @@ source_cross_field_rules:
       - source_type == local-file
 # Deferred schemas are intentionally not loaded by the current runtime.
 deferred_objects:
-  question: question/v1-deferred       # F008 only
+  question: question/v1                # F008 only
 reports:
   deterministic_validation: deterministic-validation/v1
   llm_validation: wiki-validation/v1

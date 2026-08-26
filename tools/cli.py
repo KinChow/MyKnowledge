@@ -17,6 +17,7 @@ from tools.validation.validator import main as validate_main
 from tools.write_operation import WriteOperation
 from tools.vault_registry import main as vault_main
 from tools.backup import BackupManager
+from tools.question import QuestionStore
 
 COMMANDS = {
     "source": source_main,
@@ -64,6 +65,22 @@ def backup_main(argv: list[str]) -> int:
 
 COMMANDS["backup"] = backup_main
 
+def question_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="F008 question practice")
+    parser.add_argument("action", choices=["create", "answer", "review"])
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--question-id"); parser.add_argument("--spec", type=__import__("pathlib").Path); parser.add_argument("--wiki", type=__import__("pathlib").Path); parser.add_argument("--response"); parser.add_argument("--rating", type=int)
+    args = parser.parse_args(argv); store = QuestionStore(args.root)
+    if args.action == "create":
+        if not args.spec: parser.error("--spec is required")
+        result = store.create(json.loads(args.spec.read_text(encoding="utf-8")), wiki_path=args.wiki)
+    elif args.action == "answer": result = store.answer(args.question_id, json.loads(args.response))
+    else: result = store.review(args.question_id, args.rating)
+    print(json.dumps(result, ensure_ascii=False, indent=2)); return 0
+
+COMMANDS["question"] = question_main
+
 
 def main(argv: list[str] | None = None) -> int:
     """分派子命令到对应工具：source 导入归档，anchor 证据锚定，validate Wiki
@@ -81,6 +98,7 @@ def main(argv: list[str] | None = None) -> int:
             "  write     通用 Preview/Apply 写入（F004）",
             "  vault     Vault Registry 只读检查（F011）",
             "  backup    备份状态与 durable manifest（F012）",
+            "  question  Question 创建、作答与复习（F008）",
             file=sys.stderr,
         )
         return 2
