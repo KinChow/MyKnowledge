@@ -18,5 +18,18 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 ## P0 设计
 
 - [Source 导入与归档](./source-ingestion-and-archive.md)
+- [证据锚定（anchor_evidence）](./evidence-anchoring.md)
 - [Wiki Claim 验证](./wiki-claim-validation.md)
+- [可执行 Schema Validator](./schema-validation.md)
 - [写操作与锁](./write-operation-and-locking.md)
+
+## 发布与运行面设计
+
+- [Public/Local 索引与检索](./index-and-retrieval.md)
+- [FastAPI 本地服务与离线降级](./local-api-and-offline.md)
+- [Agent Skill 受控读写](./agent-skill.md)
+- [存量内容迁移与质量清理](./content-migration.md)
+- [备份、恢复与可观测性](./backup-and-observability.md)
+- [Private Vaults 子仓库（0..N）](./private-vault-submodule.md)
+- [Astro/Starlight 静态 Wiki 发布](./static-wiki-publishing.md)
+- [2026-08-26 系统 Review 记录](./system-review-2026-08-26.md)

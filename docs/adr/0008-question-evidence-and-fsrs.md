@@ -1,13 +1,13 @@
 # ADR-0008：Question 门禁与 FSRS
 
-- 状态：Accepted
+- 状态：Deferred
 - 日期：2026-08-25
 - 相关规范：QST
 - 相关 Feature：F008
 
 ## 决策
 
-Question 必须绑定已验证或已发布的 `kind: knowledge` Wiki 的 claim_ids，题目门禁严于 Wiki。FSRS 复习进度作为不可重建数据单独备份。
+本 ADR 延后到 F008 单独设计阶段。Question 仍必须绑定已验证或已发布的 `kind: knowledge` Wiki 的 claim_ids，题型范围扩展为单选题、多选题和面向面试的简答题；判分、生成和复习算法（是否采用 FSRS）待 F008 决定。当前主链路不实现 Question、FSRS 或题库迁移。
 
 ## 后果
 

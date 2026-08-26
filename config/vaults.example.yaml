@@ -1,0 +1,42 @@
+# Public-safe template. Copy to config/vaults.local.yaml and fill private paths
+# only on the local machine. Do not add private remote URLs or credentials here.
+schema_version: 1
+# `layout: direct-checkout` is the zero-private-vault compatible form. With no
+# external vault, `workspace_root: null` and `public.path: .` mean the current
+# public checkout. Once an external private checkout is mounted, the local
+# manifest must set a common `workspace_root` and use relative paths for all
+# vaults, including `public`. For the recommended private superproject, set
+# `layout: superproject`, set `workspace_root` to the superproject root, and
+# change `public.path` to `public`. Paths must stay inside the resolved root,
+# be disjoint after realpath, and are never written to public projections.
+layout: direct-checkout
+workspace_root: null             # local-only override; null is allowed only with no external vault
+public_vault_id: public
+vaults:
+  - id: public
+    path: .                       # special current-checkout value in direct mode
+    type: git-checkout
+    confidentiality: public
+    required: true
+    allow_public_projection: true
+    expected_branch: main
+    expected_commit: null
+    provider_policy: public_allowed
+    private_git_remote: null
+    encrypted_backup_target: null
+    backup_state: unconfigured
+
+# Optional private Vault template. Duplicate this entry in the local manifest
+# for each private repository and choose a stable unique id.
+# - id: team-internal
+#   path: null
+#   type: git-checkout       # use git-submodule only when mounted by a superproject
+#   confidentiality: internal
+#   required: false
+#   allow_public_projection: false
+#   expected_branch: main
+#   expected_commit: null
+#   provider_policy: internal_allowed
+#   private_git_remote: null
+#   encrypted_backup_target: null
+#   backup_state: unconfigured

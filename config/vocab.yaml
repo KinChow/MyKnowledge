@@ -1,0 +1,292 @@
+schema_version: 1
+
+# Extend through a reviewed change. Unknown domains are rejected by validators.
+domains:
+  - computer-science
+  - multimedia
+  - reading-notes
+  - tools
+  - work-methods
+
+source_types:
+  - blog
+  - doc
+  - book
+  - contest
+  - pr
+  - local-file
+  - personal-note
+
+origins:
+  - external
+  - personal
+
+read_statuses:
+  - metadata-only
+  - partial
+  - retrieved
+
+url_statuses:
+  - live
+  - dead
+  - unreachable
+  - unknown
+
+wiki_kinds:
+  - knowledge
+  - index
+  - reference
+
+statuses:
+  - planned
+  - draft
+  - review
+  - published
+  - deprecated
+
+evidence_states:
+  - missing
+  - partial
+  - supported
+  - corroborated
+  - conflicting
+  - unresolved
+  - stale
+
+# Source and claim declaration vocabularies. These are distinct from the
+# derived evidence/validation states above.
+evidence_statuses:
+  - source-reported
+  - common-knowledge
+  - personal-observation
+  - inferred
+  - metadata-only
+
+support_types:
+  - direct
+  - synthesis
+  - inferred
+  - personal
+
+validation_states:
+  - not_run
+  - pass
+  - fail
+  - stale_ruleset
+
+# Reasons a LLM spec audit did not produce a verdict. Operator skipping is not
+# in this list: skipping writes no audit report at all.
+validation_not_run_reasons:
+  - provider_unavailable
+  - offline
+  - context_exceeded
+  - malformed_output
+  - incomplete_coverage
+
+wiki_validation_verdicts:
+  - pass
+  - fail
+
+claim_validation_verdicts:
+  - supported
+  - partially_supported
+  - unsupported
+  - contradicted
+  - unmapped
+
+# Derived evidence-strength labels shown in QueryResult and public metadata.
+# Authors never write this field; validators/projection generators calculate it.
+strengths:
+  - verified
+  - corroborated
+  - attested
+  - personal
+  - conflicted
+  - partial
+  - unresolved
+  - reference
+  - index
+
+publication_scopes:
+  - none
+  - private
+  - public
+
+vault_types:
+  - git-checkout
+  - git-submodule
+
+provider_policies:
+  - public_allowed
+  - internal_allowed
+
+confidentiality:
+  - public
+  - internal
+
+# Runtime/derived state vocabularies. These are not Wiki lifecycle statuses.
+# Object availability is deliberately smaller than Vault state: a dirty or
+# revision-mismatched Vault produces an unavailable object with a reason.
+availability_states:
+  - available
+  - unavailable
+  - conflict
+  - invalid
+
+availability_reasons:
+  - none
+  - vault_unavailable
+  - upstream_unavailable
+  - submodule_uninitialized
+  - git_unreadable
+  - revision_mismatch
+  - dirty
+  - conflict
+  - invalid
+  - path_unresolved
+  - selector_unresolved
+  - snapshot_missing
+  - snapshot_hash_mismatch
+  - cross_vault_reference
+  - provider_unavailable
+  - index_unavailable
+
+vault_states:
+  - available
+  - unavailable
+  - revision_mismatch
+  - dirty
+  - conflict
+  - invalid
+
+operation_states:
+  - created
+  - previewed
+  - awaiting_confirmation
+  - applied
+  - applied_index_pending
+  - blocked
+  - expired
+  - rejected
+  - failed
+
+backup_states:
+  - unconfigured
+  - configured
+  - verified
+  - failed
+
+projection_scopes:
+  - public
+  - local
+  - private
+
+actor_types:
+  - human
+  - agent
+  - llm
+  - ci
+
+confirmation_decisions:
+  - approve
+  - reject
+
+event_types:
+  - operation-confirmation/v1
+  - public-release-confirmation/v1
+
+# Scope discriminator inside operation-confirmation/v1. Public release is NOT a
+# scope here: it keeps its own event type so a mistyped scope value cannot
+# express the one irreversible outward action.
+confirmation_scopes:
+  - apply
+  - publish_private
+
+publication_warning_codes:
+  - INTERNAL_CONTENT
+
+leak_gate_report_scopes:
+  - input-item
+  - input-tree
+  - dist
+
+error_codes:
+  - schema_invalid
+  - derived_field_mismatch
+  - invalid_public_release
+  - vault_unavailable
+  - upstream_unavailable
+  - cross_vault_reference
+  - hash_mismatch
+  - fetch_blocked
+  - path_unresolved
+  - selector_unresolved
+  - ambiguous_selector
+  - confirmation_required
+  - provider_unavailable
+  - index_unavailable
+  - leak_gate_failed
+  - backup_not_configured
+  - capability_token_required
+  - capability_token_invalid
+  - operation_blocked
+  - skill_unavailable
+  - query_limit_exceeded
+  - request_too_large
+  - warning_unallowlisted
+  - release_lock_held
+  - release_lock_recovery_required
+  - dns_rebinding_blocked
+  - decompression_limit_exceeded
+  - active_content_rejected
+
+acquisition_methods:
+  - fetch
+  - local-file
+  - personal-note
+
+archive_policies:
+  - text-only
+  - text+raw
+  - external-only
+
+retriever_methods:
+  - id
+  - title
+  - backlinks
+  - qmd
+  - fts5
+  - deterministic-fallback
+
+provider_data_retention:
+  - no-persist
+  - bounded
+  - unknown
+
+provider_training_use:
+  - false
+  - true
+  - unknown
+
+fetch_schemes:
+  - http
+  - https
+
+audit_record_types:
+  - operation
+  - validation
+  - vault-check
+  - backup
+  - release
+  - lock-recovery
+
+identifiers:
+  vault_id_pattern: '^[a-z0-9][a-z0-9._-]{0,63}$'
+  object_id_pattern: '^[a-z0-9][a-z0-9-]{0,127}$'
+  # Event/operation IDs are not object IDs: the established `evt_`/`op_`
+  # prefixes and dots/underscores are valid, but path separators are not.
+  event_id_pattern: '^[a-z0-9][a-z0-9._-]{0,127}$'
+  operation_id_pattern: '^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$'
+  actor_id_pattern: '^[a-z][a-z0-9._-]{2,63}$'
+  reserved_vault_ids:
+    - public

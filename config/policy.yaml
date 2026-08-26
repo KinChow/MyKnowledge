@@ -1,0 +1,315 @@
+schema_version: 1
+policy_version: policy-v1
+
+write:
+  require_network: true        # only acquisition=fetch/provider calls; never a blanket wiki/local-file ban
+  network_scope: fetch-and-provider
+  allow_offline_kinds:
+    - local-file
+    - personal-note
+  quote_min_chars: 12
+  operation_ttl_seconds: 1800
+  max_request_body_bytes: 1048576
+
+paths:
+  workspace_root: null             # resolved by Vault Registry; see vault manifest layout rules
+  local_source_sidecar: state/local-sources
+  local_source_sidecar_file_mode: '0600'
+  local_source_sidecar_dir_mode: '0700'
+  allowed_local_file_roots: []       # empty means the caller must provide an explicit, readable path
+  reject_symlink_escape: true
+  reject_hardlink_escape: true
+
+retrieval:
+  default: qmd
+  max_query_chars: 4000
+  max_top_k: 50
+  max_vault_ids: 16
+  max_result_snippet_chars: 1200
+  request_timeout_seconds: 10
+  reject_unknown_request_fields: true
+  fallback:
+    - fts5
+    - deterministic-fallback
+  qmd:
+    version: 2.8.3
+    node_major: 22
+    mode: read-only
+    network: false
+    rerank: local-only
+    cache_dir_mode: '0700'
+    cache_must_be_local: true
+    cache_in_git: false
+    max_context_chars: 120000
+
+source:
+  local_file_source_type: local-file
+  local_file_acquisition: local-file
+  personal_note_acquisition: personal-note
+  file_hash: sha256
+  path_ref_prefix: "local-sidecar:"
+
+normalization:
+  snapshot_text: canonical-text-v1
+  quote_matching: quote-normalization-v1
+  offset_space: unicode-code-point
+  interval: half-open
+
+granularity:
+  default:
+    source_body_warn: 8000
+    source_body_block: 16000
+    section_warn: 1500
+    section_block: 3000
+    wiki_claims_warn: 12
+    wiki_claims_block: 20
+  by_kind:
+    reference:
+      source_body_warn: 20000
+      source_body_block: null
+      section_warn: 3000
+      section_block: null
+
+archive:
+  text_max_bytes: 2000000
+  raw_max_bytes: 2000000
+  raw_requires_lfs: true
+  text_compression: zstd
+  text_compression_level: 19
+  external_snapshot_is_supplemental: true
+  include_archive_in_local_rag: false
+  include_archive_in_public: false
+  physical_dedup:
+    enabled: true
+    identity: sha256(canonical_snapshot_text_utf8)
+    owner_key: [vault_id, snapshot_sha256]
+    shared_cache_is_derived: true
+    shared_cache_is_not_backup: true
+
+validation:
+  schema_version: wiki-validation/v1
+  # ADR-0010: optional layer. No capability negotiation; single call; not_run is
+  # an observed environment fact, never a model self-declaration.
+  optional: true
+  blocking_states: [fail]
+  publishable_states: [not_run, pass, stale_ruleset]
+  samples: 1
+  sampling: temperature-zero-single-call
+  corroboration_schema_version: corroboration-v1
+  corroboration_numeric_default: exact
+  corroboration_implicit_numeric_tolerance: false
+  corroboration_independence_evidence_fields: [publisher, derived_from, independence_group]
+  corroboration_independence_from_domain: forbidden
+  context_overflow: not_run
+  prompt_compatibility: breaking
+  ruleset:
+    rule_ref_fields: [doc, section, extract_sha256]
+    advisory_participates_in_verdict: false
+    change_state: stale_ruleset
+    change_invalidates_human_confirmation: false
+  coverage_obligations:
+    every_claim_times_target_required: true
+    advisory_only_counts_as_uncovered: true
+    rationale_requires_source_offsets: true
+    partial_delivery_accepted: false
+  not_run_reasons:
+    - provider_unavailable
+    - offline
+    - context_exceeded
+    - malformed_output
+    - incomplete_coverage
+  model_may_self_declare_not_run: false
+  operator_skip_writes_report: false
+  data_handling:
+    public:
+      accepted_confidentiality: [public]
+      allowed_retention: [no-persist, bounded]
+      training_use: false
+    internal:
+      accepted_confidentiality: [internal]
+      allowed_retention: [no-persist]
+      training_use: false
+  untrusted_context:
+    treat_source_as_data: true
+    allow_tools: false
+    allow_external_urls: false
+    max_reason_chars: 1000
+    prompt_boundary: explicit-data-delimiters
+    reject_instruction_like_output: false  # output is data; never execute it
+  human_audit:
+    required: true
+    confirmation_event: operation-confirmation/v1
+    binds: [content_sha256, evidence_sha256]
+    llm_pass_substitutes_human_audit: false
+    fail_history_visible: true
+
+security:
+  # Built-in loopback/RFC1918/link-local checks are always enabled. These
+  # patterns are an additional reviewed allow/deny list and cannot disable
+  # the built-ins.
+  internal_host_patterns: []
+  reject_private_network_targets: true
+  fetch:
+    allowed_schemes: [http, https]
+    reject_userinfo: true
+    allowed_ports: [80, 443]
+    max_redirects: 5
+    timeout_seconds: 30
+    max_response_bytes: 10000000
+    recheck_redirect_targets: true
+    resolve_each_redirect: true
+    dns_rebinding_protection: ip-pinning
+    connect_to_pinned_ip: true
+    preserve_host_header: true
+    strip_credentials_from_archive: true
+    reject_encoded_private_addresses: true
+    max_decompressed_bytes: 10000000
+    max_compression_ratio: 100
+    reject_invalid_content_encoding: true
+    reject_proxy_bypass: true
+  local_api:
+    bind: 127.0.0.1
+    require_write_capability_token: true
+    allow_remote_bind: false
+    capability_token:
+      schema_version: capability-token/v1
+      path: state/capability-token
+      parent_directory: state
+      file_mode: '0600'
+      parent_directory_mode: '0700'
+      random_bytes: 32
+      rotate_on_process_start: true
+      no_http_retrieval_endpoint: true
+      transport: [protected-process-environment, inherited-file-descriptor]
+      forbidden_locations: [url, query_string, cookie, browser-storage, repository, log]
+      comparison: constant-time
+      audience: myknowledge-local-api
+      required_scopes:
+        read_local: local-read
+        read_private: private-read
+        vault_check: vault-check
+        write: write
+  public_release_default: false
+  public_projection_vault_id: public
+
+release:
+  policy_version: policy-v1
+  projection_schema_version: public-projection/v1
+  require_human_actor: true
+  confirmation_event: public-release-confirmation/v1
+  private_publish_confirmation_event: operation-confirmation/v1
+  private_publish_confirmation_scope: publish_private
+  # ADR-0010: the commitment is a sha256 of the lineage record path, not an HMAC.
+  # It carries no private vault name or object ID, so no key material is needed.
+  lineage_commitment: sha256
+  reset_on_hash_change: true
+  public_confirmation_path: release/public-confirmations
+  durable_audit_path: audit
+  public_release_authority:
+    field: public_release
+    default: false
+    frontmatter_direct_write: forbidden
+    materialized_projection_only: true
+    confirmation_event_path: release/public-confirmations/<event_id>.json
+    target_operation_path: audit/operations/<operation_id>.json
+    source_lineage_operation_path: source-owner-vault/audit/operations/<operation_id>.json
+    required_match_fields:
+      - release_input_sha256
+      - reviewed_content_sha256
+      - reviewed_evidence_sha256
+      - leak_gate_report_sha256
+      - target_ref
+      - operation_id
+      - confirmation_nonce
+    hash_change_behavior: retain-old-event-but-derive-false
+    missing_record_behavior: derive-false-and-block-publish
+
+backup:
+  states: [unconfigured, configured, verified, failed]
+  target_kinds: [private_git_remote, encrypted_backup_target]
+  durable_manifest_path: audit/backup/<backup_id>.json
+  key_material_policy: opaque-key-reference-only
+  shared_blob_cache_is_not_backup: true
+  verification:
+    configured_requires: at-least-one-target-and-resolvable-credential-reference
+    verified_requires:
+      - all_configured_targets_integrity_pass
+      - isolated_empty_checkout_restore_pass
+      - restored_owner_hash_set_match
+      - durable_manifest_record
+      - git_history_present
+    failure_codes:
+      - backup_upload_failed
+      - integrity_failed
+      - restore_failed
+      - target_unreachable
+    target_change_requires_reverification: true
+    verification_expiry_seconds: 2592000
+
+projection:
+  schema_version: public-projection/v1
+  manifest_hash_volatile_fields:
+    - generated_at
+    - generatedAt
+    - manifest_sha256
+  public_confirmation_path_prefix: release/public-confirmations/
+  body_path_prefixes:
+    - queries/public/
+    - wiki/
+  attachment_path_prefixes:
+    - queries/public/
+    - wiki/
+  max_attachment_bytes: 10000000
+  max_body_bytes: 2000000
+  max_route_chars: 512
+  max_route_segment_chars: 128
+  input_leak_gate_scope: input-tree
+  dist_leak_gate_scope: dist
+  allowed_attachment_extensions:
+    - .avif
+    - .csv
+    - .gif
+    - .jpeg
+    - .jpg
+    - .pdf
+    - .png
+    - .txt
+    - .webp
+  reject_duplicate_routes: true
+  reject_unresolved_links: true
+  verify_body_hash: true
+  verify_confirmation_event: true
+  reject_active_content: true
+  allowed_frontmatter_fields:
+    - title
+    - slug
+    - description
+    - draft
+    - pagefind
+
+locks:
+  scope: per-vault
+  heartbeat_seconds: 30
+  stale_after_seconds: 900
+  fencing: true
+  recovery_requires_explicit_command: true
+  recovery_records_audit_event: true
+
+build:
+  release_lock_path: .staging/release.lock
+  release_lock_heartbeat_seconds: 30
+  release_lock_fencing: token-and-inode
+  warning_policy: blocking-unknown-v1
+  release_lock_stale_action: block
+  release_lock_recovery_requires_manual_review: true
+  advisory_warning_patterns:
+    - 'Some chunks are larger than [0-9]+ kB after minification'
+    - 'Entry docs.*404 was not found'
+
+frontend:
+  mermaid:
+    security_level: strict
+    max_source_chars: 100000
+    reject_svg_script: true
+    reject_svg_event_handlers: true
+    reject_svg_external_references: true

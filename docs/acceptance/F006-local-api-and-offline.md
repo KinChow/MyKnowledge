@@ -1,0 +1,83 @@
+# F006 FastAPI 本地服务与离线降级验收
+
+- Feature：F006
+- 相关规范：API、IDX、SEC
+- 状态：Not Implemented
+
+## AC-F006-001 API 与 CLI 一致
+
+- Given：同一 public/local projection；
+- When：通过 FastAPI 和离线 CLI 查询；
+- Then：两者返回相同 QueryResult、状态和引用边界；
+- 失败时不变量：API 不直接修改 canonical Markdown。
+
+## AC-F006-002 后端不可用时降级
+
+- Given：FastAPI、LLM 或 private vault 不可用；
+- When：访问 public 静态站或离线查询；
+- Then：public 浏览、搜索和图谱仍可用；受影响的写入、验证或 local 能力返回明确 `unavailable`；
+- 失败时不变量：不得伪造验证通过或写入成功。
+
+## AC-F006-003 同名对象的显式 Vault 路由
+
+- Given：两个 private vault 各有相同 `object_id` 的 Wiki；
+- When：通过 API 和离线 CLI 读取、查询或查看 backlinks；
+- Then：local 路由必须显式带 `vault_id`，返回 `object_ref` 与 owner 一致；public scope 只解析 `public` vault；
+- 失败时不变量：不得按 manifest 顺序返回错误对象或泄漏另一 vault 的 metadata；
+- 自动化级别：Unit/Integration。
+
+## AC-F006-004 生成式问答离线边界
+
+- Given：`/api/ask` 所需的 LLM、QMD 或 local index 不可用；
+- When：请求 ask/retrieve；
+- Then：`/api/retrieve` 可按 fallback 返回确定性结果，`/api/ask` 返回 `unavailable` 或明确 `degraded`，不声称已生成基于知识库的回答；
+- 失败时不变量：不写入 canonical 内容、不改变验证或发布状态；
+- 自动化级别：Integration。
+
+## AC-F006-005 scope、错误和方法契约
+
+- Given：请求分别使用 `public`、`local`、`private` scope，或省略/伪造 `vault_id`、使用未知 `scope: wiki`；
+- When：调用 query/read/retrieve/ask/backlinks；
+- Then：API、CLI 和 Skill 返回同一 QueryResult/错误 schema；private scope 要求显式 Vault，未知 scope 或跨 Vault owner 返回结构化错误，不按 manifest 顺序猜测；
+- 失败时不变量：错误响应不泄漏 private path/正文/凭据，降级 method 不伪装为 qmd/hybrid；
+- 自动化级别：Unit/Integration/Security。
+
+## AC-F006-006 本机 API 写保护
+
+- Given：本机页面、未授权脚本或远程客户端请求 write/validate/index/publish POST 端点；
+- When：缺少、伪造或跨 Origin 使用 capability token；
+- Then：返回 `capability_token_required`/`capability_token_invalid`，canonical 文件、索引、状态和 provider 调用均不变；
+- 失败时不变量：不能因为监听在 loopback 就允许跨站写入，token 不得出现在 URL、浏览器存储、仓库或日志；
+- 自动化级别：Security/Integration。
+
+## AC-F006-007 Query/retrieve 兼容别名和请求限制
+
+- Given：同一 scope/query 分别通过 `GET /api/query?q=...` 和 `POST /api/retrieve` 请求，并分别使用未知字段、超长 query、过大的 `top_k` 或 Vault 列表；
+- When：调用 API、CLI 和 Skill；
+- Then：合法请求返回逐字段等价的 `query-result/v1`；GET 只负责参数归一化，不维护独立检索逻辑；非法请求返回 `query_limit_exceeded`/`request_too_large`，不静默截断；
+- 失败时不变量：兼容别名不能绕过 capability token、scope/owner 检查、降级标记或错误 schema；
+- 自动化级别：Unit/Integration/Security。
+
+## AC-F006-008 Local/private GET 与 vault check 授权边界
+
+- Given：API 绑定 `127.0.0.1`，请求分别读取 `scope=public`、`scope=local/private`、internal object，或调用 `/api/vault/check`；调用方可能缺少、伪造或使用不匹配 scope 的 capability token；
+- When：执行 GET query/read/backlinks/vault-check；
+- Then：public 只读 GET（以及脱敏 health）可匿名；local/private GET、internal object 和 vault check 必须要求 `X-MyKnowledge-Capability`，缺失/错误分别返回 `capability_token_required`/`capability_token_invalid`；GET 别名不能扩大 scope 或按 manifest 顺序猜 owner；
+- 失败时不变量：loopback 位置不能替代内容授权，响应不泄漏 private path、正文、remote 或凭据；
+- 自动化级别：Security/Integration。
+
+## AC-F006-009 Capability token 生命周期
+
+- Given：本地 API 连续启动两次，或请求使用上一进程留下的 token；另有 token 文件、父目录权限和错误 audience/scope fixture；
+- When：调用 public、local/private、vault check 和写入端点；
+- Then：每次启动生成新的随机 token，`state/` 为 `0700`、token 文件为 `0600`，旧 token 失效；缺失、错误、旧进程、audience 或 scope 不匹配分别返回 `capability_token_required`/`capability_token_invalid`；
+- 失败时不变量：不存在 HTTP 获取端点，token 不进入 URL、Cookie、浏览器存储、仓库、审计或日志；
+- 自动化级别：Security/Integration/Failure injection。
+
+## AC-F006-010 Citation snapshot/selector replay
+
+- Given：AskResult citation 分别使用 source、evidence、TextQuote 和 TextPosition locator，snapshot 以 zstd 物理压缩保存，并准备 hash、Unicode offset、selector hash 错误 fixture；
+- When：读取 citation 并重放到 canonical snapshot；
+- Then：只有完整 ObjectRef、owner Vault、解压后 snapshot hash、TextQuote exact、TextPosition Unicode code-point 半开区间和 selector hash 均匹配时 citation 有效；缺失、冲突、近似匹配或 hash 错误返回结构化不可用结果；
+- 失败时不变量：不能用当前 source Markdown、压缩 blob hash、标题或 URL 替代权威 snapshot/selector，也不能把无效 citation 作为生成答案依据；
+- 自动化级别：Unit/Integration/Security。
