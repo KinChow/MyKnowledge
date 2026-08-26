@@ -43,6 +43,7 @@ class VaultRegistry:
         workspace = self.root if data.get("workspace_root") in (None, "") else Path(data["workspace_root"]).expanduser().resolve()
         statuses: list[dict] = []
         resolved: list[tuple[str, Path]] = []
+        available_paths: dict[str, Path] = {}
         seen: set[str] = set()
         for item in data["vaults"]:
             vault_id = str(item.get("id", ""))
@@ -74,11 +75,34 @@ class VaultRegistry:
                     raise ValueError("git_worktree_invalid")
                 head = subprocess.run(["git", "-C", str(path), "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5, check=False)
                 status.update({"state": "available", "reason": "none", "head_sha256": "sha256:" + hashlib.sha256(head.stdout.strip().encode()).hexdigest() if head.returncode == 0 else None})
+                available_paths[vault_id] = path
             except (OSError, ValueError, subprocess.SubprocessError) as exc:
                 status["reason"] = str(exc)
             statuses.append(status)
         statuses.sort(key=lambda x: x["vault_id"])
-        report = {"schema_version": "vault-check/v1", "generated_from": "sha256:" + hashlib.sha256(str(self.root).encode()).hexdigest(), "vaults": statuses, "conflicts": [], "affected_object_refs": [], "backup_summary": {"unverified_vault_ids": [x["vault_id"] for x in statuses if x["backup_state"] != "verified"]}, "available_scopes": ["public"] if any(x["vault_id"] == "public" and x["state"] == "available" for x in statuses) else [], "report_sha256": ""}
+        conflicts: list[dict] = []
+        affected: list[dict] = []
+        for status in statuses:
+            path = available_paths.get(status["vault_id"])
+            if path is None:
+                continue
+            seen_objects: set[tuple[str, str]] = set()
+            count = 0
+            for object_type, folder in (("wiki", "wiki"), ("source", "sources")):
+                base = path / folder
+                for item in sorted(base.rglob("*.md")) if base.is_dir() else []:
+                    if not item.is_file() or item.is_symlink():
+                        continue
+                    key = (object_type, item.stem)
+                    ref = {"vault_id": status["vault_id"], "object_type": object_type, "object_id": item.stem}
+                    if key in seen_objects:
+                        conflicts.append({"code": "duplicate_object_id", "object_ref": ref})
+                        affected.append(ref)
+                    else:
+                        seen_objects.add(key)
+                        count += 1
+            status["object_count"] = count
+        report = {"schema_version": "vault-check/v1", "generated_from": "sha256:" + hashlib.sha256(str(self.root).encode()).hexdigest(), "vaults": statuses, "conflicts": conflicts, "affected_object_refs": affected, "backup_summary": {"unverified_vault_ids": [x["vault_id"] for x in statuses if x["backup_state"] != "verified"]}, "available_scopes": ["public"] if any(x["vault_id"] == "public" and x["state"] == "available" for x in statuses) else [], "report_sha256": ""}
         report["report_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in report.items() if k != "report_sha256"})).hexdigest()
         return report
 
