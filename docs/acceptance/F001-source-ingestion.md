@@ -29,7 +29,7 @@
 ## AC-F001-004 local-file HTML/PDF 统一入口
 
 - Given：本地 HTML、PDF、代码或日志文件，可能带有已失效的原始 URL；
-- When：通过 `archive_source.py --from-file` 执行 Source Preview/Apply；
+- When：通过 `tools.cli source --from-file` 执行 Source Preview/Apply；
 - Then：Source 使用 `source_type: local-file`、`retrieval.acquisition: local-file`，记录 `file_sha256`、extractor/version、不可变 text snapshot 和 evidence selector；原 URL 仅作为历史出处；
 - 失败时不变量：缺少文件 hash、snapshot 或 selector 时不得写入可发布 Source，文件变化不得覆盖旧 snapshot；
 - 自动化级别：Integration。
@@ -85,7 +85,7 @@
 ## AC-F001-011 Evidence 锚定生成 selector 与 hash
 
 - Given：某 source 已有归档 snapshot；用户在 snapshot 正文中选取一段包含 CJK、emoji 和代码标点的片段；
-- When：执行 `anchor_evidence` preview/apply；
+- When：执行 `evidence_anchor` preview/apply；
 - Then：生成 `TextQuoteSelector`（`exact` 逐字取自 snapshot，`prefix`/`suffix` 各取相邻 32 个 code point）和 `TextPositionSelector`（Unicode code-point 半开区间 `[start, end)`），计算 `selector_sha256` 与 `quote_sha256`，经 preview/apply 与 per-vault 写锁写回 source 的 `evidence_items`；
 - 失败时不变量：偏移量不得按 UTF-8 字节或 UTF-16 code unit 计算；`prefix`/`suffix` 不得单独作为匹配依据；工具不得改写归档 snapshot；不得绕过 preview/apply 直接写文件；
 - 自动化级别：Unit/Integration。
@@ -93,7 +93,7 @@
 ## AC-F001-012 锚定的歧义、短引文与漂移
 
 - Given：`exact` 分别为 snapshot 中未出现、多处出现且 prefix/suffix 无法消歧、短于 policy 最小长度，或所属 snapshot 已重新抓取产生新 `snapshot_sha256`；
-- When：执行 `anchor_evidence`；
+- When：执行 `evidence_anchor`；
 - Then：分别返回 `selector_unresolved`、`ambiguous_selector`（要求扩大选区）、长度拒绝、以及 `stale` 并要求在新 snapshot 上重新锚定；同一 `(source_id, snapshot_sha256, start, end)` 重复锚定返回既有 `evidence_id`；
 - 失败时不变量：多处命中时不得自行选取第一个；snapshot 漂移后不得自动迁移偏移量；批量模式（`--from-jsonl`）不得降低唯一性与长度标准，未解析行必须进入 `unresolved` 报告；
 - 自动化级别：Unit/Integration。
@@ -101,7 +101,7 @@
 ## AC-F001-013 锚定工具与验证器共用同一归一实现
 
 - Given：同一 snapshot 与同一 selector；
-- When：`anchor_evidence` 生成 `quote_sha256`，验证器独立重新计算 `quote_sha256`；
+- When：`evidence_anchor` 生成 `quote_sha256`，验证器独立重新计算 `quote_sha256`；
 - Then：两个值必须相同；该一致性测试常驻 CI；
 - 失败时不变量：工具侧不得另写一份 `canonical_quote()`；两份实现漂移时必须由该测试失败暴露，而不是等到引文匹配不上时才发现；
 - 自动化级别：Unit。

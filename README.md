@@ -21,10 +21,11 @@
 ```bash
 MyKnowledge/
 ├── docs/                  # 迁移中的原始内容与设计文档
-├── frontend/              # Astro/Starlight 静态 Wiki（public projection 消费者）
+├── frontend/              # Astro/Starlight 静态 Wiki（public projection 消费者；已临时移除，规划中）
 ├── sources/               # 目标 Source 层（实现后创建）
 ├── wiki/                  # 目标 Wiki 层（实现后创建）
 ├── config/                # schema、policy 和 public + 0..N vault 示例
+├── tools/                 # Source/校验/锚定等工具（python -m tools.cli）
 ├── mkdocs.yml             # 迁移期间的旧站点回退配置
 ├── requirements.txt       # Python 依赖列表
 └── README.md              # 项目说明
@@ -65,7 +66,7 @@ MyKnowledge-workspace/
 
 - Python 3.11+
 - Git 2.20+
-- Node.js 22+（本地自然语言/混合检索默认使用 QMD；QMD 不可用时自动回退 SQLite FTS5，再回退 SQLite LIKE；Astro 版本以 `frontend/package-lock.json` 为准）
+- Node.js 22+（frontend 重建后所需；本地自然语言/混合检索默认使用 QMD，QMD 不可用时自动回退 SQLite FTS5，再回退 SQLite LIKE）
 
 ### 1. 环境配置
 
@@ -78,13 +79,20 @@ cd MyKnowledge
 pip install -r requirements.txt
 
 # 或手动安装核心组件
-# 迁移期间的旧 MkDocs 回退（正式静态 Wiki 使用 frontend）
 pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
 ```
 
 ### 2. 本地运行
 
-迁移基线预览（当前 `npm run dev` 默认读取 legacy `docs/`，不代表 public release）：
+当前仓库使用迁移期间的 MkDocs 回退预览（frontend 已临时移除，以下为重建后的规划用法）：
+
+```bash
+mkdocs serve
+```
+
+访问 ➡️ [http://127.0.0.1:8000](http://127.0.0.1:8000/)
+
+frontend 重建后的规划用法（对应正式 public projection 消费链路，架构见系统设计文档）：
 
 ```bash
 cd frontend
@@ -104,14 +112,6 @@ MYKNOWLEDGE_CONTENT_MODE=projection npm run dev
 
 正式前端只读取 `queries/public` 或 public projection，不读取 private vault；当前仓库没有正式 manifest 时，上述 projection 命令会 fail-closed。
 
-迁移期间的旧站点回退：
-
-```bash
-mkdocs serve
-```
-
-访问 ➡️ [http://127.0.0.1:8000](http://127.0.0.1:8000/)
-
 ### 3. 内容创作
 
 1. 通过 Source-first 工具导入或创建 `sources/` 记录；不要把无来源正文直接标记为 published。
@@ -119,6 +119,8 @@ mkdocs serve
 3. 公开站点只消费 `public_publishable` projection；`public_release` 默认是 `false`，只有人工对当前 hash 改为 `true` 并完成 public confirmation 才能发布；internal 内容写入用户明确选择的 private vault，并在私有发布时显示告警。
 
 ### 4. 部署发布
+
+frontend 已临时移除，以下为重建后的规划发布链路：
 
 ```bash
 # 正式 public 发布前必须先在 frontend 中完成 projection、人工确认和三段 leak gate：

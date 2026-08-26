@@ -353,10 +353,10 @@ manifest 为了保持结构统一，可以在 `public` 条目中保留置空的 
 ~~~text
 git lfs install
 git lfs track "archive/raw/**"      # 写入 .gitattributes 并提交
-# 确认 .gitattributes 已生效后，才允许 archive_source.py 写入 raw
+# 确认 .gitattributes 已生效后，才允许 Source 导入工具写入 raw
 ~~~
 
-`archive_source.py` 启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；不存在时拒绝写入 `archive/raw/`，只写 `archive/text/` 并降级为 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
+Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；不存在时拒绝写入 `archive/raw/`，只写 `archive/text/` 并降级为 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
 
 `archive/text/` 保持普通入库：它是可解压回 canonical 文本的压缩 blob，体积在几 MB 量级，需要 Git 历史可追溯性，不适合放进 LFS；snapshot hash 和 selector 永远对解压后的逻辑文本计算。
 
@@ -616,7 +616,7 @@ source 通过 `retrieval` 引用归档条目：
 原链接已经失效、但手上有离线 HTML、PDF 或其他副本时，**统一以 `local-file` 作为 source 入口**。原 URL 只保留为历史出处；本地文件 hash、抽取器版本和不可变 snapshot 才是可复核证据。
 
 ~~~text
-archive_source.py --from-file <本地副本路径> --url <原始链接> --url-status dead
+tools.cli source --from-file <本地副本路径> --url <原始链接> --url-status dead
   -> acquisition: local-file
   -> 正文提取
   -> archive/text/<sha256>.md.zst
@@ -672,7 +672,7 @@ evidence_items:
 - sidecar 中的 `local.path` 和原始文件 `file_sha256` 必须存在；canonical Source 只保存 hash、媒体类型和读取范围，`copy_note` 说明副本来源和获取时间；
 - local-file 的文本提取、snapshot 和 evidence selector 必须与 URL 抓取走同一 schema；
 - 文件 hash 变化生成新 snapshot，不覆盖旧 snapshot；旧 claim 继续绑定旧版本并等待人工复核；
-- URL 后续恢复可达时，`check_sources.py` 只能追加 fetch 记录，不能把旧 local-file snapshot 替换掉；
+- URL 后续恢复可达时，来源巡检工具只能追加 fetch 记录，不能把旧 local-file snapshot 替换掉；
 - 没有 URL 的本地代码、日志和实验输出也使用同一 `local-file` 入口，只省略历史出处字段。
 
 获取方式的优先级：
@@ -683,7 +683,7 @@ evidence_items:
 3. 以上都没有        -> 不允许写入（见 5.9）
 ~~~
 
-`tools/check_sources.py` 定期巡检外部链接：
+来源巡检工具定期巡检外部链接：
 
 ~~~text
 unchanged     etag/last_modified/snapshot_sha256 一致
@@ -837,7 +837,7 @@ write:
 
 `require_network: true` 时，网络 source 的 `apply` 在获取写锁后、写入 staging 前做一次可达性检查；失败即 operation 转 `blocked`，不写入任何文件。`allow_offline_kinds` 是有意保留的窄例外：这两种形态的证据载体本来就在本机，强制联网不增加保障。把例外做成配置项而不是硬编码，是为了让"为什么这次能离线写"有据可查。
 
-local-file 的历史 URL（如有）其 `url_status` 允许暂时为 `unknown`，联网后由 `check_sources.py` 复核补齐；这不影响证据完备性，因为证据来自本地 snapshot。
+local-file 的历史 URL（如有）其 `url_status` 允许暂时为 `unknown`，联网后由来源巡检工具复核补齐；这不影响证据完备性，因为证据来自本地 snapshot。
 
 离线状态下仍然可用的能力：
 
@@ -1921,12 +1921,12 @@ DeterministicFallbackRetriever
 建议工具：
 
 ```text
-tools/
-├── build_rag_index.py
-├── retrieve.py
-├── rerank.py
-├── answer_with_citations.py
-└── validate_citations.py
+tools/ 建议职责模块：
+- 索引构建：规范化分块、Embedding 和本地向量索引；
+- 召回：FTS、向量和混合检索；
+- 重排：可选候选重排；
+- 带引用回答：基于检索片段生成带引用的回答；
+- 引用校验：校验回答与 claim 的 locator 和 evidence target。
 ```
 
 这些工具只负责索引、召回、回答和引用校验，不拥有 source/wiki 写入权限。默认本地自然语言/混合查询先调用 `QmdRetriever`；其输出必须重新解析为统一 `QueryResult`，验证 object ID、vault、confidentiality、hash 和 source/evidence 定位。QMD 不可用时自动选择 FTS5，FTS5 不可用时选择确定性 fallback 并标记降级；精确 ID/反向索引可直接走确定性路径。第一阶段不生成自有 FAISS/Embedding 文件；若未来启用向量 adapter，其索引、模型缓存和 `queries/local/rag-index.jsonl` 都是受 manifest/hash 管理的生成物，不能人工编辑。
@@ -2028,7 +2028,7 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 
 ### 12.1 离线降级
 
-未启动后端时，Agent 和前端仍可通过 `tools/query.py` 读取 `queries/public` 或静态 catalog 完成离线查询。以下能力必须明确返回 `unavailable`，不能伪造成功：LLM 验证、写入 apply、后端 local index 和 F008 Question/复习。后端恢复后再重建 local index，不自动补写用户内容。
+未启动后端时，Agent 和前端仍可通过查询工具读取 `queries/public` 或静态 catalog 完成离线查询。以下能力必须明确返回 `unavailable`，不能伪造成功：LLM 验证、写入 apply、后端 local index 和 F008 Question/复习。后端恢复后再重建 local index，不自动补写用户内容。
 
 完全断网时的能力边界见 5.9：查询、阅读和图谱可用，网络 source 抓取和 LLM 验证不可用；`local-file` 与 `personal-note` 可以按 policy 写入。Question/复习不属于当前版本。不得为了让页面通过而放宽证据要求或跳过归档。
 
@@ -2070,7 +2070,7 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 
 保密分级的门禁不止在 dist/。本仓库是公开仓库，因此 internal 内容的第一道防线是"根本不写进来"：
 
-- `tools/validate_pages.py` 必须拒绝 `allow_public_projection: true` 的 vault 中任何 `confidentiality: internal` 文件；
+- 页面校验工具 必须拒绝 `allow_public_projection: true` 的 vault 中任何 `confidentiality: internal` 文件；
 - 提交前检查（`knowledge-check.yml` 与本地 pre-commit）扫描待提交文件，命中 internal 声明、内网域名模式或任一 private vault 路径即失败；
 - 任一 private vault 的绝对路径不写入 public 仓库中的任何生成物，`queries/public` 不含任何 private 对象的存在性信息（连"有一篇 internal wiki"都不暴露）。
 
@@ -2089,9 +2089,7 @@ skills/myknowledge/
 │   ├── write-policy.md
 │   ├── query-contract.md
 │   └── workflow-modes.md
-└── scripts/
-    ├── detect_root.py
-    └── invoke.py
+└── scripts/            # 仓库根检测与 Skill 调用入口
 ~~~
 
 支持模式（当前版本）：
@@ -2110,12 +2108,12 @@ Skill 是 Agent 操作本仓库的官方受控入口。Skill 不实现第二套�
 
 ~~~text
 myknowledge skill
-  -> tools/query.py
-  -> tools/read_page.py
-  -> tools/create_source.py
-  -> tools/create_wiki.py
-  -> tools/validate_wiki_evidence.py
-  -> tools/generate_indices.py
+  -> 查询工具
+  -> 页面读取工具
+  -> source 创建与导入工具
+  -> wiki 创建工具
+  -> 证据校验工具
+  -> 索引生成工具
 ~~~
 
 Skill 只负责：
@@ -2180,54 +2178,47 @@ Skill 不根据对话上下文猜测用户确认范围；“确认”必须能�
 ## 15. 工具模块边界
 
 ~~~text
-tools/
-├── common.py
-├── query.py
-├── read_page.py
-├── create_source.py
-├── anchor_evidence.py
-├── create_wiki.py
-├── validate_pages.py
-├── validate_wiki_evidence.py
-├── check_sources.py
-├── archive_source.py
-├── rename_page.py
-├── retire_page.py
-├── generate_indices.py
-├── build_rag_index.py
-├── retrieve.py
-├── rerank.py
-├── answer_with_citations.py
-├── validate_citations.py
-├── inventory_legacy.py
-└── task_manifest.py
+tools/（按职责划分模块；文件命名是实现细节，不构成契约）
+├── 共享基础：hash、canonical JSON、front matter、原子写、Vault 锁
+├── Source 导入与归档：抓取、local-file/personal-note 导入、正文提取、snapshot 与 manifest
+├── Evidence 锚定：selector/hash 生成与写回
+├── 校验：请求/已发布文件 schema、页面、证据与引用校验
+├── 查询与读取：页面读取、检索、重排、带引用回答
+├── 发布：wiki 创建/重命名/退役、索引生成
+└── 存量迁移：inventory 生成与任务清单
 ~~~
 
 建议职责：
 
-- common.py：root、vault 挂载、路径安全、Front Matter、hash 和页面读取；
-- create_source.py：source 模板、preview 和 apply；
-- anchor_evidence.py：从已归档 snapshot 交互式选取引文，生成 `TextQuoteSelector`/`TextPositionSelector`（Unicode code-point 半开区间）、`selector_sha256` 和 `quote_sha256`，写回 source 的 `evidence_items`。这是 §5.1 evidence item 与 §6.4 claim target 的唯一落地入口；没有它，claim 只能手写 offset，全部迁移工作量无法开始。详见 [证据锚定实现设计](./technical-design/evidence-anchoring.md)；
-- create_wiki.py：source 检查、claim/evidence、preview 和 apply；
-- validate_pages.py：确定性 schema、引用、链接、状态组合和保密分级校验；
-- validate_wiki_evidence.py：LLM adapter、结构化输出、引文逐字校验和报告；
-- check_sources.py：外部链接巡检、归档快照更新和漂移标记；
-- archive_source.py：抓取、`local-file` 导入（`--from-file`）、正文提取、压缩、内容寻址写入和 manifest 维护；
-- rename_page.py：ID/路径变更、引用同步、route map 和原子回滚；
-- retire_page.py：`retire` 与 `purge` 的前置检查、preview 和 apply；
-- generate_indices.py：public/local 索引原子生成；
-- build_rag_index.py：规范化分块、Embedding 和本地向量索引；
-- retrieve.py：FTS、向量和混合召回；
-- rerank.py：可选候选重排；
-- answer_with_citations.py：基于检索片段生成带引用的回答；
-- validate_citations.py：检查回答和 claim 是否能定位到 source locator，并校验 evidence target 的 snapshot/selector；
-- inventory_legacy.py：按固定 classifier/threshold 生成带输入 tree hash 的存量迁移 inventory；不改写内容、不推断事实正确性；
-- query.py：离线查询和统一 QueryResult；
-- task_manifest.py：记录操作范围、输入 hash、结果和失败阶段。
+- 共享基础：root、vault 挂载、路径安全、front matter、hash 和页面读取；
+- Source 导入与归档：source 模板、抓取、`local-file` 导入（`--from-file`）、正文提取、压缩、内容寻址写入、preview/apply 和 manifest 维护；
+- Evidence 锚定：从已归档 snapshot 交互式选取引文，生成 `TextQuoteSelector`/`TextPositionSelector`（Unicode code-point 半开区间）、`selector_sha256` 和 `quote_sha256`，写回 source 的 `evidence_items`。这是 §5.1 evidence item 与 §6.4 claim target 的唯一落地入口；没有它，claim 只能手写 offset，全部迁移工作量无法开始。详见 [证据锚定实现设计](./technical-design/evidence-anchoring.md)；
+- wiki 生命周期：source 检查、claim/evidence、preview/apply、ID/路径变更与引用同步、route map 和原子回滚、`retire`/`purge` 前置检查；
+- 校验：确定性 schema、引用、链接、状态组合和保密分级校验；LLM adapter、结构化输出、引文逐字校验和报告；
+- 来源巡检：外部链接巡检、归档快照更新和漂移标记；
+- 索引与检索：public/local 索引原子生成；规范化分块、Embedding 和本地向量索引；FTS、向量和混合召回；可选候选重排；
+- 回答与引用：基于检索片段生成带引用的回答；检查回答和 claim 是否能定位到 source locator，并校验 evidence target 的 snapshot/selector；
+- 存量迁移：按固定 classifier/threshold 生成带输入 tree hash 的存量迁移 inventory；不改写内容、不推断事实正确性；
+- 离线查询：统一 `QueryResult` 契约；
+- 任务清单：记录操作范围、输入 hash、结果和失败阶段。
 
 所有公共入口只能委托这些领域工具，不能在 CLI、FastAPI 和 Skill 中重复实现规则。外部 Skill 集合不是运行时依赖；如需同步到其他 Skill 仓库，只能由独立发布流程打包，不能改变本仓库的 canonical Skill。
 
-当前运行时工具集合不包含 `create_question.py`、题目读取器、quiz/review API 或 FSRS 状态处理器。F008 的工具目录和接口在 `docs/deferred/` 单独设计并通过独立 Feature 接入；在 F008 启动前，任何实现、Skill 或验收脚本都不得创建或解析 `Question`/`practice/` 题目对象。
+### 15.1 开发要求
+
+- **面向对象**：有状态与生命周期对象（锁、仓库、服务、提取器）使用类；无状态纯函数保留模块函数形式，不为"类化"而类化。
+- **高内聚**：一个类一个职责，变更原因唯一；一个文件一个主类，私有辅助类/函数留在宿主文件内；禁止"工具杂物间"式模块持续膨胀。
+- **低耦合**：依赖方向单向且无环（共享基础 → 领域服务 → CLI 入口）；服务依赖经构造函数注入，不在方法内直接实例化其他服务；禁止循环导入。
+- **设计模式原则（SOLID）**：
+  - 单一职责：一个类只承担一种职责；
+  - 开闭原则：类型分派（source 类型、media 类型、提取器、校验器）使用注册表/策略扩展，新增类型通过注册新策略实现，不得修改已有类；
+  - 里氏替换：继承标准库类（连接、解析器）必须保持父类语义契约；
+  - 接口隔离：类只暴露调用方需要的方法，不为未使用能力定义接口；
+  - 依赖倒置：服务依赖抽象（Protocol/抽象基类）而非具体实现，依赖经构造函数注入。
+- **文件命名是实现细节**：不构成契约，总纲领不绑定文件名；technical-design 对已实现部分使用实际文件名。
+- **可检查性**：上述条目纳入 code review 对照清单；重构不得改变对外契约（CLI 命令、错误码、审计格式、manifest schema）。
+
+当前运行时工具集合不包含题目创建工具、题目读取器、quiz/review API 或 FSRS 状态处理器。F008 的工具目录和接口在 `docs/deferred/` 单独设计并通过独立 Feature 接入；在 F008 启动前，任何实现、Skill 或验收脚本都不得创建或解析 `Question`/`practice/` 题目对象。
 
 ## 16. 迁移策略
 
@@ -2430,7 +2421,7 @@ computer-science
 
 ### 阶段零：垂直切片
 
-在按模块铺开之前，先让 1 个 source → 1 个 wiki → 1 条 claim → 1 个 published page 真正跑通全部阻断门：归档 snapshot、`anchor_evidence` 生成 selector、确定性引文逐字匹配、人工审计确认、projection、leak gate、Astro 构建。
+在按模块铺开之前，先让 1 个 source → 1 个 wiki → 1 条 claim → 1 个 published page 真正跑通全部阻断门：归档 snapshot、`evidence_anchor` 生成 selector、确定性引文逐字匹配、人工审计确认、projection、leak gate、Astro 构建。
 
 退出门是可观测的单一事实：**这一页真的出现在 `dist/` 里**，且删掉它的引文一个字符后构建会失败。
 
