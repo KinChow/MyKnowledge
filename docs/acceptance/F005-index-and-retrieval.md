@@ -2,7 +2,7 @@
 
 - Feature：F005
 - 相关规范：IDX、SEC
-- 状态：Implemented（2026-08-27；projection/fallback 基础能力，完整 FTS5/QMD 索引验收待补）
+- 状态：Implemented（2026-08-29；projection/SQLite FTS5/fallback 基础能力，QMD 与完整恢复验收待补）
 - 实现证据：`tools/indexing.py`、`tests/test_indexing.py`
 
 ## AC-F005-001 Projection 隔离与可重建
@@ -12,6 +12,7 @@
 - Then：public 只包含 `public_publishable`，local 只包含允许读取的可用对象并保留 `vault_id`；索引带输入 hash 和 schema version；
 - 失败时不变量：索引失败保留上一版索引，不产生半成品。
 - 对应测试：`tests/test_indexing.py::IndexingTests::test_public_projection_filters_private`；当前状态：通过。
+- SQLite FTS5 重建与 BM25 查询：`tests/test_indexing.py::IndexingTests::test_sqlite_fts5_rebuild_and_search`；当前状态：通过。
 
 ## AC-F005-002 检索 fallback 契约
 

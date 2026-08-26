@@ -1,5 +1,6 @@
-import unittest
-from tools.indexing import IndexBuilder, Retriever
+import unittest, tempfile
+from pathlib import Path
+from tools.indexing import IndexBuilder, Retriever, SQLiteIndex
 
 ITEMS = [
     {"vault_id": "public", "object_id": "pub", "title": "公开知识", "body": "SQLite 检索", "public_publishable": True, "content_sha256": "sha256:p"},
@@ -21,5 +22,12 @@ class IndexingTests(unittest.TestCase):
         retriever = Retriever(ITEMS)
         self.assertEqual(retriever.search("SQLite", "public")["items"][0]["object_ref"]["object_id"], "pub")
         self.assertEqual(retriever.search("x", top_k=101)["availability_reason"], "query_limit_exceeded")
+
+    def test_sqlite_fts5_rebuild_and_search(self):
+        with tempfile.TemporaryDirectory() as d:
+            idx = SQLiteIndex(Path(d) / "index.sqlite3")
+            manifest = idx.rebuild(ITEMS, "public")
+            self.assertEqual(manifest["item_count"], 1)
+            self.assertEqual(idx.search("SQLite")[0]["object_ref"]["object_id"], "pub")
 
 if __name__ == "__main__": unittest.main()
