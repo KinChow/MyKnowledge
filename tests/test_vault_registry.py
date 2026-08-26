@@ -185,6 +185,27 @@ class VaultRegistryTests(unittest.TestCase):
                 result = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(result["error_code"], "restore_target_not_empty")
 
+    def test_restore_cleans_partial_checkout_after_write_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "wiki").mkdir(); (root / "wiki" / "one.md").write_text("one", encoding="utf-8")
+            (root / "wiki" / "two.md").write_text("two", encoding="utf-8")
+            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            with tempfile.TemporaryDirectory() as out:
+                target = Path(out) / "checkout"
+                original = __import__("tools.backup", fromlist=["atomic_write"]).atomic_write
+                calls = {"count": 0}
+                def fail_second(path, content, mode=0o600):
+                    calls["count"] += 1
+                    if calls["count"] == 2:
+                        raise OSError("injected restore failure")
+                    return original(path, content, mode)
+                with mock.patch("tools.backup.atomic_write", side_effect=fail_second):
+                    result = manager.restore_manifest(root / manifest["path"], target)
+                self.assertEqual(result["state"], "failed")
+                self.assertEqual(result["restored_entries"], 0)
+                self.assertFalse(target.exists() and any(target.rglob("*")))
+
     def test_backup_status_derives_failed_from_corrupt_latest_manifest(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)

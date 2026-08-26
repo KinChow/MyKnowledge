@@ -143,4 +143,15 @@ class BackupManager:
         except (OSError, ValueError) as exc:
             for path in reversed(created):
                 path.unlink(missing_ok=True)
+            # mkdir() may have created empty parent directories before a later
+            # entry fails; remove only empty directories created in this target.
+            for directory in sorted((p for p in target.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True):
+                try:
+                    directory.rmdir()
+                except OSError:
+                    pass
+            try:
+                target.rmdir()
+            except OSError:
+                pass
             return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
