@@ -74,6 +74,13 @@ class VaultRegistry:
                 if vault_id in seen:
                     raise ValueError("duplicate_vault_id")
                 seen.add(vault_id)
+                confidentiality = item.get("confidentiality", "public" if vault_id == data.get("public_vault_id", "public") else "internal")
+                if confidentiality not in {"public", "internal"}:
+                    raise ValueError("confidentiality_invalid")
+                if bool(item.get("allow_public_projection", False)) and (
+                    vault_id != data.get("public_vault_id", "public") or confidentiality != "public"
+                ):
+                    raise ValueError("public_projection_confidentiality")
                 raw_path = item.get("path")
                 if raw_path == "." and vault_id == data.get("public_vault_id", "public") and layout == "direct-checkout":
                     path = self.root

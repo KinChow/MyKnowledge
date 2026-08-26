@@ -73,6 +73,22 @@ class VaultRegistryTests(unittest.TestCase):
             report = VaultRegistry(root, manifest).check()
             self.assertEqual(report["vaults"][0]["reason"], "path_invalid")
 
+    def test_private_public_projection_permission_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); private = root / "private"; private.mkdir(); subprocess.run(["git", "init", "-q", str(private)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\nvaults:\n  - {{id: private, path: private, confidentiality: internal, allow_public_projection: true}}\n", encoding="utf-8")
+            report = VaultRegistry(root, manifest).check()
+            self.assertEqual(report["vaults"][0]["reason"], "public_projection_confidentiality")
+
+    def test_internal_public_projection_permission_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: ., confidentiality: internal, allow_public_projection: true}}\n", encoding="utf-8")
+            report = VaultRegistry(root, manifest).check()
+            self.assertEqual(report["vaults"][0]["reason"], "public_projection_confidentiality")
+
     def test_reference_rejects_cross_vault_even_when_target_exists(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); public = root / "public"; private = root / "private"
