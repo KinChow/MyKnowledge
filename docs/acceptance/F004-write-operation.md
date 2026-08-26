@@ -116,3 +116,8 @@
 
 - `test_rename_and_retire_have_distinct_operation_types` 现在执行 retire Apply，并验证 owner Vault 生成 `audit/retire/<operation_id>.json`（`retire-marker/v1`、目标相对路径和内容 hash）。原文件保留，便于回放和恢复，不执行不可逆删除。
 - 边界：purge、projection/index 消费 retired 状态及跨 Vault staging 仍待后续验收。
+
+## Purge 备份前置证据（2026-08-27）
+
+- `test_purge_requires_verified_owner_backup` 验证未达到 owner Vault `backup_state=verified` 时，`purge()` 返回 `backup_not_verified`，目标文件保持不变。
+- Apply 仅接受通过该前置创建的 `purge` operation；删除前仍在锁内复查 hash，失败回滚恢复原文件。外部 target 未配置时不会伪造 verified。

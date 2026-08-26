@@ -164,6 +164,13 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(service.apply(op, confirmed=True)["state"], "applied")
             self.assertFalse((root / "state" / "commit-intents" / f"{op}.json").exists())
 
+    def test_purge_requires_verified_owner_backup(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); target = root / "wiki.md"; target.write_text("sensitive", encoding="utf-8")
+            result = WriteOperation(root).purge("wiki.md")
+            self.assertEqual(result["error_code"], "backup_not_verified")
+            self.assertTrue(target.exists())
+
     def test_recover_commit_intent_marks_fully_written_files_applied(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); service = WriteOperation(root)
