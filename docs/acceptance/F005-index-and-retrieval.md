@@ -66,3 +66,9 @@
 - 失败时不变量：不能静默截断、扩大 scope、把 QMD 结果写回 canonical 或把 cache/内部正文提交到 public Git；
 - 自动化级别：Unit/Security/Integration。
 - 对应测试：`tests/test_indexing.py::IndexingTests::test_fallback_search_and_limits`；当前状态：基础 fallback 通过。
+
+## 本轮 QMD adapter 证据（2026-08-27）
+
+- `tests/test_indexing.py::IndexingTests::test_qmd_results_are_normalized_and_projection_allowlisted` 使用注入式 QMD provider 验证候选结果必须重新映射到当前 projection allowlist，private/未知 owner 不会进入 public QueryResult。
+- `QMDAdapter.search` 仅调用本地 `qmd search ... --json`，检查 cache 权限和 Git 边界；命令失败、schema 无效或 provider 不可用时继续 FTS5/LIKE，不能伪造 qmd 成功。
+- 边界：真实 QMD 安装、向量模型和 RRF 质量仍属于环境验收，当前不标记 F005 Accepted。
