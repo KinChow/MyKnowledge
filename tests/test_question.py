@@ -27,6 +27,7 @@ class QuestionTests(unittest.TestCase):
             store = QuestionStore(Path(d))
             one = store.create(self.base(), wiki_report=REPORT)["question"]["id"]
             self.assertTrue(store.answer(one, "a")["correct"])
+            self.assertTrue((Path(d) / "practice" / "reviews" / "q-one.jsonl").exists())
             multi = self.base("multi_choice"); multi["id"] = "q-two"; multi["correct_option_ids"] = ["a", "b"]
             store.create(multi, wiki_report=REPORT)
             self.assertFalse(store.answer("q-two", ["a"])["correct"])

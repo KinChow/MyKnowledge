@@ -32,3 +32,7 @@
 - AC-F008-004：FSRS 缺失时仍返回 `unavailable/provider_unavailable`，不伪造调度成功。
 
 真实 FSRS 版本回归、practice backup/restore、public build 全量输入扫描和简答 LLM 辅助评分仍待闭合。
+
+## 评分记录增量证据（2026-08-30）
+
+- AC-F008-003/005：自动评分和简答 manual review 结果追加到 `practice/reviews/<question_id>.jsonl`，写入后显式 fsync；该目录不在 public projection 输入范围内。

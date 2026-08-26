@@ -17,7 +17,7 @@
 
 Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 claim 的 Wiki content/evidence hash。题目、答案、解析、评分和 review state 位于 `practice/questions/`，不进入 public projection/index/Pagefind。Wiki hash 或 evidence 状态变化后，题目必须由上层重校验并标记 disabled。
 
-`QuestionStore` 负责 schema/绑定/评分和状态持久化；`refresh_status()` 在 Wiki content/evidence hash 或 evidence 状态变化时将题目设为 `disabled`，避免继续复习陈旧事实。FSRS 只负责 review scheduling，不拥有事实、证据或隐私规则。`/api/practice/{question_id}/answer|review` 仅允许 local/private capability 调用，不能绕过 validator 或公开 practice 数据。
+`QuestionStore` 负责 schema/绑定/评分和状态持久化；`refresh_status()` 在 Wiki content/evidence hash 或 evidence 状态变化时将题目设为 `disabled`，避免继续复习陈旧事实。作答结果以 append-only `practice/reviews/<question_id>.jsonl` 本地记录并 fsync；FSRS 只负责 review scheduling，不拥有事实、证据或隐私规则。`/api/practice/{question_id}/answer|review` 仅允许 local/private capability 调用，不能绕过 validator 或公开 practice 数据。
 
 ## 当前限制
 

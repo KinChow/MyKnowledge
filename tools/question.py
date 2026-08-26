@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import time
 from pathlib import Path
 from typing import Any
@@ -55,6 +56,14 @@ class QuestionStore:
     def _file(self, question_id: str) -> Path:
         safe_id(question_id)
         return self.paths.practice_questions / f"{question_id}.json"
+
+    def _record_answer(self, question_id: str, result: dict, response: Any) -> None:
+        path = self.paths.practice_reviews(question_id)
+        record = {"schema_version": "practice-review-record/v1", "question_id": question_id, "recorded_at": time.time(), "response": response, "result": result}
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("ab") as handle:
+            handle.write(canonical_json(record) + b"\n")
+            handle.flush(); os.fsync(handle.fileno())
 
     @staticmethod
     def _validate_spec(spec: dict) -> list[dict]:
@@ -127,13 +136,13 @@ class QuestionStore:
         kind = question["type"]
         if kind == "single_choice":
             score = 1.0 if response == question.get("correct_option_ids", [None])[0] else 0.0
-            return {"state": "graded", "score": score, "correct": score == 1.0}
+            result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
         if kind == "multi_choice":
             expected = set(question.get("correct_option_ids") or [])
             actual = set(response if isinstance(response, list) else [])
             score = 1.0 if actual == expected else 0.0
-            return {"state": "graded", "score": score, "correct": score == 1.0}
-        return {"state": "manual_review", "rubric": question.get("rubric", []), "response": response}
+            result = {"state": "graded", "score": score, "correct": score == 1.0}; self._record_answer(question_id, result, response); return result
+        result = {"state": "manual_review", "rubric": question.get("rubric", []), "response": response}; self._record_answer(question_id, result, response); return result
 
     def review(self, question_id: str, rating: int) -> dict:
         if rating not in {1, 2, 3, 4}:

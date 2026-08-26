@@ -111,6 +111,9 @@ class RepoPaths:
     def practice_questions(self) -> Path:
         return self.root / "practice" / "questions"
 
+    def practice_reviews(self, question_id: str) -> Path:
+        return self.root / "practice" / "reviews" / f"{question_id}.jsonl"
+
     # ---- config ----
     @property
     def config_dir(self) -> Path:
