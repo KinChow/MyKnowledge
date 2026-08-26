@@ -12,6 +12,8 @@
 
 本轮代表性样本调查（2026-08-27）：继续复用 Quartz v4（MIT）的 content pipeline、Dendron（AGPL-3.0）的层级/链接迁移清单、Trafilatura 2.2+（Apache-2.0）与 Docling 2.x（MIT）的抽取器候选。`apply_sample` 使用现有 SourceIngestor 的 local-file 稳定读取、snapshot/hash 和 manifest，再用 WriteOperation 生成 `status: draft` Wiki；直接复制 `docs/` 到 `wiki/` 会绕过 Source/evidence/confirmation，明确排除。抽取器缺失、输入竞态或写入失败均保持 pending/blocked，旧 docs 永不改写。
 
+链接修复增量（2026-08-27）：参考 Quartz 的 canonical absolute link 与 Dendron 的 route rewrite，`apply_sample` 只把 inventory 中可确定映射的相对 `.md` 链接改为 `/legacy/...` route；外部 URL、绝对路径和 unresolved target 原样保留，并在结果中分别记录 `repaired`/`unresolved`。不扫描或改写原 `docs/`。
+
 旧 `docs/` 是迁移输入，不是迁移后的 canonical source。`tools/migrate_legacy.py` 只生成 inventory、preview、source/wiki draft 描述和 route map，不自动把内容标记为 published，也不改写旧文件。外部抽取器缺失时结果必须保持 pending，不能伪造完成。
 
 ## 阶段
