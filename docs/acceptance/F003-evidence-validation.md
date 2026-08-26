@@ -135,3 +135,7 @@
 - Then：所有 source 文本按数据隔离传入显式数据边界，tools/外部 URL/隐式网络均禁用；provider 输出只按 `wiki-validation/v1` schema 解析，claim ID、target ID、quote hash 二次校验后才保存；
 - 失败时不变量：provider 输出不能改变 canonical、状态、发布或引用；不能新增 target、URL 或文件路径；模型正文里的任何指令都不得改变门禁判定；
 - 自动化级别：Security/Unit/Integration。
+
+## Provider timeout 兼容性增量证据（2026-08-27）
+
+- `tests/validation/test_provider.py::test_agent_cli_timeout_maps_to_context_exceeded_without_pid_attribute` 注入标准库 `TimeoutExpired`（无 pid 属性），验证 Agent CLI adapter 返回 `context_exceeded`，并以 best-effort 方式执行进程组清理，不产生未捕获异常或伪造 fail。

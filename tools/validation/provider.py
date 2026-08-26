@@ -204,7 +204,10 @@ class AgentCliAdapter:
                 duration_ms=int((time.monotonic() - started) * 1000),
             )
         except subprocess.TimeoutExpired as exc:
-            self._kill_group(exc.pid)
+            # TimeoutExpired does not expose pid on every supported Python
+            # version; cleanup remains best-effort and must not mask the
+            # structured not_run result.
+            self._kill_group(getattr(exc, "pid", None))
             return ProviderResult(
                 self.identity, call_id, input_hash,
                 error_code="context_exceeded",
