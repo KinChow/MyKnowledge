@@ -63,6 +63,25 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(result["state"], "scheduled")
             self.assertEqual(store.load("q-one")["review_state"]["state"], 1)
 
+    def test_fsrs_persisted_card_can_be_reviewed_again(self):
+        """真实 FSRS adapter 从持久化 Card 继续调度，不重置为新卡。"""
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
+            first = store.review("q-one", 3)
+            self.assertEqual(first["state"], "scheduled")
+            first_card_id = store.load("q-one")["review_state"]["card_id"]
+            second = store.review("q-one", 4)
+            self.assertEqual(second["state"], "scheduled")
+            persisted = store.load("q-one")["review_state"]
+            self.assertEqual(persisted["card_id"], first_card_id)
+            self.assertEqual(persisted["state"], 2)
+
+    def test_fsrs_rejects_invalid_rating_before_adapter(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
+            result = store.review("q-one", 0)
+            self.assertEqual(result, {"state": "blocked", "error_code": "rating_invalid"})
+
     def test_claim_hash_change_disables_question(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
