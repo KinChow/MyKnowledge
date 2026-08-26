@@ -120,7 +120,10 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         return retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
 
     @app.get("/api/query")
-    def query_get(q: str = Query(min_length=1, max_length=4000), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=50), x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+    def query_get(request: Request, q: str = Query(min_length=1, max_length=4000), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=50), x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        unknown = set(request.query_params) - {"q", "scope", "vault_ids", "top_k"}
+        if unknown:
+            raise HTTPException(status_code=400, detail={"code": "schema_invalid", "stage": "request", "retryable": False, "next_action": "remove unknown query parameters"})
         ids = [x for x in vault_ids.split(",") if x] if vault_ids else None
         return retrieve(RetrieveRequest(query=q, scope=scope, vault_ids=ids, top_k=top_k), x_myknowledge_capability, x_myknowledge_audience)
 
