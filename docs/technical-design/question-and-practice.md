@@ -17,6 +17,8 @@
 
 本轮 practice 备份调查（2026-08-27）：Git bundle/checkout 的对象哈希与显式空目录恢复（GPL-2.0，<https://git-scm.com/docs/git-bundle>）适合离线、可审计的 owner checkout；SQLite Online Backup API（Public Domain，<https://sqlite.org/backup.html>）适合一致性快照。替代方案 rsync（GPL-3.0，<https://github.com/WayneD/rsync>）只复制文件，无法表达 `(vault_id, object_id)` owner 或 manifest 自校验，因此不作为恢复判据。MyKnowledge 复用 manifest 的相对路径/sha256/空 target/失败清理边界，并把 practice/questions 与 practice/reviews 纳入所属 vault；不复制 Git/SQLite 内部格式，也不把外部 target、凭据或 token 写入记录。
 
+本轮批量失效调查（2026-08-27）：Anki/AnkiDroid 的 note/card 引用在内容变更后重新调度或暂停，FSRS 只处理 review state；替代方案是删除旧题目，会破坏 review history 和审计可追溯性，因此采用逐题 `disabled` 保留文件与记录。`refresh_all()` 按 `wiki_id` 报告重放所有本地题目，缺失报告按不可信处理并禁用，不把 stale claim 当成新事实。
+
 ## 契约与边界
 
 Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 claim 的 Wiki content/evidence hash。题目、答案、解析、评分和 review state 位于 `practice/questions/`，不进入 public projection/index/Pagefind。Wiki hash 或 evidence 状态变化后，题目必须由上层重校验并标记 disabled。
@@ -25,4 +27,4 @@ Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 cl
 
 ## 当前限制
 
-基础实现尚未接入完整 Preview/Apply operation、批量失效迁移和外部 target 传输；practice backup/restore 已接入 F012 owner-scoped manifest，完整跨仓库恢复演练仍待补。FastAPI 练习 API 与 FSRS 6.3.2 运行时已接入并有回归测试。
+基础实现尚未接入完整 Preview/Apply operation 和外部 target 传输；practice backup/restore 已接入 F012 owner-scoped manifest，批量失效已支持，完整跨仓库恢复演练仍待补。FastAPI 练习 API 与 FSRS 6.3.2 运行时已接入并有回归测试。

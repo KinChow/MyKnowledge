@@ -129,6 +129,19 @@ class QuestionStore:
             atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
         return {"state": "enabled" if valid else "disabled", "question_id": question_id, "reason": None if valid else "claim_binding_stale"}
 
+    def refresh_all(self, wiki_reports: dict[str, dict]) -> dict:
+        """Revalidate every local question against reports keyed by wiki_id."""
+        results: list[dict] = []
+        for path in sorted(self.paths.practice_questions.glob("*.json")):
+            try:
+                question_id = path.stem
+                question = self.load(question_id)
+                wiki_id = str((question.get("wiki_claim") or {}).get("wiki_id", ""))
+                results.append(self.refresh_status(question_id, wiki_reports.get(wiki_id, {"valid": False})))
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                results.append({"state": "disabled", "question_id": path.stem, "reason": "question_invalid", "detail": type(exc).__name__})
+        return {"state": "refreshed", "total": len(results), "disabled": sum(x.get("state") == "disabled" for x in results), "results": results}
+
     def answer(self, question_id: str, response: Any, *, scoring_mode: str = "manual", scorer: Any = None) -> dict:
         question = self.load(question_id)
         if question.get("status") != "enabled":

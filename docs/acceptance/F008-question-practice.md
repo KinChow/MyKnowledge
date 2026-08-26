@@ -34,6 +34,10 @@
 
 - Given：题目答案、解析和 review state 位于某个 vault 的 `practice/`；When：生成 owner-scoped manifest、校验并恢复到空 checkout；Then：questions/reviews 均按 sha256 恢复，不读取其他 vault，非空目标或篡改 manifest 阻断；当前状态：通过，测试见 `tests/test_vault_registry.py::VaultRegistryTests::test_practice_entries_are_owner_scoped_and_restored` 与 `test_private_manifest_does_not_read_public_or_escape_owner`。
 
+## AC-F008-008 批量题目失效
+
+- Given：多个本地题目分别绑定仍有效、已变化或缺失的 Wiki；When：执行 `refresh_all(wiki_reports)`；Then：有效题目保持 enabled，stale/missing claim 题目变为 disabled 并保留原文件和 review 记录；当前状态：通过 `tests/test_question.py::QuestionTests::test_refresh_all_disables_missing_or_stale_wiki_reports`。
+
 ## 本轮证据（2026-08-30）
 
 - AC-F008-002/003：`tests/test_question.py::QuestionTests::test_claim_hash_change_disables_question` 验证 claim content hash 变化后题目变为 `disabled`，后续作答返回 `question_disabled`。
