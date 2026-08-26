@@ -1,0 +1,28 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const graphPath = path.join(process.cwd(), 'public/generated/graph.json');
+const graph = fs.existsSync(graphPath)
+  ? JSON.parse(fs.readFileSync(graphPath, 'utf8'))
+  : { nodes: [], edges: [] };
+const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
+const edges = Array.isArray(graph.edges) ? graph.edges : [];
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head><meta charset="utf-8" /><title>Knowledge Graph</title></head>
+  <body>
+    <main>
+      <h1>Knowledge Graph</h1>
+      <p>{nodes.length} nodes, {edges.length} links</p>
+      <ul>
+        {nodes.map((node) => <li><a href={`/${node.id}/`}>{node.title || node.id}</a></li>)}
+      </ul>
+      <h2>Links</h2>
+      <ul>
+        {edges.map((edge) => <li><a href={`/${edge.source}/`}>{edge.source}</a> -&gt; <a href={`/${edge.target}/`}>{edge.target}</a></li>)}
+      </ul>
+    </main>
+  </body>
+</html>

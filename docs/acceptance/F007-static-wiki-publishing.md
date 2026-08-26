@@ -26,6 +26,10 @@
 
 - `prepare-content.mjs` 现在同时校验 manifest 的 `release_input_sha256`、`content_sha256`、`evidence_sha256`、`public_confirmation_sha256` 与人工 `public-release-confirmation/v1` event；`tests/test_frontend_projection.py::test_prepare_content_rejects_confirmation_precondition_drift` 验证 hash 漂移在 staging 前阻断。
 
+## Static graph page 增量证据（2026-08-27）
+
+- `frontend/src/pages/graph.astro` 仅读取构建生成的 `public/generated/graph.json`，以静态 HTML 展示节点和闭包链接；`tests/test_frontend_projection.py::test_graph_page_is_static_and_reads_generated_graph_only` 验证页面源码不读取 sources/practice/local projection。
+
 ## Projection validator 增量证据（2026-08-30）
 
 - AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。
