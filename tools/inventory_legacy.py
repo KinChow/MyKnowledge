@@ -1,6 +1,7 @@
 """Deterministic legacy docs inventory (F010)."""
 from __future__ import annotations
 import hashlib, json, re, time
+import mimetypes
 from pathlib import Path
 from .common import canonical_json, sha256_bytes
 
@@ -12,16 +13,19 @@ def _tree_hash(files: list[Path], root: Path) -> str:
 
 def inventory(root: Path, docs_dir: Path | None = None) -> dict:
     root = Path(root).resolve(); source = (docs_dir or root / "docs").resolve()
-    files = sorted([p for p in source.rglob("*.md") if p.is_file() and not p.is_symlink()], key=lambda p: str(p.relative_to(root)))
+    supported = {".md", ".html", ".htm", ".pdf", ".txt"}
+    files = sorted([p for p in source.rglob("*") if p.is_file() and not p.is_symlink() and p.suffix.lower() in supported], key=lambda p: str(p.relative_to(root)))
     items = []
     for path in files:
-        body = path.read_text(encoding="utf-8", errors="replace")
+        is_binary = path.suffix.lower() == ".pdf"
+        body = path.read_text(encoding="utf-8", errors="replace") if not is_binary else ""
         title = next((line.lstrip("# ").strip() for line in body.splitlines() if line.startswith("#")), None)
         links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", body)
         urls = [x for x in links if re.match(r"https?://", x)]
         nonempty = bool(body.strip()); heading_count = sum(1 for line in body.splitlines() if line.startswith("#"))
         shape = "empty" if not nonempty else ("index" if heading_count <= 1 and len(body) < 500 else "article")
-        items.append({"legacy_path": str(path.relative_to(root)), "body_sha256": sha256_bytes(body.encode()), "byte_length": len(body.encode()), "title": title, "shape": shape, "external_urls": urls, "route": "/" + str(path.relative_to(source)).removesuffix(".md"), "source_target": None, "wiki_target": None, "evidence_state": "pending", "target_vault": "public", "status": "pending"})
+        media_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+        items.append({"legacy_path": str(path.relative_to(root)), "body_sha256": sha256_bytes(path.read_bytes()), "byte_length": path.stat().st_size, "title": title, "shape": shape, "external_urls": urls, "media_type": media_type, "extractor": "pypdf" if is_binary else ("trafilatura" if "html" in media_type else "utf8"), "route": "/" + str(path.relative_to(source)).rsplit(".", 1)[0], "source_target": None, "wiki_target": None, "evidence_state": "pending", "target_vault": "public", "status": "pending"})
     result = {"schema_version": "migration-inventory/v1", "generated_at": time.time(), "input_tree_sha256": _tree_hash(files, root), "classifier_version": CLASSIFIER_VERSION, "thresholds": {"index_max_bytes": 500}, "items": items}
     result["inventory_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k:v for k,v in result.items() if k != "inventory_sha256"})).hexdigest()
     return result

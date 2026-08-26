@@ -19,6 +19,12 @@
 
 本轮链接修复增量：`tests/test_migration.py::test_sample_apply_repairs_only_inventory_links_and_reports_unresolved` 验证已知 legacy link 重写到稳定 route，unresolved link 进入报告，外部 URL 保持不变；修复只发生在 draft Wiki。
 
+## 多媒体输入增量证据（2026-08-27）
+
+- inventory 现纳入 `.md/.html/.htm/.txt/.pdf`，记录 `media_type`、输入字节 hash/长度和建议 extractor；PDF 不按文本解码，避免二进制污染 inventory。
+- `apply_sample` 根据媒体类型复用 `TextExtractor`：HTML 走 Trafilatura、PDF 走 pypdf、文本走 UTF-8；extractor 缺失或失败时由 Source preview 返回结构化 blocked，不绕过 Source 门禁。
+- 边界：Office/Docling、全量 evidence replay 和最终发布切换仍待后续验收。
+
 CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_sample` 验证 CLI 复用同一 preview/confirm/apply 实现并返回结构化 `applied`。
 
 ## AC-F010-001 迁移清单与状态边界
