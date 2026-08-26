@@ -44,6 +44,11 @@
 - 失败时不变量：API 不直接修改 canonical Markdown。
 - 对应测试：`tests/test_api.py::test_get_post_query_equivalent`；当前状态：通过。
 
+## Projection 启动加载增量证据（2026-08-30）
+
+- `create_app(root=...)` 在未显式注入 items 时只读取 `queries/public/manifest.json`，拒绝错误 schema/projection，绝不扫描 canonical Markdown。
+- `tests/test_api.py::test_create_app_loads_public_projection_when_items_are_not_injected` 验证真实临时 root 的 public manifest 可被查询；缺失/非法 manifest 保持空的离线结果。
+
 ## AC-F006-002 后端不可用时降级
 
 - Given：FastAPI、LLM 或 private vault 不可用；

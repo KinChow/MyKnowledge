@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import time
 import secrets
+import json
 from pathlib import Path
 from typing import Any
 from fastapi import Body, FastAPI, Header, HTTPException, Query, Request
@@ -42,10 +43,23 @@ class CitationReplayRequest(BaseModel):
     citation: dict[str, Any]
     snapshot: str = Field(min_length=1, max_length=2_000_000)
 
+
+def _load_public_projection(root: Path) -> list[dict]:
+    """Load only the validated public projection; never scan canonical content."""
+    manifest = Path(root) / "queries" / "public" / "manifest.json"
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    if data.get("schema_version") != "public-projection/v1" or data.get("projection") != "public":
+        return []
+    items = data.get("items", [])
+    return items if isinstance(items, list) and all(isinstance(item, dict) for item in items) else []
+
 def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
     app = FastAPI(title="MyKnowledge Local API", version="v1")
     app.state.root = Path(root or ".").resolve()
-    app.state.retriever = Retriever(items or [])
+    app.state.retriever = Retriever(list(items) if items is not None else _load_public_projection(app.state.root))
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
     app.state.capability_token_created_at = time.time()
     app.state.capability_token_ttl_seconds = 3600

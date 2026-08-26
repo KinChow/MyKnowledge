@@ -18,6 +18,8 @@ API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`；对�
 
 本轮请求体门禁调查（2026-08-27）：Starlette middleware（BSD-3-Clause，<https://github.com/encode/starlette>）提供请求头/流式边界钩子，FastAPI 保持统一错误响应；替代方案是依赖业务 Pydantic `max_length`，无法阻止超大 JSON 在解析前消耗内存，因此不采用。当前 API 在 middleware 读取 `Content-Length`，超过 1 MiB 返回 `request_too_large`，并对无该头的 chunked 请求按 chunk 有界计数；未超限 body 缓存后交给下游，超限请求不执行 capability、解析或写入。升级 Starlette/FastAPI 后需重跑流式门禁测试。
 
+本轮启动加载调查（2026-08-30）：Astro/Starlight 的 content collection 与 Pagefind 均以构建期生成物作为只读输入；API 复用同一 `queries/public/manifest.json` projection contract。替代方案是启动时扫描 `wiki/` 或接受任意客户端传入文件路径，会绕过 public allowlist 和 leak gate，明确排除。`create_app(root=...)` 在未注入测试数据时仅加载 schema/projection 正确的 public manifest；manifest 缺失或非法时返回空但可诊断的离线检索，不读取 canonical/private/practice。
+
 citation replay 复用 W3C Web Annotation 的 TextQuote/TextPosition 语义（<https://www.w3.org/TR/annotation-model/>，W3C Recommendation）：`tools.citation.replay` 只读校验 snapshot、Unicode 半开区间、exact 与 hash，不将模型返回的标题/URL 当作证据。替代方案是仅信任模型引用，无法抵抗正文漂移，明确不采用。
 
 ## 目标与边界
