@@ -24,6 +24,8 @@
 
 本轮陈旧锁恢复调查（2026-08-27）：filelock 3.32.4（MIT，<https://github.com/tox-dev/py-filelock>）的内核互斥与进程退出释放作为活锁判据；SQLite WAL（Public Domain，<https://sqlite.org/wal.html>）和 etcd lease/fencing（Apache-2.0，<https://github.com/etcd-io/etcd>）仅借鉴 fencing/恢复语义。替代方案是按 mtime/PID 直接删除 lock 文件，会与活进程竞态，明确排除。`VaultLock.recover` 先非阻塞获取 filelock，再写 `record_type: lock-recovery` durable audit 并删除 owner sidecar；活锁返回 `lock_busy`，不执行静默清理。
 
+本轮多 Vault 锁调查（2026-08-27）：filelock 的每文件内核互斥与数据库/etcd 的全局锁排序、lease fencing 语义作为成熟基线；替代方案是按调用方输入顺序逐个获取锁，两个反向 operation 可能死锁，明确排除。`VaultLockGroup` 对 `vault_id` 去重后按 UTF-8 字典序获取，异常时逆序释放已取得锁；不提供跨仓库伪事务，部分 apply 仍由上层报告成功列表和补偿动作。
+
 ## 核心流程
 
 生成规范化 operation → 保存 Preview → 用户确认 → 获取写锁 → 校验输入和前置 hash → 在同一文件系统生成 canonical/projection staging → 最终校验 → 写 commit-intent 并 fsync → 原子提交 canonical 与 durable record → 原子替换 projection/index → 记录完成状态。

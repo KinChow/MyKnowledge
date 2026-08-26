@@ -7,7 +7,7 @@ from pathlib import Path
 from unittest import mock
 
 from tools.common import sha256_bytes
-from tools.vault_lock import LockBusyError, VaultLock
+from tools.vault_lock import LockBusyError, VaultLock, VaultLockGroup
 from tools.write_operation import WriteOperation
 
 
@@ -98,6 +98,26 @@ class WriteOperationTests(unittest.TestCase):
             with VaultLock(root, "public", "op-live"):
                 result = VaultLock.recover(root, "public", "op-recover")
                 self.assertEqual(result["error_code"], "lock_busy")
+
+    def test_multi_vault_lock_group_orders_and_releases_all(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            with VaultLockGroup(root, ["zeta", "alpha", "alpha"], "op-group") as group:
+                self.assertEqual(group.vault_ids, ("alpha", "zeta"))
+                group.assert_owner()
+                self.assertTrue((root / "state" / "locks" / "alpha.owner").exists())
+                self.assertTrue((root / "state" / "locks" / "zeta.owner").exists())
+            self.assertFalse((root / "state" / "locks" / "alpha.owner").exists())
+            self.assertFalse((root / "state" / "locks" / "zeta.owner").exists())
+
+    def test_multi_vault_lock_group_releases_acquired_locks_on_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            with VaultLock(root, "zeta", "other"):
+                with self.assertRaises(LockBusyError):
+                    with VaultLockGroup(root, ["alpha", "zeta"], "op-group"):
+                        pass
+                self.assertFalse((root / "state" / "locks" / "alpha.owner").exists())
 
     def test_multi_file_failure_rolls_back(self):
         with tempfile.TemporaryDirectory() as d:
