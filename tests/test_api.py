@@ -76,6 +76,8 @@ def test_non_public_read_requires_capability_even_when_vault_unavailable(tmp_pat
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     missing = client.get("/api/read/team/wiki/target", params={"scope": "local"})
     assert missing.status_code == 401
+    omitted_scope = client.get("/api/read/team/wiki/target")
+    assert omitted_scope.status_code == 401
     authorized = client.get("/api/read/team/wiki/target", params={"scope": "local"}, headers={"X-MyKnowledge-Capability": "token"})
     assert authorized.status_code == 404
     assert authorized.json()["detail"]["code"] == "vault_unavailable"

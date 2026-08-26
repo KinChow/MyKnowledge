@@ -190,14 +190,14 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
 
     @app.get("/api/read/{vault_id}/{object_type}/{object_id}")
     def read_object(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
+        require_capability(x_myknowledge_capability, "private" if vault_id != "public" else scope, x_myknowledge_audience)
         path = object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
         return {"schema_version": "read-result/v1", "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "path": str(path.relative_to(owner_root)), "body": path.read_text(encoding="utf-8")}
 
     @app.get("/api/backlinks/{vault_id}/{object_type}/{object_id}")
     def backlinks(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
+        require_capability(x_myknowledge_capability, "private" if vault_id != "public" else scope, x_myknowledge_audience)
         object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
         base = owner_root / "wiki"; results = []

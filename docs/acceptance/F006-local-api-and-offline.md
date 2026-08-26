@@ -19,6 +19,10 @@
 
 - `tests/test_api.py::test_get_query_rejects_unknown_parameters` 验证 `/api/query` 对未知 query 参数返回 `schema_invalid`，避免 GET alias 静默忽略例如 `include_private` 的未定义字段并与 POST `extra=forbid` 契约产生歧义。
 
+## Private owner 默认 scope 增量证据（2026-08-27）
+
+- `tests/test_api.py::test_non_public_read_requires_capability_even_when_vault_unavailable` 额外验证省略 `scope` 但指定非 public `vault_id` 时仍返回 `capability_token_required`；read/backlinks 不会因默认 public scope 绕过 owner 权限。
+
 ## AC-F006-001 API 与 CLI 一致
 
 - Given：同一 public/local projection；
