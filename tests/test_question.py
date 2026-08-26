@@ -98,6 +98,14 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(result["state"], "disabled")
             self.assertEqual(store.answer("q-one", "a")["error_code"], "question_disabled")
 
+    def test_refresh_rejects_wrong_wiki_claim_report_even_when_hashes_match(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
+            wrong = {**REPORT, "object_ref": {"object_type": "wiki", "object_id": "other-wiki"}}
+            result = store.refresh_status("q-one", wrong)
+            self.assertEqual(result["state"], "disabled")
+            self.assertEqual(result["reason"], "claim_binding_stale")
+
     def test_refresh_all_disables_missing_or_stale_wiki_reports(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))

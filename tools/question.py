@@ -136,6 +136,13 @@ class QuestionStore:
         claim = question.get("wiki_claim", {})
         hashes = wiki_report.get("hashes", {}) if isinstance(wiki_report, dict) else {}
         valid = bool(wiki_report.get("valid")) and (wiki_report.get("derived") or {}).get("evidence_state") in {"supported", "corroborated"}
+        report_ref = wiki_report.get("object_ref") or {} if isinstance(wiki_report, dict) else {}
+        report_claim_ids = {
+            item.get("claim_id")
+            for item in ((wiki_report.get("metadata") or {}).get("evidence") or [])
+            if isinstance(item, dict)
+        } if isinstance(wiki_report, dict) else set()
+        valid = valid and report_ref.get("object_id") == claim.get("wiki_id") and claim.get("claim_id") in report_claim_ids
         valid = valid and claim.get("content_sha256") == hashes.get("content_sha256") and claim.get("evidence_sha256") == hashes.get("evidence_sha256")
         if not valid and question.get("status") != "disabled":
             question["status"] = "disabled"
