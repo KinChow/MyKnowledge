@@ -42,6 +42,7 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 GET  /api/vault/check
 POST /api/retrieve
 POST /api/ask
+POST /api/citation/replay
 ```
 
 ### 规范化请求

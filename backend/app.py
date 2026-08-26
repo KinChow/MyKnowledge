@@ -14,6 +14,7 @@ from tools.question import QuestionStore
 from tools.write_operation import WriteOperation
 from tools.vault_registry import VaultRegistry
 from tools.validation.validator import WikiValidator
+from tools.citation import replay as replay_citation
 
 class RetrieveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -35,6 +36,11 @@ class ApplyRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     confirmed: bool = False
     actor_id: str = Field(default="local-user", min_length=1, max_length=128)
+
+class CitationReplayRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    citation: dict[str, Any]
+    snapshot: str = Field(min_length=1, max_length=2_000_000)
 
 def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
     app = FastAPI(title="MyKnowledge Local API", version="v1")
@@ -136,6 +142,13 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         require_capability(x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True)
         retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
         return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval, "availability": "unavailable", "availability_reason": "provider_unavailable", "confidentiality": retrieval["confidentiality_max"], "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
+
+    @app.post("/api/citation/replay")
+    def citation_replay(req: CitationReplayRequest, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
+        if scope not in {"public", "local", "private"}:
+            raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
+        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience, force=scope != "public")
+        return {"schema_version": "citation-replay/v1", **replay_citation(req.citation, req.snapshot)}
 
     def require_write_capability(token: str | None, audience: str | None = None, *, required_scope: str = "write") -> None:
         if not token:
