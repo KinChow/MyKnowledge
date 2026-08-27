@@ -168,3 +168,20 @@
 - AC-F004-003：`ConcurrentApplyTests` 以双进程并发 apply 同一目标，验证恰好一个 `applied`、其余为结构化 `expired/blocked`（无 `apply_failed` 半成品），目标文件为单一完整内容。
 - AC-F004-009（真实重建）：`WriteOperation` 对 public vault 默认挂接 `public_projection_rebuilder`（真实调用 `PublicProjectionGenerator`）；`RealProjectionRebuildTests` 验证 apply 后 manifest 落盘、注入写入障碍后进入 `applied_index_pending`、清除障碍后显式 `recover()` 完成重建并落 `applied`。SQLite index 生产重建留待 F005 接线。
 - 边界：本地交互通道（CLI/本地 API）的裸 `confirmed` 标志仍表示"操作者在场确认"；非交互 Agent 通道建议随 apply 提供 `confirmation` 事件作为人工确认凭据。跨 Vault staging、Source/Evidence writer 统一迁移仍待验收。
+
+## 真实 checkout 端到端演练证据（2026-08-28，commit eb5c214）
+
+在真实 MyKnowledge checkout 上执行完整链路（sandbox 文件 `wiki/f004-drill.md`，演练后 rename 至 gitignore 的 `state/` 清理）：
+
+- Preview：`op_26e72ba31676404d90e0c46d5a729a4f` → `previewed`；
+- 伪造 `input_hash` → `blocked/confirmation_hash_mismatch`，目标文件未创建；`actor_type: agent` → `blocked/confirmation_actor_invalid`；
+- 携带 human 确认事件 apply → `applied`，durable audit（`audit/operations/op_26e72...json`）记录 `event_sha256: sha256:7126a1d3...b2`；
+- 重复 apply → 与首次结果逐字段相等（幂等）；
+- public projection 真实重建：`queries/public/manifest.json` 由手写 `bootstrap-empty-v1` 占位符替换为生成器输出（`sha256:3c7ed791...a4`），items 为空（当前无已发布 wiki，符合预期）；
+- 清理 rename 同链路 apply 成功，`wiki/` 无残留。
+- 剩余 `Accepted` 阻断不变：跨 Vault staging、领域 writer 统一迁移、SQLite index 生产重建（F005）。
+
+## 复审修复（2026-08-28）
+
+- F-1（状态翻转缺陷）：applied 之后的 commit-intent 清理失败不再把 operation 翻回 `expired/apply_failed`，改为保持 `applied` 并在结果暴露 `warnings: [intent_cleanup_failed]`（`WriteOperation._finalize` / `_cleanup_intent_after_applied`）。对应测试：`ReviewFixTests::test_intent_cleanup_failure_keeps_applied_state_with_warning`。
+- F-2（契约收紧）：`operation-confirmation/v1` 的 `event_sha256` 必填且必须匹配 canonical hash，durable audit 中的确认事件始终可独立复核。对应测试：`ReviewFixTests::test_confirmation_without_event_sha256_is_rejected`。

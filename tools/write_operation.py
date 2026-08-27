@@ -294,18 +294,30 @@ class WriteOperation:
         if policy is not None and policy.post_commit is not None:
             policy.post_commit(self, record, operation_id)
         intent = intent_path if intent_path is not None else self.store.paths.commit_intent_file(operation_id)
-        intent.unlink(missing_ok=True)
+        # F-1：canonical 已提交且状态已 applied，intent 清理失败不得把
+        # operation 翻回 expired（外层 except 会误报 apply_failed）。
+        # 显式暴露 warning，不静默吞异常。
+        cleanup_warning = None
+        try:
+            intent.unlink(missing_ok=True)
+        except OSError:
+            cleanup_warning = "intent_cleanup_failed"
         result = {"state": "applied", "operation_id": operation_id, "applied_files": applied["applied_files"]}
+        if cleanup_warning is not None:
+            result["warnings"] = [cleanup_warning]
         if recovered:
             result["recovered"] = True
         return result
 
     def _cleanup_intent_after_applied(self, applied: dict, operation_id: str, *, recovered: bool) -> dict:
-        """applied 之后的 intent 清理（batch3 将改为失败不翻转状态）。"""
-        self.store.paths.commit_intent_file(operation_id).unlink(missing_ok=True)
+        """F-1：applied 之后的 intent 清理失败不翻转状态，只在结果暴露 warning。"""
         result = {"state": "applied", "operation_id": operation_id, "applied_files": applied.get("applied_files", [])}
         if recovered:
             result["recovered"] = True
+        try:
+            self.store.paths.commit_intent_file(operation_id).unlink(missing_ok=True)
+        except OSError:
+            result["warnings"] = ["intent_cleanup_failed"]
         return result
 
     # ---- Recover ----
