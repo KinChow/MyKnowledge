@@ -1039,6 +1039,14 @@ evidence:
 | inferred | 必须写出观察事实、推理过程和下一步验证动作 |
 | personal | 只能引用 origin: personal 的 source |
 
+F010 迁移澄清（2026-08-28）：检索确认无外部出处的**本人综合**按 personal 建模——
+以 `personal-note` source（本人笔记快照）作为 provenance，claim 用
+`support: personal` 引用其 evidence item。此时 `evidence_state` 表达映射完整性
+（引文定位成功即为 supported），信任降级由 `strength: personal` 承载（§6.8
+"全 personal 支撑 → personal"）；personal strength 不进入证据阻断集合，
+published 路径不被证据门禁挡住，但不得伪装外部普遍事实（上表个人 source
+规则不变）。端到端证据：`tests/validation/test_synthesis_claims.py`。
+
 以下情况一律阻断 published：
 
 - sources 为空；

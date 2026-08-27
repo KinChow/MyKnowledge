@@ -29,9 +29,9 @@
 | B4 复核批 | R3 的 16 篇 empty：登记"待补内容"清单，**补充内容后**按 R4/R5 迁移 | 16 | Pending | 逐篇补充并迁移；不丢弃 |
 | B5 退役批 | `mkdocs.yml` + Astro legacy 预览模式退役；**删除 32 篇 `contents.md` 导航页** | — | Pending | 前置：F007 projection 链路以真实多页内容验收通过 |
 
-## 6. 待决项（B1 前需拍板）
+## 6. 待决项
 
-1. **R5b 的 wiki 证据门禁**：无外部证据的"本人综合"类 wiki 是否允许（例如 `claim_type: synthesis` 或 `evidence_state` 白名单）？涉及 F002/F003 规范修订，B1 样本批前必须定，否则 R5b 路径无法执行。
+1. ~~**R5b 的 wiki 证据门禁**~~ **已决（2026-08-28）**：模型原生支持——`personal-note` source 作 provenance + `support: personal` claim；`evidence_state` 表达映射完整性（supported），信任降级由 `strength: personal` 承载，不进证据阻断集合，published 不被挡。规范 §6.7 已加澄清段；端到端证据 `tests/validation/test_synthesis_claims.py`。
 2. **R5a 联网检索的归属判定**：检索到的"疑似出处"需人工确认确为学习来源（防止把无关网页当出处），B1 中定义确认标准（如内容关键句匹配）。
 
 ## 3. 当前实测基线（2026-08-28，inventory v1）
