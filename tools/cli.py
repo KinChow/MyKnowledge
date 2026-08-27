@@ -21,6 +21,7 @@ from tools.question import QuestionStore
 from tools.inventory_legacy import main as inventory_main
 from tools.migrate_legacy import main as migrate_main
 from tools.vault_lock import VaultLock
+from tools.vault_transfer import VaultTransfer
 
 COMMANDS = {
     "source": source_main,
@@ -129,6 +130,27 @@ def question_main(argv: list[str]) -> int:
 COMMANDS["question"] = question_main
 COMMANDS["inventory"] = inventory_main
 COMMANDS["migrate"] = migrate_main
+
+def transfer_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Preview/apply explicit cross-vault copy or move")
+    parser.add_argument("action", choices=["preview", "apply"])
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--manifest", type=__import__("pathlib").Path)
+    parser.add_argument("--source-vault"); parser.add_argument("--source-path")
+    parser.add_argument("--target-vault"); parser.add_argument("--target-path")
+    parser.add_argument("--operation-id"); parser.add_argument("--move", action="store_true"); parser.add_argument("--confirm", action="store_true")
+    args = parser.parse_args(argv); service = VaultTransfer(args.root, args.manifest)
+    if args.action == "preview":
+        required = (args.source_vault, args.source_path, args.target_vault, args.target_path)
+        if any(value is None for value in required): parser.error("preview requires source/target vault and path")
+        result = service.preview(args.source_vault, args.source_path, args.target_vault, args.target_path, move=args.move)
+    else:
+        if not args.operation_id: parser.error("apply requires --operation-id")
+        result = service.apply(args.operation_id, confirmed=args.confirm)
+    print(json.dumps(result, ensure_ascii=False, indent=2)); return 0 if result.get("state") not in {"blocked", "expired"} else 2
+
+COMMANDS["transfer"] = transfer_main
 
 def skill_main(argv: list[str]) -> int:
     import argparse, json
