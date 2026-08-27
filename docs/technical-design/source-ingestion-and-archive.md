@@ -19,6 +19,12 @@
 - `source_validator`：确定性规则校验；
 - `operation_store`：保存 preview/apply 状态。
 
+## 本轮垂直切片方案复核（2026-08-27）
+
+- W3C Web Annotation TextQuote/TextPosition（<https://www.w3.org/TR/annotation-vocab/>，W3C 文档）与 Hypothes.is anchoring（<https://github.com/hypothesis/client>，BSD-2-Clause）均采用 quote + position 的可回放边界；替代方案是只保存行号或 URL，无法抵抗 Unicode、换行和快照版本变化。
+- Git content-addressed objects（GPL-2.0，<https://git-scm.com/docs>）与 LakeFS commit/branch model（Apache-2.0，<https://github.com/treeverse/lakeFS>）提供不可变版本/回滚思路；本项目复用 hash-addressed snapshot 和 append-only manifest，但保留 Source/Wiki/claim 的领域 owner 与 confirmation 门禁，不引入外部服务。
+- 本轮实际垂直切片验证 `SourceIngestor` → `EvidenceAnchor` → `WikiValidator` 的接口闭包；public confirmation/projection 仍是独立发布层，不由 Source 导入自动触发。
+
 ## Canonical 数据契约
 
 `archive/text` 的**逻辑内容**是 canonical、未压缩文本；物理存储可以按 policy 写成确定性的 zstd blob（例如 `.md.zst`）。`snapshot_sha256` 永远对解压后的 canonical 文本 UTF-8 字节计算，压缩格式只影响存储，不影响证据身份；resolver 在返回 snapshot 前必须解压并重新校验该 hash。`TextPositionSelector` 使用 canonical 文本的 Unicode code-point 半开区间，`normalization_version` 必须随 manifest 和 selector 保存。`local-file` 的原始路径只留在本机/private manifest，不能进入 public artifact。每个 snapshot 的逻辑引用是 `(vault_id, snapshot_sha256)`；相同 hash 可以共享物理 blob，但不能省略 owner 记录或仅凭 hash 跨 Vault 读取。
