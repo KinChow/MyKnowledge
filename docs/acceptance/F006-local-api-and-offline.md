@@ -38,6 +38,8 @@
 
 ## AC-F006-001 API 与 CLI 一致
 
+CLI parity 增量：`tools.cli query` 复用 API projection loader 与 `Retriever`，`tests/test_api.py::test_cli_query_matches_api_query_result` 验证同一临时 public manifest 下 CLI/API 返回逐字段相同的 `query-result/v1`；CLI 对 local/private scope 返回 `query_scope_requires_api`，不绕过 capability。
+
 - Given：同一 public/local projection；
 - When：通过 FastAPI 和离线 CLI 查询；
 - Then：两者返回相同 QueryResult、状态和引用边界；

@@ -12,6 +12,16 @@ from backend.server import _loopback_host
 
 ITEMS = [{"vault_id": "public", "object_id": "one", "title": "公开条目", "body": "离线查询", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "content_sha256": "sha256:one"}, {"vault_id": "private", "object_id": "secret", "title": "私有条目", "body": "内部", "confidentiality": "internal"}]
 
+def test_cli_query_matches_api_query_result(tmp_path: Path):
+    manifest = tmp_path / "queries" / "public" / "manifest.json"; body = tmp_path / "wiki" / "one.md"
+    manifest.parent.mkdir(parents=True); body.parent.mkdir(parents=True); body.write_text("离线查询", encoding="utf-8")
+    manifest.write_text(json.dumps({"schema_version": "public-projection/v1", "projection": "public", "items": [{**ITEMS[0], "id": "one", "body_path": "wiki/one.md"}]}), encoding="utf-8")
+    client = TestClient(create_app(root=tmp_path))
+    api_result = client.get("/api/query", params={"q": "离线", "scope": "public"}).json()
+    cli = subprocess.run([sys.executable, "-m", "tools.cli", "query", "离线", "--root", str(tmp_path)], capture_output=True, text=True, check=False)
+    assert cli.returncode == 0
+    assert json.loads(cli.stdout) == api_result
+
 def test_server_runner_rejects_remote_bind():
     import argparse
     assert _loopback_host("127.0.0.1") == "127.0.0.1"
