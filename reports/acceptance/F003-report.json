@@ -2,7 +2,7 @@
   "schema_version": "acceptance-report/v1",
   "feature": "F003",
   "status": "Implemented (partial)",
-  "generated_from": "0eb234f717c2ae057d45a5f30507f9fa8174fd68",
+  "generated_from": "56509f23132ccf5a2e0477d920e0dad252a47c89",
   "acceptance_document": "docs/acceptance/F003-evidence-validation.md",
   "scenario_ids": [
     "AC-F003-001",
@@ -23,6 +23,23 @@
     "AC-F003-016"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "latest_increment": {
+    "name": "provider-confidentiality-policy",
+    "tests": [
+      "tests/validation/test_audit.py::AuditTests::test_internal_request_requires_provider_opt_in",
+      "tests/validation/test_audit.py::AuditTests::test_internal_request_is_blocked_before_provider_call"
+    ],
+    "result": "31 audit tests passed; 60 F003 focused tests passed",
+    "invariants": [
+      "internal request is not sent without explicit provider opt-in",
+      "provider policy denial is provider_unavailable/not_run rather than fail",
+      "not-run record excludes internal body, endpoint, and key"
+    ],
+    "pending": [
+      "real external provider integration",
+      "complete cross-vault unavailable mount exercise"
+    ]
+  },
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

@@ -142,6 +142,17 @@ def check_response_schema(payload: dict, response_schema: dict) -> list[str]:
     return [f"{'.'.join(str(p) for p in e.path)}: {e.message}" for e in validator.iter_errors(payload)]
 
 
+def provider_allows_request(provider, request: dict) -> bool:
+    """Require an explicitly opted-in provider before sending internal text."""
+    internal = any(
+        (target.get("confidentiality") == "internal")
+        for claim in request.get("claims", []) if isinstance(claim, dict)
+        for target in claim.get("targets", []) if isinstance(claim.get("targets", []), list)
+        if isinstance(target, dict)
+    )
+    return not internal or getattr(provider, "supports_internal", False) is True
+
+
 def model_declared_not_run(payload: dict) -> bool:
     """模型自声明 not_run 必须被拒绝（§8.3：not_run 只能由运行时观测事实产生）。"""
     return payload.get("not_run") not in (None, "", False)
@@ -452,6 +463,20 @@ def run_audit(
         )
     request = build_validation_request(vreport, ruleset_data, paths)
     response_schema = load_response_schema()
+    object_id = str(vreport["metadata"].get("id", ""))
+    hashes = vreport["hashes"]
+
+    if not provider_allows_request(provider, request):
+        result = ProviderResult(
+            getattr(provider, "identity", provider.__class__.__name__),
+            "call_not_authorized", build_input_hash(request),
+            error_code="provider_unavailable", error_message="provider policy does not allow internal content",
+        )
+        record = _write_not_run(
+            object_id, result.error_code, hashes, paths,
+            provider_identity=result.provider_identity, message=result.error_message,
+        )
+        return _audit_outcome(provider, result, record, vreport)
 
     try:
         result = provider.audit(request, response_schema)
@@ -467,9 +492,6 @@ def run_audit(
             "call_unavailable", build_input_hash(request),
             error_code="provider_unavailable", error_message=type(exc).__name__,
         )
-    object_id = str(vreport["metadata"].get("id", ""))
-    hashes = vreport["hashes"]
-
     if result.error_code is not None:
         record = _write_not_run(
             object_id, result.error_code, hashes, paths,
