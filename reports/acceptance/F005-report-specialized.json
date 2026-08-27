@@ -1,0 +1,11 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F005",
+  "status": "Implemented (partial)",
+  "generated_from": "0b20c41",
+  "acceptance_document": "docs/acceptance/F005-index-and-retrieval.md",
+  "change": "Retriever enforces max_vault_ids before QMD/FTS5/LIKE",
+  "test": "tests/test_indexing.py::IndexingTests::test_retriever_enforces_vault_id_limit_before_provider",
+  "verification": {"passed": 1, "failed": 0, "remote_push": false},
+  "boundary": "Real QMD installation, vector/RRF quality and large-scale performance remain environment acceptance gates."
+}

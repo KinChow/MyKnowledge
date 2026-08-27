@@ -22,6 +22,8 @@
 
 本轮索引恢复调查（2026-08-30）：SQLite 官方 `PRAGMA quick_check/integrity_check`（Public Domain，<https://sqlite.org/pragma.html#pragma_integrity_check>）提供离线结构完整性检查；Tantivy 0.22（MIT，<https://github.com/quickwit-oss/tantivy>）依赖目录级 reload/rebuild 发现损坏后重建。替代方案是只检查文件存在或直接沿用旧索引，会把损坏/过期内容继续提供给查询。新增 `SQLiteIndex.recover()` 先校验 integrity、scope 和 projection `generated_from`，不满足时调用既有原子 rebuild 并保留 `.previous`；恢复失败返回 `index_recovery_failed`，不会伪造当前索引可用。离线不联网，升级 SQLite/Tantivy 适配器需重跑恢复和旧索引保留测试。
 
+本轮 Retriever 资源边界调查（2026-08-27）：SQLite FTS5 官方参数绑定/`LIMIT`（Public Domain，<https://www.sqlite.org/fts5.html>）和 QMD 2.8.3 CLI 的 `-n` 限制（MIT，<https://github.com/tobi/qmd>）都要求在候选生成前限制资源；替代方案是只在 FastAPI 层限制，CLI/Skill 直调会绕过上限。故 `Retriever` 与 API 共用 `max_vault_ids=16` 和 `top_k` 上限，超限统一返回 `query_limit_exceeded`，不静默截断或扩大 owner scope。
+
 ## 数据流
 
 ```text
