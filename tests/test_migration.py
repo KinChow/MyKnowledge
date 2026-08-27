@@ -36,6 +36,18 @@ def test_batch_requires_confirmation_then_applies_each_item_and_replays(tmp_path
     assert replay["completed"] == 2
 
 
+def test_batch_preview_hash_binding_blocks_changed_input_without_writes(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    source = docs / "one.md"; source.write_text("# One\n", encoding="utf-8")
+    plan = preview(tmp_path)
+    source.write_text("# Changed\n", encoding="utf-8")
+    blocked = apply_batch(tmp_path, confirmed=True, expected_preview_sha256=plan["preview_sha256"])
+    assert blocked["state"] == "blocked"
+    assert blocked["error_code"] == "input_changed"
+    assert not (tmp_path / "sources").exists()
+    assert not (tmp_path / "wiki").exists()
+
+
 def test_batch_unknown_item_is_fail_closed_without_writes(tmp_path: Path):
     docs = tmp_path / "docs"; docs.mkdir()
     (docs / "one.md").write_text("# One\n", encoding="utf-8")

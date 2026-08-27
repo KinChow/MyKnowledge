@@ -152,7 +152,7 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
 
 
 def apply_batch(root: Path, legacy_paths: list[str] | None = None, *, confirmed: bool = False,
-                docs_dir: Path | None = None) -> dict[str, Any]:
+                docs_dir: Path | None = None, expected_preview_sha256: str | None = None) -> dict[str, Any]:
     """Apply a deterministic migration batch through the existing per-item gates.
 
     The batch is orchestration only: each item still runs ``apply_sample`` and
@@ -186,6 +186,11 @@ def apply_batch(root: Path, legacy_paths: list[str] | None = None, *, confirmed:
         return {"state": "awaiting_confirmation", "writes_applied": False,
                 "preview_sha256": plan["preview_sha256"], "batch_key": batch_key,
                 "selected_paths": selected, "completed": 0, "pending": len(selected), "blocked": 0}
+    if expected_preview_sha256 is not None and expected_preview_sha256 != plan["preview_sha256"]:
+        return {"state": "blocked", "error_code": "input_changed", "writes_applied": False,
+                "expected_preview_sha256": expected_preview_sha256,
+                "preview_sha256": plan["preview_sha256"], "completed": 0,
+                "pending": len(selected), "blocked": len(selected)}
     results: list[dict[str, Any]] = []
     for path in selected:
         results.append(apply_sample(root, path, confirmed=True, docs_dir=docs_dir))
@@ -212,12 +217,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--apply-sample", metavar="LEGACY_PATH", help="apply one representative sample through Source/Wiki gates")
     parser.add_argument("--apply-batch", nargs="*", metavar="LEGACY_PATH", help="apply selected legacy items as one replayable batch")
+    parser.add_argument("--expected-preview-sha256", help="bind confirmed batch to the previously reviewed preview hash")
     parser.add_argument("--confirm", action="store_true", help="confirm the selected sample apply")
     args = parser.parse_args(argv)
     if args.apply_sample:
         result = apply_sample(args.root, args.apply_sample, confirmed=args.confirm, docs_dir=args.docs)
     elif args.apply_batch is not None:
-        result = apply_batch(args.root, args.apply_batch or None, confirmed=args.confirm, docs_dir=args.docs)
+        result = apply_batch(args.root, args.apply_batch or None, confirmed=args.confirm, docs_dir=args.docs,
+                             expected_preview_sha256=args.expected_preview_sha256)
     else:
         result = preview(args.root, args.docs)
     data = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
