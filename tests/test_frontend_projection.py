@@ -121,6 +121,13 @@ def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):
     assert result.returncode != 0
     assert json.loads(result.stderr)["schema_version"] == "public-input-leak-gate/v1"
 
+def test_leak_gate_rejects_question_payload_even_under_public_path(tmp_path: Path):
+    target = tmp_path / "wiki"; target.mkdir(parents=True)
+    (target / "leaked.md").write_text('{"schema_version":"question/v1","answer":"secret interview answer"}', encoding="utf-8")
+    result = subprocess.run(["node", str(Path(__file__).parents[1] / "frontend/scripts/leak-gate.mjs"), "--scope", "input-tree", str(tmp_path)], capture_output=True, text=True, check=False)
+    assert result.returncode == 2
+    assert "leaked.md" in json.loads(result.stderr)["findings"][0]
+
 def test_leak_gate_rejects_active_html_and_mermaid_callbacks(tmp_path: Path):
     target = tmp_path / "wiki"; target.mkdir()
     (target / "unsafe.md").write_text("<iframe src=\"https://evil.example\"></iframe>\n", encoding="utf-8")

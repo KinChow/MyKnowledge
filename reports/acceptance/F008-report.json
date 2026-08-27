@@ -15,7 +15,7 @@
     "AC-F008-008",
     "AC-F008-009"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The current increment records fsrs-card/v1 and scheduler version metadata while preserving Card field compatibility.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The current increment records fsrs-card/v1 and scheduler version metadata and adds path-independent public leak rejection for question payload fields.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

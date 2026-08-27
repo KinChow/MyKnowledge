@@ -35,3 +35,5 @@ Question 使用 `question/v1`，题目由已验证 Wiki claim 派生，保存 cl
 基础实现尚未接入完整 Preview/Apply operation 和外部 target 传输；practice backup/restore 已接入 F012 owner-scoped manifest，批量失效已支持，完整跨仓库恢复演练仍待补。FastAPI 练习 API 与 FSRS 6.3.2 运行时已接入并有回归测试。
 
 本轮调度状态兼容调查（2026-08-30）：`py-fsrs` 官方 `Card.to_dict()/from_dict()` 负责卡片序列化，Anki 的 review log 采用显式版本化状态边界；替代方案是只保存裸 Card 字段，升级后无法判断状态由哪个调度器版本产生。故 review state 保留兼容的 Card 字段，同时增加 `review_state_schema` 与 `scheduler_version` 元数据；升级不会伪造迁移成功，旧卡仍交给 adapter 重放，adapter 异常返回结构化 `unavailable`。
+
+本轮 public leak 调查（2026-08-30）：Pagefind/静态发布常用输入树与 dist denylist 扫描（MIT，<https://github.com/CloudCannon/pagefind>）配合 schema-first projection allowlist；替代方案是只禁止 `practice/` 路径，题目 JSON 被误放到 `wiki/` 时仍可能公开答案。故 public leak gate 额外拒绝 `question/v1`、`review_state`、`answer`、`explanation`、`correct_option_ids` 与 `rubric` 字段，不依赖物理路径。
