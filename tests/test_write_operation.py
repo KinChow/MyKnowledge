@@ -466,3 +466,49 @@ class ReviewFixTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ConfirmApplyCliTests(unittest.TestCase):
+    """② confirm-apply：hash 从 durable record 派生，生成与使用分离。"""
+
+    def test_confirm_apply_generates_validatable_event_end_to_end(self):
+        import subprocess, sys, tempfile as td
+        from tools.operation_store import OperationStore, build_apply_confirmation, validate_apply_confirmation
+        with td.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "hello"})
+            op = preview["operation_id"]
+            store = OperationStore(root)
+            # 缺 content hash 的 publish_private 拒绝
+            event, err = build_apply_confirmation(store, op, "alice", scope="publish_private")
+            self.assertEqual(err, "confirmation_fields_missing")
+            # 非 previewed / 不存在 fail-closed
+            self.assertEqual(build_apply_confirmation(store, "op_missing", "alice")[1], "operation_not_found")
+            # 正常生成 + 自校验
+            event, err = build_apply_confirmation(store, op, "alice")
+            self.assertIsNone(err)
+            self.assertEqual(event["input_hash"], preview["input_hash"])
+            record = store.load(op)
+            self.assertIsNone(validate_apply_confirmation(record, event))
+            # CLI 端到端：confirm-apply 生成 -> write --apply --confirmation 消费
+            repo = Path(__file__).resolve().parents[1]
+            out = root / "event.json"
+            gen = subprocess.run([sys.executable, "-m", "tools.cli", "confirm-apply", op, "--root", str(root), "--actor-id", "alice", "--out", str(out)], cwd=repo, capture_output=True, text=True)
+            self.assertEqual(gen.returncode, 0, gen.stderr)
+            applied = subprocess.run([sys.executable, "-m", "tools.cli", "write", "--root", str(root), "--apply", op, "--confirm", "--confirmation", str(out)], cwd=repo, capture_output=True, text=True)
+            self.assertEqual(applied.returncode, 0, applied.stderr)
+            self.assertIn('"state": "applied"', applied.stdout)
+            self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "hello")
+
+    def test_confirm_apply_rejects_expired_operation(self):
+        import tempfile as td
+        from tools.operation_store import OperationStore, build_apply_confirmation
+        with td.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "x"})
+            store = OperationStore(root)
+            record = store.load(preview["operation_id"])
+            record["created_at"] = 0  # 强制过期
+            from tools.common import atomic_write, canonical_json
+            atomic_write(root / "state" / "operations" / f"{preview['operation_id']}.json", canonical_json(record), 0o600)
+            self.assertEqual(build_apply_confirmation(store, preview["operation_id"], "alice")[1], "operation_expired")
