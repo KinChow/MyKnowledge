@@ -1,5 +1,6 @@
 from pathlib import Path
 import subprocess
+from unittest import mock
 
 from tools.vault_transfer import VaultTransfer
 
@@ -45,3 +46,26 @@ def test_cross_vault_copy_and_move_use_explicit_owner_and_locks(tmp_path: Path):
     assert service.apply(move["operation_id"], confirmed=True)["state"] == "applied"
     assert not (public / "wiki" / "note.md").exists()
     assert (private / "wiki" / "moved.md").read_text(encoding="utf-8") == "note\n"
+
+
+def test_cross_vault_move_rolls_back_target_when_source_delete_fails(tmp_path: Path):
+    root, public, private, manifest = _workspace(tmp_path)
+    source = public / "wiki" / "note.md"
+    source.parent.mkdir(); source.write_text("note\n", encoding="utf-8")
+    target = private / "wiki" / "note.md"
+    service = VaultTransfer(public, manifest)
+    preview = service.preview("public", "wiki/note.md", "private", "wiki/note.md", move=True)
+    original_unlink = Path.unlink
+
+    def fail_source_delete(path: Path, *args, **kwargs):
+        if path == source:
+            raise OSError("injected source delete failure")
+        return original_unlink(path, *args, **kwargs)
+
+    with mock.patch.object(Path, "unlink", autospec=True, side_effect=fail_source_delete):
+        result = service.apply(preview["operation_id"], confirmed=True)
+    assert result["error_code"] == "apply_failed"
+    assert source.read_text(encoding="utf-8") == "note\n"
+    assert not target.exists()
+    assert not (public / "state" / "locks" / "public.owner").exists()
+    assert not (public / "state" / "locks" / "private.owner").exists()

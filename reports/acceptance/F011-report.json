@@ -2,7 +2,7 @@
   "schema_version": "acceptance-report/v1",
   "feature": "F011",
   "status": "Implemented (partial)",
-  "generated_from": "8d5f10e459fa00da1395a3ccb914418370b7f05e",
+  "generated_from": "44fcfd689393a85a61bf3e6d4e29220addde1812",
   "acceptance_document": "docs/acceptance/F011-private-vault.md",
   "scenario_ids": [
     "AC-F011-001",
@@ -25,7 +25,7 @@
     "AC-F011-018",
     "AC-F011-019"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. Same-vault duplicate owner keys are excluded from local/private projection, and explicit cross-vault copy/move now enforces owner, hash, confidentiality and dual-lock gates.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
