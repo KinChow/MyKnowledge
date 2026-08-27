@@ -6,6 +6,11 @@
 - 实现证据：`tools/write_operation.py`、`tests/test_write_operation.py`、`tools/operation_store.py`、`tools/vault_lock.py`
 - 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；多 Vault fencing、projection/index 恢复和 retire 领域状态仍需后续验收。
 
+## Rename source precondition 增量证据（2026-08-27）
+
+- `WriteOperation.rename()` 记录源文件 `source_before_hash`；Apply 在锁内先校验源 hash，再写目标和删除源。
+- `tests/test_write_operation.py::WriteOperationTests::test_rename_source_drift_blocks_without_deleting_source` 验证 Preview 后源文件被用户修改时返回 `hash_mismatch`，源内容保留且目标不存在。
+
 ## 路径竞态增量证据（2026-08-30）
 
 - `tests/test_write_operation.py::WriteOperationTests::test_apply_path_race_returns_structured_failure` 在 Preview 后把父目录替换为 symlink，验证 Apply 回滚、返回 `expired/apply_failed` 与 `path_symlink` 诊断，且 symlink 指向目录没有被写入。

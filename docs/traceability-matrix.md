@@ -29,7 +29,7 @@
 | OPS-001 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-001/002/003/004/005/006/010/011 | tests/test_write_operation.py（preview/apply/回滚/commit-intent 自哈希与显式恢复/fencing/stale lock recovery/durable audit 校验、symlink/hard-link target 拒绝、Preview 后路径竞态结构化失败、private owner checkout 路径绑定）；领域场景待补 | Implemented（部分） |
 | ARC-003 | F001/F003 | ADR-0003/0005 | source-ingestion, wiki-claim-validation | AC-F001-007/008/010, AC-F003-009/010/011 | 待实现 | Designed |
 | ARC-004 | F001/F011/F012 | ADR-0003/0002 | source-ingestion, private-vault-submodule, backup-and-observability | AC-F001-006, AC-F011-004, AC-F012-005 | 待实现 | Designed |
-| OPS-003 | F004/F011/F012 | ADR-0006/0002 | write-operation-and-locking, private-vault-submodule, backup-and-observability | AC-F004-007/008, AC-F011-016/018, AC-F012-004/005 | tests/test_write_operation.py（VaultLockGroup 排序、去重、失败释放）；跨仓库 apply/恢复待补 | Implemented（部分） |
+| OPS-003 | F004/F011/F012 | ADR-0006/0002 | write-operation-and-locking, private-vault-submodule, backup-and-observability | AC-F004-007/008, AC-F011-016/018, AC-F012-004/005 | tests/test_write_operation.py（VaultLockGroup 排序、去重、失败释放、rename source_before_hash 漂移阻断）；跨仓库 apply/恢复待补 | Implemented（部分） |
 | OPS-004 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-009 | 待实现 | Designed |
 
 ## Public Wiki、索引与 Private Vault

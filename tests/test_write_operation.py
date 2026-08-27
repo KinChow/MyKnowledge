@@ -216,6 +216,17 @@ class WriteOperationTests(unittest.TestCase):
             self.assertTrue(marker.exists())
             self.assertEqual(json.loads(marker.read_text())["schema_version"], "retire-marker/v1")
 
+    def test_rename_source_drift_blocks_without_deleting_source(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); source = root / "old.md"; source.write_text("original", encoding="utf-8")
+            service = WriteOperation(root)
+            preview = service.rename("old.md", "new.md")
+            source.write_text("user edit", encoding="utf-8")
+            result = service.apply(preview["operation_id"], confirmed=True)
+            self.assertEqual(result["error_code"], "hash_mismatch")
+            self.assertEqual(source.read_text(encoding="utf-8"), "user edit")
+            self.assertFalse((root / "new.md").exists())
+
     def test_commit_intent_is_removed_after_apply(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); service = WriteOperation(root)
