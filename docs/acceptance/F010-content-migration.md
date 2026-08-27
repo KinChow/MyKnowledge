@@ -48,6 +48,13 @@ CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_
 - `apply_batch(..., expected_preview_sha256=...)` 在确认写入前重新生成 inventory/route plan；hash 与用户预览不一致时返回 `input_changed`，不调用 Source/Wiki writer，也不产生半成品。
 - `tests/test_migration.py::test_batch_preview_hash_binding_blocks_changed_input_without_writes` 覆盖 preview 后修改 legacy 输入的 fail-closed 门禁。
 
+## 受控 rollback 增量证据（2026-08-27）
+
+- `rollback_sample()` 只从自校验 migration record 定位 Source/Wiki 生成物，保存完成时 `output_hashes`，并通过 `WriteOperation` 的 preview/confirmation/before-hash/lock 路径执行 purge；不直接删除目录或执行 Git reset。
+- `tests/test_migration.py::test_rollback_sample_requires_confirmation_and_preserves_legacy_and_snapshot` 验证未确认不写、确认后仅移除生成的 Source/Wiki，原 `docs/` 与 content-addressed archive 保留，rollback record 可重放。
+- `tests/test_migration.py::test_rollback_sample_blocks_output_drift_without_deleting_user_change` 验证迁移后用户编辑导致 `migration_output_changed`，文件保持不变。
+- 该证据闭合 AC-F010-003 的单样本 rollback 子场景；全量迁移、最终 projection 切换和跨批次环境演练仍待完成。
+
 - 本轮 durable replay：首次 sample apply 成功后写入 owner-local `audit/migrations/<migration_key>.json`（`migration-record/v1`）；相同 `legacy_path + body_sha256 + migration_version` 再次执行直接返回 `replayed: true`，不重复调用 Source/Wiki writer。`tests/test_migration.py::test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects` 同时验证记录只生成一份。输入 hash 变化会使用新 key 并重新走门禁。
 - replay 完整性增量：迁移记录带 `record_sha256` 并原子落盘；`tests/test_migration.py::test_tampered_migration_record_is_not_replayed` 篡改结果后验证不会返回 `replayed: true`，而是重新经过 Source-first 流程。
 
