@@ -6,6 +6,12 @@
 - 相关 ADR：ADR-0001、ADR-0004、ADR-0005、ADR-0010
 - 相关验收：[F002](../acceptance/F002-wiki-contract.md)、[F003](../acceptance/F003-evidence-validation.md)
 
+## F002 schema/state-machine 成熟方案调查（2026-08-27）
+
+- `python-jsonschema/jsonschema` 4.x（MIT，<https://github.com/python-jsonschema/jsonschema>）和 Pydantic 2.x（MIT，<https://github.com/pydantic/pydantic>）都提供版本化字段/类型校验；本项目直接复用 JSON Schema 2020-12 的 `additionalProperties: false` 与 `if/then`，保留领域 validator 负责 evidence、owner 和发布状态组合。Pydantic 仅作为 API 输入边界参考，不复制第二套 Wiki schema。
+- `transitions` 0.9.x（MIT，<https://github.com/pytransitions/transitions>）和 XState 5.x（MIT，<https://github.com/statelyai/xstate>）提供显式状态图/非法 transition 拒绝；替代方案是散落字符串比较，容易允许 planned→published 或 unavailable→missing。MyKnowledge 保留现有确定性 domain rules，使用状态轴组合表而非引入运行时状态机依赖，确保离线、可重放且不改变 canonical front matter。
+- 离线边界：jsonschema/schema fixtures 随仓库运行，无网络和 provider；升级 jsonschema/Pydantic/transitions 只影响 validator 回归，不改变 `wiki/v1` 数据格式。派生字段、owner、evidence hash 和人工 confirmation 仍由 MyKnowledge 保留。
+
 ## 目标与非目标
 
 目标是实现 Wiki schema、Claim/Evidence 映射、snapshot + TextQuote/TextPosition selector 校验和验证报告失效。本阶段不实现复杂语义检索；检索 adapter 只能提供候选上下文，不能替代本设计的证据门禁。

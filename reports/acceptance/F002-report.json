@@ -2,21 +2,10 @@
   "schema_version": "acceptance-report/v1",
   "feature": "F002",
   "status": "Implemented (partial)",
-  "generated_from": "50cdf615dc1159915379dc70209c9e07699f30be",
+  "generated_from": "82c42d6",
   "acceptance_document": "docs/acceptance/F002-wiki-contract.md",
-  "scenario_ids": [
-    "AC-F002-001",
-    "AC-F002-002",
-    "AC-F002-003",
-    "AC-F002-004",
-    "AC-F002-005",
-    "AC-F002-006",
-    "AC-F002-007"
-  ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
-  "verification": {
-    "python_command": ".venv/bin/python -m pytest -q",
-    "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
-    "remote_push": false
-  }
+  "specialized_command": ".venv/bin/python -m pytest -q tests/validation/test_wiki_schema.py tests/validation/test_wiki_rules.py tests/validation/test_wiki_derived.py tests/validation/test_wiki_resolution.py tests/test_front_matter.py",
+  "verification": {"passed": 21, "failed": 0, "compileall": true, "diff_check": true, "remote_push": false},
+  "covered": ["executable_json_schema", "derived_field_rejection", "status_axis_combinations", "owner_scoped_reference_resolution", "duplicate_evidence_id"],
+  "boundary": "F003 provider/corroboration and F007 public confirmation remain separate gates; this report does not imply Accepted."
 }
