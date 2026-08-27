@@ -19,7 +19,7 @@ OPERATION_TTL_SECONDS = 1800
 # （它是独立事件类型 public-release-confirmation/v1，schema 层不可冒充）。
 APPLY_CONFIRMATION_SCHEMA = "operation-confirmation/v1"
 APPLY_CONFIRMATION_SCOPES = frozenset({"apply", "publish_private"})
-APPLY_CONFIRMATION_REQUIRED = ("schema_version", "operation_id", "scope", "actor_type", "actor_id", "input_hash", "diff_hash")
+APPLY_CONFIRMATION_REQUIRED = ("schema_version", "operation_id", "scope", "actor_type", "actor_id", "input_hash", "diff_hash", "event_sha256")
 
 
 def validate_apply_confirmation(record: dict, event: object) -> str | None:
@@ -52,8 +52,10 @@ def validate_apply_confirmation(record: dict, event: object) -> str | None:
         publish_missing = [key for key in ("content_sha256", "evidence_sha256", "target_vault") if not event.get(key)]
         if publish_missing or event.get("target_vault") != record.get("target_vault"):
             return "confirmation_fields_missing"
+    # F-2：event_sha256 必填且必须匹配（审计完整性：durable audit 里的确认
+    # 事件始终有自哈希，可独立复核）
     expected = hash_canonical({k: v for k, v in event.items() if k != "event_sha256"})
-    if event.get("event_sha256") and event["event_sha256"] != expected:
+    if event["event_sha256"] != expected:
         return "confirmation_hash_mismatch"
     return None
 

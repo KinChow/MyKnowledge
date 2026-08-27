@@ -430,8 +430,38 @@ class ConcurrentApplyTests(unittest.TestCase):
             self.assertEqual(len(content.encode()), len(content))  # 单一完整内容，非交叠
 
 
-if __name__ == "__main__":
-    unittest.main()
+
+class ReviewFixTests(unittest.TestCase):
+    """2026-08-28 复审修复：F-1 状态翻转、F-2 event_sha256 必填。"""
+
+    def test_intent_cleanup_failure_keeps_applied_state_with_warning(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            op = preview["operation_id"]
+            event = _confirmation_event(preview)
+
+            class BoomIntentPath(type(root / "state" / "commit-intents" / f"{op}.json")):
+                def unlink(self, missing_ok: bool = False) -> None:
+                    raise OSError("permission")  # 仅 intent 清理失败，不波及锁清理
+
+            real_intent = service.store.paths.commit_intent_file
+            service.store.paths.commit_intent_file = lambda operation_id: BoomIntentPath(str(real_intent(operation_id)))
+            result = service.apply(op, confirmed=True, confirmation=event)
+            self.assertEqual(result["state"], "applied")          # F-1：不再翻转为 expired
+            self.assertEqual(result.get("warnings"), ["intent_cleanup_failed"])
+            self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "new")
+            self.assertEqual(service.store.load(op)["state"], "applied")
+
+    def test_confirmation_without_event_sha256_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            stripped = _confirmation_event(preview)
+            stripped.pop("event_sha256")
+            result = service.apply(preview["operation_id"], confirmed=True, confirmation=stripped)
+            self.assertEqual(result["error_code"], "confirmation_fields_missing")  # F-2
+            self.assertFalse((root / "a.md").exists())
 
 
 if __name__ == "__main__":
