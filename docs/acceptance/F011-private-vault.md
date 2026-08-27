@@ -58,6 +58,11 @@
 - `VaultRegistry.write_local_projection()` 将 `local-projection/v1` 以 0600 权限原子写入 `queries/local/manifest.json`，保留 owner 三元组、不可用 Vault 诊断和 `projection_sha256`。
 - `tests/test_vault_registry.py::VaultRegistryTests::test_local_projection_can_be_materialized_atomically` 验证输出可解析、hash 一致且不会暴露物理路径。
 
+## Manifest symlink isolation 增量证据（2026-08-30）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_symlink_vault_path_is_rejected` 验证 superproject manifest 指向 symlink checkout 时返回 `path_symlink`，不会跟随链接读取或把该路径标记为 available。
+- 该增量覆盖 AC-F011-017 的路径隔离子场景；错误 submodule gitfile、完整重叠路径矩阵和恢复演练仍待环境验收。
+
 ## Local projection CLI 增量证据（2026-08-27）
 
 - 新增 `python -m tools.cli local-projection --root <root> [--scope local|private]` 薄入口，只委托 Registry projection writer，不直接扫描或编辑 Vault。
