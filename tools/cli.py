@@ -55,6 +55,28 @@ def write_main(argv: list[str]) -> int:
 COMMANDS["write"] = write_main
 COMMANDS["vault"] = vault_main
 
+def query_main(argv: list[str]) -> int:
+    """Offline query entry point sharing the API projection and Retriever."""
+    import argparse, json
+    from backend.app import _load_public_projection
+    from tools.indexing import Retriever
+    parser = argparse.ArgumentParser(description="Query the validated public projection")
+    parser.add_argument("query")
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--scope", choices=["public", "local", "private"], default="public")
+    parser.add_argument("--vault-ids", default=None)
+    parser.add_argument("--top-k", type=int, default=8)
+    args = parser.parse_args(argv)
+    if args.scope != "public":
+        print(json.dumps({"state": "blocked", "error_code": "query_scope_requires_api"}, ensure_ascii=False))
+        return 2
+    items = _load_public_projection(args.root)
+    result = Retriever(items).search(args.query, "public", args.top_k)
+    print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
+    return 0
+
+COMMANDS["query"] = query_main
+
 def lock_main(argv: list[str]) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Recover an orphaned vault lock")

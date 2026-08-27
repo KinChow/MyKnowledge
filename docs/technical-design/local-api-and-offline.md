@@ -80,6 +80,8 @@ Ask 的 `answer` 在不可用或冲突时为 `null`；每个 citation 必须符�
 
 本轮网络启动方案调查（2026-08-30）：Uvicorn 0.35.x（BSD-3-Clause，<https://www.uvicorn.org/>）是 FastAPI 官方文档推荐的轻量 ASGI 进程启动器，支持显式 `host/port`、优雅 shutdown 和应用工厂；Hypercorn 0.17.x（MIT，<https://github.com/pgjones/hypercorn>）作为替代方案支持更多 HTTP/2/QUIC 能力，但会扩大运行时配置和协议面。本项目直接复用 Uvicorn 的 ASGI runner，不启用 reload、远程 bind 或 proxy headers；`python -m backend.server` 固定默认 `127.0.0.1`，启动前拒绝非 loopback host，仍由 FastAPI 应用工厂生成每次进程轮换的 capability token。真实网络测试只验证 loopback health、public query 和受保护 POST，不能把 TestClient 结果当作网络验收。
 
+本轮 CLI parity 调查（2026-08-30）：Typer/Click 的成熟 CLI 结构（MIT/BSD）强调命令层只做参数解析并调用共享领域服务；替代方案是 CLI 直接扫描 `wiki/` Markdown，会绕过 public projection allowlist、hash 和 API 排序。新增 `tools.cli query` 仅允许 public scope，复用 API 的 projection loader 与 `Retriever`，local/private 查询继续要求受保护 API。
+
 本轮退出清理调查（2026-08-30）：FastAPI lifespan/on-shutdown（MIT，<https://fastapi.tiangolo.com/advanced/events/>）与 Uvicorn graceful shutdown 共同提供进程退出钩子；替代方案是依赖临时目录或下次启动覆盖 token，无法满足旧 token 立即失效和最小权限清理。应用在 shutdown 阶段仅尽力删除自身生成的 `state/capability-token`，不触碰用户内容；删除失败保留可诊断状态但不阻塞退出。
 
 无 FastAPI 时，`tools/query.py` 直接读取 `queries/public` 和静态 catalog，支持 public 浏览、精确查询和确定性搜索。QMD、FTS5、LLM validation、local index 或写入能力不可用时必须返回明确 `unavailable`/`degraded`，不得伪造成功。`/api/retrieve` 的请求 scope 必须使用 `public`/`local`/`private`，不能使用未定义的 `wiki` 别名；`/api/ask` 依赖 RAG/LLM，离线时必须返回 `unavailable`，不能把普通关键词命中伪装成生成式回答。local-file source 的导入仍可由 CLI 在无网络时执行，因为证据载体已在本机。
