@@ -19,6 +19,7 @@
 - `tests/test_vault_registry.py::test_backup_manifest_can_be_exported_without_claiming_verified_target` 验证导出结果为 `state: exported`、`backup_state: configured`，不会因存在外部副本直接派生 `verified`。完整内容传输和隔离恢复仍需单独演练。
 - `BackupManager.export_bundle()`/`verify_bundle()` 增加 offline bundle（manifest + payload）逐项导出与校验；`test_backup_bundle_exports_and_verifies_owner_entries` 验证 payload 篡改返回 `hash_mismatch`。bundle 校验成功仍只是传输证据，不替代隔离恢复准出。
 - `BackupManager.restore_bundle()` 从已校验 bundle 恢复到显式空 checkout，写入 target-local restore marker；`test_backup_bundle_restores_to_empty_checkout_and_cleans_on_failure` 验证内容恢复和 marker 生成。该 marker 不会直接改变源 Vault 的状态。
+- owner 元数据边界：`test_backup_bundle_rejects_invalid_owner_metadata` 验证篡改 `vault_id` 为路径穿越值时，即使重新计算 manifest hash 也返回 `vault_id_invalid`，不会进入 payload 恢复。
 
 ## Entries 增量证据（2026-08-30）
 

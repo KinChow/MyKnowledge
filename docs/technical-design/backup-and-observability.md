@@ -18,6 +18,8 @@
 
 当前已实现 `restore_bundle`：先验证 bundle，再要求空 target，按 manifest 相对路径原子写入并在 target 内记录 `backup-restore-record/v1`。任一条目失败会清理已写文件和空目录；恢复结果是可审计证据，不自动修改源 Vault 的 `backup_state`。
 
+本轮 bundle owner 调查（2026-08-30）：Git bundle 的 ref/owner 必须是可解析的稳定标识，SQLite backup 的数据库名不能替代 Vault owner；替代方案是只验证 payload hash 而忽略 `vault_id`，会让恢复审计无法判断目标归属。`verify_bundle()` 现在要求 `vault_id` 为 `safe_id` 且 `entries` 为列表，非法 owner 元数据在读取 payload 前 fail-closed。
+
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
 ## 备份内容与恢复

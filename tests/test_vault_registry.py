@@ -230,6 +230,23 @@ class VaultRegistryTests(unittest.TestCase):
                 import shutil
                 shutil.rmtree(bundle, ignore_errors=True)
 
+    def test_backup_bundle_rejects_invalid_owner_metadata(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root); created = manager.create_manifest("public")
+            bundle = root.parent / (root.name + "-bundle-owner")
+            try:
+                manager.export_bundle(root / created["path"], bundle)
+                manifest = bundle / "manifest.json"
+                data = json.loads(manifest.read_text(encoding="utf-8")); data["vault_id"] = "../private"
+                from tools.common import canonical_json
+                data["manifest_sha256"] = "sha256:" + __import__("hashlib").sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
+                manifest.write_text(json.dumps(data), encoding="utf-8")
+                self.assertEqual(BackupManager.verify_bundle(bundle)["error_code"], "vault_id_invalid")
+            finally:
+                import shutil
+                shutil.rmtree(bundle, ignore_errors=True)
+
     def test_backup_bundle_restores_to_empty_checkout_and_cleans_on_failure(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "note.md").write_text("note", encoding="utf-8")

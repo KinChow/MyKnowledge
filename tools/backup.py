@@ -2,7 +2,7 @@
 from __future__ import annotations
 import hashlib, json, time, uuid, shutil
 from pathlib import Path
-from .common import atomic_write, canonical_json, hash_canonical
+from .common import atomic_write, canonical_json, hash_canonical, safe_id
 from .release_confirmation import validate_event
 from .vault_registry import VaultRegistry
 from .paths import RepoPaths
@@ -185,6 +185,15 @@ class BackupManager:
             expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
             if data.get("schema_version") != "backup-manifest/v1" or data.get("manifest_sha256") != expected:
                 raise ValueError("hash_mismatch")
+            vault_id = data.get("vault_id")
+            if not isinstance(vault_id, str):
+                raise ValueError("vault_id_invalid")
+            try:
+                safe_id(vault_id)
+            except ValueError as exc:
+                raise ValueError("vault_id_invalid") from exc
+            if not isinstance(data.get("entries"), list):
+                raise ValueError("entries_invalid")
             for entry in data.get("entries", []):
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
