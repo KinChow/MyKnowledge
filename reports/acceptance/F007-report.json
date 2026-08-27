@@ -32,6 +32,7 @@
     "AC-F007-025"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. PublicProjectionGenerator now emits manifest items only for validator-approved public Wiki objects with matching human confirmation hashes; the three-stage leak gate rejects question payload fields independently of path, and release locks carry a persisted fencing token.",
+  "latest_increment": {"date": "2026-08-27", "evidence": "tests/test_frontend_projection.py::test_projection_prepare_and_graph_build_multi_page_fixture", "boundary": "Chinese and English body text is preserved in generated Starlight content; Pagefind query quality remains environment-pending."},
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
