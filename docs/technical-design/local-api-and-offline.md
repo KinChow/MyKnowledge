@@ -86,6 +86,8 @@ Ask 的 `answer` 在不可用或冲突时为 `null`；每个 citation 必须符�
 
 本轮退出清理调查（2026-08-30）：FastAPI lifespan/on-shutdown（MIT，<https://fastapi.tiangolo.com/advanced/events/>）与 Uvicorn graceful shutdown 共同提供进程退出钩子；替代方案是依赖临时目录或下次启动覆盖 token，无法满足旧 token 立即失效和最小权限清理。应用在 shutdown 阶段仅尽力删除自身生成的 `state/capability-token`，不触碰用户内容；删除失败保留可诊断状态但不阻塞退出。
 
+本轮 GET/POST 参数等价调查（2026-08-27）：FastAPI Query 参数声明与 Pydantic `RetrieveRequest`（MIT；<https://github.com/fastapi/fastapi>、<https://github.com/pydantic/pydantic>）适合将兼容 GET 的字符串参数归一化到同一请求模型；Starlette `Request.query_params`（BSD-3-Clause；<https://www.starlette.io/requests/>）提供未知参数拒绝所需的原始键集合。替代方案是 GET 单独实现检索或静默丢弃 `include_sources/include_archive`，会产生排序、权限或请求契约漂移，明确不采用。`GET /api/query` 本轮补齐这两个布尔字段并复用 `retrieve()`，不新增索引/权限逻辑；离线行为和 QueryResult schema 不变，升级 FastAPI/Starlette 后重跑 parity 与 schema 测试。
+
 无 FastAPI 时，`tools/query.py` 直接读取 `queries/public` 和静态 catalog，支持 public 浏览、精确查询和确定性搜索。QMD、FTS5、LLM validation、local index 或写入能力不可用时必须返回明确 `unavailable`/`degraded`，不得伪造成功。`/api/retrieve` 的请求 scope 必须使用 `public`/`local`/`private`，不能使用未定义的 `wiki` 别名；`/api/ask` 依赖 RAG/LLM，离线时必须返回 `unavailable`，不能把普通关键词命中伪装成生成式回答。local-file source 的导入仍可由 CLI 在无网络时执行，因为证据载体已在本机。
 
 ## 一致性与测试
