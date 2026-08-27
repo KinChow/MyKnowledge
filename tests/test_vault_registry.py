@@ -313,6 +313,21 @@ class VaultRegistryTests(unittest.TestCase):
                 import shutil
                 shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(target, ignore_errors=True)
 
+    def test_backup_bundle_cli_export_and_restore(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "wiki").mkdir(); (root / "wiki" / "one.md").write_text("one", encoding="utf-8")
+            created = BackupManager(root).create_manifest("public")
+            bundle = root.parent / (root.name + "-cli-bundle")
+            exported = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "backup", "export-bundle", "--root", str(root), "--manifest", str(root / created["path"]), "--target", str(bundle)], capture_output=True, text=True, check=False)
+            self.assertEqual(exported.returncode, 0)
+            target = root.parent / (root.name + "-cli-restored")
+            restored = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "backup", "restore-bundle", "--root", str(root), "--manifest", str(bundle), "--target", str(target)], capture_output=True, text=True, check=False)
+            self.assertEqual(restored.returncode, 0)
+            self.assertEqual((target / "wiki" / "one.md").read_text(), "one")
+            import shutil
+            shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(target, ignore_errors=True)
+
     def test_restored_bundle_verification_rejects_extra_target_files(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)

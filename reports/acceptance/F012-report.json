@@ -15,6 +15,15 @@
     "AC-F012-008"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "latest_increment": {
+    "date": "2026-08-27",
+    "evidence": "tests/test_vault_registry.py::VaultRegistryTests::test_backup_bundle_cli_export_and_restore",
+    "commands": [
+      "python -m tools.cli backup export-bundle --manifest M --target B",
+      "python -m tools.cli backup restore-bundle --manifest B --target D"
+    ],
+    "boundary": "Explicit offline bundle CLI is covered; bundle success remains transport/restore evidence and does not by itself derive verified."
+  },
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
