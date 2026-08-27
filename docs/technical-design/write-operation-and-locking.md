@@ -38,6 +38,13 @@
 
 本轮路径竞态调查（2026-08-30）：filelock 的持锁期间路径重检与 SQLite transaction 的 fail-closed rollback 作为成熟边界；替代方案是让预览时通过的路径在 Apply 时直接抛出异常，会把 symlink/越界竞态转成未结构化 500。Apply 现在在回滚后把 `OSError/ValueError` 统一归一为 `expired/apply_failed`，不写入竞态目标，也不吞掉具体诊断。
 
+### Projection/index 提交边界调查（2026-08-30）
+
+- SQLite FTS5 transaction/WAL（Public Domain，<https://sqlite.org/fts5.html>、<https://sqlite.org/wal.html>）和 Git index/working-tree recovery（GPL-2.0，<https://git-scm.com/docs/git-recover>）都把可恢复元数据与最终对象提交分开；适合借鉴“先提交 canonical，再重建派生索引”的顺序，但 Git/SQLite 都不会替本项目维护 Wiki/public confirmation 语义。
+- 替代方案是把 canonical、projection、index 放在一个 Python `try` 中，任一派生写失败就回滚所有文件。该方案无法保留已完成的 canonical 提交，也会把可重建故障误报为全局失败；因此不采用。
+- MyKnowledge 复用 FTS5 的可重建、hash-bound 派生索引原则：`WriteOperation` 通过可注入 `projection_rebuilder` 在 canonical 原子替换后执行。hook 失败写入 `applied_index_pending`，不生成新的 publishable projection；显式 `recover()` 重跑成功后才追加 durable `applied` 状态。hook 未配置时保持现有通用 writer 行为。
+- 离线边界：该状态机不联网、不写 endpoint/key；升级 projection/index 实现必须回归 pending、恢复、幂等和旧 canonical 保持不变测试。commit-intent 仍保留至恢复完成，便于进程崩溃后的诊断。
+
 ## 核心流程
 
 生成规范化 operation → 保存 Preview → 用户确认 → 获取写锁 → 校验输入和前置 hash → 在同一文件系统生成 canonical/projection staging → 最终校验 → 写 commit-intent 并 fsync → 原子提交 canonical 与 durable record → 原子替换 projection/index → 记录完成状态。

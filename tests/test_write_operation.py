@@ -199,6 +199,31 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(service.recover(op)["state"], "recovery_required")
             self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "old")
 
+    def test_projection_failure_keeps_canonical_and_recovers(self):
+        """AC-F004-009: projection failure is pending, never a false full apply."""
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            calls = []
+
+            def fail_projection(record):
+                calls.append(record["operation_id"])
+                raise OSError("index unavailable")
+
+            service = WriteOperation(root, projection_rebuilder=fail_projection)
+            op = service.preview({"wiki.md": "new canonical"})["operation_id"]
+            result = service.apply(op, confirmed=True)
+            self.assertEqual(result["state"], "applied_index_pending")
+            self.assertEqual(result["error_code"], "projection_failed")
+            self.assertEqual((root / "wiki.md").read_text(encoding="utf-8"), "new canonical")
+            self.assertEqual(service.store.load(op)["state"], "applied_index_pending")
+
+            rebuilt = []
+            recovered = service.recover(op, projection_rebuilder=lambda record: rebuilt.append(record["operation_id"]))
+            self.assertEqual(recovered["state"], "applied")
+            self.assertEqual(rebuilt, [op])
+            self.assertEqual(service.store.load(op)["state"], "applied")
+            self.assertFalse((root / "state" / "commit-intents" / f"{op}.json").exists())
+
     def test_rename_and_retire_have_distinct_operation_types(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
