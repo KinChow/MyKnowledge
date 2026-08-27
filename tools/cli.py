@@ -22,6 +22,7 @@ from tools.inventory_legacy import main as inventory_main
 from tools.migrate_legacy import main as migrate_main
 from tools.vault_lock import VaultLock
 from tools.vault_transfer import VaultTransfer
+from tools.public_projection import PublicProjectionGenerator
 
 COMMANDS = {
     "source": source_main,
@@ -151,6 +152,18 @@ def transfer_main(argv: list[str]) -> int:
     print(json.dumps(result, ensure_ascii=False, indent=2)); return 0 if result.get("state") not in {"blocked", "expired"} else 2
 
 COMMANDS["transfer"] = transfer_main
+
+def projection_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Generate the validated public projection manifest")
+    parser.add_argument("action", choices=["generate"])
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--output", type=__import__("pathlib").Path)
+    args = parser.parse_args(argv)
+    result = PublicProjectionGenerator(args.root).generate(args.output)
+    print(json.dumps(result, ensure_ascii=False, indent=2)); return 0
+
+COMMANDS["projection"] = projection_main
 
 def skill_main(argv: list[str]) -> int:
     import argparse, json

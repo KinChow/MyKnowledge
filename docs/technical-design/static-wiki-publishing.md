@@ -48,6 +48,8 @@
 
 本轮增量调查（2026-08-30）：继续复用 Astro/Starlight static output、Pagefind final-HTML index 和 Quartz graph closure；新增独立 projection validator，参考 Starlight content collection 的 schema-first fail-fast 习惯。替代方案是直接信任 manifest 字符串字段，无法防止 duplicate ID、编码路径穿越或 practice/source/archive 混入，明确不采用。
 
+本轮 public projection generator 调查（2026-08-30）：Astro Starlight content collections（MIT，<https://starlight.astro.build/guides/content-collections/>）和 MkDocs Material 9.7.0（MIT，<https://squidfunk.github.io/mkdocs-material/setup/setting-up-a-navigation/>）都在 build time 消费确定的内容集合/导航清单；替代方案是让前端扫描整个 `wiki/` 或从 `queries/local` 过滤，会把权限判断推迟到渲染阶段并可能泄漏 private 元数据。新增 `tools.public_projection.PublicProjectionGenerator` 只扫描 public `wiki/**/*.md`，复用 `WikiValidator` 的 derived/hash 结果，并要求 public confirmation event 的 owner、人工批准和 content/evidence hash 完全匹配；不满足条件的对象只进入本机 skipped 报告，不写入 public manifest。生成的 `public-projection/v1` manifest 是 Astro 的唯一输入，离线运行不访问 private Vault、LLM 或网络；升级前端/校验器需要重跑 projection 与 leak-gate 测试。
+
 本轮题库泄漏调查（2026-08-30）：沿用 Pagefind 输入树/最终 dist denylist 扫描，在路径规则之外拒绝 `question/v1`、`review_state`、`answer`、`explanation`、`correct_option_ids`、`rubric` 字段；替代方案是只阻断 `practice/` 目录，无法拦截题库内容被错误复制到 `wiki/` 或静态 HTML 的情况。该规则与 F008 的 private practice 契约共享，但不读取 practice 内容。
 
 本轮多页集成调查（2026-08-27）：Astro 7.1.3/Starlight 0.41.4（MIT）与 Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）继续作为静态输出/离线索引方案；Quartz v4（MIT，<https://github.com/jackyzha0/quartz>）仅借鉴 catalog-to-graph 闭包。替代方案是直接扫描 `docs/` 或由前端动态读取 local index，会把治理文档、practice 或 private 内容带入发布，明确排除。临时 fixture 在独立 root 运行 prepare-content/build-graph，不改生产 manifest、canonical 或 dist。

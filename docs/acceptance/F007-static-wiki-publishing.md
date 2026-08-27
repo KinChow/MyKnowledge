@@ -35,6 +35,13 @@
 - AC-F007-011/012/017：`tests/test_frontend_projection.py` 验证空 public manifest 通过，practice 路径、编码 `%2e%2e` 穿越、重复 ID 均 fail-closed。
 - validator 只校验 allowlist/schema/path 边界，不生成或提升 `public_release`；当前仓库没有真实 Wiki/人工 confirmation，因此仍不标记 Accepted。
 
+## Public projection generator 增量证据（2026-08-30）
+
+- `tools/public_projection.py::PublicProjectionGenerator` 只扫描 public `wiki/**/*.md`，复用 WikiValidator 的 `public_publishable` 与 content/evidence hash，并校验人工 `public-release-confirmation/v1` 的 owner、批准状态和 hash。
+- `tests/test_public_projection.py::test_public_projection_generator_requires_matching_confirmation` 验证已验证但缺 confirmation 的对象不会进入 `queries/public/manifest.json`，只进入本机 skipped 结果；匹配 confirmation 的对象生成完整 public item。
+- `tests/test_public_projection.py::test_public_projection_generator_does_not_emit_private_or_unconfirmed_items` 验证 private object 不会进入 public manifest。
+- CLI 入口：`python -m tools.cli projection generate`。真实多文章 Pagefind/浏览器验收和最终发布闭包仍待完成。
+
 ## Active content / Mermaid callback 增量证据（2026-08-27）
 
 - `tests/test_frontend_projection.py::test_leak_gate_rejects_active_html_and_mermaid_callbacks` 验证 input-tree leak gate 拒绝 `<iframe>` 与 Mermaid `click ... href https://...` callback；同时拒绝事件处理器属性和危险 URL，避免静态页面执行外部脚本或导航。
