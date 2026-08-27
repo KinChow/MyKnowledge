@@ -24,6 +24,8 @@
 
 本轮 Retriever 资源边界调查（2026-08-27）：SQLite FTS5 官方参数绑定/`LIMIT`（Public Domain，<https://www.sqlite.org/fts5.html>）和 QMD 2.8.3 CLI 的 `-n` 限制（MIT，<https://github.com/tobi/qmd>）都要求在候选生成前限制资源；替代方案是只在 FastAPI 层限制，CLI/Skill 直调会绕过上限。故 `Retriever` 与 API 共用 `max_vault_ids=16` 和 `top_k` 上限，超限统一返回 `query_limit_exceeded`，不静默截断或扩大 owner scope。
 
+本轮索引 CLI 调查（2026-08-27）：SQLite FTS5 官方 `rebuild`/`PRAGMA quick_check`（Public Domain，<https://www.sqlite.org/fts5.html>、<https://sqlite.org/pragma.html#pragma_quick_check>）与 QMD 的薄命令行入口（MIT，<https://github.com/tobi/qmd>）都把索引操作作为显式、可重放的运维动作；替代方案是 CLI 自行扫描 `wiki/` 或仅检查文件存在，会绕过 projection allowlist 与 scope hash。新增 `python -m tools.cli index rebuild|recover --scope ... --index ...` 只消费 public manifest 或 Registry local projection，复用 `SQLiteIndex` 原子替换、`.previous` 保留和 quick_check；离线运行不联网，index 路径由调用方显式提供，升级只影响 CLI 参数，不改变索引/QueryResult schema。
+
 ## 数据流
 
 ```text

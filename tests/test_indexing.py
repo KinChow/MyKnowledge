@@ -166,4 +166,16 @@ class IndexingTests(unittest.TestCase):
             self.assertEqual(result["state"], "valid")
             self.assertFalse(result["recovered"])
 
+    def test_index_cli_rebuild_and_recover_use_public_projection(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "pub.md").write_text("SQLite", encoding="utf-8")
+            (root / "queries" / "public").mkdir(parents=True)
+            (root / "queries" / "public" / "manifest.json").write_text(__import__("json").dumps({"schema_version":"public-projection/v1", "projection":"public", "items":[{**ITEMS[0], "body_path":"wiki/pub.md"}]}), encoding="utf-8")
+            path = root / "state" / "index.sqlite3"
+            first = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "index", "rebuild", "--root", str(root), "--scope", "public", "--index", str(path)], capture_output=True, text=True, check=False)
+            self.assertEqual(first.returncode, 0)
+            second = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "index", "recover", "--root", str(root), "--scope", "public", "--index", str(path)], capture_output=True, text=True, check=False)
+            self.assertEqual(second.returncode, 0)
+            self.assertEqual(__import__("json").loads(second.stdout)["state"], "valid")
+
 if __name__ == "__main__": unittest.main()
