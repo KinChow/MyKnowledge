@@ -82,6 +82,8 @@ Ask 的 `answer` 在不可用或冲突时为 `null`；每个 citation 必须符�
 
 本轮 CLI parity 调查（2026-08-30）：Typer/Click 的成熟 CLI 结构（MIT/BSD）强调命令层只做参数解析并调用共享领域服务；替代方案是 CLI 直接扫描 `wiki/` Markdown，会绕过 public projection allowlist、hash 和 API 排序。新增 `tools.cli query` 仅允许 public scope，复用 API 的 projection loader 与 `Retriever`，local/private 查询继续要求受保护 API。
 
+本轮 read/backlinks parity 调查（2026-08-30）：Click command group（BSD-3-Clause，<https://click.palletsprojects.com/en/stable/commands/>）和 Typer subcommand（MIT，<https://typer.tiangolo.com/tutorial/commands/>）均建议 CLI 子命令只做参数解析，调用同一领域实现。新增 CLI `read`/`backlinks` 委托 projection-only runtime，与 API 使用相同 public manifest、owner 和错误边界；替代方案是 CLI 直接遍历 canonical `wiki/`，会绕过 public release/hash/leak gate，明确排除。离线运行不联网、不写入 canonical 或索引；private/local 读取仍要求 API capability。
+
 本轮退出清理调查（2026-08-30）：FastAPI lifespan/on-shutdown（MIT，<https://fastapi.tiangolo.com/advanced/events/>）与 Uvicorn graceful shutdown 共同提供进程退出钩子；替代方案是依赖临时目录或下次启动覆盖 token，无法满足旧 token 立即失效和最小权限清理。应用在 shutdown 阶段仅尽力删除自身生成的 `state/capability-token`，不触碰用户内容；删除失败保留可诊断状态但不阻塞退出。
 
 无 FastAPI 时，`tools/query.py` 直接读取 `queries/public` 和静态 catalog，支持 public 浏览、精确查询和确定性搜索。QMD、FTS5、LLM validation、local index 或写入能力不可用时必须返回明确 `unavailable`/`degraded`，不得伪造成功。`/api/retrieve` 的请求 scope 必须使用 `public`/`local`/`private`，不能使用未定义的 `wiki` 别名；`/api/ask` 依赖 RAG/LLM，离线时必须返回 `unavailable`，不能把普通关键词命中伪装成生成式回答。local-file source 的导入仍可由 CLI 在无网络时执行，因为证据载体已在本机。

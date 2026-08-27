@@ -79,6 +79,33 @@ def query_main(argv: list[str]) -> int:
 
 COMMANDS["query"] = query_main
 
+def projection_read_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Read one object from the validated public projection")
+    parser.add_argument("object_id")
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--vault-id", default="public")
+    args = parser.parse_args(argv)
+    from tools.skill_runtime import dispatch
+    result = dispatch("read", {"vault_id": args.vault_id, "object_id": args.object_id}, root=args.root)
+    print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
+    return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
+
+def projection_backlinks_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="List backlinks from the validated public projection")
+    parser.add_argument("object_id")
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--vault-id", default="public")
+    args = parser.parse_args(argv)
+    from tools.skill_runtime import dispatch
+    result = dispatch("backlinks", {"vault_id": args.vault_id, "object_id": args.object_id}, root=args.root)
+    print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
+    return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
+
+COMMANDS["read"] = projection_read_main
+COMMANDS["backlinks"] = projection_backlinks_main
+
 def lock_main(argv: list[str]) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Recover an orphaned vault lock")
