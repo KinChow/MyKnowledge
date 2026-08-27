@@ -136,9 +136,9 @@ class WriteOperation:
                 return {"state": "applied", "operation_id": operation_id, "applied_files": applied["applied_files"]}
         except LockBusyError:
             return VaultLock.lock_busy_response(operation_id)
-        except OSError:
+        except (OSError, ValueError) as exc:
             self.store.update(record, "expired", error_code="apply_failed")
-            return {"state": "expired", "operation_id": operation_id, "error_code": "apply_failed"}
+            return {"state": "expired", "operation_id": operation_id, "error_code": "apply_failed", "detail": str(exc)}
 
     def recover(self, operation_id: str) -> dict:
         """Inspect an interrupted commit intent without guessing or overwriting files."""
