@@ -169,6 +169,13 @@
 - AC-F004-009（真实重建）：`WriteOperation` 对 public vault 默认挂接 `public_projection_rebuilder`（真实调用 `PublicProjectionGenerator`）；`RealProjectionRebuildTests` 验证 apply 后 manifest 落盘、注入写入障碍后进入 `applied_index_pending`、清除障碍后显式 `recover()` 完成重建并落 `applied`。SQLite index 生产重建留待 F005 接线。
 - 边界：本地交互通道（CLI/本地 API）的裸 `confirmed` 标志仍表示"操作者在场确认"；非交互 Agent 通道建议随 apply 提供 `confirmation` 事件作为人工确认凭据。跨 Vault staging、Source/Evidence writer 统一迁移仍待验收。
 
+## confirm-apply 人工确认生成入口（2026-08-28）
+
+- `tools.cli confirm-apply <operation_id> --actor-id`：从 durable record 派生 `operation-confirmation/v1` 事件（`input_hash`/`diff_hash` 取自 `state/operations`，人不可能确认错 hash），`event_sha256` 生成后经 `validate_apply_confirmation` 自校验；只读不写，不触发 apply。
+- fail-closed：非 `previewed` / 过期 / 非法 actor / `publish_private` 缺 content/evidence hash 均拒绝生成。
+- `tools.cli write --apply --confirmation <event.json>` 消费事件；信任边界（本地交互终端、非密码学认证）写入命令 epilog 与规范。
+- 对应测试：`ConfirmApplyCliTests`（端到端生成→消费、过期拒绝）。
+
 ## 真实 checkout 端到端演练证据（2026-08-28，commit eb5c214）
 
 在真实 MyKnowledge checkout 上执行完整链路（sandbox 文件 `wiki/f004-drill.md`，演练后 rename 至 gitignore 的 `state/` 清理）：

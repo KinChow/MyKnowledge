@@ -60,6 +60,59 @@ def validate_apply_confirmation(record: dict, event: object) -> str | None:
     return None
 
 
+def build_apply_confirmation(
+    store: "OperationStore",
+    operation_id: str,
+    actor_id: str,
+    *,
+    scope: str = "apply",
+    content_sha256: str | None = None,
+    evidence_sha256: str | None = None,
+) -> tuple[dict | None, str | None]:
+    """从 durable record 派生确认事件；返回 (event, error_code)。
+
+    生成与校验同文件（防契约漂移）：hash 一律取自 ``state/operations``
+    记录而非调用方参数——人只能确认"当前记录的状态"，不可能确认错 hash。
+    只读不写：本函数不落任何 durable 状态、不触发 apply；生成器运行在
+    人的本地交互终端（与 ADR-0010 人工门禁同一信任模型，非密码学认证）。
+    ``scope: publish_private`` 需显式给出 content/evidence hash
+    （对内容的人工背书，不可从 record 代取）。
+    """
+    try:
+        safe_id(actor_id)
+    except ValueError:
+        return None, "confirmation_actor_invalid"
+    try:
+        record = store.load(operation_id)
+    except (OSError, ValueError):
+        return None, "operation_not_found"
+    if scope not in APPLY_CONFIRMATION_SCOPES:
+        return None, "confirmation_scope_invalid"
+    if record.get("state") != "previewed":
+        return None, "operation_not_previewed"
+    if store.is_expired(record):
+        return None, "operation_expired"
+    event: dict = {
+        "schema_version": APPLY_CONFIRMATION_SCHEMA,
+        "operation_id": operation_id,
+        "scope": scope,
+        "actor_type": "human",
+        "actor_id": actor_id,
+        "input_hash": record.get("input_hash"),
+        "diff_hash": record.get("diff_hash"),
+    }
+    if scope == "publish_private":
+        publish = {"content_sha256": content_sha256, "evidence_sha256": evidence_sha256, "target_vault": record.get("target_vault")}
+        if not content_sha256 or not evidence_sha256:
+            return None, "confirmation_fields_missing"
+        event.update(publish)
+    event["event_sha256"] = hash_canonical(event)
+    # 自校验：生成的事件必须能通过本校验器（生成/校验同源）
+    if validate_apply_confirmation(record, event) is not None:
+        return None, "confirmation_generation_invalid"
+    return event, None
+
+
 class OperationStore:
     """Operation 两阶段写操作仓库：创建、读取、更新与审计。
 

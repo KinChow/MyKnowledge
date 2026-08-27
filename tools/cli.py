@@ -43,15 +43,49 @@ def write_main(argv: list[str]) -> int:
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--files", type=Path, help="JSON object mapping relative paths to UTF-8 content")
     parser.add_argument("--apply")
+    parser.add_argument("--confirmation", type=Path, help="operation-confirmation/v1 event JSON (see confirm-apply)")
     parser.add_argument("--confirm", action="store_true")
     args = parser.parse_args(argv)
     service = WriteOperation(args.root)
+    confirmation = json.loads(args.confirmation.read_text(encoding="utf-8")) if args.confirmation else None
     if args.apply:
-        _print_json(service.apply(args.apply, confirmed=args.confirm))
+        _print_json(service.apply(args.apply, confirmed=args.confirm, confirmation=confirmation))
     elif args.files:
         _print_json(service.preview(json.loads(args.files.read_text(encoding="utf-8"))))
     else:
         parser.error("--files or --apply is required")
+    return 0
+
+
+def confirm_apply_main(argv: list[str]) -> int:
+    """人工确认事件生成（只读不写；hash 从 durable record 派生）。"""
+    from tools.operation_store import OperationStore, build_apply_confirmation
+
+    parser = argparse.ArgumentParser(
+        description="Generate an operation-confirmation/v1 event for a human to review (prints JSON; never applies)",
+        epilog="信任边界：本命令标记 actor_type=human 的依据是它运行在人的本地交互终端并由人显式执行（与 ADR-0010 同一信任模型，非密码学认证）。不得接入自动化脚本。",
+    )
+    parser.add_argument("operation_id")
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--actor-id", required=True)
+    parser.add_argument("--scope", choices=["apply", "publish_private"], default="apply")
+    parser.add_argument("--content-sha256", help="required for publish_private")
+    parser.add_argument("--evidence-sha256", help="required for publish_private")
+    parser.add_argument("--out", type=Path, help="optional: write event JSON to file instead of stdout")
+    args = parser.parse_args(argv)
+    event, error = build_apply_confirmation(
+        OperationStore(args.root), args.operation_id, args.actor_id,
+        scope=args.scope, content_sha256=args.content_sha256, evidence_sha256=args.evidence_sha256,
+    )
+    if error is not None:
+        _print_json({"state": "blocked", "error_code": error})
+        return 2
+    payload = json.dumps(event, ensure_ascii=False, indent=2) + "\n"
+    if args.out:
+        args.out.write_text(payload, encoding="utf-8")
+        _print_json({"state": "created", "path": str(args.out), "event_sha256": event["event_sha256"]})
+    else:
+        print(payload, end="")
     return 0
 
 
@@ -265,6 +299,7 @@ COMMANDS = {
     "audit": audit_main,
     "confirm": confirm_main,
     "write": write_main,
+    "confirm-apply": confirm_apply_main,
     "vault": vault_main,
     "local-projection": local_projection_main,
     "query": query_main,
@@ -289,6 +324,7 @@ commands:
   audit            LLM 证据审计（provider 调用 + 覆盖义务 + 报告写入）
   confirm          人工审计确认（operation-confirmation/v1 写入）
   write            通用 Preview/Apply 写入（F004）
+  confirm-apply    人工确认事件生成（operation-confirmation/v1，只读不写）
   vault            Vault Registry 只读检查（F011）
   local-projection 生成 owner-aware local/private projection（F011）
   query            离线检索 public projection（F005）
