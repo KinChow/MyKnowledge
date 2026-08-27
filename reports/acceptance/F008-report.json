@@ -16,6 +16,7 @@
     "AC-F008-009"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "latest_increment": {"date": "2026-08-27", "evidence": "tests/test_api.py::test_practice_review_api_persists_fsrs_card_state", "boundary": "Practice review API persists FSRS card state behind local capability; provider-unavailable remains explicit."},
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

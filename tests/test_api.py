@@ -323,3 +323,18 @@ def test_practice_api_exposes_deterministic_mode_and_llm_unavailable(tmp_path: P
     assert deterministic.status_code == 200 and deterministic.json()["scoring_provider"] == "deterministic_rubric"
     unavailable = client.post("/api/practice/q-one/answer", params={"scope": "local", "scoring_mode": "llm"}, headers=headers, json="x")
     assert unavailable.status_code == 200 and unavailable.json()["reason"] == "provider_unavailable"
+
+
+def test_practice_review_api_persists_fsrs_card_state(tmp_path: Path):
+    from tools.question import QuestionStore
+    report = {"valid": True, "object_ref": {"object_type": "wiki", "object_id": "wiki-one"}, "metadata": {"evidence": [{"claim_id": "claim-one"}]}, "derived": {"evidence_state": "supported"}, "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"}}
+    spec = {"id": "q-review", "type": "short_answer", "wiki_id": "wiki-one", "claim_id": "claim-one", "prompt": "Explain", "rubric": ["核心"]}
+    QuestionStore(tmp_path).create(spec, wiki_report=report)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    response = client.post("/api/practice/q-review/review", params={"scope": "local", "rating": 3}, headers={"X-MyKnowledge-Capability": "token"})
+    assert response.status_code == 200
+    body = response.json()
+    assert body["schema_version"] == "practice-review/v1"
+    if body.get("state") == "scheduled":
+        assert body["review_state_schema"] == "fsrs-card/v1"
+        assert QuestionStore(tmp_path).load("q-review")["review_state"]["card_id"] == body["card"]["card_id"]

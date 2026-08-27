@@ -47,6 +47,11 @@
 
 - Given：带 capability 的练习 API 请求；When：传入 `scoring_mode=deterministic` 或 `scoring_mode=llm`；Then：分别返回 rubric 评分或 provider unavailable，非法模式被 FastAPI schema 拒绝，API 不创建网络 provider；当前状态：通过 `tests/test_api.py::test_practice_api_exposes_deterministic_mode_and_llm_unavailable`。
 
+## Practice review API 增量证据（2026-08-27）
+
+- `tests/test_api.py::test_practice_review_api_persists_fsrs_card_state` 通过 local capability 调用 `/api/practice/{question_id}/review`，验证 `practice-review/v1` 返回和 `fsrs-card/v1` Card 状态持久化；缺失 FSRS 时仍按 `provider_unavailable` 契约返回，不伪造调度成功。
+- 该证据复用 FSRS `Card.to_dict()/from_dict()` 和 Anki card/review 分离边界，练习状态仍只存在 private/local `practice/`。
+
 ## 本轮证据（2026-08-30）
 
 - AC-F008-005 增量：`tests/test_frontend_projection.py::test_leak_gate_rejects_question_payload_even_under_public_path` 验证即使题目 JSON 被伪装到 `wiki/` 路径，包含 `question/v1`/`answer` 的输入仍被 public leak gate 拒绝。
