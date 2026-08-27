@@ -158,6 +158,7 @@ def backup_main(argv: list[str]) -> int:
     parser.add_argument("--vault-id", default="public")
     parser.add_argument("--manifest", type=__import__("pathlib").Path)
     parser.add_argument("--target", type=__import__("pathlib").Path)
+    parser.add_argument("--target-vault-id")
     args = parser.parse_args(argv)
     manager = BackupManager(args.root)
     if args.action == "status": result = manager.status()
@@ -173,7 +174,8 @@ def backup_main(argv: list[str]) -> int:
             result = manager.export_bundle(args.manifest, args.target)
         elif args.action == "restore-bundle":
             if not args.target: parser.error("--target is required for restore-bundle")
-            result = manager.restore_bundle(args.manifest, args.target)
+            if not args.target_vault_id: parser.error("--target-vault-id is required for restore-bundle")
+            result = manager.restore_bundle_to_vault(args.manifest, args.target, args.target_vault_id)
         else:
             if not args.target: parser.error("--target is required for restore")
             result = manager.restore_manifest(args.manifest, args.target)
