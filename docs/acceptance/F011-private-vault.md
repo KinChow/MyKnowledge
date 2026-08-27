@@ -37,6 +37,12 @@
 - AC-F011-010/012：`VaultRegistry.effective_confidentiality` 对 owner 与 upstream 取最高等级；public 上游包含 internal 时结果为 `internal`，全 public 保持 `public`。该结果仅用于派生门禁，不改变 canonical 事实。
 - 边界：本轮未实现跨 vault copy/move、private projection 合并和恢复演练，F011 仍为 Implemented（部分）。
 
+## 跨 Vault copy/move 增量证据（2026-08-30）
+
+- `tests/test_vault_transfer.py::test_private_to_public_transfer_is_blocked_before_write` 验证 internal 内容迁移到 public Vault 时返回 `confidentiality_downgrade`，public 目标不会创建。
+- `tests/test_vault_transfer.py::test_cross_vault_copy_and_move_use_explicit_owner_and_locks` 验证 public → private 的 copy/move 必须先 Preview/确认，Apply 使用双 Vault 稳定排序锁、源 hash 复查和目标 hash 校验；copy 保留源，move 在目标成功后删除源。
+- CLI 入口 `python -m tools.cli transfer preview|apply` 只委托 `VaultTransfer`，不直接写 Markdown。完整跨 Vault staging 失败恢复和 private projection 重建仍待补，F011 仍为 Implemented（部分）。
+
 ## Owner-aware object index 增量证据（2026-08-27）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_object_index_keeps_same_ids_separate_by_owner` 验证两个 Vault 的同名 Wiki 以 `(vault_id, object_type, object_id)` 分别保留，索引值只含 owner/status 元数据，不暴露物理路径。

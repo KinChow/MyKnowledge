@@ -25,7 +25,7 @@
     "AC-F011-018",
     "AC-F011-019"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. Same-vault duplicate owner keys are now excluded from local/private projection and retained as check diagnostics.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. Same-vault duplicate owner keys are excluded from local/private projection, and explicit cross-vault copy/move now enforces owner, hash, confidentiality and dual-lock gates.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
