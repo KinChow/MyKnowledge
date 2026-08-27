@@ -21,7 +21,7 @@ def create_server(root: Path, capability_token: str | None = None, capability_to
     checkout = Path(root).resolve()
     expected_token = capability_token or os.environ.get("MYKNOWLEDGE_MCP_CAPABILITY_TOKEN")
     issued_at = time.time()
-    protected_actions = {"write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_manifest", "question_create", "question_answer", "question_review"}
+    protected_actions = {"write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_manifest", "question_create", "question_answer", "question_review"}
     server = FastMCP("myknowledge", instructions="Controlled MyKnowledge actions; writes require preview and human confirmation.")
 
     @server.tool(name="myknowledge_dispatch", description="Dispatch one allowlisted MyKnowledge action through the existing domain runtime.")

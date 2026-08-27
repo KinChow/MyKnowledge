@@ -28,6 +28,8 @@
 
 本轮只读能力扩展调查（2026-08-30）：MCP specification 2025-06 的 `tools/list`/`tools/call` 与工具 annotations（MIT 文档，<https://modelcontextprotocol.io/specification/2025-06-18/server/tools>）要求工具声明结构化输入并由宿主执行授权；Typer commands（MIT，<https://typer.tiangolo.com/tutorial/commands/>）建议子命令只做参数解析并共享领域函数。采用 `retrieve`（与 `query` 共用 Retriever）和 `backlinks`（只消费 public projection 的 body/links）两个只读 action；不允许 Skill 传物理路径、scope 扩权或扫描 canonical/private 目录。替代方案是 Skill 自行遍历 `wiki/`，会绕过 public manifest 和 leak gate，明确排除。离线无网络、无写入；MCP capability 保护规则保持不变。
 
+本轮 publish confirmation 调查（2026-08-27）：MCP typed tool boundary（MIT，<https://modelcontextprotocol.io/specification/2025-06-18/server/tools>）与现有 `release_confirmation.write_event()` 的 append-only nonce/hash 门禁可组合；替代方案是 Skill 直接写 `release/public-confirmations/*.json`，会绕过 schema、人工 actor、reason 脱敏和 nonce 重放保护。新增 `publish_confirm` 仅接收结构化 event 并委托 `write_event`，不生成或修改确认内容；离线运行，token/凭据不落盘，发布 authority 仍归 release confirmation 与 projection generator。
+
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 
 ## 能力面

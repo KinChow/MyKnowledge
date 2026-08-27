@@ -141,3 +141,8 @@
 
 - MCP capability token 默认绑定 server 进程启动时间并有 3600 秒 TTL；过期后敏感 action 返回 `capability_token_expired`，不会进入 writer 或其他领域服务。
 - `tests/test_skill_runtime.py::test_mcp_server_expires_capability_token` 使用过期 TTL 验证 fail-closed；token 仍不写入仓库或日志。
+
+## Publish confirmation 增量证据（2026-08-27）
+
+- 新增 `publish_confirm` action，仅接收结构化 `public-release-confirmation/v1` event 并委托 `release_confirmation.write_event()`；Skill 不直接写确认 JSON，也不能绕过 actor/reason/hash/nonce 校验。
+- `tests/test_skill_runtime.py::test_skill_publish_confirm_delegates_event_validation` 验证合法人工 event 创建成功，含私有 URL 的 reason 返回 `reason_not_public_safe`。

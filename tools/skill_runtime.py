@@ -15,10 +15,11 @@ from .write_operation import WriteOperation
 from .indexing import Retriever
 from .ingest.source_ingestor import SourceIngestor
 from .validation.validator import WikiValidator
+from .release_confirmation import write_event
 import json
 from .common import safe_id
 
-ALLOWED_ACTIONS = frozenset({"skill_status", "query", "retrieve", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
+ALLOWED_ACTIONS = frozenset({"skill_status", "query", "retrieve", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
 ACTION_FIELDS = {
     "skill_status": set(), "query": {"query", "scope", "top_k"}, "retrieve": {"query", "scope", "top_k"},
@@ -26,7 +27,7 @@ ACTION_FIELDS = {
     "write_preview": {"files", "operation_type", "vault_id"},
     "write_apply": {"operation_id", "confirmed", "actor_id"},
     "source_preview": {"request"}, "source_apply": {"operation_id", "confirmed", "actor_id"},
-    "wiki_validate": {"wiki_path"}, "publish_preview": {"wiki_path"},
+    "wiki_validate": {"wiki_path"}, "publish_preview": {"wiki_path"}, "publish_confirm": {"event"},
     "vault_check": set(), "backup_status": set(), "backup_manifest": {"vault_id"},
     "question_create": {"spec", "wiki_path"}, "question_answer": {"question_id", "response", "scoring_mode"},
     "question_review": {"question_id", "rating"},
@@ -127,6 +128,11 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
                 return report
             derived = report.get("derived") or {}
             return {"state": "previewed" if report.get("valid") else "blocked", "wiki_report": report, "public_publishable": derived.get("public_publishable", False), "private_publishable": derived.get("private_publishable", False)}
+        if action == "publish_confirm":
+            event = payload.get("event")
+            if not isinstance(event, dict):
+                return {"state": "blocked", "error_code": "publish_event_required"}
+            return write_event(root, event)
         if action == "vault_check":
             return VaultRegistry(root).check()
         if action == "backup_status":
