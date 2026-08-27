@@ -502,7 +502,9 @@ def has_public_confirmation(object_id: str, paths) -> bool:
     release_dir = paths.release_confirmations
     if not release_dir.exists():
         return False
-    for path in sorted(release_dir.glob("evt_*.json")):
+    # 与 PublicProjectionGenerator._confirmation / write_event 一致：safe_id 允许
+    # 连字符（evt-xxx），不能只匹配 evt_* 下划线前缀（曾导致发布确认永不生效）
+    for path in sorted(release_dir.glob("*.json"), reverse=True):
         event = read_json_dict(path)
         if event is None:
             continue
