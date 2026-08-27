@@ -107,3 +107,8 @@
 
 - `tests/test_indexing.py::IndexingTests::test_rebuild_retains_previous_index` 验证 SQLite rebuild 成功替换时保留 `<index>.previous`，上一版本仍可独立读取。
 - 临时事务或新索引写入失败时不触碰现有 index；查询发现损坏/陈旧索引时回退 deterministic fallback，等待显式 rebuild。
+
+## Retriever 资源边界增量证据（2026-08-27）
+
+- `Retriever.search()` 现在与 API 共用 `max_vault_ids=16` 及 `top_k`/query 限制；超限或非法 vault 列表在 QMD、FTS5 和 LIKE 之前统一返回 `query_limit_exceeded`。
+- `tests/test_indexing.py::IndexingTests::test_retriever_enforces_vault_id_limit_before_provider` 验证直接调用检索层也不会绕过资源和 owner scope 门禁。

@@ -56,6 +56,12 @@ class IndexingTests(unittest.TestCase):
         self.assertEqual(retriever.search("SQLite", "public")["items"][0]["object_ref"]["object_id"], "pub")
         self.assertEqual(retriever.search("x", top_k=101)["availability_reason"], "query_limit_exceeded")
 
+    def test_retriever_enforces_vault_id_limit_before_provider(self):
+        retriever = Retriever(ITEMS)
+        result = retriever.search("SQLite", "local", vault_ids=[f"vault-{i}" for i in range(17)])
+        self.assertEqual(result["availability_reason"], "query_limit_exceeded")
+        self.assertEqual(result["items"], [])
+
     def test_unavailable_metadata_is_searchable_without_body(self):
         result = Retriever(ITEMS).search("不可用", "local")
         self.assertEqual(result["items"][0]["availability"], "unavailable")

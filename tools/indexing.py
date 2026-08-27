@@ -171,7 +171,9 @@ class Retriever:
         self.qmd = qmd or QMDAdapter()
 
     def search(self, query: str, scope: str = "local", top_k: int = 8, vault_ids: list[str] | None = None) -> dict:
-        if not isinstance(query, str) or len(query) > 4096 or top_k < 1 or top_k > 100: return {"schema_version": "query-result/v1", "items": [], "scope": scope, "method": "deterministic-fallback", "index_version": "none", "generated_from": "", "availability": "invalid", "availability_reason": "query_limit_exceeded", "degraded": True, "confidentiality_max": "public", "limits": ["query_limit_exceeded"], "warnings": []}
+        if (not isinstance(query, str) or len(query) > 4096 or top_k < 1 or top_k > 100
+                or (vault_ids is not None and (len(vault_ids) > 16 or any(not isinstance(v, str) or not v for v in vault_ids)))):
+            return {"schema_version": "query-result/v1", "items": [], "scope": scope, "method": "deterministic-fallback", "index_version": "none", "generated_from": "", "availability": "invalid", "availability_reason": "query_limit_exceeded", "degraded": True, "confidentiality_max": "public", "limits": ["query_limit_exceeded"], "warnings": []}
         public = _scope_items(self.items, scope)
         if vault_ids is not None:
             requested = set(vault_ids)
