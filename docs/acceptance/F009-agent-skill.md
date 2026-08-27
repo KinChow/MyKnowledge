@@ -6,6 +6,12 @@
 - 实现证据：`skills/myknowledge/SKILL.md`、`tests/test_skill_contract.py`
 - 当前边界：已接入离线受控 runtime（action 白名单与 writer 委托）；尚未接入完整 source/wiki/publish/query API 调用、token 生命周期和 MCP server transport。
 
+## Ask action 增量证据（2026-08-27）
+
+- `ask` action 复用 public projection 与 `Retriever`，返回 `ask-result/v1`，包含完整 `retrieval`；没有 provider 时返回 `availability: unavailable`、`availability_reason: provider_unavailable`，不把检索命中伪装成生成答案。
+- `tests/test_skill_runtime.py::test_skill_ask_reuses_public_retrieval_and_offline_boundary` 验证 public query 可得到检索闭包，答案保持 `None`，且 practice/private 路径不会被读取。
+- 该证据闭合 F009 的离线 ask action 边界，但不代表外部 LLM provider、private API transport 或全量 API parity 已 Accepted。
+
 ## 练习评分路由增量证据（2026-08-27）
 
 ## Action schema 增量证据（2026-08-27）

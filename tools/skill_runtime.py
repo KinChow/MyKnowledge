@@ -19,10 +19,10 @@ from .release_confirmation import write_event
 import json
 from .common import safe_id
 
-ALLOWED_ACTIONS = frozenset({"skill_status", "query", "retrieve", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
+ALLOWED_ACTIONS = frozenset({"skill_status", "query", "retrieve", "ask", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
 ACTION_FIELDS = {
-    "skill_status": set(), "query": {"query", "scope", "top_k"}, "retrieve": {"query", "scope", "top_k"},
+    "skill_status": set(), "query": {"query", "scope", "top_k"}, "retrieve": {"query", "scope", "top_k"}, "ask": {"query", "scope", "top_k"},
     "read": {"vault_id", "object_id"}, "backlinks": {"vault_id", "object_id"},
     "write_preview": {"files", "operation_type", "vault_id"},
     "write_apply": {"operation_id", "confirmed", "actor_id"},
@@ -73,11 +73,17 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
             if any(marker not in text for marker in required):
                 return {"state": "unavailable", "error_code": "skill_unavailable", "reason": "canonical_skill_invalid"}
             return {"state": "available", "schema_version": "skill-status/v1", "skill": "myknowledge"}
-        if action in {"query", "retrieve"}:
+        if action in {"query", "retrieve", "ask"}:
             if str(payload.get("scope", "public")) != "public" or not isinstance(payload.get("query"), str):
                 return {"state": "blocked", "error_code": "skill_public_query_only"}
             items = _public_projection_items(root)
-            return Retriever(items).search(payload["query"], "public", int(payload.get("top_k", 8)))
+            retrieval = Retriever(items).search(payload["query"], "public", int(payload.get("top_k", 8)))
+            if action == "ask":
+                return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval,
+                        "availability": "unavailable", "availability_reason": "provider_unavailable",
+                        "confidentiality": retrieval.get("confidentiality_max", "public"),
+                        "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
+            return retrieval
         if action == "read":
             if payload.get("vault_id", "public") != "public":
                 return {"state": "blocked", "error_code": "skill_private_read_requires_api"}
