@@ -1,0 +1,11 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F011",
+  "status": "Implemented (partial)",
+  "generated_from": "06fd0df",
+  "acceptance_document": "docs/acceptance/F011-private-vault.md",
+  "test": "tests/test_vault_registry.py::VaultRegistryTests::test_local_projection_can_be_materialized_atomically",
+  "verification": {"passed": 1, "failed": 0, "full_suite_passed": 308, "remote_push": false},
+  "covered": ["local_projection_v1", "owner_triple", "atomic_write", "projection_hash", "0600_permissions"],
+  "boundary": "Full private projection/recovery and external Vault environment tests remain pending; this report does not imply Accepted."
+}

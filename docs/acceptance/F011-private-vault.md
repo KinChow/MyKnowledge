@@ -48,6 +48,11 @@
 - `VaultTransfer.apply()` 保持“目标写入并 hash 校验后才删除源”的顺序；源删除失败时清理本次目标文件并释放双 Vault 锁，源内容保持不变。
 - `tests/test_vault_transfer.py::test_cross_vault_move_rolls_back_target_when_source_delete_fails` 注入源删除异常，验证返回 `apply_failed`、目标不存在且 public/private lock owner 文件均已释放。
 
+## Local projection materialization 增量证据（2026-08-27）
+
+- `VaultRegistry.write_local_projection()` 将 `local-projection/v1` 以 0600 权限原子写入 `queries/local/manifest.json`，保留 owner 三元组、不可用 Vault 诊断和 `projection_sha256`。
+- `tests/test_vault_registry.py::VaultRegistryTests::test_local_projection_can_be_materialized_atomically` 验证输出可解析、hash 一致且不会暴露物理路径。
+
 ## Owner-aware object index 增量证据（2026-08-27）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_object_index_keeps_same_ids_separate_by_owner` 验证两个 Vault 的同名 Wiki 以 `(vault_id, object_type, object_id)` 分别保留，索引值只含 owner/status 元数据，不暴露物理路径。
