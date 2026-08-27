@@ -127,6 +127,7 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
         return {"state": "blocked", "stage": "source_preview", "source": source_preview, "writes_applied": False}
     source_result = SourceIngestor(root).apply(source_preview["operation_id"], confirmed=True, actor_id="migration")
     source_result = {key: value for key, value in source_result.items() if key != "source_path"}
+    source_result["source_path"] = f"sources/tools/{source_id}.md"
     if source_result.get("state") != "applied":
         return {"state": "blocked", "stage": "source_apply", "source": source_result, "writes_applied": False}
     wiki_id = item["wiki_target"]["object_id"]
@@ -144,6 +145,8 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     wiki_result = WriteOperation(root).apply(wiki_preview["operation_id"], confirmed=True, actor_id="migration")
     result = {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path, "link_repair": link_report}
     if result["state"] == "applied":
+        output_paths = [p for p in (result.get("wiki_path"), (result.get("source") or {}).get("source_path"), *((result.get("source") or {}).get("applied_files") or [])) if isinstance(p, str) and (p.startswith("wiki/") or p.startswith("sources/"))]
+        result["output_hashes"] = {p: "sha256:" + hashlib.sha256((root / p).read_bytes()).hexdigest() for p in output_paths if (root / p).is_file()}
         record = {"schema_version": "migration-record/v1", "migration_key": migration_key, "legacy_path": legacy_path, "body_sha256": item["body_sha256"], "result": result}
         record["record_sha256"] = hash_canonical(record)
         record_path.parent.mkdir(parents=True, exist_ok=True)
@@ -209,6 +212,72 @@ def apply_batch(root: Path, legacy_paths: list[str] | None = None, *, confirmed:
     return result
 
 
+def rollback_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_dir: Path | None = None) -> dict[str, Any]:
+    """Preview/apply removal of one migration's generated files only.
+
+    Immutable source snapshots and the legacy input remain untouched.  Purge is
+    delegated to WriteOperation so before-hash, confirmation and locking gates
+    remain identical to other destructive writes.
+    """
+    root = Path(root).resolve()
+    candidates = []
+    for path in sorted((root / "audit" / "migrations").glob("*.json")):
+        try:
+            record = __import__("json").loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError, TypeError):
+            continue
+        if record.get("schema_version") == "migration-record/v1" and record.get("legacy_path") == legacy_path:
+            candidates.append((path, record))
+    if not candidates:
+        return {"state": "blocked", "error_code": "migration_record_not_found", "writes_applied": False}
+    record_path, record = candidates[-1]
+    key = str(record.get("migration_key", ""))
+    rollback_path = root / "audit" / "migrations" / f"rollback-{key}.json"
+    if rollback_path.is_file():
+        try:
+            saved = __import__("json").loads(rollback_path.read_text(encoding="utf-8"))
+            if saved.get("record_sha256") == hash_canonical({k: v for k, v in saved.items() if k != "record_sha256"}):
+                return {**saved.get("result", {}), "replayed": True}
+        except (OSError, ValueError, TypeError):
+            pass
+    result = record.get("result") or {}
+    paths = []
+    wiki_path = result.get("wiki_path")
+    if isinstance(wiki_path, str):
+        paths.append(wiki_path)
+    source = result.get("source") or {}
+    source_path = source.get("source_path") if isinstance(source, dict) else None
+    if isinstance(source_path, str) and source_path not in paths and source_path.startswith("sources/"):
+        paths.append(source_path)
+    for item in source.get("applied_files", []) if isinstance(source, dict) else []:
+        if isinstance(item, str) and item not in paths and item.startswith(("sources/", "wiki/")):
+            paths.append(item)
+    if not paths:
+        return {"state": "blocked", "error_code": "migration_outputs_missing", "writes_applied": False}
+    expected_hashes = result.get("output_hashes") or {}
+    files = {}
+    for rel in paths:
+        target = root / rel
+        if not target.is_file() or target.is_symlink():
+            return {"state": "blocked", "error_code": "migration_output_unavailable", "path": rel, "writes_applied": False}
+        current_hash = "sha256:" + hashlib.sha256(target.read_bytes()).hexdigest()
+        if expected_hashes.get(rel) and expected_hashes[rel] != current_hash:
+            return {"state": "blocked", "error_code": "migration_output_changed", "path": rel, "writes_applied": False}
+        files[rel] = target.read_text(encoding="utf-8")
+    preview_result = WriteOperation(root).preview(files, operation_type="purge", vault_id="public")
+    if preview_result.get("state") != "previewed":
+        return {"state": "blocked", "error_code": "rollback_preview_failed", "preview": preview_result, "writes_applied": False}
+    if not confirmed:
+        return {"state": "awaiting_confirmation", "writes_applied": False, "operation_id": preview_result["operation_id"], "legacy_path": legacy_path, "paths": paths}
+    applied = WriteOperation(root).apply(preview_result["operation_id"], confirmed=True, actor_id="migration-rollback")
+    rollback_result = {"state": "applied" if applied.get("state") == "applied" else "blocked", "writes_applied": applied.get("state") == "applied", "legacy_path": legacy_path, "paths": paths, "operation": applied}
+    if rollback_result["state"] == "applied":
+        saved = {"schema_version": "migration-rollback-record/v1", "migration_key": key, "legacy_path": legacy_path, "paths": paths, "result": rollback_result}
+        saved["record_sha256"] = hash_canonical(saved)
+        atomic_write(rollback_path, canonical_json(saved) + b"\n", 0o600)
+    return rollback_result
+
+
 def main(argv: list[str] | None = None) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Preview legacy Source-first migration")
@@ -217,10 +286,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--apply-sample", metavar="LEGACY_PATH", help="apply one representative sample through Source/Wiki gates")
     parser.add_argument("--apply-batch", nargs="*", metavar="LEGACY_PATH", help="apply selected legacy items as one replayable batch")
+    parser.add_argument("--rollback-sample", metavar="LEGACY_PATH", help="preview/apply removal of one migrated sample")
     parser.add_argument("--expected-preview-sha256", help="bind confirmed batch to the previously reviewed preview hash")
     parser.add_argument("--confirm", action="store_true", help="confirm the selected sample apply")
     args = parser.parse_args(argv)
-    if args.apply_sample:
+    if args.rollback_sample:
+        result = rollback_sample(args.root, args.rollback_sample, confirmed=args.confirm, docs_dir=args.docs)
+    elif args.apply_sample:
         result = apply_sample(args.root, args.apply_sample, confirmed=args.confirm, docs_dir=args.docs)
     elif args.apply_batch is not None:
         result = apply_batch(args.root, args.apply_batch or None, confirmed=args.confirm, docs_dir=args.docs,

@@ -20,6 +20,8 @@
 
 本轮确认竞态调查（2026-08-27）：Quartz 的 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）与 Dendron migration workspace（AGPL-3.0，<https://github.com/dendronhq/dendron>）都把输入清单/树摘要作为阶段边界；替代方案是只要求布尔 `confirmed`，无法证明用户确认的内容仍是 preview 内容。故 `apply_batch` 支持调用方回传 `expected_preview_sha256`，Apply 前重新生成 inventory/route plan 并逐字节比较 preview hash；hash 不一致返回 `input_changed` 且不调用任何 Source/Wiki writer。该门禁离线运行，升级只影响批次调用契约，不改写原 `docs/`。
 
+本轮 rollback 调查（2026-08-27）：Dendron 的迁移清单/稳定 ID（AGPL-3.0，<https://github.com/dendronhq/dendron>）用于精确定位一次迁移产物，Quartz v4 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）保留源内容并允许重新生成输出；Git 的对象/工作树 hash（GPL-2.0）提供“只撤销未漂移生成物”的 precondition 思路。替代方案是 `rm -rf wiki/ sources/` 或全库 reset，会删除无关用户工作和 immutable evidence，明确排除。`rollback_sample` 从已自校验的 `migration-record/v1` 读取仓库相对 Source/Wiki 路径及完成时 hash，先生成 purge preview，人工确认后委托 `WriteOperation`；旧 `docs/`、content-addressed archive、manifest 和 audit 均保留。任何输出漂移、缺失或 symlink 均 fail-closed；成功写入 `migration-rollback-record/v1` 并可幂等重放。离线无网络，不执行 Git reset/commit/push。
+
 DOCX 仅通过 Docling handler 处理；未安装时返回 `extractor_unavailable:docling`，禁止退回二进制 UTF-8 解码。
 
 链接修复增量（2026-08-27）：参考 Quartz 的 canonical absolute link 与 Dendron 的 route rewrite，`apply_sample` 只把 inventory 中可确定映射的相对 `.md` 链接改为 `/legacy/...` route；外部 URL、绝对路径和 unresolved target 原样保留，并在结果中分别记录 `repaired`/`unresolved`。不扫描或改写原 `docs/`。

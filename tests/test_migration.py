@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tools.migrate_legacy import apply_batch, apply_sample, preview
+from tools.migrate_legacy import apply_batch, apply_sample, preview, rollback_sample
 
 
 def test_migration_preview_is_source_first_and_does_not_write(tmp_path: Path):
@@ -169,3 +169,28 @@ def test_migration_preview_blocks_normalized_id_collision_before_writes(tmp_path
     assert len(blocked) == 1
     result = apply_sample(tmp_path, blocked[0]["legacy_path"], confirmed=True)
     assert result == {"state": "blocked", "error_code": "stable_id_collision", "writes_applied": False, "item": blocked[0]}
+
+
+def test_rollback_sample_requires_confirmation_and_preserves_legacy_and_snapshot(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    legacy = docs / "guide.md"; legacy.write_text("# Guide\nStable\n", encoding="utf-8")
+    applied = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    source = tmp_path / "sources" / "tools" / "legacy-docs-guide-source.md"
+    wiki = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    pending = rollback_sample(tmp_path, "docs/guide.md")
+    assert pending["state"] == "awaiting_confirmation" and source.exists() and wiki.exists()
+    done = rollback_sample(tmp_path, "docs/guide.md", confirmed=True)
+    assert done["state"] == "applied"
+    assert legacy.exists() and not source.exists() and not wiki.exists()
+    assert list((tmp_path / "archive").rglob("*.md"))
+    assert rollback_sample(tmp_path, "docs/guide.md").get("replayed") is True
+
+
+def test_rollback_sample_blocks_output_drift_without_deleting_user_change(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir(); (docs / "guide.md").write_text("# Guide\n", encoding="utf-8")
+    apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    wiki = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    wiki.write_text(wiki.read_text(encoding="utf-8") + "user edit\n", encoding="utf-8")
+    result = rollback_sample(tmp_path, "docs/guide.md", confirmed=True)
+    assert result["state"] == "blocked"
+    assert wiki.exists()

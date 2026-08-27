@@ -10,6 +10,7 @@
     "AC-F010-003"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "latest_increment": {"date": "2026-08-27", "evidence": "tests/test_migration.py::test_rollback_sample_requires_confirmation_and_preserves_legacy_and_snapshot; tests/test_migration.py::test_rollback_sample_blocks_output_drift_without_deleting_user_change", "boundary": "Recorded migration outputs support confirmed hash-bound rollback while legacy input and immutable snapshots remain intact."},
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
