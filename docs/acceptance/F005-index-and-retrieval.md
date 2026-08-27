@@ -12,6 +12,10 @@
 
 完整 QMD cache 权限、损坏索引保留旧版本和 unavailable 对象状态元数据仍待后续验收。
 
+## 索引替换回滚增量证据（2026-08-30）
+
+- `tests/test_indexing.py::IndexingTests::test_rebuild_swap_failure_restores_previous_index` 注入最终 SQLite 文件替换失败，验证旧主索引自动恢复、仍可读取且没有把失败重建暴露为空索引。
+
 ## Public allowlist 收紧增量证据（2026-08-27）
 
 - `tests/test_indexing.py::IndexingTests::test_public_projection_requires_complete_release_allowlist` 验证 public index 同时要求 `vault_id=public`、`public_publishable=true`、`public_release=true`、`status=published` 和有效保密等级 `public`；draft、未确认发布和 internal 条目均被排除。

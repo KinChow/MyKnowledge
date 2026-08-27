@@ -18,6 +18,8 @@
 
 本轮 Registry projection 接入调查（2026-08-30）：SQLite FTS5（SQLite 3.46，Public Domain，<https://sqlite.org/fts5.html>）继续用于离线、事务化和可重建索引；Tantivy 0.22（MIT，<https://github.com/quickwit-oss/tantivy>）作为替代方案，吞吐和分词扩展更强，但会引入 Rust/native 依赖及新的索引格式升级边界。MyKnowledge 当前数据量和 fallback 契约优先选择 FTS5，直接消费 F011 的 `local-projection/v1`；索引层不自行扫描 Vault，也不重新推断 owner。故障 Vault 通过 projection 的状态元数据进入 warnings，正文只来自可用 owner。未来替换 backend 必须保持 `query-result/v1`、projection hash 和同一 confidentiality 边界。
 
+本轮索引替换调查（2026-08-30）：SQLite WAL/backup 的事务提交与 Tantivy 目录级原子切换（MIT，<https://github.com/quickwit-oss/tantivy>）共同要求新版本未完整落盘时保留旧版本可读；替代方案是先移动旧文件再直接替换，失败会留下索引空洞。`SQLiteIndex.rebuild()` 现在在最终 `os.replace` 失败时把 `.previous` 恢复回主路径，避免查询从可用状态退化为不存在。
+
 ## 数据流
 
 ```text

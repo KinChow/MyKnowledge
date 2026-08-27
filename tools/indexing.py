@@ -112,9 +112,17 @@ class SQLiteIndex:
                 db.execute("INSERT INTO metadata(object_ref,title,body,availability,availability_reason,confidentiality,content_sha256,source_ref) VALUES(?,?,?,?,?,?,?,?)", (ref,row["title"],row["body"],row["availability"],row["availability_reason"],row["confidentiality"],row["content_sha256"],row["source_ref"]))
             db.execute("INSERT INTO documents(documents) VALUES('rebuild')"); db.commit(); db.close()
             previous = self.path.with_suffix(self.path.suffix + ".previous")
-            if self.path.exists():
-                os.replace(self.path, previous)
-            os.replace(tmp, self.path)
+            old_moved = False
+            try:
+                if self.path.exists():
+                    os.replace(self.path, previous)
+                    old_moved = True
+                os.replace(tmp, self.path)
+            except OSError:
+                # Restore the last known-good index if the final swap fails.
+                if old_moved and not self.path.exists() and previous.exists():
+                    os.replace(previous, self.path)
+                raise
         finally:
             if os.path.exists(tmp): os.unlink(tmp)
         return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":generated_from, "item_count":len(allowed), "index_version":"fts5/v1", "previous_path": str(previous.name) if self.path.with_suffix(self.path.suffix + ".previous").exists() else None}

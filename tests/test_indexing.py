@@ -1,6 +1,7 @@
 import unittest, tempfile
 import subprocess
 from pathlib import Path
+from unittest import mock
 from tools.indexing import IndexBuilder, QMDAdapter, Retriever, SQLiteIndex
 from tools.vault_registry import VaultRegistry
 
@@ -94,6 +95,28 @@ class IndexingTests(unittest.TestCase):
             previous = path.with_suffix(".sqlite3.previous")
             self.assertTrue(previous.exists())
             self.assertEqual(SQLiteIndex(previous).scope(), "public")
+
+    def test_rebuild_swap_failure_restores_previous_index(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "index.sqlite3"
+            index = SQLiteIndex(path)
+            index.rebuild(ITEMS, "public")
+            original = path.read_bytes()
+            real_replace = __import__("os").replace
+            calls = {"count": 0}
+
+            def fail_new(source, destination):
+                calls["count"] += 1
+                if calls["count"] == 2:
+                    raise OSError("injected index swap failure")
+                return real_replace(source, destination)
+
+            with mock.patch("tools.indexing.os.replace", side_effect=fail_new):
+                with self.assertRaisesRegex(OSError, "injected index swap failure"):
+                    index.rebuild([ITEMS[0]], "public")
+            self.assertTrue(path.exists())
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(SQLiteIndex(path).scope(), "public")
 
     def test_qmd_cache_probe_is_fail_closed(self):
         with tempfile.TemporaryDirectory() as d:
