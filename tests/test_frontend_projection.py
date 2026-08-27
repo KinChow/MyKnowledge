@@ -152,15 +152,18 @@ def test_leak_gate_rejects_active_html_and_mermaid_callbacks(tmp_path: Path):
 
 
 def test_validate_build_rejects_pagefind_count_mismatch(tmp_path: Path):
+    """pagefind 闭包对象是 catalog（Starlight 文档页），非全部 html。"""
     target = tmp_path / "dist"; (target / "pagefind").mkdir(parents=True)
     (target / "index.html").write_text("<html></html>", encoding="utf-8")
+    (target / "graph").mkdir(parents=True)
+    (target / "graph" / "index.html").write_text("<html></html>", encoding="utf-8")  # 自定义页不计入 pagefind
     (target / "pagefind" / "pagefind-entry.json").write_text(json.dumps({"languages": {"zh-cn": {"page_count": 2}}}), encoding="utf-8")
     (tmp_path / "public" / "generated").mkdir(parents=True)
-    (tmp_path / "public" / "generated" / "catalog.json").write_text(json.dumps({"items": []}), encoding="utf-8")
-    (tmp_path / "public" / "generated" / "graph.json").write_text(json.dumps({"nodes": [], "edges": []}), encoding="utf-8")
+    (tmp_path / "public" / "generated" / "catalog.json").write_text(json.dumps({"items": [{"id": "one", "route": "one"}]}), encoding="utf-8")  # catalog 1 ≠ pagefind 2
+    (tmp_path / "public" / "generated" / "graph.json").write_text(json.dumps({"nodes": [{"id": "one"}], "edges": []}), encoding="utf-8")
     script = Path(__file__).parents[1] / "frontend/scripts/validate-build.mjs"
     result = subprocess.run(["node", str(script), str(target)], cwd=tmp_path, capture_output=True, text=True, check=False)
-    assert result.returncode != 0 and "pagefind_html_count_mismatch" in result.stderr
+    assert result.returncode != 0 and "pagefind_catalog_not_closed" in result.stderr
 
 
 def test_validate_build_requires_exact_sitemap_catalog_closure(tmp_path: Path):
