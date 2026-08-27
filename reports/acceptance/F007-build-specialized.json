@@ -1,0 +1,11 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F007",
+  "status": "Implemented (partial)",
+  "generated_from": "552faa6",
+  "acceptance_document": "docs/acceptance/F007-static-wiki-publishing.md",
+  "fixture_test": "tests/test_frontend_projection.py::test_projection_prepare_and_graph_build_multi_page_fixture",
+  "commands": ["npm run validate:config", "npm run validate:docs", "npm run validate:legacy", "MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection", "npm run build"],
+  "verification": {"fixture": "passed", "build": "build_valid", "input_tree_leak_findings": [], "staging_leak_findings": [], "dist_leak_findings": [], "pagefind": "generated", "remote_push": false},
+  "boundary": "Formal multi-article production manifest, browser interaction and Chinese search quality remain environment gates; this report does not imply Accepted."
+}

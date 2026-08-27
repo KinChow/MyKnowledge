@@ -82,6 +82,13 @@ release lock 增量：`build-release.mjs` 写入 `release-lock/v1` 随机 fencin
 
 - AC-F007-001/002/013：`tests/test_frontend_projection.py::test_projection_prepare_and_graph_build_multi_page_fixture` 在隔离临时 checkout 中生成两篇 public Wiki 与人工 confirmation，运行 `prepare-content.mjs` 和 `build-graph.mjs`；catalog 节点集合为 `{one,two}`，唯一边为 `one -> two`，未读取 practice/source/private 内容。该证据不替代真实 Astro/Pagefind 浏览器验收。
 
+## F007 静态发布专项报告（2026-08-27）
+
+- 多页 projection fixture 已通过 `prepare-content.mjs`、`build-graph.mjs`，验证 catalog/graph 节点与边闭包；根目录全量测试当前通过。
+- `frontend/` 已实际运行 `npm run validate:config`、`npm run validate:docs`、`npm run validate:legacy`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 和 `npm run build`；输出包含 `build_valid`，input-tree/staging/dist 三阶段 leak gate 均为 `findings: []`，Pagefind 成功生成索引。
+- 成熟方案复用 Astro/Starlight 内容集合、Pagefind final-HTML 索引和 Quartz graph closure；前端不扫描 source/private/practice。
+- 边界：当前 checkout 仍缺正式多文章 public manifest、真实浏览器交互和中文 Pagefind 查询质量基准，不能据此标记 F007 `Accepted`。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；
