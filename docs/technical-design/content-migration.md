@@ -18,6 +18,8 @@
 
 本轮 replay 完整性调查（2026-08-30）：Git object hash 和 SQLite durable record 的自校验要求记录内容与摘要绑定；替代方案是只验证 migration key，篡改者可伪造 `result` 并绕过 Source/Wiki 门禁。迁移记录现在通过 `record_sha256` 校验，且使用原子写入；校验失败视为未命中，重新执行完整 Source-first 流程。
 
+本轮确认竞态调查（2026-08-27）：Quartz 的 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）与 Dendron migration workspace（AGPL-3.0，<https://github.com/dendronhq/dendron>）都把输入清单/树摘要作为阶段边界；替代方案是只要求布尔 `confirmed`，无法证明用户确认的内容仍是 preview 内容。故 `apply_batch` 支持调用方回传 `expected_preview_sha256`，Apply 前重新生成 inventory/route plan 并逐字节比较 preview hash；hash 不一致返回 `input_changed` 且不调用任何 Source/Wiki writer。该门禁离线运行，升级只影响批次调用契约，不改写原 `docs/`。
+
 DOCX 仅通过 Docling handler 处理；未安装时返回 `extractor_unavailable:docling`，禁止退回二进制 UTF-8 解码。
 
 链接修复增量（2026-08-27）：参考 Quartz 的 canonical absolute link 与 Dendron 的 route rewrite，`apply_sample` 只把 inventory 中可确定映射的相对 `.md` 链接改为 `/legacy/...` route；外部 URL、绝对路径和 unresolved target 原样保留，并在结果中分别记录 `repaired`/`unresolved`。不扫描或改写原 `docs/`。
