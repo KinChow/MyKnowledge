@@ -123,6 +123,12 @@
 - `test_recover_commit_intent_marks_fully_written_files_applied` 验证进程在文件写完但 applied record 尚未落盘时，恢复检查按 after hash 重建 applied 状态；hash 不完整时返回 `recovery_required`，不覆盖用户文件。
 - 边界：projection/index 重建与跨 Vault staging 仍待后续验收，F004 仍为 Implemented（部分）。
 
+## Projection/index pending 恢复增量证据（2026-08-30）
+
+- `tests/test_write_operation.py::WriteOperationTests::test_projection_failure_keeps_canonical_and_recovers` 注入 projection rebuild 失败，验证 canonical 文件已原子完成、operation 状态为 `applied_index_pending`、返回 `projection_failed`/`recover_projection`，不会伪造完整 `applied`。
+- 使用同一 operation 显式 `recover()` 重跑 rebuild 后，状态才变为 `applied`，commit-intent 被清理；无 rebuild hook 时返回 `projection_rebuilder_unavailable`，不猜测恢复结果。
+- 该增量闭合 AC-F004-009 的通用 writer 状态边界；真实 public projection/index 生产重建和跨 Vault staging 仍为环境级 pending。
+
 ## Commit intent 完整性增量证据（2026-08-27）
 
 - `commit-intent/v1` 现在包含 canonical `intent_sha256`，覆盖 operation、vault 及每个文件的 before/after hash；`WriteOperation.recover()` 在恢复前校验自哈希、operation_id 和 target vault。

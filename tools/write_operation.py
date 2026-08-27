@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Mapping
+from typing import Callable, Mapping
 
 from .common import atomic_write, canonical_json, crash_injection_point, hash_canonical, sha256_bytes
 from .operation_store import OperationStore
@@ -18,9 +18,12 @@ from .vault_registry import VaultRegistry
 
 
 class WriteOperation:
-    def __init__(self, root: Path) -> None:
+    def __init__(self, root: Path, *, projection_rebuilder: Callable[[dict], object] | None = None) -> None:
         self.root = Path(root).resolve()
         self.store = OperationStore(self.root)
+        # Optional downstream projection/index hook. Canonical files commit first;
+        # a failed hook leaves the operation recoverable as applied_index_pending.
+        self.projection_rebuilder = projection_rebuilder
 
     def _vault_root(self, vault_id: str) -> Path:
         return self.root if vault_id == "public" else VaultRegistry(self.root).resolve_vault_path(vault_id)
@@ -132,7 +135,26 @@ class WriteOperation:
                         else:
                             atomic_write(path, content)
                     raise
-                applied = self.store.update(record, "applied", actor_id=actor_id, confirmation={"actor_type": "human", "actor_id": actor_id, "scope": "apply"}, applied_files=[x["path"] for x in record["files"]])
+                applied_files = [x["path"] for x in record["files"]]
+                if self.projection_rebuilder is not None:
+                    try:
+                        self.projection_rebuilder({**record, "applied_files": applied_files})
+                    except Exception as exc:
+                        pending = self.store.update(
+                            record,
+                            "applied_index_pending",
+                            actor_id=actor_id,
+                            error_code="projection_failed",
+                            applied_files=applied_files,
+                            projection_error=type(exc).__name__,
+                        )
+                        return {
+                            "state": pending["state"],
+                            "operation_id": operation_id,
+                            "error_code": "projection_failed",
+                            "next_action": "recover_projection",
+                        }
+                applied = self.store.update(record, "applied", actor_id=actor_id, confirmation={"actor_type": "human", "actor_id": actor_id, "scope": "apply"}, applied_files=applied_files)
                 if record.get("operation_type") == "retire":
                     marker = {"schema_version": "retire-marker/v1", "operation_id": operation_id, "vault_id": vault_id, "target": record["files"][0]["path"], "content_sha256": sha256_bytes(record["files"][0]["content"].encode("utf-8"))}
                     atomic_write(self.store.paths.audit_retire / f"{operation_id}.json", canonical_json(marker) + b"\n", 0o600)
@@ -144,10 +166,41 @@ class WriteOperation:
             self.store.update(record, "expired", error_code="apply_failed")
             return {"state": "expired", "operation_id": operation_id, "error_code": "apply_failed", "detail": str(exc)}
 
-    def recover(self, operation_id: str) -> dict:
+    def recover(self, operation_id: str, *, projection_rebuilder: Callable[[dict], object] | None = None) -> dict:
         """Inspect an interrupted commit intent without guessing or overwriting files."""
         try:
             record = self.store.load(operation_id)
+            rebuilder = projection_rebuilder or self.projection_rebuilder
+            if record.get("state") == "applied_index_pending":
+                if rebuilder is None:
+                    return {
+                        "state": "recovery_required",
+                        "operation_id": operation_id,
+                        "error_code": "projection_rebuilder_unavailable",
+                    }
+                try:
+                    rebuilder(record)
+                except Exception as exc:
+                    return {
+                        "state": "recovery_required",
+                        "operation_id": operation_id,
+                        "error_code": "projection_failed",
+                        "detail": type(exc).__name__,
+                    }
+                applied = self.store.update(
+                    record,
+                    "applied",
+                    actor_id="recovery",
+                    confirmation={"actor_type": "human", "actor_id": "recovery", "scope": "apply"},
+                    applied_files=record.get("applied_files", []),
+                )
+                self.store.paths.commit_intent_file(operation_id).unlink(missing_ok=True)
+                return {
+                    "state": "applied",
+                    "operation_id": operation_id,
+                    "recovered": True,
+                    "applied_files": applied.get("applied_files", []),
+                }
             intent_path = self.store.paths.commit_intent_file(operation_id)
             intent = __import__("json").loads(intent_path.read_text(encoding="utf-8"))
             expected_intent_hash = hash_canonical({k: v for k, v in intent.items() if k != "intent_sha256"})

@@ -18,6 +18,13 @@
     "AC-F004-011"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "latest_increment": {
+    "name": "projection-index-pending-recovery",
+    "tests": ["tests/test_write_operation.py::WriteOperationTests::test_projection_failure_keeps_canonical_and_recovers"],
+    "result": "focused test passed",
+    "invariants": ["canonical remains committed when projection rebuild fails", "state is applied_index_pending until explicit recovery", "recovery is idempotent and clears commit-intent only after success"],
+    "pending": ["production projection/index rebuild integration", "cross-vault staging", "complete Source/Evidence domain writer migration"]
+  },
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
