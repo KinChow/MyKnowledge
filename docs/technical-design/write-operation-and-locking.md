@@ -14,6 +14,8 @@
 
 ## 目标与非目标
 
+本轮 rename precondition 调查（2026-08-27）：Git `mv`/index（GPL-2.0，<https://git-scm.com/docs/git-mv>）要求工作树内容与索引状态一致后再更新路径；Dendron vault rename（AGPL-3.0，<https://github.com/dendronhq/dendron>）保留稳定路径映射。替代方案是只绑定目标文件 hash，无法发现源文件在确认前被用户修改。`WriteOperation.rename()` 现在记录 `source_before_hash`，Apply 在锁内校验该 hash，漂移时返回 `hash_mismatch` 并保留源、拒绝创建目标；离线无网络，不改变其他 operation 格式。
+
 目标是实现 Preview → 用户确认 → Apply、幂等、逐 Vault 排他锁、原子落盘、rename/move 和废弃操作。Agent Skill 只调用本设计定义的 operation API，不拥有第二套写入规则。不可重建的确认、发布和验证摘要写入 owner vault 的 `audit/`；`state/` 只保存可清理的运行态。
 
 ## 本轮成熟方案调查（2026-08-27）

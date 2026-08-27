@@ -94,6 +94,9 @@ class WriteOperation:
                     if not source_path.exists():
                         self.store.update(record, "expired", error_code="path_unresolved")
                         return {"state": "expired", "operation_id": operation_id, "error_code": "path_unresolved"}
+                    if record.get("source_before_hash") and sha256_bytes(source_path.read_bytes()) != record["source_before_hash"]:
+                        self.store.update(record, "expired", error_code="hash_mismatch")
+                        return {"state": "expired", "operation_id": operation_id, "error_code": "hash_mismatch"}
                     originals[source_path] = source_path.read_bytes()
                 for item in record.get("files", []):
                     path = self._operation_path(item["path"], vault_id)
@@ -177,6 +180,7 @@ class WriteOperation:
         if result.get("state") == "previewed":
             record = self.store.load(result["operation_id"])
             record["source_path"] = source
+            record["source_before_hash"] = sha256_bytes(src.read_bytes())
             atomic_write(self.store.paths.state_operation_file(result["operation_id"]), canonical_json(record) + b"\n", 0o600)
             result.update({"source": source, "target": target})
         return result
