@@ -63,8 +63,10 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
         if action in {"query", "retrieve", "ask"}:
             if str(payload.get("scope", "public")) != "public" or not isinstance(payload.get("query"), str):
                 return {"state": "blocked", "error_code": "skill_public_query_only"}
+            from .indexing import default_public_index_path
             items = _public_projection_items(root)
-            retrieval = Retriever(items).search(payload["query"], "public", int(payload.get("top_k", 8)))
+            index_path = default_public_index_path(root)
+            retrieval = Retriever(items, index_path=index_path if index_path.exists() else None).search(payload["query"], "public", int(payload.get("top_k", 8)))
             if action == "ask":
                 return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval,
                         "availability": "unavailable", "availability_reason": "provider_unavailable",

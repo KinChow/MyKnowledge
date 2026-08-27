@@ -117,3 +117,9 @@
 
 - `python -m tools.cli index rebuild|recover --root R --scope public --index I` 复用 `SQLiteIndex`，只读取 public projection manifest；`recover` 会执行 scope/generated_from/quick_check 校验并在需要时原子重建。
 - `tests/test_indexing.py::IndexingTests::test_index_cli_rebuild_and_recover_use_public_projection` 验证 CLI rebuild 后 recover 返回 `state: valid`，不扫描或写入 canonical Wiki。
+
+## F005 review 增量证据（2026-08-28）
+
+- **FTS5 默认接线（修复关键缺口）**：review 发现 CLI query / FastAPI / Skill 三个入口构造 `Retriever` 时均未传 `index_path`——FTS5 索引可构建但无消费者，真实查询永远走 LIKE 降级（AC-F005-002 的 QMD→FTS5→LIKE 链路此前只在注入式测试中成立）。现约定默认索引路径 `state/index/public.sqlite3`（`indexing.default_public_index_path`），三入口自动接线（存在即用，陈旧/损坏仍自动降级 LIKE）；public apply 后由 `public_projection_rebuilder` 自动重建索引，失败与 projection 失败同语义（`applied_index_pending` + 显式 recover）。对应测试：`F005WiringTests`、`IndexAutoRebuildTests`；真实 checkout 演练：`index rebuild` 后 `query` 返回 `method: fts5` 并命中 aar。
+- **FTS5 特殊字符查询修复**：用户查询现按 FTS5 短语字面量包裹（双引号转义）；裸 MATCH 语法此前把 `c++`/`a-b`/引号当语法符号抛 OperationalError 并静默降级，真实技术查询永远用不上 FTS5。
+- 边界不变：真实 QMD 安装、向量/RRF 质量、CJK 分词（unicode61 无中文分词器，跨词短语依赖 QMD）仍属环境验收；F005 维持 Implemented（部分）。

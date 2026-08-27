@@ -512,3 +512,17 @@ class ConfirmApplyCliTests(unittest.TestCase):
             from tools.common import atomic_write, canonical_json
             atomic_write(root / "state" / "operations" / f"{preview['operation_id']}.json", canonical_json(record), 0o600)
             self.assertEqual(build_apply_confirmation(store, preview["operation_id"], "alice")[1], "operation_expired")
+
+
+class IndexAutoRebuildTests(unittest.TestCase):
+    """F005 接线：public apply 自动重建默认 FTS5 索引。"""
+
+    def test_public_apply_rebuilds_default_index(self):
+        with tempfile.TemporaryDirectory() as d:
+            from tools.indexing import default_public_index_path
+            root = Path(d); service = WriteOperation(root)
+            preview = service.preview({"wiki/x.md": "# x\n正文"})
+            result = service.apply(preview["operation_id"], confirmed=True)
+            self.assertEqual(result["state"], "applied", result)
+            idx = default_public_index_path(root)
+            self.assertTrue(idx.exists())  # 写入后索引自动重建，无需手动 rebuild

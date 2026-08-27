@@ -47,6 +47,23 @@ class QMDAdapter:
             raise ValueError("provider_schema_invalid")
         return data[:top_k]
 
+
+def default_public_index_path(root: Path) -> Path:
+    """约定默认 public FTS5 索引位置（state/ 属运行缓存，gitignored）。
+
+    F005 review（2026-08-28）：此前 CLI query / API / Skill 构造 Retriever 时
+    均未传 index_path，FTS5 索引可构建但无消费者，真实查询永远走 LIKE。
+    """
+    return Path(root) / "state" / "index" / "public.sqlite3"
+
+
+def rebuild_default_public_index(root: Path) -> dict:
+    """按当前 public projection 重建默认索引（供 write 后的自动接线复用）。"""
+    from .projection import PublicProjectionStore
+
+    items = PublicProjectionStore(root).public_items(with_body=True)
+    return SQLiteIndex(default_public_index_path(root)).rebuild(items, "public")
+
 def _scope_items(items: list[dict], scope: str) -> list[dict]:
     """Apply scope filtering before any index/provider can see candidates."""
     if scope == "public":
@@ -137,7 +154,11 @@ class SQLiteIndex:
         except (OSError, sqlite3.Error, ValueError) as exc:
             return {"state": "failed", "scope": scope, "error_code": "index_recovery_failed", "detail": type(exc).__name__}
     def search(self, query: str, top_k: int = 8) -> list[dict]:
-        db = sqlite3.connect(self.path); rows = db.execute("SELECT m.object_ref,m.title,m.body,bm25(documents),m.availability,m.availability_reason,m.confidentiality,m.content_sha256,m.source_ref FROM documents JOIN metadata m ON documents.rowid=m.rowid WHERE documents MATCH ? ORDER BY bm25(documents) LIMIT ?", (query, top_k)).fetchall(); db.close()
+        # 用户查询按 FTS5 短语字面量包裹（双引号转义）：裸 MATCH 语法会把
+        # "c++"、"a-b"、引号等当作 FTS5 语法符号抛 OperationalError，
+        # 曾导致含特殊字符的真实查询永远静默降级到 LIKE
+        phrase = '"' + query.replace('"', '""') + '"'
+        db = sqlite3.connect(self.path); rows = db.execute("SELECT m.object_ref,m.title,m.body,bm25(documents),m.availability,m.availability_reason,m.confidentiality,m.content_sha256,m.source_ref FROM documents JOIN metadata m ON documents.rowid=m.rowid WHERE documents MATCH ? ORDER BY bm25(documents) LIMIT ?", (phrase, top_k)).fetchall(); db.close()
         return [{"object_ref":json.loads(r[0]),"title":r[1],"snippet":(r[2] or "")[:240],"score":float(r[3]),"availability":r[4],"availability_reason":r[5],"confidentiality":r[6],"content_sha256":r[7],"source_ref":r[8]} for r in rows]
 
     def scope(self) -> str:

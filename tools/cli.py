@@ -102,7 +102,7 @@ def local_projection_main(argv: list[str]) -> int:
 
 def query_main(argv: list[str]) -> int:
     """Offline query entry point sharing the API projection and Retriever."""
-    from tools.indexing import Retriever
+    from tools.indexing import Retriever, default_public_index_path
     from tools.projection import PublicProjectionStore
 
     parser = argparse.ArgumentParser(description="Query the validated public projection")
@@ -110,13 +110,15 @@ def query_main(argv: list[str]) -> int:
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--scope", choices=["public", "local", "private"], default="public")
     parser.add_argument("--vault-ids", default=None)
+    parser.add_argument("--index", type=Path, default=None, help="FTS5 index path (default: state/index/public.sqlite3 when present)")
     parser.add_argument("--top-k", type=int, default=8)
     args = parser.parse_args(argv)
     if args.scope != "public":
         _print_json({"state": "blocked", "error_code": "query_scope_requires_api"}, compact=True)
         return 2
     items = PublicProjectionStore(args.root).public_items(with_body=True)
-    _print_json(Retriever(items).search(args.query, "public", args.top_k), compact=True)
+    index_path = args.index or default_public_index_path(args.root)
+    _print_json(Retriever(items, index_path=index_path).search(args.query, "public", args.top_k), compact=True)
     return 0
 
 

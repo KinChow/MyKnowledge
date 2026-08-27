@@ -67,7 +67,10 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
 
     app = FastAPI(title="MyKnowledge Local API", version="v1", lifespan=lifespan)
     app.state.root = Path(root or ".").resolve()
-    app.state.retriever = Retriever(list(items) if items is not None else _load_public_projection(app.state.root))
+    # F005：默认接线 state/index/public.sqlite3（存在即用；陈旧/损坏自动降级 LIKE）
+    from tools.indexing import default_public_index_path
+    default_index = default_public_index_path(app.state.root)
+    app.state.retriever = Retriever(list(items) if items is not None else _load_public_projection(app.state.root), index_path=default_index if default_index.exists() else None)
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
     app.state.capability_token_created_at = time.time()
     app.state.capability_token_ttl_seconds = 3600

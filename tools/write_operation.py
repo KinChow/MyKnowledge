@@ -30,12 +30,20 @@ OPERATION_TYPES = ("write", "source", "wiki", "rename", "retire", "purge")
 
 
 def public_projection_rebuilder(root: Path) -> Callable[[dict], object]:
-    """AC-F004-009 真实 rebuild hook：public vault apply 后重建 public projection。"""
+    """AC-F004-009 真实 rebuild hook：public vault apply 后重建 projection + 默认 FTS5 索引。
+
+    索引重建失败与 projection 失败同一语义（applied_index_pending + 显式
+    recover 重跑）——索引是派生运行缓存，不静默降级。
+    """
 
     def rebuild(_record: dict) -> object:
         from .public_projection import PublicProjectionGenerator
 
-        return PublicProjectionGenerator(root).generate()
+        result = PublicProjectionGenerator(root).generate()
+        from .indexing import rebuild_default_public_index
+
+        rebuild_default_public_index(root)
+        return result
 
     return rebuild
 
