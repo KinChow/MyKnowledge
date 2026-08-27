@@ -151,6 +151,59 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     return result
 
 
+def apply_batch(root: Path, legacy_paths: list[str] | None = None, *, confirmed: bool = False,
+                docs_dir: Path | None = None) -> dict[str, Any]:
+    """Apply a deterministic migration batch through the existing per-item gates.
+
+    The batch is orchestration only: each item still runs ``apply_sample`` and
+    therefore gets its own Source/Wiki operation and durable replay record.
+    Failed items do not roll back successful independent items; the batch report
+    makes completed, pending and blocked work explicit for a later retry.
+    """
+    root = Path(root).resolve()
+    plan = preview(root, docs_dir)
+    available = [item["legacy_path"] for item in plan["items"]]
+    selected = list(legacy_paths) if legacy_paths is not None else available
+    unknown = sorted(set(selected) - set(available))
+    if unknown:
+        return {"state": "blocked", "error_code": "legacy_item_not_found", "unknown_paths": unknown,
+                "completed": 0, "pending": 0, "blocked": len(unknown), "writes_applied": False,
+                "preview_sha256": plan["preview_sha256"]}
+    batch_key = hashlib.sha256(canonical_json({
+        "schema_version": "migration-batch/v1", "input_tree_sha256": plan["input_tree_sha256"],
+        "legacy_paths": selected, "migration_version": MIGRATION_VERSION,
+    })).hexdigest()
+    record_path = root / "audit" / "migrations" / f"batch-{batch_key}.json"
+    if record_path.is_file():
+        try:
+            import json
+            record = json.loads(record_path.read_text(encoding="utf-8"))
+            if record.get("record_sha256") == hash_canonical({k: v for k, v in record.items() if k != "record_sha256"}):
+                return {**record.get("result", {}), "replayed": True}
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            pass
+    if not confirmed:
+        return {"state": "awaiting_confirmation", "writes_applied": False,
+                "preview_sha256": plan["preview_sha256"], "batch_key": batch_key,
+                "selected_paths": selected, "completed": 0, "pending": len(selected), "blocked": 0}
+    results: list[dict[str, Any]] = []
+    for path in selected:
+        results.append(apply_sample(root, path, confirmed=True, docs_dir=docs_dir))
+    completed = sum(item.get("state") == "applied" for item in results)
+    blocked = sum(item.get("state") == "blocked" for item in results)
+    pending = len(results) - completed - blocked
+    result = {"state": "applied" if blocked == 0 and pending == 0 else "partial",
+              "writes_applied": completed > 0, "batch_key": batch_key,
+              "selected_paths": selected, "completed": completed, "pending": pending,
+              "blocked": blocked, "results": results, "input_tree_sha256": plan["input_tree_sha256"]}
+    record = {"schema_version": "migration-batch-record/v1", "batch_key": batch_key,
+              "input_tree_sha256": plan["input_tree_sha256"], "result": result}
+    record["record_sha256"] = hash_canonical(record)
+    record_path.parent.mkdir(parents=True, exist_ok=True)
+    atomic_write(record_path, canonical_json(record) + b"\n", 0o600)
+    return result
+
+
 def main(argv: list[str] | None = None) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Preview legacy Source-first migration")
@@ -158,9 +211,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--docs", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--apply-sample", metavar="LEGACY_PATH", help="apply one representative sample through Source/Wiki gates")
+    parser.add_argument("--apply-batch", nargs="*", metavar="LEGACY_PATH", help="apply selected legacy items as one replayable batch")
     parser.add_argument("--confirm", action="store_true", help="confirm the selected sample apply")
     args = parser.parse_args(argv)
-    result = apply_sample(args.root, args.apply_sample, confirmed=args.confirm, docs_dir=args.docs) if args.apply_sample else preview(args.root, args.docs)
+    if args.apply_sample:
+        result = apply_sample(args.root, args.apply_sample, confirmed=args.confirm, docs_dir=args.docs)
+    elif args.apply_batch is not None:
+        result = apply_batch(args.root, args.apply_batch or None, confirmed=args.confirm, docs_dir=args.docs)
+    else:
+        result = preview(args.root, args.docs)
     data = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
         args.output.write_text(data, encoding="utf-8")

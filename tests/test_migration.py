@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tools.migrate_legacy import apply_sample, preview
+from tools.migrate_legacy import apply_batch, apply_sample, preview
 
 
 def test_migration_preview_is_source_first_and_does_not_write(tmp_path: Path):
@@ -18,6 +18,49 @@ def test_migration_preview_is_source_first_and_does_not_write(tmp_path: Path):
     assert item["wiki_target"]["object_type"] == "wiki"
     assert item["status"] == "pending"
     assert source.read_bytes() == before
+
+
+def test_batch_requires_confirmation_then_applies_each_item_and_replays(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "one.md").write_text("# One\n", encoding="utf-8")
+    (docs / "two.md").write_text("# Two\n", encoding="utf-8")
+    pending = apply_batch(tmp_path)
+    assert pending["state"] == "awaiting_confirmation"
+    assert pending["completed"] == 0 and pending["pending"] == 2
+    applied = apply_batch(tmp_path, confirmed=True)
+    assert applied["state"] == "applied"
+    assert applied["completed"] == 2 and applied["blocked"] == 0
+    assert len(list((tmp_path / "audit" / "migrations").glob("batch-*.json"))) == 1
+    replay = apply_batch(tmp_path, confirmed=True)
+    assert replay["replayed"] is True
+    assert replay["completed"] == 2
+
+
+def test_batch_unknown_item_is_fail_closed_without_writes(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "one.md").write_text("# One\n", encoding="utf-8")
+    result = apply_batch(tmp_path, ["docs/missing.md"], confirmed=True)
+    assert result["state"] == "blocked"
+    assert result["error_code"] == "legacy_item_not_found"
+    assert not (tmp_path / "sources").exists()
+
+
+def test_migrate_cli_batch_uses_confirmation_gate(tmp_path: Path):
+    import json, subprocess, sys
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "cli-one.md").write_text("# CLI one\n", encoding="utf-8")
+    pending = subprocess.run(
+        [sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--apply-batch"],
+        capture_output=True, text=True, check=False,
+    )
+    assert pending.returncode == 0
+    assert json.loads(pending.stdout)["state"] == "awaiting_confirmation"
+    applied = subprocess.run(
+        [sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--apply-batch", "--confirm"],
+        capture_output=True, text=True, check=False,
+    )
+    assert applied.returncode == 0
+    assert json.loads(applied.stdout)["completed"] == 1
 
 
 def test_migration_preview_changes_with_input_tree(tmp_path: Path):

@@ -14,6 +14,8 @@
 
 本轮迁移幂等调查（2026-08-30）：Dendron 的迁移清单/稳定 ID（AGPL-3.0，<https://github.com/dendronhq/dendron>）与 Quartz 的 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）都把输入路径和内容摘要作为可重放边界；替代方案是每次重复执行底层 writer，虽然文件最终可能相同，却无法证明同一迁移意图，也会重复触发 Source/provider。采用 owner-local `audit/migrations` durable record，以 `legacy_path + body_sha256 + migration_version` 为幂等键；命中时直接重放既有结果，输入 hash 改变则生成新记录并重新经过 Source-first 门禁。记录不包含绝对路径或正文。
 
+本轮批量迁移调查（2026-08-30）：Quartz `v4.0.8`（MIT，<https://github.com/jackyzha0/quartz/releases/tag/v4.0.8>）的内容管线按确定性输入生成路由；Dendron 主分支（AGPL-3.0，<https://github.com/dendronhq/dendron>）的迁移实践强调层级清单和逐项状态。两者的共同边界是批次只负责编排，单项仍需可重放和可定位。采用 `apply_batch` 的 `migration-batch/v1` 清单：先生成批次 key，再逐项调用既有 `apply_sample`，成功项保留、失败项显式 `blocked`、未确认时整体只返回 `awaiting_confirmation`；批次记录使用 `record_sha256` 原子写入并可重放。直接把整个 `docs/` 目录复制到 canonical 目录作为替代方案会绕过 Source snapshot/evidence/Wiki writer，明确排除。离线模式只读取本地 inventory，外部抽取器/provider 不可用时保留 pending/blocked；升级影响限定在批次 schema 和单项 durable record，不改变旧 docs。
+
 本轮 replay 完整性调查（2026-08-30）：Git object hash 和 SQLite durable record 的自校验要求记录内容与摘要绑定；替代方案是只验证 migration key，篡改者可伪造 `result` 并绕过 Source/Wiki 门禁。迁移记录现在通过 `record_sha256` 校验，且使用原子写入；校验失败视为未命中，重新执行完整 Source-first 流程。
 
 DOCX 仅通过 Docling handler 处理；未安装时返回 `extractor_unavailable:docling`，禁止退回二进制 UTF-8 解码。
