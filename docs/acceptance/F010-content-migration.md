@@ -4,7 +4,7 @@
 - 相关规范：MIG、SRC、WIKI、EVD
 - 状态：Implemented（2026-08-28；inventory 基础能力，Source-first 迁移尚未完成）
 - 实现证据：`tools/inventory_legacy.py`、`tools/migrate_legacy.py`、`tests/test_inventory.py`、`tests/test_migration.py`
-- 当前边界：已生成只读 Source-first migration preview、草稿目标和 route map；尚未执行真实 source/wiki 写入、证据绑定、route 修复和 rollback 演练。
+- 当前边界：已执行代表性样本的 Source-first source/wiki 写入、确定性 route 修复、批量 replay 和 hash-bound rollback；全量抽取/evidence replay、最终 projection 切换和跨批次环境演练仍待验收。
 
 ## 本轮证据（2026-08-28）
 
