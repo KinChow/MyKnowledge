@@ -17,7 +17,6 @@ snapshot_sha256: sha256:6d6c2e41884ad2eec8d7a9ee294d03d552f0c92df2f14aedde5ded03
 source_type: local-file
 vault_id: public
 ---
-
 # Transformer
 
 ## 组成部分
