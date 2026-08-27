@@ -179,3 +179,32 @@ class IndexingTests(unittest.TestCase):
             self.assertEqual(__import__("json").loads(second.stdout)["state"], "valid")
 
 if __name__ == "__main__": unittest.main()
+
+
+class F005WiringTests(unittest.TestCase):
+    """F005 review（2026-08-28）：FTS5 默认接线与特殊字符查询。"""
+
+    def test_default_index_path_is_wired_into_query_cli(self):
+        import subprocess, sys, tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root/"wiki").mkdir(); (root/"wiki"/"pub.md").write_text("SQLite 检索", encoding="utf-8")
+            (root/"queries"/"public").mkdir(parents=True)
+            (root/"queries"/"public"/"manifest.json").write_text(__import__("json").dumps({"schema_version":"public-projection/v1","projection":"public","items":[{**ITEMS[0],"id":"pub","body_path":"wiki/pub.md"}]}), encoding="utf-8")
+            repo = Path(__file__).resolve().parents[1]
+            index = root/"state"/"index"/"public.sqlite3"
+            subprocess.run([sys.executable,"-m","tools.cli","index","rebuild","--root",str(root),"--scope","public","--index",str(index)], cwd=repo, capture_output=True, check=True)
+            out = subprocess.run([sys.executable,"-m","tools.cli","query","SQLite","--root",str(root)], cwd=repo, capture_output=True, text=True)
+            result = __import__("json").loads(out.stdout)
+            self.assertEqual(result["method"], "fts5")  # 默认接线：query CLI 自动使用约定索引
+
+    def test_fts5_phrase_query_survives_special_characters(self):
+        with tempfile.TemporaryDirectory() as d:
+            from tools.indexing import IndexBuilder, Retriever, SQLiteIndex
+            root = Path(d)
+            idx = SQLiteIndex(root/"i.sqlite3"); idx.rebuild(ITEMS, "public")
+            for nasty in ("c++", 'quote"inside', "a-b", "NEAR(x, y)"):
+                result = Retriever(ITEMS, index_path=idx.path).search(nasty, "public", 5)
+                self.assertEqual(result["schema_version"], "query-result/v1")  # 不抛 FTS5 语法错误
+            hit = Retriever(ITEMS, index_path=idx.path).search("SQLite 检索", "public", 5)
+            self.assertEqual(hit["method"], "fts5")
