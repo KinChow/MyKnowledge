@@ -188,6 +188,14 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(json.loads(path.read_text())["projection_sha256"], result["projection_sha256"])
             self.assertEqual(path.stat().st_mode & 0o777, 0o600)
 
+    def test_local_projection_cli_materializes_manifest(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            result = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "local-projection", "--root", str(root)], capture_output=True, text=True, check=False)
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(json.loads(result.stdout)["schema_version"], "local-projection/v1")
+            self.assertTrue((root / "queries" / "local" / "manifest.json").is_file())
+
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
