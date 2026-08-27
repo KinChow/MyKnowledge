@@ -16,6 +16,8 @@
 
 本轮 bundle 增量：在 manifest 副本之外增加无压缩 `manifest.json + payload/<relative-path>` 离线 bundle，逐项复用 manifest hash 校验和 owner/path/symlink/hardlink 门禁。bundle 验证不读取 canonical checkout，也不改变 Vault 状态；未来恢复入口必须从 bundle 重建空 checkout 后再生成本地 restore marker。
 
+本轮 CLI 入口调查（2026-08-27）：Git `bundle` 的显式输入/输出参数（Git 2.45.2，GPL-2.0，<https://git-scm.com/docs/git-bundle>）和 Restic/Borg 的显式 restore target（Restic 0.17.x，BSD-2-Clause，<https://restic.readthedocs.io/en/stable/050_restore.html>；Borg 1.4，BSD-3-Clause，<https://borgbackup.readthedocs.io/en/stable/usage/usage.html>）均要求调用者明确指定来源与目标。MyKnowledge CLI 直接复用这一显式 target、离线可重放和失败不覆盖目标的边界，保留自有 `backup-manifest/v1`、payload hash、Vault owner 与 restore marker；不复用 Git 的内部 bundle 格式，也不把 CLI 返回码当作 `verified`。`backup export-bundle --manifest M --target T` 和 `backup restore-bundle --manifest T --target D` 只读写用户指定路径，恢复仍经过 bundle validator 和空目标门禁。升级影响限于 CLI action/schema 增加，不改变既有 manifest 数据格式；无 remote、凭据或网络依赖，路径/owner 元数据非法时 fail-closed。
+
 当前已实现 `restore_bundle`：先验证 bundle，再要求空 target，按 manifest 相对路径原子写入并在 target 内记录 `backup-restore-record/v1`。任一条目失败会清理已写文件和空目录；恢复结果是可审计证据，不自动修改源 Vault 的 `backup_state`。
 
 本轮 bundle owner 调查（2026-08-30）：Git bundle 的 ref/owner 必须是可解析的稳定标识，SQLite backup 的数据库名不能替代 Vault owner；替代方案是只验证 payload hash 而忽略 `vault_id`，会让恢复审计无法判断目标归属。`verify_bundle()` 现在要求 `vault_id` 为 `safe_id` 且 `entries` 为列表，非法 owner 元数据在读取 payload 前 fail-closed。

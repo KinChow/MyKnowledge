@@ -132,7 +132,7 @@ COMMANDS["lock"] = lock_main
 def backup_main(argv: list[str]) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Local backup status/manifest")
-    parser.add_argument("action", choices=["status", "manifest", "verify", "restore", "export"])
+    parser.add_argument("action", choices=["status", "manifest", "verify", "restore", "export", "export-bundle", "restore-bundle"])
     parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
     parser.add_argument("--vault-id", default="public")
     parser.add_argument("--manifest", type=__import__("pathlib").Path)
@@ -142,11 +142,17 @@ def backup_main(argv: list[str]) -> int:
     if args.action == "status": result = manager.status()
     elif args.action == "manifest": result = manager.create_manifest(args.vault_id)
     else:
-        if not args.manifest: parser.error("--manifest is required for verify/restore")
+        if not args.manifest: parser.error("--manifest is required for verify/restore/export-bundle")
         if args.action == "verify": result = manager.verify_manifest(args.manifest)
         elif args.action == "export":
             if not args.target: parser.error("--target is required for export")
             result = manager.export_manifest(args.manifest, args.target)
+        elif args.action == "export-bundle":
+            if not args.target: parser.error("--target is required for export-bundle")
+            result = manager.export_bundle(args.manifest, args.target)
+        elif args.action == "restore-bundle":
+            if not args.target: parser.error("--target is required for restore-bundle")
+            result = manager.restore_bundle(args.manifest, args.target)
         else:
             if not args.target: parser.error("--target is required for restore")
             result = manager.restore_manifest(args.manifest, args.target)
