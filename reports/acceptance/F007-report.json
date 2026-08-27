@@ -31,7 +31,7 @@
     "AC-F007-024",
     "AC-F007-025"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The three-stage leak gate now rejects question payload fields independently of their filesystem path, and release locks carry a persisted fencing token.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. PublicProjectionGenerator now emits manifest items only for validator-approved public Wiki objects with matching human confirmation hashes; the three-stage leak gate rejects question payload fields independently of path, and release locks carry a persisted fencing token.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
