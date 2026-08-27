@@ -23,7 +23,7 @@
 | 批次 | 范围 | 数量 | 状态 | 完成定义（DoD） |
 | --- | --- | --- | --- | --- |
 | B0 试点 | `linux-compilers`、`von-neumann-architecture`、`tools/git-commands` | 3 | **Done**（2026-08 前） | front matter + snapshot + manifest 登记（已验证） |
-| B1 样本批 | R4 优先 10 篇 + 每域各 1-2 篇覆盖（含 R5 形态） | ~15 | Pending | 规则 R1-R7 实测校准；记录单篇吞吐 → 全量估算；**F007 用本批真实内容跑通 projection 多页发布** |
+| B1 样本批 | R4 优先 10 篇 + R5a 3 篇（每域覆盖）+ empty 2 篇登记 | 13+2 | **In Progress** | 2026-08-28：13 篇已导入（10 R4 + 3 R5a，machine 吞吐 13 篇/0.1s，人工成本集中在出处确认）；R5a 检索结论待 owner 确认（见 §7）；empty 2 篇（`class-and-struct`、`pointer`）登记待补 |
 | B2 小域批 | `tools` + `work-methods` + `multimedia` + `reading-notes` 剩余 | ~23 | Pending | 同 B0 DoD；B1 校准后的规则执行 |
 | B3 大域批 | `computer-science` 分子域分批（建议 4 批 × ~60 篇） | 250 | Pending | 同上；每批后跑 `validate` + manifest 全量核对 |
 | B4 复核批 | R3 的 16 篇 empty：登记"待补内容"清单，**补充内容后**按 R4/R5 迁移 | 16 | Pending | 逐篇补充并迁移；不丢弃 |
@@ -33,6 +33,16 @@
 
 1. ~~**R5b 的 wiki 证据门禁**~~ **已决（2026-08-28）**：模型原生支持——`personal-note` source 作 provenance + `support: personal` claim；`evidence_state` 表达映射完整性（supported），信任降级由 `strength: personal` 承载，不进证据阻断集合，published 不被挡。规范 §6.7 已加澄清段；端到端证据 `tests/validation/test_synthesis_claims.py`。
 2. **R5a 联网检索的归属判定**：检索到的"疑似出处"需人工确认确为学习来源（防止把无关网页当出处），B1 中定义确认标准（如内容关键句匹配）。
+
+## 7. B1 R5a 出处检索结论（2026-08-28，待 owner 确认）
+
+| 文档 | 检索结论 | 证据 | 建议出处 |
+| --- | --- | --- | --- |
+| `work-methods/AAR` | 外部方法论转述 | 四个结构化问题与美军 TC 25-20 AAR 逐条对应（多来源交叉：军研论文、百度百科"行动后学习机制"） | U.S. Army TC 25-20 / After Action Review |
+| `reading-notes/how-to-read-a-book` | 读书笔记 | 四阅读层次/分析阅读规则与艾德勒&范多伦《如何阅读一本书》（商务印书馆中译）逐条对应 | 艾德勒、范多伦《如何阅读一本书》 |
+| `tools/code-server` | 工具官方文档摘录 | 正文首行即官方安装脚本 `code-server.dev` | https://code-server.dev / github.com/coder/code-server |
+
+确认标准（B1 校准）：笔记关键结构与检索结果的权威来源逐条对应（非仅主题相似）即判为出处；仅主题相似的判 R5b 本人综合。
 
 ## 3. 当前实测基线（2026-08-28，inventory v1）
 
