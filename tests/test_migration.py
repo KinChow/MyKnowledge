@@ -89,6 +89,19 @@ def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path
     assert len(list((tmp_path / "wiki").rglob("legacy-docs-guide.md"))) == 1
     assert len(list((tmp_path / "audit" / "migrations").glob("*.json"))) == 1
 
+def test_tampered_migration_record_is_not_replayed(tmp_path: Path):
+    docs = tmp_path / "docs"; docs.mkdir()
+    (docs / "guide.md").write_text("# Guide\n\nStable content.\n", encoding="utf-8")
+    first = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    record_path = next((tmp_path / "audit" / "migrations").glob("*.json"))
+    record = __import__("json").loads(record_path.read_text(encoding="utf-8"))
+    record["result"]["state"] = "forged"
+    record_path.write_text(__import__("json").dumps(record), encoding="utf-8")
+    replay = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
+    assert first["state"] == "applied"
+    assert replay["state"] == "applied"
+    assert replay.get("replayed") is not True
+
 
 def test_migration_preview_blocks_normalized_id_collision_before_writes(tmp_path: Path):
     docs = tmp_path / "docs"; docs.mkdir()

@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 from typing import Any
 
-from .common import canonical_json
+from .common import atomic_write, canonical_json, hash_canonical
 from .inventory_legacy import inventory
 from .ingest.source_ingestor import SourceIngestor
 from .write_operation import WriteOperation
@@ -108,7 +108,10 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     if record_path.is_file():
         try:
             record = __import__("json").loads(record_path.read_text(encoding="utf-8"))
-            if record.get("schema_version") == "migration-record/v1" and record.get("migration_key") == migration_key:
+            expected_record_hash = hash_canonical({key: value for key, value in record.items() if key != "record_sha256"})
+            if (record.get("schema_version") == "migration-record/v1"
+                    and record.get("migration_key") == migration_key
+                    and record.get("record_sha256") == expected_record_hash):
                 return {**record.get("result", {}), "replayed": True}
         except (OSError, ValueError, TypeError):
             pass
@@ -142,8 +145,9 @@ def apply_sample(root: Path, legacy_path: str, *, confirmed: bool = False, docs_
     result = {"state": "applied" if wiki_result.get("state") == "applied" else "blocked", "writes_applied": wiki_result.get("state") == "applied", "source": source_result, "wiki": wiki_result, "legacy_path": legacy_path, "wiki_path": wiki_path, "link_repair": link_report}
     if result["state"] == "applied":
         record = {"schema_version": "migration-record/v1", "migration_key": migration_key, "legacy_path": legacy_path, "body_sha256": item["body_sha256"], "result": result}
+        record["record_sha256"] = hash_canonical(record)
         record_path.parent.mkdir(parents=True, exist_ok=True)
-        record_path.write_bytes(canonical_json(record) + b"\n")
+        atomic_write(record_path, canonical_json(record) + b"\n", 0o600)
     return result
 
 

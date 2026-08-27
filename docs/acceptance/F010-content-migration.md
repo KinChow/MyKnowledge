@@ -37,6 +37,7 @@ CLI 增量证据：`tests/test_migration.py::test_migrate_cli_applies_confirmed_
 - `tests/test_migration.py::test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects` 验证同一输入重复确认迁移时，Source/Wiki 文件字节保持一致且不会生成重复对象；输入 tree hash 变化仍会生成不同 preview hash。该证据不替代跨 Vault rollback 演练。
 
 - 本轮 durable replay：首次 sample apply 成功后写入 owner-local `audit/migrations/<migration_key>.json`（`migration-record/v1`）；相同 `legacy_path + body_sha256 + migration_version` 再次执行直接返回 `replayed: true`，不重复调用 Source/Wiki writer。`tests/test_migration.py::test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects` 同时验证记录只生成一份。输入 hash 变化会使用新 key 并重新走门禁。
+- replay 完整性增量：迁移记录带 `record_sha256` 并原子落盘；`tests/test_migration.py::test_tampered_migration_record_is_not_replayed` 篡改结果后验证不会返回 `replayed: true`，而是重新经过 Source-first 流程。
 
 ## 稳定 ID 冲突增量证据（2026-08-27）
 
