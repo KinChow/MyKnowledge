@@ -94,3 +94,10 @@
 ## Evidence ID 唯一性增量证据（2026-08-27）
 
 - `tests/validation/test_wiki_resolution.py::ResolutionTests::test_duplicate_evidence_id_is_rejected` 验证同一 Source 内重复 `evidence_id` 返回 `duplicate_evidence_id`，不会按最后一条静默覆盖。
+
+## F002 专项验收报告（2026-08-27）
+
+- 专项命令：`.venv/bin/python -m pytest -q tests/validation/test_wiki_schema.py tests/validation/test_wiki_rules.py tests/validation/test_wiki_derived.py tests/validation/test_wiki_resolution.py tests/test_front_matter.py`
+- 结果：21 passed，覆盖可执行 JSON Schema、未知字段/版本/类型、派生字段拒绝、status/evidence/availability 组合、owner-scoped 引用和重复 evidence ID。
+- 成熟方案边界：直接复用 jsonschema 的版本化校验与 additionalProperties 门禁；状态组合由 MyKnowledge 离线 domain rules 保留，不把 Pydantic/transitions/XState 引入 canonical 数据或发布判据。
+- 边界：F002 专项证据证明 schema 与状态契约可执行；F003 的 LLM/corroboration 审计和 F007 public confirmation 仍是独立门禁，当前 Feature 仍为 `Implemented（部分）`。
