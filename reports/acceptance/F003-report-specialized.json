@@ -1,0 +1,11 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F003",
+  "status": "Implemented (partial)",
+  "generated_from": "a894793",
+  "acceptance_document": "docs/acceptance/F003-evidence-validation.md",
+  "specialized_command": ".venv/bin/python -m pytest -q tests/validation/test_audit.py tests/validation/test_provider.py tests/validation/test_ruleset.py tests/validation/test_corroboration.py tests/validation/test_wiki_validator.py",
+  "verification": {"passed": 58, "failed": 0, "compileall": true, "diff_check": true, "remote_push": false},
+  "covered": ["claim_evidence_validation", "selector_replay", "provider_not_run_mapping", "ruleset_staleness", "corroboration_and_conflict", "audit_idempotency"],
+  "boundary": "External provider and complete cross-vault unavailable integration remain environment gates; this report does not imply Accepted."
+}
