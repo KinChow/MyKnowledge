@@ -1,5 +1,7 @@
 from pathlib import Path
 import asyncio
+import json
+import sys
 
 from tools.skill_runtime import dispatch
 from tools.mcp_server import create_server
@@ -47,6 +49,35 @@ def test_mcp_server_enforces_configured_capability_for_sensitive_actions(tmp_pat
         _, allowed = await server.call_tool("myknowledge_dispatch", {"action": "write_preview", "payload": {"files": {"wiki/mcp.md": "# MCP\n"}}, "capability_token": "mcp-secret"})
         assert allowed["state"] == "previewed"
     asyncio.run(exercise())
+
+
+def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
+    async def exercise():
+        from mcp import ClientSession, StdioServerParameters
+        from mcp.client.stdio import stdio_client
+        parameters = StdioServerParameters(
+            command=sys.executable,
+            args=["-m", "tools.mcp_server", "--root", str(tmp_path), "--capability-token", "stdio-secret"],
+            env=None,
+        )
+        async with stdio_client(parameters) as (read, write):
+            async with ClientSession(read, write) as session:
+                await session.initialize()
+                listed = await session.list_tools()
+                assert [tool.name for tool in listed.tools] == ["myknowledge_dispatch"]
+                denied = await session.call_tool("myknowledge_dispatch", {
+                    "action": "write_preview", "payload": {"files": {"wiki/stdio.md": "# stdio\n"}}
+                })
+                denied_value = json.loads(denied.content[0].text)
+                assert denied_value["error_code"] == "capability_token_invalid"
+                allowed = await session.call_tool("myknowledge_dispatch", {
+                    "action": "write_preview", "payload": {"files": {"wiki/stdio.md": "# stdio\n"}},
+                    "capability_token": "stdio-secret",
+                })
+                allowed_value = json.loads(allowed.content[0].text)
+                assert allowed_value["state"] == "previewed"
+    asyncio.run(exercise())
+    assert not (tmp_path / "wiki" / "stdio.md").exists()
 
 
 def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
