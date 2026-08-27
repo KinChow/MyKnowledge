@@ -7,7 +7,7 @@ import os
 import secrets
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from .skill_runtime import ALLOWED_ACTIONS, dispatch
 
@@ -21,11 +21,11 @@ def create_server(root: Path, capability_token: str | None = None, capability_to
     checkout = Path(root).resolve()
     expected_token = capability_token or os.environ.get("MYKNOWLEDGE_MCP_CAPABILITY_TOKEN")
     issued_at = time.time()
-    protected_actions = {"write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_manifest", "question_create", "question_answer", "question_review"}
+    protected_actions = {"ask", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_manifest", "question_create", "question_answer", "question_review"}
     server = FastMCP("myknowledge", instructions="Controlled MyKnowledge actions; writes require preview and human confirmation.")
 
     @server.tool(name="myknowledge_dispatch", description="Dispatch one allowlisted MyKnowledge action through the existing domain runtime.")
-    def myknowledge_dispatch(action: str, payload: dict[str, Any] | None = None, capability_token: str | None = None) -> dict[str, Any]:
+    def myknowledge_dispatch(action: Literal["skill_status", "query", "retrieve", "ask", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"], payload: dict[str, Any] | None = None, capability_token: str | None = None) -> dict[str, Any]:
         if action not in ALLOWED_ACTIONS:
             return {"state": "blocked", "error_code": "skill_action_not_allowed", "action": action}
         if expected_token and action in protected_actions:

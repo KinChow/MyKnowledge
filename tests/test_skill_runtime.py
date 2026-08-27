@@ -33,8 +33,11 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
         tools = await server.list_tools()
         assert len(tools) == 1
         assert tools[0].name == "myknowledge_dispatch"
-        _, result = await server.call_tool("myknowledge_dispatch", {"action": "shell", "payload": {}})
-        assert result["error_code"] == "skill_action_not_allowed"
+        assert "ask" in tools[0].inputSchema["properties"]["action"]["enum"]
+        assert "shell" not in tools[0].inputSchema["properties"]["action"]["enum"]
+        import pytest
+        with pytest.raises(Exception, match="Input should be"):
+            await server.call_tool("myknowledge_dispatch", {"action": "shell", "payload": {}})
         _, result = await server.call_tool("myknowledge_dispatch", {"action": "write_preview", "payload": {"files": {"wiki/mcp.md": "# MCP\n"}}})
         assert result["state"] == "previewed"
     asyncio.run(exercise())
