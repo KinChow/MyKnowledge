@@ -13,6 +13,7 @@
     "AC-F005-006"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. SQLite recovery now validates quick_check/scope/projection hash, atomically rebuilds corrupt indexes and preserves the previous readable index.",
+  "latest_increment": {"date": "2026-08-27", "evidence": "tests/test_indexing.py::IndexingTests::test_index_cli_rebuild_and_recover_use_public_projection", "boundary": "Index rebuild/recover CLI uses projection input and preserves SQLite recovery semantics; QMD quality remains environment-pending."},
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

@@ -112,3 +112,8 @@
 
 - `Retriever.search()` 现在与 API 共用 `max_vault_ids=16` 及 `top_k`/query 限制；超限或非法 vault 列表在 QMD、FTS5 和 LIKE 之前统一返回 `query_limit_exceeded`。
 - `tests/test_indexing.py::IndexingTests::test_retriever_enforces_vault_id_limit_before_provider` 验证直接调用检索层也不会绕过资源和 owner scope 门禁。
+
+## Index CLI 增量证据（2026-08-27）
+
+- `python -m tools.cli index rebuild|recover --root R --scope public --index I` 复用 `SQLiteIndex`，只读取 public projection manifest；`recover` 会执行 scope/generated_from/quick_check 校验并在需要时原子重建。
+- `tests/test_indexing.py::IndexingTests::test_index_cli_rebuild_and_recover_use_public_projection` 验证 CLI rebuild 后 recover 返回 `state: valid`，不扫描或写入 canonical Wiki。

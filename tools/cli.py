@@ -92,6 +92,27 @@ def query_main(argv: list[str]) -> int:
 
 COMMANDS["query"] = query_main
 
+def index_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Build or recover the projection SQLite index")
+    parser.add_argument("action", choices=["rebuild", "recover"])
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--scope", choices=["public", "local", "private"], default="public")
+    parser.add_argument("--index", type=__import__("pathlib").Path, required=True)
+    args = parser.parse_args(argv)
+    from backend.app import _load_public_projection
+    from tools.indexing import IndexBuilder, SQLiteIndex
+    if args.scope == "public":
+        items = _load_public_projection(args.root)
+    else:
+        from tools.vault_registry import VaultRegistry
+        items = VaultRegistry(args.root).local_projection(args.scope)["items"]
+    result = (SQLiteIndex(args.index).rebuild(items, args.scope) if args.action == "rebuild" else SQLiteIndex(args.index).recover(items, args.scope))
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0 if result.get("state") not in {"failed"} else 2
+
+COMMANDS["index"] = index_main
+
 def projection_read_main(argv: list[str]) -> int:
     import argparse, json
     parser = argparse.ArgumentParser(description="Read one object from the validated public projection")
