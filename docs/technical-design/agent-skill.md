@@ -24,6 +24,8 @@
 
 本轮查询路由调查（2026-08-27）：Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）和 SQLite FTS5（Public Domain，<https://sqlite.org/fts5.html>）分别作为 public build/search 与本地 fallback；替代方案是 Skill 直接扫描任意 checkout 路径，会绕过 projection allowlist 和 confidentiality 门禁，明确排除。`query`/`read` action 只加载 public manifest 声明的 published/public 条目，local/private 必须转 API 并提供 capability；结果复用 `query-result/v1`，不写入 canonical 或索引。新增 source preview/apply、wiki validate、publish preview 均委托既有领域服务，Skill 不复制校验或直接写文件；离线时依赖本地服务与 operation store，外部 provider 不可用只返回结构化 unavailable/not-run。
 
+本轮只读能力扩展调查（2026-08-30）：MCP specification 2025-06 的 `tools/list`/`tools/call` 与工具 annotations（MIT 文档，<https://modelcontextprotocol.io/specification/2025-06-18/server/tools>）要求工具声明结构化输入并由宿主执行授权；Typer commands（MIT，<https://typer.tiangolo.com/tutorial/commands/>）建议子命令只做参数解析并共享领域函数。采用 `retrieve`（与 `query` 共用 Retriever）和 `backlinks`（只消费 public projection 的 body/links）两个只读 action；不允许 Skill 传物理路径、scope 扩权或扫描 canonical/private 目录。替代方案是 Skill 自行遍历 `wiki/`，会绕过 public manifest 和 leak gate，明确排除。离线无网络、无写入；MCP capability 保护规则保持不变。
+
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 
 ## 能力面

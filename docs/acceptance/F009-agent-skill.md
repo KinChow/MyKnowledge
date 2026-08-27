@@ -131,3 +131,8 @@
 
 - `tests/test_skill_runtime.py::test_skill_status_is_fail_closed_for_canonical_skill` 验证当前 checkout 缺少或损坏 `skills/myknowledge/SKILL.md` 时返回 `skill_unavailable`，合法 canonical 文件才返回 `skill-status/v1/available`。
 - `skill_status` 为只读检查，不从外部副本回退，也不触发任何写入、发布或 provider 调用。
+
+## 只读 retrieve/backlinks 增量证据（2026-08-30）
+
+- `tests/test_skill_runtime.py::test_skill_retrieve_and_backlinks_are_projection_only` 验证 `retrieve` 与 `query` 共享 `query-result/v1`/Retriever，`backlinks` 只从 public projection 声明的条目计算；private vault 请求返回 `skill_private_read_requires_api`，不会扫描或写入 canonical 内容。
+- 该证据增强 AC-F009-005/012 的只读路由边界；完整 publish confirmation、token 生命周期和全量 API parity 仍待闭合。
