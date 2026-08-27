@@ -19,7 +19,7 @@
     "AC-F001-012",
     "AC-F001-013"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; raw/LFS remains outside the current text-only archive scope. Redirect, size, timeout, DNS rebinding, userinfo, and local-domain security paths have automated evidence.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

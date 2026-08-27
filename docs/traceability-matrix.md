@@ -20,7 +20,7 @@
 | 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | SRC-001 | F001 | ADR-0001 | source-ingestion | AC-F001-001/002/004/005/009/010 | 待实现 | Designed |
-| ARC-001 | F001 | ADR-0003 | source-ingestion | AC-F001-003/006 | tests/ingest/test_source_ingestor.py（append-only manifest owner/snapshot/extractor/normalization/record hash 与重复 Apply 幂等）；raw/LFS 与更大规模恢复待补 | Implemented（部分） |
+| ARC-001 | F001 | ADR-0003 | source-ingestion | AC-F001-003/006 | tests/ingest/test_source_ingestor.py（append-only manifest owner/snapshot/extractor/normalization/record hash 与重复 Apply 幂等）；当前 archive policy 固定 text-only，raw/LFS 功能尚未启用 | Implemented（部分） |
 | ARC-002 | F001/F003 | ADR-0003/0005 | source-ingestion, evidence-anchoring, wiki-claim-validation | AC-F001-001/004/006/011/012/013, AC-F003-001/002/006 | 待实现 | Designed |
 | WIKI-001 | F002 | ADR-0001 | wiki-claim-validation | AC-F002-001/002/004/005 | 待实现 | Designed |
 | WIKI-002 | F002 | ADR-0004 | wiki-claim-validation | AC-F002-003/004 | 待实现 | Designed |
