@@ -2,9 +2,9 @@
 
 - Feature：F012
 - 相关规范：SEC、OPS
-- 状态：Implemented（2026-08-27；基础状态/manifest 已实现，完整恢复验收待补齐）
+- 状态：Implemented（2026-08-27；manifest、离线 bundle、空目标恢复和恢复后校验已实现，完整跨 Vault 重建验收待补齐）
 - 实现证据：`tools/backup.py`、`tools/vault_registry.py`、`tools/cli.py`
-- 当前边界：已实现 durable manifest 生成与离线 hash 校验；当前未实现外部 target 传输、空仓恢复演练、durable record 全量校验和持久 verified 状态派生。
+- 当前边界：已实现显式外部 target manifest/bundle 导出、离线 hash 校验、空目标恢复、durable record 校验和恢复后 verified 派生；跨 Vault object/snapshot/evidence/projection 全量重建及真实远端传输仍待环境验收。
 
 ## CLI bundle 增量证据（2026-08-27）
 
