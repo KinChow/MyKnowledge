@@ -57,6 +57,19 @@ def write_main(argv: list[str]) -> int:
 COMMANDS["write"] = write_main
 COMMANDS["vault"] = vault_main
 
+def local_projection_main(argv: list[str]) -> int:
+    import argparse, json
+    parser = argparse.ArgumentParser(description="Materialize the owner-aware local/private projection")
+    parser.add_argument("--root", type=__import__("pathlib").Path, default=__import__("pathlib").Path.cwd())
+    parser.add_argument("--manifest", type=__import__("pathlib").Path)
+    parser.add_argument("--scope", choices=["local", "private"], default="local")
+    parser.add_argument("--output", type=__import__("pathlib").Path)
+    args = parser.parse_args(argv)
+    result = __import__("tools.vault_registry", fromlist=["VaultRegistry"]).VaultRegistry(args.root, args.manifest).write_local_projection(args.scope, args.output)
+    print(json.dumps(result, ensure_ascii=False, indent=2)); return 0
+
+COMMANDS["local-projection"] = local_projection_main
+
 def query_main(argv: list[str]) -> int:
     """Offline query entry point sharing the API projection and Retriever."""
     import argparse, json

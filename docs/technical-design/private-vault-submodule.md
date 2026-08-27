@@ -53,6 +53,8 @@
 
 本轮结论：新增离线、可重建的 `local-projection/v1` 生成器。每条记录始终带 `{vault_id, object_type, object_id}`，同名对象并存；可用 Vault 才提供正文和 content hash，不可用 Vault 只保留 Vault 级状态元数据。该生成器只为 `local`/显式 `private` 查询服务，public projection 仍由 public allowlist 生成器独立负责，绝不读取 private 正文。输出不含物理路径、remote、凭据或 private lineage。
 
+本轮 projection CLI 调查（2026-08-27）：Backstage Software Catalog descriptor（Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）与 Click/Typer command groups（BSD-3-Clause/MIT）均采用稳定 manifest schema 和薄 CLI 编排；替代方案是 CLI 直接扫描 Vault 并自行序列化，会产生第二套 owner/冲突规则。新增 `python -m tools.cli local-projection` 仅调用 `VaultRegistry.write_local_projection()`，保持原子写入、owner 三元组和不可用诊断边界；离线不联网，升级只需重跑 projection/CLI parity 测试。
+
 ## 2. 当前基线与目录
 
 当前仓库是 `public` vault。每个 private repo 与 public repo 使用相同的对象目录和 schema 版本，但拥有独立 Git 历史：
