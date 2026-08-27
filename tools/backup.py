@@ -208,6 +208,59 @@ class BackupManager:
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
+    @staticmethod
+    def verify_restored_bundle(bundle: Path, target: Path) -> dict:
+        """Verify the complete restored file set and owner marker in a target checkout."""
+        bundle = Path(bundle).resolve()
+        target = Path(target).resolve()
+        checked = BackupManager.verify_bundle(bundle)
+        if checked.get("backup_state") != "verified":
+            return {"state": "failed", "error_code": checked.get("error_code", "bundle_unverified")}
+        try:
+            data = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+            expected_manifest = checked["manifest_sha256"]
+            expected_paths = set()
+            for entry in data["entries"]:
+                rel = Path(str(entry.get("path", "")))
+                if rel.is_absolute() or ".." in rel.parts:
+                    raise ValueError("entry_path_invalid")
+                expected_paths.add(rel.as_posix())
+                path = target / rel
+                if not path.is_file() or path.is_symlink() or path.stat().st_nlink > 1:
+                    raise ValueError("restored_entry_missing")
+                actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+                if actual != entry.get("sha256"):
+                    raise ValueError("restored_hash_mismatch")
+            restore_dir = target / "audit" / "backup" / "restores"
+            markers = sorted(restore_dir.glob(f"{data.get('backup_id', '')}-*.json")) if restore_dir.is_dir() else []
+            valid_marker = False
+            for marker_path in markers:
+                marker = json.loads(marker_path.read_text(encoding="utf-8"))
+                marker_hash = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in marker.items() if k != "record_sha256"})).hexdigest()
+                if (marker.get("schema_version") == "backup-restore-record/v1"
+                        and marker.get("vault_id") == data.get("vault_id")
+                        and marker.get("manifest_sha256") == expected_manifest
+                        and marker.get("record_sha256") == marker_hash
+                        and marker.get("state") == "restored"):
+                    valid_marker = True
+                    break
+            if not valid_marker:
+                raise ValueError("restore_marker_missing")
+            allowed_extra = {p.as_posix() for p in (target / "audit" / "backup" / "restores").rglob("*") if p.is_file()} if restore_dir.is_dir() else set()
+            extras = []
+            for path in target.rglob("*"):
+                if not path.is_file() or path.is_symlink():
+                    continue
+                rel = path.relative_to(target).as_posix()
+                if rel not in expected_paths and str(path) not in allowed_extra:
+                    extras.append(rel)
+            if extras:
+                raise ValueError("restore_extra_entry")
+            return {"state": "verified", "backup_state": "verified", "vault_id": data.get("vault_id"),
+                    "manifest_sha256": expected_manifest, "entry_count": len(expected_paths)}
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+
     def restore_bundle(self, bundle: Path, target: Path) -> dict:
         """Restore a verified offline bundle into an explicitly empty checkout."""
         bundle = Path(bundle).resolve()
@@ -238,6 +291,9 @@ class BackupManager:
             marker["record_sha256"] = "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
             marker_path = target / "audit" / "backup" / "restores" / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json"
             atomic_write(marker_path, canonical_json(marker) + b"\n", 0o600)
+            verified = self.verify_restored_bundle(bundle, target)
+            if verified.get("backup_state") != "verified":
+                raise ValueError(verified.get("error_code", "restore_verification_failed"))
             return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target), "manifest_sha256": checked["manifest_sha256"]}
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             for path in reversed(created):

@@ -14,7 +14,7 @@
     "AC-F012-007",
     "AC-F012-008"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. Offline bundle verification now fail-closes invalid vault owner metadata and cross-Vault target mismatch before payload restore.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. Offline bundle verification now fail-closes invalid vault owner metadata and cross-Vault target mismatch before payload restore, and restored targets are rechecked for complete declared entry/hash and owner-marker closure.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
