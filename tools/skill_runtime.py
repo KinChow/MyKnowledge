@@ -18,11 +18,12 @@ from .validation.validator import WikiValidator
 import json
 from .common import safe_id
 
-ALLOWED_ACTIONS = frozenset({"skill_status", "query", "read", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
+ALLOWED_ACTIONS = frozenset({"skill_status", "query", "retrieve", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
 ACTION_FIELDS = {
-    "skill_status": set(), "query": {"query", "scope", "top_k"},
-    "read": {"vault_id", "object_id"}, "write_preview": {"files", "operation_type", "vault_id"},
+    "skill_status": set(), "query": {"query", "scope", "top_k"}, "retrieve": {"query", "scope", "top_k"},
+    "read": {"vault_id", "object_id"}, "backlinks": {"vault_id", "object_id"},
+    "write_preview": {"files", "operation_type", "vault_id"},
     "write_apply": {"operation_id", "confirmed", "actor_id"},
     "source_preview": {"request"}, "source_apply": {"operation_id", "confirmed", "actor_id"},
     "wiki_validate": {"wiki_path"}, "publish_preview": {"wiki_path"},
@@ -71,7 +72,7 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
             if any(marker not in text for marker in required):
                 return {"state": "unavailable", "error_code": "skill_unavailable", "reason": "canonical_skill_invalid"}
             return {"state": "available", "schema_version": "skill-status/v1", "skill": "myknowledge"}
-        if action == "query":
+        if action in {"query", "retrieve"}:
             if str(payload.get("scope", "public")) != "public" or not isinstance(payload.get("query"), str):
                 return {"state": "blocked", "error_code": "skill_public_query_only"}
             items = _public_projection_items(root)
@@ -85,6 +86,19 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
             if item is None:
                 return {"state": "blocked", "error_code": "object_not_found"}
             return {"schema_version": "read-result/v1", "object_ref": {"vault_id": "public", "object_type": "wiki", "object_id": object_id}, "path": item["body_path"], "body": item["body"]}
+        if action == "backlinks":
+            if payload.get("vault_id", "public") != "public":
+                return {"state": "blocked", "error_code": "skill_private_read_requires_api"}
+            object_id = str(payload.get("object_id", "")); safe_id(object_id)
+            items = _public_projection_items(root)
+            if not any(item["object_id"] == object_id for item in items):
+                return {"state": "blocked", "error_code": "object_not_found"}
+            needle = f"/wiki/{object_id}"
+            results = [
+                {"vault_id": "public", "object_type": "wiki", "object_id": item["object_id"]}
+                for item in items if item["object_id"] != object_id and (needle in item["body"] or object_id in {str(link).strip("/").split("/")[-1] for link in item.get("links", [])})
+            ]
+            return {"schema_version": "backlinks-result/v1", "target": {"vault_id": "public", "object_type": "wiki", "object_id": object_id}, "items": results}
         if action == "write_preview":
             files = payload.get("files")
             if not isinstance(files, dict):

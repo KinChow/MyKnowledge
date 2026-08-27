@@ -91,6 +91,22 @@ def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
     assert dispatch("query", {"query": "projection", "scope": "private"}, root=tmp_path)["error_code"] == "skill_public_query_only"
 
 
+def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
+    wiki = tmp_path / "wiki"; wiki.mkdir()
+    (wiki / "one.md").write_text("one", encoding="utf-8")
+    (wiki / "two.md").write_text("See [one](/wiki/one).", encoding="utf-8")
+    manifest = {"schema_version": "public-projection/v1", "projection": "public", "items": [
+        {"id": "one", "vault_id": "public", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "body_path": "wiki/one.md", "title": "One"},
+        {"id": "two", "vault_id": "public", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "body_path": "wiki/two.md", "title": "Two"},
+    ]}
+    path = tmp_path / "queries" / "public"; path.mkdir(parents=True); (path / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    retrieve = dispatch("retrieve", {"query": "one"}, root=tmp_path)
+    assert retrieve["schema_version"] == "query-result/v1"
+    backlinks = dispatch("backlinks", {"vault_id": "public", "object_id": "one"}, root=tmp_path)
+    assert backlinks["items"] == [{"vault_id": "public", "object_type": "wiki", "object_id": "two"}]
+    assert dispatch("backlinks", {"vault_id": "private", "object_id": "one"}, root=tmp_path)["error_code"] == "skill_private_read_requires_api"
+
+
 def test_skill_status_is_fail_closed_for_canonical_skill(tmp_path: Path):
     assert dispatch("skill_status", {}, root=tmp_path)["error_code"] == "skill_unavailable"
     skill = tmp_path / "skills" / "myknowledge" / "SKILL.md"
