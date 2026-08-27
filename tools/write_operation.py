@@ -108,6 +108,7 @@ class WriteOperation:
                 try:
                     intent_path = self.store.paths.commit_intent_file(operation_id)
                     intent = {"schema_version": "commit-intent/v1", "operation_id": operation_id, "operation_type": record.get("operation_type"), "vault_id": vault_id, "files": [{"path": item["path"], "before_hash": item.get("before_hash"), "after_hash": sha256_bytes(item["content"].encode("utf-8"))} for item in record.get("files", [])]}
+                    intent["intent_sha256"] = hash_canonical(intent)
                     atomic_write(intent_path, canonical_json(intent) + b"\n", 0o600)
                     for index, item in enumerate(record["files"]):
                         # Re-check fencing before every replacement so a recovered lock
@@ -146,7 +147,12 @@ class WriteOperation:
             record = self.store.load(operation_id)
             intent_path = self.store.paths.commit_intent_file(operation_id)
             intent = __import__("json").loads(intent_path.read_text(encoding="utf-8"))
-            if record.get("state") not in {"previewed", "expired"} or intent.get("schema_version") != "commit-intent/v1":
+            expected_intent_hash = hash_canonical({k: v for k, v in intent.items() if k != "intent_sha256"})
+            if (record.get("state") not in {"previewed", "expired"}
+                    or intent.get("schema_version") != "commit-intent/v1"
+                    or intent.get("intent_sha256") != expected_intent_hash
+                    or intent.get("operation_id") != operation_id
+                    or intent.get("vault_id") != record.get("target_vault", "public")):
                 return {"state": "blocked", "operation_id": operation_id, "error_code": "recovery_invalid"}
             states = []
             for item in intent.get("files", []):

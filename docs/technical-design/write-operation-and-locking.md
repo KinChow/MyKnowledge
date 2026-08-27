@@ -6,6 +6,12 @@
 - 相关 ADR：ADR-0006
 - 相关验收：[F004](../acceptance/F004-write-operation.md)
 
+## 本轮 commit intent 完整性调查（2026-08-27）
+
+- `filelock` 3.x（MIT，<https://github.com/tox-dev/filelock>）适合进程间互斥，但不提供多文件提交或崩溃恢复语义；SQLite transaction/WAL（Public Domain，<https://sqlite.org/lang_transaction.html>）可提供 durable commit，但本项目 canonical Markdown 仍需文件级原子替换。
+- Dendron 的 vault rename/link 重构经验（GPL-3.0，<https://github.com/dendronhq/dendron>）强调可重放的路径映射；Git/Git LFS（GPL-2.0，<https://git-scm.com/docs>）能恢复对象历史，却不会验证本地 operation intent 是否被篡改。替代方案是只检查 intent schema 或文件最终 hash，无法证明恢复目标对应原始 preview。
+- 采用 `commit-intent/v1` 自哈希：写入前将 operation、vault、每个文件的 before/after hash 纳入 canonical `intent_sha256`；`recover()` 先重算并校验该 hash，再比较文件状态。intent 缺失、篡改或 operation/vault 不匹配均返回 `recovery_invalid`，不更新 durable operation 为 applied。校验离线，不改变 canonical 数据格式；升级需保留旧 intent 的显式兼容策略，不静默迁移。
+
 ## 目标与非目标
 
 目标是实现 Preview → 用户确认 → Apply、幂等、逐 Vault 排他锁、原子落盘、rename/move 和废弃操作。Agent Skill 只调用本设计定义的 operation API，不拥有第二套写入规则。不可重建的确认、发布和验证摘要写入 owner vault 的 `audit/`；`state/` 只保存可清理的运行态。

@@ -237,10 +237,26 @@ class WriteOperationTests(unittest.TestCase):
             record = service.store.load(op)
             from tools.common import atomic_write, canonical_json
             intent = {"schema_version": "commit-intent/v1", "operation_id": op, "operation_type": "write", "vault_id": "public", "files": [{"path": "a.md", "before_hash": None, "after_hash": sha256_bytes(b"new")}]}
+            from tools.common import hash_canonical
+            intent["intent_sha256"] = hash_canonical(intent)
             atomic_write(root / "state" / "commit-intents" / f"{op}.json", canonical_json(intent) + b"\n", 0o600)
             (root / "a.md").write_text("new", encoding="utf-8")
             result = service.recover(op)
             self.assertEqual(result["state"], "applied")
+
+    def test_recover_rejects_tampered_commit_intent(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            preview = service.preview({"a.md": "new"}); op = preview["operation_id"]
+            intent_path = root / "state" / "commit-intents" / f"{op}.json"
+            intent_path.parent.mkdir(parents=True, exist_ok=True)
+            intent = {"schema_version": "commit-intent/v1", "operation_id": op, "operation_type": "write", "vault_id": "public", "files": [{"path": "a.md", "before_hash": None, "after_hash": sha256_bytes(b"new")} ]}
+            from tools.common import hash_canonical, canonical_json, atomic_write
+            intent["intent_sha256"] = hash_canonical(intent)
+            intent["files"][0]["after_hash"] = sha256_bytes(b"forged")
+            atomic_write(intent_path, canonical_json(intent) + b"\n", 0o600)
+            result = service.recover(op)
+            self.assertEqual(result["error_code"], "recovery_invalid")
 
 
 if __name__ == "__main__":
