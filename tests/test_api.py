@@ -22,6 +22,20 @@ def test_cli_query_matches_api_query_result(tmp_path: Path):
     assert cli.returncode == 0
     assert json.loads(cli.stdout) == api_result
 
+def test_cli_read_and_backlinks_use_public_projection(tmp_path: Path):
+    wiki = tmp_path / "wiki"; wiki.mkdir()
+    (wiki / "one.md").write_text("one", encoding="utf-8")
+    (wiki / "two.md").write_text("See [one](/wiki/one).", encoding="utf-8")
+    manifest = {"schema_version": "public-projection/v1", "projection": "public", "items": [
+        {"id": "one", "vault_id": "public", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "body_path": "wiki/one.md", "title": "One"},
+        {"id": "two", "vault_id": "public", "public_publishable": True, "public_release": True, "status": "published", "effective_confidentiality": "public", "body_path": "wiki/two.md", "title": "Two"},
+    ]}
+    out = tmp_path / "queries" / "public"; out.mkdir(parents=True); (out / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    read = subprocess.run([sys.executable, "-m", "tools.cli", "read", "one", "--root", str(tmp_path)], capture_output=True, text=True, check=False)
+    assert read.returncode == 0 and json.loads(read.stdout)["body"] == "one"
+    links = subprocess.run([sys.executable, "-m", "tools.cli", "backlinks", "one", "--root", str(tmp_path)], capture_output=True, text=True, check=False)
+    assert links.returncode == 0 and json.loads(links.stdout)["items"] == [{"vault_id": "public", "object_type": "wiki", "object_id": "two"}]
+
 def test_server_runner_rejects_remote_bind():
     import argparse
     assert _loopback_host("127.0.0.1") == "127.0.0.1"

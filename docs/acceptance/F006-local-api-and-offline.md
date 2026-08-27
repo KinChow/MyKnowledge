@@ -121,6 +121,11 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 - AC-F006-010：`tests/test_citation.py::test_citation_replay_uses_unicode_codepoint_offsets` 验证 emoji/CJK 场景的 Unicode code-point offset 与 TextQuote/TextPosition replay。
 - `test_citation_replay_rejects_snapshot_and_selector_drift` 验证 snapshot hash 漂移和 selector exact 变化分别返回 `snapshot_hash_mismatch`/`selector_unresolved`。
 
+## 离线 CLI read/backlinks parity 增量证据（2026-08-30）
+
+- `tests/test_api.py::test_cli_read_and_backlinks_use_public_projection` 验证 CLI `read`/`backlinks` 只消费 public projection manifest，并返回与 API 相同的 owner-aware read/backlinks 结果；CLI 不扫描 canonical/private 路径。
+- 该证据增强 AC-F006-003/005/007 的离线 parity 边界；private/local CLI 读取仍需转受保护 API，完整跨平台部署和长运行验收仍待补。
+
 ## AC-F006-006 本机 API 写保护
 
 - Given：本机页面、未授权脚本或远程客户端请求 write/validate/index/publish POST 端点；
