@@ -26,7 +26,7 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 | F007 | Astro/Starlight 公共静态 Wiki 和发布门禁 | P1 | F002, F003, F005, F011（public projection） | [F007](./acceptance/F007-static-wiki-publishing.md) |
 | F008 | Question 题型、claim 绑定和面试练习 | P1 | F002, F003 | [F008](./acceptance/F008-question-practice.md) |
 | F009 | Agent Skill 受控读写 | P1 | F004–F006 | [F009](./acceptance/F009-agent-skill.md) |
-| F010 | 存量内容迁移和质量清理 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md) |
+| F010 | 存量内容迁移和质量清理 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md)、[迁移台账](./f010-migration-ledger.md) |
 | F011 | Private Vaults 独立私有 Git 子仓库（0..N） | P1 | F001–F004、SEC 契约 | [F011](./acceptance/F011-private-vault.md) |
 | F012 | 备份、恢复和可观测性 | P1 | 核心模块 | [F012](./acceptance/F012-backup-and-observability.md) |
 
