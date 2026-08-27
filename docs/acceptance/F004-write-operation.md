@@ -118,6 +118,11 @@
 - `test_recover_commit_intent_marks_fully_written_files_applied` 验证进程在文件写完但 applied record 尚未落盘时，恢复检查按 after hash 重建 applied 状态；hash 不完整时返回 `recovery_required`，不覆盖用户文件。
 - 边界：projection/index 重建与跨 Vault staging 仍待后续验收，F004 仍为 Implemented（部分）。
 
+## Commit intent 完整性增量证据（2026-08-27）
+
+- `commit-intent/v1` 现在包含 canonical `intent_sha256`，覆盖 operation、vault 及每个文件的 before/after hash；`WriteOperation.recover()` 在恢复前校验自哈希、operation_id 和 target vault。
+- `tests/test_write_operation.py::WriteOperationTests::test_recover_rejects_tampered_commit_intent` 验证 intent 被篡改时返回 `recovery_invalid`，不会把未验证状态标记为 applied；`test_recover_commit_intent_marks_fully_written_files_applied` 验证完整 intent 仍可重放。
+
 ## Retire marker 增量证据（2026-08-27）
 
 - `test_rename_and_retire_have_distinct_operation_types` 现在执行 retire Apply，并验证 owner Vault 生成 `audit/retire/<operation_id>.json`（`retire-marker/v1`、目标相对路径和内容 hash）。原文件保留，便于回放和恢复，不执行不可逆删除。
