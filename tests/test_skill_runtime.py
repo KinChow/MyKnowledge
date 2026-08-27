@@ -51,6 +51,18 @@ def test_mcp_server_enforces_configured_capability_for_sensitive_actions(tmp_pat
     asyncio.run(exercise())
 
 
+def test_mcp_server_expires_capability_token(tmp_path: Path):
+    async def exercise():
+        server = create_server(tmp_path, capability_token="short-lived", capability_token_ttl_seconds=-1)
+        _, expired = await server.call_tool("myknowledge_dispatch", {
+            "action": "write_preview", "payload": {"files": {"wiki/expired.md": "# expired\n"}},
+            "capability_token": "short-lived",
+        })
+        assert expired["error_code"] == "capability_token_expired"
+    asyncio.run(exercise())
+    assert not (tmp_path / "wiki" / "expired.md").exists()
+
+
 def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
     async def exercise():
         from mcp import ClientSession, StdioServerParameters
