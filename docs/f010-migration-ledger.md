@@ -65,3 +65,11 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 ## 5. 与主线的并行关系
 
 迁移不阻塞 F005/F006 review（主线）；B1 样本批可与 F007 验收互为输入（B1 产出真实 source/wiki 供 F007 projection 验收）。`confirm-apply` CLI 独立小项可插任意空档。
+
+## 8. B1 wiki 提炼演示（AAR）中发现并修复/待修的问题（2026-08-28）
+
+| 问题 | 状态 |
+| --- | --- |
+| `derived.has_public_confirmation` 只 glob `evt_*.json`（下划线），与 `write_event`/generator 的 `*.json` + safe_id 连字符命名不一致，导致发布确认事件永不生效 | **已修复**（统一为 `*.json`，含注释）——这是 F007 发布链路首次真实闭环的直接 blocker |
+| `tools.cli validate` 对含 PosixPath 的 report 做 json.dumps 崩溃 | 待修（report 序列化前 str 化） |
+| `release_confirmation.write_event` 相对 root 下 `relative_to(root.resolve())` 崩溃（事件已写入但返回失败） | 待修（构造时 resolve） |
