@@ -141,4 +141,23 @@ class IndexingTests(unittest.TestCase):
         self.assertEqual(result["method"], "qmd")
         self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
 
+    def test_sqlite_index_recover_rebuilds_corrupt_index_and_keeps_previous(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "index.sqlite3"
+            index = SQLiteIndex(path)
+            first = index.rebuild(ITEMS, "public")
+            path.write_bytes(b"corrupt")
+            recovered = index.recover(ITEMS, "public")
+            self.assertEqual(recovered["state"], "recovered")
+            self.assertTrue((path.parent / "index.sqlite3.previous").exists())
+            self.assertEqual(index.generated_from(), first["generated_from"])
+
+    def test_sqlite_index_recover_reports_valid_without_rebuild(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "index.sqlite3"
+            index = SQLiteIndex(path); index.rebuild(ITEMS, "public")
+            result = index.recover(ITEMS, "public")
+            self.assertEqual(result["state"], "valid")
+            self.assertFalse(result["recovered"])
+
 if __name__ == "__main__": unittest.main()

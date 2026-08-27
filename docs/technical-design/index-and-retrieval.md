@@ -20,6 +20,8 @@
 
 本轮索引替换调查（2026-08-30）：SQLite WAL/backup 的事务提交与 Tantivy 目录级原子切换（MIT，<https://github.com/quickwit-oss/tantivy>）共同要求新版本未完整落盘时保留旧版本可读；替代方案是先移动旧文件再直接替换，失败会留下索引空洞。`SQLiteIndex.rebuild()` 现在在最终 `os.replace` 失败时把 `.previous` 恢复回主路径，避免查询从可用状态退化为不存在。
 
+本轮索引恢复调查（2026-08-30）：SQLite 官方 `PRAGMA quick_check/integrity_check`（Public Domain，<https://sqlite.org/pragma.html#pragma_integrity_check>）提供离线结构完整性检查；Tantivy 0.22（MIT，<https://github.com/quickwit-oss/tantivy>）依赖目录级 reload/rebuild 发现损坏后重建。替代方案是只检查文件存在或直接沿用旧索引，会把损坏/过期内容继续提供给查询。新增 `SQLiteIndex.recover()` 先校验 integrity、scope 和 projection `generated_from`，不满足时调用既有原子 rebuild 并保留 `.previous`；恢复失败返回 `index_recovery_failed`，不会伪造当前索引可用。离线不联网，升级 SQLite/Tantivy 适配器需重跑恢复和旧索引保留测试。
+
 ## 数据流
 
 ```text

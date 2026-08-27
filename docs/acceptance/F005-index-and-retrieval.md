@@ -16,6 +16,12 @@
 
 - `tests/test_indexing.py::IndexingTests::test_rebuild_swap_failure_restores_previous_index` 注入最终 SQLite 文件替换失败，验证旧主索引自动恢复、仍可读取且没有把失败重建暴露为空索引。
 
+## 索引恢复增量证据（2026-08-30）
+
+- `SQLiteIndex.recover()` 在重建前执行 SQLite `quick_check`、scope 和 projection hash 校验；损坏索引通过原子 rebuild 恢复并保留 `.previous`，有效索引直接返回 `valid`，不重复重建。
+- `tests/test_indexing.py::IndexingTests::test_sqlite_index_recover_rebuilds_corrupt_index_and_keeps_previous` 与 `test_sqlite_index_recover_reports_valid_without_rebuild` 覆盖损坏恢复和健康索引路径。
+- 该证据增强 AC-F005-001/002 的恢复边界；真实 QMD 安装、向量/RRF 质量与大规模性能仍属于环境验收。
+
 ## Public allowlist 收紧增量证据（2026-08-27）
 
 - `tests/test_indexing.py::IndexingTests::test_public_projection_requires_complete_release_allowlist` 验证 public index 同时要求 `vault_id=public`、`public_publishable=true`、`public_release=true`、`status=published` 和有效保密等级 `public`；draft、未确认发布和 internal 条目均被排除。
