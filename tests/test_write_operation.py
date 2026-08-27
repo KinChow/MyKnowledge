@@ -21,11 +21,12 @@ class WriteOperationTests(unittest.TestCase):
             subprocess.run(["git", "init", "-q", str(private)], check=True)
             manifest = workspace / "vaults.yaml"
             manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {workspace}\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
-            service = WriteOperation(public)
-            with mock.patch("tools.write_operation.VaultRegistry", lambda root: __import__("tools.vault_registry", fromlist=["VaultRegistry"]).VaultRegistry(root, manifest)):
-                preview = service.preview({"wiki/private.md": "secret"}, vault_id="private")
-                self.assertEqual(preview["state"], "previewed")
-                self.assertEqual(service.apply(preview["operation_id"], confirmed=True)["state"], "applied")
+            registry = __import__("tools.vault_registry", fromlist=["VaultRegistry"]).VaultRegistry(public, manifest)
+            # DIP：注入 vault root 解析器，无需 mock.patch 具体类
+            service = WriteOperation(public, vault_root_resolver=registry.resolve_vault_path)
+            preview = service.preview({"wiki/private.md": "secret"}, vault_id="private")
+            self.assertEqual(preview["state"], "previewed")
+            self.assertEqual(service.apply(preview["operation_id"], confirmed=True)["state"], "applied")
             self.assertEqual((private / "wiki" / "private.md").read_text(encoding="utf-8"), "secret")
             self.assertFalse((public / "wiki" / "private.md").exists())
 
@@ -427,6 +428,10 @@ class ConcurrentApplyTests(unittest.TestCase):
             content = (root / "shared.md").read_text(encoding="utf-8")
             self.assertIn(content, {"first", "second"})
             self.assertEqual(len(content.encode()), len(content))  # 单一完整内容，非交叠
+
+
+if __name__ == "__main__":
+    unittest.main()
 
 
 if __name__ == "__main__":
