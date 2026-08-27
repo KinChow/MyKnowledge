@@ -15,6 +15,48 @@ from .paths import RepoPaths
 
 OPERATION_TTL_SECONDS = 1800
 
+# AC-F004-006/011：apply 侧确认事件契约。public release 故意不是合法 scope
+# （它是独立事件类型 public-release-confirmation/v1，schema 层不可冒充）。
+APPLY_CONFIRMATION_SCHEMA = "operation-confirmation/v1"
+APPLY_CONFIRMATION_SCOPES = frozenset({"apply", "publish_private"})
+APPLY_CONFIRMATION_REQUIRED = ("schema_version", "operation_id", "scope", "actor_type", "actor_id", "input_hash", "diff_hash")
+
+
+def validate_apply_confirmation(record: dict, event: object) -> str | None:
+    """校验 apply 消费的 operation-confirmation/v1 事件；返回 error_code 或 None。
+
+    只接受 ``actor_type: human``、scope ∈ {apply, publish_private}、
+    input/diff hash 与当前 operation 完全绑定的事件（§1239：apply 的重放
+    由 hash 绑定挡住，不需要 nonce）。任何字段缺失/不匹配 fail-closed。
+    """
+    if not isinstance(event, dict):
+        return "confirmation_schema_invalid"
+    if event.get("schema_version") != APPLY_CONFIRMATION_SCHEMA:
+        return "confirmation_schema_invalid"
+    missing = [key for key in APPLY_CONFIRMATION_REQUIRED if key not in event]
+    if missing:
+        return "confirmation_fields_missing"
+    if event.get("scope") not in APPLY_CONFIRMATION_SCOPES:
+        return "confirmation_scope_invalid"
+    if event.get("actor_type") != "human":
+        return "confirmation_actor_invalid"
+    try:
+        safe_id(str(event.get("actor_id", "")))
+    except ValueError:
+        return "confirmation_actor_invalid"
+    if event.get("operation_id") != record.get("operation_id"):
+        return "confirmation_operation_mismatch"
+    if event.get("input_hash") != record.get("input_hash") or event.get("diff_hash") != record.get("diff_hash"):
+        return "confirmation_hash_mismatch"
+    if event.get("scope") == "publish_private":
+        publish_missing = [key for key in ("content_sha256", "evidence_sha256", "target_vault") if not event.get(key)]
+        if publish_missing or event.get("target_vault") != record.get("target_vault"):
+            return "confirmation_fields_missing"
+    expected = hash_canonical({k: v for k, v in event.items() if k != "event_sha256"})
+    if event.get("event_sha256") and event["event_sha256"] != expected:
+        return "confirmation_hash_mismatch"
+    return None
+
 
 class OperationStore:
     """Operation 两阶段写操作仓库：创建、读取、更新与审计。

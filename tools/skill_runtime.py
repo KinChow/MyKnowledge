@@ -26,7 +26,7 @@ ACTION_FIELDS = {
     "skill_status": set(), "query": {"query", "scope", "top_k"}, "retrieve": {"query", "scope", "top_k"}, "ask": {"query", "scope", "top_k"},
     "read": {"vault_id", "object_id"}, "backlinks": {"vault_id", "object_id"},
     "write_preview": {"files", "operation_type", "vault_id"},
-    "write_apply": {"operation_id", "confirmed", "actor_id"},
+    "write_apply": {"operation_id", "confirmed", "actor_id", "confirmation"},
     "source_preview": {"request"}, "source_apply": {"operation_id", "confirmed", "actor_id"},
     "wiki_validate": {"wiki_path"}, "publish_preview": {"wiki_path"}, "publish_confirm": {"event"},
     "vault_check": set(), "backup_status": set(), "backup_manifest": {"vault_id"},
@@ -99,7 +99,8 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
                 return {"state": "blocked", "error_code": "files_required"}
             return WriteOperation(root).preview(files, operation_type=str(payload.get("operation_type", "write")), vault_id=str(payload.get("vault_id", "public")))
         if action == "write_apply":
-            return WriteOperation(root).apply(str(payload.get("operation_id", "")), confirmed=payload.get("confirmed") is True, actor_id=str(payload.get("actor_id", "local-user")))
+            confirmation = payload.get("confirmation")
+            return WriteOperation(root).apply(str(payload.get("operation_id", "")), confirmed=payload.get("confirmed") is True, actor_id=str(payload.get("actor_id", "local-user")), confirmation=confirmation if isinstance(confirmation, dict) else None)
         if action == "source_preview":
             request = payload.get("request")
             if not isinstance(request, dict):

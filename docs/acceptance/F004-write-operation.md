@@ -2,9 +2,9 @@
 
 - Feature：F004
 - 相关规范：OPS、SEC
-- 状态：Implemented（2026-08-27；7 个通用 writer 测试通过；完整领域 writer 验收仍待后续补齐）
-- 实现证据：`tools/write_operation.py`、`tests/test_write_operation.py`、`tools/operation_store.py`、`tools/vault_lock.py`
-- 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；多 Vault fencing、projection/index 恢复和 retire 领域状态仍需后续验收。
+- 状态：Implemented（2026-08-28；确认事件绑定、并发一致性、真实 projection 重建已补齐；跨 Vault staging 与领域 writer 统一迁移仍待后续验收）
+- 实现证据：`tools/write_operation.py`、`tools/operation_store.py`（`validate_apply_confirmation`）、`tools/vault_lock.py`、`tests/test_write_operation.py`（31 项）
+- 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；跨 Vault apply/恢复、SQLite index 生产重建仍需后续验收。
 
 ## Rename source precondition 增量证据（2026-08-27）
 
@@ -50,6 +50,8 @@
 - When：并发执行；
 - Then：只有一个持有锁，另一个可重试或明确失败，仓库不出现半成品；
 - 自动化级别：Integration。
+- 对应测试：`tests/test_write_operation.py::ConcurrentApplyTests::test_two_concurrent_applies_produce_single_consistent_result`
+- 当前状态：通过。
 
 ## AC-F004-004 blocked 与 hash 失效
 
@@ -58,6 +60,8 @@
 - Then：操作进入 `blocked` 或 `expired`，目标文件、索引和旧 projection 保持不变，并返回可执行的 `next_action`；
 - 失败时不变量：不得留下可自动续写的半成品或把 blocked 当作成功；
 - 自动化级别：Unit/Integration。
+- 对应测试：`test_hash_change_blocks_without_overwrite`、`test_rename_source_drift_blocks_without_deleting_source`、`test_apply_path_race_returns_structured_failure`、`ApplyConfirmationTests::test_confirmation_wrong_hash_fails_closed_without_writes`
+- 当前状态：通过。
 
 ## AC-F004-005 原子多文件 Apply 与恢复
 
@@ -74,6 +78,8 @@
 - Then：只有 `actor_type: human`、`scope` 合法且 hash 完全匹配时成功；事件只消费一次，hash 变化后必须重新 preview；
 - 失败时不变量：Agent/LLM/CI 不能自行生成确认或把 `public_release` 改为 true；
 - 自动化级别：Security/Integration。
+- 对应测试：`ApplyConfirmationTests`（成功绑定/伪造 hash/agent actor/幂等消费）
+- 当前状态：通过。
 
 ## AC-F004-007 Durable record 与一次性 nonce
 
@@ -90,6 +96,8 @@
 - Then：前两种按缺字段拒绝；`public_release` 不是合法 scope 值，词表校验直接拒绝；public release 只接受 `public-release-confirmation/v1`；
 - 失败时不变量：**public release 不得被表达为 `operation-confirmation/v1` 的任何 scope 值**——它是唯一不可撤销的对外行为，独立事件类型使"写错一个 scope 值就公开了 internal 内容"在 schema 层不可表达；internal 告警确认虽已并入私有发布事件，仍必须展示且不可静默跳过；
 - 自动化级别：Unit/Security。
+- 对应测试：`ConfirmationBoundaryTests` + `tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade`
+- 当前状态：通过。
 
 ## AC-F004-008 多 Vault 锁顺序
 
@@ -152,3 +160,11 @@
 
 - `WriteOperation.preview/apply/recover/rename/retire/purge` 现在将文件路径和 `vault_id` 绑定到同一 owner checkout；private operation 不再把相对路径解析到 public root。
 - `tests/test_write_operation.py::test_private_vault_write_uses_owner_checkout_root` 验证 private 文件只写入 private checkout，public checkout 不出现同名目标；现有 public 故障注入和回滚测试仍保持通过。
+
+## 确认事件与验收补齐（2026-08-28）
+
+- AC-F004-006：`OperationStore.validate_apply_confirmation`（`tools/operation_store.py`）实现 `operation-confirmation/v1` 严格校验——`actor_type` 必须为 `human`、scope ∈ {apply, publish_private}、`input_hash`/`diff_hash` 与当前 operation 完全绑定、`event_sha256` canonical 复核；`WriteOperation.apply(confirmation=...)`、Skill `write_apply` 与 API `/api/operation/{id}/apply` 均透传消费。`ApplyConfirmationTests` 验证成功路径（durable audit 记录事件 hash）、伪造 hash fail-closed 不写目标、agent actor 拒绝；重复消费由状态机幂等返回原结果。
+- AC-F004-011：`ConfirmationBoundaryTests` 验证 `public_release` 不是合法 scope（schema 层不可冒充）；`publish_private` 缺 `content_sha256`/`evidence_sha256`/`target_vault` 时拒绝；`tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade` 验证 public release 只接受 `public-release-confirmation/v1`。
+- AC-F004-003：`ConcurrentApplyTests` 以双进程并发 apply 同一目标，验证恰好一个 `applied`、其余为结构化 `expired/blocked`（无 `apply_failed` 半成品），目标文件为单一完整内容。
+- AC-F004-009（真实重建）：`WriteOperation` 对 public vault 默认挂接 `public_projection_rebuilder`（真实调用 `PublicProjectionGenerator`）；`RealProjectionRebuildTests` 验证 apply 后 manifest 落盘、注入写入障碍后进入 `applied_index_pending`、清除障碍后显式 `recover()` 完成重建并落 `applied`。SQLite index 生产重建留待 F005 接线。
+- 边界：本地交互通道（CLI/本地 API）的裸 `confirmed` 标志仍表示"操作者在场确认"；非交互 Agent 通道建议随 apply 提供 `confirmation` 事件作为人工确认凭据。跨 Vault staging、Source/Evidence writer 统一迁移仍待验收。

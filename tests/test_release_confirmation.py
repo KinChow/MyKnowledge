@@ -24,3 +24,12 @@ def test_public_release_nonce_cannot_be_reused_by_another_event(tmp_path: Path):
     replay = {**event(), "event_id": "event-two", "operation_id": "op-two"}
     result = write_event(tmp_path, replay)
     assert result == {"state": "blocked", "error_code": "confirmation_nonce_reused"}
+
+
+def test_public_release_rejects_operation_confirmation_masquerade(tmp_path: Path):
+    """AC-F004-011：public release 只接受 public-release-confirmation/v1。"""
+    masquerade = {"schema_version": "operation-confirmation/v1", "operation_id": "op-one",
+                  "scope": "public_release", "actor_type": "human", "actor_id": "alice",
+                  "input_hash": "sha256:input", "diff_hash": "sha256:diff"}
+    assert validate_event(masquerade) == {"valid": False, "error_code": "event_schema_invalid"}
+    assert write_event(tmp_path, masquerade)["state"] == "blocked"

@@ -39,6 +39,7 @@ class ApplyRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     confirmed: bool = False
     actor_id: str = Field(default="local-user", min_length=1, max_length=128)
+    confirmation: dict[str, Any] | None = None
 
 class CitationReplayRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -191,7 +192,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     @app.post("/api/operation/{operation_id}/apply")
     def operation_apply(operation_id: str, req: ApplyRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
         require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
-        return {"schema_version": "operation-result/v1", **app.state.writer.apply(operation_id, confirmed=req.confirmed, actor_id=req.actor_id)}
+        return {"schema_version": "operation-result/v1", **app.state.writer.apply(operation_id, confirmed=req.confirmed, actor_id=req.actor_id, confirmation=req.confirmation)}
 
     @app.get("/api/vault/check")
     def vault_check(x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
