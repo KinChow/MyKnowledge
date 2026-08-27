@@ -30,6 +30,8 @@
 
 本轮 publish confirmation 调查（2026-08-27）：MCP typed tool boundary（MIT，<https://modelcontextprotocol.io/specification/2025-06-18/server/tools>）与现有 `release_confirmation.write_event()` 的 append-only nonce/hash 门禁可组合；替代方案是 Skill 直接写 `release/public-confirmations/*.json`，会绕过 schema、人工 actor、reason 脱敏和 nonce 重放保护。新增 `publish_confirm` 仅接收结构化 event 并委托 `write_event`，不生成或修改确认内容；离线运行，token/凭据不落盘，发布 authority 仍归 release confirmation 与 projection generator。
 
+本轮 `ask` 能力调查（2026-08-27）：FastAPI `/api/ask` 的 `RetrieveRequest`/`ask-result/v1`（FastAPI 0.115+、Pydantic 2.x，MIT；<https://github.com/fastapi/fastapi>、<https://github.com/pydantic/pydantic>）提供与 API 一致的 query/scope/top-k 结构，并在 provider 不可用时明确返回 `availability=unavailable`；MCP Python SDK `FastMCP` typed tool（1.29.1，MIT；<https://github.com/modelcontextprotocol/python-sdk>）提供结构化 `tools/call` 边界。直接复用请求字段和 `ask-result/v1` 响应语义，Skill 只调用同一 public projection `Retriever`，不自行生成答案；LLM/provider 仍由 API/独立 provider 层负责。替代方案是 Skill 直接调用 provider URL 或把检索片段伪装成回答，会泄露 endpoint/凭据并破坏 `unavailable` 语义，明确排除。离线运行不联网、不写 canonical/index/practice；升级 FastAPI/MCP 只需重跑 schema/transport 测试，provider 不可用时保持可诊断的 `provider_unavailable`。
+
 Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当前 checkout 加载。Skill 不依赖外部 Skill 仓库；外部同步只能是发布后的复制动作。
 
 ## 能力面

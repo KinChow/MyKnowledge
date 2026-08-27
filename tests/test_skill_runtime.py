@@ -119,6 +119,20 @@ def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
     assert dispatch("backlinks", {"vault_id": "private", "object_id": "one"}, root=tmp_path)["error_code"] == "skill_private_read_requires_api"
 
 
+def test_skill_ask_reuses_public_retrieval_and_offline_boundary(tmp_path: Path):
+    wiki = tmp_path / "wiki"; wiki.mkdir()
+    (wiki / "one.md").write_text("中文 projection", encoding="utf-8")
+    (tmp_path / "practice" / "questions").mkdir(parents=True)
+    (tmp_path / "practice" / "questions" / "q.json").write_text('{"answer":"secret"}', encoding="utf-8")
+    manifest_dir = tmp_path / "queries" / "public"; manifest_dir.mkdir(parents=True)
+    manifest_dir.joinpath("manifest.json").write_text(json.dumps({"schema_version":"public-projection/v1", "projection":"public", "items": [{"id":"one", "vault_id":"public", "public_publishable":True, "public_release":True, "status":"published", "effective_confidentiality":"public", "body_path":"wiki/one.md", "title":"One"}]}), encoding="utf-8")
+    result = dispatch("ask", {"query": "projection", "scope": "public"}, root=tmp_path)
+    assert result["schema_version"] == "ask-result/v1"
+    assert result["answer"] is None and result["availability"] == "unavailable"
+    assert result["retrieval"]["items"][0]["object_ref"]["object_id"] == "one"
+    assert dispatch("ask", {"query": "secret", "scope": "private"}, root=tmp_path)["error_code"] == "skill_public_query_only"
+
+
 def test_skill_status_is_fail_closed_for_canonical_skill(tmp_path: Path):
     assert dispatch("skill_status", {}, root=tmp_path)["error_code"] == "skill_unavailable"
     skill = tmp_path / "skills" / "myknowledge" / "SKILL.md"

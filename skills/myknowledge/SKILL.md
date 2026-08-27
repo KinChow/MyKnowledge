@@ -11,7 +11,7 @@ directories, or Git state directly.
 
 ## Routing
 
-- Query/read: `python -m tools.cli query` or the local API `/api/retrieve`.
+- Query/read/ask: `python -m tools.cli query` or the local API `/api/retrieve` and `/api/ask`; ask remains unavailable when no provider is configured and never treats retrieval hits as a generated answer.
 - Source/Wiki changes: call the domain preview operation, show operation ID,
   target vault, hashes and warnings, then wait for explicit human confirmation
   before Apply.
