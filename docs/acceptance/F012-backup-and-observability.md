@@ -49,6 +49,11 @@
 - AC-F012-002/005/007：`tests/test_vault_registry.py::VaultRegistryTests::test_verified_manifest_restores_to_empty_checkout` 验证已校验 manifest 可恢复到显式空 checkout；`test_restore_requires_empty_target` 验证非空目标返回 `restore_target_not_empty`，不会覆盖用户文件。
 - 恢复过程只复制 manifest 已列出的 owner entries，路径穿越、缺失文件或 hash 异常会失败并清理已创建文件；不修改 public/其他 Vault。
 
+## 跨 Vault 恢复归属增量证据（2026-08-30）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_backup_bundle_restore_requires_matching_target_vault` 验证恢复 API 必须显式提供目标 Vault ID，且该 ID 必须与 bundle manifest 的 `vault_id` 一致；private bundle 指向 public 时在写入前返回 `cross_vault_restore`，目标目录不会创建。匹配 private owner 后才恢复并写入 target-local marker。
+- 该证据闭合 AC-F012-002/005 的 owner 隔离子场景；仍不等同于恢复后完整 object/snapshot/evidence/projection 重建已 Accepted。
+
 ## 恢复中途失败清理增量证据（2026-08-27）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_restore_cleans_partial_checkout_after_write_failure` 注入第二个 entry 写入失败，验证已写文件及其空父目录均被清理，目标 checkout 不留下半恢复内容。

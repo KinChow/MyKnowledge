@@ -20,6 +20,8 @@
 
 本轮 bundle owner 调查（2026-08-30）：Git bundle 的 ref/owner 必须是可解析的稳定标识，SQLite backup 的数据库名不能替代 Vault owner；替代方案是只验证 payload hash 而忽略 `vault_id`，会让恢复审计无法判断目标归属。`verify_bundle()` 现在要求 `vault_id` 为 `safe_id` 且 `entries` 为列表，非法 owner 元数据在读取 payload 前 fail-closed。
 
+本轮跨 Vault 恢复调查（2026-08-30）：Restic stable restore 文档（项目版本 0.17.x，BSD-2-Clause，<https://restic.readthedocs.io/en/stable/050_restore.html>）将 snapshot/repository 身份与显式 `--target` 分离，目标路径本身不承担来源归属；Borg 1.4 文档（BSD-3-Clause，<https://borgbackup.readthedocs.io/en/stable/usage/usage.html>）同样以 archive/repository 元数据选择恢复来源。两者均支持离线校验/恢复，但不会替 MyKnowledge 判定 Vault confidentiality 或跨 Vault 引用政策。采用：新增 `restore_bundle_to_vault(bundle, target, target_vault_id)`，在创建目标前用 `safe_id` 校验显式目标 ID，并要求其与 manifest `vault_id` 完全相等；错配返回 `cross_vault_restore`，不创建或修改目标。直接复用成熟方案的“来源元数据 + 显式目标”边界，MyKnowledge 保留 owner ObjectRef、private/public confidentiality、空目标和 restore marker 门禁。离线时只读取 bundle manifest/payload；升级影响限于 manifest/schema 与 owner 校验，不执行 checkout/reset/commit/push，也不保存 URL、凭据或正文之外的敏感信息。
+
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
 ## 备份内容与恢复
