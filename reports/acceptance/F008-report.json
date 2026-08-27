@@ -2,7 +2,7 @@
   "schema_version": "acceptance-report/v1",
   "feature": "F008",
   "status": "Implemented (partial)",
-  "generated_from": "c057600f206144ec5dac091d50d5b2e06ff951d9",
+  "generated_from": "87c4f9b7536b00673d45812c1442e92c5d48d202",
   "acceptance_document": "docs/acceptance/F008-question-practice.md",
   "scenario_ids": [
     "AC-F008-001",
@@ -15,7 +15,7 @@
     "AC-F008-008",
     "AC-F008-009"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The current increment records fsrs-card/v1 and scheduler version metadata, rejects tampered question facts by content hash, and adds path-independent public leak rejection for question payload fields.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

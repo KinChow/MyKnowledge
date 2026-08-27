@@ -6,6 +6,7 @@ from .common import atomic_write, canonical_json, hash_canonical, safe_id
 from .release_confirmation import validate_event
 from .vault_registry import VaultRegistry
 from .paths import RepoPaths
+from .question import QUESTION_SCHEMA, QuestionStore
 
 class BackupManager:
     def __init__(self, root: Path, manifest: Path | None = None) -> None:
@@ -209,6 +210,32 @@ class BackupManager:
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
     @staticmethod
+    def _verify_practice_tree(target: Path) -> None:
+        """Validate restored practice semantics in addition to byte hashes."""
+        questions = target / "practice" / "questions"
+        if questions.is_dir():
+            store = QuestionStore(target)
+            for path in sorted(questions.glob("*.json")):
+                try:
+                    question = store.load(path.stem)
+                except (OSError, ValueError, json.JSONDecodeError) as exc:
+                    raise ValueError("practice_question_invalid") from exc
+                if question.get("schema_version") != QUESTION_SCHEMA:
+                    raise ValueError("practice_question_schema_invalid")
+        reviews = target / "practice" / "reviews"
+        if reviews.is_dir():
+            for path in sorted(reviews.glob("*.jsonl")):
+                question_id = path.stem
+                for line in path.read_text(encoding="utf-8").splitlines():
+                    try:
+                        record = json.loads(line)
+                    except json.JSONDecodeError as exc:
+                        raise ValueError("practice_review_invalid") from exc
+                    if (record.get("schema_version") != "practice-review-record/v1"
+                            or record.get("question_id") != question_id):
+                        raise ValueError("practice_review_owner_mismatch")
+
+    @staticmethod
     def verify_restored_bundle(bundle: Path, target: Path) -> dict:
         """Verify the complete restored file set and owner marker in a target checkout."""
         bundle = Path(bundle).resolve()
@@ -246,6 +273,7 @@ class BackupManager:
                     break
             if not valid_marker:
                 raise ValueError("restore_marker_missing")
+            BackupManager._verify_practice_tree(target)
             allowed_extra = {p.as_posix() for p in (target / "audit" / "backup" / "restores").rglob("*") if p.is_file()} if restore_dir.is_dir() else set()
             extras = []
             for path in target.rglob("*"):
