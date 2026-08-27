@@ -21,7 +21,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | SRC-001 | F001 | ADR-0001 | source-ingestion | AC-F001-001/002/004/005/009/010 | 待实现 | Designed |
 | ARC-001 | F001 | ADR-0003 | source-ingestion | AC-F001-003/006 | tests/ingest/test_source_ingestor.py（append-only manifest owner/snapshot/extractor/normalization/record hash 与重复 Apply 幂等）；当前 archive policy 固定 text-only，raw/LFS 功能尚未启用 | Implemented（部分） |
-| ARC-002 | F001/F003 | ADR-0003/0005 | source-ingestion, evidence-anchoring, wiki-claim-validation | AC-F001-001/004/006/011/012/013, AC-F003-001/002/006 | 待实现 | Designed |
+| ARC-002 | F001/F003 | ADR-0003/0005 | source-ingestion, evidence-anchoring, wiki-claim-validation | AC-F001-001/004/006/011/012/013, AC-F003-001/002/006 | tests/test_end_to_end.py::test_source_to_wiki_evidence_chain_is_replayable（Source→snapshot→EvidenceAnchor→Wiki claim/evidence validation→hash replay）；跨 Vault unavailable 与 public confirmation 仍分别由 F011/F007 验收 | Implemented（部分） |
 | WIKI-001 | F002 | ADR-0001 | wiki-claim-validation | AC-F002-001/002/004/005 | 待实现 | Designed |
 | WIKI-002 | F002 | ADR-0004 | wiki-claim-validation | AC-F002-003/004 | 待实现 | Designed |
 | EVD-001 | F003 | ADR-0001/0005 | wiki-claim-validation | AC-F003-001/002/004/005/006/012 | 待实现 | Designed |

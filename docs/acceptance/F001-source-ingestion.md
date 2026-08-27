@@ -166,3 +166,8 @@
 ## 本地域名策略增量证据（2026-08-27）
 
 - `tests/ingest/test_fetcher.py::FetcherTests::test_local_domain_suffix_is_blocked_before_dns_resolution` 验证 `.internal`/`.local` 主机在 DNS 解析前返回 `fetch_blocked:host_policy`；不建立连接、不触发解析，降低内网名称探测风险。
+
+## P0 垂直切片验收证据（2026-08-27）
+
+- `tests/test_end_to_end.py::test_source_to_wiki_evidence_chain_is_replayable` 实际串联 Source preview/apply、不可变 text snapshot、EvidenceAnchor selector/apply、Wiki claim/evidence validation 和 evidence hash replay，测试通过（1 passed）。
+- 该报告证明 Source→Wiki→Claim→Evidence 的事实链可回放；public confirmation、projection 和静态发布仍需按 F007 独立门禁验收，不能由本测试单独推导为 `Accepted`。
