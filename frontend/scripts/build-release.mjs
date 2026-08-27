@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 
 const lockDir=path.resolve('../state');
@@ -8,7 +9,9 @@ fs.mkdirSync(lockDir,{recursive:true,mode:0o700});
 let lockFd;
 try {
   lockFd=fs.openSync(lockPath,'wx',0o600);
-  fs.writeFileSync(lockFd,JSON.stringify({pid:process.pid,created_at:Date.now()})+'\n');
+  const lockRecord={schema_version:'release-lock/v1',pid:process.pid,created_at:Date.now(),fencing_token:crypto.randomBytes(24).toString('hex')};
+  fs.writeFileSync(lockFd,JSON.stringify(lockRecord)+'\n');
+  fs.fsyncSync(lockFd);
 } catch (error) {
   if(error?.code==='EEXIST') { console.error('release_lock_held'); process.exit(2); }
   throw error;

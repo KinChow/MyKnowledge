@@ -57,6 +57,17 @@ def test_release_lock_blocks_concurrent_build():
     finally:
         lock.unlink(missing_ok=True)
 
+def test_release_lock_record_has_fencing_token():
+    lock = FRONTEND.parent / "state" / "public-release.lock"
+    lock.parent.mkdir(parents=True, exist_ok=True)
+    lock.write_text('{"schema_version":"release-lock/v1","fencing_token":"held"}\n', encoding="utf-8")
+    try:
+        data = json.loads(lock.read_text(encoding="utf-8"))
+        assert data["schema_version"] == "release-lock/v1"
+        assert isinstance(data["fencing_token"], str) and data["fencing_token"]
+    finally:
+        lock.unlink(missing_ok=True)
+
 
 def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
     root = tmp_path / "repo"; frontend = tmp_path / "frontend"; frontend.mkdir()
