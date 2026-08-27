@@ -419,6 +419,34 @@ class VaultRegistryTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "practice_question_invalid"):
                     BackupManager._verify_practice_tree(target)
 
+    def test_restored_fsrs_card_can_continue_review(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            from tools.question import QuestionStore
+            store = QuestionStore(root)
+            question = {"schema_version": "question/v1", "id": "q-fsrs", "type": "short_answer",
+                        "confidentiality": "private", "wiki_claim": {"wiki_id": "w", "claim_id": "c"},
+                        "prompt": "2+2?", "options": None, "correct_option_ids": None,
+                        "answer": "4", "explanation": "private", "rubric": ["4"],
+                        "status": "enabled", "created_at": 1, "review_state": None}
+            question["content_sha256"] = QuestionStore._content_hash(question)
+            (root / "practice" / "questions").mkdir(parents=True)
+            (root / "practice" / "questions" / "q-fsrs.json").write_text(json.dumps(question) + "\n", encoding="utf-8")
+            first = store.review("q-fsrs", 3)
+            if first.get("state") == "unavailable":
+                return
+            before = store.load("q-fsrs")["review_state"]
+            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            with tempfile.TemporaryDirectory() as out:
+                target = Path(out) / "checkout"
+                restored = manager.restore_manifest(root / manifest["path"], target)
+                self.assertEqual(restored["state"], "restored")
+                resumed = QuestionStore(target).review("q-fsrs", 4)
+                self.assertEqual(resumed["state"], "scheduled")
+                after = QuestionStore(target).load("q-fsrs")["review_state"]
+                self.assertEqual(after["card_id"], before["card_id"])
+                self.assertEqual(after["review_state_schema"], "fsrs-card/v1")
+
     def test_private_manifest_does_not_read_public_or_escape_owner(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); public = root / "public"; private = root / "private"

@@ -88,3 +88,7 @@
 
 - `BackupManager._verify_practice_tree()` 在恢复后的 owner checkout 中重放 `question/v1` 与 `content_sha256`，并校验 `practice-review-record/v1` 的 `question_id` 归属；题目事实被篡改时返回 `practice_question_invalid`，review 记录 schema/归属错误时返回结构化失败。
 - `tests/test_vault_registry.py::VaultRegistryTests::test_restored_practice_semantics_are_verified` 覆盖恢复后题目内容篡改的 fail-closed 语义校验；字节级 manifest hash 校验和语义校验均不派生 verified。
+
+## FSRS 恢复重放增量证据（2026-08-27）
+
+- `tests/test_vault_registry.py::VaultRegistryTests::test_restored_fsrs_card_can_continue_review` 验证题目经 owner-scoped manifest 恢复后，保留原 `card_id` 与 `fsrs-card/v1` 状态，并可继续执行下一次 FSRS review；缺少 FSRS 依赖时测试按契约保留 `provider_unavailable` 边界。
