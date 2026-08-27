@@ -143,6 +143,18 @@ class QuestionTests(unittest.TestCase):
             result = store.create(short, wiki_report=REPORT)
             self.assertIn("field_not_allowed", {item["code"] for item in result["errors"]})
 
+    def test_tampered_question_content_is_fail_closed(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d)); store.create(self.base(), wiki_report=REPORT)
+            path = store._file("q-one")
+            value = __import__("json").loads(path.read_text(encoding="utf-8"))
+            value["prompt"] = "tampered"
+            path.write_text(__import__("json").dumps(value), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "question_hash_mismatch"):
+                store.answer("q-one", "a")
+            with self.assertRaisesRegex(ValueError, "question_hash_mismatch"):
+                store.review("q-one", 3)
+
     def test_multi_choice_response_rejects_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d)); spec = self.base("multi_choice"); spec["correct_option_ids"] = ["a", "b"]
