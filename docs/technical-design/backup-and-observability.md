@@ -30,6 +30,12 @@
 
 本轮 practice 语义恢复调查（2026-08-27）：Git bundle/checkout（GPL-2.0，<https://git-scm.com/docs/git-bundle>）和 SQLite Online Backup API（Public Domain，<https://sqlite.org/backup.html>）分别提供对象哈希与一致性快照思路，但都不理解题目 schema；替代 rsync（GPL-3.0，<https://github.com/WayneD/rsync>）只能复制字节。故 `verify_manifest()` 与 `verify_restored_bundle()` 在逐文件 sha256 之外重放 `question/v1`、`content_sha256` 和 `practice-review-record/v1` 的 owner 归属，语义失败保持 `failed`，不派生 `verified`。校验离线且不改变 practice 数据格式。
 
+### Bundle path traversal 增量调查（2026-08-30）
+
+- Restic restore（0.17.x，BSD-2-Clause）与 Borg extract/check（1.4.x，BSD-3-Clause）都将归档条目解析为受控相对路径；仅检查最终文件名不足以防止中间目录 symlink 导向归档根之外。
+- 替代方案是直接拼接 `base / relative_path`，兼容性好但允许恶意 bundle 通过 `payload/link/file` 越界读取或写入；不采用。
+- `BackupManager._safe_entry_path()` 现在逐组件拒绝 symlink，再执行绝对路径和 `..` 检查，覆盖 manifest、bundle 和 restore target。校验纯离线，不改变 `backup-manifest/v1`；升级路径库或恢复器后必须重跑 symlink/hard-link 和失败清理回归。
+
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
 ## 备份内容与恢复
