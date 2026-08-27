@@ -16,6 +16,13 @@
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
   "latest_increment": {
+    "name": "bundle-intermediate-symlink-isolation",
+    "tests": ["tests/test_vault_registry.py::VaultRegistryTests::test_backup_bundle_rejects_intermediate_payload_symlink"],
+    "result": "focused test passed",
+    "invariants": ["manifest-relative paths never follow symlink components", "bundle verification remains offline and owner-scoped"],
+    "pending": ["remote backup transport", "complete cross-vault object/snapshot/evidence/projection rebuild"]
+  },
+  "latest_increment": {
     "date": "2026-08-27",
     "evidence": "tests/test_vault_registry.py::VaultRegistryTests::test_backup_bundle_cli_export_and_restore",
     "commands": [

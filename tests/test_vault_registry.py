@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import subprocess
 import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -257,6 +258,22 @@ class VaultRegistryTests(unittest.TestCase):
             finally:
                 import shutil
                 shutil.rmtree(bundle, ignore_errors=True)
+
+    def test_backup_bundle_rejects_intermediate_payload_symlink(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            manager = BackupManager(root); created = manager.create_manifest("public")
+            bundle = root.parent / (root.name + "-bundle-symlink")
+            outside = root.parent / (root.name + "-outside"); outside.mkdir()
+            try:
+                manager.export_bundle(root / created["path"], bundle)
+                payload_wiki = bundle / "payload" / "wiki"
+                shutil.rmtree(payload_wiki)
+                payload_wiki.symlink_to(outside, target_is_directory=True)
+                self.assertEqual(BackupManager.verify_bundle(bundle)["error_code"], "entry_path_symlink")
+            finally:
+                shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(outside, ignore_errors=True)
 
     def test_backup_bundle_rejects_invalid_owner_metadata(self):
         with tempfile.TemporaryDirectory() as d:

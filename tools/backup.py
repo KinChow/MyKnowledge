@@ -49,6 +49,20 @@ class BackupManager:
         ]
         return report
 
+    @staticmethod
+    def _safe_entry_path(base: Path, rel: Path, *, error_code: str = "entry_path_invalid") -> Path:
+        """Join a manifest-relative path without following symlink components."""
+        if rel.is_absolute() or ".." in rel.parts:
+            raise ValueError(error_code)
+        current = base
+        for part in rel.parts:
+            if part in {"", "."}:
+                continue
+            current = current / part
+            if current.is_symlink():
+                raise ValueError("entry_path_symlink")
+        return current
+
     def create_manifest(self, vault_id: str = "public") -> dict:
         status = next((x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None)
         if status is None: raise ValueError("vault_not_found")
@@ -98,7 +112,7 @@ class BackupManager:
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
-                entry_path = owner_root / rel
+                entry_path = self._safe_entry_path(owner_root, rel)
                 if not entry_path.is_file() or entry_path.is_symlink():
                     raise ValueError("entry_missing")
                 if entry_path.stat().st_nlink > 1:
@@ -169,7 +183,7 @@ class BackupManager:
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
-                source = owner_root / rel
+                source = self._safe_entry_path(owner_root, rel)
                 if not source.is_file() or source.is_symlink() or source.stat().st_nlink > 1:
                     raise ValueError("entry_invalid")
                 destination = bundle / "payload" / rel
@@ -202,7 +216,7 @@ class BackupManager:
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
-                path = bundle / "payload" / rel
+                path = BackupManager._safe_entry_path(bundle / "payload", rel)
                 if not path.is_file() or path.is_symlink() or path.stat().st_nlink > 1:
                     raise ValueError("entry_missing")
                 actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
@@ -255,7 +269,7 @@ class BackupManager:
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
                 expected_paths.add(rel.as_posix())
-                path = target / rel
+                path = BackupManager._safe_entry_path(target, rel, error_code="restored_entry_path_invalid")
                 if not path.is_file() or path.is_symlink() or path.stat().st_nlink > 1:
                     raise ValueError("restored_entry_missing")
                 actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
@@ -311,8 +325,8 @@ class BackupManager:
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
-                source = bundle / "payload" / rel
-                destination = target / rel
+                source = self._safe_entry_path(bundle / "payload", rel)
+                destination = self._safe_entry_path(target, rel, error_code="entry_path_invalid")
                 if not source.is_file() or source.is_symlink() or source.stat().st_nlink > 1:
                     raise ValueError("entry_missing")
                 destination.parent.mkdir(parents=True, exist_ok=True)
@@ -393,8 +407,8 @@ class BackupManager:
                 rel = Path(str(entry.get("path", "")))
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
-                source = owner_root / rel
-                destination = target / rel
+                source = self._safe_entry_path(owner_root, rel)
+                destination = self._safe_entry_path(target, rel)
                 if not source.is_file() or source.is_symlink():
                     raise ValueError("entry_missing")
                 if source.stat().st_nlink > 1:
