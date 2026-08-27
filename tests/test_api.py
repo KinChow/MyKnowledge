@@ -75,8 +75,9 @@ def test_create_app_loads_public_projection_when_items_are_not_injected():
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
         manifest = root / "queries" / "public" / "manifest.json"
-        manifest.parent.mkdir(parents=True)
-        manifest.write_text(json.dumps({"schema_version": "public-projection/v1", "projection": "public", "items": [ITEMS[0]]}), encoding="utf-8")
+        body = root / "wiki" / "one.md"
+        manifest.parent.mkdir(parents=True); body.parent.mkdir(parents=True); body.write_text("离线查询", encoding="utf-8")
+        manifest.write_text(json.dumps({"schema_version": "public-projection/v1", "projection": "public", "items": [{**ITEMS[0], "id": "one", "body_path": "wiki/one.md"}]}), encoding="utf-8")
         client = TestClient(create_app(root=root))
         result = client.get("/api/query", params={"q": "离线", "scope": "public"})
         assert result.status_code == 200
@@ -158,11 +159,23 @@ def test_citation_replay_api_is_read_only_and_capability_scoped():
     assert response.json()["state"] == "valid"
     assert client.post("/api/citation/replay", params={"scope": "local"}, headers={"X-MyKnowledge-Capability": "token"}, json={"citation": citation, "snapshot": snapshot, "url": "https://evil.example"}).status_code == 422
 
+def _write_public_manifest(root: Path, items: list[dict]) -> None:
+    """Fixture：真实形态 public projection manifest（与 PublicProjectionGenerator 输出同构）。"""
+    import json as _json
+    out = root / "queries" / "public"
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "manifest.json").write_text(_json.dumps({"schema_version": "public-projection/v1", "projection": "public", "items": items}), encoding="utf-8")
+
+def _released_item(object_id: str, body: str) -> dict:
+    return {"id": object_id, "title": object_id, "route": f"/wiki/{object_id}", "body_path": f"wiki/{object_id}.md", "vault_id": "public", "status": "published", "public_publishable": True, "public_release": True, "effective_confidentiality": "public", "content_sha256": f"sha256:{object_id}", "links": []}
+
 def test_public_read_and_backlinks(tmp_path: Path):
-    wiki = tmp_path / "wiki" / "guide"
+    wiki = tmp_path / "wiki"
     wiki.mkdir(parents=True)
     (wiki / "target.md").write_text("# Target\n正文", encoding="utf-8")
-    (wiki / "consumer.md").write_text("See [target](target.md)", encoding="utf-8")
+    (wiki / "consumer.md").write_text("See [/wiki/target](/wiki/target)", encoding="utf-8")
+    (wiki / "draft.md").write_text("# 未发布草稿\n内部内容", encoding="utf-8")  # 不进 manifest
+    _write_public_manifest(tmp_path, [_released_item("target", "# Target"), {**_released_item("consumer", "See target"), "links": ["/wiki/target"]}])
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     read = client.get("/api/read/public/wiki/target")
     assert read.status_code == 200
@@ -171,6 +184,8 @@ def test_public_read_and_backlinks(tmp_path: Path):
     links = client.get("/api/backlinks/public/wiki/target")
     assert links.status_code == 200
     assert links.json()["items"] == [{"vault_id": "public", "object_type": "wiki", "object_id": "consumer"}]
+    # 未通过发布门禁的 canonical wiki 不得经 public API 暴露
+    assert client.get("/api/read/public/wiki/draft").status_code == 404
 
 def test_read_missing_object_is_structured_404(tmp_path: Path):
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
@@ -300,6 +315,7 @@ def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
     (private / "wiki" / "consumer.md").write_text("See same.md", encoding="utf-8")
     config = public / "config"; config.mkdir()
     (config / "vaults.local.yaml").write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {tmp_path}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n", encoding="utf-8")
+    _write_public_manifest(public, [_released_item("same", "public")])
     client = TestClient(create_app(root=public, capability_token="token"))
     response = client.get("/api/read/private/wiki/same", params={"scope": "private"}, headers={"X-MyKnowledge-Capability": "token"})
     assert response.status_code == 200

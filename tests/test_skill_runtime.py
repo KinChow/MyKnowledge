@@ -48,7 +48,7 @@ def test_mcp_server_enforces_configured_capability_for_sensitive_actions(tmp_pat
     async def exercise():
         server = create_server(tmp_path, capability_token="mcp-secret")
         _, denied = await server.call_tool("myknowledge_dispatch", {"action": "write_preview", "payload": {"files": {"wiki/mcp.md": "# MCP\n"}}})
-        assert denied["error_code"] == "capability_token_invalid"
+        assert denied["error_code"] == "capability_token_required"
         _, allowed = await server.call_tool("myknowledge_dispatch", {"action": "write_preview", "payload": {"files": {"wiki/mcp.md": "# MCP\n"}}, "capability_token": "mcp-secret"})
         assert allowed["state"] == "previewed"
     asyncio.run(exercise())
@@ -84,7 +84,7 @@ def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
                     "action": "write_preview", "payload": {"files": {"wiki/stdio.md": "# stdio\n"}}
                 })
                 denied_value = json.loads(denied.content[0].text)
-                assert denied_value["error_code"] == "capability_token_invalid"
+                assert denied_value["error_code"] == "capability_token_required"
                 allowed = await session.call_tool("myknowledge_dispatch", {
                     "action": "write_preview", "payload": {"files": {"wiki/stdio.md": "# stdio\n"}},
                     "capability_token": "stdio-secret",

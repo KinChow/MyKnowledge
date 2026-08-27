@@ -15,9 +15,10 @@ from .write_operation import WriteOperation
 from .indexing import Retriever
 from .ingest.source_ingestor import SourceIngestor
 from .validation.validator import WikiValidator
-from .release_confirmation import write_event
 import json
 from .common import safe_id
+from .projection import PublicProjectionStore
+from .release_confirmation import write_event
 
 ALLOWED_ACTIONS = frozenset({"skill_status", "query", "retrieve", "ask", "read", "backlinks", "write_preview", "write_apply", "source_preview", "source_apply", "wiki_validate", "publish_preview", "publish_confirm", "vault_check", "backup_status", "backup_manifest", "question_create", "question_answer", "question_review"})
 FORBIDDEN_KEYS = frozenset({"shell", "command", "exec", "git", "path", "absolute_path", "capability_token", "api_key"})
@@ -35,22 +36,8 @@ ACTION_FIELDS = {
 
 
 def _public_projection_items(root: Path) -> list[dict[str, Any]]:
-    manifest_path = root / "queries" / "public" / "manifest.json"
-    data = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if data.get("schema_version") != "public-projection/v1" or data.get("projection") != "public":
-        raise ValueError("manifest_invalid")
-    items: list[dict[str, Any]] = []
-    for item in data.get("items", []):
-        if item.get("vault_id") != "public" or item.get("public_publishable") is not True or item.get("public_release") is not True or item.get("status") != "published" or item.get("effective_confidentiality") != "public":
-            continue
-        rel = Path(str(item.get("body_path", "")))
-        if rel.is_absolute() or ".." in rel.parts or not rel.parts or rel.parts[0] != "wiki":
-            raise ValueError("projection_path_invalid")
-        body_path = root / rel
-        if not body_path.is_file() or body_path.is_symlink():
-            raise ValueError("projection_body_unavailable")
-        items.append({**item, "object_type": "wiki", "object_id": item["id"], "body": body_path.read_text(encoding="utf-8"), "availability": "available", "confidentiality": "public"})
-    return items
+    """严格版 public projection 加载，单实现见 projection.PublicProjectionStore。"""
+    return PublicProjectionStore(root).public_items(with_body=True)
 
 
 def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) -> dict[str, Any]:

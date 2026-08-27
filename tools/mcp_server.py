@@ -9,6 +9,7 @@ import time
 from pathlib import Path
 from typing import Any, Literal
 
+from .capability import check_capability
 from .skill_runtime import ALLOWED_ACTIONS, dispatch
 
 
@@ -29,10 +30,15 @@ def create_server(root: Path, capability_token: str | None = None, capability_to
         if action not in ALLOWED_ACTIONS:
             return {"state": "blocked", "error_code": "skill_action_not_allowed", "action": action}
         if expected_token and action in protected_actions:
-            if not capability_token or not secrets.compare_digest(capability_token, expected_token):
-                return {"state": "blocked", "error_code": "capability_token_invalid", "next_action": "provide the configured MCP capability token"}
-            if time.time() - issued_at > capability_token_ttl_seconds:
-                return {"state": "blocked", "error_code": "capability_token_expired", "next_action": "restart the MCP server for a fresh token"}
+            # 单实现校验核（tools.capability）；MCP 侧将错误元组翻译为 blocked 结果
+            result = check_capability(
+                capability_token, expected_token,
+                created_at=issued_at, ttl_seconds=capability_token_ttl_seconds,
+                scopes={"write"},  # MCP 侧无 scope 分级，token 有效即视为 write 级
+            )
+            if result is not None:
+                code, _retryable, _next = result
+                return {"state": "blocked", "error_code": code, "next_action": "provide the configured MCP capability token"}
         return dispatch(action, payload or {}, root=checkout)
 
     return server
