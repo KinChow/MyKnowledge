@@ -54,6 +54,12 @@
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_bundle_restore_requires_matching_target_vault` 验证恢复 API 必须显式提供目标 Vault ID，且该 ID 必须与 bundle manifest 的 `vault_id` 一致；private bundle 指向 public 时在写入前返回 `cross_vault_restore`，目标目录不会创建。匹配 private owner 后才恢复并写入 target-local marker。
 - 该证据闭合 AC-F012-002/005 的 owner 隔离子场景；仍不等同于恢复后完整 object/snapshot/evidence/projection 重建已 Accepted。
 
+## 恢复后集合校验增量证据（2026-08-30）
+
+- `BackupManager.verify_restored_bundle()` 在恢复成功返回前逐项重算目标 entry hash，校验 owner-scoped restore marker，并拒绝额外文件、缺失文件、symlink/hard-link 和 marker 篡改。
+- `tests/test_vault_registry.py::VaultRegistryTests::test_restored_bundle_verification_rejects_extra_target_files` 验证恢复后目标被加入未声明文件时返回 `restore_extra_entry`；原有恢复测试验证正常路径仍成功。
+- 该证据增强 AC-F012-002/005 的恢复集合完整性门禁；object/snapshot/evidence/projection 重新生成和跨 Vault 全量恢复仍待闭合。
+
 ## 恢复中途失败清理增量证据（2026-08-27）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_restore_cleans_partial_checkout_after_write_failure` 注入第二个 entry 写入失败，验证已写文件及其空父目录均被清理，目标 checkout 不留下半恢复内容。

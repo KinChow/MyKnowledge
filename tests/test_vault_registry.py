@@ -295,6 +295,23 @@ class VaultRegistryTests(unittest.TestCase):
                 import shutil
                 shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(target, ignore_errors=True)
 
+    def test_restored_bundle_verification_rejects_extra_target_files(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            (root / "wiki").mkdir(); (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            manager = BackupManager(root); created = manager.create_manifest("public")
+            bundle = root.parent / (root.name + "-bundle-verify"); target = root.parent / (root.name + "-target-verify")
+            try:
+                manager.export_bundle(root / created["path"], bundle)
+                restored = manager.restore_bundle(bundle, target)
+                self.assertEqual(restored["state"], "restored")
+                (target / "unexpected.txt").write_text("unexpected", encoding="utf-8")
+                verified = BackupManager.verify_restored_bundle(bundle, target)
+                self.assertEqual(verified["error_code"], "restore_extra_entry")
+            finally:
+                import shutil
+                shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(target, ignore_errors=True)
+
     def test_backup_manifest_must_live_under_declared_owner(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
