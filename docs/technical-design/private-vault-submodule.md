@@ -55,6 +55,8 @@
 
 本轮 projection CLI 调查（2026-08-27）：Backstage Software Catalog descriptor（Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）与 Click/Typer command groups（BSD-3-Clause/MIT）均采用稳定 manifest schema 和薄 CLI 编排；替代方案是 CLI 直接扫描 Vault 并自行序列化，会产生第二套 owner/冲突规则。新增 `python -m tools.cli local-projection` 仅调用 `VaultRegistry.write_local_projection()`，保持原子写入、owner 三元组和不可用诊断边界；离线不联网，升级只需重跑 projection/CLI parity 测试。
 
+本轮 public projection 隔离调查（2026-08-27）：Git worktree/submodule 的独立 owner root（GPL-2.0，<https://git-scm.com/docs/git-worktree>）与 Backstage Catalog 的显式实体 owner/ref（Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）都要求消费方从声明的仓库根和 owner 元数据读取；替代方案是从 workspace 父目录递归扫描所有 `vaults/*`，会把 private 正文和同名对象带入 public manifest。`PublicProjectionGenerator` 继续只扫描当前 public `wiki/` root，public allowlist/confirmation 由 public validator 判定；私有 checkout 仅由 Vault Registry 的 local/private projection 消费。该边界离线可重放、不读取相邻 private path，升级不改变 manifest schema。
+
 ## 2. 当前基线与目录
 
 当前仓库是 `public` vault。每个 private repo 与 public repo 使用相同的对象目录和 schema 版本，但拥有独立 Git 历史：

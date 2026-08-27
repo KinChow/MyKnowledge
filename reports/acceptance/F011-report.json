@@ -26,6 +26,11 @@
     "AC-F011-019"
   ],
   "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
+  "latest_increment": {
+    "date": "2026-08-27",
+    "evidence": "tests/test_public_projection.py::test_public_projection_ignores_adjacent_private_checkout",
+    "boundary": "Public projection scans only its declared checkout root and excludes adjacent private content."
+  },
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

@@ -47,3 +47,21 @@ def test_public_projection_generator_does_not_emit_private_or_unconfirmed_items(
     result = PublicProjectionGenerator(tmp_path, FakeValidator(reports)).generate()
     assert result["item_count"] == 0
     assert result["skipped"] == [{"object_id": "private", "reason": "not_public_publishable"}]
+
+
+def test_public_projection_ignores_adjacent_private_checkout(tmp_path: Path):
+    public = tmp_path / "public"
+    private = tmp_path / "vaults" / "team-internal"
+    (public / "wiki").mkdir(parents=True)
+    (private / "wiki").mkdir(parents=True)
+    (public / "wiki" / "same.md").write_text("public fact", encoding="utf-8")
+    (private / "wiki" / "same.md").write_text("PRIVATE SECRET", encoding="utf-8")
+    reports = {"same": {"valid": True, "object_ref": {"vault_id": "public", "object_type": "wiki", "object_id": "same"}, "derived": {"public_publishable": True}, "hashes": {"content_sha256": "sha256:public", "evidence_sha256": "sha256:e"}}}
+    (public / "release" / "public-confirmations").mkdir(parents=True)
+    write_event(public, _event("same", "sha256:public", "sha256:e"))
+    result = PublicProjectionGenerator(public, FakeValidator(reports)).generate()
+    manifest = json.loads((public / "queries" / "public" / "manifest.json").read_text(encoding="utf-8"))
+    assert result["item_count"] == 1
+    assert manifest["items"][0]["body_path"] == "wiki/same.md"
+    assert "PRIVATE SECRET" not in json.dumps(manifest)
+    assert not any("team-internal" in json.dumps(item) for item in manifest["items"])
