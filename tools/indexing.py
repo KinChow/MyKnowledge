@@ -3,6 +3,7 @@ from __future__ import annotations
 import json, sqlite3, os, tempfile, shutil, subprocess
 from pathlib import Path
 from .common import canonical_json, hash_canonical
+from .projection import public_allowlisted as _public_allowlisted  # 单份过滤谓词（Step0-1）
 
 
 class QMDAdapter:
@@ -45,17 +46,6 @@ class QMDAdapter:
         if not isinstance(data, list) or any(not isinstance(item, dict) for item in data):
             raise ValueError("provider_schema_invalid")
         return data[:top_k]
-
-def _public_allowlisted(item: dict) -> bool:
-    """Require the complete public projection allowlist, not one derived flag."""
-    return (
-        item.get("vault_id") == "public"
-        and item.get("public_publishable") is True
-        and item.get("public_release") is True
-        and item.get("status") == "published"
-        and item.get("effective_confidentiality", item.get("confidentiality", "public")) == "public"
-    )
-
 
 def _scope_items(items: list[dict], scope: str) -> list[dict]:
     """Apply scope filtering before any index/provider can see candidates."""

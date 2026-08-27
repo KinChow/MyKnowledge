@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import time
 import secrets
-import json
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
@@ -12,11 +11,13 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel, ConfigDict, Field
 from tools.indexing import Retriever
 from tools.common import atomic_write, safe_id
+from tools.projection import PublicProjectionStore
 from tools.question import QuestionStore
 from tools.write_operation import WriteOperation
 from tools.vault_registry import VaultRegistry
 from tools.validation.validator import WikiValidator
 from tools.citation import replay as replay_citation
+from tools.capability import check_capability, required_scope_for
 
 class RetrieveRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -46,16 +47,11 @@ class CitationReplayRequest(BaseModel):
 
 
 def _load_public_projection(root: Path) -> list[dict]:
-    """Load only the validated public projection; never scan canonical content."""
-    manifest = Path(root) / "queries" / "public" / "manifest.json"
-    try:
-        data = json.loads(manifest.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return []
-    if data.get("schema_version") != "public-projection/v1" or data.get("projection") != "public":
-        return []
-    items = data.get("items", [])
-    return items if isinstance(items, list) and all(isinstance(item, dict) for item in items) else []
+    """Strict allowlist + body loading via the single PublicProjectionStore.
+
+    缺失/非法 manifest 降级为空检索（F006 离线设计），不扫描 canonical 内容。
+    """
+    return PublicProjectionStore(root).degraded_items()
 
 def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
     @asynccontextmanager
@@ -119,20 +115,28 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
                 return JSONResponse(status_code=403, content={"detail": {"code": "origin_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback origin"}})
         return await call_next(request)
 
+    def _capability_error(result: tuple[str, bool, str], status_code: int) -> HTTPException:
+        code, retryable, next_action = result
+        return HTTPException(status_code=status_code, detail={"code": code, "stage": "auth", "retryable": retryable, "next_action": next_action})
+
     def require_capability(token: str | None, scope: str, audience: str | None = None, *, force: bool = False, required_scope: str | None = None) -> None:
-        if scope == "public" and not force:
+        """HTTP adapter over tools.capability.check_capability (single core)."""
+        result = check_capability(
+            token, app.state.capability_token,
+            created_at=app.state.capability_token_created_at,
+            ttl_seconds=app.state.capability_token_ttl_seconds,
+            scopes=app.state.capability_scopes,
+            required_scope=required_scope if required_scope is not None else required_scope_for(scope, force=force),
+            audience=audience,
+            skip=scope == "public" and not force,
+        )
+        if result is None:
             return
-        if not token:
-            raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
-        if not secrets.compare_digest(token, app.state.capability_token):
-            raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
-        if time.time() - app.state.capability_token_created_at > app.state.capability_token_ttl_seconds:
-            raise HTTPException(status_code=403, detail={"code": "capability_token_expired", "stage": "auth", "retryable": True, "next_action": "restart the local API for a fresh token"})
-        if audience is not None and audience != "myknowledge-local-api":
-            raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
-        needed = required_scope or ({"private": "private-read", "local": "local-read"}.get(scope) if scope != "public" else ("local-read" if force else None))
-        if needed is not None and needed not in app.state.capability_scopes:
-            raise HTTPException(status_code=403, detail={"code": "capability_scope_invalid", "stage": "auth", "retryable": False, "next_action": f"request capability scope {needed}"})
+        # token 缺失是 401，其余校验失败是 403（与原实现一致）
+        raise _capability_error(result, 401 if result[0] == "capability_token_required" else 403)
+
+    def require_write_capability(token: str | None, audience: str | None = None, *, required_scope: str = "write") -> None:
+        require_capability(token, "write", audience, force=True, required_scope=required_scope)
 
     def retrieve(req: RetrieveRequest, token: str | None = None, audience: str | None = None) -> dict:
         if req.scope not in {"public", "local", "private"}:
@@ -173,18 +177,6 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
         require_capability(x_myknowledge_capability, scope, x_myknowledge_audience, force=scope != "public")
         return {"schema_version": "citation-replay/v1", **replay_citation(req.citation, req.snapshot)}
-
-    def require_write_capability(token: str | None, audience: str | None = None, *, required_scope: str = "write") -> None:
-        if not token:
-            raise HTTPException(status_code=401, detail={"code": "capability_token_required", "stage": "auth", "retryable": False, "next_action": "provide capability token"})
-        if not secrets.compare_digest(token, app.state.capability_token):
-            raise HTTPException(status_code=403, detail={"code": "capability_token_invalid", "stage": "auth", "retryable": False, "next_action": "request a fresh local token"})
-        if time.time() - app.state.capability_token_created_at > app.state.capability_token_ttl_seconds:
-            raise HTTPException(status_code=403, detail={"code": "capability_token_expired", "stage": "auth", "retryable": True, "next_action": "restart the local API for a fresh token"})
-        if audience is not None and audience != "myknowledge-local-api":
-            raise HTTPException(status_code=403, detail={"code": "capability_audience_invalid", "stage": "auth", "retryable": False, "next_action": "use the MyKnowledge local API audience"})
-        if required_scope not in app.state.capability_scopes:
-            raise HTTPException(status_code=403, detail={"code": "capability_scope_invalid", "stage": "auth", "retryable": False, "next_action": f"request capability scope {required_scope}"})
 
     @app.post("/api/source/preview")
     def source_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
@@ -234,6 +226,18 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     @app.get("/api/read/{vault_id}/{object_type}/{object_id}")
     def read_object(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
         require_capability(x_myknowledge_capability, "private" if vault_id != "public" else scope, x_myknowledge_audience)
+        if vault_id == "public":
+            # public 读只能来自 projection（与 Skill 同一实现）；
+            # 不得 rglob canonical 内容，否则未发布 wiki 可被免 token 读取
+            try:
+                safe_id(object_id)
+            except ValueError:
+                raise HTTPException(status_code=422, detail={"code": "invalid_object_ref", "stage": "request", "retryable": False, "next_action": "use a safe vault_id/object_id"})
+            from tools.skill_runtime import dispatch
+            result = dispatch("read", {"vault_id": "public", "object_id": object_id}, root=app.state.root)
+            if result.get("state") != "ok" and "body" not in result:
+                raise HTTPException(status_code=404, detail={"code": "object_not_found", "stage": "read", "retryable": False, "next_action": "check object_ref"})
+            return result
         path = object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
         return {"schema_version": "read-result/v1", "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "path": str(path.relative_to(owner_root)), "body": path.read_text(encoding="utf-8")}
@@ -241,6 +245,13 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
     @app.get("/api/backlinks/{vault_id}/{object_type}/{object_id}")
     def backlinks(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
         require_capability(x_myknowledge_capability, "private" if vault_id != "public" else scope, x_myknowledge_audience)
+        if vault_id == "public":
+            # 同上：public 反链来自 projection，不扫 canonical
+            from tools.skill_runtime import dispatch
+            result = dispatch("backlinks", {"vault_id": "public", "object_id": object_id}, root=app.state.root)
+            if result.get("target") is None:
+                raise HTTPException(status_code=404, detail={"code": "object_not_found", "stage": "read", "retryable": False, "next_action": "check object_ref"})
+            return result
         object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
         base = owner_root / "wiki"; results = []
