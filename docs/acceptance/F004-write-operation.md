@@ -5,6 +5,10 @@
 - 状态：Implemented（2026-08-27；7 个通用 writer 测试通过；完整领域 writer 验收仍待后续补齐）
 - 实现证据：`tools/write_operation.py`、`tests/test_write_operation.py`、`tools/operation_store.py`、`tools/vault_lock.py`
 - 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；多 Vault fencing、projection/index 恢复和 retire 领域状态仍需后续验收。
+
+## 路径竞态增量证据（2026-08-30）
+
+- `tests/test_write_operation.py::WriteOperationTests::test_apply_path_race_returns_structured_failure` 在 Preview 后把父目录替换为 symlink，验证 Apply 回滚、返回 `expired/apply_failed` 与 `path_symlink` 诊断，且 symlink 指向目录没有被写入。
 - 本轮增量：已增加 Vault fencing sidecar 与提交点校验；多 Vault 锁排序、projection/index 恢复和 retire 领域状态仍需后续验收。
 
 ## 本轮证据（2026-08-29）

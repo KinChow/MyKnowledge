@@ -59,6 +59,20 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(result["error_code"], "hash_mismatch")
             self.assertEqual(target.read_text(encoding="utf-8"), "other")
 
+    def test_apply_path_race_returns_structured_failure(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            op = service.preview({"nested/a.md": "new"})["operation_id"]
+            (root / "nested").mkdir(parents=True)
+            (root / "outside").mkdir()
+            (root / "nested").rmdir()
+            (root / "nested").symlink_to(root / "outside", target_is_directory=True)
+            result = service.apply(op, confirmed=True)
+            self.assertEqual(result["state"], "expired")
+            self.assertEqual(result["error_code"], "apply_failed")
+            self.assertIn("path_symlink", result["detail"])
+            self.assertFalse((root / "outside" / "a.md").exists())
+
     def test_tampered_durable_audit_blocks_apply(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); service = WriteOperation(root)
