@@ -6,6 +6,11 @@
 - 实现证据：`backend/app.py`、`tests/test_api.py`、`requirements.txt`
 - 当前边界：read/backlinks/source/wiki preview/apply、token 生命周期、Origin/Host、citation replay 和完整 offline integration 尚未完成。
 
+## GET/POST 参数闭包增量证据（2026-08-27）
+
+- `GET /api/query` 现在接受与 `RetrieveRequest` 相同的 `include_sources`、`include_archive` 布尔字段，并归一化到同一 `retrieve()` 领域函数；未知参数仍 fail-closed。
+- `tests/test_api.py::test_get_query_accepts_retrieve_projection_flags_without_contract_drift` 验证 GET/POST 在相同请求语义下返回完全相同的 `query-result/v1`，不产生独立排序或权限路径。
+
 ## Public POST capability 增量证据（2026-08-27）
 
 - `tests/test_api.py::test_public_post_requires_capability_but_public_get_remains_anonymous` 验证 public `GET /api/query` 保持匿名兼容，而 `POST /api/retrieve` 与 `POST /api/ask` 即使请求 public scope 也必须携带当前进程 capability。

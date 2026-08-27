@@ -89,6 +89,13 @@ def test_get_post_query_equivalent():
     assert get.status_code == post.status_code == 200
     assert get.json() == post.json()
 
+def test_get_query_accepts_retrieve_projection_flags_without_contract_drift():
+    client = TestClient(create_app(items=ITEMS, capability_token="token"))
+    get = client.get("/api/query", params={"q": "离线", "scope": "public", "include_sources": "true", "include_archive": "false"})
+    post = client.post("/api/retrieve", headers={"X-MyKnowledge-Capability": "token"}, json={"query": "离线", "scope": "public", "include_sources": True, "include_archive": False})
+    assert get.status_code == post.status_code == 200
+    assert get.json() == post.json()
+
 def test_public_post_requires_capability_but_public_get_remains_anonymous():
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
     assert client.get("/api/query", params={"q": "离线", "scope": "public"}).status_code == 200
