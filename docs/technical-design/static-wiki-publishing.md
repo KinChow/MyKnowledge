@@ -54,6 +54,8 @@
 
 本轮多页集成调查（2026-08-27）：Astro 7.1.3/Starlight 0.41.4（MIT）与 Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）继续作为静态输出/离线索引方案；Quartz v4（MIT，<https://github.com/jackyzha0/quartz>）仅借鉴 catalog-to-graph 闭包。替代方案是直接扫描 `docs/` 或由前端动态读取 local index，会把治理文档、practice 或 private 内容带入发布，明确排除。临时 fixture 在独立 root 运行 prepare-content/build-graph，不改生产 manifest、canonical 或 dist。
 
+本轮多语言正文保真证据（2026-08-27）：Astro/Starlight content collection（MIT）负责 Markdown 编译，Pagefind（MIT，<https://github.com/CloudCannon/pagefind>）只索引编译后的 HTML；替代方案是仅检查 catalog 元数据，无法证明中文连续文本和英文标识符进入静态输入。`test_projection_prepare_and_graph_build_multi_page_fixture` 现在同时断言 `src/content/docs` 保留中文与英文正文；该检查离线运行，不改变 public manifest 或 canonical 内容。Pagefind 查询质量仍需真实浏览器/索引环境验收。
+
 本轮 sitemap 增量调查（2026-08-30）：Astro 7.1.3 的静态构建和官方 sitemap integration（MIT，<https://docs.astro.build/en/guides/integrations-guide/sitemap/>）要求配置可发布的绝对 `site`；当前离线 checkout 没有正式发布域名，因此不伪造外部 URL。替代方案参考 Quartz v4（MIT）的静态 route closure，从同一 public catalog 在 `dist.next` 生成相对 URL sitemap，并在提升 dist 前验证 URL 集合精确等于首页、图谱页和 catalog routes。该方案全离线、无新增依赖；未来配置正式域名时可替换为 `@astrojs/sitemap` adapter，但必须保持相同闭包校验和数据格式边界。
 
 发布编排增量复用 POSIX `O_EXCL` lockfile 语义：`build-release.mjs` 在仓库 `state/public-release.lock` 建立 0600 锁，构建失败保留旧 `dist`，正常退出才释放锁；已存在锁一律返回 `release_lock_held`，不按超时自动删除，陈旧锁需人工恢复。

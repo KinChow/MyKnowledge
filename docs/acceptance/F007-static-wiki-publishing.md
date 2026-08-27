@@ -89,6 +89,11 @@ release lock 增量：`build-release.mjs` 写入 `release-lock/v1` 随机 fencin
 - 成熟方案复用 Astro/Starlight 内容集合、Pagefind final-HTML 索引和 Quartz graph closure；前端不扫描 source/private/practice。
 - 边界：当前 checkout 仍缺正式多文章 public manifest、真实浏览器交互和中文 Pagefind 查询质量基准，不能据此标记 F007 `Accepted`。
 
+## 多语言正文输入保真增量证据（2026-08-27）
+
+- `tests/test_frontend_projection.py::test_projection_prepare_and_graph_build_multi_page_fixture` 现在验证 prepare 阶段生成的 `src/content/docs/one.md` 保留中文正文、`two.md` 保留英文正文，同时 catalog/graph 闭包不变。
+- 该证据证明多语言文本进入 Starlight 静态输入；Pagefind 中文查询命中/高亮和真实浏览器交互仍需环境验收。
+
 ## AC-F007-001 只构建 public projection
 
 - Given：projection 同时包含 `vault_id: public` 的 `public_publishable`、两个或更多 private vault 的 internal private、draft、review、conflicted 和 deprecated Wiki；

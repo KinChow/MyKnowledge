@@ -117,6 +117,8 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     assert prepared.returncode == 0, prepared.stderr
     catalog = json.loads((frontend / "public/generated/catalog.json").read_text())
     assert {x["id"] for x in catalog["items"]} == {"one", "two"}
+    assert "中文 attention" in (frontend / "src/content/docs/one.md").read_text(encoding="utf-8")
+    assert "English transformer" in (frontend / "src/content/docs/two.md").read_text(encoding="utf-8")
     graph = subprocess.run(["node", str(frontend / "scripts" / "build-graph.mjs")], cwd=frontend, capture_output=True, text=True)
     assert graph.returncode == 0, graph.stderr
     graph_data = json.loads((frontend / "public/generated/graph.json").read_text())
