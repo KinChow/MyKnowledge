@@ -129,6 +129,18 @@ def test_migrate_cli_applies_confirmed_sample(tmp_path: Path):
     assert json.loads(result.stdout)["state"] == "applied"
 
 
+def test_migrate_cli_rollback_uses_confirmation_and_preserves_legacy(tmp_path: Path):
+    import json, subprocess, sys
+    docs = tmp_path / "docs"; docs.mkdir(); (docs / "cli.md").write_text("# CLI\n", encoding="utf-8")
+    applied = subprocess.run([sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--apply-sample", "docs/cli.md", "--confirm"], capture_output=True, text=True, check=False)
+    assert json.loads(applied.stdout)["state"] == "applied"
+    pending = subprocess.run([sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--rollback-sample", "docs/cli.md"], capture_output=True, text=True, check=False)
+    assert json.loads(pending.stdout)["state"] == "awaiting_confirmation"
+    done = subprocess.run([sys.executable, "-m", "tools.cli", "migrate", "--root", str(tmp_path), "--rollback-sample", "docs/cli.md", "--confirm"], capture_output=True, text=True, check=False)
+    assert json.loads(done.stdout)["state"] == "applied"
+    assert (docs / "cli.md").exists()
+
+
 def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path: Path):
     docs = tmp_path / "docs"; docs.mkdir()
     (docs / "guide.md").write_text("# Guide\n\nStable content.\n", encoding="utf-8")
