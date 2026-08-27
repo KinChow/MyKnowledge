@@ -2,7 +2,7 @@
   "schema_version": "acceptance-report/v1",
   "feature": "F009",
   "status": "Implemented (partial)",
-  "generated_from": "03124212e637579750f9572361efe8249bce7c2d",
+  "generated_from": "8c2cbb3e5f79b84ce3cddbf593599b054880b31c",
   "acceptance_document": "docs/acceptance/F009-agent-skill.md",
   "scenario_ids": [
     "AC-F009-001",
@@ -18,7 +18,7 @@
     "AC-F009-011",
     "AC-F009-012"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The current increment exercises official MCP stdio transport and projection-only retrieve/backlinks routing with capability enforcement.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

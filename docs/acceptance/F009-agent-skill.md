@@ -136,3 +136,8 @@
 
 - `tests/test_skill_runtime.py::test_skill_retrieve_and_backlinks_are_projection_only` 验证 `retrieve` 与 `query` 共享 `query-result/v1`/Retriever，`backlinks` 只从 public projection 声明的条目计算；private vault 请求返回 `skill_private_read_requires_api`，不会扫描或写入 canonical 内容。
 - 该证据增强 AC-F009-005/012 的只读路由边界；完整 publish confirmation、token 生命周期和全量 API parity 仍待闭合。
+
+## MCP token 生命周期增量证据（2026-08-27）
+
+- MCP capability token 默认绑定 server 进程启动时间并有 3600 秒 TTL；过期后敏感 action 返回 `capability_token_expired`，不会进入 writer 或其他领域服务。
+- `tests/test_skill_runtime.py::test_mcp_server_expires_capability_token` 使用过期 TTL 验证 fail-closed；token 仍不写入仓库或日志。
