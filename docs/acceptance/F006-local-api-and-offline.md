@@ -193,3 +193,10 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 
 - `tests/test_api.py::test_capability_token_expires_by_process_ttl` 将进程 token 时间推进超过 3600 秒，验证请求返回 `capability_token_expired`，并提示重启本地 API 获取新 token。
 - TTL 只存在进程状态中，不把过期时间或凭据写入 public/canonical 数据；旧 token 仍先经过恒定时间比较和 audience/scope 门禁。
+
+## F006 专项 API 验收报告（2026-08-27）
+
+- 专项覆盖：`tests/test_api.py` 全部 API/CLI/真实 Uvicorn runner/capability 测试，以及 `tests/test_citation.py` 全部 replay 测试。
+- 结果：相关测试通过，覆盖 GET `/api/query` 与 POST `/api/retrieve` parity、scope/vault allowlist、token TTL/audience、Origin/Host、请求体上限、preview/apply confirmation、private owner read/backlinks、离线 ask 和 citation replay。
+- 成熟方案边界：直接复用 FastAPI/Pydantic/Starlette/Uvicorn 的 schema、ASGI middleware 和 graceful shutdown；scope、Vault owner、confirmation、projection 与 unavailable 语义由 MyKnowledge 保留。
+- 边界：真实跨平台部署、长时间运行和外部 provider 仍需环境验收；专项报告不将 TestClient 或离线 provider unavailable 误报为 `Accepted`。

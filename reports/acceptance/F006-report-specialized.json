@@ -1,0 +1,14 @@
+{
+  "schema_version": "acceptance-report/v1",
+  "feature": "F006",
+  "status": "Implemented (partial)",
+  "generated_from": "d0ae065",
+  "acceptance_document": "docs/acceptance/F006-local-api-and-offline.md",
+  "test_commands": [
+    ".venv/bin/python -m pytest -q tests/test_api.py",
+    ".venv/bin/python -m pytest -q tests/test_citation.py"
+  ],
+  "verification": {"passed": "all tests in both modules", "failed": 0, "remote_push": false},
+  "covered": ["get_post_parity", "scope_and_vault_allowlist", "capability_ttl_audience", "origin_host", "request_body_limit", "preview_apply_confirmation", "private_owner_read", "offline_ask", "citation_replay"],
+  "boundary": "Cross-platform deployment, long-running operation and external provider remain environment gates; this report does not imply Accepted."
+}
