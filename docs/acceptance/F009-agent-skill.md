@@ -12,6 +12,11 @@
 - `tests/test_skill_runtime.py::test_skill_ask_reuses_public_retrieval_and_offline_boundary` 验证 public query 可得到检索闭包，答案保持 `None`，且 practice/private 路径不会被读取。
 - 该证据闭合 F009 的离线 ask action 边界，但不代表外部 LLM provider、private API transport 或全量 API parity 已 Accepted。
 
+## MCP action schema 增量证据（2026-08-27）
+
+- `tools/mcp_server.py` 使用 MCP Python SDK typed `Literal` 参数声明完整 action allowlist；`tools/list` 的 `inputSchema` 明确包含 `ask` 且不包含 `shell`。
+- `tests/test_skill_runtime.py::test_mcp_server_exposes_one_controlled_tool_bound_to_checkout` 验证宿主在协议层拒绝未声明 action，合法 action 仍进入既有 runtime；这复用结构化 tool schema 的 fail-closed 边界。
+
 ## 练习评分路由增量证据（2026-08-27）
 
 ## Action schema 增量证据（2026-08-27）

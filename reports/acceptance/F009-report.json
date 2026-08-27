@@ -22,7 +22,7 @@
   "latest_increment": {
     "date": "2026-08-27",
     "evidence": "tests/test_skill_runtime.py::test_skill_ask_reuses_public_retrieval_and_offline_boundary",
-    "contract": "ask-result/v1 with projection-backed retrieval and provider_unavailable boundary"
+    "contract": "ask-result/v1 with projection-backed retrieval and provider_unavailable boundary; MCP tools/list action enum is typed and excludes shell"
   },
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
