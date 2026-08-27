@@ -9,7 +9,7 @@ from pathlib import Path
 
 import yaml
 
-from .common import canonical_json, safe_id
+from .common import atomic_write, canonical_json, safe_id
 from .paths import RepoPaths
 
 
@@ -263,6 +263,17 @@ class VaultRegistry:
             "unavailable_vaults": unavailable,
             "projection_sha256": "sha256:" + hashlib.sha256(canonical_json({"scope": scope, "items": items, "unavailable_vaults": unavailable})).hexdigest(),
         }
+
+    def write_local_projection(self, scope: str = "local", output: Path | None = None) -> dict:
+        """Materialize an owner-aware local projection atomically."""
+        projection = self.local_projection(scope)
+        target = Path(output) if output is not None else RepoPaths(self.root).queries_local / "manifest.json"
+        if not target.is_absolute():
+            target = self.root / target
+        target = target.resolve()
+        target.parent.mkdir(parents=True, exist_ok=True)
+        atomic_write(target, canonical_json(projection) + b"\n", 0o600)
+        return {**projection, "path": str(target.relative_to(self.root))}
 
     @staticmethod
     def effective_confidentiality(owner_confidentiality: str, upstream_confidentialities: list[str] | None = None) -> str:

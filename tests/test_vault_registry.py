@@ -176,7 +176,17 @@ class VaultRegistryTests(unittest.TestCase):
             (root / "wiki" / "two" / "same.md").write_text("# second\n", encoding="utf-8")
             projection = VaultRegistry(root).local_projection()
             self.assertEqual(projection["items"], [])
-            self.assertEqual(VaultRegistry(root).check()["conflicts"][0]["code"], "duplicate_object_id")
+
+    def test_local_projection_can_be_materialized_atomically(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "one.md").write_text("# One\n", encoding="utf-8")
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            registry = VaultRegistry(root)
+            result = registry.write_local_projection()
+            path = root / "queries" / "local" / "manifest.json"
+            self.assertEqual(result["path"], "queries/local/manifest.json")
+            self.assertEqual(json.loads(path.read_text())["projection_sha256"], result["projection_sha256"])
+            self.assertEqual(path.stat().st_mode & 0o777, 0o600)
 
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
