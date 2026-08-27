@@ -57,6 +57,8 @@
 
 ## Public release confirmation 增量证据（2026-08-30）
 
+题库字段泄漏增量：F007 三阶段 leak gate 复用 F008 的 path-independent denylist；`tests/test_frontend_projection.py::test_leak_gate_rejects_question_payload_even_under_public_path` 验证题目 payload 被放入 `wiki/` 仍在 input-tree 阶段阻断。
+
 - AC-F007-009/022/025：`tests/test_release_confirmation.py::test_public_release_event_is_hashed_and_written` 验证 public release event 的 schema、target、human actor、input-tree scope 和 canonical event hash，并以 append-only 文件写入。
 - `test_public_release_event_rejects_private_reason_or_target` 验证 private target 与 URL/private reason 均被 fail-closed 拒绝。
 
