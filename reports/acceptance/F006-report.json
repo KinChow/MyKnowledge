@@ -19,7 +19,7 @@
     "AC-F006-012",
     "AC-F006-013"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The current increment includes a real Uvicorn loopback runner and remote-bind rejection.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. The current increment includes a real Uvicorn loopback runner, remote-bind rejection, and best-effort shutdown token cleanup.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",

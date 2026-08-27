@@ -4,6 +4,7 @@ import os
 import time
 import secrets
 import json
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any
 from fastapi import Body, FastAPI, Header, HTTPException, Query, Request
@@ -57,7 +58,17 @@ def _load_public_projection(root: Path) -> list[dict]:
     return items if isinstance(items, list) and all(isinstance(item, dict) for item in items) else []
 
 def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
-    app = FastAPI(title="MyKnowledge Local API", version="v1")
+    @asynccontextmanager
+    async def lifespan(application: FastAPI):
+        yield
+        token_path = getattr(application.state, "capability_token_path", None)
+        if token_path is not None:
+            try:
+                token_path.unlink(missing_ok=True)
+            except OSError:
+                pass
+
+    app = FastAPI(title="MyKnowledge Local API", version="v1", lifespan=lifespan)
     app.state.root = Path(root or ".").resolve()
     app.state.retriever = Retriever(list(items) if items is not None else _load_public_projection(app.state.root))
     app.state.capability_token = capability_token or secrets.token_urlsafe(32)
@@ -72,6 +83,7 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         token_path = state_dir / "capability-token"
         atomic_write(token_path, app.state.capability_token.encode("ascii") + b"\n", 0o600)
         app.state.capability_token_path = token_path
+
     app.state.practice = QuestionStore(app.state.root)
     app.state.writer = WriteOperation(app.state.root)
     app.state.max_request_body_bytes = 1_048_576
