@@ -17,7 +17,6 @@ snapshot_sha256: sha256:7817cfa2160f75ea70c3d93a5eee9527aaaa787e63cbb893b42b93c0
 source_type: local-file
 vault_id: public
 ---
-
 # CPU 发展历史
 
 ## ENIAC
@@ -38,3 +37,4 @@ EDVAC（Electronic Discrete Variable Automatic Computer，电子离散变量自�
 * [EDVAC](https://en.wikipedia.org/wiki/EDVAC)
 
 * [First draft of a report on the EDVAC](https://web.mit.edu/STS.035/www/PDFs/edvac.pdf)
+

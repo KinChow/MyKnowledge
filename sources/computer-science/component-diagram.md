@@ -1,0 +1,61 @@
+---
+archive_policy: text-only
+confidentiality: public
+domain: computer-science
+extractor: utf8/1
+id: component-diagram
+local:
+  file_sha256: sha256:f7ee989af11d3526e6a734df70832baae3d08070aa3cdb29ae892c719199d0f0
+  path_ref: local-sidecar:public/component-diagram
+media_type: text/markdown
+origin: external
+read_status: retrieved
+retrieval:
+  acquisition: local-file
+schema_version: source/v1
+snapshot_sha256: sha256:f7ee989af11d3526e6a734df70832baae3d08070aa3cdb29ae892c719199d0f0
+source_type: local-file
+vault_id: public
+---
+# 组件图
+
+组件图是组件及组件之间关系的集合。这些组件由类、接口或协作组成。
+
+组件图表示系统的实现视图。
+
+在设计阶段，系统的软件工件（类、接口等）根据它们之间的关系被安排在不同的组件中。
+
+组件图用于对系统的物理方面进行建模。物理方面是驻留在节点中的元素，例如可执行文件、库、文件、文档等。
+
+组件图用于可视化系统中组件之间的组织和关系，用于制作可执行系统。
+
+
+
+## 目的
+
+- 可视化系统的组件。
+- 使用正向和逆向工程构建可执行文件。
+- 描述组件的组织和关系。
+
+
+
+## 哪里使用
+
+- 对系统的组件进行建模。
+- 为数据库模式建模。
+- 为应用程序的可执行文件建模。
+- 对系统的源代码进行建模。
+
+
+
+## 如何绘制
+
+https://plantuml.com/zh/component-diagram
+
+
+
+## 参考
+
+https://www.tutorialspoint.com/uml/index.htm
+
+https://www.cs.uah.edu/~rcoleman/Common/SoftwareEng/UML.html

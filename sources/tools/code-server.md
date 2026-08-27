@@ -17,7 +17,6 @@ snapshot_sha256: sha256:65102567541d98f456c1e74d0bccb6f1094675e9d37fab903b4fc422
 source_type: local-file
 vault_id: public
 ---
-
 # code-server
 
 ## 安装

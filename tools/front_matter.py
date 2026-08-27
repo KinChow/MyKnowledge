@@ -38,27 +38,37 @@ class FrontMatter:
 
     @staticmethod
     def parse(text: str) -> tuple[dict, str]:
-        """解析 front matter 为 (metadata, body)；无 front matter 时返回 ({}, text)。"""
+        """解析 front matter 为 (metadata, body)；无 front matter 时返回 ({}, text)。
+
+        body 用精确切片保留原文（含结尾换行）——python-frontmatter 的
+        ``Post.content`` 会 strip 结尾换行，曾导致 render→parse roundtrip
+        不保真、source 文件与 snapshot 的 hash 一致性校验系统性失败。
+        metadata 解析仍复用库与重复键拒绝构造器。
+        """
         if not text.startswith("---\n"):
             return {}, text
-        if text.find("\n---\n", 4) < 0:
+        close = text.find("\n---\n", 4)
+        if close < 0:
             raise ValueError("front_matter_unterminated")
         try:
-            header = text[4 : text.find("\n---\n", 4)]
-            yaml.load(header, Loader=_UniqueKeyLoader)
-            post = frontmatter.loads(text)
+            metadata = yaml.load(text[4:close], Loader=_UniqueKeyLoader) or {}
         except (yaml.YAMLError, ValueError) as exc:
             raise ValueError("front_matter_invalid_yaml") from exc
-        return post.metadata or {}, post.content
+        if not isinstance(metadata, dict):
+            raise ValueError("front_matter_invalid_yaml")
+        return metadata, text[close + 5:]
 
     @staticmethod
     def render(metadata: dict, body: str) -> str:
         """将 metadata 与 body 渲染为 front matter 格式的 Markdown 文本。
 
-        空 body 时 python-frontmatter 省略闭合分隔符 ``---`` 后的换行，
-        会破坏 :meth:`parse` 的闭合检查；适配层补一个换行保证契约恒定。
+        header 序列化复用库输出；body 由适配层原样拼接——库的
+        ``dumps`` 会在闭合分隔符后额外插入空行并剥 body 结尾换行，
+        曾导致 render→parse roundtrip 不保真、source 文件与 snapshot
+        的 hash 一致性校验系统性失败。body 原样保证与 acquired.body
+        字节一致。
         """
-        rendered = frontmatter.dumps(frontmatter.Post(body, **metadata))
-        if not rendered.endswith("\n---\n") and rendered.endswith("---"):
-            rendered += "\n"
-        return rendered
+        # 占位正文确保库输出完整闭合分隔符（空 content 时库会省略）
+        header = frontmatter.dumps(frontmatter.Post("X", **metadata))
+        prefix = header.split("\n---\n", 1)[0] + "\n---\n"
+        return prefix + body

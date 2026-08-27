@@ -1,0 +1,48 @@
+---
+archive_policy: text-only
+confidentiality: public
+domain: computer-science
+extractor: utf8/1
+id: harvard-architecture
+local:
+  file_sha256: sha256:66e8c91de932055365ac1debf89a7caa2615c552a8147be6c83fca18769a4a84
+  path_ref: local-sidecar:public/harvard-architecture
+media_type: text/markdown
+origin: external
+read_status: retrieved
+retrieval:
+  acquisition: local-file
+schema_version: source/v1
+snapshot_sha256: sha256:66e8c91de932055365ac1debf89a7caa2615c552a8147be6c83fca18769a4a84
+source_type: local-file
+vault_id: public
+---
+# 哈佛结构
+
+一种将程序指令储存和数据储存分开的存储器结构(Split Cache)。
+
+
+
+ 中央处理器首先到程序指令储存器中读取程序指令内容，解码后得到数据地址，再到相应的数据储存器中读取数据，并进行下一步的操作（通常是执行）。
+
+
+
+程序指令储存和数据储存分开，数据和指令的储存可以同时进行，可以使指令和数据有不同的数据宽度。
+
+
+
+程序需要由操作者加载；处理器无法自行初始化。
+
+
+
+哈佛架构的微处理器通常具有较高的执行效率。其程序指令和数据指令分开组织和储存的，执行时可以预先读取下一条指令。
+
+
+
+在哈佛架构，两个寄存器不需要有共同的特征。特别是，字宽、定时、实现技术和内存地址都可以不同。在一些系统中，指令可以存储在只读存储器（ROM）中，而数据存储器一般需要读写存储器（RAM等）。在一些系统中，指令存储器比数据存储器多，因此指令地址比数据地址更宽。
+
+
+
+## 参考
+
+* https://zh.wikipedia.org/wiki/%E5%93%88%E4%BD%9B%E7%BB%93%E6%9E%84

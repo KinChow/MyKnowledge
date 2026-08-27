@@ -17,7 +17,6 @@ snapshot_sha256: sha256:f7aab641f5fd9c08736f74be7b4b1e56714e74a327a09bbc6d4d1926
 source_type: local-file
 vault_id: public
 ---
-
 # 单链表
 
 ## 概念

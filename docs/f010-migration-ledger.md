@@ -24,9 +24,20 @@
 | --- | --- | --- | --- | --- |
 | B0 试点 | `linux-compilers`、`von-neumann-architecture`、`tools/git-commands` | 3 | **Done**（2026-08 前） | front matter + snapshot + manifest 登记（已验证） |
 | B1 样本批 | R4 优先 10 篇 + R5a 3 篇（每域覆盖）+ empty 2 篇登记 | 13+2 | **In Progress** | 2026-08-28：13 篇已导入（10 R4 + 3 R5a，machine 吞吐 13 篇/0.1s，人工成本集中在出处确认）；R5a 检索结论待 owner 确认（见 §7）；empty 2 篇（`class-and-struct`、`pointer`）登记待补 |
-| B2 小域批 | `tools` + `work-methods` + `multimedia` + `reading-notes` 剩余 | ~23 | Pending | 同 B0 DoD；B1 校准后的规则执行 |
-| B3 大域批 | `computer-science` 分子域分批（建议 4 批 × ~60 篇） | 250 | Pending | 同上；每批后跑 `validate` + manifest 全量核对 |
+| B2+B3 source 层 | 全部知识域 article（一次执行，原计划分批；机器成本为零） | 218+13 | **Done（source 层）** | 2026-08-28：B1+B2 批量导入时过滤未限域，实际完成 B3 的 source 层；4 篇根级工程文档被 domain 枚举校验天然拦截（R1 防线生效） |
+| B3 大域批（source 层已并入上格） | wiki 提炼与出处检索（R5a）按需分批 | 250 | Pending | source 层已完成；wiki 化按域渐进 |
 | B4 复核批 | R3 的 16 篇 empty：登记"待补内容"清单，**补充内容后**按 R4/R5 迁移 | 16 | Pending | 逐篇补充并迁移；不丢弃 |
+| R8 | 跨目录同名文件（stem 冲突） | source_id 用 `parent-stem` 消歧（如 `gpu-overview`、`git-commands`）；批量导入前检查 inventory stem 重复组 | B2 执行时 69 篇 contents/互撞暴露；classifier 已修复 contents.md 一律判 index |
+
+## 9. B2/B3 source 层批量执行记录（2026-08-28）
+
+- 实际导入 231 篇（B1 13 + B2/B3 218），4 篇根级工程文档被 domain 校验拦截；
+- 暴露并修复 3 个系统问题：
+  1. **FrontMatter render/parse roundtrip 不保真**（python-frontmatter 库对 body 加前导空行/剥结尾换行）→ 161 篇 source 与 snapshot hash 断链；已改为适配层原样拼接 + 精确切片，全部重写对齐，校验 0 失败（`tools/front_matter.py`）；
+  2. **inventory 分类器把富目录页（contents.md）误判为 article** → 69 篇 R2 导航页混入迁移；已修复（文件名 contents.md 一律 index）；
+  3. **同名 stem 互撞静默覆盖** → 新增 R8 消歧规则，overview×3/commands×2 已用 parent-stem id 补回；
+- 全量 `pytest`（338）与 `SourceValidator`（sources 全部）通过。
+
 | B5 退役批 | `mkdocs.yml` + Astro legacy 预览模式退役；**删除 32 篇 `contents.md` 导航页** | — | Pending | 前置：F007 projection 链路以真实多页内容验收通过 |
 
 ## 6. 待决项

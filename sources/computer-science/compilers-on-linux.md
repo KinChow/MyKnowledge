@@ -17,7 +17,6 @@ snapshot_sha256: sha256:9c764ffbca5e2710fd93aa518e86cc6a83c916a91c05b6cd69f512a4
 source_type: local-file
 vault_id: public
 ---
-
 # Linux的编译器
 
 ## GNU Compiler Collection - GCC

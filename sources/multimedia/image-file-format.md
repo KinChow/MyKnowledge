@@ -17,7 +17,6 @@ snapshot_sha256: sha256:3e4b57bd32807dff9e39411fc300af281188171e414e36d7e1ed2d4e
 source_type: local-file
 vault_id: public
 ---
-
 # 图像文件格式
 
 ## 像素排列格式
@@ -151,3 +150,6 @@ TIFF文件中的三个关键词
 ### [FFmpeg](https://ffmpeg.org/)
 
 FFmpeg包含了各种图像以及视频的编解码以及编码转换工具。
+
+
+

@@ -17,7 +17,6 @@ snapshot_sha256: sha256:a54be73ff0b2bed4cde0b93d25155ea833da23aa17cb4be98c555f81
 source_type: local-file
 vault_id: public
 ---
-
 # 编译器向量化指南
 
 ## 向量化概述
@@ -1209,3 +1208,4 @@ void foo(float *restrict a, float *restrict b, float *restrict c)
 
 * https://gcc.gnu.org/projects/tree-ssa/vectorization.html
 * https://llvm.org/docs/Vectorizers.html
+

@@ -17,7 +17,6 @@ snapshot_sha256: sha256:8fb2e5bffa9657fe6c1ea2863b07294f50b876f1af9638376fcbafe3
 source_type: local-file
 vault_id: public
 ---
-
 # 自动曝光
 
 ## 曝光的影响因素
