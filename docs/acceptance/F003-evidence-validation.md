@@ -146,3 +146,10 @@
 - `tests/validation/test_provider.py::test_agent_cli_timeout_maps_to_context_exceeded_without_pid_attribute` 注入标准库 `TimeoutExpired`（无 pid 属性），验证 Agent CLI adapter 返回 `context_exceeded`，并以 best-effort 方式执行进程组清理，不产生未捕获异常或伪造 fail。
 
 - `tests/validation/test_audit.py::AuditTests::test_provider_timeout_exception_is_normalized_to_not_run` 验证注入 provider 直接抛出 `TimeoutError` 时，编排层仍写入结构化 `not_run/context_exceeded`，不把 provider 实现异常暴露为审计结论。
+
+## F003 专项验收报告（2026-08-27）
+
+- 专项命令：`.venv/bin/python -m pytest -q tests/validation/test_audit.py tests/validation/test_provider.py tests/validation/test_ruleset.py tests/validation/test_corroboration.py tests/validation/test_wiki_validator.py`
+- 结果：58 passed，覆盖 provider malformed/timeout 归一、ruleset/stale、corroboration 一致性与冲突、审计报告幂等及 Wiki 验证门禁。
+- 成熟方案复用：按 JSON Schema/MCP adapter boundary 约束 `wiki-validation/v1` 结构化输出；W3C Annotation selector 与 owner/hash replay 由 MyKnowledge 保留，LLM 不拥有事实或发布权限。
+- 边界：真实外部 provider、跨 Vault unavailable 的完整挂载演练仍待环境验收；本报告不将离线 `not_run` 或模块测试等同于 `Accepted`。
