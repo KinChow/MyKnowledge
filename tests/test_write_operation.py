@@ -295,5 +295,139 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(result["error_code"], "recovery_invalid")
 
 
+def _confirmation_event(preview: dict, **overrides) -> dict:
+    """构造与 preview 结果 hash 绑定的 operation-confirmation/v1 事件。"""
+    from tools.common import hash_canonical
+    event = {
+        "schema_version": "operation-confirmation/v1",
+        "operation_id": preview["operation_id"],
+        "scope": "apply",
+        "actor_type": "human",
+        "actor_id": "alice",
+        "input_hash": preview["input_hash"],
+        "diff_hash": preview["diff_hash"],
+    }
+    event.update(overrides)
+    event.setdefault("event_sha256", hash_canonical(event))
+    return event
+
+
+class ApplyConfirmationTests(unittest.TestCase):
+    """AC-F004-006：确认事件绑定（human actor + hash 匹配 + 一次性消费）。"""
+
+    def test_confirmation_event_applies_and_binds_durable_audit(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            event = _confirmation_event(preview)
+            result = service.apply(preview["operation_id"], confirmed=True, confirmation=event)
+            self.assertEqual(result["state"], "applied")
+            audit = json.loads((root / "audit" / "operations" / f"{preview['operation_id']}.json").read_text(encoding="utf-8"))
+            self.assertEqual(audit["confirmation"]["event_sha256"], event["event_sha256"])
+            self.assertEqual(audit["confirmation"]["actor_type"], "human")
+            # 事件只消费一次：重复 apply 幂等返回原结果
+            self.assertEqual(service.apply(preview["operation_id"], confirmed=True, confirmation=event)["state"], "applied")
+
+    def test_confirmation_wrong_hash_fails_closed_without_writes(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            forged = _confirmation_event(preview, input_hash="sha256:forged")
+            result = service.apply(preview["operation_id"], confirmed=True, confirmation=forged)
+            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["error_code"], "confirmation_hash_mismatch")
+            self.assertFalse((root / "a.md").exists())
+
+    def test_confirmation_rejects_agent_actor(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            agent = _confirmation_event(preview, actor_type="agent")
+            result = service.apply(preview["operation_id"], confirmed=True, confirmation=agent)
+            self.assertEqual(result["error_code"], "confirmation_actor_invalid")
+            self.assertFalse((root / "a.md").exists())
+
+
+class ConfirmationBoundaryTests(unittest.TestCase):
+    """AC-F004-011：确认事件 3→2 合并后的词表边界。"""
+
+    def test_public_release_is_not_a_legal_scope_value(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            masquerade = _confirmation_event(preview, scope="public_release")
+            result = service.apply(preview["operation_id"], confirmed=True, confirmation=masquerade)
+            self.assertEqual(result["error_code"], "confirmation_scope_invalid")
+
+    def test_publish_private_scope_requires_publish_fields(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"wiki/secret.md": "internal"})
+            partial = _confirmation_event(preview, scope="publish_private")  # 缺 content/evidence/target_vault
+            result = service.apply(preview["operation_id"], confirmed=True, confirmation=partial)
+            self.assertEqual(result["error_code"], "confirmation_fields_missing")
+            complete = _confirmation_event(preview, scope="publish_private", content_sha256="sha256:c", evidence_sha256="sha256:e", target_vault="public")
+            self.assertEqual(service.apply(preview["operation_id"], confirmed=True, confirmation=complete)["state"], "applied")
+
+
+class RealProjectionRebuildTests(unittest.TestCase):
+    """AC-F004-009：public apply 默认重建真实 public projection。"""
+
+    def test_public_apply_rewrites_public_manifest(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            preview = service.preview({"a.md": "new"})
+            self.assertEqual(service.apply(preview["operation_id"], confirmed=True)["state"], "applied")
+            self.assertTrue((root / "queries" / "public" / "manifest.json").is_file())
+
+    def test_projection_failure_pending_then_real_recover(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); service = WriteOperation(root)
+            preview = service.preview({"a.md": "new"})
+            obstacle = root / "queries" / "public" / "manifest.json"
+            obstacle.parent.mkdir(parents=True)
+            obstacle.mkdir()  # 目录占位使 manifest 原子写失败
+            result = service.apply(preview["operation_id"], confirmed=True)
+            self.assertEqual(result["state"], "applied_index_pending")
+            self.assertEqual(result["error_code"], "projection_failed")
+            self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "new")
+            obstacle.rmdir()
+            recovered = service.recover(preview["operation_id"])
+            self.assertEqual(recovered["state"], "applied")
+            self.assertTrue((root / "queries" / "public" / "manifest.json").is_file())
+            self.assertEqual(service.store.load(preview["operation_id"])["state"], "applied")
+
+
+class ConcurrentApplyTests(unittest.TestCase):
+    """AC-F004-003：并发 apply 只有一个胜者，仓库无半成品。"""
+
+    def test_two_concurrent_applies_produce_single_consistent_result(self):
+        import sys
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            ops = [service.preview({"shared.md": body})["operation_id"] for body in ("first", "second")]
+            runner = (
+                "import sys, json; from pathlib import Path; "
+                "from tools.write_operation import WriteOperation; "
+                f"print(json.dumps(WriteOperation(Path({str(root)!r}), projection_rebuilder=lambda r: None)"
+                ".apply(sys.argv[1], confirmed=True)))"
+            )
+            procs = [subprocess.Popen([sys.executable, "-c", runner, op], cwd=Path(__file__).resolve().parents[1],
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) for op in ops]
+            outputs = []
+            for proc in procs:
+                out, err = proc.communicate(timeout=30)
+                outputs.append(json.loads(out.strip().splitlines()[-1]))
+            applied = [o for o in outputs if o.get("state") == "applied"]
+            self.assertEqual(len(applied), 1)
+            for output in outputs:
+                self.assertIn(output.get("state"), {"applied", "expired", "blocked"})  # 全部结构化，无崩溃
+                self.assertNotIn(output.get("error_code"), {"apply_failed"})  # 无半成品失败
+            content = (root / "shared.md").read_text(encoding="utf-8")
+            self.assertIn(content, {"first", "second"})
+            self.assertEqual(len(content.encode()), len(content))  # 单一完整内容，非交叠
+
+
 if __name__ == "__main__":
     unittest.main()

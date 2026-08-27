@@ -11,10 +11,21 @@ from pathlib import Path
 from typing import Callable, Mapping
 
 from .common import atomic_write, canonical_json, crash_injection_point, hash_canonical, sha256_bytes
-from .operation_store import OperationStore
+from .operation_store import OperationStore, validate_apply_confirmation
 from .vault_lock import LockBusyError, VaultLock
 from .backup import BackupManager
 from .vault_registry import VaultRegistry
+
+
+def public_projection_rebuilder(root: Path) -> Callable[[dict], object]:
+    """AC-F004-009 真实 rebuild hook：public vault apply 后重建 public projection。"""
+
+    def rebuild(_record: dict) -> object:
+        from .public_projection import PublicProjectionGenerator
+
+        return PublicProjectionGenerator(root).generate()
+
+    return rebuild
 
 
 class WriteOperation:
@@ -75,11 +86,19 @@ class WriteOperation:
         except (OSError, ValueError) as exc:
             return {"state": "blocked", "error_code": str(exc)}
 
-    def apply(self, operation_id: str, *, confirmed: bool = False, actor_id: str = "local-user") -> dict:
+    def apply(self, operation_id: str, *, confirmed: bool = False, actor_id: str = "local-user", confirmation: dict | None = None) -> dict:
         record, error = self.store.apply_preflight(operation_id, ("write", "source", "wiki", "rename", "retire", "purge"), confirmed)
         if error is not None:
             return error
         vault_id = str(record.get("target_vault", "public"))
+        # AC-F004-006：提供确认事件时必须严格校验（human actor + hash 绑定），
+        # 失败 fail-closed 且不改变任何目标文件或 operation 状态。
+        confirmed_event = None
+        if confirmation is not None:
+            code = validate_apply_confirmation(record, confirmation)
+            if code is not None:
+                return {"state": "blocked", "operation_id": operation_id, "error_code": code, "next_action": "re-preview and have a human confirm the current hashes"}
+            confirmed_event = confirmation
         try:
             with VaultLock(self.root, vault_id, operation_id) as lock:
                 record = self.store.load(operation_id)
@@ -136,9 +155,14 @@ class WriteOperation:
                             atomic_write(path, content)
                     raise
                 applied_files = [x["path"] for x in record["files"]]
-                if self.projection_rebuilder is not None:
+                rebuilder = self.projection_rebuilder
+                if rebuilder is None and vault_id == "public":
+                    # AC-F004-009：public apply 默认重建 public projection；
+                    # 失败进入 applied_index_pending，由显式 recover 重跑。
+                    rebuilder = public_projection_rebuilder(self.root)
+                if rebuilder is not None:
                     try:
-                        self.projection_rebuilder({**record, "applied_files": applied_files})
+                        rebuilder({**record, "applied_files": applied_files})
                     except Exception as exc:
                         pending = self.store.update(
                             record,
@@ -154,7 +178,8 @@ class WriteOperation:
                             "error_code": "projection_failed",
                             "next_action": "recover_projection",
                         }
-                applied = self.store.update(record, "applied", actor_id=actor_id, confirmation={"actor_type": "human", "actor_id": actor_id, "scope": "apply"}, applied_files=applied_files)
+                confirmation_record = confirmed_event or {"actor_type": "human", "actor_id": actor_id, "scope": "apply"}
+                applied = self.store.update(record, "applied", actor_id=actor_id, confirmation=confirmation_record, applied_files=applied_files)
                 if record.get("operation_type") == "retire":
                     marker = {"schema_version": "retire-marker/v1", "operation_id": operation_id, "vault_id": vault_id, "target": record["files"][0]["path"], "content_sha256": sha256_bytes(record["files"][0]["content"].encode("utf-8"))}
                     atomic_write(self.store.paths.audit_retire / f"{operation_id}.json", canonical_json(marker) + b"\n", 0o600)
@@ -170,7 +195,10 @@ class WriteOperation:
         """Inspect an interrupted commit intent without guessing or overwriting files."""
         try:
             record = self.store.load(operation_id)
+            vault_id = str(record.get("target_vault", "public"))
             rebuilder = projection_rebuilder or self.projection_rebuilder
+            if rebuilder is None and vault_id == "public":
+                rebuilder = public_projection_rebuilder(self.root)
             if record.get("state") == "applied_index_pending":
                 if rebuilder is None:
                     return {
