@@ -322,7 +322,7 @@ class VaultRegistryTests(unittest.TestCase):
             exported = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "backup", "export-bundle", "--root", str(root), "--manifest", str(root / created["path"]), "--target", str(bundle)], capture_output=True, text=True, check=False)
             self.assertEqual(exported.returncode, 0)
             target = root.parent / (root.name + "-cli-restored")
-            restored = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "backup", "restore-bundle", "--root", str(root), "--manifest", str(bundle), "--target", str(target)], capture_output=True, text=True, check=False)
+            restored = subprocess.run([__import__("sys").executable, "-m", "tools.cli", "backup", "restore-bundle", "--root", str(root), "--manifest", str(bundle), "--target", str(target), "--target-vault-id", "public"], capture_output=True, text=True, check=False)
             self.assertEqual(restored.returncode, 0)
             self.assertEqual((target / "wiki" / "one.md").read_text(), "one")
             import shutil

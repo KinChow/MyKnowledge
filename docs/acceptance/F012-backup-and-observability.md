@@ -8,7 +8,7 @@
 
 ## CLI bundle 增量证据（2026-08-27）
 
-- `python -m tools.cli backup export-bundle --root R --manifest M --target B` 将已校验 manifest 和 payload 物化到显式离线 bundle；`restore-bundle --root R --manifest B --target D` 从 bundle 恢复到显式目标目录。两条命令均不自动推导 `verified`，也不执行 checkout/reset/commit/push。
+- `python -m tools.cli backup export-bundle --root R --manifest M --target B` 将已校验 manifest 和 payload 物化到显式离线 bundle；`restore-bundle --root R --manifest B --target D --target-vault-id V` 从 bundle 恢复到显式目标目录并校验 owner。两条命令均不自动推导 `verified`，也不执行 checkout/reset/commit/push。
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_bundle_cli_export_and_restore` 验证 CLI 导出后恢复到空 target 的文件内容闭包和成功返回码；bundle 仍由 `BackupManager.verify_bundle`/`restore_bundle` 的 owner、hash、空目标和失败清理门禁判定。
 - 该命令级证据补齐 BAK-001 的离线操作面，不扩大 F012 的 Accepted 范围；跨 Vault object/snapshot/evidence/projection 全量重建仍待环境演练。
 
