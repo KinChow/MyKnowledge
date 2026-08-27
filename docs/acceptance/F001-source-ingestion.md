@@ -71,7 +71,7 @@
 - 失败时不变量：不能通过 redirect、DNS rebinding、Cookie 或嵌入凭据访问内网，也不能把响应正文/凭据写入日志；
 - 自动化级别：Security/Integration。
 - 对应测试：`tests/ingest/test_fetcher.py::test_url_policy_rejects_private_and_unsafe_targets`（file scheme、127.0.0.1）、`tests/ingest/test_fetcher.py::test_invalid_port_url_blocked`、`tests/ingest/test_source_ingestor.py::test_url_preview_not_schema_blocked`
-- 当前状态：部分。redirect 链逐跳校验、`response_limit`/`max_redirects`/timeout 有实现但无单独测试；`.local`/`.internal` 主机策略有实现（`host_policy`）无测试。
+- 当前状态：通过。`tests/ingest/test_fetcher.py` 覆盖 redirect 链逐跳校验、`response_limit`、`max_redirects`、timeout 和连接关闭；`.local`/`.internal` 主机策略由 `test_local_domain_suffix_is_blocked_before_dns_resolution` 覆盖。
 
 ## AC-F001-008 local-file 读取竞态
 
@@ -101,7 +101,7 @@
 - 失败时不变量：不能以重试、代理、编码路径或重定向绕过目标检查，也不能在归档前产生正文/raw/凭据半成品；
 - 自动化级别：Security/Integration/Failure injection。
 - 对应测试：`tests/ingest/test_fetcher.py::test_invalid_port_url_blocked`、`tests/ingest/test_fetcher.py::test_bounded_gzip_rejects_expansion`、`tests/ingest/test_fetcher.py::test_url_policy_rejects_private_and_unsafe_targets`
-- 当前状态：部分。解析全部地址→任一私网即拒→连接直连已校验 IP、Host/SNI 用原主机名（与业界 AutoGPT 修复方案一致），行为已防住 DNS rebinding；错误码未细分——重定向后解析到私网返回 `fetch_blocked:private_network` 而非 `dns_rebinding_blocked`；userinfo 拦截有实现无单独测试。
+- 当前状态：通过。解析全部地址→任一私网即拒→连接直连已校验 IP，Host/SNI 使用原主机名；`test_dns_rebinding_is_reported_separately` 覆盖同 hostname IP 漂移，`test_userinfo_url_is_blocked` 覆盖凭据 URL。重定向到私网按 `private_network` 返回是预期的逐跳目标策略，不影响阻断结论。
 
 ## AC-F001-011 Evidence 锚定生成 selector 与 hash
 
@@ -143,9 +143,7 @@
 - 复核人：zhouzijian01
 - 基线垂直切片：`tests/test_end_to_end.py::test_source_to_wiki_evidence_chain_is_replayable` 串联 Source preview/apply、snapshot、EvidenceAnchor selector、Wiki validation 和 evidence hash replay；原始输入与 canonical 事实链均可复核。
 - 未决项（不影响 Implemented，阻却 Accepted）：
-  - AC-003：raw 归档/LFS 门禁随 raw 功能启用时落地；
-  - AC-010：`dns_rebinding_blocked` 错误码细分、userinfo 单独测试；
-  - AC-007：redirect 链、响应大小/时间上限的单独测试。
+- AC-003：raw 归档/LFS 门禁随 raw 功能启用时落地；当前实现固定 text-only，无 raw 写入路径。
 
 ## URL redirect/response 门禁证据（2026-08-27）
 
