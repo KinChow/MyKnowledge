@@ -112,6 +112,14 @@ LLM 不可用**不是**阻断项：记 `validation_state: not_run` + `not_run_re
 
 LLM provider 由 Codex/Claude Code 加载的 MyKnowledge Skill 在运行时选择和注入。具体 endpoint、模型版本和密钥读取方式不属于用户决策，也不写入验证 schema、Vault manifest、Git 或普通审计日志。验证器只依赖 Skill 提供的结构化结果，因此可以替换供应商而不改变验证结果 schema。没有可用或不满足 confidentiality 要求的 provider 时记 `not_run`，不做能力协商，也不阻断人工审计通道。
 
+### Provider confidentiality 成熟方案调查（2026-08-27）
+
+- OpenAI Python SDK（当前主线，Apache-2.0，<https://github.com/openai/openai-python>）提供显式 client、结构化响应和可替换 transport，适合作为 provider adapter 的参考；它不替 MyKnowledge 判断 Vault、claim 或 confidentiality，也不意味着任意 provider 默认获准接收 internal 正文。
+- Model Context Protocol 2025-06-18 specification（MIT，<https://modelcontextprotocol.io/specification/2025-06-18>）以 capability negotiation 和调用边界约束 client/server 能力，适合作为显式 opt-in 的授权基线；MyKnowledge 复用“能力必须声明”的原则，但保留自己的 `supports_internal is True` policy、owner 解析和 `not_run` 语义。
+- 替代方案是根据 endpoint、模型名或供应商名称推断是否允许 internal 内容。该信息不能证明部署位置、数据保留或租户 policy，且升级/改名后会静默漂移，因此不采用。
+- 数据与安全边界：`ValidationRequest` 只有在确定性校验后构造；发现任一 internal target 且 provider 未显式 opt-in 时，编排器必须在调用前返回 `provider_unavailable/not_run`。not-run 记录只保存 opaque provider identity、hash 和 reason，不保存 quote/正文、endpoint、key 或完整请求。public target 保持兼容。
+- 离线与升级：门禁本身纯本地运行、无网络依赖；provider 不可用仍走同一 not-run 路径。升级 SDK、MCP 版本或 provider adapter 时必须重跑 audit/provider/security 测试，`wiki-validation/v1` 数据格式不因 provider 更换而改变。
+
 ## Owner context 增量调查（2026-08-30）
 
 Git worktree owner root（GPL-2.0，<https://git-scm.com/docs/git-rev-parse>）和 W3C Web Annotation 的资源标识边界（W3C Recommendation，<https://www.w3.org/TR/annotation-model/>）作为成熟基线：验证请求必须显式绑定 owner，selector/hash 解析不能只依赖裸 object/snapshot ID。替代方案是继续使用全局 `OWNER_VAULT_ID=public` 常量，会使 private checkout 的 resolved ref、evidence hash 和报告 owner 错误；本轮将 `vault_id` 作为 `WikiValidator` 上下文贯穿 domain resolution、evidence hash、derived report，同时仍拒绝跨 owner target。该参数不写回 canonical front matter，也不降低 confidentiality 门禁。

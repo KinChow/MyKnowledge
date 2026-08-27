@@ -147,9 +147,12 @@
 
 - `tests/validation/test_audit.py::AuditTests::test_provider_timeout_exception_is_normalized_to_not_run` 验证注入 provider 直接抛出 `TimeoutError` 时，编排层仍写入结构化 `not_run/context_exceeded`，不把 provider 实现异常暴露为审计结论。
 
+- `tests/validation/test_audit.py::AuditTests::test_internal_request_is_blocked_before_provider_call` 验证 internal source/evidence 在 provider 未显式声明 `supports_internal is True` 时不会调用 provider，并返回 `provider_unavailable/not_run`；持久化记录不包含 internal 正文、endpoint 或 key。该增量覆盖 AC-F003-008/011 的 provider policy 边界。
+
 ## F003 专项验收报告（2026-08-27）
 
 - 专项命令：`.venv/bin/python -m pytest -q tests/validation/test_audit.py tests/validation/test_provider.py tests/validation/test_ruleset.py tests/validation/test_corroboration.py tests/validation/test_wiki_validator.py`
 - 结果：58 passed，覆盖 provider malformed/timeout 归一、ruleset/stale、corroboration 一致性与冲突、审计报告幂等及 Wiki 验证门禁。
 - 成熟方案复用：按 JSON Schema/MCP adapter boundary 约束 `wiki-validation/v1` 结构化输出；W3C Annotation selector 与 owner/hash replay 由 MyKnowledge 保留，LLM 不拥有事实或发布权限。
 - 边界：真实外部 provider、跨 Vault unavailable 的完整挂载演练仍待环境验收；本报告不将离线 `not_run` 或模块测试等同于 `Accepted`。
+- Provider policy 增量：`31 passed`（`tests/validation/test_audit.py`）；完整 F003 专项门禁为 `60 passed`，并记录到 `reports/acceptance/F003-report.json`。

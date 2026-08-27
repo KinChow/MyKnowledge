@@ -16,6 +16,7 @@ from tools.common import sha256_text
 from tools.validation.audit import (
     AuditBlocked,
     check_coverage,
+    provider_allows_request,
     run_audit,
 )
 from tools.validation.confirm import ConfirmationBlocked, create_confirmation
@@ -114,6 +115,32 @@ class AuditTests(AuditSetup):
     def _reports(self) -> list[Path]:
         base = self.root / "audit" / "validation" / "wiki" / "test-wiki"
         return sorted(base.glob("*.json")) if base.exists() else []
+
+    def test_internal_request_requires_provider_opt_in(self):
+        request = {"claims": [{"targets": [{"confidentiality": "internal"}]}]}
+        self.assertFalse(provider_allows_request(self.provider, request))
+        self.provider.supports_internal = True
+        self.assertTrue(provider_allows_request(self.provider, request))
+
+    def test_internal_request_is_blocked_before_provider_call(self):
+        """Internal evidence requires explicit provider capability and stays redacted."""
+        source_path = self.root / "sources" / "tools" / "test-source.md"
+        source_path.write_text(
+            source_path.read_text(encoding="utf-8").replace(
+                "confidentiality: public", "confidentiality: internal", 1
+            ),
+            encoding="utf-8",
+        )
+        outcome = self._run(_payload())
+        self.assertEqual(outcome["validation_state"], "not_run")
+        self.assertEqual(outcome["not_run_reason"], "provider_unavailable")
+        self.assertEqual(self.provider.calls, [])
+        report_text = "\n".join(
+            p.read_text(encoding="utf-8") for p in self._reports()
+        )
+        self.assertNotIn(SOURCE_BODY, report_text)
+        self.assertNotIn("endpoint", report_text.lower())
+        self.assertNotIn("api_key", report_text.lower())
 
     def test_all_supported_passes(self):
         """§17.2：全部 supported → verdict pass + 报告写入 + hash 绑定。"""
