@@ -287,3 +287,5 @@ Node、npm lockfile、Astro、Starlight、Pagefind 和插件版本固定；priva
 - GitHub Pages 的最终 base path 和 redirect 策略由部署仓库在接入时填写，不改变 projection 契约；
 - Pagefind 的具体版本随 Astro lockfile 固定，升级时执行中文回归；
 - `queries/public` 及其 projection manifest 入 Git，作为可审计的 public build 输入；它只能由生成器更新，禁止人工直接编辑。`queries/local` 仍忽略。
+
+本轮 release lock 持久化调查（2026-08-30）：POSIX `O_EXCL`/`fsync` 与 etcd fencing token（Apache-2.0，<https://etcd.io/docs/v3.5/learning/api_guarantees/>）共同要求锁主体创建不可覆盖且内容持久化；替代方案是只写 PID/时间，陈旧进程无法区分自身 token。`build-release.mjs` 现在写入 `release-lock/v1` 随机 fencing token 并 `fsyncSync`，不自动删除已有锁。
