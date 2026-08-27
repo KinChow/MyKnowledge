@@ -45,6 +45,7 @@ def test_uvicorn_loopback_runner_serves_health_and_rotates_token():
                 assert response.status == 200
         finally:
             process.terminate(); process.wait(timeout=5)
+            assert not (Path(directory) / "state" / "capability-token").exists()
 
 def test_create_app_loads_public_projection_when_items_are_not_injected():
     with tempfile.TemporaryDirectory() as directory:
