@@ -126,6 +126,26 @@ class SQLiteIndex:
         finally:
             if os.path.exists(tmp): os.unlink(tmp)
         return {"schema_version":"index-manifest/v1", "scope":scope, "generated_from":generated_from, "item_count":len(allowed), "index_version":"fts5/v1", "previous_path": str(previous.name) if self.path.with_suffix(self.path.suffix + ".previous").exists() else None}
+
+    def recover(self, items: list[dict], scope: str = "local") -> dict:
+        """Validate the current index and atomically rebuild it when stale/corrupt."""
+        expected = hash_canonical(_scope_items(items, scope))
+        if self.path.exists():
+            try:
+                db = sqlite3.connect(self.path)
+                row = db.execute("SELECT scope, generated_from FROM index_info LIMIT 1").fetchone()
+                integrity = db.execute("PRAGMA quick_check").fetchone()
+                db.close()
+                if row and row[0] == scope and row[1] == expected and integrity and integrity[0] == "ok":
+                    return {"state": "valid", "scope": scope, "generated_from": expected, "recovered": False}
+            except (OSError, sqlite3.Error, TypeError):
+                pass
+        try:
+            rebuilt = self.rebuild(items, scope)
+            return {"state": "recovered", "scope": scope, "generated_from": rebuilt["generated_from"],
+                    "previous_path": rebuilt.get("previous_path"), "recovered": True}
+        except (OSError, sqlite3.Error, ValueError) as exc:
+            return {"state": "failed", "scope": scope, "error_code": "index_recovery_failed", "detail": type(exc).__name__}
     def search(self, query: str, top_k: int = 8) -> list[dict]:
         db = sqlite3.connect(self.path); rows = db.execute("SELECT m.object_ref,m.title,m.body,bm25(documents),m.availability,m.availability_reason,m.confidentiality,m.content_sha256,m.source_ref FROM documents JOIN metadata m ON documents.rowid=m.rowid WHERE documents MATCH ? ORDER BY bm25(documents) LIMIT ?", (query, top_k)).fetchall(); db.close()
         return [{"object_ref":json.loads(r[0]),"title":r[1],"snippet":(r[2] or "")[:240],"score":float(r[3]),"availability":r[4],"availability_reason":r[5],"confidentiality":r[6],"content_sha256":r[7],"source_ref":r[8]} for r in rows]
