@@ -253,6 +253,37 @@ class BackupManager:
                 pass
             return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
 
+    def restore_bundle_to_vault(self, bundle: Path, target: Path, target_vault_id: str) -> dict:
+        """Restore a bundle only when its recorded owner matches an explicit target Vault.
+
+        A filesystem path is not an identity boundary: callers must provide the
+        intended Vault ID and the bundle owner must match before any target is
+        created or modified.
+        """
+        try:
+            owner = safe_id(str(target_vault_id))
+        except ValueError:
+            return {"state": "blocked", "error_code": "vault_id_invalid"}
+        bundle_path = Path(bundle).resolve()
+        checked = self.verify_bundle(bundle_path)
+        if checked.get("backup_state") != "verified":
+            return {"state": "blocked", "error_code": checked.get("error_code", "bundle_unverified")}
+        try:
+            data = json.loads((bundle_path / "manifest.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError, json.JSONDecodeError):
+            return {"state": "blocked", "error_code": "bundle_unreadable"}
+        if data.get("vault_id") != owner:
+            return {
+                "state": "blocked",
+                "error_code": "cross_vault_restore",
+                "source_vault_id": data.get("vault_id"),
+                "target_vault_id": owner,
+            }
+        restored = self.restore_bundle(bundle_path, target)
+        if restored.get("state") == "restored":
+            restored["target_vault_id"] = owner
+        return restored
+
     def restore_manifest(self, manifest_path: Path, target: Path) -> dict:
         """Restore verified local entries into an explicitly empty checkout."""
         target = Path(target).resolve()

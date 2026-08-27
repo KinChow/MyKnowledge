@@ -247,6 +247,38 @@ class VaultRegistryTests(unittest.TestCase):
                 import shutil
                 shutil.rmtree(bundle, ignore_errors=True)
 
+    def test_backup_bundle_restore_requires_matching_target_vault(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); public = root / "public"; private = root / "private"
+            public.mkdir(); private.mkdir()
+            for vault in (public, private):
+                subprocess.run(["git", "init", "-q", str(vault)], check=True)
+            (private / "wiki").mkdir(); (private / "wiki" / "secret.md").write_text("secret\n", encoding="utf-8")
+            config = root / "manifest.yaml"
+            config.write_text(
+                f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\n"
+                "public_vault_id: public\nvaults:\n"
+                "  - {id: public, path: public}\n"
+                "  - {id: private, path: private, confidentiality: internal}\n",
+                encoding="utf-8",
+            )
+            manager = BackupManager(public, config)
+            manifest = manager.create_manifest("private")
+            bundle = root.parent / (root.name + "-private-bundle")
+            target = root.parent / (root.name + "-restore-target")
+            try:
+                manager.export_bundle(private / manifest["path"], bundle)
+                blocked = manager.restore_bundle_to_vault(bundle, target, "public")
+                self.assertEqual(blocked["error_code"], "cross_vault_restore")
+                self.assertFalse(target.exists())
+                restored = manager.restore_bundle_to_vault(bundle, target, "private")
+                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["target_vault_id"], "private")
+                self.assertEqual((target / "wiki" / "secret.md").read_text(encoding="utf-8"), "secret\n")
+            finally:
+                import shutil
+                shutil.rmtree(bundle, ignore_errors=True); shutil.rmtree(target, ignore_errors=True)
+
     def test_backup_bundle_restores_to_empty_checkout_and_cleans_on_failure(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); (root / "wiki").mkdir(); (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
