@@ -24,6 +24,8 @@
 
 本轮恢复后集合校验调查（2026-08-30）：Borg `check` 1.4.5（BSD-3-Clause，<https://borgbackup.readthedocs.io/en/stable/usage/check.html>）区分 repository 与 archive 完整性检查；Restic 的 repository check/restore 文档（BSD-2-Clause，<https://restic.readthedocs.io/en/stable/050_restore.html>）要求恢复目标显式指定并可再次验证。替代方案是只相信复制函数返回成功，无法发现目标中额外文件、owner marker 被替换或恢复后的 entry hash 漂移。采用 `verify_restored_bundle()`：逐项复核 manifest hash、拒绝 symlink/hard-link/缺失或额外文件，并要求与 manifest owner/hash 匹配且 `record_sha256` 有效的 restore marker；`restore_bundle()` 只有通过该复核才返回 restored，失败清理整个空目标。该校验离线运行，不扫描其他 Vault，不改变 public projection。
 
+本轮 practice 语义恢复调查（2026-08-27）：Git bundle/checkout（GPL-2.0，<https://git-scm.com/docs/git-bundle>）和 SQLite Online Backup API（Public Domain，<https://sqlite.org/backup.html>）分别提供对象哈希与一致性快照思路，但都不理解题目 schema；替代 rsync（GPL-3.0，<https://github.com/WayneD/rsync>）只能复制字节。故 `verify_manifest()` 与 `verify_restored_bundle()` 在逐文件 sha256 之外重放 `question/v1`、`content_sha256` 和 `practice-review-record/v1` 的 owner 归属，语义失败保持 `failed`，不派生 `verified`。校验离线且不改变 practice 数据格式。
+
 每个 Vault 独立维护 `private_git_remote`、`encrypted_backup_target` 和派生 `backup_state`：`unconfigured`、`configured`、`verified`、`failed`。`unconfigured` 只表示没有任何 target；只配置一个 target 也可以进入 `verified`，但必须明确报告没有第二份冗余。`configured` 表示至少一个 target 和 opaque credential reference 可解析但尚未完成验证；target 身份变化或验证过期回到 `configured`。上传、完整性或恢复失败进入 `failed`；修正 target 后重新验证才能回到 `verified`。`verified` 只能由**所有已配置 target** 的最近一次备份、manifest integrity check、Git 历史可解析和隔离空仓恢复演练共同产生；全局汇总不能覆盖单 Vault 状态。当前所有 private target 保持 `null`/`unconfigured`；public 条目的置空字段不触发 private backup 告警。
 
 ## 备份内容与恢复

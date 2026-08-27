@@ -115,6 +115,9 @@ class BackupManager:
                     event = json.loads(entry_path.read_text(encoding="utf-8"))
                     if not event.get("event_sha256") or not validate_event(event).get("valid"):
                         raise ValueError("confirmation_record_invalid")
+            # A byte-valid backup is not sufficient for practice data: replay
+            # the local question/review contracts before accepting the manifest.
+            self._verify_practice_tree(owner_root)
             relative = str(path.resolve().relative_to(owner_root.resolve()))
             return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
         except (OSError, ValueError, json.JSONDecodeError) as exc:

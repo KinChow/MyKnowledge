@@ -2,7 +2,7 @@
   "schema_version": "acceptance-report/v1",
   "feature": "F012",
   "status": "Implemented (partial)",
-  "generated_from": "a5dc3829d258d8b64404132b5ee18a6cdefd02d6",
+  "generated_from": "f804ab067e6fefaf40f012221ea679bb335beced",
   "acceptance_document": "docs/acceptance/F012-backup-and-observability.md",
   "scenario_ids": [
     "AC-F012-001",
@@ -14,7 +14,7 @@
     "AC-F012-007",
     "AC-F012-008"
   ],
-  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted. Offline bundle verification now fail-closes invalid vault owner metadata and cross-Vault target mismatch before payload restore, and restored targets are rechecked for complete declared entry/hash and owner-marker closure.",
+  "evidence_boundary": "Automated evidence listed in the acceptance document is partial; missing scenarios remain pending and this report does not imply Accepted.",
   "verification": {
     "python_command": ".venv/bin/python -m pytest -q",
     "frontend_command": "npm run validate:config && npm run validate:docs && MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection",
