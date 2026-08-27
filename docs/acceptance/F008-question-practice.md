@@ -49,6 +49,8 @@
 
 ## 本轮证据（2026-08-30）
 
+- AC-F008-005 增量：`tests/test_frontend_projection.py::test_leak_gate_rejects_question_payload_even_under_public_path` 验证即使题目 JSON 被伪装到 `wiki/` 路径，包含 `question/v1`/`answer` 的输入仍被 public leak gate 拒绝。
+
 - AC-F008-002/003：`tests/test_question.py::QuestionTests::test_claim_hash_change_disables_question` 验证 claim content hash 变化后题目变为 `disabled`，后续作答返回 `question_disabled`。
 - AC-F008-005：`tests/test_api.py::test_practice_api_is_private_and_does_not_bypass_validator` 验证练习 API 缺 capability 时返回 401，携带 capability 但题目不存在时返回结构化 `question_not_found`，不会绕过题目服务。
 - AC-F008-004：`.venv` 中实际安装 `fsrs==6.3.2` 后，`tests/test_question.py::QuestionTests::test_fsrs_unavailable_is_explicit` 验证真实 `scheduled` 结果与 Card state 持久化；依赖缺失路径仍由 adapter 返回 `unavailable/provider_unavailable`，不伪造调度成功。
