@@ -71,6 +71,14 @@ class QuestionStore:
         safe_id(question_id)
         return self.paths.practice_questions / f"{question_id}.json"
 
+    @staticmethod
+    def _content_hash(question: dict, *, legacy: bool = False) -> str:
+        excluded = {"created_at", "review_state", "content_sha256"}
+        if not legacy:
+            # Status is mutable lifecycle state; review_state is scheduler state.
+            excluded.update({"status", "disabled_reason"})
+        return "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in question.items() if k not in excluded})).hexdigest()
+
     def _record_answer(self, question_id: str, result: dict, response: Any) -> None:
         path = self.paths.practice_reviews(question_id)
         record = {"schema_version": "practice-review-record/v1", "question_id": question_id, "recorded_at": time.time(), "response": response, "result": result}
@@ -146,12 +154,22 @@ class QuestionStore:
         claim_id = str(spec["claim_id"])
         claim = {"vault_id": spec.get("vault_id", "public"), "wiki_id": spec["wiki_id"], "claim_id": claim_id, "content_sha256": report.get("hashes", {}).get("content_sha256"), "evidence_sha256": report.get("hashes", {}).get("evidence_sha256")}
         question = {"schema_version": QUESTION_SCHEMA, "id": spec["id"], "type": spec["type"], "confidentiality": spec.get("confidentiality", "public"), "wiki_claim": claim, "prompt": spec["prompt"], "options": spec.get("options"), "correct_option_ids": spec.get("correct_option_ids"), "answer": spec.get("answer"), "explanation": spec.get("explanation"), "rubric": spec.get("rubric"), "status": "enabled", "created_at": time.time(), "review_state": None}
-        question["content_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in question.items() if k not in {"created_at", "review_state", "content_sha256"}})).hexdigest()
+        question["content_sha256"] = self._content_hash(question)
         atomic_write(self._file(question["id"]), canonical_json(question) + b"\n", 0o600)
         return {"state": "created", "question": question}
 
     def load(self, question_id: str) -> dict:
-        return json.loads(self._file(question_id).read_text(encoding="utf-8"))
+        question = json.loads(self._file(question_id).read_text(encoding="utf-8"))
+        if not isinstance(question, dict) or question.get("schema_version") != QUESTION_SCHEMA:
+            raise ValueError("question_schema_invalid")
+        if question.get("id") != question_id:
+            raise ValueError("question_id_mismatch")
+        stored = question.get("content_sha256")
+        expected = self._content_hash(question)
+        legacy_expected = self._content_hash(question, legacy=True)
+        if stored not in {expected, legacy_expected}:
+            raise ValueError("question_hash_mismatch")
+        return question
 
     def refresh_status(self, question_id: str, wiki_report: dict) -> dict:
         """Revalidate the claim binding and disable stale questions atomically."""

@@ -77,3 +77,9 @@
 
 - `tests/test_question.py::QuestionTests::test_create_rejects_wiki_or_claim_identity_mismatch` 验证题目创建时 `wiki_id` 必须匹配当前验证报告 owner object，`claim_id` 必须存在于该报告的 evidence claim 集合；不匹配分别返回 `wiki_id_mismatch`/`claim_not_found`，防止跨页面或不存在 Claim 的错误绑定。
 - `tests/test_question.py::QuestionTests::test_refresh_rejects_wrong_wiki_claim_report_even_when_hashes_match` 验证批量刷新也重新检查 owner/Claim identity；仅 hash 相同不足以让错误报告维持题目 enabled。
+
+## 题目持久化完整性增量证据（2026-08-30）
+
+- `QuestionStore.load()` 现在校验 `question/v1`、稳定 ID 和 `content_sha256`；题目事实字段被篡改时，作答和复习均在读取阶段返回/抛出 `question_hash_mismatch`，不会写入新的 review 记录。
+- `tests/test_question.py::QuestionTests::test_tampered_question_content_is_fail_closed` 验证篡改题干后 answer/review 均 fail-closed；`status` 与 `review_state` 仍作为可变状态，不改变题目事实 hash。
+- 该证据增强 AC-F008-001/003/004/007 的持久化完整性边界；完整 practice 恢复后 FSRS 重放与 public build 全量扫描仍待闭合。
