@@ -28,6 +28,11 @@
 - AC-F012-005/008：`BackupManager.create_manifest` 为 public owner 记录 sources/wiki/archive/audit 文件的相对路径、sha256 和 size；`verify_manifest` 逐项重算并在缺失或 hash 变化时返回 `failed`。
 - 备份 manifest 不包含绝对路径、token、remote URL 或私有 Vault 内容；外部 target 未配置时仍保持 `unconfigured`。
 
+## Practice 语义恢复增量证据（2026-08-27）
+
+- `verify_manifest()` 和 `verify_restored_bundle()` 除逐文件 sha256 外，会离线重放 `question/v1`、题目 `content_sha256` 以及 `practice-review-record/v1` 的 `question_id` 归属；语义错误返回 `practice_question_invalid` 或 `practice_review_owner_mismatch`，不派生 `verified`。
+- `tests/test_vault_registry.py::VaultRegistryTests::test_restored_practice_semantics_are_verified` 覆盖恢复后题干篡改的 fail-closed 校验。
+
 ## 本轮状态派生证据（2026-08-27）
 
 - `tests/test_vault_registry.py::VaultRegistryTests::test_backup_not_configured_warning_has_safe_next_action` 验证未配置 private target 时逐 Vault 报告 `backup_not_configured` 和脱敏 `next_action`，不泄露 workspace path，也不把状态提升为 verified。

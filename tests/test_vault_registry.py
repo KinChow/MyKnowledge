@@ -372,9 +372,16 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
             practice = root / "practice" / "questions"; practice.mkdir(parents=True)
-            (practice / "q-private.json").write_text('{"answer":"secret"}\n', encoding="utf-8")
+            from tools.question import QuestionStore
+            question = {"schema_version": "question/v1", "id": "q-private", "type": "short_answer",
+                        "confidentiality": "private", "wiki_claim": {"wiki_id": "w", "claim_id": "c"},
+                        "prompt": "secret", "options": None, "correct_option_ids": None,
+                        "answer": "secret", "explanation": "private", "rubric": ["secret"],
+                        "status": "enabled", "created_at": 1, "review_state": None}
+            question["content_sha256"] = QuestionStore._content_hash(question)
+            (practice / "q-private.json").write_text(json.dumps(question) + "\n", encoding="utf-8")
             (root / "practice" / "reviews").mkdir(parents=True)
-            (root / "practice" / "reviews" / "q-private.jsonl").write_text('{"score":1}\n', encoding="utf-8")
+            (root / "practice" / "reviews" / "q-private.jsonl").write_text(json.dumps({"schema_version": "practice-review-record/v1", "question_id": "q-private", "response": "secret", "result": {"score": 1}}) + "\n", encoding="utf-8")
             manager = BackupManager(root); manifest = manager.create_manifest("public")
             paths = {entry["path"] for entry in manifest["entries"]}
             self.assertIn("practice/questions/q-private.json", paths)
@@ -382,7 +389,8 @@ class VaultRegistryTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as out:
                 restored = manager.restore_manifest(root / manifest["path"], Path(out) / "checkout")
                 self.assertEqual(restored["state"], "restored")
-                self.assertEqual((Path(out) / "checkout" / "practice" / "questions" / "q-private.json").read_text(), '{"answer":"secret"}\n')
+                restored_question = json.loads((Path(out) / "checkout" / "practice" / "questions" / "q-private.json").read_text())
+                self.assertEqual(restored_question["id"], "q-private")
 
     def test_restored_practice_semantics_are_verified(self):
         with tempfile.TemporaryDirectory() as d:
