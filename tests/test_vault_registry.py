@@ -384,6 +384,33 @@ class VaultRegistryTests(unittest.TestCase):
                 self.assertEqual(restored["state"], "restored")
                 self.assertEqual((Path(out) / "checkout" / "practice" / "questions" / "q-private.json").read_text(), '{"answer":"secret"}\n')
 
+    def test_restored_practice_semantics_are_verified(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
+            practice = root / "practice" / "questions"; practice.mkdir(parents=True)
+            question = {
+                "schema_version": "question/v1", "id": "q-one", "type": "single_choice",
+                "confidentiality": "private", "wiki_claim": {"wiki_id": "w", "claim_id": "c"},
+                "prompt": "2+2?", "options": [{"id": "a", "text": "4"}, {"id": "b", "text": "5"}],
+                "correct_option_ids": ["a"], "answer": None, "explanation": None, "rubric": None,
+                "status": "enabled", "created_at": 1, "review_state": None,
+            }
+            from tools.question import QuestionStore
+            question["content_sha256"] = QuestionStore._content_hash(question)
+            (practice / "q-one.json").write_text(json.dumps(question) + "\n", encoding="utf-8")
+            reviews = root / "practice" / "reviews"; reviews.mkdir(parents=True)
+            (reviews / "q-one.jsonl").write_text(json.dumps({"schema_version": "practice-review-record/v1", "question_id": "q-one"}) + "\n", encoding="utf-8")
+            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            with tempfile.TemporaryDirectory() as out:
+                target = Path(out) / "checkout"
+                restored = manager.restore_manifest(root / manifest["path"], target)
+                self.assertEqual(restored["state"], "restored")
+                tampered = json.loads((target / "practice" / "questions" / "q-one.json").read_text())
+                tampered["prompt"] = "tampered"
+                (target / "practice" / "questions" / "q-one.json").write_text(json.dumps(tampered) + "\n", encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "practice_question_invalid"):
+                    BackupManager._verify_practice_tree(target)
+
     def test_private_manifest_does_not_read_public_or_escape_owner(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); public = root / "public"; private = root / "private"

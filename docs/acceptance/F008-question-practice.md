@@ -83,3 +83,8 @@
 - `QuestionStore.load()` 现在校验 `question/v1`、稳定 ID 和 `content_sha256`；题目事实字段被篡改时，作答和复习均在读取阶段返回/抛出 `question_hash_mismatch`，不会写入新的 review 记录。
 - `tests/test_question.py::QuestionTests::test_tampered_question_content_is_fail_closed` 验证篡改题干后 answer/review 均 fail-closed；`status` 与 `review_state` 仍作为可变状态，不改变题目事实 hash。
 - 该证据增强 AC-F008-001/003/004/007 的持久化完整性边界；完整 practice 恢复后 FSRS 重放与 public build 全量扫描仍待闭合。
+
+## Practice 恢复语义增量证据（2026-08-27）
+
+- `BackupManager._verify_practice_tree()` 在恢复后的 owner checkout 中重放 `question/v1` 与 `content_sha256`，并校验 `practice-review-record/v1` 的 `question_id` 归属；题目事实被篡改时返回 `practice_question_invalid`，review 记录 schema/归属错误时返回结构化失败。
+- `tests/test_vault_registry.py::VaultRegistryTests::test_restored_practice_semantics_are_verified` 覆盖恢复后题目内容篡改的 fail-closed 语义校验；字节级 manifest hash 校验和语义校验均不派生 verified。
