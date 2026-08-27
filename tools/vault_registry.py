@@ -49,7 +49,7 @@ class VaultRegistry:
             elif not isinstance(raw_path, str) or not raw_path or Path(raw_path).is_absolute():
                 raise ValueError("path_invalid")
             else:
-                path = (workspace / raw_path).resolve()
+                path = self._resolve_manifest_path(workspace, raw_path)
             path.relative_to(workspace)
             if not path.is_dir():
                 raise ValueError("vault_unavailable")
@@ -87,7 +87,7 @@ class VaultRegistry:
                 elif not isinstance(raw_path, str) or not raw_path or Path(raw_path).is_absolute():
                     raise ValueError("path_invalid")
                 else:
-                    path = (workspace / raw_path).resolve()
+                    path = self._resolve_manifest_path(workspace, raw_path)
                 try:
                     path.relative_to(workspace)
                 except ValueError as exc:
@@ -140,6 +140,18 @@ class VaultRegistry:
         report = {"schema_version": "vault-check/v1", "generated_from": "sha256:" + hashlib.sha256(str(self.root).encode()).hexdigest(), "vaults": statuses, "conflicts": conflicts, "affected_object_refs": affected, "backup_summary": {"unverified_vault_ids": [x["vault_id"] for x in statuses if x["backup_state"] != "verified"]}, "available_scopes": available_scopes, "report_sha256": ""}
         report["report_sha256"] = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in report.items() if k != "report_sha256"})).hexdigest()
         return report
+
+    @staticmethod
+    def _resolve_manifest_path(workspace: Path, raw_path: str) -> Path:
+        """Resolve a declared checkout while rejecting symlink traversal."""
+        current = workspace
+        for part in Path(raw_path).parts:
+            if part in {"", "."}:
+                continue
+            current = current / part
+            if current.is_symlink():
+                raise ValueError("path_symlink")
+        return (workspace / raw_path).resolve()
 
     def validate_reference(self, owner_vault_id: str, target_vault_id: str | None = None,
                            object_type: str = "source", object_id: str = "") -> dict:

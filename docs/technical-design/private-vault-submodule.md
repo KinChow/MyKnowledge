@@ -53,6 +53,12 @@
 
 本轮结论：新增离线、可重建的 `local-projection/v1` 生成器。每条记录始终带 `{vault_id, object_type, object_id}`，同名对象并存；可用 Vault 才提供正文和 content hash，不可用 Vault 只保留 Vault 级状态元数据。该生成器只为 `local`/显式 `private` 查询服务，public projection 仍由 public allowlist 生成器独立负责，绝不读取 private 正文。输出不含物理路径、remote、凭据或 private lineage。
 
+### Manifest path security 增量调查（2026-08-30）
+
+- Git worktree/submodule（Git 2.45.2，GPL-2.0，<https://git-scm.com/docs/git-worktree>）以真实 checkout root 作为 owner 边界；Python `pathlib.Path.resolve()` 可发现最终 realpath，但单独使用会把中间 symlink 静默跟随。
+- 替代方案是只做最终 `relative_to(workspace)` 检查，或依赖 manifest 路径字符串判断安全；这两者都允许 `workspace/link/private` 通过并把 private checkout 伪装成声明路径。
+- 本项目在 resolve 前逐组件拒绝 symlink（`path_symlink`），再执行 workspace containment、路径不重叠和 Git owner 检查。该检查纯离线，不改变 manifest 数据格式；升级 pathlib/Git 版本需重跑 symlink、overlap 和 direct/superproject 回归。
+
 本轮 projection CLI 调查（2026-08-27）：Backstage Software Catalog descriptor（Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）与 Click/Typer command groups（BSD-3-Clause/MIT）均采用稳定 manifest schema 和薄 CLI 编排；替代方案是 CLI 直接扫描 Vault 并自行序列化，会产生第二套 owner/冲突规则。新增 `python -m tools.cli local-projection` 仅调用 `VaultRegistry.write_local_projection()`，保持原子写入、owner 三元组和不可用诊断边界；离线不联网，升级只需重跑 projection/CLI parity 测试。
 
 本轮 public projection 隔离调查（2026-08-27）：Git worktree/submodule 的独立 owner root（GPL-2.0，<https://git-scm.com/docs/git-worktree>）与 Backstage Catalog 的显式实体 owner/ref（Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）都要求消费方从声明的仓库根和 owner 元数据读取；替代方案是从 workspace 父目录递归扫描所有 `vaults/*`，会把 private 正文和同名对象带入 public manifest。`PublicProjectionGenerator` 继续只扫描当前 public `wiki/` root，public allowlist/confirmation 由 public validator 判定；私有 checkout 仅由 Vault Registry 的 local/private projection 消费。该边界离线可重放、不读取相邻 private path，升级不改变 manifest schema。

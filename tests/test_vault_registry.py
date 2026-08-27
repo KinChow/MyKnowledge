@@ -94,6 +94,16 @@ class VaultRegistryTests(unittest.TestCase):
             report = VaultRegistry(root, manifest).check()
             self.assertEqual(report["vaults"][0]["reason"], "path_invalid")
 
+    def test_symlink_vault_path_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d); target = root / "real"; target.mkdir()
+            link = root / "linked"; link.symlink_to(target, target_is_directory=True)
+            subprocess.run(["git", "init", "-q", str(target)], check=True)
+            manifest = root / "manifest.yaml"
+            manifest.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\nvaults:\n  - {{id: private, path: linked, confidentiality: internal}}\n", encoding="utf-8")
+            report = VaultRegistry(root, manifest).check()
+            self.assertEqual(report["vaults"][0]["reason"], "path_symlink")
+
     def test_private_public_projection_permission_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); private = root / "private"; private.mkdir(); subprocess.run(["git", "init", "-q", str(private)], check=True)
