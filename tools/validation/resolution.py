@@ -100,7 +100,14 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
             )
             continue
         items[item_id] = item
-    return {"metadata": metadata, "evidence_items": items, "path": hits[0]}, errors
+    # path 存字符串而非 Path：resolution 整体会进入 JSON 校验报告（CLI 输出与审计
+    # 产物），Path 会让 json.dumps 抛 TypeError——2026-08-29 第一次跑真实 wiki
+    # 校验时撞到，此前只有构造 dict 的测试路径覆盖，没人序列化过它。
+    return {
+        "metadata": metadata,
+        "evidence_items": items,
+        "path": str(hits[0]),
+    }, errors
 
 
 def resolve_and_verify(
