@@ -256,6 +256,7 @@ def transfer_main(argv: list[str]) -> int:
     parser.add_argument("--target-path")
     parser.add_argument("--operation-id")
     parser.add_argument("--move", action="store_true")
+    parser.add_argument("--confirmation", type=Path, help="operation-confirmation/v1 event JSON")
     parser.add_argument("--confirm", action="store_true")
     args = parser.parse_args(argv)
     service = VaultTransfer(args.root, args.manifest)
@@ -267,7 +268,7 @@ def transfer_main(argv: list[str]) -> int:
     else:
         if not args.operation_id:
             parser.error("apply requires --operation-id")
-        result = service.apply(args.operation_id, confirmed=args.confirm)
+        result = service.apply(args.operation_id, confirmed=args.confirm, confirmation=json.loads(args.confirmation.read_text(encoding="utf-8")) if args.confirmation else None)
     _print_json(result)
     return 0 if result.get("state") not in {"blocked", "expired"} else 2
 

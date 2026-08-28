@@ -222,3 +222,9 @@
 - Then：确认事件写入 `release/public-confirmations/<event_id>.json`，owner operation record 写入 `audit/operations/<operation_id>.json`；清理 state 不影响可回放，hash 变化使开关回到 false；
 - 失败时不变量：不能仅修改 Front Matter 的 true、复用 nonce/旧 event、将 private lineage/ID/hash 写入 public-safe event，或在 record 缺失时发布；
 - 自动化级别：Repository/Security/Manual review。
+
+## F011 review 增量证据（2026-08-28）
+
+- **真实挂载演练（首次）**：superproject 布局 + 2 个独立 Git private vault——registry `check`（available/object_count/scopes）、local projection 同名对象按 `(vault_id, object_id)` owner 合并、`scope=private` 不含 public、**owner-scoped 写入**（`WriteOperation` + 注入 resolver：文件落 secret-one、public 无残留、确认事件校验通过）、跨 vault 引用 `cross_vault_reference` 阻断、嵌套路径 `path_overlap` 防护、`VaultTransfer` copy 真实落盘——全部通过。
+- **修复（确认一致性缺口）**：`VaultTransfer.apply` 此前不接受 confirmation 事件（跨 vault 迁移是高敏感操作，确认语义落后于 write 通道）；现与 write 同语义（`validate_apply_confirmation` 完整校验，伪造 hash fail-closed），CLI `transfer --confirmation` 透传。测试：`test_transfer_confirmation_event_is_validated`。
+- 边界不变：真实远程 vault（`private_git_remote`）、加密备份 target、跨 Vault staging 恢复仍属环境级验收（F012 交叉）。

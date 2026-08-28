@@ -84,10 +84,19 @@ class VaultTransfer:
         except (OSError, UnicodeDecodeError, ValueError, StopIteration) as exc:
             return {"state": "blocked", "error_code": str(exc)}
 
-    def apply(self, operation_id: str, *, confirmed: bool = False, actor_id: str = "local-user") -> dict:
+    def apply(self, operation_id: str, *, confirmed: bool = False, actor_id: str = "local-user", confirmation: dict | None = None) -> dict:
         record, error = self.store.apply_preflight(operation_id, ("copy", "move"), confirmed)
         if error is not None:
             return error
+        # 与 write 通道同语义：提供确认事件时严格校验（跨 vault 迁移是高敏感
+        # 操作，F011 review 补齐确认一致性）
+        confirmed_event = None
+        if confirmation is not None:
+            from .operation_store import validate_apply_confirmation
+            code = validate_apply_confirmation(record, confirmation)
+            if code is not None:
+                return {"state": "blocked", "operation_id": operation_id, "error_code": code, "next_action": "re-preview and have a human confirm the current hashes"}
+            confirmed_event = confirmation
         source_vault = str(record.get("source_vault", "")); target_vault = str(record.get("target_vault", ""))
         try:
             with VaultLockGroup(self.root, [source_vault, target_vault], operation_id) as locks:
@@ -111,7 +120,7 @@ class VaultTransfer:
                     target.unlink(missing_ok=True)
                     raise
                 updated = self.store.update(record, "applied", actor_id=actor_id,
-                                            confirmation={"actor_type": "human", "actor_id": actor_id, "scope": "apply"},
+                                            confirmation=confirmed_event or {"actor_type": "human", "actor_id": actor_id, "scope": "apply"},
                                             applied_files=[str(record["target_path"])])
                 return {"state": "applied", "operation_id": operation_id, "source_vault_id": source_vault,
                         "target_vault_id": target_vault, "applied_files": updated["applied_files"]}
