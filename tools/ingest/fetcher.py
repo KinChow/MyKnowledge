@@ -135,8 +135,11 @@ class URLFetcher:
                 if compressed and len(data) / len(compressed) > self.max_ratio:
                     raise RuntimeError("decompression_limit_exceeded")
                 content_type = (
-                    response.getheader("Content-Type") or "application/octet-stream"
-                ).split(";")[0].strip().lower()
+                    (response.getheader("Content-Type") or "application/octet-stream")
+                    .split(";")[0]
+                    .strip()
+                    .lower()
+                )
                 return data, current, content_type
             except zlib.error as exc:
                 raise RuntimeError("fetch_blocked:decompression_error") from exc

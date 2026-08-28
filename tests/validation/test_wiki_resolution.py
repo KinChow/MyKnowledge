@@ -2,36 +2,47 @@
 
 from __future__ import annotations
 
-import json
 import tempfile
-import unittest
 from pathlib import Path
 
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
-from tools.front_matter import FrontMatter
-from tools.validation import WIKI_SCHEMA_VERSION, WikiValidator
 from wiki_fixtures import (
     QUOTE_EXACT,
     SOURCE_BODY,
-    WIKI_BODY,
     WikiTestCase,
     _base_wiki,
     _evidence_item,
     _make_source,
     _write_wiki,
-    root_replace,
 )
+
+from tools.common import sha256_text, strip_sha256_prefix
+from tools.front_matter import FrontMatter
+from tools.validation import WikiValidator
 
 
 class ResolutionTests(WikiTestCase):
     def test_duplicate_evidence_id_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            source = root / "sources" / "tools" / "dup.md"; source.parent.mkdir(parents=True)
-            metadata = {"schema_version": "source/v1", "id": "dup", "domain": "tools", "source_type": "personal-note", "origin": "personal", "retrieval": {"acquisition": "personal-note"}, "snapshot_sha256": "sha256:s", "evidence_items": [{"evidence_id": "e1", "snapshot_sha256": "sha256:s"}, {"evidence_id": "e1", "snapshot_sha256": "sha256:s"}]}
+            source = root / "sources" / "tools" / "dup.md"
+            source.parent.mkdir(parents=True)
+            metadata = {
+                "schema_version": "source/v1",
+                "id": "dup",
+                "domain": "tools",
+                "source_type": "personal-note",
+                "origin": "personal",
+                "retrieval": {"acquisition": "personal-note"},
+                "snapshot_sha256": "sha256:s",
+                "evidence_items": [
+                    {"evidence_id": "e1", "snapshot_sha256": "sha256:s"},
+                    {"evidence_id": "e1", "snapshot_sha256": "sha256:s"},
+                ],
+            }
             source.write_text(FrontMatter.render(metadata, "body"), encoding="utf-8")
             from tools.paths import RepoPaths
             from tools.validation.resolution import resolve_source
+
             resolved, errors = resolve_source("dup", RepoPaths(root))
             self.assertIsNotNone(resolved)
             self.assertIn("duplicate_evidence_id", {item["code"] for item in errors})
@@ -56,18 +67,14 @@ class ResolutionTests(WikiTestCase):
                         }
                     ],
                     "support": "direct",
-                    "supporting_quotes": [
-                        {"evidence_id": "e1", "exact": QUOTE_EXACT}
-                    ],
+                    "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
                 }
             ]
         )
         wiki_path, validator = self._fixture(wiki)
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertIn(
-            "cross_vault_reference", [e["code"] for e in report["errors"]]
-        )
+        self.assertIn("cross_vault_reference", [e["code"] for e in report["errors"]])
 
     def test_quote_verbatim_matching(self):
         """§6.9：引文必须在 evidence item 范围内逐字命中；规范化容忍排版空白。"""
@@ -123,7 +130,7 @@ class ResolutionTests(WikiTestCase):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         root = Path(directory.name)
-        snapshot_sha = _make_source(
+        _make_source(
             root,
             "test-source",
             evidence_items=[
@@ -140,14 +147,11 @@ class ResolutionTests(WikiTestCase):
         wiki_path = _write_wiki(root, _base_wiki())
         report = WikiValidator(root).validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertIn(
-            "selector_unresolved", [e["code"] for e in report["errors"]]
-        )
+        self.assertIn("selector_unresolved", [e["code"] for e in report["errors"]])
 
     def test_anchor_real_product_integration(self):
         """F001×F002 集成：evidence_anchor 真实产物（evidence_id 键）可被 validator 解析。"""
         from tools.evidence_anchor import EvidenceAnchor
-        from tools.front_matter import FrontMatter
         from tools.ingest.source_ingestor import SourceIngestor
 
         directory = tempfile.TemporaryDirectory()
@@ -166,7 +170,12 @@ class ResolutionTests(WikiTestCase):
         )
         ingestor.apply(result["operation_id"], confirmed=True)
         source_path = root / "sources" / "tools" / "integrated-source.md"
-        snapshot_path = root / "archive" / "text" / f"{strip_sha256_prefix(result['snapshot_sha256'])}.md"
+        snapshot_path = (
+            root
+            / "archive"
+            / "text"
+            / f"{strip_sha256_prefix(result['snapshot_sha256'])}.md"
+        )
         anchor_service = EvidenceAnchor(root)
         evidence = anchor_service.preview(
             source_path, snapshot_path, QUOTE_EXACT, min_chars=12
@@ -181,11 +190,17 @@ class ResolutionTests(WikiTestCase):
                     "claim_id": "c1",
                     "claim": "集成验证论断。",
                     "targets": [
-                        {"source_id": "integrated-source", "evidence_id": evidence["evidence"]["evidence_id"]}
+                        {
+                            "source_id": "integrated-source",
+                            "evidence_id": evidence["evidence"]["evidence_id"],
+                        }
                     ],
                     "support": "personal",
                     "supporting_quotes": [
-                        {"evidence_id": evidence["evidence"]["evidence_id"], "exact": QUOTE_EXACT}
+                        {
+                            "evidence_id": evidence["evidence"]["evidence_id"],
+                            "exact": QUOTE_EXACT,
+                        }
                     ],
                 }
             ],

@@ -32,10 +32,18 @@ def _obs(**overrides: object):
 class NormalizeTests(unittest.TestCase):
     def test_identical_observation_hashes_stable(self):
         """observation_sha256 可重放：相同输入恒同。"""
-        a = _obs(subject="CPU 频率", predicate="等于", object="3.5 GHz",
-                 qualifiers={"version_range": ["v2.0", "v3.0"]})
-        b = _obs(subject="CPU 频率", predicate="等于", object="3.5 GHz",
-                 qualifiers={"version_range": ["v2.0", "v3.0"]})
+        a = _obs(
+            subject="CPU 频率",
+            predicate="等于",
+            object="3.5 GHz",
+            qualifiers={"version_range": ["v2.0", "v3.0"]},
+        )
+        b = _obs(
+            subject="CPU 频率",
+            predicate="等于",
+            object="3.5 GHz",
+            qualifiers={"version_range": ["v2.0", "v3.0"]},
+        )
         self.assertEqual(a.observation_sha256, b.observation_sha256)
 
     def test_nfc_normalization(self):
@@ -54,18 +62,30 @@ class NormalizeTests(unittest.TestCase):
 
     def test_explicit_number_unparseable_is_unresolved(self):
         """显式声明数值但无法解析 → unresolved（fail-closed）。"""
-        obs = _obs(subject="命题", predicate="等于", object="abc",
-                   qualifiers={"number": "not-a-number"})
+        obs = _obs(
+            subject="命题",
+            predicate="等于",
+            object="abc",
+            qualifiers={"number": "not-a-number"},
+        )
         self.assertTrue(obs.unresolved)
         self.assertEqual(obs.note, "number_unparseable")
 
 
 class PairCompareTests(unittest.TestCase):
     def test_same_proposition_supports_same(self):
-        a = _obs(subject="CPU 频率", predicate="等于", object="3.5 GHz",
-                 qualifiers={"version_range": ["v2.0", "v3.0"]})
-        b = _obs(subject="CPU 频率", predicate="等于", object="3.5 GHz",
-                 qualifiers={"version_range": ["v2.0", "v3.0"]})
+        a = _obs(
+            subject="CPU 频率",
+            predicate="等于",
+            object="3.5 GHz",
+            qualifiers={"version_range": ["v2.0", "v3.0"]},
+        )
+        b = _obs(
+            subject="CPU 频率",
+            predicate="等于",
+            object="3.5 GHz",
+            qualifiers={"version_range": ["v2.0", "v3.0"]},
+        )
         self.assertEqual(pair_compare(a, b)["result"], "supports_same")
 
     def test_opposite_predicate_conflicts(self):
@@ -74,7 +94,7 @@ class PairCompareTests(unittest.TestCase):
         self.assertEqual(pair_compare(a, b)["result"], "conflicts")
 
     def test_numeric_equal_across_units_supports(self):
-        """"2 GB" ≡ "2048 MB"：规范化后相等 → supports_same（无隐含容差，精确相等）。"""
+        """ "2 GB" ≡ "2048 MB"：规范化后相等 → supports_same（无隐含容差，精确相等）。"""
         a = _obs(subject="内存大小", predicate="等于", object="2 GB")
         b = _obs(subject="内存大小", predicate="等于", object="2048 MB")
         self.assertEqual(pair_compare(a, b)["result"], "supports_same")
@@ -86,10 +106,18 @@ class PairCompareTests(unittest.TestCase):
 
     def test_disjoint_version_ranges_version_scoped(self):
         """版本半开区间不相交 → version_scoped（不算冲突）。"""
-        a = _obs(subject="CPU 频率", predicate="等于", object="3.5 GHz",
-                 qualifiers={"version_range": ["v2.0", "v3.0"]})
-        b = _obs(subject="CPU 频率", predicate="等于", object="4.0 GHz",
-                 qualifiers={"version_range": ["v3.0", "v4.0"]})
+        a = _obs(
+            subject="CPU 频率",
+            predicate="等于",
+            object="3.5 GHz",
+            qualifiers={"version_range": ["v2.0", "v3.0"]},
+        )
+        b = _obs(
+            subject="CPU 频率",
+            predicate="等于",
+            object="4.0 GHz",
+            qualifiers={"version_range": ["v3.0", "v4.0"]},
+        )
         self.assertEqual(pair_compare(a, b)["result"], "version_scoped")
 
     def test_different_proposition_unresolved(self):
@@ -119,21 +147,15 @@ class AggregateTests(unittest.TestCase):
 
     def test_two_independent_groups_corroborated(self):
         """≥2 个不同独立组一致支持 → corroborated。"""
-        targets, sources = self._targets_and_sources(
-            {"s1": "g1", "s2": "g2"}
-        )
+        targets, sources = self._targets_and_sources({"s1": "g1", "s2": "g2"})
         obs = _obs(subject="命题", predicate="等于", object="值")
-        result = compute_corroboration(
-            targets, sources, {"e1": obs, "e2": obs}
-        )
+        result = compute_corroboration(targets, sources, {"e1": obs, "e2": obs})
         self.assertEqual(result["evidence_state"], "corroborated")
         self.assertEqual(result["independent_groups"], ["g1", "g2"])
 
     def test_same_group_duplicate_does_not_corroborate(self):
         """AC-F003-005：转载链（同组）不贡献独立佐证 → 仍 supported。"""
-        targets, sources = self._targets_and_sources(
-            {"s1": "g1", "s2": "g1"}
-        )
+        targets, sources = self._targets_and_sources({"s1": "g1", "s2": "g1"})
         obs = _obs(subject="命题", predicate="等于", object="值")
         result = compute_corroboration(targets, sources, {"e1": obs, "e2": obs})
         self.assertEqual(result["evidence_state"], "supported")
@@ -141,9 +163,7 @@ class AggregateTests(unittest.TestCase):
 
     def test_conflict_sets_review(self):
         """AC-F003-004：相交范围冲突 → conflicting + review，不得自动发布。"""
-        targets, sources = self._targets_and_sources(
-            {"s1": "g1", "s2": "g2"}
-        )
+        targets, sources = self._targets_and_sources({"s1": "g1", "s2": "g2"})
         result = compute_corroboration(
             targets,
             sources,
@@ -190,9 +210,7 @@ class AggregateTests(unittest.TestCase):
         同源转载的两条相反命题 → same_group_conflicts → unresolved，
         不落入 supported 回退分支（AC-F003-012：不能把冲突变 publishable）。
         """
-        targets, sources = self._targets_and_sources(
-            {"s1": "g1", "s2": "g1"}
-        )
+        targets, sources = self._targets_and_sources({"s1": "g1", "s2": "g1"})
         result = compute_corroboration(
             targets,
             sources,
@@ -207,11 +225,15 @@ class AggregateTests(unittest.TestCase):
     def test_time_range_disjoint_is_version_scoped(self):
         """⑤ 修复：time_range 用日期解析，时间不相交 → version_scoped 而非 conflicts。"""
         a = _obs(
-            subject="命题", predicate="等于", object="值",
+            subject="命题",
+            predicate="等于",
+            object="值",
             qualifiers={"time_range": ["2024-01-01", "2025-01-01"]},
         )
         b = _obs(
-            subject="命题", predicate="等于", object="值2",
+            subject="命题",
+            predicate="等于",
+            object="值2",
             qualifiers={"time_range": ["2025-01-01", "2026-01-01"]},
         )
         self.assertEqual(pair_compare(a, b)["result"], "version_scoped")
@@ -219,11 +241,15 @@ class AggregateTests(unittest.TestCase):
     def test_time_range_unparseable_unresolved(self):
         """⑤ 修复：时间边界无法解析 → unresolved（不得当作无边界放行）。"""
         a = _obs(
-            subject="命题", predicate="等于", object="值",
+            subject="命题",
+            predicate="等于",
+            object="值",
             qualifiers={"time_range": ["not-a-date", "2025-01-01"]},
         )
         b = _obs(
-            subject="命题", predicate="等于", object="值2",
+            subject="命题",
+            predicate="等于",
+            object="值2",
             qualifiers={"time_range": ["2025-01-01", "2026-01-01"]},
         )
         self.assertEqual(pair_compare(a, b)["result"], "unresolved")
@@ -243,12 +269,8 @@ class AggregateTests(unittest.TestCase):
 
     def test_unstructurable_observation_unresolved(self):
         """无法结构化的引文不参与 corroboration → unresolved。"""
-        targets, sources = self._targets_and_sources(
-            {"s1": "g1", "s2": "g2"}
-        )
-        result = compute_corroboration(
-            targets, sources, {"e1": None, "e2": None}
-        )
+        targets, sources = self._targets_and_sources({"s1": "g1", "s2": "g2"})
+        result = compute_corroboration(targets, sources, {"e1": None, "e2": None})
         self.assertEqual(result["evidence_state"], "unresolved")
 
 

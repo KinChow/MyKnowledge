@@ -17,8 +17,8 @@ from pathlib import Path
 from tools.backup import BackupManager
 from tools.doctor import main as doctor_main
 from tools.evidence_anchor import main as anchor_main
-from tools.inventory_legacy import main as inventory_main
 from tools.ingest.source_ingestor import main as source_main
+from tools.inventory_legacy import main as inventory_main
 from tools.migrate_legacy import main as migrate_main
 from tools.public_projection import PublicProjectionGenerator
 from tools.question import QuestionStore
@@ -26,7 +26,8 @@ from tools.validation.audit import main as audit_main
 from tools.validation.confirm import main as confirm_main
 from tools.validation.validator import main as validate_main
 from tools.vault_lock import VaultLock
-from tools.vault_registry import VaultRegistry, main as vault_main
+from tools.vault_registry import VaultRegistry
+from tools.vault_registry import main as vault_main
 from tools.vault_transfer import VaultTransfer
 from tools.write_operation import WriteOperation
 
@@ -42,15 +43,27 @@ def write_main(argv: list[str]) -> int:
     """Minimal JSON interface for generic F004 write operations."""
     parser = argparse.ArgumentParser(description="Preview/apply generic writes")
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--files", type=Path, help="JSON object mapping relative paths to UTF-8 content")
+    parser.add_argument(
+        "--files", type=Path, help="JSON object mapping relative paths to UTF-8 content"
+    )
     parser.add_argument("--apply")
-    parser.add_argument("--confirmation", type=Path, help="operation-confirmation/v1 event JSON (see confirm-apply)")
+    parser.add_argument(
+        "--confirmation",
+        type=Path,
+        help="operation-confirmation/v1 event JSON (see confirm-apply)",
+    )
     parser.add_argument("--confirm", action="store_true")
     args = parser.parse_args(argv)
     service = WriteOperation(args.root)
-    confirmation = json.loads(args.confirmation.read_text(encoding="utf-8")) if args.confirmation else None
+    confirmation = (
+        json.loads(args.confirmation.read_text(encoding="utf-8"))
+        if args.confirmation
+        else None
+    )
     if args.apply:
-        _print_json(service.apply(args.apply, confirmed=args.confirm, confirmation=confirmation))
+        _print_json(
+            service.apply(args.apply, confirmed=args.confirm, confirmation=confirmation)
+        )
     elif args.files:
         _print_json(service.preview(json.loads(args.files.read_text(encoding="utf-8"))))
     else:
@@ -69,14 +82,22 @@ def confirm_apply_main(argv: list[str]) -> int:
     parser.add_argument("operation_id")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--actor-id", required=True)
-    parser.add_argument("--scope", choices=["apply", "publish_private"], default="apply")
+    parser.add_argument(
+        "--scope", choices=["apply", "publish_private"], default="apply"
+    )
     parser.add_argument("--content-sha256", help="required for publish_private")
     parser.add_argument("--evidence-sha256", help="required for publish_private")
-    parser.add_argument("--out", type=Path, help="optional: write event JSON to file instead of stdout")
+    parser.add_argument(
+        "--out", type=Path, help="optional: write event JSON to file instead of stdout"
+    )
     args = parser.parse_args(argv)
     event, error = build_apply_confirmation(
-        OperationStore(args.root), args.operation_id, args.actor_id,
-        scope=args.scope, content_sha256=args.content_sha256, evidence_sha256=args.evidence_sha256,
+        OperationStore(args.root),
+        args.operation_id,
+        args.actor_id,
+        scope=args.scope,
+        content_sha256=args.content_sha256,
+        evidence_sha256=args.evidence_sha256,
     )
     if error is not None:
         _print_json({"state": "blocked", "error_code": error})
@@ -84,20 +105,32 @@ def confirm_apply_main(argv: list[str]) -> int:
     payload = json.dumps(event, ensure_ascii=False, indent=2) + "\n"
     if args.out:
         args.out.write_text(payload, encoding="utf-8")
-        _print_json({"state": "created", "path": str(args.out), "event_sha256": event["event_sha256"]})
+        _print_json(
+            {
+                "state": "created",
+                "path": str(args.out),
+                "event_sha256": event["event_sha256"],
+            }
+        )
     else:
         print(payload, end="")
     return 0
 
 
 def local_projection_main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Materialize the owner-aware local/private projection")
+    parser = argparse.ArgumentParser(
+        description="Materialize the owner-aware local/private projection"
+    )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--scope", choices=["local", "private"], default="local")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
-    _print_json(VaultRegistry(args.root, args.manifest).write_local_projection(args.scope, args.output))
+    _print_json(
+        VaultRegistry(args.root, args.manifest).write_local_projection(
+            args.scope, args.output
+        )
+    )
     return 0
 
 
@@ -106,20 +139,36 @@ def query_main(argv: list[str]) -> int:
     from tools.indexing import Retriever, default_public_index_path
     from tools.projection import PublicProjectionStore
 
-    parser = argparse.ArgumentParser(description="Query the validated public projection")
+    parser = argparse.ArgumentParser(
+        description="Query the validated public projection"
+    )
     parser.add_argument("query")
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--scope", choices=["public", "local", "private"], default="public")
+    parser.add_argument(
+        "--scope", choices=["public", "local", "private"], default="public"
+    )
     parser.add_argument("--vault-ids", default=None)
-    parser.add_argument("--index", type=Path, default=None, help="FTS5 index path (default: state/index/public.sqlite3 when present)")
+    parser.add_argument(
+        "--index",
+        type=Path,
+        default=None,
+        help="FTS5 index path (default: state/index/public.sqlite3 when present)",
+    )
     parser.add_argument("--top-k", type=int, default=8)
     args = parser.parse_args(argv)
     if args.scope != "public":
-        _print_json({"state": "blocked", "error_code": "query_scope_requires_api"}, compact=True)
+        _print_json(
+            {"state": "blocked", "error_code": "query_scope_requires_api"}, compact=True
+        )
         return 2
     items = PublicProjectionStore(args.root).public_items(with_body=True)
     index_path = args.index or default_public_index_path(args.root)
-    _print_json(Retriever(items, index_path=index_path).search(args.query, "public", args.top_k), compact=True)
+    _print_json(
+        Retriever(items, index_path=index_path).search(
+            args.query, "public", args.top_k
+        ),
+        compact=True,
+    )
     return 0
 
 
@@ -127,10 +176,14 @@ def index_main(argv: list[str]) -> int:
     from tools.indexing import SQLiteIndex
     from tools.projection import PublicProjectionStore
 
-    parser = argparse.ArgumentParser(description="Build or recover the projection SQLite index")
+    parser = argparse.ArgumentParser(
+        description="Build or recover the projection SQLite index"
+    )
     parser.add_argument("action", choices=["rebuild", "recover"])
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--scope", choices=["public", "local", "private"], default="public")
+    parser.add_argument(
+        "--scope", choices=["public", "local", "private"], default="public"
+    )
     parser.add_argument("--index", type=Path, required=True)
     args = parser.parse_args(argv)
     if args.scope == "public":
@@ -138,7 +191,11 @@ def index_main(argv: list[str]) -> int:
     else:
         items = VaultRegistry(args.root).local_projection(args.scope)["items"]
     index = SQLiteIndex(args.index)
-    result = index.rebuild(items, args.scope) if args.action == "rebuild" else index.recover(items, args.scope)
+    result = (
+        index.rebuild(items, args.scope)
+        if args.action == "rebuild"
+        else index.recover(items, args.scope)
+    )
     _print_json(result)
     return 0 if result.get("state") not in {"failed"} else 2
 
@@ -146,12 +203,16 @@ def index_main(argv: list[str]) -> int:
 def projection_read_main(argv: list[str]) -> int:
     from tools.skill_runtime import dispatch
 
-    parser = argparse.ArgumentParser(description="Read one object from the validated public projection")
+    parser = argparse.ArgumentParser(
+        description="Read one object from the validated public projection"
+    )
     parser.add_argument("object_id")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--vault-id", default="public")
     args = parser.parse_args(argv)
-    result = dispatch("read", {"vault_id": args.vault_id, "object_id": args.object_id}, root=args.root)
+    result = dispatch(
+        "read", {"vault_id": args.vault_id, "object_id": args.object_id}, root=args.root
+    )
     _print_json(result, compact=True)
     return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
 
@@ -159,12 +220,18 @@ def projection_read_main(argv: list[str]) -> int:
 def projection_backlinks_main(argv: list[str]) -> int:
     from tools.skill_runtime import dispatch
 
-    parser = argparse.ArgumentParser(description="List backlinks from the validated public projection")
+    parser = argparse.ArgumentParser(
+        description="List backlinks from the validated public projection"
+    )
     parser.add_argument("object_id")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--vault-id", default="public")
     args = parser.parse_args(argv)
-    result = dispatch("backlinks", {"vault_id": args.vault_id, "object_id": args.object_id}, root=args.root)
+    result = dispatch(
+        "backlinks",
+        {"vault_id": args.vault_id, "object_id": args.object_id},
+        root=args.root,
+    )
     _print_json(result, compact=True)
     return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
 
@@ -177,13 +244,26 @@ def lock_main(argv: list[str]) -> int:
     parser.add_argument("--operation-id", required=True)
     parser.add_argument("--actor-id", default="local-user")
     args = parser.parse_args(argv)
-    _print_json(VaultLock.recover(args.root, args.vault_id, args.operation_id, args.actor_id))
+    _print_json(
+        VaultLock.recover(args.root, args.vault_id, args.operation_id, args.actor_id)
+    )
     return 0
 
 
 def backup_main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Local backup status/manifest")
-    parser.add_argument("action", choices=["status", "manifest", "verify", "restore", "export", "export-bundle", "restore-bundle"])
+    parser.add_argument(
+        "action",
+        choices=[
+            "status",
+            "manifest",
+            "verify",
+            "restore",
+            "export",
+            "export-bundle",
+            "restore-bundle",
+        ],
+    )
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--vault-id", default="public")
     parser.add_argument("--manifest", type=Path)
@@ -191,7 +271,10 @@ def backup_main(argv: list[str]) -> int:
     parser.add_argument("--target-vault-id")
     args = parser.parse_args(argv)
     from tools.question import practice_integrity_check
-    manager = BackupManager(args.root, extra_verifiers={"practice": practice_integrity_check})
+
+    manager = BackupManager(
+        args.root, extra_verifiers={"practice": practice_integrity_check}
+    )
     if args.action == "status":
         result = manager.status()
     elif args.action == "manifest":
@@ -214,7 +297,9 @@ def backup_main(argv: list[str]) -> int:
                 parser.error("--target is required for restore-bundle")
             if not args.target_vault_id:
                 parser.error("--target-vault-id is required for restore-bundle")
-            result = manager.restore_bundle_to_vault(args.manifest, args.target, args.target_vault_id)
+            result = manager.restore_bundle_to_vault(
+                args.manifest, args.target, args.target_vault_id
+            )
         else:
             if not args.target:
                 parser.error("--target is required for restore")
@@ -237,7 +322,9 @@ def question_main(argv: list[str]) -> int:
     if args.action == "create":
         if not args.spec:
             parser.error("--spec is required")
-        result = store.create(json.loads(args.spec.read_text(encoding="utf-8")), wiki_path=args.wiki)
+        result = store.create(
+            json.loads(args.spec.read_text(encoding="utf-8")), wiki_path=args.wiki
+        )
     elif args.action == "answer":
         result = store.answer(args.question_id, json.loads(args.response))
     else:
@@ -247,7 +334,9 @@ def question_main(argv: list[str]) -> int:
 
 
 def transfer_main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Preview/apply explicit cross-vault copy or move")
+    parser = argparse.ArgumentParser(
+        description="Preview/apply explicit cross-vault copy or move"
+    )
     parser.add_argument("action", choices=["preview", "apply"])
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--manifest", type=Path)
@@ -257,25 +346,46 @@ def transfer_main(argv: list[str]) -> int:
     parser.add_argument("--target-path")
     parser.add_argument("--operation-id")
     parser.add_argument("--move", action="store_true")
-    parser.add_argument("--confirmation", type=Path, help="operation-confirmation/v1 event JSON")
+    parser.add_argument(
+        "--confirmation", type=Path, help="operation-confirmation/v1 event JSON"
+    )
     parser.add_argument("--confirm", action="store_true")
     args = parser.parse_args(argv)
     service = VaultTransfer(args.root, args.manifest)
     if args.action == "preview":
-        required = (args.source_vault, args.source_path, args.target_vault, args.target_path)
+        required = (
+            args.source_vault,
+            args.source_path,
+            args.target_vault,
+            args.target_path,
+        )
         if any(value is None for value in required):
             parser.error("preview requires source/target vault and path")
-        result = service.preview(args.source_vault, args.source_path, args.target_vault, args.target_path, move=args.move)
+        result = service.preview(
+            args.source_vault,
+            args.source_path,
+            args.target_vault,
+            args.target_path,
+            move=args.move,
+        )
     else:
         if not args.operation_id:
             parser.error("apply requires --operation-id")
-        result = service.apply(args.operation_id, confirmed=args.confirm, confirmation=json.loads(args.confirmation.read_text(encoding="utf-8")) if args.confirmation else None)
+        result = service.apply(
+            args.operation_id,
+            confirmed=args.confirm,
+            confirmation=json.loads(args.confirmation.read_text(encoding="utf-8"))
+            if args.confirmation
+            else None,
+        )
     _print_json(result)
     return 0 if result.get("state") not in {"blocked", "expired"} else 2
 
 
 def projection_main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Generate the validated public projection manifest")
+    parser = argparse.ArgumentParser(
+        description="Generate the validated public projection manifest"
+    )
     parser.add_argument("action", choices=["generate"])
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--output", type=Path)
@@ -292,7 +402,9 @@ def skill_main(argv: list[str]) -> int:
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--payload", type=Path)
     args = parser.parse_args(argv)
-    payload = json.loads(args.payload.read_text(encoding="utf-8")) if args.payload else {}
+    payload = (
+        json.loads(args.payload.read_text(encoding="utf-8")) if args.payload else {}
+    )
     _print_json(dispatch(args.action, payload, root=args.root))
     return 0
 

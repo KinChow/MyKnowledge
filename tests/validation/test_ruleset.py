@@ -10,8 +10,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.validation import ruleset
 from wiki_fixtures import _install_spec_doc
+
+from tools.validation import ruleset
 
 
 class RulesetTests(unittest.TestCase):
@@ -61,9 +62,7 @@ class RulesetTests(unittest.TestCase):
         """② 修复：config/policy.yaml 的 rule_ids 为运行时配置事实源。"""
         # 复制仓库真实 policy.yaml（fixture 来自真实产物）
         repo_policy = (
-            Path(__file__).resolve().parent.parent.parent
-            / "config"
-            / "policy.yaml"
+            Path(__file__).resolve().parent.parent.parent / "config" / "policy.yaml"
         )
         policy_target = self.root / "config" / "policy.yaml"
         policy_target.parent.mkdir(parents=True, exist_ok=True)
@@ -84,7 +83,10 @@ class RulesetTests(unittest.TestCase):
         before = ruleset.load_ruleset(self.root)["ruleset_sha256"]
         doc = self.root / "docs" / "myknowledge-system-design.md"
         text = doc.read_text(encoding="utf-8")
-        doc.write_text(text.replace("规范化步骤按顺序执行", "规范化步骤按固定顺序执行"), encoding="utf-8")
+        doc.write_text(
+            text.replace("规范化步骤按顺序执行", "规范化步骤按固定顺序执行"),
+            encoding="utf-8",
+        )
         after = ruleset.load_ruleset(self.root)["ruleset_sha256"]
         self.assertNotEqual(before, after)
 
@@ -93,7 +95,9 @@ class RulesetTests(unittest.TestCase):
         loaded = ruleset.load_ruleset(self.root / "nonexistent")
         self.assertEqual(loaded["rule_refs"], [])
         self.assertIsNone(loaded["ruleset_sha256"])
-        self.assertTrue(any(e["code"] == "ruleset_doc_unreadable" for e in loaded["errors"]))
+        self.assertTrue(
+            any(e["code"] == "ruleset_doc_unreadable" for e in loaded["errors"])
+        )
 
     def test_unknown_spec_id_rejected(self):
         """未知 spec ID 不静默跳过：返回 ruleset_spec_unknown。"""

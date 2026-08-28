@@ -2,25 +2,12 @@
 
 from __future__ import annotations
 
-import json
-import tempfile
-import unittest
-from pathlib import Path
-
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
-from tools.front_matter import FrontMatter
-from tools.validation import WIKI_SCHEMA_VERSION, WikiValidator
 from wiki_fixtures import (
-    QUOTE_EXACT,
-    SOURCE_BODY,
-    WIKI_BODY,
     WikiTestCase,
     _base_wiki,
-    _evidence_item,
-    _make_source,
-    _write_wiki,
-    root_replace,
 )
+
+from tools.validation import WIKI_SCHEMA_VERSION
 
 
 class WikiValidatorTests(WikiTestCase):
@@ -45,4 +32,3 @@ class WikiValidatorTests(WikiTestCase):
         self.assertEqual(again["hashes"], report["hashes"])
         self.assertRegex(report["hashes"]["content_sha256"], r"^sha256:[0-9a-f]{64}$")
         self.assertRegex(report["hashes"]["evidence_sha256"], r"^sha256:[0-9a-f]{64}$")
-

@@ -74,15 +74,12 @@ def check_schema(metadata: dict, schema: dict) -> list[dict]:
         return [{"code": "validator_unavailable", "path": "_schema"}]
     validator = Draft202012Validator(schema)
     errors: list[dict] = []
-    for error in sorted(
-        validator.iter_errors(metadata), key=lambda e: list(e.path)
-    ):
+    for error in sorted(validator.iter_errors(metadata), key=lambda e: list(e.path)):
         if error.validator == "additionalProperties":
             errors.append(
                 {
                     "code": "unknown_field",
-                    "path": ".".join(str(p) for p in error.path)
-                    or error.message,
+                    "path": ".".join(str(p) for p in error.path) or error.message,
                     "reason": error.message,
                 }
             )

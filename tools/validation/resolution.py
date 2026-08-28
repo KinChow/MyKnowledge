@@ -27,14 +27,15 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
     errors: list[dict] = []
     hits = glob_without_symlinks(paths.sources_root, f"*/{source_id}.md")
     if not hits:
-        errors.append(
-            {"code": "source_not_found", "path": f"sources.{source_id}"}
-        )
+        errors.append({"code": "source_not_found", "path": f"sources.{source_id}"})
         return None, errors
     if len(hits) > 1:
         errors.append(
-            {"code": "source_ambiguous", "path": f"sources.{source_id}",
-             "reason": f"多个 source 匹配: {', '.join(str(h) for h in hits)}"}
+            {
+                "code": "source_ambiguous",
+                "path": f"sources.{source_id}",
+                "reason": f"多个 source 匹配: {', '.join(str(h) for h in hits)}",
+            }
         )
         return None, errors
     try:
@@ -42,8 +43,11 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
         metadata, _ = FrontMatter.parse(text)
     except (OSError, UnicodeError, ValueError, TypeError) as exc:
         errors.append(
-            {"code": "source_unreadable", "path": f"sources.{source_id}",
-             "reason": str(exc)}
+            {
+                "code": "source_unreadable",
+                "path": f"sources.{source_id}",
+                "reason": str(exc),
+            }
         )
         return None, errors
     # evidence item 键名兼容（F001）：F001 evidence_anchor 产物键为
@@ -53,8 +57,11 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
     for item in metadata.get("evidence_items") or []:
         if not isinstance(item, dict):
             errors.append(
-                {"code": "source_unreadable", "path": f"sources.{source_id}",
-                 "reason": "evidence_items 含非对象条目"}
+                {
+                    "code": "source_unreadable",
+                    "path": f"sources.{source_id}",
+                    "reason": "evidence_items 含非对象条目",
+                }
             )
             continue
         item_id = item.get("evidence_id") or item.get("id")
@@ -62,8 +69,11 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
             continue
         if not isinstance(item.get("snapshot_sha256"), str):
             errors.append(
-                {"code": "source_unreadable", "path": f"sources.{source_id}",
-                 "reason": f"evidence item {item_id} 的 snapshot_sha256 非字符串"}
+                {
+                    "code": "source_unreadable",
+                    "path": f"sources.{source_id}",
+                    "reason": f"evidence item {item_id} 的 snapshot_sha256 非字符串",
+                }
             )
             continue
         position = item.get("position")
@@ -73,19 +83,31 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
             and isinstance(position.get("end"), int)
         ):
             errors.append(
-                {"code": "source_unreadable", "path": f"sources.{source_id}",
-                 "reason": f"evidence item {item_id} 的 position 非法"}
+                {
+                    "code": "source_unreadable",
+                    "path": f"sources.{source_id}",
+                    "reason": f"evidence item {item_id} 的 position 非法",
+                }
             )
             continue
         if item_id in items:
-            errors.append({"code": "duplicate_evidence_id", "path": f"sources.{source_id}.evidence_items.{item_id}", "reason": "同一 Source 内 evidence_id 必须唯一"})
+            errors.append(
+                {
+                    "code": "duplicate_evidence_id",
+                    "path": f"sources.{source_id}.evidence_items.{item_id}",
+                    "reason": "同一 Source 内 evidence_id 必须唯一",
+                }
+            )
             continue
         items[item_id] = item
     return {"metadata": metadata, "evidence_items": items, "path": hits[0]}, errors
 
 
 def resolve_and_verify(
-    metadata: dict, evidence: list[dict], paths, quote_min_chars: int,
+    metadata: dict,
+    evidence: list[dict],
+    paths,
+    quote_min_chars: int,
     owner_vault_id: str = OWNER_VAULT_ID,
 ) -> dict:
     """解析全部 claim target 并校验 supporting_quotes；结果供派生字段计算。"""
@@ -115,14 +137,19 @@ def resolve_and_verify(
             evidence_id = target.get("evidence_id")
             if source_id not in declared_sources:
                 errors.append(
-                    {"code": "source_not_declared", "path": f"evidence.{claim_id}",
-                     "reason": f"target 引用了未在 sources 声明的 source: {source_id}"}
+                    {
+                        "code": "source_not_declared",
+                        "path": f"evidence.{claim_id}",
+                        "reason": f"target 引用了未在 sources 声明的 source: {source_id}",
+                    }
                 )
             if target.get("vault_id") and target["vault_id"] != owner_vault_id:
                 errors.append(
-                    {"code": "cross_vault_reference",
-                     "path": f"evidence.{claim_id}.targets.{source_id}",
-                     "reason": f"显式跨 Vault target 被拒绝: vault={target['vault_id']}"}
+                    {
+                        "code": "cross_vault_reference",
+                        "path": f"evidence.{claim_id}.targets.{source_id}",
+                        "reason": f"显式跨 Vault target 被拒绝: vault={target['vault_id']}",
+                    }
                 )
             source = sources.get(source_id)
             if source is None:
@@ -134,9 +161,11 @@ def resolve_and_verify(
             item = source["evidence_items"].get(evidence_id)
             if item is None:
                 errors.append(
-                    {"code": "evidence_not_found",
-                     "path": f"evidence.{claim_id}.targets.{source_id}",
-                     "reason": f"source {source_id} 中没有 evidence item: {evidence_id}"}
+                    {
+                        "code": "evidence_not_found",
+                        "path": f"evidence.{claim_id}.targets.{source_id}",
+                        "reason": f"source {source_id} 中没有 evidence item: {evidence_id}",
+                    }
                 )
                 continue
             resolved_targets.append(
@@ -165,20 +194,24 @@ def resolve_and_verify(
             allowed_origins = SUPPORT_ORIGIN_MATRIX.get(support)
             if allowed_origins is not None and source_origin not in allowed_origins:
                 errors.append(
-                    {"code": "support_origin_mismatch",
-                     "path": f"evidence.{claim_id}",
-                     "reason": (
-                         f"support: {support} 不允许 origin: {source_origin} "
-                         f"的 source（§6.5 兼容矩阵）"
-                     )}
+                    {
+                        "code": "support_origin_mismatch",
+                        "path": f"evidence.{claim_id}",
+                        "reason": (
+                            f"support: {support} 不允许 origin: {source_origin} "
+                            f"的 source（§6.5 兼容矩阵）"
+                        ),
+                    }
                 )
             # 引文逐字校验（§6.9）
             exact = quotes.get(evidence_id)
             if exact is None:
                 errors.append(
-                    {"code": "quote_missing",
-                     "path": f"evidence.{claim_id}",
-                     "reason": f"target {source_id}/{evidence_id} 缺少 supporting_quotes.exact"}
+                    {
+                        "code": "quote_missing",
+                        "path": f"evidence.{claim_id}",
+                        "reason": f"target {source_id}/{evidence_id} 缺少 supporting_quotes.exact",
+                    }
                 )
                 continue
             quote_error = verify_quote(item, exact, paths, quote_min_chars)
@@ -202,9 +235,7 @@ def resolve_and_verify(
     }
 
 
-def read_snapshot_scope(
-    evidence_item: dict, paths
-) -> tuple[str | None, str | None]:
+def read_snapshot_scope(evidence_item: dict, paths) -> tuple[str | None, str | None]:
     """读取 evidence item 的 snapshot 并限定 TextPositionSelector 范围。
 
     §6.9：匹配目标必须是 selector 限定的 snapshot 范围；返回
@@ -242,28 +273,30 @@ def verify_quote(
     scope, scope_error = read_snapshot_scope(evidence_item, paths)
     if scope_error == "snapshot_missing":
         return {
-            "code": "snapshot_missing", "path": "evidence",
+            "code": "snapshot_missing",
+            "path": "evidence",
             "reason": f"snapshot 缺失或不可读: {evidence_item.get('snapshot_sha256')}",
         }
     if scope_error == "selector_unresolved":
         return {
-            "code": "selector_unresolved", "path": "evidence",
-            "reason": (
-                "evidence item 缺少 TextPositionSelector，无法限定匹配范围"
-            ),
+            "code": "selector_unresolved",
+            "path": "evidence",
+            "reason": ("evidence item 缺少 TextPositionSelector，无法限定匹配范围"),
         }
     canon_scope = canonical_quote(scope)
     canon_exact = canonical_quote(exact)
     if len(canon_exact) < quote_min_chars:
         return {
-            "code": "quote_too_short", "path": "evidence",
+            "code": "quote_too_short",
+            "path": "evidence",
             "reason": f"规范化引文长度 {len(canon_exact)} < quote_min_chars {quote_min_chars}",
         }
     if canon_exact not in canon_scope:
         matcher = difflib.SequenceMatcher(None, canon_scope, canon_exact)
         block = matcher.find_longest_match(0, len(canon_scope), 0, len(canon_exact))
         return {
-            "code": "quote_mismatch", "path": "evidence",
+            "code": "quote_mismatch",
+            "path": "evidence",
             "reason": (
                 f"引文未在 target 指向的 snapshot 范围内逐字命中。"
                 f"snapshot_sha256={evidence_item.get('snapshot_sha256')} "

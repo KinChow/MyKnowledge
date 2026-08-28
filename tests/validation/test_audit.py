@@ -12,17 +12,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.common import sha256_text
-from tools.validation.audit import (
-    AuditBlocked,
-    check_coverage,
-    provider_allows_request,
-    run_audit,
-)
-from tools.validation.confirm import ConfirmationBlocked, create_confirmation
-from tools.validation.derived import SCHEMA_VERSION
-from tools.validation.provider import ProviderResult, build_input_hash
-from tools.validation.validator import WikiValidator
 from wiki_fixtures import (
     QUOTE_EXACT,
     SOURCE_BODY,
@@ -34,11 +23,23 @@ from wiki_fixtures import (
     _write_wiki,
 )
 
+from tools.validation.audit import (
+    AuditBlocked,
+    provider_allows_request,
+    run_audit,
+)
+from tools.validation.confirm import ConfirmationBlocked, create_confirmation
+from tools.validation.derived import SCHEMA_VERSION
+from tools.validation.provider import ProviderResult, build_input_hash
+from tools.validation.validator import WikiValidator
+
 
 class FakeProvider:
     """mock structured-output provider：固定 payload 或固定错误码。"""
 
-    def __init__(self, payload: dict | None = None, error_code: str | None = None) -> None:
+    def __init__(
+        self, payload: dict | None = None, error_code: str | None = None
+    ) -> None:
         self.payload = payload
         self.error_code = error_code
         self.calls: list[dict] = []
@@ -48,8 +49,11 @@ class FakeProvider:
         input_hash = build_input_hash(request)
         if self.error_code is not None:
             return ProviderResult(
-                "fake", "call_test", input_hash,
-                error_code=self.error_code, error_message="fake error",
+                "fake",
+                "call_test",
+                input_hash,
+                error_code=self.error_code,
+                error_message="fake error",
             )
         return ProviderResult("fake", "call_test", input_hash, payload=self.payload)
 
@@ -73,8 +77,12 @@ def _payload(
                 "applied_rule_refs": ["VAL-001"],
                 "rationale": f"引文 {idx + 1} 支持该论断",
                 "rationale_offsets": [
-                    {"source_id": "test-source", "evidence_id": "e1",
-                     "start": 0, "end": min(10, len(exact))}
+                    {
+                        "source_id": "test-source",
+                        "evidence_id": "e1",
+                        "start": 0,
+                        "end": min(10, len(exact)),
+                    }
                 ],
             }
         )
@@ -135,9 +143,7 @@ class AuditTests(AuditSetup):
         self.assertEqual(outcome["validation_state"], "not_run")
         self.assertEqual(outcome["not_run_reason"], "provider_unavailable")
         self.assertEqual(self.provider.calls, [])
-        report_text = "\n".join(
-            p.read_text(encoding="utf-8") for p in self._reports()
-        )
+        report_text = "\n".join(p.read_text(encoding="utf-8") for p in self._reports())
         self.assertNotIn(SOURCE_BODY, report_text)
         self.assertNotIn("endpoint", report_text.lower())
         self.assertNotIn("api_key", report_text.lower())
@@ -201,6 +207,7 @@ class AuditTests(AuditSetup):
         class TimeoutProvider(FakeProvider):
             def audit(self, request: dict, response_schema: dict) -> ProviderResult:
                 raise TimeoutError("deadline")
+
         outcome = run_audit(self.root, self.wiki_path, TimeoutProvider())
         self.assertEqual(outcome["validation_state"], "not_run")
         self.assertEqual(outcome["not_run_reason"], "context_exceeded")
@@ -232,7 +239,12 @@ class AuditTests(AuditSetup):
                 "applied_rule_refs": ["VAL-001"],
                 "rationale": "额外 claim 不属于本次请求",
                 "rationale_offsets": [
-                    {"source_id": "test-source", "evidence_id": "e1", "start": 0, "end": 10}
+                    {
+                        "source_id": "test-source",
+                        "evidence_id": "e1",
+                        "start": 0,
+                        "end": 10,
+                    }
                 ],
             }
         )
@@ -388,17 +400,25 @@ class AuditTests(AuditSetup):
             {"source_id": "src-b", "evidence_id": "e2", "start": 0, "end": 10},
         ]
         claim["observations"] = [
-            {"evidence_id": "e1", "subject": "命题", "predicate": "等于", "object": "值"},
-            {"evidence_id": "e2", "subject": "命题", "predicate": "不等于", "object": "值"},
+            {
+                "evidence_id": "e1",
+                "subject": "命题",
+                "predicate": "等于",
+                "object": "值",
+            },
+            {
+                "evidence_id": "e2",
+                "subject": "命题",
+                "predicate": "不等于",
+                "object": "值",
+            },
         ]
         provider = FakeProvider(payload=payload)
         outcome = run_audit(root, wiki_path, provider)
         # 模型逐条 supported → 顶层 verdict pass；但 observation 冲突 →
         # corroboration conflicting（确定性证据链矛盾，阻断发布）
         self.assertEqual(outcome["verdict"], "pass")
-        self.assertEqual(
-            outcome["corroboration"]["evidence_state"], "conflicting"
-        )
+        self.assertEqual(outcome["corroboration"]["evidence_state"], "conflicting")
         report = WikiValidator(root).validate(wiki_path)
         self.assertEqual(report["derived"]["evidence_state"], "conflicting")
         self.assertFalse(report["derived"]["private_publishable"])
@@ -446,16 +466,12 @@ class ConfirmTests(AuditSetup):
             self.root,
             _base_wiki(status="published", publication_scope="private"),
         )
+
     def test_confirm_writes_dual_paths(self):
         """AC-F003-007：确认写入 audit/validation/ + operation 记录。"""
         create_confirmation(self.root, self.wiki_path, actor_id="local-user")
-        validation_dir = (
-            self.root / "audit" / "validation" / "wiki" / "test-wiki"
-        )
-        confirmation_files = [
-            p for p in validation_dir.glob("*.json")
-            if "confirmation" not in p.name
-        ]
+        validation_dir = self.root / "audit" / "validation" / "wiki" / "test-wiki"
+        [p for p in validation_dir.glob("*.json") if "confirmation" not in p.name]
         # 确认记录 schema_version: operation-confirmation/v1
         confirmations = []
         for p in validation_dir.glob("*.json"):
@@ -497,7 +513,9 @@ class ConfirmTests(AuditSetup):
         create_confirmation(self.root, self.wiki_path, actor_id="local-user")
         wiki_path = self.wiki_path
         text = wiki_path.read_text(encoding="utf-8")
-        wiki_path.write_text(text.replace("# 测试主题", "# 测试主题改"), encoding="utf-8")
+        wiki_path.write_text(
+            text.replace("# 测试主题", "# 测试主题改"), encoding="utf-8"
+        )
         report = WikiValidator(self.root).validate(wiki_path)
         self.assertFalse(report["derived"]["private_publishable"])
         self.assertEqual(report["derived"]["validation_state"], "not_run")

@@ -2,25 +2,15 @@
 
 from __future__ import annotations
 
-import json
 import tempfile
-import unittest
 from pathlib import Path
 
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
-from tools.front_matter import FrontMatter
-from tools.validation import WIKI_SCHEMA_VERSION, WikiValidator
 from wiki_fixtures import (
-    QUOTE_EXACT,
-    SOURCE_BODY,
-    WIKI_BODY,
     WikiTestCase,
     _base_wiki,
-    _evidence_item,
-    _make_source,
-    _write_wiki,
-    root_replace,
 )
+
+from tools.validation import WikiValidator
 
 
 class SchemaTests(WikiTestCase):
@@ -29,7 +19,10 @@ class SchemaTests(WikiTestCase):
             root = Path(directory)
             wiki = root / "wiki" / "planned.md"
             wiki.parent.mkdir(parents=True)
-            wiki.write_text("---\nschema_version: wiki/v1\nid: planned\ntitle: Planned\ndomain: tools\nkind: reference\nstatus: planned\n---\n", encoding="utf-8")
+            wiki.write_text(
+                "---\nschema_version: wiki/v1\nid: planned\ntitle: Planned\ndomain: tools\nkind: reference\nstatus: planned\n---\n",
+                encoding="utf-8",
+            )
             report = WikiValidator(root, vault_id="team-internal").validate(wiki)
             assert report["object_ref"]["vault_id"] == "team-internal"
 
@@ -52,9 +45,7 @@ class SchemaTests(WikiTestCase):
                     "derived_field_mismatch",
                     [e["code"] for e in report["errors"]],
                 )
-                self.assertTrue(
-                    any(e["path"] == field for e in report["errors"])
-                )
+                self.assertTrue(any(e["path"] == field for e in report["errors"]))
 
     def test_executable_schema_rejects_unknown_and_wrong_version(self):
         """AC-F002-007：未知字段、错误 schema version、类型错误被字段级拒绝。"""
@@ -64,21 +55,19 @@ class SchemaTests(WikiTestCase):
         self.assertFalse(report["valid"])
         self.assertIn("unknown_field", [e["code"] for e in report["errors"]])
         # 错误 schema version → wrong_schema_version
-        wiki_path, validator = self._fixture(
-            _base_wiki(schema_version="wiki/v2")
-        )
+        wiki_path, validator = self._fixture(_base_wiki(schema_version="wiki/v2"))
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertIn(
-            "wrong_schema_version", [e["code"] for e in report["errors"]]
-        )
+        self.assertIn("wrong_schema_version", [e["code"] for e in report["errors"]])
         # 类型错误（tags 应为数组）→ schema_invalid + keyword
         wiki_path, validator = self._fixture(_base_wiki(tags="not-a-list"))
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
         self.assertTrue(
-            any(e["code"] == "schema_invalid" and e.get("keyword") == "type"
-                for e in report["errors"])
+            any(
+                e["code"] == "schema_invalid" and e.get("keyword") == "type"
+                for e in report["errors"]
+            )
         )
         # 缺失必填 → schema_invalid
         wiki = _base_wiki()
@@ -86,6 +75,4 @@ class SchemaTests(WikiTestCase):
         wiki_path, validator = self._fixture(wiki)
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertTrue(
-            any(e["code"] == "schema_invalid" for e in report["errors"])
-        )
+        self.assertTrue(any(e["code"] == "schema_invalid" for e in report["errors"]))

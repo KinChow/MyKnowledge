@@ -2,10 +2,6 @@
 
 from __future__ import annotations
 
-import unittest
-from pathlib import Path
-
-import fcntl
 import json
 import os
 import subprocess
@@ -14,14 +10,14 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
-from unittest import mock
 
 from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
 from tools.evidence_anchor import EvidenceAnchor
 from tools.front_matter import FrontMatter
 from tools.ingest.source_ingestor import SourceIngestor
-from tools.operation_store import OPERATION_TTL_SECONDS
 from tools.ingest.source_validator import SourceValidator
+from tools.operation_store import OPERATION_TTL_SECONDS
+
 
 class SourceIngestorTests(unittest.TestCase):
     def test_personal_note_preview_apply_and_anchor(self):
@@ -51,11 +47,25 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(
                 len((root / "archive" / "manifest.jsonl").read_text().splitlines()), 1
             )
-            entry = json.loads((root / "archive" / "manifest.jsonl").read_text().splitlines()[0])
-            for field in ("record_id", "vault_id", "owner_object_ref", "snapshot_sha256", "archive_path", "extractor", "normalization_version", "canonical_byte_length", "record_sha256"):
+            entry = json.loads(
+                (root / "archive" / "manifest.jsonl").read_text().splitlines()[0]
+            )
+            for field in (
+                "record_id",
+                "vault_id",
+                "owner_object_ref",
+                "snapshot_sha256",
+                "archive_path",
+                "extractor",
+                "normalization_version",
+                "canonical_byte_length",
+                "record_sha256",
+            ):
                 self.assertIn(field, entry)
             self.assertEqual(entry["vault_id"], "public")
-            self.assertEqual(entry["owner_object_ref"], {"type": "source", "id": "personal-note-one"})
+            self.assertEqual(
+                entry["owner_object_ref"], {"type": "source", "id": "personal-note-one"}
+            )
             self.assertTrue(
                 (
                     root
@@ -144,9 +154,7 @@ class SourceIngestorTests(unittest.TestCase):
             applied = ingestor.apply(result["operation_id"], confirmed=True)
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "path_unresolved")
-            self.assertFalse(
-                (root / "sources" / "tools" / "deleted-note.md").exists()
-            )
+            self.assertFalse((root / "sources" / "tools" / "deleted-note.md").exists())
 
     def test_target_change_does_not_leave_snapshot(self):
         """AC-F001-008：目标被其他操作写入后 apply 过期，不留下 snapshot。"""
@@ -243,9 +251,7 @@ class SourceIngestorTests(unittest.TestCase):
                     "source_id": "type-mismatch",
                 }
             )
-            applied = EvidenceAnchor(root).apply(
-                result["operation_id"], confirmed=True
-            )
+            applied = EvidenceAnchor(root).apply(result["operation_id"], confirmed=True)
             self.assertEqual(applied["error_code"], "operation_type_mismatch")
 
     def test_manifest_corrupt_line_tolerated(self):
@@ -357,7 +363,7 @@ class SourceIngestorTests(unittest.TestCase):
             class _FakeFetcher:
                 def fetch(self, url: str) -> tuple[bytes, str, str]:
                     return (
-                        "<html><body>抓取正文内容</body></html>".encode("utf-8"),
+                        "<html><body>抓取正文内容</body></html>".encode(),
                         url,
                         "text/html",
                     )
@@ -408,9 +414,7 @@ class SourceIngestorTests(unittest.TestCase):
     def test_invalid_operation_id_structured(self):
         """C002 回归：非法 operation_id 返回 operation_not_found 而非 traceback。"""
         with tempfile.TemporaryDirectory() as directory:
-            result = SourceIngestor(Path(directory)).apply(
-                "op_BAD_ID", confirmed=True
-            )
+            result = SourceIngestor(Path(directory)).apply("op_BAD_ID", confirmed=True)
             self.assertEqual(result["error_code"], "operation_not_found")
 
     def test_local_file_symlink_retarget_blocks_apply(self):
@@ -497,14 +501,10 @@ class SourceIngestorTests(unittest.TestCase):
             }
             source_path = root / "sources" / "tools" / "recover-note.md"
             source_path.parent.mkdir(parents=True)
-            source_path.write_text(
-                FrontMatter.render(metadata, body), encoding="utf-8"
-            )
+            source_path.write_text(FrontMatter.render(metadata, body), encoding="utf-8")
             applied = ingestor.apply(result["operation_id"], confirmed=True)
             self.assertEqual(applied["state"], "applied")
-            manifest = (root / "archive" / "manifest.jsonl").read_text(
-                encoding="utf-8"
-            )
+            manifest = (root / "archive" / "manifest.jsonl").read_text(encoding="utf-8")
             self.assertIn("recover-note", manifest)
 
     def test_apply_recovery_overwrite(self):
@@ -591,9 +591,9 @@ class SourceIngestorTests(unittest.TestCase):
                 text_dir.chmod(0o755)
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "apply_failed")
-            source_text = (
-                root / "sources" / "tools" / "keep-old-note.md"
-            ).read_text(encoding="utf-8")
+            source_text = (root / "sources" / "tools" / "keep-old-note.md").read_text(
+                encoding="utf-8"
+            )
             self.assertIn("旧版本正文内容", source_text)
             self.assertNotIn("新版本正文内容", source_text)
 
@@ -603,8 +603,6 @@ class SourceIngestorTests(unittest.TestCase):
         同时验证 flock 锁在进程 SIGKILL 后由内核自动释放（子进程 __exit__
         不会执行，重放进程仍能获取锁）。
         """
-        import subprocess
-        import sys as _sys
 
         repo_root = str(Path(__file__).resolve().parent.parent)
         script = (
@@ -615,7 +613,12 @@ class SourceIngestorTests(unittest.TestCase):
             "r = SourceIngestor(Path(sys.argv[2])).apply(sys.argv[3], confirmed=True)\n"
             "print('APPLIED' if r.get('state') == 'applied' else r, file=sys.stderr)\n"
         )
-        for point in ("after_archive", "after_source", "after_manifest", "before_commit"):
+        for point in (
+            "after_archive",
+            "after_source",
+            "after_manifest",
+            "before_commit",
+        ):
             with self.subTest(point=point):
                 with tempfile.TemporaryDirectory() as directory:
                     root = Path(directory)
@@ -630,7 +633,14 @@ class SourceIngestorTests(unittest.TestCase):
                         }
                     )
                     proc = subprocess.run(
-                        [_sys.executable, "-c", script, repo_root, str(root), result["operation_id"]],
+                        [
+                            _sys.executable,
+                            "-c",
+                            script,
+                            repo_root,
+                            str(root),
+                            result["operation_id"],
+                        ],
                         env={**os.environ, "MYKNOWLEDGE_CRASH_AFTER": point},
                         capture_output=True,
                         text=True,
@@ -642,5 +652,7 @@ class SourceIngestorTests(unittest.TestCase):
                         result["operation_id"], confirmed=True
                     )
                     self.assertEqual(
-                        replayed["state"], "applied", f"{point}: 重放失败: {proc.stderr}"
+                        replayed["state"],
+                        "applied",
+                        f"{point}: 重放失败: {proc.stderr}",
                     )
