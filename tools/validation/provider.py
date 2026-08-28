@@ -19,6 +19,7 @@ malformed_output），由 audit 编排层决定落 ``not_run`` 而非 ``fail``�
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import re
@@ -174,9 +175,7 @@ class AgentCliAdapter:
         model: str | None = None,
     ) -> None:
         # provider 由 Skill runtime 注入：优先显式 CLI 路径，其次环境变量
-        self.cli = cli or os.environ.get(
-            "MYKNOWLEDGE_LLM_CLI", "ducc"
-        )
+        self.cli = cli or os.environ.get("MYKNOWLEDGE_LLM_CLI", "ducc")
         self.timeout_seconds = timeout_seconds
         self.model = model
         self.identity = f"agent-cli:{os.path.basename(self.cli)}"
@@ -188,17 +187,20 @@ class AgentCliAdapter:
         started = time.monotonic()
         try:
             cmd = self._command(prompt, response_schema)
-            proc = subprocess.run(
+            proc = subprocess.run(  # noqa: S603 - 命令来自本地配置的 CLI 路径，非 shell
                 cmd,
                 capture_output=True,
                 text=True,
+                check=False,  # 返回码由下方结构化判定，不抛 CalledProcessError
                 timeout=self.timeout_seconds,
                 # 独立进程组：超时 killpg 可清理 ducc/ducx 派生的孙进程
                 start_new_session=True,
             )
         except FileNotFoundError:
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="provider_unavailable",
                 error_message=f"CLI 不存在: {self.cli}",
                 duration_ms=int((time.monotonic() - started) * 1000),
@@ -209,7 +211,9 @@ class AgentCliAdapter:
             # structured not_run result.
             self._kill_group(getattr(exc, "pid", None))
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="context_exceeded",
                 error_message=f"CLI 超时（{self.timeout_seconds}s），进程组已清理",
                 duration_ms=int((time.monotonic() - started) * 1000),
@@ -217,7 +221,9 @@ class AgentCliAdapter:
         except (OSError, UnicodeError) as exc:
             # ⑨ 归一：PermissionError/解码失败等不再穿透成裸 traceback
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="provider_unavailable",
                 error_message=_sanitize(f"CLI 执行失败: {exc}"),
                 duration_ms=int((time.monotonic() - started) * 1000),
@@ -225,7 +231,9 @@ class AgentCliAdapter:
         duration_ms = int((time.monotonic() - started) * 1000)
         if proc.returncode != 0:
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="provider_unavailable",
                 error_message=_sanitize(
                     f"CLI 退出码 {proc.returncode}: "
@@ -236,23 +244,24 @@ class AgentCliAdapter:
         payload = _extract_json(proc.stdout)
         if payload is None:
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="malformed_output",
                 error_message="CLI 输出无法解析为 JSON 对象",
                 duration_ms=duration_ms,
             )
-        return ProviderResult(self.identity, call_id, input_hash,
-                              payload=payload, duration_ms=duration_ms)
+        return ProviderResult(
+            self.identity, call_id, input_hash, payload=payload, duration_ms=duration_ms
+        )
 
     @staticmethod
     def _kill_group(pid: int | None) -> None:
         """超时后杀整个进程组（start_new_session 使子进程为组长，pid==pgid）。"""
         if pid is None:
             return
-        try:
+        with contextlib.suppress(OSError, ProcessLookupError):
             os.killpg(pid, signal.SIGKILL)
-        except (OSError, ProcessLookupError):
-            pass
 
     def _command(self, prompt: str, response_schema: dict) -> list[str]:
         base = [self.cli]
@@ -302,7 +311,9 @@ class OpenAICompatAdapter:
         started = time.monotonic()
         if not (self.base_url and self.api_key and self.model):
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="provider_unavailable",
                 error_message=(
                     "缺少 OPENAI_BASE_URL / OPENAI_API_KEY / OPENAI_MODEL "
@@ -313,7 +324,9 @@ class OpenAICompatAdapter:
             from openai import OpenAI
         except ImportError:
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="provider_unavailable",
                 error_message="openai SDK 未安装（pip install openai）",
             )
@@ -342,9 +355,11 @@ class OpenAICompatAdapter:
                 temperature=0,
                 response_format={"type": "json_object"},
             )
-        except Exception as exc:  # 网络/认证/限流等：统一按不可用处理
+        except Exception as exc:  # noqa: BLE001 - openai SDK 的网络/认证/限流异常面未知，统一按不可用处理
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="provider_unavailable",
                 error_message=_sanitize(str(exc))[:500],
                 duration_ms=int((time.monotonic() - started) * 1000),
@@ -354,20 +369,26 @@ class OpenAICompatAdapter:
             payload = json.loads(content)
         except json.JSONDecodeError:
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="malformed_output",
                 error_message="provider 输出不是合法 JSON",
                 duration_ms=int((time.monotonic() - started) * 1000),
             )
         if not isinstance(payload, dict):
             return ProviderResult(
-                self.identity, call_id, input_hash,
+                self.identity,
+                call_id,
+                input_hash,
                 error_code="malformed_output",
                 error_message="provider 输出不是 JSON 对象",
                 duration_ms=int((time.monotonic() - started) * 1000),
             )
         return ProviderResult(
-            self.identity, call_id, input_hash,
+            self.identity,
+            call_id,
+            input_hash,
             payload=payload,
             duration_ms=int((time.monotonic() - started) * 1000),
             meta={"model": self.model},
@@ -397,11 +418,11 @@ def _load_provider_profile() -> dict:
     return profile if isinstance(profile, dict) else {}
 
 
-def make_provider(name: str | None = None, **kwargs) -> AgentCliAdapter | OpenAICompatAdapter:
+def make_provider(
+    name: str | None = None, **kwargs
+) -> AgentCliAdapter | OpenAICompatAdapter:
     """按名称构造 provider；name 缺省时按环境变量选择（MYKNOWLEDGE_LLM_CLI）。"""
-    name = name or (
-        "openai" if os.environ.get("OPENAI_API_KEY") else "agent-cli"
-    )
+    name = name or ("openai" if os.environ.get("OPENAI_API_KEY") else "agent-cli")
     if name == "openai":
         return OpenAICompatAdapter()
     if name == "agent-cli":

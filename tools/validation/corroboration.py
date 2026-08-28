@@ -91,7 +91,8 @@ def _version_key(value: str):
         from packaging.version import Version
 
         return Version(value)
-    except Exception:
+    except (ImportError, ValueError, TypeError):
+        # InvalidVersion 继承 ValueError；解析不了就是 unresolved，不猜
         return None
 
 
@@ -137,19 +138,11 @@ def _interval_overlap(
     if _UNPARSEABLE in (a_start_key, a_end_key, b_start_key, b_end_key):
         return None
     # a 的 end ≤ b 的 start → 不相交；反之 b 的 end ≤ a 的 start → 不相交
-    if (
-        a_end_key is not None
-        and b_start_key is not None
-        and a_end_key <= b_start_key
-    ):
+    if a_end_key is not None and b_start_key is not None and a_end_key <= b_start_key:
         return False
-    if (
-        b_end_key is not None
-        and a_start_key is not None
-        and b_end_key <= a_start_key
-    ):
-        return False
-    return True
+    return not (
+        b_end_key is not None and a_start_key is not None and b_end_key <= a_start_key
+    )
 
 
 @dataclass
@@ -182,7 +175,9 @@ def normalize_observation(raw: dict | None) -> Observation | None:
     object_ = raw.get("object")
     if not all(isinstance(v, str) and v for v in (subject, predicate, object_)):
         return None
-    qualifiers = raw.get("qualifiers") if isinstance(raw.get("qualifiers"), dict) else {}
+    qualifiers = (
+        raw.get("qualifiers") if isinstance(raw.get("qualifiers"), dict) else {}
+    )
     version_range = _range_pair(qualifiers.get("version_range"))
     time_range = _range_pair(qualifiers.get("time_range"))
     # 数值：object 或 qualifiers.number；带单位时必须可转换
@@ -303,8 +298,7 @@ def structure_dedup(
                     ),
                 }
             )
-        target = {**target, "independence_group": independence_group}
-        deduped.append(target)
+        deduped.append({**target, "independence_group": independence_group})
     return deduped, warnings
 
 
@@ -320,9 +314,7 @@ def pair_compare(a: Observation, b: Observation) -> dict:
         return {"result": "unresolved", "reason": a.note or b.note or "unresolved"}
     # 数值可比较：双方 canonical unit 相同（含均无单位）时才按数值判等/判冲突
     # （"2 GB" ≡ "2048 MB" 换算后 unit 同为 byte；"1.5" 与 "1.5 s" 不可比）
-    numeric_comparable = bool(
-        a.numeric and b.numeric and a.numeric[1] == b.numeric[1]
-    )
+    numeric_comparable = bool(a.numeric and b.numeric and a.numeric[1] == b.numeric[1])
     numeric_equal = bool(numeric_comparable and a.numeric[0] == b.numeric[0])
     object_same = a.object == b.object or numeric_equal
     same_proposition = (
@@ -354,13 +346,17 @@ def pair_compare(a: Observation, b: Observation) -> dict:
         elif a.numeric or b.numeric:
             numeric_incomparable = True
     v_overlap = _interval_overlap(
-        a.version_range[0], a.version_range[1],
-        b.version_range[0], b.version_range[1],
+        a.version_range[0],
+        a.version_range[1],
+        b.version_range[0],
+        b.version_range[1],
         _version_key,
     )
     t_overlap = _interval_overlap(
-        a.time_range[0], a.time_range[1],
-        b.time_range[0], b.time_range[1],
+        a.time_range[0],
+        a.time_range[1],
+        b.time_range[0],
+        b.time_range[1],
         _date_key,
     )
     if v_overlap is None or t_overlap is None:
@@ -378,9 +374,7 @@ def pair_compare(a: Observation, b: Observation) -> dict:
     if opposite or numeric_conflict:
         return {
             "result": "conflicts",
-            "reason": (
-                "谓词相反" if opposite else "数值/单位不一致"
-            ),
+            "reason": ("谓词相反" if opposite else "数值/单位不一致"),
             "comparator": CORROBORATION_VERSION,
         }
     if numeric_incomparable:
@@ -417,9 +411,7 @@ def compute_corroboration(
     targets, warnings = structure_dedup(resolved_targets, sources)
     if model_groups:
         for target in targets:
-            group = model_groups.get(
-                (target["source_id"], target["evidence_id"])
-            )
+            group = model_groups.get((target["source_id"], target["evidence_id"]))
             if group is not None and group != "independence_unknown":
                 target["independence_group"] = group
     pairs: list[dict] = []

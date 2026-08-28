@@ -1,4 +1,5 @@
 """Generate the public projection from validated public Wiki objects (F007)."""
+
 from __future__ import annotations
 
 import json
@@ -6,10 +7,10 @@ from pathlib import Path
 from typing import Any
 
 from .common import atomic_write, canonical_json, hash_canonical
-from .release_confirmation import validate_event
 from .front_matter import FrontMatter
-from .validation.validator import WikiValidator
 from .paths import RepoPaths
+from .release_confirmation import validate_event
+from .validation.validator import WikiValidator
 
 
 class PublicProjectionGenerator:
@@ -20,7 +21,9 @@ class PublicProjectionGenerator:
         self.paths = RepoPaths(self.root)
         self.validator = validator or WikiValidator(self.root, vault_id="public")
 
-    def _confirmation(self, object_id: str, content_hash: str, evidence_hash: str) -> tuple[dict | None, str | None]:
+    def _confirmation(
+        self, object_id: str, content_hash: str, evidence_hash: str
+    ) -> tuple[dict | None, str | None]:
         directory = self.paths.release_confirmations
         if not directory.is_dir():
             return None, "confirmation_missing"
@@ -33,13 +36,24 @@ class PublicProjectionGenerator:
             ref = event.get("target_ref") or {}
             if not result.get("valid") or ref.get("object_id") != object_id:
                 continue
-            if event.get("reviewed_content_sha256") != content_hash or event.get("reviewed_evidence_sha256") != evidence_hash:
+            if (
+                event.get("reviewed_content_sha256") != content_hash
+                or event.get("reviewed_evidence_sha256") != evidence_hash
+            ):
                 continue
-            return {"event": event, "path": str(path.relative_to(self.root)), "event_sha256": result["event_sha256"]}, None
+            return {
+                "event": event,
+                "path": str(path.relative_to(self.root)),
+                "event_sha256": result["event_sha256"],
+            }, None
         return None, "confirmation_mismatch"
 
     def generate(self, output: Path | None = None) -> dict[str, Any]:
-        output = Path(output) if output is not None else self.paths.queries_public / "manifest.json"
+        output = (
+            Path(output)
+            if output is not None
+            else self.paths.queries_public / "manifest.json"
+        )
         if not output.is_absolute():
             output = self.root / output
         items: list[dict[str, Any]] = []
@@ -51,18 +65,33 @@ class PublicProjectionGenerator:
                 continue
             try:
                 report = self.validator.validate(path)
-            except Exception as exc:  # validator failure is an object-level block
-                skipped.append({"path": str(path.relative_to(self.root)), "reason": type(exc).__name__})
+            except (OSError, UnicodeError, ValueError) as exc:
+                # 读文件/front matter 层面的失败是对象级阻断；validator 自身的
+                # 编程错误不在此吞掉，否则未发布会被伪装成"跳过一篇"
+                skipped.append(
+                    {
+                        "path": str(path.relative_to(self.root)),
+                        "reason": type(exc).__name__,
+                    }
+                )
                 continue
-            object_id = str((report.get("object_ref") or {}).get("object_id") or path.stem)
+            object_id = str(
+                (report.get("object_ref") or {}).get("object_id") or path.stem
+            )
             derived = report.get("derived") or {}
             hashes = report.get("hashes") or {}
             if not report.get("valid") or not derived.get("public_publishable"):
-                skipped.append({"object_id": object_id, "reason": "not_public_publishable"})
+                skipped.append(
+                    {"object_id": object_id, "reason": "not_public_publishable"}
+                )
                 continue
-            confirmation, reason = self._confirmation(object_id, hashes.get("content_sha256"), hashes.get("evidence_sha256"))
+            confirmation, reason = self._confirmation(
+                object_id, hashes.get("content_sha256"), hashes.get("evidence_sha256")
+            )
             if confirmation is None:
-                skipped.append({"object_id": object_id, "reason": reason or "confirmation_missing"})
+                skipped.append(
+                    {"object_id": object_id, "reason": reason or "confirmation_missing"}
+                )
                 continue
             relative = str(path.relative_to(self.root))
             metadata = {}
@@ -71,17 +100,41 @@ class PublicProjectionGenerator:
             except (OSError, ValueError, UnicodeError):
                 metadata = {}
             links = metadata.get("related", []) if isinstance(metadata, dict) else []
-            items.append({
-                "id": object_id, "title": metadata.get("title", object_id), "route": "/wiki/" + object_id,
-                "body_path": relative, "vault_id": "public", "status": "published",
-                "public_publishable": True, "public_release": True, "effective_confidentiality": "public",
-                "content_sha256": hashes.get("content_sha256"), "evidence_sha256": hashes.get("evidence_sha256"),
-                "release_input_sha256": confirmation["event"].get("release_input_sha256"),
-                "public_confirmation_path": confirmation["path"], "public_confirmation_sha256": confirmation["event_sha256"],
-                "links": links if isinstance(links, list) else [],
-            })
+            items.append(
+                {
+                    "id": object_id,
+                    "title": metadata.get("title", object_id),
+                    "route": "/wiki/" + object_id,
+                    "body_path": relative,
+                    "vault_id": "public",
+                    "status": "published",
+                    "public_publishable": True,
+                    "public_release": True,
+                    "effective_confidentiality": "public",
+                    "content_sha256": hashes.get("content_sha256"),
+                    "evidence_sha256": hashes.get("evidence_sha256"),
+                    "release_input_sha256": confirmation["event"].get(
+                        "release_input_sha256"
+                    ),
+                    "public_confirmation_path": confirmation["path"],
+                    "public_confirmation_sha256": confirmation["event_sha256"],
+                    "links": links if isinstance(links, list) else [],
+                }
+            )
         items.sort(key=lambda item: item["id"])
-        manifest = {"schema_version": "public-projection/v1", "projection": "public", "generated_from": hash_canonical(items), "items": items}
+        manifest = {
+            "schema_version": "public-projection/v1",
+            "projection": "public",
+            "generated_from": hash_canonical(items),
+            "items": items,
+        }
         atomic_write(output, canonical_json(manifest) + b"\n", 0o600)
-        return {"state": "generated", "path": str(output.relative_to(self.root)) if output.is_relative_to(self.root) else str(output),
-                "item_count": len(items), "skipped": skipped, "manifest_sha256": hash_canonical(manifest)}
+        return {
+            "state": "generated",
+            "path": str(output.relative_to(self.root))
+            if output.is_relative_to(self.root)
+            else str(output),
+            "item_count": len(items),
+            "skipped": skipped,
+            "manifest_sha256": hash_canonical(manifest),
+        }
