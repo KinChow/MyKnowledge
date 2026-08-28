@@ -256,289 +256,309 @@ class SourceIngestor:
         confirmed: bool = False,
         actor_id: str = "local-user",
     ) -> dict:
-        """确认并执行导入操作：锁内复查状态/TTL，所有失败路径返回结构化错误。"""
-        record, preflight_error = self.store.apply_preflight(
+        """确认并执行导入操作：preflight → 取锁 → 分阶段执行，失败一律结构化返回。"""
+        _record, preflight_error = self.store.apply_preflight(
             operation_id, "source_ingest", confirmed
         )
         if preflight_error is not None:
             return preflight_error
         try:
             with VaultLock(self.root, "public", operation_id):
-                record = self.store.load(operation_id)
-                if record.get("state") != "previewed":
-                    return {
-                        "state": record.get("state"),
-                        "operation_id": operation_id,
-                    }
-                if self.store.is_expired(record):
-                    self.store.update(record, "expired", error_code="operation_expired")
-                    return {
-                        "state": "expired",
-                        "error_code": "operation_expired",
-                        "operation_id": operation_id,
-                    }
-                body = record["body"]
-                if record["input_path"]:
-                    if record.get("stat") is None:
-                        self.store.update(
-                            record, "expired", error_code="record_invalid"
-                        )
-                        return {
-                            "state": "expired",
-                            "error_code": "record_invalid",
-                            "operation_id": operation_id,
-                        }
-                    try:
-                        data, stat = read_stable(Path(record["input_path"]))
-                    except OSError:
-                        self.store.update(
-                            record, "expired", error_code="path_unresolved"
-                        )
-                        return {
-                            "state": "expired",
-                            "error_code": "path_unresolved",
-                            "operation_id": operation_id,
-                        }
-                    except RuntimeError:
-                        self.store.update(record, "expired", error_code="hash_mismatch")
-                        return {
-                            "state": "expired",
-                            "error_code": "hash_mismatch",
-                            "operation_id": operation_id,
-                        }
-                    stat_fields = record.get("stat") or {}
-                    stat_keys = ("dev", "ino", "size", "mtime_ns")
-                    if (
-                        sha256_bytes(data) != record["input_hash"]
-                        or not all(k in stat_fields for k in stat_keys)
-                        or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
-                        != tuple(stat_fields[k] for k in stat_keys)
-                    ):
-                        self.store.update(record, "expired", error_code="hash_mismatch")
-                        return {
-                            "state": "expired",
-                            "error_code": "hash_mismatch",
-                            "operation_id": operation_id,
-                        }
-                    if (
-                        record.get("input_realpath")
-                        and str(Path(record["input_path"]).resolve())
-                        != record["input_realpath"]
-                    ):
-                        # symlink/hard-link 改指使来源路径不再解析到 preview 时的
-                        # 同一文件（AC-F001-008 根域逃逸防护），按路径失效处理
-                        self.store.update(
-                            record, "expired", error_code="path_unresolved"
-                        )
-                        return {
-                            "state": "expired",
-                            "error_code": "path_unresolved",
-                            "operation_id": operation_id,
-                        }
-                snapshot_hash = sha256_text(body)
-                source_id = record["source_id"]
-                source_path = self.paths.source_file(record["domain"], source_id)
-                current_target_hash = (
-                    sha256_bytes(source_path.read_bytes())
-                    if source_path.exists()
-                    else None
-                )
-                if current_target_hash != record.get("target_hash"):
-                    # 崩溃恢复：apply 在任意中间点崩溃后，source 可能已由本操作
-                    # 写入（front matter snapshot_sha256 一致）——放行并幂等补写，
-                    # 使新建与覆盖导入都可重放恢复（WAL 重放语义）
-                    recovered = False
-                    try:
-                        existing_meta, _ = FrontMatter.parse(
-                            source_path.read_text(encoding="utf-8")
-                        )
-                        recovered = (
-                            existing_meta.get("snapshot_sha256") == snapshot_hash
-                        )
-                    except (OSError, ValueError, UnicodeError):
-                        recovered = False
-                    if not recovered:
-                        self.store.update(record, "expired", error_code="hash_mismatch")
-                        return {
-                            "state": "expired",
-                            "error_code": "hash_mismatch",
-                            "operation_id": operation_id,
-                        }
-                archive_path = self.paths.snapshot_file(snapshot_hash)
-                metadata = {
-                    "schema_version": "source/v1",
-                    "id": source_id,
-                    "domain": record["domain"],
-                    "vault_id": "public",
-                    "source_type": record["source_type"],
-                    "origin": (
-                        "personal"
-                        if record["source_type"] == "personal-note"
-                        else "external"
-                    ),
-                    "retrieval": {
-                        "acquisition": (
-                            "personal-note"
-                            if record["source_type"] == "personal-note"
-                            else ("local-file" if record["input_path"] else "fetch")
-                        ),
-                        **({"url": record["url"]} if record.get("url") else {}),
-                        **(
-                            {"resolved_url": record["resolved_url"]}
-                            if record.get("resolved_url")
-                            else {}
-                        ),
-                    },
-                    "snapshot_sha256": snapshot_hash,
-                    "extractor": record["extractor"],
-                    "media_type": record["media_type"],
-                    "read_status": "retrieved",
-                    "confidentiality": "public",
-                    "archive_policy": "text-only",
-                }
-                try:
-                    if not archive_path.exists():
-                        atomic_write(archive_path, body.encode("utf-8"))
-                    crash_injection_point("after_archive")
-                    if record["input_path"]:
-                        sidecar = (
-                            self.paths.state_local_sources("public")
-                            / f"{source_id}.json"
-                        )
-                        sidecar.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-                        sidecar.parent.chmod(0o700)
-                        realpath = str(Path(record["input_path"]).resolve())
-                        atomic_write(
-                            sidecar,
-                            canonical_json(
-                                {
-                                    "schema_version": "local-file-sidecar/v1",
-                                    "vault_id": "public",
-                                    "source_id": source_id,
-                                    "path": realpath,
-                                    "realpath_sha256": sha256_text(realpath),
-                                    "file_sha256": record["input_hash"],
-                                    "device": record["stat"]["dev"],
-                                    "inode": record["stat"]["ino"],
-                                    "byte_size": record["stat"]["size"],
-                                    "media_type": record["media_type"],
-                                    "observed_at": time.time(),
-                                }
-                            )
-                            + b"\n",
-                            0o600,
-                        )
-                        metadata["local"] = {
-                            "file_sha256": record["input_hash"],
-                            "path_ref": f"local-sidecar:public/{source_id}",
-                        }
-                    atomic_write(
-                        source_path,
-                        FrontMatter.render(metadata, body).encode("utf-8"),
-                    )
-                    crash_injection_point("after_source")
-                    manifest = self.paths.manifest
-                    # manifest 是跨 vault 全局单文件，互斥依赖当前 per-vault 锁
-                    # （R009）：target_vault 目前硬编码 "public" 无实际竞争；引入
-                    # 多 vault 写入时 manifest 追加需全局锁或按 vault 分片
-                    manifest.parent.mkdir(parents=True, exist_ok=True)
-                    entry = {
-                        "record_id": strip_sha256_prefix(
-                            hash_canonical(
-                                {
-                                    "vault_id": "public",
-                                    "source_id": source_id,
-                                    "snapshot_sha256": snapshot_hash,
-                                    "extractor": record["extractor"],
-                                }
-                            )
-                        ),
-                        "vault_id": "public",
-                        "owner_object_ref": {"type": "source", "id": source_id},
-                        "snapshot_sha256": snapshot_hash,
-                        "archive_path": str(archive_path.relative_to(self.root)),
-                        "physical_blob_key": snapshot_hash,
-                        "availability": "available",
-                        "availability_reason": "none",
-                        "confidentiality": "public",
-                        "media_type": record["media_type"],
-                        "extractor": record["extractor"],
-                        "extractor_options_sha256": hash_canonical({}),
-                        "normalization_version": "canonical-text-v1",
-                        "canonical_byte_length": len(body.encode("utf-8")),
-                        "physical_blob_length": archive_path.stat().st_size,
-                        "compression": "identity",
-                    }
-                    entry["record_sha256"] = hash_canonical(entry)
-                    existing_ids = set()
-                    if manifest.exists():
-                        with manifest.open(
-                            encoding="utf-8", errors="replace"
-                        ) as handle:
-                            for raw_line in handle:
-                                line = raw_line.strip()
-                                if not line:
-                                    continue
-                                try:
-                                    existing_ids.add(json.loads(line)["record_id"])
-                                except (json.JSONDecodeError, KeyError):
-                                    continue
-                    if entry["record_id"] not in existing_ids:
-                        with manifest.open("ab") as handle:
-                            handle.write(canonical_json(entry) + b"\n")
-                            handle.flush()
-                            os.fsync(handle.fileno())
-                        directory_fd = os.open(manifest.parent, os.O_RDONLY)
-                        try:
-                            os.fsync(directory_fd)
-                        finally:
-                            os.close(directory_fd)
-                    crash_injection_point("after_manifest")
-                except OSError:
-                    # 提交点（store.update applied）之前失败：仅当本次新建
-                    # （preview 时目标不存在）才删除已写入的 source；覆盖场景
-                    # 新内容保留在 source 文件、待重放提交（atomic_write 已替换
-                    # 旧文件，旧内容不可恢复——重放 recovery 使 manifest/state
-                    # 与新内容一致，无人重放时为静默不一致态，属已知权衡）。
-                    # sidecar 是运行缓存一并清理。archive 内容寻址保留无害。
-                    if record.get("target_hash") is None:
-                        with contextlib.suppress(OSError):
-                            source_path.unlink(missing_ok=True)
-                    with contextlib.suppress(OSError):
-                        self.paths.state_local_sources("public").joinpath(
-                            f"{source_id}.json"
-                        ).unlink(missing_ok=True)
-                    self.store.update(record, "expired", error_code="apply_failed")
-                    return {
-                        "state": "expired",
-                        "operation_id": operation_id,
-                        "error_code": "apply_failed",
-                    }
-                crash_injection_point("before_commit")
-                confirmation = {
-                    "actor_type": "human",
-                    "actor_id": actor_id,
-                    "scope": "apply",
-                    "confirmed_at": time.time(),
-                }
-                self.store.update(
-                    record,
-                    "applied",
-                    confirmation=confirmation,
-                    applied_files=[
-                        str(source_path.relative_to(self.root)),
-                        str(archive_path.relative_to(self.root)),
-                    ],
-                )
-                return {
-                    "state": "applied",
-                    "operation_id": operation_id,
-                    "source_id": source_id,
-                    "snapshot_sha256": snapshot_hash,
-                    "source_path": str(source_path),
-                }
+                return self._apply_locked(operation_id, actor_id)
         except LockBusyError:
             return VaultLock.lock_busy_response(operation_id)
+
+    def _expire(self, record: dict, error_code: str, operation_id: str) -> dict:
+        """把操作标记为 expired 并返回结构化错误（所有前置校验失败的唯一出口）。"""
+        self.store.update(record, "expired", error_code=error_code)
+        return {
+            "state": "expired",
+            "error_code": error_code,
+            "operation_id": operation_id,
+        }
+
+    def _apply_locked(self, operation_id: str, actor_id: str) -> dict:
+        """锁内主流程：复查状态/TTL → 复验输入与目标 → 落盘 → 提交。"""
+        record = self.store.load(operation_id)
+        if record.get("state") != "previewed":
+            return {"state": record.get("state"), "operation_id": operation_id}
+        if self.store.is_expired(record):
+            return self._expire(record, "operation_expired", operation_id)
+
+        body = record["body"]
+        if record["input_path"]:
+            input_error = self._revalidate_input(record)
+            if input_error is not None:
+                return self._expire(record, input_error, operation_id)
+
+        snapshot_hash = sha256_text(body)
+        source_id = record["source_id"]
+        source_path = self.paths.source_file(record["domain"], source_id)
+        if not self._target_writable(record, source_path, snapshot_hash):
+            return self._expire(record, "hash_mismatch", operation_id)
+
+        archive_path = self.paths.snapshot_file(snapshot_hash)
+        metadata = self._source_metadata(record, snapshot_hash)
+        try:
+            self._write_artifacts(record, body, metadata, source_path, archive_path)
+        except OSError:
+            self._rollback_uncommitted(record, source_path, source_id)
+            return {
+                "state": "expired",
+                "operation_id": operation_id,
+                "error_code": "apply_failed",
+            }
+        crash_injection_point("before_commit")
+        self.store.update(
+            record,
+            "applied",
+            confirmation={
+                "actor_type": "human",
+                "actor_id": actor_id,
+                "scope": "apply",
+                "confirmed_at": time.time(),
+            },
+            applied_files=[
+                str(source_path.relative_to(self.root)),
+                str(archive_path.relative_to(self.root)),
+            ],
+        )
+        return {
+            "state": "applied",
+            "operation_id": operation_id,
+            "source_id": source_id,
+            "snapshot_sha256": snapshot_hash,
+            "source_path": str(source_path),
+        }
+
+    def _revalidate_input(self, record: dict) -> str | None:
+        """local-file 导入在 apply 时复验来源：内容/stat/realpath 任一漂移即失效。
+
+        返回错误码或 None（通过）。
+        """
+        if record.get("stat") is None:
+            return "record_invalid"
+        try:
+            data, stat = read_stable(Path(record["input_path"]))
+        except OSError:
+            return "path_unresolved"
+        except RuntimeError:
+            return "hash_mismatch"
+        stat_fields = record.get("stat") or {}
+        stat_keys = ("dev", "ino", "size", "mtime_ns")
+        if (
+            sha256_bytes(data) != record["input_hash"]
+            or not all(k in stat_fields for k in stat_keys)
+            or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
+            != tuple(stat_fields[k] for k in stat_keys)
+        ):
+            return "hash_mismatch"
+        if (
+            record.get("input_realpath")
+            and str(Path(record["input_path"]).resolve()) != record["input_realpath"]
+        ):
+            # symlink/hard-link 改指使来源路径不再解析到 preview 时的同一文件
+            # （AC-F001-008 根域逃逸防护），按路径失效处理
+            return "path_unresolved"
+        return None
+
+    def _target_writable(
+        self, record: dict, source_path: Path, snapshot_hash: str
+    ) -> bool:
+        """目标 source 是否仍与 preview 时一致，或已被本操作写过（可幂等补写）。
+
+        崩溃恢复：apply 在任意中间点崩溃后，source 可能已由本操作写入（front
+        matter snapshot_sha256 一致）——放行并幂等补写，使新建与覆盖导入都可
+        重放恢复（WAL 重放语义）。
+        """
+        current = (
+            sha256_bytes(source_path.read_bytes()) if source_path.exists() else None
+        )
+        if current == record.get("target_hash"):
+            return True
+        try:
+            existing_meta, _ = FrontMatter.parse(
+                source_path.read_text(encoding="utf-8")
+            )
+        except (OSError, ValueError, UnicodeError):
+            return False
+        return existing_meta.get("snapshot_sha256") == snapshot_hash
+
+    def _source_metadata(self, record: dict, snapshot_hash: str) -> dict:
+        """source front matter（§5.4）：不含 local 段，由 sidecar 写入时补。"""
+        personal = record["source_type"] == "personal-note"
+        return {
+            "schema_version": "source/v1",
+            "id": record["source_id"],
+            "domain": record["domain"],
+            "vault_id": "public",
+            "source_type": record["source_type"],
+            "origin": "personal" if personal else "external",
+            "retrieval": {
+                "acquisition": (
+                    "personal-note"
+                    if personal
+                    else ("local-file" if record["input_path"] else "fetch")
+                ),
+                **({"url": record["url"]} if record.get("url") else {}),
+                **(
+                    {"resolved_url": record["resolved_url"]}
+                    if record.get("resolved_url")
+                    else {}
+                ),
+            },
+            "snapshot_sha256": snapshot_hash,
+            "extractor": record["extractor"],
+            "media_type": record["media_type"],
+            "read_status": "retrieved",
+            "confidentiality": "public",
+            "archive_policy": "text-only",
+        }
+
+    def _write_artifacts(
+        self,
+        record: dict,
+        body: str,
+        metadata: dict,
+        source_path: Path,
+        archive_path: Path,
+    ) -> None:
+        """按 archive → sidecar → source → manifest 顺序落盘（含崩溃注入点）。
+
+        顺序是恢复语义的一部分：archive 内容寻址先落，source 最后带 manifest
+        入账；任一步 OSError 由调用方回滚未提交状态。
+        """
+        if not archive_path.exists():
+            atomic_write(archive_path, body.encode("utf-8"))
+        crash_injection_point("after_archive")
+        if record["input_path"]:
+            metadata["local"] = self._write_sidecar(record)
+        atomic_write(source_path, FrontMatter.render(metadata, body).encode("utf-8"))
+        crash_injection_point("after_source")
+        self._append_manifest(
+            self._manifest_entry(
+                record, body, metadata["snapshot_sha256"], archive_path
+            )
+        )
+        crash_injection_point("after_manifest")
+
+    def _write_sidecar(self, record: dict) -> dict:
+        """local-file 的运行态 sidecar（0600），返回 front matter 的 local 段。"""
+        source_id = record["source_id"]
+        sidecar = self.paths.state_local_sources("public") / f"{source_id}.json"
+        sidecar.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+        sidecar.parent.chmod(0o700)
+        realpath = str(Path(record["input_path"]).resolve())
+        atomic_write(
+            sidecar,
+            canonical_json(
+                {
+                    "schema_version": "local-file-sidecar/v1",
+                    "vault_id": "public",
+                    "source_id": source_id,
+                    "path": realpath,
+                    "realpath_sha256": sha256_text(realpath),
+                    "file_sha256": record["input_hash"],
+                    "device": record["stat"]["dev"],
+                    "inode": record["stat"]["ino"],
+                    "byte_size": record["stat"]["size"],
+                    "media_type": record["media_type"],
+                    "observed_at": time.time(),
+                }
+            )
+            + b"\n",
+            0o600,
+        )
+        return {
+            "file_sha256": record["input_hash"],
+            "path_ref": f"local-sidecar:public/{source_id}",
+        }
+
+    def _manifest_entry(
+        self, record: dict, body: str, snapshot_hash: str, archive_path: Path
+    ) -> dict:
+        """archive manifest 条目（§5.6）：record_id 由不变量派生，用于幂等去重。"""
+        entry = {
+            "record_id": strip_sha256_prefix(
+                hash_canonical(
+                    {
+                        "vault_id": "public",
+                        "source_id": record["source_id"],
+                        "snapshot_sha256": snapshot_hash,
+                        "extractor": record["extractor"],
+                    }
+                )
+            ),
+            "vault_id": "public",
+            "owner_object_ref": {"type": "source", "id": record["source_id"]},
+            "snapshot_sha256": snapshot_hash,
+            "archive_path": str(archive_path.relative_to(self.root)),
+            "physical_blob_key": snapshot_hash,
+            "availability": "available",
+            "availability_reason": "none",
+            "confidentiality": "public",
+            "media_type": record["media_type"],
+            "extractor": record["extractor"],
+            "extractor_options_sha256": hash_canonical({}),
+            "normalization_version": "canonical-text-v1",
+            "canonical_byte_length": len(body.encode("utf-8")),
+            "physical_blob_length": archive_path.stat().st_size,
+            "compression": "identity",
+        }
+        entry["record_sha256"] = hash_canonical(entry)
+        return entry
+
+    def _append_manifest(self, entry: dict) -> None:
+        """幂等追加 manifest：record_id 已存在则跳过；写入后 fsync 文件与目录。
+
+        manifest 是跨 vault 全局单文件，互斥依赖当前 per-vault 锁（R009）：
+        target_vault 目前硬编码 "public" 无实际竞争；引入多 vault 写入时
+        manifest 追加需全局锁或按 vault 分片。
+        """
+        manifest = self.paths.manifest
+        manifest.parent.mkdir(parents=True, exist_ok=True)
+        existing_ids = set()
+        if manifest.exists():
+            with manifest.open(encoding="utf-8", errors="replace") as handle:
+                for raw_line in handle:
+                    line = raw_line.strip()
+                    if not line:
+                        continue
+                    try:
+                        existing_ids.add(json.loads(line)["record_id"])
+                    except (json.JSONDecodeError, KeyError):
+                        continue
+        if entry["record_id"] in existing_ids:
+            return
+        with manifest.open("ab") as handle:
+            handle.write(canonical_json(entry) + b"\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        directory_fd = os.open(manifest.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory_fd)
+        finally:
+            os.close(directory_fd)
+
+    def _rollback_uncommitted(
+        self, record: dict, source_path: Path, source_id: str
+    ) -> None:
+        """提交点（store.update applied）之前失败时的清理。
+
+        仅当本次新建（preview 时目标不存在）才删除已写入的 source；覆盖场景新
+        内容保留在 source 文件、待重放提交（atomic_write 已替换旧文件，旧内容
+        不可恢复——重放 recovery 使 manifest/state 与新内容一致，无人重放时为
+        静默不一致态，属已知权衡）。sidecar 是运行缓存一并清理，archive 内容
+        寻址保留无害。
+        """
+        if record.get("target_hash") is None:
+            with contextlib.suppress(OSError):
+                source_path.unlink(missing_ok=True)
+        with contextlib.suppress(OSError):
+            self.paths.state_local_sources("public").joinpath(
+                f"{source_id}.json"
+            ).unlink(missing_ok=True)
+        self.store.update(record, "expired", error_code="apply_failed")
 
 
 def main(argv: list[str] | None = None) -> int:
