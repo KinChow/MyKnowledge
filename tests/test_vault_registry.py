@@ -10,6 +10,7 @@ from unittest import mock
 
 from tools.vault_registry import VaultRegistry
 from tools.backup import BackupManager
+from tools.question import practice_integrity_check
 
 
 class VaultRegistryTests(unittest.TestCase):
@@ -468,7 +469,8 @@ class VaultRegistryTests(unittest.TestCase):
             (practice / "q-one.json").write_text(json.dumps(question) + "\n", encoding="utf-8")
             reviews = root / "practice" / "reviews"; reviews.mkdir(parents=True)
             (reviews / "q-one.jsonl").write_text(json.dumps({"schema_version": "practice-review-record/v1", "question_id": "q-one"}) + "\n", encoding="utf-8")
-            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            from tools.question import practice_integrity_check
+            manager = BackupManager(root, extra_verifiers={"practice": practice_integrity_check}); manifest = manager.create_manifest("public")
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 restored = manager.restore_manifest(root / manifest["path"], target)
@@ -477,7 +479,7 @@ class VaultRegistryTests(unittest.TestCase):
                 tampered["prompt"] = "tampered"
                 (target / "practice" / "questions" / "q-one.json").write_text(json.dumps(tampered) + "\n", encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, "practice_question_invalid"):
-                    BackupManager._verify_practice_tree(target)
+                    practice_integrity_check(target)
 
     def test_restored_fsrs_card_can_continue_review(self):
         with tempfile.TemporaryDirectory() as d:
@@ -496,7 +498,8 @@ class VaultRegistryTests(unittest.TestCase):
             if first.get("state") == "unavailable":
                 return
             before = store.load("q-fsrs")["review_state"]
-            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            from tools.question import practice_integrity_check
+            manager = BackupManager(root, extra_verifiers={"practice": practice_integrity_check}); manifest = manager.create_manifest("public")
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 restored = manager.restore_manifest(root / manifest["path"], target)
@@ -524,7 +527,8 @@ class VaultRegistryTests(unittest.TestCase):
     def test_restore_requires_empty_target(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
-            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            from tools.question import practice_integrity_check
+            manager = BackupManager(root, extra_verifiers={"practice": practice_integrity_check}); manifest = manager.create_manifest("public")
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"; target.mkdir(); (target / "keep").write_text("x")
                 result = manager.restore_manifest(root / manifest["path"], target)
@@ -535,7 +539,8 @@ class VaultRegistryTests(unittest.TestCase):
             root = Path(d); subprocess.run(["git", "init", "-q", str(root)], check=True)
             (root / "wiki").mkdir(); (root / "wiki" / "one.md").write_text("one", encoding="utf-8")
             (root / "wiki" / "two.md").write_text("two", encoding="utf-8")
-            manager = BackupManager(root); manifest = manager.create_manifest("public")
+            from tools.question import practice_integrity_check
+            manager = BackupManager(root, extra_verifiers={"practice": practice_integrity_check}); manifest = manager.create_manifest("public")
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 original = __import__("tools.backup", fromlist=["atomic_write"]).atomic_write

@@ -155,3 +155,10 @@
 - Then：manifest 自身 hash、owner ObjectRef、snapshot/archive/LFS、audit chain heads、target kind 和恢复后 hash 集合均可校验；remote/加密配置只保存 opaque identity/key reference，不保存 URL、密钥或 token；每个 owner Vault 都有独立 manifest/恢复记录；
 - 失败时不变量：缺少 durable manifest、owner 记录或 key reference 解析失败不得标记 `verified`，不能用共享 blob cache 替代 owner Vault 的备份；
 - 自动化级别：Repository/Security/Recovery。
+
+## F012 review 增量证据（2026-08-28）
+
+- **解耦（F004 review P3 落地）**：`BackupManager` 不再 import question 模块——领域语义校验改为注入钩子（`extra_verifiers`，DIP：协议在备份、实现归领域、组装在 CLI 入口）；`practice_integrity_check` 迁至 `tools/question.py`。备份不再知道题库的存在。
+- **真实仓库备份演练（首次全链）**：`manifest`（645 entries）→ `verify: verified` → `export-bundle` → `restore-bundle` 到隔离目录 → `wiki/work-methods/aar.md` 恢复内容**逐字节一致**；doctor 综合状态 degraded（仅 QMD 环境告警）。
+- **修复（durable record 契约违反）**：`confirm.py`（F003 人工确认）写 `publish_wiki` 审计记录时绕过 OperationStore 提交协议、缺少 `record_sha256`（§1239 必填），导致备份 verify `durable_record_hash_mismatch`——真实备份演练首次抓到（此前无消费者校验）。已修生成方并补齐 2 条历史缺陷记录（内容不变，仅加完整性字段），旧 manifest 保留为修复前快照。
+- 边界不变：真实远端传输（BOS/rsync 等）、加密备份 target、跨 Vault 全量重建仍属环境级验收。
