@@ -41,3 +41,4 @@ Proposed → Accepted → Superseded
 - [ADR-0009 Astro/Starlight 静态 Wiki 发布链](./0009-static-wiki-publishing.md)
 - [ADR-0010 发布门禁：确定性校验 + 可选 LLM 规范审计 + 必须人工审计](./0010-publish-gate-llm-audit-and-human-approval.md)
 - [ADR-0011 入口层必须消费共享 domain service](./0011-entry-layer-shared-services.md)
+- [ADR-0012 LLM 责任边界：MyKnowledge 不内置生成式能力](./0012-llm-responsibility-boundary.md)
