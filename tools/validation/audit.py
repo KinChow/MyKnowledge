@@ -23,6 +23,7 @@ from pathlib import Path
 
 from ..common import atomic_write, canonical_quote, hash_canonical, sha256_text
 from ..paths import RepoPaths
+from ..policy import policy_value
 from . import corroboration, ruleset
 from .corroboration import normalize_observation
 from .derived import (
@@ -82,9 +83,7 @@ def _snapshot_excerpt(resolution: dict, source_id: str, evidence_id: str, paths)
     return scope or ""
 
 
-def build_validation_request(
-    vreport: dict, ruleset_data: dict, paths
-) -> dict:
+def build_validation_request(vreport: dict, ruleset_data: dict, paths) -> dict:
     """构造 ValidationRequest：claim/target/quote 上下文 + ruleset + provenance。
 
     LLM 只能接收已通过确定性检查的 target 上下文（TD Validator 契约），
@@ -104,7 +103,9 @@ def build_validation_request(
                 {
                     "source_id": source_id,
                     "evidence_id": evidence_id,
-                    "quote": _snapshot_excerpt(resolution, source_id, evidence_id, paths),
+                    "quote": _snapshot_excerpt(
+                        resolution, source_id, evidence_id, paths
+                    ),
                     "origin": source_meta.get("origin", "external"),
                     "evidence_status": source_meta.get("evidence_status")
                     or "source-reported",
@@ -139,15 +140,20 @@ def check_response_schema(payload: dict, response_schema: dict) -> list[str]:
     except ImportError:
         return ["jsonschema unavailable"]
     validator = Draft202012Validator(response_schema)
-    return [f"{'.'.join(str(p) for p in e.path)}: {e.message}" for e in validator.iter_errors(payload)]
+    return [
+        f"{'.'.join(str(p) for p in e.path)}: {e.message}"
+        for e in validator.iter_errors(payload)
+    ]
 
 
 def provider_allows_request(provider, request: dict) -> bool:
     """Require an explicitly opted-in provider before sending internal text."""
     internal = any(
         (target.get("confidentiality") == "internal")
-        for claim in request.get("claims", []) if isinstance(claim, dict)
-        for target in claim.get("targets", []) if isinstance(claim.get("targets", []), list)
+        for claim in request.get("claims", [])
+        if isinstance(claim, dict)
+        for target in claim.get("targets", [])
+        if isinstance(claim.get("targets", []), list)
         if isinstance(target, dict)
     )
     return not internal or getattr(provider, "supports_internal", False) is True
@@ -169,9 +175,7 @@ def check_coverage(payload: dict, request: dict) -> list[str]:
     if payload_claims != request_claims:
         missing = sorted(request_claims - payload_claims)
         extra = sorted(payload_claims - request_claims)
-        errors.append(
-            f"claim 覆盖不全: 缺 {missing} 多 {extra}"
-        )
+        errors.append(f"claim 覆盖不全: 缺 {missing} 多 {extra}")
         return errors
     spec_ids = {ref["spec_id"] for ref in request["ruleset"]["rule_refs"]}
     for claim in payload.get("claims", []):
@@ -191,13 +195,9 @@ def check_coverage(payload: dict, request: dict) -> list[str]:
                 f"缺 {sorted(request_targets - payload_targets)} "
                 f"多 {sorted(payload_targets - request_targets)}"
             )
-        quote_ids = {
-            q.get("evidence_id") for q in claim.get("supporting_quotes", [])
-        }
+        quote_ids = {q.get("evidence_id") for q in claim.get("supporting_quotes", [])}
         if quote_ids != {e for _, e in payload_targets}:
-            errors.append(
-                f"claim {claim_id} supporting_quotes 未覆盖全部 target"
-            )
+            errors.append(f"claim {claim_id} supporting_quotes 未覆盖全部 target")
         refs = claim.get("applied_rule_refs") or []
         if not refs:
             errors.append(f"claim {claim_id} 缺少 applied_rule_refs（逐条回引义务）")
@@ -231,7 +231,9 @@ def check_coverage(payload: dict, request: dict) -> list[str]:
     return errors
 
 
-def verify_model_quotes(payload: dict, resolution: dict, paths, quote_min_chars: int) -> list[dict]:
+def verify_model_quotes(
+    payload: dict, resolution: dict, paths, quote_min_chars: int
+) -> list[dict]:
     """模型引文逐字二次校验（§8.2）：每个 target 一条引文，须在 selector 范围内命中。
 
     找不到即该 claim 判 unsupported（无论模型 verdict）；校验错误记录
@@ -283,12 +285,14 @@ def verify_model_quotes(payload: dict, resolution: dict, paths, quote_min_chars:
     return errors
 
 
-def verify_independence(payload: dict, request: dict) -> tuple[dict, list[dict]]:
+def verify_independence(payload: dict) -> tuple[dict, list[dict]]:
     """独立性举证校验（AC-F003-005）：basis 必须回引 provenance 或原文区间。
 
-    返回 (per-claim independence group 映射, warnings)。无法举证 → 该 target
-    按 independence_unknown（单一 source）处理，不参与 corroborated 派生；
-    禁止以域名/URL 相似度、发布时间先后作为独立性依据。
+    只看 provider 输出：payload 的 claim/target 已由 check_coverage 证明与
+    ValidationRequest 完全一致，这里再传一份 request 是冗余参数（曾存在但
+    从未被消费）。返回 (per-claim independence group 映射, warnings)。
+    无法举证 → 该 target 按 independence_unknown（单一 source）处理，不参与
+    corroborated 派生；禁止以域名/URL 相似度、发布时间先后作为独立性依据。
     """
     groups: dict[tuple[str, str], str] = {}
     warnings: list[dict] = []
@@ -378,24 +382,24 @@ def extract_observations(payload: dict) -> dict:
 def _policy_advisory_participates(root: Path) -> bool:
     """policy.yaml 的 validation.ruleset.advisory_participates_in_verdict。
 
-    默认 False（advisory 只作参考展示、不参与 pass/fail，§8.2）；读取失败
-    按默认处理，不抛（配置问题不阻断审计）。
+    默认 False（advisory 只作参考展示、不参与 pass/fail，§8.2）。策略文件
+    损坏时抛 AuditBlocked：这个开关直接改变 verdict 口径，读不到就不能按
+    "默认值"继续审（§8.3：没跑就是没跑，不留"已审"痕迹）。
     """
     try:
-        import yaml
-
-        policy_path = root / "config" / "policy.yaml"
-        if not policy_path.exists():
-            return False
-        data = yaml.safe_load(policy_path.read_text(encoding="utf-8"))
         return bool(
-            (data or {})
-            .get("validation", {})
-            .get("ruleset", {})
-            .get("advisory_participates_in_verdict", False)
+            policy_value(
+                root,
+                "validation",
+                "ruleset",
+                "advisory_participates_in_verdict",
+                default=False,
+            )
         )
-    except Exception:
-        return False
+    except ValueError as exc:
+        raise AuditBlocked(
+            "policy_invalid", f"config/policy.yaml 不可解析: {exc}"
+        ) from exc
 
 
 def compute_final_verdict(
@@ -469,36 +473,49 @@ def run_audit(
     if not provider_allows_request(provider, request):
         result = ProviderResult(
             getattr(provider, "identity", provider.__class__.__name__),
-            "call_not_authorized", build_input_hash(request),
-            error_code="provider_unavailable", error_message="provider policy does not allow internal content",
+            "call_not_authorized",
+            build_input_hash(request),
+            error_code="provider_unavailable",
+            error_message="provider policy does not allow internal content",
         )
         record = _write_not_run(
-            object_id, result.error_code, hashes, paths,
-            provider_identity=result.provider_identity, message=result.error_message,
+            object_id,
+            result.error_code,
+            hashes,
+            paths,
+            provider_identity=result.provider_identity,
+            message=result.error_message,
         )
-        return _audit_outcome(provider, result, record, vreport)
+        return _audit_outcome(result, record, vreport)
 
     try:
         result = provider.audit(request, response_schema)
     except (TimeoutError, subprocess.TimeoutExpired) as exc:
         result = ProviderResult(
             getattr(provider, "identity", provider.__class__.__name__),
-            "call_unavailable", build_input_hash(request),
-            error_code="context_exceeded", error_message=type(exc).__name__,
+            "call_unavailable",
+            build_input_hash(request),
+            error_code="context_exceeded",
+            error_message=type(exc).__name__,
         )
     except OSError as exc:
         result = ProviderResult(
             getattr(provider, "identity", provider.__class__.__name__),
-            "call_unavailable", build_input_hash(request),
-            error_code="provider_unavailable", error_message=type(exc).__name__,
+            "call_unavailable",
+            build_input_hash(request),
+            error_code="provider_unavailable",
+            error_message=type(exc).__name__,
         )
     if result.error_code is not None:
         record = _write_not_run(
-            object_id, result.error_code, hashes, paths,
+            object_id,
+            result.error_code,
+            hashes,
+            paths,
             provider_identity=result.provider_identity,
             message=result.error_message,
         )
-        return _audit_outcome(provider, result, record, vreport)
+        return _audit_outcome(result, record, vreport)
 
     payload = result.payload
     schema_errors = check_response_schema(payload, response_schema)
@@ -510,7 +527,10 @@ def run_audit(
     if schema_errors or model_declared_not_run(payload):
         reason = "malformed_output"
         record = _write_not_run(
-            object_id, reason, hashes, paths,
+            object_id,
+            reason,
+            hashes,
+            paths,
             provider_identity=result.provider_identity,
             message=(
                 f"输出违反 wiki-validation/v1: {schema_errors[:3]}"
@@ -518,21 +538,24 @@ def run_audit(
                 else "模型自行声明 not_run（被拒绝）"
             ),
         )
-        return _audit_outcome(provider, result, record, vreport)
+        return _audit_outcome(result, record, vreport)
 
     coverage_errors = check_coverage(payload, request)
     if coverage_errors:
         record = _write_not_run(
-            object_id, "incomplete_coverage", hashes, paths,
+            object_id,
+            "incomplete_coverage",
+            hashes,
+            paths,
             provider_identity=result.provider_identity,
             message="; ".join(coverage_errors),
         )
-        return _audit_outcome(provider, result, record, vreport)
+        return _audit_outcome(result, record, vreport)
 
     quote_errors = verify_model_quotes(
         payload, vreport["resolution"], paths, quote_min_chars
     )
-    groups, independence_warnings = verify_independence(payload, request)
+    groups, independence_warnings = verify_independence(payload)
     observations = extract_observations(payload)
     corroboration_result = corroboration.compute_corroboration(
         vreport["resolution"].get("resolved_targets", []),
@@ -548,11 +571,19 @@ def run_audit(
     )
 
     report = _build_report(
-        object_id, verdict, vreport, result, ruleset_data, payload,
-        quote_errors, corroboration_result, independence_warnings, paths,
+        object_id,
+        verdict,
+        vreport,
+        result,
+        ruleset_data,
+        payload,
+        quote_errors,
+        corroboration_result,
+        independence_warnings,
+        paths,
     )
     record = _write_report(report, paths)
-    return _audit_outcome(provider, result, record, vreport)
+    return _audit_outcome(result, record, vreport)
 
 
 def _read_metadata(wiki_path: Path) -> tuple[dict, str]:
@@ -584,11 +615,7 @@ def _build_report(
         source_id = target["source_id"]
         evidence_id = target["evidence_id"]
         source = resolution.get("sources", {}).get(source_id)
-        item = (
-            source["evidence_items"].get(evidence_id)
-            if source is not None
-            else None
-        )
+        item = source["evidence_items"].get(evidence_id) if source is not None else None
         bindings.append(
             {
                 "resolved_object_ref": target.get("resolved_object_ref", {}),
@@ -646,8 +673,13 @@ def _write_report(report: dict, paths) -> dict:
         if key not in RUNTIME_REPORT_FIELDS and not key.startswith("_")
     }
     report_sha256 = hash_canonical(stable)
-    target = paths.audit_validation("wiki", report["wiki_id"]) / f"{report_sha256.removeprefix('sha256:')}.json"
-    atomic_write(target, json.dumps(report, ensure_ascii=False, indent=2).encode("utf-8"))
+    target = (
+        paths.audit_validation("wiki", report["wiki_id"])
+        / f"{report_sha256.removeprefix('sha256:')}.json"
+    )
+    atomic_write(
+        target, json.dumps(report, ensure_ascii=False, indent=2).encode("utf-8")
+    )
     return {**report, "_path": str(target)}
 
 
@@ -678,23 +710,28 @@ def _write_not_run(
     }
     # ⑰：not_run 记录的 hash 同样排除运行时字段（同原因重跑幂等覆盖）
     stable = {
-        key: value
-        for key, value in record.items()
-        if key not in RUNTIME_REPORT_FIELDS
+        key: value for key, value in record.items() if key not in RUNTIME_REPORT_FIELDS
     }
     record_sha256 = hash_canonical(stable)
-    target = paths.audit_validation("wiki", object_id) / f"{record_sha256.removeprefix('sha256:')}.json"
-    atomic_write(target, json.dumps(record, ensure_ascii=False, indent=2).encode("utf-8"))
+    target = (
+        paths.audit_validation("wiki", object_id)
+        / f"{record_sha256.removeprefix('sha256:')}.json"
+    )
+    atomic_write(
+        target, json.dumps(record, ensure_ascii=False, indent=2).encode("utf-8")
+    )
     record["_path"] = str(target)
     record["_diagnostic"] = message  # 仅 CLI 展示，不落盘
     return record
 
 
-def _audit_outcome(provider, result: ProviderResult, record: dict, vreport: dict) -> dict:
+def _audit_outcome(result: ProviderResult, record: dict, vreport: dict) -> dict:
     """归一审计结果（供 CLI/调用方展示）。
 
-    诊断信息（_diagnostic）只进 outcome 由 CLI 打印，不写入报告文件
-    （§8.4：报告只保存 opaque provider identity 与 not_run_reason）。
+    provider 身份一律取自 ``result.provider_identity``（ProviderResult 已带
+    opaque identity），不再额外传 provider 实例——旧签名里的 provider 参数
+    从未被消费。诊断信息（_diagnostic）只进 outcome 由 CLI 打印，不写入报告
+    文件（§8.4：报告只保存 opaque provider identity 与 not_run_reason）。
     """
     return {
         "wiki_id": record.get("wiki_id"),
@@ -703,7 +740,8 @@ def _audit_outcome(provider, result: ProviderResult, record: dict, vreport: dict
         "input_hash": result.input_hash,
         "schema_version": record.get("schema_version"),
         "validation_state": (
-            "not_run" if record.get("schema_version") == NOT_RUN_SCHEMA_VERSION
+            "not_run"
+            if record.get("schema_version") == NOT_RUN_SCHEMA_VERSION
             else record.get("verdict", "not_run")
         ),
         "not_run_reason": record.get("not_run_reason"),
@@ -746,8 +784,13 @@ def main(argv: list[str] | None = None) -> int:
             args.root, args.wiki, provider, quote_min_chars=args.min_chars
         )
     except AuditBlocked as exc:
-        print(json.dumps({"state": "blocked", "error_code": exc.code,
-                          "message": exc.message}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {"state": "blocked", "error_code": exc.code, "message": exc.message},
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
         return 2
     print(json.dumps(outcome, ensure_ascii=False, indent=2))
     return 0
