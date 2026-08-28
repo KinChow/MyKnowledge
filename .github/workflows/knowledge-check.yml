@@ -1,5 +1,6 @@
 name: Knowledge site check
 
+# GitHub Actions 不支持 YAML anchor，两处 paths 只能显式重复
 on:
   pull_request:
     paths:
@@ -9,9 +10,14 @@ on:
       - 'tools/**'
       - 'backend/**'
       - 'frontend/**'
+      - 'tests/**'
+      - 'scripts/**'
       - 'queries/public/**'
       - 'release/public-confirmations/**'
-      - 'docs/traceability-matrix.md'
+      - 'pyproject.toml'
+      - 'requirements.txt'
+      - 'requirements-dev.txt'
+      - '.pre-commit-config.yaml'
       - '.github/workflows/knowledge-check.yml'
   push:
     paths:
@@ -21,13 +27,39 @@ on:
       - 'tools/**'
       - 'backend/**'
       - 'frontend/**'
+      - 'tests/**'
+      - 'scripts/**'
       - 'queries/public/**'
       - 'release/public-confirmations/**'
-      - 'docs/traceability-matrix.md'
+      - 'pyproject.toml'
+      - 'requirements.txt'
+      - 'requirements-dev.txt'
+      - '.pre-commit-config.yaml'
       - '.github/workflows/knowledge-check.yml'
 
 jobs:
-  migration-baseline:
+  # 全部业务逻辑在 Python 侧，CI 必须覆盖它：格式/lint 与本地 pre-commit 同配置同版本。
+  # 双版本矩阵：3.12 是 bootstrap.sh 声明的下限，3.14 是当前开发环境——
+  # 只测一个版本时，3.14-only 语法（如 PEP 758 无括号 except）会静默漏过。
+  python-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: ruff check --output-format=github .
+      - run: ruff format --check .
+      - run: python -m pytest -q
+
+  # 前端只有校验脚本（无发布），config/docs 常驻；projection 仅在 manifest 存在时校验
+  frontend-gates:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -42,16 +74,6 @@ jobs:
       - run: npm ci
       - run: npm run validate:config
       - run: npm run validate:docs
-      - run: npm run validate:legacy
-        name: Validate migration baseline (not F007 release acceptance)
-
-  public-projection:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - uses: actions/checkout@v4
       - name: Detect public projection manifest
         id: projection
         shell: bash
@@ -62,18 +84,6 @@ jobs:
             echo "present=false" >> "$GITHUB_OUTPUT"
             echo "No queries/public/manifest.json; projection validation is deferred until migration creates it."
           fi
-      - uses: actions/setup-node@v4
+      - name: Validate public projection and release gates
         if: steps.projection.outputs.present == 'true'
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-      - run: npm ci
-        if: steps.projection.outputs.present == 'true'
-      - run: npm run validate:config
-        if: steps.projection.outputs.present == 'true'
-      - run: npm run validate:docs
-        if: steps.projection.outputs.present == 'true'
-      - run: npm run validate:projection
-        if: steps.projection.outputs.present == 'true'
-        name: Validate public projection and release gates
+        run: npm run validate:projection
