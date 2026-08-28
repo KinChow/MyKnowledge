@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -788,6 +789,45 @@ class ConfirmApplyCliTests(unittest.TestCase):
                 build_apply_confirmation(store, preview["operation_id"], "alice")[1],
                 "operation_expired",
             )
+
+    def test_cli_exposes_recover_for_a_stranded_commit(self):
+        """`write --recover` 必须真实可用：doctor 的 next_action 指向它。
+
+        在此之前 WriteOperation.recover 只有测试调用得到，apply 返回的
+        `next_action: recover_projection` 对用户是一句无法执行的话。
+        """
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+
+            def boom(_record):
+                raise OSError("index rebuild failed")
+
+            service = WriteOperation(root, projection_rebuilder=boom)
+            preview = service.preview({"wiki/x.md": "# x\n正文"})
+            op = preview["operation_id"]
+            self.assertEqual(
+                service.apply(op, confirmed=True)["state"], "applied_index_pending"
+            )
+            recovered = subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "tools.cli",
+                    "write",
+                    "--root",
+                    str(root),
+                    "--recover",
+                    op,
+                ],
+                cwd=Path(__file__).resolve().parents[1],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(recovered.returncode, 0, recovered.stderr)
+            payload = json.loads(recovered.stdout)
+            self.assertEqual(payload["state"], "applied")
+            self.assertTrue(payload["recovered"])
+            self.assertEqual(WriteOperation(root).store.load(op)["state"], "applied")
 
 
 class IndexAutoRebuildTests(unittest.TestCase):

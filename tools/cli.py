@@ -48,6 +48,11 @@ def write_main(argv: list[str]) -> int:
     )
     parser.add_argument("--apply")
     parser.add_argument(
+        "--recover",
+        metavar="OPERATION_ID",
+        help="重跑被中断的提交收尾（applied_index_pending 的 projection/索引重建）",
+    )
+    parser.add_argument(
         "--confirmation",
         type=Path,
         help="operation-confirmation/v1 event JSON (see confirm-apply)",
@@ -60,14 +65,16 @@ def write_main(argv: list[str]) -> int:
         if args.confirmation
         else None
     )
-    if args.apply:
+    if args.recover:
+        _print_json(service.recover(args.recover))
+    elif args.apply:
         _print_json(
             service.apply(args.apply, confirmed=args.confirm, confirmation=confirmation)
         )
     elif args.files:
         _print_json(service.preview(json.loads(args.files.read_text(encoding="utf-8"))))
     else:
-        parser.error("--files or --apply is required")
+        parser.error("--files / --apply / --recover is required")
     return 0
 
 
