@@ -44,8 +44,10 @@ def run_doctor(root: Path) -> dict:
             index = SQLiteIndex(index_path)
             expected = hash_canonical([i for i in items]) if items else None
             fresh = expected is None or index.generated_from() == expected
+            tokenizer = index.tokenizer()
             add("fts5_index", "ok" if fresh else "warning",
-                reason=None if fresh else "index_stale", next_action=None if fresh else "同上 rebuild")
+                reason=None if fresh else "index_stale", tokenizer=tokenizer,
+                next_action=None if fresh else "同上 rebuild")
         except Exception as exc:  # sqlite3.Error 等
             add("fts5_index", "warning", reason=f"index_unreadable:{type(exc).__name__}", next_action="rebuild")
 
