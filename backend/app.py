@@ -150,7 +150,33 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
             raise HTTPException(status_code=400, detail={"code": "vault_ids_required", "stage": "request", "retryable": False, "next_action": "select one or more internal vault_ids"})
         if len(req.vault_ids or []) > 16:
             raise HTTPException(status_code=400, detail={"code": "query_limit_exceeded", "stage": "request", "retryable": False, "next_action": "reduce vault_ids"})
-        return app.state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
+        result = app.state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
+        # §12/§1958：include_sources/include_archive 是已定义契约，不允许
+        # "被接受但被忽略"的静默参数（F006 review 修复）
+        if req.include_sources:
+            result = _attach_sources(result, app.state.retriever.items)
+        if req.include_archive:
+            result.setdefault("warnings", []).append("archive_recall_not_available")
+        return result
+
+    def _attach_sources(result: dict, items: list[dict]) -> dict:
+        """为命中 wiki 附带其 front matter 中的 sources/related 引用。"""
+        from tools.front_matter import FrontMatter
+        by_id = {}
+        for item in items:
+            body = item.get("body")
+            if body and item.get("object_id"):
+                try:
+                    meta, _ = FrontMatter.parse(body) if body.startswith("---\n") else ({}, None)
+                except ValueError:
+                    meta = {}
+                by_id[item["object_id"]] = {"sources": meta.get("sources", []), "related": meta.get("related", [])}
+        for hit in result.get("items", []):
+            oid = (hit.get("object_ref") or {}).get("object_id")
+            if oid in by_id:
+                hit["sources"] = by_id[oid]["sources"]
+                hit["related"] = by_id[oid]["related"]
+        return result
 
     @app.get("/api/health")
     def health() -> dict:
@@ -225,6 +251,8 @@ def create_app(root: Path | None = None, *, items: list[dict] | None = None, cap
         base = owner_root / ("wiki" if object_type == "wiki" else "sources")
         matches = [p for p in base.rglob(f"{object_id}.md") if p.is_file() and not p.is_symlink()]
         if not matches: raise HTTPException(status_code=404, detail={"code": "object_not_found", "stage": "read", "retryable": False, "next_action": "check object_ref"})
+        # AC-F006-003：同名对象不得按目录顺序猜测 owner（修复：多匹配结构化拒绝）
+        if len(matches) > 1: raise HTTPException(status_code=409, detail={"code": "object_id_ambiguous", "stage": "read", "retryable": False, "next_action": "disambiguate the object id within this vault"})
         return matches[0]
 
     @app.get("/api/read/{vault_id}/{object_type}/{object_id}")

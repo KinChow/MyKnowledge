@@ -205,3 +205,10 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 - 结果：相关测试通过，覆盖 GET `/api/query` 与 POST `/api/retrieve` parity、scope/vault allowlist、token TTL/audience、Origin/Host、请求体上限、preview/apply confirmation、private owner read/backlinks、离线 ask 和 citation replay。
 - 成熟方案边界：直接复用 FastAPI/Pydantic/Starlette/Uvicorn 的 schema、ASGI middleware 和 graceful shutdown；scope、Vault owner、confirmation、projection 与 unavailable 语义由 MyKnowledge 保留。
 - 边界：真实跨平台部署、长时间运行和外部 provider 仍需环境验收；专项报告不将 TestClient 或离线 provider unavailable 误报为 `Accepted`。
+
+## F006 review 增量证据（2026-08-28）
+
+- **真实 root 冒烟**：health ok；`/api/query` 经默认 FTS5 索引返回 `method: fts5` 命中 aar；`/api/read/public/wiki/aar` projection-only 返回正文；未发布 canonical（transformer wiki 不存在/未发布）返回 404；preview→未确认 apply→`awaiting_confirmation` 门禁正确；`/api/ask` 显式 `unavailable/provider_unavailable`（AC-F006-004 合规）。
+- **修复（静默参数）**：`include_sources`/`include_archive` 是 §12 已定义契约，此前被接受但被忽略——`include_sources=true` 现为命中 wiki 附带 front matter 的 sources/related 引用；`include_archive=true` 在 warnings 显式 `archive_recall_not_available`（未生效能力显性化，不静默）。测试：`test_include_sources_attaches_references_not_silently_ignored`。
+- **修复（同名歧义）**：非 public vault 的 `object_path` rglob 多匹配时原取 `matches[0]` 按目录序猜对象（违反 AC-F006-003 字面），现返回 409 `object_id_ambiguous`。
+- 边界不变：ask 的 LLM provider 接线（生成式回答）、跨平台部署、长运行仍待环境验收。
