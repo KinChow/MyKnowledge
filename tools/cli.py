@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 from tools.backup import BackupManager
+from tools.doctor import main as doctor_main
 from tools.evidence_anchor import main as anchor_main
 from tools.inventory_legacy import main as inventory_main
 from tools.ingest.source_ingestor import main as source_main
@@ -311,6 +312,7 @@ COMMANDS = {
     "lock": lock_main,
     "backup": backup_main,
     "question": question_main,
+    "doctor": doctor_main,
     "inventory": inventory_main,
     "migrate": migrate_main,
     "transfer": transfer_main,
@@ -336,6 +338,7 @@ commands:
   lock             恢复孤儿 vault 锁（F004）
   backup           备份状态与 durable manifest（F012）
   question         Question 创建、作答与复习（F008）
+  doctor           健康自检（projection/索引/QMD/sources/备份，ADR-0011 降级显性化）
   inventory        生成 legacy 内容迁移清单（F010）
   migrate          legacy 内容迁移（F010）
   transfer         跨 vault 复制/移动的 preview/apply（F011）

@@ -211,4 +211,5 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 - **真实 root 冒烟**：health ok；`/api/query` 经默认 FTS5 索引返回 `method: fts5` 命中 aar；`/api/read/public/wiki/aar` projection-only 返回正文；未发布 canonical（transformer wiki 不存在/未发布）返回 404；preview→未确认 apply→`awaiting_confirmation` 门禁正确；`/api/ask` 显式 `unavailable/provider_unavailable`（AC-F006-004 合规）。
 - **修复（静默参数）**：`include_sources`/`include_archive` 是 §12 已定义契约，此前被接受但被忽略——`include_sources=true` 现为命中 wiki 附带 front matter 的 sources/related 引用；`include_archive=true` 在 warnings 显式 `archive_recall_not_available`（未生效能力显性化，不静默）。测试：`test_include_sources_attaches_references_not_silently_ignored`。
 - **修复（同名歧义）**：非 public vault 的 `object_path` rglob 多匹配时原取 `matches[0]` 按目录序猜对象（违反 AC-F006-003 字面），现返回 409 `object_id_ambiguous`。
-- 边界不变：ask 的 LLM provider 接线（生成式回答）、跨平台部署、长运行仍待环境验收。
+- **ADR-0012（2026-08-28）**：ask 的 LLM provider 接线从待办改为**设计排除**——调用方向是外层 Agent 经 Skill 调 MyKnowledge，生成式回答由外层 Agent 完成（retrieve → Agent LLM → citation replay 校验），MyKnowledge 保持零生成式内置。`/api/ask` 永久返回显式 `unavailable` 是合规终态。
+- 边界不变：跨平台部署、长运行仍待环境验收。
