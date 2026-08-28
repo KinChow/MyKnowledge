@@ -7,6 +7,7 @@
 - sources 全量 schema/snapshot 一致性校验；
 - archive 快照自证（文件名 == 正文 sha256，任何外部改写都在此暴露）；
 - archive manifest 账目双向一致（source 的 snapshot 有 owner record；record 指向的快照在盘上）；
+- 滞留的提交收尾（applied_index_pending 的 operation 无人重跑）；
 - vault registry / 备份状态摘要。
 退出码：任何 `error` 项存在时为 2，仅 warning 为 0。
 `--assert-clean` 为门禁模式（pre-commit 钩子消费）：无 error 只打印一行摘要。
@@ -132,6 +133,41 @@ def _check_manifest_records(root: Path) -> tuple[str, dict]:
         "broken": broken[:10],
         "broken_count": len(broken),
         "next_action": "restore the missing archive snapshots from git or backup; owner records are append-only and must not be edited",
+    }
+
+
+def _check_pending_operations(root: Path) -> tuple[str, dict]:
+    """滞留的 applied_index_pending：canonical 已提交、派生重建失败且无人重跑。
+
+    实测（2026-08-29）：这种 operation 对其余检查完全不可见——projection 与
+    索引一起停在旧版本，`fts5_index` 比的是"索引 vs projection"，两者一致所以
+    报 ok；`public_projection` 只看 manifest 可读。结果是 canonical 里的新内容
+    在检索/站点里查不到，而 doctor 说 healthy。recover 是显式操作，不会自愈，
+    所以必须在这里点名。
+    """
+    from .paths import RepoPaths
+
+    directory = RepoPaths(root).state_operations
+    if not directory.is_dir():
+        return "ok", {"checked": 0}
+    pending: list[str] = []
+    checked = 0
+    for path in sorted(directory.glob("*.json")):
+        checked += 1
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError):
+            continue  # operation 记录损坏由 apply 侧 fail-closed 处理，不在此重复
+        if record.get("state") == "applied_index_pending":
+            pending.append(str(record.get("operation_id") or path.stem))
+    if not pending:
+        return "ok", {"checked": checked}
+    return "warning", {
+        "checked": checked,
+        "pending": pending[:10],
+        "pending_count": len(pending),
+        "reason": "projection_rebuild_pending",
+        "next_action": f"python -m tools.cli write --recover {pending[0]}",
     }
 
 
@@ -270,6 +306,10 @@ def run_doctor(root: Path) -> dict:
     add("manifest_coverage", state, **fields)
     state, fields = _check_manifest_records(root)
     add("manifest_records", state, **fields)
+
+    # 4d. 滞留的提交收尾（canonical 已提交、projection/索引未重建）
+    state, fields = _check_pending_operations(root)
+    add("pending_operations", state, **fields)
 
     # 5. vault registry / 备份
     try:

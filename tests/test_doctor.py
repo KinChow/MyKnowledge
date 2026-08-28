@@ -164,6 +164,49 @@ def test_doctor_flags_owner_record_whose_path_contradicts_its_hash(
     assert names["manifest_records"]["broken"][0]["reason"] == "path_hash_mismatch"
 
 
+def test_doctor_flags_a_stranded_projection_rebuild(tmp_path: Path):
+    """canonical 已提交但派生重建失败的 operation 必须被点名（recover 不会自愈）。
+
+    实测动机：这种滞留态对其余检查全不可见——projection 与索引一起停在旧版本，
+    `fts5_index` 比的是"索引 vs projection"故报 ok，doctor 会说 healthy，而新
+    内容在检索里查不到。next_action 必须是能真正执行的命令。
+    """
+    from tools.write_operation import WriteOperation
+
+    service = WriteOperation(tmp_path)
+    first = service.preview(
+        {"wiki/a.md": "---\nschema_version: wiki/v1\nid: a\n---\n一\n"}
+    )
+    assert service.apply(first["operation_id"], confirmed=True)["state"] == "applied"
+    _, baseline = _run(tmp_path)
+    assert baseline["state"] == "healthy"  # 基线干净，排除其它噪声
+
+    def boom(_record):
+        raise OSError("index rebuild failed")
+
+    stuck = WriteOperation(tmp_path, projection_rebuilder=boom)
+    second = stuck.preview(
+        {"wiki/b.md": "---\nschema_version: wiki/v1\nid: b\n---\n二\n"}
+    )
+    operation_id = second["operation_id"]
+    assert stuck.apply(operation_id, confirmed=True)["state"] == "applied_index_pending"
+
+    code, report = _run(tmp_path)
+    assert code == 0  # 派生数据滞后是降级，不是内容损坏
+    names = {c["name"]: c for c in report["checks"]}
+    assert names["pending_operations"]["state"] == "warning"
+    assert names["pending_operations"]["pending"] == [operation_id]
+    assert names["fts5_index"]["state"] == "ok"  # 正是这条看不见滞留
+    assert (
+        names["pending_operations"]["next_action"]
+        == f"python -m tools.cli write --recover {operation_id}"
+    )
+
+    assert service.recover(operation_id)["state"] == "applied"
+    _, healed = _run(tmp_path)
+    assert healed["state"] == "healthy"
+
+
 def test_doctor_assert_clean_is_quiet_when_healthy_and_loud_on_error(tmp_path: Path):
     code, stdout, stderr = _run_gate(tmp_path)
     assert code == 0 and stdout == "doctor: degraded (warnings=2)" and stderr == ""
