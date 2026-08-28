@@ -57,6 +57,10 @@ jobs:
       - run: ruff check --output-format=github .
       - run: ruff format --check .
       - run: python -m pytest -q
+      # 内容完整性与本地 pre-commit 同一条命令：archive 快照 hash 自证。
+      # 只在 3.12 跑一次即可——检查的是仓库内容，与解释器版本无关。
+      - if: matrix.python-version == '3.12'
+        run: python -m tools.cli doctor --assert-clean
 
   # 前端只有校验脚本（无发布），config/docs 常驻；projection 仅在 manifest 存在时校验
   frontend-gates:
