@@ -32,9 +32,7 @@ def read_json_dict(path: Path) -> dict | None:
     return value if isinstance(value, dict) else None
 
 
-def load_validation_report(
-    object_id: str, hashes: dict | None, paths
-) -> dict | None:
+def load_validation_report(object_id: str, hashes: dict | None, paths) -> dict | None:
     """读取 owner Vault 内最近一次 LLM 验证记录（audit/validation/wiki/<id>/）。
 
     F003（hash 绑定）：报告必须绑定当前 (content, evidence) hash，否则视为
@@ -85,7 +83,9 @@ def load_validation_report(
     return verdict_latest if verdict_latest is not None else notrun_latest
 
 
-def evidence_sha256(metadata: dict, resolution: dict, owner_vault_id: str = OWNER_VAULT_ID) -> str:
+def evidence_sha256(
+    metadata: dict, resolution: dict, owner_vault_id: str = OWNER_VAULT_ID
+) -> str:
     """evidence_sha256 = sha256(canonical_json(解析后 evidence 含 resolved ref))。"""
     # 预构建查找表（R009）：O(T²) → O(T)
     ref_index = {
@@ -212,14 +212,17 @@ def _ruleset_stale(report: dict, paths) -> bool:
 
 def compute_derived(
     metadata: dict,
-    body: str,
     resolution: dict,
     report: dict | None,
     hashes: dict,
     paths,
     owner_vault_id: str = OWNER_VAULT_ID,
 ) -> dict:
-    """按 §6.8 计算全部派生字段（不入 canonical、不写回文件）。"""
+    """按 §6.8 计算全部派生字段（不入 canonical、不写回文件）。
+
+    正文不作为入参：派生只依赖 metadata/resolution/report 与调用方算好的
+    hashes（content_sha256 已由 validator 用 canonical_body 计算）。
+    """
     status = metadata.get("status")
     kind = metadata.get("kind")
     scope = metadata.get("publication_scope")
@@ -244,10 +247,7 @@ def compute_derived(
     if availability == "unavailable":
         validation_state = "unavailable"
     elif report and report.get("verdict") == "pass":
-        if _ruleset_stale(report, paths):
-            validation_state = "stale_ruleset"
-        else:
-            validation_state = "pass"
+        validation_state = "stale_ruleset" if _ruleset_stale(report, paths) else "pass"
     elif report and report.get("verdict") == "fail":
         validation_state = "fail"
     else:
@@ -263,7 +263,10 @@ def compute_derived(
     effective = levels.get(confidentiality, 0)
     for source in resolution.get("sources", {}).values():
         if source is not None:
-            effective = max(effective, levels.get(source["metadata"].get("confidentiality", "public"), 0))
+            effective = max(
+                effective,
+                levels.get(source["metadata"].get("confidentiality", "public"), 0),
+            )
     effective_confidentiality = "public" if effective == 0 else "internal"
 
     # strength（§6.8 映射表，按顺序命中第一条）
@@ -393,8 +396,7 @@ def compute_evidence_state(
         if "contradicted" in verdicts:
             return "conflicting"
         if any(
-            v in {"partially_supported", "unsupported", "unmapped"}
-            for v in verdicts
+            v in {"partially_supported", "unsupported", "unmapped"} for v in verdicts
         ):
             return "partial"
         if report.get("corroborated") is True:
@@ -430,7 +432,10 @@ def compute_strength(
     )
     if resolution.get("personal_only") or any_claim_personal_only:
         return "personal"
-    if resolution.get("common_knowledge_only") and evidence_state in {"supported", "corroborated"}:
+    if resolution.get("common_knowledge_only") and evidence_state in {
+        "supported",
+        "corroborated",
+    }:
         return "attested"
     if evidence_state == "corroborated":
         return "corroborated"
@@ -471,15 +476,13 @@ def has_private_confirmation(
         target = confirmation.get("target_ref") or record.get("target_ref") or {}
         if not isinstance(target, dict):
             continue
-        if (
-            target.get("object_type") not in (None, "wiki")
-            or target.get("object_id") not in (None, object_id)
-        ):
+        if target.get("object_type") not in (None, "wiki") or target.get(
+            "object_id"
+        ) not in (None, object_id):
             continue
         # F004：internal 必须已确认 internal 发布告警
         if effective_confidentiality == "internal" and not (
-            confirmation.get("warning_code")
-            and confirmation.get("warning_text_sha256")
+            confirmation.get("warning_code") and confirmation.get("warning_text_sha256")
         ):
             continue
         rec_content = confirmation.get("content_sha256") or confirmation.get(

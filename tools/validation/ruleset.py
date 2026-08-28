@@ -15,6 +15,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from ..common import hash_canonical, sha256_text
+from ..policy import policy_value
 
 # 规范文档相对仓库根的路径（§21：规范是唯一事实源）
 SPEC_DOC = "docs/myknowledge-system-design.md"
@@ -151,38 +152,40 @@ def ruleset_sha256(rule_refs: list[dict]) -> str:
 def policy_rule_ids(root: Path) -> list[str] | None:
     """从 config/policy.yaml 读取 validation.ruleset.rule_ids（运行时配置）。
 
-    policy 缺失/字段非法返回 None，由调用方回退 DEFAULT_RULE_IDS；
-    读取异常不抛（配置问题不应阻断确定性校验路径）。
+    未配置（文件缺失或字段缺失/类型不对）返回 None，由调用方回退
+    DEFAULT_RULE_IDS。策略文件本身损坏时不再静默按默认值继续：向上抛
+    ``ValueError("policy_invalid")``，由 load_ruleset 转成结构化错误
+    （配置写坏不能悄悄改变审计所依据的规则集）。
     """
-    try:
-        import yaml
-
-        policy_path = root / "config" / "policy.yaml"
-        if not policy_path.exists():
-            return None
-        data = yaml.safe_load(policy_path.read_text(encoding="utf-8"))
-        rule_ids = (
-            (data or {}).get("validation", {}).get("ruleset", {}).get("rule_ids")
-        )
-        if isinstance(rule_ids, list) and all(
-            isinstance(item, str) for item in rule_ids
-        ):
-            return rule_ids
-        return None
-    except Exception:
-        return None
+    rule_ids = policy_value(root, "validation", "ruleset", "rule_ids")
+    if isinstance(rule_ids, list) and all(isinstance(item, str) for item in rule_ids):
+        return rule_ids
+    return None
 
 
 def load_ruleset(root: Path, rule_ids: list[str] | None = None) -> dict:
     """完整规则集：抽取 + 计算 sha256；任一规则条目缺失即返回错误（fail-closed）。
 
     rule_ids 缺省时优先读 ``config/policy.yaml`` 的 ``validation.ruleset.rule_ids``
-    （运行时配置，README 声明的一致来源），缺失回退 DEFAULT_RULE_IDS。
+    （运行时配置，README 声明的一致来源），缺失回退 DEFAULT_RULE_IDS；
+    策略文件损坏归一为 ``policy_invalid`` 错误条目（调用方按 AuditBlocked 处理）。
 
     返回: {"rule_refs": [...], "ruleset_sha256": "sha256:...", "errors": [...]}
     """
     if rule_ids is None:
-        rule_ids = policy_rule_ids(root) or list(DEFAULT_RULE_IDS)
+        try:
+            rule_ids = policy_rule_ids(root) or list(DEFAULT_RULE_IDS)
+        except ValueError as exc:
+            return {
+                "rule_refs": [],
+                "ruleset_sha256": None,
+                "errors": [
+                    {
+                        "code": "policy_invalid",
+                        "reason": f"config/policy.yaml 不可解析: {exc}",
+                    }
+                ],
+            }
     refs, errors = build_rule_refs(root, rule_ids)
     if errors:
         return {"rule_refs": [], "ruleset_sha256": None, "errors": errors}

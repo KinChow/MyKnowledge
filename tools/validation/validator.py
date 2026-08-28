@@ -25,7 +25,9 @@ OWNER_VAULT_ID = schema.OWNER_VAULT_ID
 class WikiValidator:
     """Wiki 契约校验器（owner Vault 上下文内只读校验，实例无状态）。"""
 
-    def __init__(self, root: Path, *, quote_min_chars: int = 12, vault_id: str = OWNER_VAULT_ID) -> None:
+    def __init__(
+        self, root: Path, *, quote_min_chars: int = 12, vault_id: str = OWNER_VAULT_ID
+    ) -> None:
         self.root = root
         self.vault_id = vault_id
         self.paths = RepoPaths(root)
@@ -40,14 +42,17 @@ class WikiValidator:
             metadata, body = FrontMatter.parse(text)
         except (OSError, UnicodeError):
             return self._report(
-                wiki_path,
                 errors=[{"code": "path_unresolved", "path": str(wiki_path)}],
             )
         except (ValueError, TypeError) as exc:
             return self._report(
-                wiki_path,
-                errors=[{"code": "front_matter_invalid", "path": str(wiki_path),
-                         "reason": str(exc)}],
+                errors=[
+                    {
+                        "code": "front_matter_invalid",
+                        "path": str(wiki_path),
+                        "reason": str(exc),
+                    }
+                ],
             )
         errors: list[dict] = []
         warnings: list[dict] = []
@@ -89,7 +94,7 @@ class WikiValidator:
             errors.extend(domain_errors)
             warnings.extend(domain_warnings)
 
-        report = self._report(wiki_path, errors=errors, warnings=warnings)
+        report = self._report(errors=errors, warnings=warnings)
         report["object_ref"]["object_id"] = metadata.get("id")
         if not report["valid"]:
             return report
@@ -97,14 +102,21 @@ class WikiValidator:
         # 5. 派生字段与 hash（仅结构/规则全部通过时计算）
         hashes = {
             "content_sha256": sha256_text(canonical_body(body)),
-            "evidence_sha256": derived.evidence_sha256(metadata, resolution, self.vault_id),
+            "evidence_sha256": derived.evidence_sha256(
+                metadata, resolution, self.vault_id
+            ),
         }
         # 验证报告只读取一次（F016）：hash 绑定校验（F003）与派生计算共用同一份
         validation_report = derived.load_validation_report(
             str(metadata.get("id", "")), hashes, self.paths
         )
         report["derived"] = derived.compute_derived(
-            metadata, body, resolution, validation_report, hashes, self.paths, self.vault_id
+            metadata,
+            resolution,
+            validation_report,
+            hashes,
+            self.paths,
+            self.vault_id,
         )
         report["hashes"] = hashes
         report["validation_report"] = validation_report
@@ -114,16 +126,19 @@ class WikiValidator:
 
     def _report(
         self,
-        wiki_path: Path,
         *,
         errors: list[dict],
         warnings: list[dict] | None = None,
     ) -> dict:
+        """报告骨架：object_ref 只带 vault/type/id，不含物理路径（不消费 wiki_path）。"""
         return {
             "schema_version": WIKI_SCHEMA_VERSION,
             "validator": "wiki-validator",
-            "object_ref": {"vault_id": self.vault_id, "object_type": "wiki",
-                           "object_id": None},
+            "object_ref": {
+                "vault_id": self.vault_id,
+                "object_type": "wiki",
+                "object_id": None,
+            },
             "valid": not errors,
             "errors": errors,
             "warnings": warnings or [],
