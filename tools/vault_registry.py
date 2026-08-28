@@ -85,6 +85,11 @@ class VaultRegistry:
         raise ValueError("vault_not_found")
 
     def check(self) -> dict:
+        """扫描 manifest 声明的全部 vault，产出 vault-check/v1 报告。
+
+        分工：_vault_status 判定单个 vault 可用性，_scan_objects 统计对象与
+        重名冲突，_build_report 组装并自哈希。
+        """
         data = self._load()
         layout = data.get("layout", "direct-checkout")
         if layout not in {"direct-checkout", "superproject"}:
@@ -99,91 +104,130 @@ class VaultRegistry:
         available_paths: dict[str, Path] = {}
         seen: set[str] = set()
         for item in data["vaults"]:
-            vault_id = str(item.get("id", ""))
-            status = {
-                "vault_id": vault_id,
-                "state": "unavailable",
-                "reason": "manifest_invalid",
-                "backup_state": self._backup_state(item),
-                "object_count": None,
-            }
-            try:
-                safe_id(vault_id)
-                if vault_id in seen:
-                    raise ValueError("duplicate_vault_id")
-                seen.add(vault_id)
-                confidentiality = item.get(
-                    "confidentiality",
-                    "public"
-                    if vault_id == data.get("public_vault_id", "public")
-                    else "internal",
-                )
-                if confidentiality not in {"public", "internal"}:
-                    raise ValueError("confidentiality_invalid")
-                if bool(item.get("allow_public_projection", False)) and (
-                    vault_id != data.get("public_vault_id", "public")
-                    or confidentiality != "public"
-                ):
-                    raise ValueError("public_projection_confidentiality")
-                raw_path = item.get("path")
-                if (
-                    raw_path == "."
-                    and vault_id == data.get("public_vault_id", "public")
-                    and layout == "direct-checkout"
-                ):
-                    path = self.root
-                elif (
-                    not isinstance(raw_path, str)
-                    or not raw_path
-                    or Path(raw_path).is_absolute()
-                ):
-                    raise ValueError("path_invalid")
-                else:
-                    path = self._resolve_manifest_path(workspace, raw_path)
-                try:
-                    path.relative_to(workspace)
-                except ValueError as exc:
-                    raise ValueError("path_invalid") from exc
-                for _other_id, other in resolved:
-                    if path == other or path in other.parents or other in path.parents:
-                        raise ValueError("path_overlap")
-                resolved.append((vault_id, path))
-                if not path.is_dir():
-                    raise ValueError("vault_unavailable")
-                probe = subprocess.run(
-                    ["git", "-C", str(path), "rev-parse", "--show-toplevel"],
-                    capture_output=True,
-                    text=True,
-                    timeout=5,
-                    check=False,
-                )
-                if (
-                    probe.returncode != 0
-                    or Path(probe.stdout.strip()).resolve() != path
-                ):
-                    raise ValueError("git_worktree_invalid")
-                head = subprocess.run(
-                    ["git", "-C", str(path), "rev-parse", "HEAD"],
-                    capture_output=True,
-                    text=True,
-                    timeout=5,
-                    check=False,
-                )
-                status.update(
-                    {
-                        "state": "available",
-                        "reason": "none",
-                        "head_sha256": "sha256:"
-                        + hashlib.sha256(head.stdout.strip().encode()).hexdigest()
-                        if head.returncode == 0
-                        else None,
-                    }
-                )
-                available_paths[vault_id] = path
-            except (OSError, ValueError, subprocess.SubprocessError) as exc:
-                status["reason"] = str(exc)
+            status, path = self._vault_status(
+                item, data, layout, workspace, resolved, seen
+            )
             statuses.append(status)
+            if path is not None:
+                available_paths[status["vault_id"]] = path
         statuses.sort(key=lambda x: x["vault_id"])
+        conflicts, affected = self._scan_objects(statuses, available_paths)
+        return self._build_report(statuses, conflicts, affected)
+
+    def _vault_status(
+        self,
+        item: dict,
+        data: dict,
+        layout: str,
+        workspace: Path,
+        resolved: list[tuple[str, Path]],
+        seen: set[str],
+    ) -> tuple[dict, Path | None]:
+        """单个 vault 的判定：任何校验失败都收敛为 unavailable + 结构化 reason。
+
+        resolved/seen 是跨 vault 的累积状态（路径重叠与 id 重复检测），由调用方
+        持有并在此追加。
+        """
+        vault_id = str(item.get("id", ""))
+        status = {
+            "vault_id": vault_id,
+            "state": "unavailable",
+            "reason": "manifest_invalid",
+            "backup_state": self._backup_state(item),
+            "object_count": None,
+        }
+        try:
+            safe_id(vault_id)
+            if vault_id in seen:
+                raise ValueError("duplicate_vault_id")
+            seen.add(vault_id)
+            self._require_confidentiality(item, data, vault_id)
+            path = self._vault_path(item, data, layout, workspace, vault_id)
+            for _other_id, other in resolved:
+                if path == other or path in other.parents or other in path.parents:
+                    raise ValueError("path_overlap")
+            resolved.append((vault_id, path))
+            if not path.is_dir():
+                raise ValueError("vault_unavailable")
+            status.update(
+                {
+                    "state": "available",
+                    "reason": "none",
+                    "head_sha256": self._git_head_hash(path),
+                }
+            )
+        except (OSError, ValueError, subprocess.SubprocessError) as exc:
+            status["reason"] = str(exc)
+            return status, None
+        return status, path
+
+    @staticmethod
+    def _require_confidentiality(item: dict, data: dict, vault_id: str) -> None:
+        """机密级与 public projection 许可的一致性（越权组合直接拒绝）。"""
+        public_id = data.get("public_vault_id", "public")
+        confidentiality = item.get(
+            "confidentiality", "public" if vault_id == public_id else "internal"
+        )
+        if confidentiality not in {"public", "internal"}:
+            raise ValueError("confidentiality_invalid")
+        if bool(item.get("allow_public_projection", False)) and (
+            vault_id != public_id or confidentiality != "public"
+        ):
+            raise ValueError("public_projection_confidentiality")
+
+    def _vault_path(
+        self, item: dict, data: dict, layout: str, workspace: Path, vault_id: str
+    ) -> Path:
+        """把 manifest 声明的 path 解析成 workspace 内的绝对路径。"""
+        raw_path = item.get("path")
+        if (
+            raw_path == "."
+            and vault_id == data.get("public_vault_id", "public")
+            and layout == "direct-checkout"
+        ):
+            path = self.root
+        elif (
+            not isinstance(raw_path, str)
+            or not raw_path
+            or Path(raw_path).is_absolute()
+        ):
+            raise ValueError("path_invalid")
+        else:
+            path = self._resolve_manifest_path(workspace, raw_path)
+        try:
+            path.relative_to(workspace)
+        except ValueError as exc:
+            raise ValueError("path_invalid") from exc
+        return path
+
+    @staticmethod
+    def _git_head_hash(path: Path) -> str | None:
+        """确认 path 就是 git 工作树根，并返回 HEAD 的脱敏摘要（拿不到则 None）。"""
+        probe = subprocess.run(
+            ["git", "-C", str(path), "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+        if probe.returncode != 0 or Path(probe.stdout.strip()).resolve() != path:
+            raise ValueError("git_worktree_invalid")
+        head = subprocess.run(
+            ["git", "-C", str(path), "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+        if head.returncode != 0:
+            return None
+        return "sha256:" + hashlib.sha256(head.stdout.strip().encode()).hexdigest()
+
+    @staticmethod
+    def _scan_objects(
+        statuses: list[dict], available_paths: dict[str, Path]
+    ) -> tuple[list[dict], list[dict]]:
+        """统计各 vault 的对象数并收集 vault 内重名冲突（就地写回 object_count）。"""
         conflicts: list[dict] = []
         affected: list[dict] = []
         for status in statuses:
@@ -212,19 +256,28 @@ class VaultRegistry:
                         seen_objects.add(key)
                         count += 1
             status["object_count"] = count
-        available_scopes: list[str] = []
+        return conflicts, affected
+
+    @staticmethod
+    def _available_scopes(statuses: list[dict]) -> list[str]:
+        """由 vault 可用性推导可用 scope（public 仅来自 public vault）。"""
+        scopes: list[str] = []
         if any(
-            item["vault_id"] == "public" and item["state"] == "available"
-            for item in statuses
+            x["vault_id"] == "public" and x["state"] == "available" for x in statuses
         ):
-            available_scopes.append("public")
-        if any(item["state"] == "available" for item in statuses):
-            available_scopes.append("local")
+            scopes.append("public")
+        if any(x["state"] == "available" for x in statuses):
+            scopes.append("local")
         if any(
-            item["vault_id"] != "public" and item["state"] == "available"
-            for item in statuses
+            x["vault_id"] != "public" and x["state"] == "available" for x in statuses
         ):
-            available_scopes.append("private")
+            scopes.append("private")
+        return scopes
+
+    def _build_report(
+        self, statuses: list[dict], conflicts: list[dict], affected: list[dict]
+    ) -> dict:
+        """组装 vault-check/v1 并自哈希（report_sha256 不参与自身计算）。"""
         report = {
             "schema_version": "vault-check/v1",
             "generated_from": "sha256:"
@@ -237,7 +290,7 @@ class VaultRegistry:
                     x["vault_id"] for x in statuses if x["backup_state"] != "verified"
                 ]
             },
-            "available_scopes": available_scopes,
+            "available_scopes": self._available_scopes(statuses),
             "report_sha256": "",
         }
         report["report_sha256"] = (
