@@ -53,6 +53,20 @@ def run_doctor(root: Path) -> dict:
     reason = QMDAdapter().unavailable_reason()
     add("qmd", "ok" if reason is None else "warning", reason=reason, next_action="install qmd for semantic retrieval" if reason else None)
 
+    # 3b. provider profile 与环境变量冲突（参考 cc-switch env-conflict 检测：
+    # 同键双来源且值不同时显式告警，而非静默 env 优先）
+    import os as _os
+    from .validation.provider import _load_provider_profile
+
+    profile = _load_provider_profile()
+    if profile:
+        conflicts = [k for k in ("base_url", "api_key", "model")
+                     if _os.environ.get(f"OPENAI_{k.upper()}") and profile.get(k)
+                     and _os.environ[f"OPENAI_{k.upper()}"] != profile.get(k)]
+        add("provider_profile", "ok" if not conflicts else "warning",
+            reason=None if not conflicts else f"env_profile_conflict:{','.join(conflicts)}",
+            next_action=None if not conflicts else "unset the OPENAI_* env vars or align them with the profile; env silently wins")
+
     # 4. sources 全量校验（snapshot 一致性是 F010 教训项）
     from .ingest.source_validator import SourceValidator
 
