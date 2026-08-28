@@ -22,6 +22,24 @@ from tools.validation import WikiValidator
 
 
 class RulesTests(WikiTestCase):
+    def test_report_is_json_serializable(self):
+        """校验报告必须能 json.dumps：CLI 与审计产物都要序列化它。
+
+        实测事故（2026-08-29 首次校验真实 wiki）：resolution.sources[*].path
+        存的是 PosixPath，`tools.cli validate` 在打印报告时抛 TypeError——
+        此前所有测试都只读字段、从不序列化，所以一路没暴露。
+        """
+        import json
+
+        wiki_path, validator = self._fixture(_base_wiki())
+        report = validator.validate(wiki_path)
+        self.assertTrue(report["valid"], report["errors"])
+        payload = json.dumps(report, ensure_ascii=False)  # 不得抛 TypeError
+        self.assertIn("test-source", payload)
+        self.assertIsInstance(
+            report["resolution"]["sources"]["test-source"]["path"], str
+        )
+
     def test_missing_source_rejected(self):
         """AC-F002-002：kind: knowledge 没有有效 Source → 字段级错误。"""
         wiki_path, validator = self._fixture(_base_wiki(sources=[]))
