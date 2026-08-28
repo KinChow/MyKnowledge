@@ -354,3 +354,17 @@ def test_practice_review_api_persists_fsrs_card_state(tmp_path: Path):
     if body.get("state") == "scheduled":
         assert body["review_state_schema"] == "fsrs-card/v1"
         assert QuestionStore(tmp_path).load("q-review")["review_state"]["card_id"] == body["card"]["card_id"]
+
+
+def test_include_sources_attaches_references_not_silently_ignored(tmp_path: Path):
+    """F006 review：include_sources 是 §12 已定义契约，不得被接受但被忽略。"""
+    from tests.test_api import _write_public_manifest, _released_item
+    wiki = tmp_path / "wiki"; wiki.mkdir()
+    (wiki / "aar.md").write_text("---\ntitle: AAR\nsources: [\"aar\"]\nrelated: []\n---\n# AAR\n事后回顾\n", encoding="utf-8")
+    _write_public_manifest(tmp_path, [{**_released_item("aar", "# AAR"), "sources": ["aar"], "related": []}])
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    result = client.get("/api/query", params={"q": "事后回顾", "include_sources": "true"}).json()
+    assert result["items"], result
+    assert result["items"][0].get("sources") == ["aar"]  # 附带 source 引用而非静默忽略
+    archive = client.get("/api/query", params={"q": "事后回顾", "include_archive": "true"}).json()
+    assert "archive_recall_not_available" in archive["warnings"]  # 未生效能力显性化
