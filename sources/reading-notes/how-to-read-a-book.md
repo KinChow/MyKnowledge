@@ -2,6 +2,59 @@
 archive_policy: text-only
 confidentiality: public
 domain: reading-notes
+evidence_items:
+- evidence_id: evidence-4f7b3619367a
+  position:
+    end: 3627
+    start: 3596
+    type: TextPositionSelector
+  quote_sha256: sha256:03ed7f342f2de167ec3266688e772ea372d5f22dcf907302a89efc69307d5204
+  selector:
+    exact: 所谓吸收资讯，就只是知道某件事发生了。想要被启发，就是要去理解
+    prefix: "\n  - 数据/案例：\n  - 金句摘录：\n    - 第一章："
+    suffix: ，搞清楚这到底是怎么回事：为什么会发生，与其他的事实有什么关联，
+    type: TextQuoteSelector
+  selector_sha256: sha256:dba899f9adb78a792d578ca946b0dedeaea5bb6cdee6c0d7981a57383bee10ec
+  snapshot_sha256: sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2
+- evidence_id: evidence-2a9f6e24ba0e
+  position:
+    end: 759
+    start: 716
+    type: TextPositionSelector
+  quote_sha256: sha256:f18ef8070ed4f3269fd87b7a09895f9eb531db3cce873781a4b09ed5c5c1a6b9
+  selector:
+    exact: 定义阅读的**四个层次**：基础阅读、检视阅读、分析阅读、主题阅读，奠定全书方法论基础
+    prefix: "     * **第二章 阅读的层次**\n         * "
+    suffix: "。\n       * **第五章 如何做一个自我要求的读者**\n"
+    type: TextQuoteSelector
+  selector_sha256: sha256:0ed47bfcdf511dfd43ffd4e1590ec68db497821f938f8f663899b0f4d5f08a03
+  snapshot_sha256: sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2
+- evidence_id: evidence-9b37932ea37e
+  position:
+    end: 846
+    start: 822
+    type: TextPositionSelector
+  quote_sha256: sha256:6a61fed9184010b4602895fa4d69985772b9fc2cb323c40a2ecec577cfeab289
+  selector:
+    exact: 全书在谈什么？细部说了什么？是否真实？与我何干？
+    prefix: "\n         * 提出阅读者需提出**的四个基本问题**（"
+    suffix: "），并强调做笔记和主动思考的重要性。\n     * **分析阅读"
+    type: TextQuoteSelector
+  selector_sha256: sha256:7c772cea414764645c69b638e2e1b4ca24be2e564abce5809f7aa2d9091103cc
+  snapshot_sha256: sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2
+- evidence_id: evidence-cb8197eb2d00
+  position:
+    end: 7751
+    start: 7730
+    type: TextPositionSelector
+  quote_sha256: sha256:f855026d9412319b2c16a0345415d2217ed945a09f8e0016a7f61b9d8b3fe4e8
+  selector:
+    exact: 检视阅读是快速抓取全书框架的“系统化略读”
+    prefix: 层次：检视阅读（Inspectional Reading）**，
+    suffix: "。\n  - **第三层次：分析阅读（Analytical Rea"
+    type: TextQuoteSelector
+  selector_sha256: sha256:e27fa77a2bb7c3c66b2afcf6bf8d85ac64303d940a9b6829a4ed67ef5d10c892
+  snapshot_sha256: sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2
 extractor: utf8/1
 id: how-to-read-a-book
 local:
