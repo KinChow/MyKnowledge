@@ -6,6 +6,7 @@
 - QMD 可用性（fail-closed 探测）；
 - sources 全量 schema/snapshot 一致性校验；
 - archive 快照自证（文件名 == 正文 sha256，任何外部改写都在此暴露）；
+- archive manifest 账目双向一致（source 的 snapshot 有 owner record；record 指向的快照在盘上）；
 - vault registry / 备份状态摘要。
 退出码：任何 `error` 项存在时为 2，仅 warning 为 0。
 `--assert-clean` 为门禁模式（pre-commit 钩子消费）：无 error 只打印一行摘要。
@@ -16,6 +17,7 @@ from __future__ import annotations
 import json
 import sqlite3
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 
 SOURCE_DOMAINS = (
@@ -27,6 +29,15 @@ SOURCE_DOMAINS = (
 )
 
 
+def _iter_source_files(root: Path) -> Iterator[Path]:
+    """sources 域下的全部 source 文件（两条 source 检查共用同一份枚举口径）。"""
+    for domain in SOURCE_DOMAINS:
+        directory = root / "sources" / domain
+        if not directory.is_dir():
+            continue
+        yield from sorted(directory.glob("*.md"))
+
+
 def _check_sources(root: Path) -> tuple[str, dict]:
     """sources 全量 schema/snapshot 一致性（F010 教训项）。"""
     from .ingest.source_validator import SourceValidator
@@ -34,14 +45,10 @@ def _check_sources(root: Path) -> tuple[str, dict]:
     validator = SourceValidator()
     invalid: list[str] = []
     checked = 0
-    for domain in SOURCE_DOMAINS:
-        directory = root / "sources" / domain
-        if not directory.is_dir():
-            continue
-        for path in directory.glob("*.md"):
-            checked += 1
-            if validator.validate_source_file(path):
-                invalid.append(str(path.relative_to(root)))
+    for path in _iter_source_files(root):
+        checked += 1
+        if validator.validate_source_file(path):
+            invalid.append(str(path.relative_to(root)))
     if not invalid:
         return "ok", {"checked": checked}
     return "error", {
@@ -49,6 +56,82 @@ def _check_sources(root: Path) -> tuple[str, dict]:
         "invalid": invalid[:10],
         "invalid_count": len(invalid),
         "next_action": "investigate snapshot/front-matter drift before further writes",
+    }
+
+
+def _check_manifest_coverage(root: Path) -> tuple[str, dict]:
+    """每篇 source 的 snapshot 必须在 archive manifest 中有 owner record（§5.6）。
+
+    source 与 archive 两两自洽仍可能整体不一致：apply 在写完 source 之后、
+    manifest 入账之前失败时，操作被标记 expired 且不可重放，账目缺口没有任何
+    检查能看见（实测见 tests 的 after_source 注入点用例）。这条检查不关心缺口
+    因何产生——手工编辑 source、迁移漏登记、多 vault 分片出错同样在此暴露。
+    """
+    from .archive_manifest import ArchiveManifest
+    from .front_matter import FrontMatter
+
+    registered = ArchiveManifest(root).snapshot_hashes()
+    unregistered: list[str] = []
+    checked = 0
+    for path in _iter_source_files(root):
+        checked += 1
+        try:
+            metadata, _ = FrontMatter.parse(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError):
+            continue  # front matter 本身的问题由 sources 检查报告，不在此重复
+        snapshot = metadata.get("snapshot_sha256")
+        if snapshot and snapshot not in registered:
+            unregistered.append(str(path.relative_to(root)))
+    if not unregistered:
+        return "ok", {"checked": checked, "records": len(registered)}
+    return "error", {
+        "checked": checked,
+        "records": len(registered),
+        "unregistered": unregistered[:10],
+        "unregistered_count": len(unregistered),
+        "next_action": "re-run `python -m tools.cli source preview/apply` for these sources to register the missing owner records",
+    }
+
+
+def _check_manifest_records(root: Path) -> tuple[str, dict]:
+    """反向账目：每条 owner record 指向的快照必须在盘上、且路径与 hash 自洽（§5.6）。
+
+    与 manifest_coverage 合起来才是双向验证：正向保证"source 有账"，反向保证
+    "账有实物"。账目指向不存在的快照同样是证据链断裂——evidence 会解析不到正文。
+    反过来"有快照没账目"故意不报错：apply 在 after_archive 之后失败会留下内容
+    寻址的孤儿快照，重放命中同一文件，无害（实测全库 225 快照/225 条账目，
+    当前无孤儿）。
+    """
+    from .archive_manifest import ArchiveManifest
+
+    broken: list[dict] = []
+    checked = 0
+    for entry in ArchiveManifest(root).entries():
+        checked += 1
+        archive_path = str(entry.get("archive_path") or "")
+        snapshot = str(entry.get("snapshot_sha256") or "").removeprefix("sha256:")
+        if not archive_path or not snapshot:
+            reason = "record_fields_missing"
+        elif not (root / archive_path).is_file():
+            reason = "snapshot_missing"
+        elif Path(archive_path).stem != snapshot:
+            reason = "path_hash_mismatch"
+        else:
+            continue
+        broken.append(
+            {
+                "record_id": entry.get("record_id"),
+                "archive_path": archive_path,
+                "reason": reason,
+            }
+        )
+    if not broken:
+        return "ok", {"checked": checked}
+    return "error", {
+        "checked": checked,
+        "broken": broken[:10],
+        "broken_count": len(broken),
+        "next_action": "restore the missing archive snapshots from git or backup; owner records are append-only and must not be edited",
     }
 
 
@@ -181,6 +264,12 @@ def run_doctor(root: Path) -> dict:
     # 4b. archive 快照自证（文件名 == 正文 sha256）
     state, fields = _check_archive_integrity(root)
     add("archive_integrity", state, **fields)
+
+    # 4c. manifest 账目双向一致（source 有账 / 账有实物）
+    state, fields = _check_manifest_coverage(root)
+    add("manifest_coverage", state, **fields)
+    state, fields = _check_manifest_records(root)
+    add("manifest_records", state, **fields)
 
     # 5. vault registry / 备份
     try:
