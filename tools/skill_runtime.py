@@ -27,7 +27,7 @@ ACTION_FIELDS = {
     "read": {"vault_id", "object_id"}, "backlinks": {"vault_id", "object_id"},
     "write_preview": {"files", "operation_type", "vault_id"},
     "write_apply": {"operation_id", "confirmed", "actor_id", "confirmation"},
-    "source_preview": {"request"}, "source_apply": {"operation_id", "confirmed", "actor_id"},
+    "source_preview": {"request"}, "source_apply": {"operation_id", "confirmed", "actor_id", "confirmation"},
     "wiki_validate": {"wiki_path"}, "publish_preview": {"wiki_path"}, "publish_confirm": {"event"},
     "vault_check": set(), "backup_status": set(), "backup_manifest": {"vault_id"},
     "question_create": {"spec", "wiki_path"}, "question_answer": {"question_id", "response", "scoring_mode"},
@@ -102,14 +102,29 @@ def dispatch(action: str, payload: dict[str, Any] | None = None, *, root: Path) 
             return WriteOperation(root).preview(files, operation_type=str(payload.get("operation_type", "write")), vault_id=str(payload.get("vault_id", "public")))
         if action == "write_apply":
             confirmation = payload.get("confirmation")
-            return WriteOperation(root).apply(str(payload.get("operation_id", "")), confirmed=payload.get("confirmed") is True, actor_id=str(payload.get("actor_id", "local-user")), confirmation=confirmation if isinstance(confirmation, dict) else None)
+            if not isinstance(confirmation, dict):
+                # F009 收紧：Agent 通道不得自证确认。人工凭据只能来自
+                # confirm-apply CLI 生成的事件（hash 与 durable record 绑定）。
+                return {"state": "blocked", "error_code": "skill_confirmation_required",
+                        "next_action": "python -m tools.cli confirm-apply <operation_id> --actor-id <you> and pass the event as confirmation"}
+            return WriteOperation(root).apply(str(payload.get("operation_id", "")), confirmed=True, actor_id=str(payload.get("actor_id", "local-user")), confirmation=confirmation)
         if action == "source_preview":
             request = payload.get("request")
             if not isinstance(request, dict):
                 return {"state": "blocked", "error_code": "source_request_required"}
             return SourceIngestor(root).preview(request)
         if action == "source_apply":
-            return SourceIngestor(root).apply(str(payload.get("operation_id", "")), confirmed=payload.get("confirmed") is True, actor_id=str(payload.get("actor_id", "local-user")))
+            confirmation = payload.get("confirmation")
+            # source op record 尚无 diff_hash（Source writer 未统一迁移，F004 遗留），
+            # 此处做轻校验（human actor + operation 绑定 + 自哈希）；完整 hash 绑定
+            # 随 writer 统一迁移后切 validate_apply_confirmation。
+            if (not isinstance(confirmation, dict)
+                    or confirmation.get("actor_type") != "human"
+                    or confirmation.get("operation_id") != payload.get("operation_id")
+                    or not confirmation.get("event_sha256")):
+                return {"state": "blocked", "error_code": "skill_confirmation_required",
+                        "next_action": "python -m tools.cli confirm-apply <operation_id> --actor-id <you> and pass the event as confirmation"}
+            return SourceIngestor(root).apply(str(payload.get("operation_id", "")), confirmed=True, actor_id=str(payload.get("actor_id", "local-user")))
         if action in {"wiki_validate", "publish_preview"}:
             wiki_path = payload.get("wiki_path")
             if not isinstance(wiki_path, str) or not wiki_path:

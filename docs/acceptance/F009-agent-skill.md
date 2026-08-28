@@ -157,3 +157,10 @@
 
 - 新增 `publish_confirm` action，仅接收结构化 `public-release-confirmation/v1` event 并委托 `release_confirmation.write_event()`；Skill 不直接写确认 JSON，也不能绕过 actor/reason/hash/nonce 校验。
 - `tests/test_skill_runtime.py::test_skill_publish_confirm_delegates_event_validation` 验证合法人工 event 创建成功，含私有 URL 的 reason 返回 `reason_not_public_safe`。
+
+
+## F009 review 增量证据（2026-08-28）
+
+- 真实 root 冒烟：skill_status/query（FTS5 命中 aar）/read/write_preview 全通；危险字段（shell）`skill_payload_forbidden`。
+- **Agent 通道确认收紧（语义变更）**：`write_apply` 此前接受裸 `confirmed=true`（Agent 可自证）；现强制要求 `operation-confirmation/v1` 事件（`validate_apply_confirmation` 完整 hash 绑定），缺失返回 `skill_confirmation_required` 并引导 confirm-apply。`source_apply` 同样要求事件，但为轻校验（human actor + operation 绑定 + 自哈希）——source op record 尚无 `diff_hash`，完整绑定随 Source writer 统一迁移（F004 遗留项）后切换。SKILL.md 契约同步更新。测试：`test_skill_runtime_apply_requires_explicit_confirmation`（裸 confirmed 拒绝 + 事件放行）。
+- provider profile 管理：`config/providers.local.yaml`（gitignored）+ `MYKNOWLEDGE_LLM_PROFILE` 选择，优先级 env > profile > 默认 agent-cli；设计参考 cc-switch 的多 profile 切换（不引入外部工具）。示例文件 `config/providers.example.yaml`。
