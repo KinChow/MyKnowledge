@@ -129,18 +129,30 @@ def redact(value: object) -> object:
     return value
 
 
-def crash_injection_point(point: str) -> None:
-    """崩溃注入点（仅测试用）：MYKNOWLEDGE_CRASH_AFTER 匹配时 SIGKILL 自身。
+def injection_point(point: str) -> None:
+    """命名故障注入点（仅测试用）：按环境变量在指定提交点触发一种动作。
 
-    用于真实进程级崩溃恢复测试（tests/test_f001.py 崩溃注入用例）——子进程
-    在 apply 的指定提交点被杀，父进程重放验证 WAL 恢复语义与 flock 锁的
-    内核自动释放。生产环境无该环境变量时为零开销 no-op。
+    设计照搬 FreeBSD fail(9)（https://man.freebsd.org/cgi/man.cgi?query=fail）
+    的"命名点 + 运行期选择动作"模型，激活方式取自 etcd/gofail 的环境变量开关
+    （GOFAIL_FAILPOINTS，https://github.com/etcd-io/gofail，Apache-2.0）：
+
+    - ``MYKNOWLEDGE_CRASH_AFTER=<point>``：SIGKILL 自身（fail(9) 的 panic 动作）
+      ——验证进程级崩溃后的 WAL 重放与 flock 内核自动释放。
+    - ``MYKNOWLEDGE_FAIL_AT=<point>``：抛 OSError（fail(9) 的 return 动作）
+      ——验证进程存活时的 I/O 失败回滚路径，这条路走的是 except OSError，
+      与 SIGKILL 是两类完全不同的失败，必须分别覆盖。
+
+    刻意不移植 fail(9)/gofail 的概率、次数、级联与 HTTP 激活端点：单元测试要
+    的是确定性触发，那些机制服务于长跑服务的随机故障注入。
+    生产环境无这两个环境变量时为零开销 no-op。
     """
     import os
     import signal
 
     if os.environ.get("MYKNOWLEDGE_CRASH_AFTER") == point:
         os.kill(os.getpid(), signal.SIGKILL)
+    if os.environ.get("MYKNOWLEDGE_FAIL_AT") == point:
+        raise OSError(f"injected_io_error:{point}")
 
 
 def atomic_write(path: Path, data: bytes, mode: int | None = None) -> None:

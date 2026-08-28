@@ -22,8 +22,8 @@ from typing import NamedTuple, Protocol
 from ..common import (
     atomic_write,
     canonical_json,
-    crash_injection_point,
     hash_canonical,
+    injection_point,
     read_stable,
     safe_id,
     sha256_bytes,
@@ -308,7 +308,7 @@ class SourceIngestor:
                 "operation_id": operation_id,
                 "error_code": "apply_failed",
             }
-        crash_injection_point("before_commit")
+        injection_point("before_commit")
         self.store.update(
             record,
             "applied",
@@ -430,17 +430,17 @@ class SourceIngestor:
         """
         if not archive_path.exists():
             atomic_write(archive_path, body.encode("utf-8"))
-        crash_injection_point("after_archive")
+        injection_point("after_archive")
         if record["input_path"]:
             metadata["local"] = self._write_sidecar(record)
         atomic_write(source_path, FrontMatter.render(metadata, body).encode("utf-8"))
-        crash_injection_point("after_source")
+        injection_point("after_source")
         self._append_manifest(
             self._manifest_entry(
                 record, body, metadata["snapshot_sha256"], archive_path
             )
         )
-        crash_injection_point("after_manifest")
+        injection_point("after_manifest")
 
     def _write_sidecar(self, record: dict) -> dict:
         """local-file 的运行态 sidecar（0600），返回 front matter 的 local 段。"""
@@ -545,11 +545,13 @@ class SourceIngestor:
     ) -> None:
         """提交点（store.update applied）之前失败时的清理。
 
-        仅当本次新建（preview 时目标不存在）才删除已写入的 source；覆盖场景新
-        内容保留在 source 文件、待重放提交（atomic_write 已替换旧文件，旧内容
-        不可恢复——重放 recovery 使 manifest/state 与新内容一致，无人重放时为
-        静默不一致态，属已知权衡）。sidecar 是运行缓存一并清理，archive 内容
-        寻址保留无害。
+        仅当本次新建（preview 时目标不存在）才删除已写入的 source。覆盖场景的新
+        内容保留在 source 文件里（atomic_write 已替换旧文件，旧内容不可恢复），
+        此时 manifest 缺少新 snapshot 的条目，而该 operation 已被标记 expired、
+        **不能重放**（apply_preflight 只接受 previewed）：修复只能靠重新
+        preview+apply，在那之前是静默不一致态（source 与 archive 自洽，doctor
+        看不到），属已知权衡。sidecar 是运行缓存一并清理，archive 内容寻址保留
+        无害。上述语义由 after_source 注入点用例逐条断言。
         """
         if record.get("target_hash") is None:
             with contextlib.suppress(OSError):

@@ -24,8 +24,8 @@ from .backup import BackupManager
 from .common import (
     atomic_write,
     canonical_json,
-    crash_injection_point,
     hash_canonical,
+    injection_point,
     sha256_bytes,
 )
 from .operation_store import OperationStore, validate_apply_confirmation
@@ -442,10 +442,10 @@ class WriteOperation:
                 policy.commit_file(
                     self._operation_path(item["path"], vault_id), item["content"]
                 )
-                crash_injection_point(f"after_file_{index}")
+                injection_point(f"after_file_{index}")
             if record.get("operation_type") == "rename" and record.get("source_path"):
                 self._operation_path(str(record["source_path"]), vault_id).unlink()
-            crash_injection_point("before_commit")
+            injection_point("before_commit")
         except BaseException:
             for path, content in originals.items():
                 if content is None:
