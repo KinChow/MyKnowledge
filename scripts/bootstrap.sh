@@ -24,7 +24,29 @@ else
   echo "跳过：未安装 npm（静态站构建时再装）"
 fi
 
-echo "== 4/4 自检 =="
+echo "== 4/5 中文分词扩展（可选，缺失回退 unicode61 并告警）=="
+if [ ! -f state/lib/libsimple.dylib ] && [ ! -f state/lib/libsimple.so ]; then
+  SIMPLE_VER=v0.7.1
+  case "$(uname -s)-$(uname -m)" in
+    Darwin-arm64) ASSET=libsimple-osx-arm64.zip ;;
+    Darwin-x86_64) ASSET=libsimple-osx-x64.zip ;;
+    Linux-x86_64) ASSET=libsimple-linux-ubuntu-latest.zip ;;
+    Linux-aarch64) ASSET=libsimple-linux-ubuntu-24.04-arm.zip ;;
+    *) ASSET="" ;;
+  esac
+  if [ -n "$ASSET" ] && command -v curl >/dev/null 2>&1; then
+    curl -sL "https://github.com/wangfenjin/simple/releases/download/${SIMPLE_VER}/${ASSET}" -o /tmp/libsimple.zip \
+      && mkdir -p state/lib && cd /tmp && unzip -o -q libsimple.zip && cd - >/dev/null \
+      && cp /tmp/libsimple*/libsimple.* state/lib/ 2>/dev/null; cp -r /tmp/libsimple*/dict state/lib/ 2>/dev/null; chmod +x state/lib/libsimple* 2>/dev/null
+    echo "simple: $(ls state/lib/libsimple* 2>/dev/null || echo 下载失败，回退 unicode61)"
+  else
+    echo "simple: 平台不支持或无 curl，回退 unicode61"
+  fi
+else
+  echo "simple: 已安装"
+fi
+
+echo "== 5/5 自检 =="
 .venv/bin/python -m pytest -q 2>&1 | tail -1
 
 echo

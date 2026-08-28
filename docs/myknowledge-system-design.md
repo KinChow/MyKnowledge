@@ -1805,7 +1805,16 @@ sources + wiki
 
 第一阶段的基础检索不引入 Elasticsearch、独立向量数据库或 LangChain。知识规模、部署形态和个人查询需求优先要求确定性、可解释、可离线运行。RAG 作为本地自然语言问答和知识综合能力接入，但不改变 source/wiki 的内容真相源。
 
-规模假设是"最终会很大"，但第一阶段不因此预埋一套自研向量系统。第一阶段的硬契约是 `QMD（若本机可用） -> SQLite FTS5 -> Python/SQLite LIKE`：QMD 自己是否启用向量、rerank 或模型缓存由其运行时能力决定，MyKnowledge 只消费带身份的候选并做权限/hash 二次校验；不要求单独部署 Embedding、FAISS 或 sqlite-vec，也不把它们列为第一阶段退出门。若未来 QMD 质量或规模不足，再以同一 `Retriever` 接口增加可持久化向量 adapter，并为其单独固定模型、索引版本和增量/全量一致性测试。`archive/text/` **可以**作为 local/private RAG 的可选召回输入，但当前 policy 默认 `include_archive_in_local_rag: false`；只有用户在对应 Vault 明确打开且通过 owner/保密检查时才加入。无论是否加入，归档正文都**不是证据载体**：claim 的权威 target 只能指向 source 绑定的 snapshot/evidence item，不能把 RAG 片段当作证据。
+规模假设是"最终会很大"，但第一阶段不因此预埋一套自研向量系统。第一阶段的硬契约是 `QMD（若本机可用） -> SQLite FTS5 -> Python/SQLite LIKE`：
+
+**检索分词与替代方案决策（2026-08-28 修订，均经联网核验）**：
+
+- **QMD 替代已定**：QMD 二进制在公开渠道不可获得（brew 无包）。中文分词由 **wangfenjin/simple**（MIT，https://github.com/wangfenjin/simple，v0.7.1，858★/CI/预编译 release）承担：FTS5 建表 `tokenize='simple'`，查询经 `jieba_query()`（词级分词 + AND，跨虚词命中如"结构化讨论"→"结构化的讨论"）；扩展位于 `state/lib/libsimple`（gitignored，bootstrap 自动下载），加载/词典失败 fail-closed 回退 unicode61，tokenizer 记入 `index_info` 并由 doctor 显性报告。
+- **其他核验过的候选**（已评估未采纳）：Meilisearch（MIT CE、hybrid 检索、中文优化，但需常驻服务+同步管线，语义需求真实出现时再评估，届时需新 ADR）；Tantivy（MIT、Lucene 级库形态，需 Rust 编译链+替换索引层）；sqlite-vec/向量（仅解决语义，引入 embedding 模型依赖，与确定性内核冲突）。
+- **决策原则**：检索按痛点加层，不做终点站切换。向量**不是**终极方案——精确词组/可解释性/重嵌入成本/模型绑定四项固有短板使纯向量不适合证据驱动库；生产终态是 hybrid（词法+向量+融合），且 FTS5 在 5 万篇内不是规模瓶颈。静态站的检索由 Pagefind 承担（v1 起内建 CJK 分词，与 FTS5 分层互不依赖）。
+
+原契约（qmd 段落继续有效）：
+QMD 自己是否启用向量、rerank 或模型缓存由其运行时能力决定，MyKnowledge 只消费带身份的候选并做权限/hash 二次校验；不要求单独部署 Embedding、FAISS 或 sqlite-vec，也不把它们列为第一阶段退出门。若未来 QMD 质量或规模不足，再以同一 `Retriever` 接口增加可持久化向量 adapter，并为其单独固定模型、索引版本和增量/全量一致性测试。`archive/text/` **可以**作为 local/private RAG 的可选召回输入，但当前 policy 默认 `include_archive_in_local_rag: false`；只有用户在对应 Vault 明确打开且通过 owner/保密检查时才加入。无论是否加入，归档正文都**不是证据载体**：claim 的权威 target 只能指向 source 绑定的 snapshot/evidence item，不能把 RAG 片段当作证据。
 
 ### 11.3 查询、RAG 和证据验证的边界
 

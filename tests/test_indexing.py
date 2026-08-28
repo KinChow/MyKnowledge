@@ -208,3 +208,41 @@ class F005WiringTests(unittest.TestCase):
                 self.assertEqual(result["schema_version"], "query-result/v1")  # 不抛 FTS5 语法错误
             hit = Retriever(ITEMS, index_path=idx.path).search("SQLite 检索", "public", 5)
             self.assertEqual(hit["method"], "fts5")
+
+
+class SimpleTokenizerTests(unittest.TestCase):
+    """§1808 修订：simple 中文分词集成（无扩展环境自动回退 unicode61）。"""
+
+    def test_simple_index_matches_chinese_across_particles(self):
+        from tools.indexing import SQLiteIndex, Retriever
+        lib = Path(__file__).resolve().parents[1] / "state" / "lib" / "libsimple.dylib"
+        if not lib.exists():
+            self.skipTest("libsimple 未安装（bootstrap 可装），回退路径由其他测试覆盖")
+        import os as _os
+        repo = Path(__file__).resolve().parents[1]
+        _os.environ["MYKNOWLEDGE_SIMPLE_LIB"] = str(repo / "state" / "lib" / "libsimple")
+        self.addCleanup(_os.environ.pop, "MYKNOWLEDGE_SIMPLE_LIB", None)
+        root = repo
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "state" / "index").mkdir(parents=True)  # 约定布局：Retriever 由此推断 root
+            idx = SQLiteIndex(Path(d) / "state" / "index" / "public.sqlite3", root=root)
+            idx.rebuild([{**ITEMS[0], "title": "结构化的讨论方法", "body": "AAR 是一个结构化的讨论方法，事后回顾"}], "public")
+            db = __import__("sqlite3").connect(idx.path)
+            tok = db.execute("SELECT tokenizer FROM index_info").fetchone()[0]; db.close()
+            self.assertEqual(tok, "simple")
+            result = Retriever([{**ITEMS[0], "title": "结构化的讨论方法", "body": "AAR 是一个结构化的讨论方法，事后回顾"}], index_path=idx.path).search("结构化讨论", "public", 5)
+            self.assertEqual(result["method"], "fts5")
+            self.assertEqual([i["object_ref"]["object_id"] for i in result["items"]], [ITEMS[0]["object_id"]])
+
+    def test_fallback_to_unicode61_without_extension(self):
+        import os as _os
+        from tools.indexing import SQLiteIndex, Retriever
+        _os.environ.pop("MYKNOWLEDGE_SIMPLE_LIB", None)
+        with tempfile.TemporaryDirectory() as d:
+            idx = SQLiteIndex(Path(d) / "i.sqlite3", root=Path(d))  # root 下无 state/lib → 回退
+            idx.rebuild(ITEMS, "public")
+            db = __import__("sqlite3").connect(Path(d) / "i.sqlite3")
+            tok = db.execute("SELECT tokenizer FROM index_info").fetchone()[0]; db.close()
+            self.assertEqual(tok, "unicode61")
+            result = Retriever(ITEMS, index_path=idx.path).search("SQLite 检索", "public", 5)
+            self.assertEqual(result["method"], "fts5")  # 回退路径仍可用（短语语义）
