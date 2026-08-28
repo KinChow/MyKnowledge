@@ -1,0 +1,4 @@
+# 开发期工具（不进运行时依赖）。固定版本：CI 与本地 pre-commit 必须同版本，
+# 否则"本地过、CI 挂"会重新出现。
+ruff==0.16.5            # https://github.com/astral-sh/ruff（MIT）lint + format
+pre-commit==4.6.2       # https://github.com/pre-commit/pre-commit（MIT）钩子管理

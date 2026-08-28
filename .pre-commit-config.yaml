@@ -1,0 +1,61 @@
+# 提交前门禁。做法对齐 pydantic / fastapi / astral-sh/ruff 三个仓库的通行结构：
+# 1) pre-commit-hooks 做文件级卫生检查；2) ruff 做 lint + format；3) local 钩子做
+# 仓库特有的复发防护；4) 慢检查（pytest）放 pre-push，不拖慢每次提交。
+# rev 全部固定，升级由人显式执行 `pre-commit autoupdate`。
+
+# 内容与证据目录对任何"自动改写"钩子都是禁区：archive/ 的文件名就是正文
+# sha256，sources/wiki 的 content_sha256 进 evidence 与确认事件——改一个行尾
+# 空白就会让全链 hash 失配。（2026-08-28 实测：trailing-whitespace 与
+# end-of-file-fixer 一次改写了 197 个快照 + 149 个 source + 236 篇文档。）
+exclude: |
+  (?x)^(
+    archive/.*|
+    sources/.*|
+    wiki/.*|
+    audit/.*|
+    release/.*|
+    queries/.*|
+    practice/.*|
+    state/.*|
+    docs/.*|
+    reports/.*|
+    specs/.*
+  )$
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=512"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.5 # 与 requirements-dev.txt 保持同版本
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      # 复发防护：CI 曾因 lockfile 的 resolved URL 指向内网镜像而全部失败
+      # （GitHub runner 不可达），同时内网主机名不应出现在公开仓库。
+      - id: npm-lock-public-registry
+        name: npm lockfile must resolve to the public registry
+        entry: scripts/check-npm-lock-registry.sh
+        language: script
+        files: ^frontend/package-lock\.json$
+        pass_filenames: false
+
+      - id: pytest
+        name: pytest (pre-push)
+        entry: .venv/bin/python -m pytest -q
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [pre-push]
