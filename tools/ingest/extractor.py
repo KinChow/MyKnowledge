@@ -31,8 +31,10 @@ class TextExtractor:
     def _register_defaults(self) -> None:
         """注册内置 HTML/PDF 提取器（可按媒体类型或内容嗅探匹配）。"""
         self.register(
-            lambda data, media_type: "html" in media_type
-            or data.lstrip().lower().startswith((b"<!doctype html", b"<html")),
+            lambda data, media_type: (
+                "html" in media_type
+                or data.lstrip().lower().startswith((b"<!doctype html", b"<html"))
+            ),
             self._extract_html,
         )
         self.register(
@@ -40,7 +42,11 @@ class TextExtractor:
             self._extract_pdf,
         )
         self.register(
-            lambda data, media_type: "wordprocessingml.document" in media_type or data.startswith(b"PK\x03\x04") and "docx" in media_type,
+            lambda data, media_type: (
+                "wordprocessingml.document" in media_type
+                or data.startswith(b"PK\x03\x04")
+                and "docx" in media_type
+            ),
             self._extract_docx,
         )
 
@@ -55,7 +61,7 @@ class TextExtractor:
                 return handler(data, media_type)
         return data.decode("utf-8", errors="replace"), "utf8/1"
 
-    def _extract_html(self, data: bytes, media_type: str) -> tuple[str, str]:
+    def _extract_html(self, data: bytes, media_type: str) -> tuple[str, str]:  # noqa: ARG002 - handler 表统一签名
         """HTML 正文提取：trafilatura 剔除导航/脚本并自动检测编码。
 
         来源：https://github.com/adbar/trafilatura（Apache-2.0）
@@ -79,7 +85,7 @@ class TextExtractor:
             raise RuntimeError("extract_failed:trafilatura") from exc
         return (text or "").strip(), "trafilatura/" + version("trafilatura")
 
-    def _extract_pdf(self, data: bytes, media_type: str) -> tuple[str, str]:
+    def _extract_pdf(self, data: bytes, media_type: str) -> tuple[str, str]:  # noqa: ARG002 - handler 表统一签名
         """PDF 提取：pypdf 逐页抽取文本。
 
         未安装 → extractor_unavailable:pypdf；解析异常 → extract_failed:pypdf。
@@ -90,25 +96,27 @@ class TextExtractor:
             raise RuntimeError("extractor_unavailable:pypdf") from exc
         try:
             text = "\n".join(
-                page.extract_text() or ""
-                for page in PdfReader(io.BytesIO(data)).pages
+                page.extract_text() or "" for page in PdfReader(io.BytesIO(data)).pages
             ).strip()
         except Exception as exc:
             raise RuntimeError("extract_failed:pypdf") from exc
         return text, "pypdf/" + __version__
 
-    def _extract_docx(self, data: bytes, media_type: str) -> tuple[str, str]:
+    def _extract_docx(self, data: bytes, media_type: str) -> tuple[str, str]:  # noqa: ARG002 - handler 表统一签名
         """DOCX extraction via Docling; absence is an explicit blocked boundary."""
         try:
             from importlib.metadata import version
+
             from docling.document_converter import DocumentConverter
         except ImportError as exc:
             raise RuntimeError("extractor_unavailable:docling") from exc
         try:
             import tempfile
             from pathlib import Path
+
             with tempfile.NamedTemporaryFile(suffix=".docx") as handle:
-                handle.write(data); handle.flush()
+                handle.write(data)
+                handle.flush()
                 document = DocumentConverter().convert(Path(handle.name)).document
                 text = document.export_to_markdown()
         except Exception as exc:

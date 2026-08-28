@@ -38,7 +38,8 @@ def public_allowlisted(item: dict) -> bool:
         and item.get("public_publishable") is True
         and item.get("public_release") is True
         and item.get("status") == "published"
-        and item.get("effective_confidentiality", item.get("confidentiality", "public")) == "public"
+        and item.get("effective_confidentiality", item.get("confidentiality", "public"))
+        == "public"
     )
 
 
@@ -69,18 +70,34 @@ class PublicProjectionStore:
 
     def public_items(self, *, with_body: bool = False) -> list[dict[str, Any]]:
         """Strictly allowlisted items; optionally load bodies (safe path join)."""
-        items = [item for item in self.load_manifest()["items"] if public_allowlisted(item)]
+        items = [
+            item for item in self.load_manifest()["items"] if public_allowlisted(item)
+        ]
         if not with_body:
             return items
         loaded: list[dict[str, Any]] = []
         for item in items:
             rel = Path(str(item.get("body_path", "")))
-            if rel.is_absolute() or ".." in rel.parts or not rel.parts or rel.parts[0] != "wiki":
+            if (
+                rel.is_absolute()
+                or ".." in rel.parts
+                or not rel.parts
+                or rel.parts[0] != "wiki"
+            ):
                 raise ValueError("projection_path_invalid")
             body_path = self.root / rel
             if not body_path.is_file() or body_path.is_symlink():
                 raise ValueError("projection_body_unavailable")
-            loaded.append({**item, "object_type": "wiki", "object_id": item["id"], "body": body_path.read_text(encoding="utf-8"), "availability": "available", "confidentiality": "public"})
+            loaded.append(
+                {
+                    **item,
+                    "object_type": "wiki",
+                    "object_id": item["id"],
+                    "body": body_path.read_text(encoding="utf-8"),
+                    "availability": "available",
+                    "confidentiality": "public",
+                }
+            )
         return loaded
 
     def degraded_items(self) -> list[dict[str, Any]]:

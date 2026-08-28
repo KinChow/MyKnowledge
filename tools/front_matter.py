@@ -10,15 +10,17 @@
 
 from __future__ import annotations
 
-import yaml
 import frontmatter
+import yaml
 
 
 class _UniqueKeyLoader(yaml.SafeLoader):
     """SafeLoader variant that rejects ambiguous duplicate mapping keys."""
 
 
-def _construct_unique_mapping(loader: _UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False):
+def _construct_unique_mapping(
+    loader: _UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False
+):
     mapping = {}
     for key_node, value_node in node.value:
         key = loader.construct_object(key_node, deep=deep)
@@ -51,12 +53,13 @@ class FrontMatter:
         if close < 0:
             raise ValueError("front_matter_unterminated")
         try:
-            metadata = yaml.load(text[4:close], Loader=_UniqueKeyLoader) or {}
+            # noqa 理由：_UniqueKeyLoader 继承 yaml.SafeLoader，仅覆写映射构造以拒绝重复键
+            metadata = yaml.load(text[4:close], Loader=_UniqueKeyLoader) or {}  # noqa: S506
         except (yaml.YAMLError, ValueError) as exc:
             raise ValueError("front_matter_invalid_yaml") from exc
         if not isinstance(metadata, dict):
             raise ValueError("front_matter_invalid_yaml")
-        return metadata, text[close + 5:]
+        return metadata, text[close + 5 :]
 
     @staticmethod
     def render(metadata: dict, body: str) -> str:

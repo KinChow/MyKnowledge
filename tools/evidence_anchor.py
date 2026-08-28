@@ -15,7 +15,6 @@ from pathlib import Path
 
 from .common import (
     atomic_write,
-    canonical_json,
     canonical_quote,
     crash_injection_point,
     hash_canonical,
@@ -149,9 +148,7 @@ class EvidenceAnchor:
                         "operation_id": operation_id,
                     }
                 if self.store.is_expired(record):
-                    self.store.update(
-                        record, "expired", error_code="operation_expired"
-                    )
+                    self.store.update(record, "expired", error_code="operation_expired")
                     return {
                         "state": "expired",
                         "error_code": "operation_expired",
@@ -163,9 +160,7 @@ class EvidenceAnchor:
                     source_bytes = source_path.read_bytes()
                     snapshot_text = snapshot_path.read_text(encoding="utf-8")
                 except (OSError, UnicodeError):
-                    self.store.update(
-                        record, "expired", error_code="path_unresolved"
-                    )
+                    self.store.update(record, "expired", error_code="path_unresolved")
                     return {
                         "state": "expired",
                         "operation_id": operation_id,
@@ -197,9 +192,7 @@ class EvidenceAnchor:
                     except (OSError, ValueError, UnicodeError, AttributeError):
                         already_written = False
                     if not already_written:
-                        self.store.update(
-                            record, "expired", error_code="hash_mismatch"
-                        )
+                        self.store.update(record, "expired", error_code="hash_mismatch")
                         return {
                             "state": "expired",
                             "operation_id": operation_id,
@@ -256,8 +249,8 @@ def _batch_main(args: argparse.Namespace) -> int:
     anchor_service = EvidenceAnchor(args.root)
     report: dict[str, list[dict]] = {"ok": [], "unresolved": []}
     with args.from_jsonl.open(encoding="utf-8") as handle:
-        for line_no, line in enumerate(handle, 1):
-            line = line.strip()
+        for line_no, raw_line in enumerate(handle, 1):
+            line = raw_line.strip()
             if not line:
                 continue
             try:
@@ -278,7 +271,13 @@ def _batch_main(args: argparse.Namespace) -> int:
                         "evidence_id": result["evidence"]["evidence_id"],
                     }
                 )
-            except (ValueError, OSError, KeyError, TypeError, json.JSONDecodeError) as exc:
+            except (
+                ValueError,
+                OSError,
+                KeyError,
+                TypeError,
+                json.JSONDecodeError,
+            ) as exc:
                 report["unresolved"].append(
                     {
                         "line": line_no,

@@ -2,9 +2,6 @@
 
 from __future__ import annotations
 
-import unittest
-from pathlib import Path
-
 import fcntl
 import json
 import os
@@ -12,13 +9,15 @@ import subprocess
 import sys as _sys
 import tempfile
 import time
+import unittest
 from pathlib import Path
 
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
+from tools.common import sha256_text, strip_sha256_prefix
 from tools.evidence_anchor import EvidenceAnchor
 from tools.front_matter import FrontMatter
 from tools.ingest.source_ingestor import SourceIngestor
 from tools.operation_store import OPERATION_TTL_SECONDS
+
 
 class EvidenceAnchorTests(unittest.TestCase):
     def test_ambiguous_and_short_quotes(self):
@@ -56,9 +55,7 @@ class EvidenceAnchorTests(unittest.TestCase):
                 source_path, snapshot_path, "stale 验证", min_chars=6
             )
             snapshot_path.write_text("重新抓取后的新内容", encoding="utf-8")
-            applied = anchor_service.apply(
-                evidence["operation_id"], confirmed=True
-            )
+            applied = anchor_service.apply(evidence["operation_id"], confirmed=True)
             self.assertEqual(applied["error_code"], "stale")
 
     def test_anchor_lock_busy_returns_structured(self):
@@ -93,14 +90,10 @@ class EvidenceAnchorTests(unittest.TestCase):
             lock_path.parent.mkdir(parents=True, exist_ok=True)
             with lock_path.open("a+b") as handle:
                 fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-                applied = anchor_service.apply(
-                    evidence["operation_id"], confirmed=True
-                )
+                applied = anchor_service.apply(evidence["operation_id"], confirmed=True)
                 self.assertEqual(applied.get("error_code"), "lock_busy")
             # 释放锁后重试成功
-            applied = anchor_service.apply(
-                evidence["operation_id"], confirmed=True
-            )
+            applied = anchor_service.apply(evidence["operation_id"], confirmed=True)
             self.assertEqual(applied["state"], "applied")
 
     def test_anchor_evidence_ttl_expires(self):
@@ -136,9 +129,7 @@ class EvidenceAnchorTests(unittest.TestCase):
             payload = json.loads(operation_path.read_text(encoding="utf-8"))
             payload["created_at"] = time.time() - (OPERATION_TTL_SECONDS + 1)
             operation_path.write_text(json.dumps(payload), encoding="utf-8")
-            applied = anchor_service.apply(
-                evidence["operation_id"], confirmed=True
-            )
+            applied = anchor_service.apply(evidence["operation_id"], confirmed=True)
             self.assertEqual(applied["error_code"], "operation_expired")
 
     def test_anchor_selector_unresolved(self):
@@ -222,9 +213,7 @@ class EvidenceAnchorTests(unittest.TestCase):
             source_path.write_text(
                 FrontMatter.render(metadata, existing_body), encoding="utf-8"
             )
-            applied = anchor_service.apply(
-                evidence["operation_id"], confirmed=True
-            )
+            applied = anchor_service.apply(evidence["operation_id"], confirmed=True)
             self.assertEqual(applied["state"], "applied")
             self.assertEqual(
                 applied["evidence"]["evidence_id"], evidence["evidence"]["evidence_id"]
@@ -232,8 +221,6 @@ class EvidenceAnchorTests(unittest.TestCase):
 
     def test_crash_injection_anchor_apply(self):
         """锚定 apply 崩溃注入：写 evidence 后/提交前 kill -9，重放补提交 applied。"""
-        import subprocess
-        import sys as _sys
 
         repo_root = str(Path(__file__).resolve().parent.parent)
         script = (
@@ -272,7 +259,14 @@ class EvidenceAnchorTests(unittest.TestCase):
                         source_path, snapshot_path, "崩溃注入验证", min_chars=6
                     )
                     proc = subprocess.run(
-                        [_sys.executable, "-c", script, repo_root, str(root), evidence["operation_id"]],
+                        [
+                            _sys.executable,
+                            "-c",
+                            script,
+                            repo_root,
+                            str(root),
+                            evidence["operation_id"],
+                        ],
                         env={**os.environ, "MYKNOWLEDGE_CRASH_AFTER": point},
                         capture_output=True,
                         text=True,
@@ -284,13 +278,12 @@ class EvidenceAnchorTests(unittest.TestCase):
                         evidence["operation_id"], confirmed=True
                     )
                     self.assertEqual(
-                        replayed["state"], "applied", f"{point}: 重放失败: {proc.stderr}"
+                        replayed["state"],
+                        "applied",
+                        f"{point}: 重放失败: {proc.stderr}",
                     )
                     self.assertEqual(
                         replayed["evidence"]["evidence_id"],
                         evidence["evidence"]["evidence_id"],
                         f"{point}: 重放生成了新的 evidence_id",
                     )
-
-
-

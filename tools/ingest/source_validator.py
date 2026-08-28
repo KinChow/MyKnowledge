@@ -54,9 +54,15 @@ class SourceValidator:
                     "reason": "personal_note_requires_personal_origin",
                 }
             )
-        if source_type not in {"local-file", "personal-note"} and not request.get("url"):
+        if source_type not in {"local-file", "personal-note"} and not request.get(
+            "url"
+        ):
             errors.append(
-                {"code": "schema_invalid", "path": "url", "reason": "fetch_requires_url"}
+                {
+                    "code": "schema_invalid",
+                    "path": "url",
+                    "reason": "fetch_requires_url",
+                }
             )
         acquisition = request.get("acquisition") or {
             "local-file": "local-file",
@@ -100,12 +106,16 @@ class SourceValidator:
             if not str(local.get("path_ref", "")).startswith("local-sidecar:"):
                 errors.append({"code": "schema_invalid", "path": "local.path_ref"})
             if (metadata.get("retrieval") or {}).get("acquisition") != "local-file":
-                errors.append({"code": "schema_invalid", "path": "retrieval.acquisition"})
+                errors.append(
+                    {"code": "schema_invalid", "path": "retrieval.acquisition"}
+                )
             if not metadata.get("snapshot_sha256"):
                 errors.append({"code": "schema_invalid", "path": "snapshot_sha256"})
         elif metadata.get("source_type") == "personal-note":
             if (metadata.get("retrieval") or {}).get("acquisition") != "personal-note":
-                errors.append({"code": "schema_invalid", "path": "retrieval.acquisition"})
+                errors.append(
+                    {"code": "schema_invalid", "path": "retrieval.acquisition"}
+                )
         if not body.strip():
             errors.append({"code": "source_empty", "path": "body"})
         if metadata.get("snapshot_sha256") and metadata.get(

@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import os
 import time
@@ -22,20 +23,20 @@ from ..common import (
     atomic_write,
     canonical_json,
     crash_injection_point,
+    hash_canonical,
     read_stable,
     safe_id,
-    hash_canonical,
     sha256_bytes,
     sha256_text,
     strip_sha256_prefix,
 )
-from .extractor import TextExtractor
-from .fetcher import URLFetcher
 from ..front_matter import FrontMatter
 from ..operation_store import OperationStore
 from ..paths import RepoPaths
-from .source_validator import SourceValidator
 from ..vault_lock import LockBusyError, VaultLock
+from .extractor import TextExtractor
+from .fetcher import URLFetcher
+from .source_validator import SourceValidator
 
 
 def _block_error_code(exc: Exception) -> str:
@@ -122,8 +123,8 @@ class PersonalNoteAcquirer:
 
     source_type = "personal-note"
 
-    def acquire(self, request: dict, extractor: Extractor) -> AcquireResult:
-        """正文即用户输入，无外部原件，直接构造 AcquireResult。"""
+    def acquire(self, request: dict, extractor: Extractor) -> AcquireResult:  # noqa: ARG002 - SourceAcquirer Protocol 统一签名
+        """正文即用户输入，无外部原件（不经 extractor），直接构造 AcquireResult。"""
         body = request.get("body", "")
         return AcquireResult(
             body=body,
@@ -186,9 +187,10 @@ class SourceIngestor:
                 "source-" + uuid.uuid4().hex[:12]
             )
             source_type = request["source_type"]
-            acquirer = self._acquirers.get(source_type) or self._acquirers[
-                FetchAcquirer.source_type
-            ]
+            acquirer = (
+                self._acquirers.get(source_type)
+                or self._acquirers[FetchAcquirer.source_type]
+            )
             acquired = acquirer.acquire(request, self.extractor)
             body = acquired.body
             if not isinstance(body, str):
@@ -200,9 +202,7 @@ class SourceIngestor:
                 return {"state": "blocked", "errors": [{"code": "source_empty"}]}
             snapshot_hash = sha256_text(body)
             target = self.paths.source_file(request["domain"], source_id)
-            target_hash = (
-                sha256_bytes(target.read_bytes()) if target.exists() else None
-            )
+            target_hash = sha256_bytes(target.read_bytes()) if target.exists() else None
             payload = {
                 "operation_type": "source_ingest",
                 "target_vault": "public",
@@ -221,8 +221,7 @@ class SourceIngestor:
                 "snapshot_sha256": snapshot_hash,
                 "extractor": acquired.extractor,
                 "media_type": acquired.media_type,
-                "network_required": source_type
-                not in {"local-file", "personal-note"},
+                "network_required": source_type not in {"local-file", "personal-note"},
                 "body": acquired.body,
                 "stat": (
                     {
@@ -272,9 +271,7 @@ class SourceIngestor:
                         "operation_id": operation_id,
                     }
                 if self.store.is_expired(record):
-                    self.store.update(
-                        record, "expired", error_code="operation_expired"
-                    )
+                    self.store.update(record, "expired", error_code="operation_expired")
                     return {
                         "state": "expired",
                         "error_code": "operation_expired",
@@ -303,9 +300,7 @@ class SourceIngestor:
                             "operation_id": operation_id,
                         }
                     except RuntimeError:
-                        self.store.update(
-                            record, "expired", error_code="hash_mismatch"
-                        )
+                        self.store.update(record, "expired", error_code="hash_mismatch")
                         return {
                             "state": "expired",
                             "error_code": "hash_mismatch",
@@ -319,17 +314,17 @@ class SourceIngestor:
                         or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
                         != tuple(stat_fields[k] for k in stat_keys)
                     ):
-                        self.store.update(
-                            record, "expired", error_code="hash_mismatch"
-                        )
+                        self.store.update(record, "expired", error_code="hash_mismatch")
                         return {
                             "state": "expired",
                             "error_code": "hash_mismatch",
                             "operation_id": operation_id,
                         }
-                    if record.get("input_realpath") and str(
-                        Path(record["input_path"]).resolve()
-                    ) != record["input_realpath"]:
+                    if (
+                        record.get("input_realpath")
+                        and str(Path(record["input_path"]).resolve())
+                        != record["input_realpath"]
+                    ):
                         # symlink/hard-link 改指使来源路径不再解析到 preview 时的
                         # 同一文件（AC-F001-008 根域逃逸防护），按路径失效处理
                         self.store.update(
@@ -363,9 +358,7 @@ class SourceIngestor:
                     except (OSError, ValueError, UnicodeError):
                         recovered = False
                     if not recovered:
-                        self.store.update(
-                            record, "expired", error_code="hash_mismatch"
-                        )
+                        self.store.update(record, "expired", error_code="hash_mismatch")
                         return {
                             "state": "expired",
                             "error_code": "hash_mismatch",
@@ -408,7 +401,10 @@ class SourceIngestor:
                         atomic_write(archive_path, body.encode("utf-8"))
                     crash_injection_point("after_archive")
                     if record["input_path"]:
-                        sidecar = self.paths.state_local_sources("public") / f"{source_id}.json"
+                        sidecar = (
+                            self.paths.state_local_sources("public")
+                            / f"{source_id}.json"
+                        )
                         sidecar.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
                         sidecar.parent.chmod(0o700)
                         realpath = str(Path(record["input_path"]).resolve())
@@ -479,8 +475,8 @@ class SourceIngestor:
                         with manifest.open(
                             encoding="utf-8", errors="replace"
                         ) as handle:
-                            for line in handle:
-                                line = line.strip()
+                            for raw_line in handle:
+                                line = raw_line.strip()
                                 if not line:
                                     continue
                                 try:
@@ -506,16 +502,12 @@ class SourceIngestor:
                     # 与新内容一致，无人重放时为静默不一致态，属已知权衡）。
                     # sidecar 是运行缓存一并清理。archive 内容寻址保留无害。
                     if record.get("target_hash") is None:
-                        try:
+                        with contextlib.suppress(OSError):
                             source_path.unlink(missing_ok=True)
-                        except OSError:
-                            pass
-                    try:
+                    with contextlib.suppress(OSError):
                         self.paths.state_local_sources("public").joinpath(
                             f"{source_id}.json"
                         ).unlink(missing_ok=True)
-                    except OSError:
-                        pass
                     self.store.update(record, "expired", error_code="apply_failed")
                     return {
                         "state": "expired",

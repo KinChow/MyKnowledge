@@ -11,6 +11,6 @@ def test_citation_replay_uses_unicode_codepoint_offsets():
 def test_citation_replay_rejects_snapshot_and_selector_drift():
     snapshot = "这是稳定的证据文本。"
     anchored = EvidenceAnchor.anchor(snapshot, snapshot, min_chars=1)
-    assert replay(anchored, "文本已经变化。") ["reason"] == "snapshot_hash_mismatch"
+    assert replay(anchored, "文本已经变化。")["reason"] == "snapshot_hash_mismatch"
     anchored["selector"]["exact"] = "伪造文本"
     assert replay(anchored, snapshot)["reason"] == "selector_unresolved"

@@ -19,7 +19,16 @@ OPERATION_TTL_SECONDS = 1800
 # （它是独立事件类型 public-release-confirmation/v1，schema 层不可冒充）。
 APPLY_CONFIRMATION_SCHEMA = "operation-confirmation/v1"
 APPLY_CONFIRMATION_SCOPES = frozenset({"apply", "publish_private"})
-APPLY_CONFIRMATION_REQUIRED = ("schema_version", "operation_id", "scope", "actor_type", "actor_id", "input_hash", "diff_hash", "event_sha256")
+APPLY_CONFIRMATION_REQUIRED = (
+    "schema_version",
+    "operation_id",
+    "scope",
+    "actor_type",
+    "actor_id",
+    "input_hash",
+    "diff_hash",
+    "event_sha256",
+)
 
 
 def validate_apply_confirmation(record: dict, event: object) -> str | None:
@@ -46,10 +55,16 @@ def validate_apply_confirmation(record: dict, event: object) -> str | None:
         return "confirmation_actor_invalid"
     if event.get("operation_id") != record.get("operation_id"):
         return "confirmation_operation_mismatch"
-    if event.get("input_hash") != record.get("input_hash") or event.get("diff_hash") != record.get("diff_hash"):
+    if event.get("input_hash") != record.get("input_hash") or event.get(
+        "diff_hash"
+    ) != record.get("diff_hash"):
         return "confirmation_hash_mismatch"
     if event.get("scope") == "publish_private":
-        publish_missing = [key for key in ("content_sha256", "evidence_sha256", "target_vault") if not event.get(key)]
+        publish_missing = [
+            key
+            for key in ("content_sha256", "evidence_sha256", "target_vault")
+            if not event.get(key)
+        ]
         if publish_missing or event.get("target_vault") != record.get("target_vault"):
             return "confirmation_fields_missing"
     # F-2：event_sha256 必填且必须匹配（审计完整性：durable audit 里的确认
@@ -61,7 +76,7 @@ def validate_apply_confirmation(record: dict, event: object) -> str | None:
 
 
 def build_apply_confirmation(
-    store: "OperationStore",
+    store: OperationStore,
     operation_id: str,
     actor_id: str,
     *,
@@ -102,7 +117,11 @@ def build_apply_confirmation(
         "diff_hash": record.get("diff_hash"),
     }
     if scope == "publish_private":
-        publish = {"content_sha256": content_sha256, "evidence_sha256": evidence_sha256, "target_vault": record.get("target_vault")}
+        publish = {
+            "content_sha256": content_sha256,
+            "evidence_sha256": evidence_sha256,
+            "target_vault": record.get("target_vault"),
+        }
         if not content_sha256 or not evidence_sha256:
             return None, "confirmation_fields_missing"
         event.update(publish)
@@ -139,9 +158,7 @@ class OperationStore:
             **payload,
         }
         audit = self._audit_snapshot(record)
-        audit_path = (
-            self.paths.operation_file(operation_id)
-        )
+        audit_path = self.paths.operation_file(operation_id)
         atomic_write(audit_path, canonical_json(redact(audit)) + b"\n", 0o600)
         path = self.paths.state_operation_file(operation_id)
         atomic_write(path, canonical_json(redact(record)) + b"\n", 0o600)
@@ -154,8 +171,7 @@ class OperationStore:
         """
         try:
             return (
-                time.time() - float(record.get("created_at", 0))
-                > OPERATION_TTL_SECONDS
+                time.time() - float(record.get("created_at", 0)) > OPERATION_TTL_SECONDS
             )
         except (TypeError, ValueError):
             return True
@@ -180,7 +196,11 @@ class OperationStore:
             }
         audit_error = self.verify_audit(operation_id)
         if audit_error is not None:
-            return record, {"state": "blocked", "operation_id": operation_id, "error_code": audit_error}
+            return record, {
+                "state": "blocked",
+                "operation_id": operation_id,
+                "error_code": audit_error,
+            }
         if record.get("state") != "previewed":
             error = {
                 "state": record.get("state"),
@@ -194,7 +214,9 @@ class OperationStore:
                 "state": "awaiting_confirmation",
                 "operation_id": operation_id,
             }
-        allowed_types = (expected_type,) if isinstance(expected_type, str) else expected_type
+        allowed_types = (
+            (expected_type,) if isinstance(expected_type, str) else expected_type
+        )
         if record.get("operation_type") not in allowed_types:
             return record, {
                 "state": "blocked",
@@ -214,12 +236,20 @@ class OperationStore:
         """Return an error code when the durable audit snapshot is missing/tampered."""
         try:
             safe_id(operation_id.removeprefix("op_"))
-            data = json.loads(self.paths.operation_file(operation_id).read_text(encoding="utf-8"))
+            data = json.loads(
+                self.paths.operation_file(operation_id).read_text(encoding="utf-8")
+            )
             stored = data.get("record_sha256")
             if not stored:
                 return "hash_mismatch"
-            actual = hash_canonical({k: v for k, v in data.items() if k != "record_sha256"})
-            return None if stored == actual and data.get("operation_id") == operation_id else "hash_mismatch"
+            actual = hash_canonical(
+                {k: v for k, v in data.items() if k != "record_sha256"}
+            )
+            return (
+                None
+                if stored == actual and data.get("operation_id") == operation_id
+                else "hash_mismatch"
+            )
         except (OSError, ValueError, json.JSONDecodeError, UnicodeDecodeError):
             return "hash_mismatch"
 
@@ -227,9 +257,7 @@ class OperationStore:
         """更新 operation 状态与字段：先写审计（预提交），state 最后写入作为提交点。"""
         updated = {**record, "state": state, **fields, "updated_at": time.time()}
         audit = self._audit_snapshot(updated)
-        audit_path = (
-            self.paths.operation_file(record["operation_id"])
-        )
+        audit_path = self.paths.operation_file(record["operation_id"])
         atomic_write(audit_path, canonical_json(redact(audit)) + b"\n", 0o600)
         state_path = self.paths.state_operation_file(record["operation_id"])
         atomic_write(state_path, canonical_json(redact(updated)) + b"\n", 0o600)

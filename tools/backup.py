@@ -1,15 +1,31 @@
 """Backup status and durable manifest primitives (F012, local-only)."""
+
 from __future__ import annotations
-import hashlib, json, time, uuid, shutil
+
+import contextlib
+import hashlib
+import json
+import shutil
+import time
+import uuid
 from pathlib import Path
+
 from .common import atomic_write, canonical_json, hash_canonical, safe_id
+from .paths import RepoPaths
 from .release_confirmation import validate_event
 from .vault_registry import VaultRegistry
-from .paths import RepoPaths
+
 
 class BackupManager:
-    def __init__(self, root: Path, manifest: Path | None = None, *, extra_verifiers: "dict[str, object] | None" = None) -> None:
-        self.root = Path(root).resolve(); self.registry = VaultRegistry(self.root, manifest)
+    def __init__(
+        self,
+        root: Path,
+        manifest: Path | None = None,
+        *,
+        extra_verifiers: dict[str, object] | None = None,
+    ) -> None:
+        self.root = Path(root).resolve()
+        self.registry = VaultRegistry(self.root, manifest)
         # 领域语义校验钩子（如 practice_integrity_check）：备份只定义协议，
         # 不依赖任何具体领域模块（F012 解耦，DIP——组装在 CLI 入口）
         self.extra_verifiers = extra_verifiers or {}
@@ -19,7 +35,10 @@ class BackupManager:
         # A configured target is not verified merely because a manifest exists.
         # A malformed newest durable manifest is, however, an observable failure.
         for vault in report["vaults"]:
-            if vault.get("backup_state") != "configured" or vault.get("state") != "available":
+            if (
+                vault.get("backup_state") != "configured"
+                or vault.get("state") != "available"
+            ):
                 continue
             try:
                 owner = self.registry.resolve_vault_path(vault["vault_id"])
@@ -27,32 +46,72 @@ class BackupManager:
                 if not manifests:
                     continue
                 data = json.loads(manifests[-1].read_text(encoding="utf-8"))
-                expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
-                if data.get("schema_version") != "backup-manifest/v1" or data.get("manifest_sha256") != expected or not isinstance(data.get("entries"), list):
+                expected = (
+                    "sha256:"
+                    + hashlib.sha256(
+                        canonical_json(
+                            {k: v for k, v in data.items() if k != "manifest_sha256"}
+                        )
+                    ).hexdigest()
+                )
+                if (
+                    data.get("schema_version") != "backup-manifest/v1"
+                    or data.get("manifest_sha256") != expected
+                    or not isinstance(data.get("entries"), list)
+                ):
                     vault["backup_state"] = "failed"
                     vault["backup_reason"] = "manifest_invalid"
                 else:
                     restore_dir = owner / "audit" / "backup" / "restores"
-                    markers = sorted(restore_dir.glob(f"{data.get('backup_id', '')}-*.json")) if restore_dir.is_dir() else []
+                    markers = (
+                        sorted(restore_dir.glob(f"{data.get('backup_id', '')}-*.json"))
+                        if restore_dir.is_dir()
+                        else []
+                    )
                     for marker_path in reversed(markers):
                         marker = json.loads(marker_path.read_text(encoding="utf-8"))
-                        marker_hash = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in marker.items() if k != "record_sha256"})).hexdigest()
-                        if marker.get("schema_version") == "backup-restore-record/v1" and marker.get("manifest_sha256") == expected and marker.get("record_sha256") == marker_hash and marker.get("state") == "restored":
+                        marker_hash = (
+                            "sha256:"
+                            + hashlib.sha256(
+                                canonical_json(
+                                    {
+                                        k: v
+                                        for k, v in marker.items()
+                                        if k != "record_sha256"
+                                    }
+                                )
+                            ).hexdigest()
+                        )
+                        if (
+                            marker.get("schema_version") == "backup-restore-record/v1"
+                            and marker.get("manifest_sha256") == expected
+                            and marker.get("record_sha256") == marker_hash
+                            and marker.get("state") == "restored"
+                        ):
                             vault["backup_state"] = "verified"
                             vault["backup_reason"] = "isolated_restore_verified"
                             break
             except (OSError, ValueError, json.JSONDecodeError):
                 vault["backup_state"] = "failed"
                 vault["backup_reason"] = "manifest_unreadable"
-        report["backup_summary"]["unverified_vault_ids"] = [x["vault_id"] for x in report["vaults"] if x["backup_state"] != "verified"]
+        report["backup_summary"]["unverified_vault_ids"] = [
+            x["vault_id"] for x in report["vaults"] if x["backup_state"] != "verified"
+        ]
         report["backup_summary"]["warning"] = [
-            {"vault_id": v["vault_id"], "code": "backup_not_configured", "next_action": "configure and verify an owner-scoped backup target"}
-            for v in report["vaults"] if v["backup_state"] == "unconfigured" and v["vault_id"] != "public"
+            {
+                "vault_id": v["vault_id"],
+                "code": "backup_not_configured",
+                "next_action": "configure and verify an owner-scoped backup target",
+            }
+            for v in report["vaults"]
+            if v["backup_state"] == "unconfigured" and v["vault_id"] != "public"
         ]
         return report
 
     @staticmethod
-    def _safe_entry_path(base: Path, rel: Path, *, error_code: str = "entry_path_invalid") -> Path:
+    def _safe_entry_path(
+        base: Path, rel: Path, *, error_code: str = "entry_path_invalid"
+    ) -> Path:
         """Join a manifest-relative path without following symlink components."""
         if rel.is_absolute() or ".." in rel.parts:
             raise ValueError(error_code)
@@ -66,8 +125,11 @@ class BackupManager:
         return current
 
     def create_manifest(self, vault_id: str = "public") -> dict:
-        status = next((x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None)
-        if status is None: raise ValueError("vault_not_found")
+        status = next(
+            (x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None
+        )
+        if status is None:
+            raise ValueError("vault_not_found")
         owner_root = self.registry.resolve_vault_path(vault_id)
         backup_id = "backup_" + uuid.uuid4().hex
         entries = []
@@ -79,9 +141,28 @@ class BackupManager:
                 if item.is_file() and not item.is_symlink():
                     if item.stat().st_nlink > 1:
                         raise ValueError("entry_hardlink")
-                    entries.append({"path": str(item.relative_to(owner_root)), "sha256": "sha256:" + hashlib.sha256(item.read_bytes()).hexdigest(), "size": item.stat().st_size})
-        data = {"schema_version": "backup-manifest/v1", "backup_id": backup_id, "vault_id": vault_id, "owner_root": ".", "generated_at": time.time(), "vault_state": status["state"], "backup_state": status["backup_state"], "head_sha256": status.get("head_sha256"), "entries": entries}
-        data["manifest_sha256"] = "sha256:" + hashlib.sha256(canonical_json(data)).hexdigest()
+                    entries.append(
+                        {
+                            "path": str(item.relative_to(owner_root)),
+                            "sha256": "sha256:"
+                            + hashlib.sha256(item.read_bytes()).hexdigest(),
+                            "size": item.stat().st_size,
+                        }
+                    )
+        data = {
+            "schema_version": "backup-manifest/v1",
+            "backup_id": backup_id,
+            "vault_id": vault_id,
+            "owner_root": ".",
+            "generated_at": time.time(),
+            "vault_state": status["state"],
+            "backup_state": status["backup_state"],
+            "head_sha256": status.get("head_sha256"),
+            "entries": entries,
+        }
+        data["manifest_sha256"] = (
+            "sha256:" + hashlib.sha256(canonical_json(data)).hexdigest()
+        )
         path = RepoPaths(owner_root).audit_backup / f"{backup_id}.json"
         atomic_write(path, canonical_json(data) + b"\n", 0o600)
         return {**data, "path": str(path.relative_to(owner_root))}
@@ -95,11 +176,20 @@ class BackupManager:
             data = json.loads(path.read_text(encoding="utf-8"))
             if data.get("schema_version") != "backup-manifest/v1":
                 raise ValueError("manifest_schema_invalid")
-            expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
+            expected = (
+                "sha256:"
+                + hashlib.sha256(
+                    canonical_json(
+                        {k: v for k, v in data.items() if k != "manifest_sha256"}
+                    )
+                ).hexdigest()
+            )
             if data.get("manifest_sha256") != expected:
                 raise ValueError("hash_mismatch")
             vault_id = str(data.get("vault_id", ""))
-            status = next((x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None)
+            status = next(
+                (x for x in self.status()["vaults"] if x["vault_id"] == vault_id), None
+            )
             if status is None:
                 raise ValueError("vault_not_found")
             if status.get("state") != "available":
@@ -125,11 +215,15 @@ class BackupManager:
                 rel_text = rel.as_posix()
                 if rel_text.startswith("audit/operations/"):
                     record = json.loads(entry_path.read_text(encoding="utf-8"))
-                    if not record.get("record_sha256") or hash_canonical({k: v for k, v in record.items() if k != "record_sha256"}) != record.get("record_sha256"):
+                    if not record.get("record_sha256") or hash_canonical(
+                        {k: v for k, v in record.items() if k != "record_sha256"}
+                    ) != record.get("record_sha256"):
                         raise ValueError("durable_record_hash_mismatch")
                 elif rel_text.startswith("release/public-confirmations/"):
                     event = json.loads(entry_path.read_text(encoding="utf-8"))
-                    if not event.get("event_sha256") or not validate_event(event).get("valid"):
+                    if not event.get("event_sha256") or not validate_event(event).get(
+                        "valid"
+                    ):
                         raise ValueError("confirmation_record_invalid")
             # 字节级校验不足以判定领域数据可用：调用注入的领域语义校验钩子
             for name, verifier in self.extra_verifiers.items():
@@ -138,13 +232,24 @@ class BackupManager:
                 except ValueError as exc:
                     raise ValueError(f"domain_verifier_failed:{name}:{exc}") from exc
             relative = str(path.resolve().relative_to(owner_root.resolve()))
-            return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
+            return {
+                "state": "verified",
+                "backup_state": "verified",
+                "vault_id": vault_id,
+                "manifest_sha256": expected,
+                "path": relative,
+            }
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             try:
                 relative = str(path.resolve().relative_to(self.root.resolve()))
             except ValueError:
                 relative = None
-            return {"state": "failed", "backup_state": "failed", "error_code": str(exc), "path": relative}
+            return {
+                "state": "failed",
+                "backup_state": "failed",
+                "error_code": str(exc),
+                "path": relative,
+            }
 
     def export_manifest(self, manifest_path: Path, target: Path) -> dict:
         """Copy a verified owner manifest to an explicit external target.
@@ -153,7 +258,10 @@ class BackupManager:
         """
         checked = self.verify_manifest(manifest_path)
         if checked.get("backup_state") != "verified":
-            return {"state": "blocked", "error_code": checked.get("error_code", "manifest_unverified")}
+            return {
+                "state": "blocked",
+                "error_code": checked.get("error_code", "manifest_unverified"),
+            }
         source = Path(manifest_path)
         if not source.is_absolute():
             source = self.root / source
@@ -164,13 +272,21 @@ class BackupManager:
             destination = destination / source.name
         destination.parent.mkdir(parents=True, exist_ok=True)
         atomic_write(destination, source.read_bytes(), 0o600)
-        return {"state": "exported", "backup_state": "configured", "manifest_sha256": checked["manifest_sha256"], "target": str(destination)}
+        return {
+            "state": "exported",
+            "backup_state": "configured",
+            "manifest_sha256": checked["manifest_sha256"],
+            "target": str(destination),
+        }
 
     def export_bundle(self, manifest_path: Path, target: Path) -> dict:
         """Export manifest and listed owner files into an explicit offline bundle."""
         checked = self.verify_manifest(manifest_path)
         if checked.get("backup_state") != "verified":
-            return {"state": "blocked", "error_code": checked.get("error_code", "manifest_unverified")}
+            return {
+                "state": "blocked",
+                "error_code": checked.get("error_code", "manifest_unverified"),
+            }
         source_manifest = Path(manifest_path)
         if not source_manifest.is_absolute():
             source_manifest = self.root / source_manifest
@@ -189,12 +305,22 @@ class BackupManager:
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
                 source = self._safe_entry_path(owner_root, rel)
-                if not source.is_file() or source.is_symlink() or source.stat().st_nlink > 1:
+                if (
+                    not source.is_file()
+                    or source.is_symlink()
+                    or source.stat().st_nlink > 1
+                ):
                     raise ValueError("entry_invalid")
                 destination = bundle / "payload" / rel
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 atomic_write(destination, source.read_bytes(), 0o600)
-            return {"state": "exported", "backup_state": "configured", "manifest_sha256": checked["manifest_sha256"], "target": str(bundle), "entry_count": len(data.get("entries", []))}
+            return {
+                "state": "exported",
+                "backup_state": "configured",
+                "manifest_sha256": checked["manifest_sha256"],
+                "target": str(bundle),
+                "entry_count": len(data.get("entries", [])),
+            }
         except (OSError, ValueError) as exc:
             shutil.rmtree(bundle, ignore_errors=True)
             return {"state": "failed", "error_code": str(exc)}
@@ -205,8 +331,18 @@ class BackupManager:
         bundle = Path(bundle).resolve()
         try:
             data = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
-            expected = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in data.items() if k != "manifest_sha256"})).hexdigest()
-            if data.get("schema_version") != "backup-manifest/v1" or data.get("manifest_sha256") != expected:
+            expected = (
+                "sha256:"
+                + hashlib.sha256(
+                    canonical_json(
+                        {k: v for k, v in data.items() if k != "manifest_sha256"}
+                    )
+                ).hexdigest()
+            )
+            if (
+                data.get("schema_version") != "backup-manifest/v1"
+                or data.get("manifest_sha256") != expected
+            ):
                 raise ValueError("hash_mismatch")
             vault_id = data.get("vault_id")
             if not isinstance(vault_id, str):
@@ -227,19 +363,28 @@ class BackupManager:
                 actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
                 if actual != entry.get("sha256"):
                     raise ValueError("hash_mismatch")
-            return {"state": "verified", "backup_state": "verified", "manifest_sha256": expected, "entry_count": len(data.get("entries", []))}
+            return {
+                "state": "verified",
+                "backup_state": "verified",
+                "manifest_sha256": expected,
+                "entry_count": len(data.get("entries", [])),
+            }
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
-
     @staticmethod
-    def verify_restored_bundle(bundle: Path, target: Path, extra_verifiers: "dict[str, object] | None" = None) -> dict:
+    def verify_restored_bundle(
+        bundle: Path, target: Path, extra_verifiers: dict[str, object] | None = None
+    ) -> dict:
         """Verify the complete restored file set and owner marker in a target checkout."""
         bundle = Path(bundle).resolve()
         target = Path(target).resolve()
         checked = BackupManager.verify_bundle(bundle)
         if checked.get("backup_state") != "verified":
-            return {"state": "failed", "error_code": checked.get("error_code", "bundle_unverified")}
+            return {
+                "state": "failed",
+                "error_code": checked.get("error_code", "bundle_unverified"),
+            }
         try:
             data = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
             expected_manifest = checked["manifest_sha256"]
@@ -249,23 +394,38 @@ class BackupManager:
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
                 expected_paths.add(rel.as_posix())
-                path = BackupManager._safe_entry_path(target, rel, error_code="restored_entry_path_invalid")
+                path = BackupManager._safe_entry_path(
+                    target, rel, error_code="restored_entry_path_invalid"
+                )
                 if not path.is_file() or path.is_symlink() or path.stat().st_nlink > 1:
                     raise ValueError("restored_entry_missing")
                 actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
                 if actual != entry.get("sha256"):
                     raise ValueError("restored_hash_mismatch")
             restore_dir = target / "audit" / "backup" / "restores"
-            markers = sorted(restore_dir.glob(f"{data.get('backup_id', '')}-*.json")) if restore_dir.is_dir() else []
+            markers = (
+                sorted(restore_dir.glob(f"{data.get('backup_id', '')}-*.json"))
+                if restore_dir.is_dir()
+                else []
+            )
             valid_marker = False
             for marker_path in markers:
                 marker = json.loads(marker_path.read_text(encoding="utf-8"))
-                marker_hash = "sha256:" + hashlib.sha256(canonical_json({k: v for k, v in marker.items() if k != "record_sha256"})).hexdigest()
-                if (marker.get("schema_version") == "backup-restore-record/v1"
-                        and marker.get("vault_id") == data.get("vault_id")
-                        and marker.get("manifest_sha256") == expected_manifest
-                        and marker.get("record_sha256") == marker_hash
-                        and marker.get("state") == "restored"):
+                marker_hash = (
+                    "sha256:"
+                    + hashlib.sha256(
+                        canonical_json(
+                            {k: v for k, v in marker.items() if k != "record_sha256"}
+                        )
+                    ).hexdigest()
+                )
+                if (
+                    marker.get("schema_version") == "backup-restore-record/v1"
+                    and marker.get("vault_id") == data.get("vault_id")
+                    and marker.get("manifest_sha256") == expected_manifest
+                    and marker.get("record_sha256") == marker_hash
+                    and marker.get("state") == "restored"
+                ):
                     valid_marker = True
                     break
             if not valid_marker:
@@ -275,7 +435,15 @@ class BackupManager:
                     verifier(target)
                 except ValueError as exc:
                     raise ValueError(f"domain_verifier_failed:{name}:{exc}") from exc
-            allowed_extra = {p.as_posix() for p in (target / "audit" / "backup" / "restores").rglob("*") if p.is_file()} if restore_dir.is_dir() else set()
+            allowed_extra = (
+                {
+                    p.as_posix()
+                    for p in (target / "audit" / "backup" / "restores").rglob("*")
+                    if p.is_file()
+                }
+                if restore_dir.is_dir()
+                else set()
+            )
             extras = []
             for path in target.rglob("*"):
                 if not path.is_file() or path.is_symlink():
@@ -285,8 +453,13 @@ class BackupManager:
                     extras.append(rel)
             if extras:
                 raise ValueError("restore_extra_entry")
-            return {"state": "verified", "backup_state": "verified", "vault_id": data.get("vault_id"),
-                    "manifest_sha256": expected_manifest, "entry_count": len(expected_paths)}
+            return {
+                "state": "verified",
+                "backup_state": "verified",
+                "vault_id": data.get("vault_id"),
+                "manifest_sha256": expected_manifest,
+                "entry_count": len(expected_paths),
+            }
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
@@ -298,7 +471,10 @@ class BackupManager:
             return {"state": "blocked", "error_code": "restore_target_invalid"}
         checked = self.verify_bundle(bundle)
         if checked.get("backup_state") != "verified":
-            return {"state": "blocked", "error_code": checked.get("error_code", "bundle_unverified")}
+            return {
+                "state": "blocked",
+                "error_code": checked.get("error_code", "bundle_unverified"),
+            }
         if target.exists() and any(target.iterdir()):
             return {"state": "blocked", "error_code": "restore_target_not_empty"}
         target.mkdir(parents=True, exist_ok=True)
@@ -310,35 +486,69 @@ class BackupManager:
                 if rel.is_absolute() or ".." in rel.parts:
                     raise ValueError("entry_path_invalid")
                 source = self._safe_entry_path(bundle / "payload", rel)
-                destination = self._safe_entry_path(target, rel, error_code="entry_path_invalid")
-                if not source.is_file() or source.is_symlink() or source.stat().st_nlink > 1:
+                destination = self._safe_entry_path(
+                    target, rel, error_code="entry_path_invalid"
+                )
+                if (
+                    not source.is_file()
+                    or source.is_symlink()
+                    or source.stat().st_nlink > 1
+                ):
                     raise ValueError("entry_missing")
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 atomic_write(destination, source.read_bytes(), 0o600)
                 created.append(destination)
-            marker = {"schema_version": "backup-restore-record/v1", "backup_id": data.get("backup_id"), "vault_id": data.get("vault_id"), "manifest_sha256": checked["manifest_sha256"], "restored_entries": len(created), "state": "restored", "recorded_at": time.time()}
-            marker["record_sha256"] = "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
-            marker_path = target / "audit" / "backup" / "restores" / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json"
+            marker = {
+                "schema_version": "backup-restore-record/v1",
+                "backup_id": data.get("backup_id"),
+                "vault_id": data.get("vault_id"),
+                "manifest_sha256": checked["manifest_sha256"],
+                "restored_entries": len(created),
+                "state": "restored",
+                "recorded_at": time.time(),
+            }
+            marker["record_sha256"] = (
+                "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
+            )
+            marker_path = (
+                target
+                / "audit"
+                / "backup"
+                / "restores"
+                / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json"
+            )
             atomic_write(marker_path, canonical_json(marker) + b"\n", 0o600)
-            verified = self.verify_restored_bundle(bundle, target, extra_verifiers=self.extra_verifiers)
+            verified = self.verify_restored_bundle(
+                bundle, target, extra_verifiers=self.extra_verifiers
+            )
             if verified.get("backup_state") != "verified":
-                raise ValueError(verified.get("error_code", "restore_verification_failed"))
-            return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target), "manifest_sha256": checked["manifest_sha256"]}
+                raise ValueError(
+                    verified.get("error_code", "restore_verification_failed")
+                )
+            return {
+                "state": "restored",
+                "backup_state": "verified",
+                "restored_entries": len(created),
+                "target": str(target),
+                "manifest_sha256": checked["manifest_sha256"],
+            }
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             for path in reversed(created):
                 path.unlink(missing_ok=True)
-            for directory in sorted((p for p in target.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True):
-                try:
+            for directory in sorted(
+                (p for p in target.rglob("*") if p.is_dir()),
+                key=lambda p: len(p.parts),
+                reverse=True,
+            ):
+                with contextlib.suppress(OSError):
                     directory.rmdir()
-                except OSError:
-                    pass
-            try:
+            with contextlib.suppress(OSError):
                 target.rmdir()
-            except OSError:
-                pass
             return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
 
-    def restore_bundle_to_vault(self, bundle: Path, target: Path, target_vault_id: str) -> dict:
+    def restore_bundle_to_vault(
+        self, bundle: Path, target: Path, target_vault_id: str
+    ) -> dict:
         """Restore a bundle only when its recorded owner matches an explicit target Vault.
 
         A filesystem path is not an identity boundary: callers must provide the
@@ -352,9 +562,14 @@ class BackupManager:
         bundle_path = Path(bundle).resolve()
         checked = self.verify_bundle(bundle_path)
         if checked.get("backup_state") != "verified":
-            return {"state": "blocked", "error_code": checked.get("error_code", "bundle_unverified")}
+            return {
+                "state": "blocked",
+                "error_code": checked.get("error_code", "bundle_unverified"),
+            }
         try:
-            data = json.loads((bundle_path / "manifest.json").read_text(encoding="utf-8"))
+            data = json.loads(
+                (bundle_path / "manifest.json").read_text(encoding="utf-8")
+            )
         except (OSError, ValueError, json.JSONDecodeError):
             return {"state": "blocked", "error_code": "bundle_unreadable"}
         if data.get("vault_id") != owner:
@@ -376,7 +591,10 @@ class BackupManager:
             return {"state": "blocked", "error_code": "restore_target_invalid"}
         checked = self.verify_manifest(manifest_path)
         if checked.get("backup_state") != "verified":
-            return {"state": "blocked", "error_code": checked.get("error_code", "manifest_unverified")}
+            return {
+                "state": "blocked",
+                "error_code": checked.get("error_code", "manifest_unverified"),
+            }
         target.mkdir(parents=True, exist_ok=True)
         if any(target.iterdir()):
             return {"state": "blocked", "error_code": "restore_target_not_empty"}
@@ -400,24 +618,44 @@ class BackupManager:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 atomic_write(destination, source.read_bytes(), 0o600)
                 created.append(destination)
-            marker = {"schema_version": "backup-restore-record/v1", "backup_id": data.get("backup_id"), "vault_id": data.get("vault_id"), "manifest_sha256": checked["manifest_sha256"], "restored_entries": len(created), "state": "restored", "recorded_at": time.time()}
-            marker["record_sha256"] = "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
+            marker = {
+                "schema_version": "backup-restore-record/v1",
+                "backup_id": data.get("backup_id"),
+                "vault_id": data.get("vault_id"),
+                "manifest_sha256": checked["manifest_sha256"],
+                "restored_entries": len(created),
+                "state": "restored",
+                "recorded_at": time.time(),
+            }
+            marker["record_sha256"] = (
+                "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
+            )
             marker_dir = owner_root / "audit" / "backup" / "restores"
             marker_dir.mkdir(parents=True, exist_ok=True)
-            atomic_write(marker_dir / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json", canonical_json(marker) + b"\n", 0o600)
-            return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target)}
+            atomic_write(
+                marker_dir
+                / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json",
+                canonical_json(marker) + b"\n",
+                0o600,
+            )
+            return {
+                "state": "restored",
+                "backup_state": "verified",
+                "restored_entries": len(created),
+                "target": str(target),
+            }
         except (OSError, ValueError) as exc:
             for path in reversed(created):
                 path.unlink(missing_ok=True)
             # mkdir() may have created empty parent directories before a later
             # entry fails; remove only empty directories created in this target.
-            for directory in sorted((p for p in target.rglob("*") if p.is_dir()), key=lambda p: len(p.parts), reverse=True):
-                try:
+            for directory in sorted(
+                (p for p in target.rglob("*") if p.is_dir()),
+                key=lambda p: len(p.parts),
+                reverse=True,
+            ):
+                with contextlib.suppress(OSError):
                     directory.rmdir()
-                except OSError:
-                    pass
-            try:
+            with contextlib.suppress(OSError):
                 target.rmdir()
-            except OSError:
-                pass
             return {"state": "failed", "error_code": str(exc), "restored_entries": 0}

@@ -4,6 +4,7 @@ R5b 决策：检索确认无外部出处的个人总结，迁移终点是 wiki �
 以 personal-note source 作为 provenance，claim 用 support: personal，
 evidence_state 表达映射完整性、strength 降级 personal，不因证据门禁阻断。
 """
+
 from __future__ import annotations
 
 import tempfile
@@ -23,8 +24,6 @@ from tools.validation import WikiValidator
 
 class PersonalSynthesisTests(unittest.TestCase):
     def test_personal_note_synthesis_claim_is_valid_and_degrades_strength(self):
-        import tempfile
-        from pathlib import Path
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             _make_source(
@@ -37,13 +36,17 @@ class PersonalSynthesisTests(unittest.TestCase):
             )
             wiki = _base_wiki(
                 sources=["my-synthesis"],
-                evidence=[{
-                    "claim_id": "c1",
-                    "claim": "本人综合的结论。",
-                    "targets": [{"source_id": "my-synthesis", "evidence_id": "e1"}],
-                    "support": "personal",
-                    "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
-                }],
+                evidence=[
+                    {
+                        "claim_id": "c1",
+                        "claim": "本人综合的结论。",
+                        "targets": [{"source_id": "my-synthesis", "evidence_id": "e1"}],
+                        "support": "personal",
+                        "supporting_quotes": [
+                            {"evidence_id": "e1", "exact": QUOTE_EXACT}
+                        ],
+                    }
+                ],
             )
             path = _write_wiki(root, wiki)
             report = WikiValidator(root).validate(path)
@@ -53,8 +56,10 @@ class PersonalSynthesisTests(unittest.TestCase):
             self.assertEqual(report["derived"]["evidence_state"], "supported")
             self.assertEqual(report["derived"]["strength"], "personal")
             # personal strength 不在证据阻断集合：published 路径不被证据门禁挡住
-            self.assertNotIn(report["derived"]["evidence_state"],
-                             {"missing", "partial", "conflicting", "unresolved", "stale"})
+            self.assertNotIn(
+                report["derived"]["evidence_state"],
+                {"missing", "partial", "conflicting", "unresolved", "stale"},
+            )
 
 
 if __name__ == "__main__":

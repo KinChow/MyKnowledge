@@ -2,19 +2,19 @@
 
 from __future__ import annotations
 
-import unittest
-from pathlib import Path
-
 import sys
 import tempfile
 import types
+import unittest
 from pathlib import Path
 from unittest import mock
 
+from wiki_fixtures import _minimal_pdf
+
 from tools.common import strip_sha256_prefix
 from tools.ingest.extractor import TextExtractor
-from wiki_fixtures import _minimal_pdf
 from tools.ingest.source_ingestor import SourceIngestor
+
 
 class ExtractorTests(unittest.TestCase):
     def test_extractor_register_open_for_extension(self):
@@ -92,6 +92,11 @@ class ExtractorTests(unittest.TestCase):
                 TextExtractor().extract(b"<html><body>x</body></html>", "text/html")
 
     def test_docx_extractor_does_not_fallback_to_binary_text(self):
-        with mock.patch.dict(sys.modules, {"docling": None, "docling.document_converter": None}):
+        with mock.patch.dict(
+            sys.modules, {"docling": None, "docling.document_converter": None}
+        ):
             with self.assertRaisesRegex(RuntimeError, "extractor_unavailable:docling"):
-                TextExtractor().extract(b"PK\x03\x04not-a-docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                TextExtractor().extract(
+                    b"PK\x03\x04not-a-docx",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                )

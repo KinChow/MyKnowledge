@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import unittest
-from pathlib import Path
 
 from tools.front_matter import FrontMatter
+
 
 class FrontMatterTests(unittest.TestCase):
     def test_front_matter_error_normalization(self):

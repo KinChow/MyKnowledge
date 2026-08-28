@@ -4,24 +4,21 @@ from __future__ import annotations
 
 import json
 import tempfile
-import unittest
 from pathlib import Path
 
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
-from tools.front_matter import FrontMatter
-from tools.validation import WIKI_SCHEMA_VERSION, WikiValidator
 from wiki_fixtures import (
     QUOTE_EXACT,
     SOURCE_BODY,
-    WIKI_BODY,
     WikiTestCase,
     _base_wiki,
     _evidence_item,
     _install_spec_doc,
     _make_source,
     _write_wiki,
-    root_replace,
 )
+
+from tools.common import strip_sha256_prefix
+from tools.validation import WikiValidator
 
 
 class DerivedTests(WikiTestCase):
@@ -33,11 +30,11 @@ class DerivedTests(WikiTestCase):
         snapshot_sha = _make_source(
             root,
             "test-source",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
-        snapshot_path = root / "archive" / "text" / f"{strip_sha256_prefix(snapshot_sha)}.md"
+        snapshot_path = (
+            root / "archive" / "text" / f"{strip_sha256_prefix(snapshot_sha)}.md"
+        )
         # 保留引文完整落在原 selector [21, 35) 内但改变整体内容 → hash 漂移
         snapshot_path.write_text(
             "0" * 21 + QUOTE_EXACT + "重新抓取后的后缀",
@@ -61,9 +58,7 @@ class DerivedTests(WikiTestCase):
         _make_source(
             root,
             "test-source",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki_path = _write_wiki(root, _base_wiki())
         first = WikiValidator(root).validate(wiki_path)
@@ -137,9 +132,7 @@ class DerivedTests(WikiTestCase):
         _make_source(
             root,
             "test-source",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki_path = _write_wiki(
             root, _base_wiki(status="published", publication_scope="private")
@@ -180,9 +173,7 @@ class DerivedTests(WikiTestCase):
             root,
             "test-source",
             confidentiality="internal",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki_path = _write_wiki(
             root, _base_wiki(status="published", publication_scope="private")
@@ -238,7 +229,11 @@ class DerivedTests(WikiTestCase):
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         root = Path(directory.name)
-        _make_source(root, "ext-source", evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)])
+        _make_source(
+            root,
+            "ext-source",
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
+        )
         _make_source(
             root,
             "personal-source",
@@ -257,7 +252,9 @@ class DerivedTests(WikiTestCase):
                         "claim": "外部论断。",
                         "targets": [{"source_id": "ext-source", "evidence_id": "e1"}],
                         "support": "direct",
-                        "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
+                        "supporting_quotes": [
+                            {"evidence_id": "e1", "exact": QUOTE_EXACT}
+                        ],
                     }
                 ],
             ),
@@ -271,9 +268,13 @@ class DerivedTests(WikiTestCase):
                     {
                         "claim_id": "c1",
                         "claim": "个人论断。",
-                        "targets": [{"source_id": "personal-source", "evidence_id": "e1"}],
+                        "targets": [
+                            {"source_id": "personal-source", "evidence_id": "e1"}
+                        ],
                         "support": "personal",
-                        "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
+                        "supporting_quotes": [
+                            {"evidence_id": "e1", "exact": QUOTE_EXACT}
+                        ],
                     }
                 ],
             ),
@@ -283,7 +284,9 @@ class DerivedTests(WikiTestCase):
         first_ext = validator.validate(ext_wiki)
         first_personal = validator.validate(personal_wiki)
         second_ext = validator.validate(ext_wiki)
-        self.assertEqual(second_ext["derived"]["strength"], first_ext["derived"]["strength"])
+        self.assertEqual(
+            second_ext["derived"]["strength"], first_ext["derived"]["strength"]
+        )
         self.assertIsNone(first_ext["derived"]["strength"])  # external 无报告
         self.assertEqual(first_personal["derived"]["strength"], "personal")
         self.assertEqual(second_ext["derived"]["effective_confidentiality"], "public")
@@ -299,9 +302,7 @@ class DerivedTests(WikiTestCase):
             "personal-source",
             origin="personal",
             evidence_status="personal-observation",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki_path = _write_wiki(
             root,
@@ -331,9 +332,7 @@ class DerivedTests(WikiTestCase):
             root,
             "ck-source",
             evidence_status="common-knowledge",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki_path = _write_wiki(
             root,
@@ -356,5 +355,3 @@ class DerivedTests(WikiTestCase):
         report = WikiValidator(root).validate(wiki_path)
         self.assertTrue(report["valid"], report["errors"])
         self.assertEqual(report["derived"]["strength"], "attested")
-
-

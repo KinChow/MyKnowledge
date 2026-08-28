@@ -19,11 +19,31 @@ import time
 CAPABILITY_AUDIENCE = "myknowledge-local-api"
 
 # (error_code, retryable, next_action) —— 与既有 HTTP detail 结构逐字段一致
-_CAPABILITY_TOKEN_REQUIRED = ("capability_token_required", False, "provide capability token")
-_CAPABILITY_TOKEN_INVALID = ("capability_token_invalid", False, "request a fresh local token")
-_CAPABILITY_TOKEN_EXPIRED = ("capability_token_expired", True, "restart the local API for a fresh token")
-_CAPABILITY_AUDIENCE_INVALID = ("capability_audience_invalid", False, f"use the {CAPABILITY_AUDIENCE} audience")
-_CAPABILITY_SCOPE_INVALID = ("capability_scope_invalid", False, "request capability scope {scope}")
+_CAPABILITY_TOKEN_REQUIRED = (
+    "capability_token_required",
+    False,
+    "provide capability token",
+)
+_CAPABILITY_TOKEN_INVALID = (
+    "capability_token_invalid",
+    False,
+    "request a fresh local token",
+)
+_CAPABILITY_TOKEN_EXPIRED = (
+    "capability_token_expired",
+    True,
+    "restart the local API for a fresh token",
+)
+_CAPABILITY_AUDIENCE_INVALID = (
+    "capability_audience_invalid",
+    False,
+    f"use the {CAPABILITY_AUDIENCE} audience",
+)
+_CAPABILITY_SCOPE_INVALID = (
+    "capability_scope_invalid",
+    False,
+    "request capability scope {scope}",
+)
 
 
 def required_scope_for(scope: str, *, force: bool = False) -> str | None:
@@ -62,5 +82,9 @@ def check_capability(
     if audience is not None and audience != CAPABILITY_AUDIENCE:
         return _CAPABILITY_AUDIENCE_INVALID
     if required_scope is not None and required_scope not in scopes:
-        return _CAPABILITY_SCOPE_INVALID[0], _CAPABILITY_SCOPE_INVALID[1], _CAPABILITY_SCOPE_INVALID[2].format(scope=required_scope)
+        return (
+            _CAPABILITY_SCOPE_INVALID[0],
+            _CAPABILITY_SCOPE_INVALID[1],
+            _CAPABILITY_SCOPE_INVALID[2].format(scope=required_scope),
+        )
     return None

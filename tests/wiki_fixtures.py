@@ -78,7 +78,9 @@ def _make_source(
 ) -> str:
     """构造 source 文件 + archive snapshot，返回 snapshot_sha256。"""
     snapshot_sha = sha256_text(body)
-    snapshot_path = root / "archive" / "text" / f"{strip_sha256_prefix(snapshot_sha)}.md"
+    snapshot_path = (
+        root / "archive" / "text" / f"{strip_sha256_prefix(snapshot_sha)}.md"
+    )
     snapshot_path.parent.mkdir(parents=True, exist_ok=True)
     snapshot_path.write_text(body, encoding="utf-8")
     metadata = {
@@ -112,7 +114,11 @@ def _evidence_item(evidence_id: str, body: str, exact: str) -> dict:
         "id": evidence_id,
         "snapshot_sha256": sha256_text(body),
         "selector": {"type": "TextQuoteSelector", "exact": exact},
-        "position": {"type": "TextPositionSelector", "start": start, "end": start + len(exact)},
+        "position": {
+            "type": "TextPositionSelector",
+            "start": start,
+            "end": start + len(exact),
+        },
         "selector_sha256": sha256_text(exact),
         "quote_sha256": sha256_text(canonical_quote(exact)),
     }
@@ -145,9 +151,7 @@ def _base_wiki(**overrides: object) -> dict:
                 "claim": "测试论断。",
                 "targets": [{"source_id": "test-source", "evidence_id": "e1"}],
                 "support": "direct",
-                "supporting_quotes": [
-                    {"evidence_id": "e1", "exact": QUOTE_EXACT}
-                ],
+                "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
             }
         ],
         "updated_at": "2026-08-26",
@@ -171,12 +175,11 @@ class WikiTestCase(unittest.TestCase):
         _make_source(
             root,
             "test-source",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki_path = _write_wiki(root, wiki)
         return wiki_path, WikiValidator(root)
+
 
 def _minimal_pdf(text: str) -> bytes:
     """构造含单个文本对象的最小合法 PDF（含 xref 表），供 pypdf 提取。"""
@@ -190,7 +193,9 @@ def _minimal_pdf(text: str) -> bytes:
     ]
     stream = f"BT /F1 24 Tf 72 720 Td ({text}) Tj ET".encode("ascii")
     objects[3] = (
-        b"<< /Length " + str(len(stream)).encode("ascii") + b" >>\nstream\n"
+        b"<< /Length "
+        + str(len(stream)).encode("ascii")
+        + b" >>\nstream\n"
         + stream
         + b"\nendstream"
     )

@@ -19,6 +19,7 @@ hash、LLM 审计状态（not_run/pass/fail/stale_ruleset 及其 ruleset_sha256�
 from __future__ import annotations
 
 import argparse
+import contextlib
 import json
 import time
 import uuid
@@ -170,7 +171,9 @@ def create_confirmation(
             "fail_history": history,
         },
     }
-    operation["record_sha256"] = hash_canonical(operation)  # §1239：durable record 必须带自哈希
+    operation["record_sha256"] = hash_canonical(
+        operation
+    )  # §1239：durable record 必须带自哈希
     audit_path = paths.operation_file(operation_id)
     try:
         atomic_write(
@@ -182,10 +185,8 @@ def create_confirmation(
         # ㉑ 双写补偿：operation 写失败时删除已写 confirmation（保持
         # confirmation 先行 = fail-closed：绝不留下"确认在、op 缺失"的
         # 不一致状态），并归一为结构化错误
-        try:
+        with contextlib.suppress(OSError):
             target.unlink()
-        except OSError:
-            pass
         raise ConfirmationBlocked(
             "operation_write_failed", f"operation 记录写入失败: {exc}"
         ) from exc
@@ -212,8 +213,13 @@ def main(argv: list[str] | None = None) -> int:
             quote_min_chars=args.min_chars,
         )
     except ConfirmationBlocked as exc:
-        print(json.dumps({"state": "blocked", "error_code": exc.code,
-                          "message": exc.message}, ensure_ascii=False, indent=2))
+        print(
+            json.dumps(
+                {"state": "blocked", "error_code": exc.code, "message": exc.message},
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
         return 2
     print(json.dumps(record, ensure_ascii=False, indent=2))
     return 0

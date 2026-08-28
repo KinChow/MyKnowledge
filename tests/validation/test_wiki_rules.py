@@ -2,18 +2,12 @@
 
 from __future__ import annotations
 
-import json
 import tempfile
-import unittest
 from pathlib import Path
 
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
-from tools.front_matter import FrontMatter
-from tools.validation import WIKI_SCHEMA_VERSION, WikiValidator
 from wiki_fixtures import (
     QUOTE_EXACT,
     SOURCE_BODY,
-    WIKI_BODY,
     WikiTestCase,
     _base_wiki,
     _evidence_item,
@@ -21,6 +15,10 @@ from wiki_fixtures import (
     _write_wiki,
     root_replace,
 )
+
+from tools.common import strip_sha256_prefix
+from tools.front_matter import FrontMatter
+from tools.validation import WikiValidator
 
 
 class RulesTests(WikiTestCase):
@@ -39,9 +37,7 @@ class RulesTests(WikiTestCase):
                     {
                         "claim_id": "c1",
                         "claim": "测试论断。",
-                        "targets": [
-                            {"source_id": "ghost-source", "evidence_id": "e1"}
-                        ],
+                        "targets": [{"source_id": "ghost-source", "evidence_id": "e1"}],
                         "support": "direct",
                         "supporting_quotes": [
                             {"evidence_id": "e1", "exact": QUOTE_EXACT}
@@ -52,9 +48,7 @@ class RulesTests(WikiTestCase):
         )
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertTrue(
-            any(e["code"] == "source_not_found" for e in report["errors"])
-        )
+        self.assertTrue(any(e["code"] == "source_not_found" for e in report["errors"]))
 
     def test_status_axis_combinations(self):
         """AC-F002-004：状态轴合法组合通过、非法组合逐字段拒绝。"""
@@ -87,18 +81,14 @@ class RulesTests(WikiTestCase):
         wiki_path, validator = self._fixture(_base_wiki(status="planned"))
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertIn(
-            "planned_with_content", [e["code"] for e in report["errors"]]
-        )
+        self.assertIn("planned_with_content", [e["code"] for e in report["errors"]])
         # published + publication_scope: none → published_scope_none
         wiki_path, validator = self._fixture(
             _base_wiki(status="published", publication_scope="none")
         )
         report = validator.validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertIn(
-            "published_scope_none", [e["code"] for e in report["errors"]]
-        )
+        self.assertIn("published_scope_none", [e["code"] for e in report["errors"]])
         # published 无审计确认 → private_publishable: false（派生，不阻断校验）
         wiki_path, validator = self._fixture(
             _base_wiki(status="published", publication_scope="private")
@@ -113,9 +103,7 @@ class RulesTests(WikiTestCase):
         snapshot_sha = _make_source(
             root,
             "test-source",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         # 删除 snapshot 文件，使 source 不可读
         (root / "archive" / "text" / f"{strip_sha256_prefix(snapshot_sha)}.md").unlink()
@@ -234,9 +222,7 @@ class RulesTests(WikiTestCase):
             "personal-source",
             origin="personal",
             evidence_status="personal-observation",
-            evidence_items=[
-                _evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)
-            ],
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
         )
         wiki = _base_wiki(
             sources=["personal-source"],
@@ -253,7 +239,4 @@ class RulesTests(WikiTestCase):
         wiki_path = _write_wiki(root, wiki)
         report = WikiValidator(root).validate(wiki_path)
         self.assertFalse(report["valid"])
-        self.assertIn(
-            "support_origin_mismatch", [e["code"] for e in report["errors"]]
-        )
-
+        self.assertIn("support_origin_mismatch", [e["code"] for e in report["errors"]])

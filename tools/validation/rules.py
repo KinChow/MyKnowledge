@@ -7,7 +7,6 @@
 from __future__ import annotations
 
 import re
-from pathlib import Path
 
 from ..common import canonical_body, glob_without_symlinks
 from . import resolution
@@ -25,6 +24,7 @@ REQUIRED_SECTIONS = [
     "关联知识",
 ]
 
+
 def check_index_links(body: str, paths) -> list[dict]:
     """index 页：正文中的 markdown 链接必须可解析到库内对象（§6.7 硬性要求）。
 
@@ -41,21 +41,30 @@ def check_index_links(body: str, paths) -> list[dict]:
             candidate = paths.root / cleaned
             if not candidate.exists():
                 errors.append(
-                    {"code": "link_unresolved", "path": "body",
-                     "reason": f"链接目标不存在: {cleaned}"}
+                    {
+                        "code": "link_unresolved",
+                        "path": "body",
+                        "reason": f"链接目标不存在: {cleaned}",
+                    }
                 )
         else:
             hits = glob_without_symlinks(paths.wiki_root, f"*/{cleaned}.md")
             if len(hits) != 1:
                 errors.append(
-                    {"code": "link_unresolved", "path": "body",
-                     "reason": f"链接目标无法唯一解析: {cleaned}"}
+                    {
+                        "code": "link_unresolved",
+                        "path": "body",
+                        "reason": f"链接目标无法唯一解析: {cleaned}",
+                    }
                 )
     return errors
 
 
 def domain_rules(
-    metadata: dict, body: str, paths, quote_min_chars: int,
+    metadata: dict,
+    body: str,
+    paths,
+    quote_min_chars: int,
     owner_vault_id: str = "public",
 ) -> tuple[list[dict], list[dict], dict]:
     """跨字段规则：状态组合、planned 约束、kind 分支、证据结构与引文校验。
@@ -82,21 +91,30 @@ def domain_rules(
             )
         if canonical_body(body).strip("\n").strip():
             errors.append(
-                {"code": "planned_with_content", "path": "body",
-                 "reason": "planned 不允许正文"}
+                {
+                    "code": "planned_with_content",
+                    "path": "body",
+                    "reason": "planned 不允许正文",
+                }
             )
 
     # published 组合约束（§6.8 互斥与前置约束）
     if status == "published":
         if scope == "none":
             errors.append(
-                {"code": "published_scope_none", "path": "publication_scope",
-                 "reason": "status: published 不能与 publication_scope: none 组合"}
+                {
+                    "code": "published_scope_none",
+                    "path": "publication_scope",
+                    "reason": "status: published 不能与 publication_scope: none 组合",
+                }
             )
         if not metadata.get("sources"):
             errors.append(
-                {"code": "source_missing", "path": "sources",
-                 "reason": "published 必须有 source"}
+                {
+                    "code": "source_missing",
+                    "path": "sources",
+                    "reason": "published 必须有 source",
+                }
             )
 
     # knowledge 必须：sources、evidence、正文模板、引文（planned 免除，§6.7）
@@ -120,8 +138,13 @@ def domain_rules(
     # reference 必须引用 source（§6.7）；index 的替代检查是硬性要求（F009）
     if kind == "reference":
         if not metadata.get("sources"):
-            errors.append({"code": "source_missing", "path": "sources",
-                           "reason": "kind: reference 必须有 metadata-only 以上 source"})
+            errors.append(
+                {
+                    "code": "source_missing",
+                    "path": "sources",
+                    "reason": "kind: reference 必须有 metadata-only 以上 source",
+                }
+            )
         elif not metadata.get("evidence"):
             # C003：reference 无 claim 级 evidence 时不走 resolution，sources
             # 仍需可解析（幽灵 source 不得通过校验）
@@ -144,8 +167,11 @@ def domain_rules(
         targets = claim.get("targets") or []
         if not targets:
             errors.append(
-                {"code": "claim_incomplete", "path": f"evidence.{claim_id}",
-                 "reason": "claim 必须有 targets"}
+                {
+                    "code": "claim_incomplete",
+                    "path": f"evidence.{claim_id}",
+                    "reason": "claim 必须有 targets",
+                }
             )
         quote_ids = {
             q.get("evidence_id")
@@ -153,9 +179,7 @@ def domain_rules(
             if q.get("evidence_id") is not None
         }
         target_ids = {
-            t.get("evidence_id")
-            for t in targets
-            if t.get("evidence_id") is not None
+            t.get("evidence_id") for t in targets if t.get("evidence_id") is not None
         }
         undeclared_quotes = sorted(quote_ids - target_ids)
         if undeclared_quotes:

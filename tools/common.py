@@ -184,6 +184,7 @@ def read_stable(path: Path) -> tuple[bytes, os.stat_result]:
         raise RuntimeError("hash_mismatch")
     return data, after
 
+
 def glob_without_symlinks(base: Path, pattern: str) -> list[Path]:
     """glob 但不穿透符号链接目录（C004：防越界读取仓库外文件）。
 

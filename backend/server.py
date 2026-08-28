@@ -1,4 +1,5 @@
 """Reproducible loopback runner for the F006 local API."""
+
 from __future__ import annotations
 
 import argparse
@@ -15,7 +16,9 @@ def _loopback_host(value: str) -> str:
     try:
         address = ipaddress.ip_address(value)
     except ValueError as exc:
-        raise argparse.ArgumentTypeError("host must be localhost or a loopback IP") from exc
+        raise argparse.ArgumentTypeError(
+            "host must be localhost or a loopback IP"
+        ) from exc
     if not address.is_loopback:
         raise argparse.ArgumentTypeError("remote bind is disabled; use 127.0.0.1")
     return value
@@ -32,8 +35,14 @@ def main(argv: list[str] | None = None) -> int:
 
     import uvicorn
 
-    uvicorn.run(create_app(root=args.root), host=args.host, port=args.port,
-                log_level="info", reload=False, proxy_headers=False)
+    uvicorn.run(
+        create_app(root=args.root),
+        host=args.host,
+        port=args.port,
+        log_level="info",
+        reload=False,
+        proxy_headers=False,
+    )
     return 0
 
 
