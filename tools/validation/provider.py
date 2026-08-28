@@ -279,17 +279,21 @@ class AgentCliAdapter:
 
 
 class OpenAICompatAdapter:
-    """OpenAI 兼容 API provider（可选路径）：环境变量注入，不固化 endpoint。
+    """OpenAI 兼容 API provider（可选路径）：profile 档案 + 环境变量注入。
 
-    环境变量：``OPENAI_BASE_URL`` / ``OPENAI_API_KEY`` / ``OPENAI_MODEL``。
-    使用 ``response_format: json_object`` + jsonschema 校验；schema 校验失败
-    落 ``malformed_output``。不做 capability 协商（§8.3）：能力不足=not_run。
+    配置来源优先级（参考 cc-switch 的多 profile 切换设计）：
+    环境变量 ``OPENAI_BASE_URL/API_KEY/MODEL`` > ``config/providers.local.yaml``
+    中 ``MYKNOWLEDGE_LLM_PROFILE`` 指定的 profile > 缺省 agent-cli。
+    endpoint/model/key 不写入仓库（local 文件 gitignored）；报告只保存
+    opaque identity。``response_format: json_object`` + jsonschema 校验；
+    schema 校验失败落 ``malformed_output``。不做 capability 协商（§8.3）。
     """
 
     def __init__(self) -> None:
-        self.base_url = os.environ.get("OPENAI_BASE_URL")
-        self.api_key = os.environ.get("OPENAI_API_KEY")
-        self.model = os.environ.get("OPENAI_MODEL")
+        profile = _load_provider_profile()
+        self.base_url = os.environ.get("OPENAI_BASE_URL") or profile.get("base_url")
+        self.api_key = os.environ.get("OPENAI_API_KEY") or profile.get("api_key")
+        self.model = os.environ.get("OPENAI_MODEL") or profile.get("model")
         self.identity = "openai-compatible"
 
     def audit(self, request: dict, response_schema: dict) -> ProviderResult:
@@ -368,6 +372,29 @@ class OpenAICompatAdapter:
             duration_ms=int((time.monotonic() - started) * 1000),
             meta={"model": self.model},
         )
+
+
+def _load_provider_profile() -> dict:
+    """读取 providers.local.yaml 中当前 profile（文件缺失/损坏返回空 dict）。
+
+    单一入口：endpoint/key 的持久化只允许出现在这个 gitignored 文件里，
+    任何模块不得另建 provider 凭据存储（ADR-0012）。
+    """
+    from pathlib import Path
+
+    import yaml
+
+    name = os.environ.get("MYKNOWLEDGE_LLM_PROFILE")
+    if not name:
+        return {}
+    path = Path(__file__).resolve().parents[1] / "config" / "providers.local.yaml"
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except (OSError, ValueError, yaml.YAMLError):
+        return {}
+    profiles = data.get("profiles") or {}
+    profile = profiles.get(name)
+    return profile if isinstance(profile, dict) else {}
 
 
 def make_provider(name: str | None = None, **kwargs) -> AgentCliAdapter | OpenAICompatAdapter:

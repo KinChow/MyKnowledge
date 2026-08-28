@@ -1,0 +1,17 @@
+# provider 配置档案（参考 cc-switch 的多 profile 切换设计，本地化管理）。
+# 复制为 config/providers.local.yaml（gitignored）后填写真实值；
+# 选择 profile：export MYKNOWLEDGE_LLM_PROFILE=deepseek
+# 优先级：环境变量（OPENAI_*）> profile > 默认 agent-cli（零配置）。
+schema_version: 1
+default_profile: null   # 未设置环境变量时使用的 profile 名；null = agent-cli
+profiles:
+  # example:
+  # deepseek:
+  #   base_url: https://api.deepseek.com/v1
+  #   api_key: sk-...
+  #   model: deepseek-chat
+  # qwen:
+  #   base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  #   api_key: sk-...
+  #   model: qwen-plus
+  {}

@@ -20,11 +20,25 @@ def test_skill_runtime_write_preview_delegates_to_writer(tmp_path: Path):
     assert not (tmp_path / "wiki" / "item.md").exists()
 
 
+def _skill_confirmation(root: Path, operation_id: str) -> dict:
+    """经 confirm-apply 生成器产出合法人工确认事件（Agent 不能自证）。"""
+    from tools.operation_store import OperationStore, build_apply_confirmation
+    event, error = build_apply_confirmation(OperationStore(root), operation_id, "human-via-cli")
+    assert error is None, error
+    return event
+
+
 def test_skill_runtime_apply_requires_explicit_confirmation(tmp_path: Path):
     preview = dispatch("write_preview", {"files": {"wiki/item.md": "# Item\n"}}, root=tmp_path)
+    # F009 收紧：Agent 裸 confirmed 不得自证，必须携带人工确认事件
     blocked = dispatch("write_apply", {"operation_id": preview["operation_id"]}, root=tmp_path)
-    assert blocked["state"] == "awaiting_confirmation"
+    assert blocked["error_code"] == "skill_confirmation_required"
+    bare = dispatch("write_apply", {"operation_id": preview["operation_id"], "confirmed": True}, root=tmp_path)
+    assert bare["error_code"] == "skill_confirmation_required"
     assert not (tmp_path / "wiki" / "item.md").exists()
+    applied = dispatch("write_apply", {"operation_id": preview["operation_id"], "confirmed": True,
+                                       "confirmation": _skill_confirmation(tmp_path, preview["operation_id"])}, root=tmp_path)
+    assert applied["state"] == "applied"
 
 
 def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path):
@@ -149,8 +163,12 @@ def test_skill_source_preview_and_apply_delegate_to_source_service(tmp_path: Pat
     preview = dispatch("source_preview", {"request": request}, root=tmp_path)
     assert preview["state"] == "previewed"
     blocked = dispatch("source_apply", {"operation_id": preview["operation_id"]}, root=tmp_path)
-    assert blocked["state"] == "awaiting_confirmation"
-    applied = dispatch("source_apply", {"operation_id": preview["operation_id"], "confirmed": True}, root=tmp_path)
+    assert blocked["error_code"] == "skill_confirmation_required"
+    # 轻校验：human actor + operation 绑定 + 自哈希（完整 hash 绑定待 writer 统一迁移）
+    event = {"schema_version": "operation-confirmation/v1", "operation_id": preview["operation_id"],
+             "scope": "apply", "actor_type": "human", "actor_id": "human-via-cli",
+             "input_hash": preview.get("input_hash"), "diff_hash": None, "event_sha256": "sha256:opaque"}
+    applied = dispatch("source_apply", {"operation_id": preview["operation_id"], "confirmed": True, "confirmation": event}, root=tmp_path)
     assert applied["state"] == "applied"
 
 
