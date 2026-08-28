@@ -10,8 +10,10 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
+from tools.doctor import run_doctor
 from tools.evidence_anchor import EvidenceAnchor
 from tools.front_matter import FrontMatter
 from tools.ingest.source_ingestor import SourceIngestor
@@ -596,6 +598,77 @@ class SourceIngestorTests(unittest.TestCase):
             )
             self.assertIn("旧版本正文内容", source_text)
             self.assertNotIn("新版本正文内容", source_text)
+
+    def _preview_note(self, ingestor, body: str, source_id: str) -> dict:
+        return ingestor.preview(
+            {
+                "source_type": "personal-note",
+                "domain": "tools",
+                "origin": "personal",
+                "body": body,
+                "source_id": source_id,
+            }
+        )
+
+    def test_manifest_failure_after_source_write_removes_new_source(self):
+        """注入点 after_source 抛 OSError：新建导入必须删掉刚写入的 source。
+
+        既有两个回滚用例都让 archive 写入失败——那时 source 还没写，unlink 是
+        空操作。这里覆盖真正会删文件的分支：source 已原子替换、manifest 尚未
+        入账时失败。
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ingestor = SourceIngestor(root)
+            operation = self._preview_note(ingestor, "新建正文内容", "fail-new-note")
+            with mock.patch.dict(os.environ, {"MYKNOWLEDGE_FAIL_AT": "after_source"}):
+                applied = ingestor.apply(operation["operation_id"], confirmed=True)
+            self.assertEqual(applied["state"], "expired")
+            self.assertEqual(applied["error_code"], "apply_failed")
+            self.assertFalse((root / "sources" / "tools" / "fail-new-note.md").exists())
+            self.assertFalse((root / "archive" / "manifest.jsonl").exists())
+            # archive 是内容寻址的不可变快照，保留无害（重放会命中同一文件）
+            self.assertEqual(len(list((root / "archive" / "text").glob("*.md"))), 1)
+
+    def test_manifest_failure_after_source_write_leaves_documented_gap(self):
+        """注入点 after_source 抛 OSError：覆盖导入的已知权衡被固定成断言。
+
+        实测语义（不是设计意图的复述）：新内容留在 source 文件里、manifest 没有
+        对应条目、失败的 operation 已是 expired **不可重放**——修复只能靠重新
+        preview+apply。doctor 看不到这种不一致（source 与 archive 自洽）。
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ingestor = SourceIngestor(root)
+            first = self._preview_note(ingestor, "旧版本正文内容", "fail-ovw-note")
+            ingestor.apply(first["operation_id"], confirmed=True)
+            second = self._preview_note(ingestor, "新版本正文内容", "fail-ovw-note")
+            with mock.patch.dict(os.environ, {"MYKNOWLEDGE_FAIL_AT": "after_source"}):
+                applied = ingestor.apply(second["operation_id"], confirmed=True)
+            self.assertEqual(applied["error_code"], "apply_failed")
+
+            source_path = root / "sources" / "tools" / "fail-ovw-note.md"
+            body = source_path.read_text(encoding="utf-8")
+            self.assertIn("新版本正文内容", body)  # 旧内容已被原子替换，不可恢复
+            manifest = root / "archive" / "manifest.jsonl"
+            self.assertEqual(
+                len(manifest.read_text(encoding="utf-8").strip().splitlines()),
+                1,  # 只有第一次导入的条目：新 snapshot 未入账
+            )
+            self.assertEqual(
+                ingestor.apply(second["operation_id"], confirmed=True)["state"],
+                "expired",  # 同一 operation 不可重放（apply_preflight 只接受 previewed）
+            )
+            self.assertEqual(run_doctor(root)["errors"], 0)  # 不一致对 doctor 不可见
+
+            repaired = self._preview_note(ingestor, "新版本正文内容", "fail-ovw-note")
+            self.assertEqual(
+                ingestor.apply(repaired["operation_id"], confirmed=True)["state"],
+                "applied",
+            )
+            self.assertEqual(
+                len(manifest.read_text(encoding="utf-8").strip().splitlines()), 2
+            )
 
     def test_crash_injection_source_apply(self):
         """真实进程崩溃注入：4 个提交点 kill -9 后重放恢复为 applied（WAL 语义）。

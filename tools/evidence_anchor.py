@@ -16,8 +16,8 @@ from pathlib import Path
 from .common import (
     atomic_write,
     canonical_quote,
-    crash_injection_point,
     hash_canonical,
+    injection_point,
     sha256_bytes,
     sha256_text,
 )
@@ -200,7 +200,7 @@ class EvidenceAnchor:
                         }
                 try:
                     evidence = self.apply_evidence(source_path, record["evidence"])
-                    crash_injection_point("after_evidence")
+                    injection_point("after_evidence")
                 except ValueError as exc:
                     self.store.update(record, "expired", error_code=str(exc))
                     return {
@@ -216,7 +216,7 @@ class EvidenceAnchor:
                         "operation_id": operation_id,
                         "error_code": "apply_failed",
                     }
-                crash_injection_point("before_commit")
+                injection_point("before_commit")
                 try:
                     applied_file = str(
                         source_path.resolve().relative_to(self.root.resolve())
