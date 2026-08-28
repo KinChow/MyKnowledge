@@ -1,50 +1,45 @@
-"""FastAPI local adapter (F006)."""
+"""FastAPI local adapter (F006)。
+
+分层：``schemas``（请求模型）/``errors``（错误契约）/``security``（回环防护与
+capability 门禁）/``services``（检索与对象定位）。本模块只是组合根：装配
+app.state、注册中间件、声明端点，不再承载协议细节与领域编排。
+"""
+
 from __future__ import annotations
+
 import os
-import time
 import secrets
-from contextlib import asynccontextmanager
+import time
+from contextlib import asynccontextmanager, suppress
+from functools import partial
 from pathlib import Path
 from typing import Any
-from fastapi import Body, FastAPI, Header, HTTPException, Query, Request
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, ConfigDict, Field
-from tools.indexing import Retriever
+
+from fastapi import Body, FastAPI, Header, Query, Request
+
+from tools.citation import replay as replay_citation
 from tools.common import atomic_write, safe_id
+from tools.indexing import Retriever, default_public_index_path
 from tools.projection import PublicProjectionStore
 from tools.question import QuestionStore
-from tools.write_operation import WriteOperation
-from tools.vault_registry import VaultRegistry
+from tools.skill_runtime import dispatch
 from tools.validation.validator import WikiValidator
-from tools.citation import replay as replay_citation
-from tools.capability import check_capability, required_scope_for
+from tools.vault_registry import VaultRegistry
+from tools.write_operation import WriteOperation
 
-class RetrieveRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    query: str = Field(min_length=1, max_length=4000)
-    scope: str = "public"
-    vault_ids: list[str] | None = None
-    top_k: int = Field(default=8, ge=1, le=50)
-    include_sources: bool = False
-    include_archive: bool = False
+from .errors import api_error
+from .schemas import (
+    ApplyRequest,
+    CitationReplayRequest,
+    RetrieveRequest,
+    WritePreviewRequest,
+)
+from .security import local_origin_guard, require_capability, require_write_capability
+from .services import require_scope, resolve_object_path, run_retrieve
 
-
-class WritePreviewRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    files: dict[str, str] = Field(min_length=1)
-    vault_id: str = "public"
-
-
-class ApplyRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    confirmed: bool = False
-    actor_id: str = Field(default="local-user", min_length=1, max_length=128)
-    confirmation: dict[str, Any] | None = None
-
-class CitationReplayRequest(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    citation: dict[str, Any]
-    snapshot: str = Field(min_length=1, max_length=2_000_000)
+QUERY_PARAMS = frozenset(
+    {"q", "scope", "vault_ids", "top_k", "include_sources", "include_archive"}
+)
 
 
 def _load_public_projection(root: Path) -> list[dict]:
@@ -54,261 +49,365 @@ def _load_public_projection(root: Path) -> list[dict]:
     """
     return PublicProjectionStore(root).degraded_items()
 
-def create_app(root: Path | None = None, *, items: list[dict] | None = None, capability_token: str | None = None) -> FastAPI:
-    @asynccontextmanager
-    async def lifespan(application: FastAPI):
-        yield
-        token_path = getattr(application.state, "capability_token_path", None)
-        if token_path is not None:
-            try:
-                token_path.unlink(missing_ok=True)
-            except OSError:
-                pass
 
-    app = FastAPI(title="MyKnowledge Local API", version="v1", lifespan=lifespan)
-    app.state.root = Path(root or ".").resolve()
+def _object_ref(vault_id: str, object_type: str, object_id: str) -> dict[str, str]:
+    return {
+        "vault_id": vault_id,
+        "object_type": object_type,
+        "object_id": object_id,
+    }
+
+
+def _issue_capability_token(state: Any, capability_token: str | None) -> None:
+    """装配 capability token 与作用域；未显式传 token 时落一份 0600 的本地凭据。"""
+    state.capability_token = capability_token or secrets.token_urlsafe(32)
+    state.capability_token_created_at = time.time()
+    state.capability_token_ttl_seconds = 3600
+    state.capability_scopes = {"local-read", "private-read", "vault-check", "write"}
+    state.capability_token_path = None
+
+
+def _persist_capability_token(state: Any) -> None:
+    state_dir = state.root / "state"
+    state_dir.mkdir(parents=True, exist_ok=True)
+    os.chmod(state_dir, 0o700)
+    token_path = state_dir / "capability-token"
+    atomic_write(token_path, state.capability_token.encode("ascii") + b"\n", 0o600)
+    state.capability_token_path = token_path
+
+
+@asynccontextmanager
+async def _lifespan(application: FastAPI):
+    yield
+    token_path = getattr(application.state, "capability_token_path", None)
+    if token_path is not None:
+        with suppress(OSError):
+            token_path.unlink(missing_ok=True)
+
+
+def create_app(
+    root: Path | None = None,
+    *,
+    items: list[dict] | None = None,
+    capability_token: str | None = None,
+) -> FastAPI:
+    app = FastAPI(title="MyKnowledge Local API", version="v1", lifespan=_lifespan)
+    state = app.state
+    state.root = Path(root or ".").resolve()
     # F005：默认接线 state/index/public.sqlite3（存在即用；陈旧/损坏自动降级 LIKE）
-    from tools.indexing import default_public_index_path
-    default_index = default_public_index_path(app.state.root)
-    app.state.retriever = Retriever(list(items) if items is not None else _load_public_projection(app.state.root), index_path=default_index if default_index.exists() else None)
-    app.state.capability_token = capability_token or secrets.token_urlsafe(32)
-    app.state.capability_token_created_at = time.time()
-    app.state.capability_token_ttl_seconds = 3600
-    app.state.capability_scopes = {"local-read", "private-read", "vault-check", "write"}
-    app.state.capability_token_path = None
+    default_index = default_public_index_path(state.root)
+    state.retriever = Retriever(
+        list(items) if items is not None else _load_public_projection(state.root),
+        index_path=default_index if default_index.exists() else None,
+    )
+    _issue_capability_token(state, capability_token)
     if capability_token is None and root is not None:
-        state_dir = app.state.root / "state"
-        state_dir.mkdir(parents=True, exist_ok=True)
-        os.chmod(state_dir, 0o700)
-        token_path = state_dir / "capability-token"
-        atomic_write(token_path, app.state.capability_token.encode("ascii") + b"\n", 0o600)
-        app.state.capability_token_path = token_path
+        _persist_capability_token(state)
+    state.practice = QuestionStore(state.root)
+    state.writer = WriteOperation(state.root)
+    state.max_request_body_bytes = 1_048_576
+    app.middleware("http")(local_origin_guard)
 
-    app.state.practice = QuestionStore(app.state.root)
-    app.state.writer = WriteOperation(app.state.root)
-    app.state.max_request_body_bytes = 1_048_576
-
-    @app.middleware("http")
-    async def local_origin_guard(request: Request, call_next):
-        content_length = request.headers.get("content-length")
-        if content_length:
-            try:
-                oversized = int(content_length) > app.state.max_request_body_bytes
-            except ValueError:
-                oversized = True
-            if oversized:
-                return JSONResponse(status_code=413, content={"detail": {"code": "request_too_large", "stage": "request", "retryable": False, "next_action": "reduce request body"}})
-        # Content-Length is optional for chunked requests. Buffer only up to the
-        # configured cap, then expose the validated body to downstream handlers.
-        if request.method in {"POST", "PUT", "PATCH", "DELETE"} and not content_length:
-            chunks: list[bytes] = []
-            total = 0
-            async for chunk in request.stream():
-                total += len(chunk)
-                if total > app.state.max_request_body_bytes:
-                    return JSONResponse(status_code=413, content={"detail": {"code": "request_too_large", "stage": "request", "retryable": False, "next_action": "reduce request body"}})
-                chunks.append(chunk)
-            request._body = b"".join(chunks)
-        if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
-            host = (request.headers.get("host") or "").split(":", 1)[0].lower()
-            origin = request.headers.get("origin")
-            allowed_hosts = {"127.0.0.1", "localhost", "testserver"}
-            if host and host not in allowed_hosts:
-                return JSONResponse(status_code=403, content={"detail": {"code": "host_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback host"}})
-            if origin and not (origin.startswith("http://127.0.0.1") or origin.startswith("http://localhost") or origin.startswith("http://testserver")):
-                return JSONResponse(status_code=403, content={"detail": {"code": "origin_not_allowed", "stage": "auth", "retryable": False, "next_action": "use loopback origin"}})
-        return await call_next(request)
-
-    def _capability_error(result: tuple[str, bool, str], status_code: int) -> HTTPException:
-        code, retryable, next_action = result
-        return HTTPException(status_code=status_code, detail={"code": code, "stage": "auth", "retryable": retryable, "next_action": next_action})
-
-    def require_capability(token: str | None, scope: str, audience: str | None = None, *, force: bool = False, required_scope: str | None = None) -> None:
-        """HTTP adapter over tools.capability.check_capability (single core)."""
-        result = check_capability(
-            token, app.state.capability_token,
-            created_at=app.state.capability_token_created_at,
-            ttl_seconds=app.state.capability_token_ttl_seconds,
-            scopes=app.state.capability_scopes,
-            required_scope=required_scope if required_scope is not None else required_scope_for(scope, force=force),
-            audience=audience,
-            skip=scope == "public" and not force,
-        )
-        if result is None:
-            return
-        # token 缺失是 401，其余校验失败是 403（与原实现一致）
-        raise _capability_error(result, 401 if result[0] == "capability_token_required" else 403)
-
-    def require_write_capability(token: str | None, audience: str | None = None, *, required_scope: str = "write") -> None:
-        require_capability(token, "write", audience, force=True, required_scope=required_scope)
-
-    def retrieve(req: RetrieveRequest, token: str | None = None, audience: str | None = None) -> dict:
-        if req.scope not in {"public", "local", "private"}:
-            raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
-        require_capability(token, req.scope, audience)
-        if req.scope == "private" and not req.vault_ids:
-            raise HTTPException(status_code=400, detail={"code": "vault_ids_required", "stage": "request", "retryable": False, "next_action": "select one or more internal vault_ids"})
-        if len(req.vault_ids or []) > 16:
-            raise HTTPException(status_code=400, detail={"code": "query_limit_exceeded", "stage": "request", "retryable": False, "next_action": "reduce vault_ids"})
-        result = app.state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
-        # §12/§1958：include_sources/include_archive 是已定义契约，不允许
-        # "被接受但被忽略"的静默参数（F006 review 修复）
-        if req.include_sources:
-            result = _attach_sources(result, app.state.retriever.items)
-        if req.include_archive:
-            result.setdefault("warnings", []).append("archive_recall_not_available")
-        return result
-
-    def _attach_sources(result: dict, items: list[dict]) -> dict:
-        """为命中 wiki 附带其 front matter 中的 sources/related 引用。"""
-        from tools.front_matter import FrontMatter
-        by_id = {}
-        for item in items:
-            body = item.get("body")
-            if body and item.get("object_id"):
-                try:
-                    meta, _ = FrontMatter.parse(body) if body.startswith("---\n") else ({}, None)
-                except ValueError:
-                    meta = {}
-                by_id[item["object_id"]] = {"sources": meta.get("sources", []), "related": meta.get("related", [])}
-        for hit in result.get("items", []):
-            oid = (hit.get("object_ref") or {}).get("object_id")
-            if oid in by_id:
-                hit["sources"] = by_id[oid]["sources"]
-                hit["related"] = by_id[oid]["related"]
-        return result
+    # 端点内统一用这几个绑定好 state/root 的闭包，避免每处重复传状态
+    authorize = partial(require_capability, state)
+    authorize_write = partial(require_write_capability, state)
+    retrieve = partial(run_retrieve, state)
+    object_path = partial(resolve_object_path, state.root)
 
     @app.get("/api/health")
     def health() -> dict:
         return {"schema_version": "health/v1", "status": "ok", "api": "local"}
 
     @app.post("/api/retrieve")
-    def retrieve_post(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True)
+    def retrieve_post(
+        req: RetrieveRequest,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        # 顺序与门禁语义绑定：force=True 的能力校验先行，scope 合法性由
+        # run_retrieve 统一判定（未授权请求不应先泄露参数级错误）
+        authorize(
+            x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True
+        )
         return retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
 
     @app.get("/api/query")
-    def query_get(request: Request, q: str = Query(min_length=1, max_length=4000), scope: str = "public", vault_ids: str | None = None, top_k: int = Query(default=8, ge=1, le=50), include_sources: bool = False, include_archive: bool = False, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        unknown = set(request.query_params) - {"q", "scope", "vault_ids", "top_k", "include_sources", "include_archive"}
-        if unknown:
-            raise HTTPException(status_code=400, detail={"code": "schema_invalid", "stage": "request", "retryable": False, "next_action": "remove unknown query parameters"})
+    def query_get(
+        request: Request,
+        q: str = Query(min_length=1, max_length=4000),
+        scope: str = "public",
+        vault_ids: str | None = None,
+        top_k: int = Query(default=8, ge=1, le=50),
+        include_sources: bool = False,
+        include_archive: bool = False,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        if set(request.query_params) - QUERY_PARAMS:
+            raise api_error(
+                400, "schema_invalid", "request", "remove unknown query parameters"
+            )
         ids = [x for x in vault_ids.split(",") if x] if vault_ids else None
-        return retrieve(RetrieveRequest(query=q, scope=scope, vault_ids=ids, top_k=top_k, include_sources=include_sources, include_archive=include_archive), x_myknowledge_capability, x_myknowledge_audience)
+        return retrieve(
+            RetrieveRequest(
+                query=q,
+                scope=scope,
+                vault_ids=ids,
+                top_k=top_k,
+                include_sources=include_sources,
+                include_archive=include_archive,
+            ),
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+        )
 
     @app.post("/api/ask")
-    def ask(req: RetrieveRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True)
+    def ask(
+        req: RetrieveRequest,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(
+            x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True
+        )
         retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
-        return {"schema_version": "ask-result/v1", "answer": None, "citations": [], "retrieval": retrieval, "availability": "unavailable", "availability_reason": "provider_unavailable", "confidentiality": retrieval["confidentiality_max"], "limits": ["llm_unavailable"], "warnings": ["No LLM provider configured"]}
+        return {
+            "schema_version": "ask-result/v1",
+            "answer": None,
+            "citations": [],
+            "retrieval": retrieval,
+            "availability": "unavailable",
+            "availability_reason": "provider_unavailable",
+            "confidentiality": retrieval["confidentiality_max"],
+            "limits": ["llm_unavailable"],
+            "warnings": ["No LLM provider configured"],
+        }
 
     @app.post("/api/citation/replay")
-    def citation_replay(req: CitationReplayRequest, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        if scope not in {"public", "local", "private"}:
-            raise HTTPException(status_code=400, detail={"code": "scope_invalid", "stage": "request", "retryable": False, "next_action": "use public/local/private"})
-        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience, force=scope != "public")
-        return {"schema_version": "citation-replay/v1", **replay_citation(req.citation, req.snapshot)}
+    def citation_replay(
+        req: CitationReplayRequest,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        require_scope(scope)
+        authorize(
+            x_myknowledge_capability,
+            scope,
+            x_myknowledge_audience,
+            force=scope != "public",
+        )
+        return {
+            "schema_version": "citation-replay/v1",
+            **replay_citation(req.citation, req.snapshot),
+        }
+
+    def _preview(req: WritePreviewRequest, operation_type: str) -> dict:
+        return {
+            "schema_version": "operation-preview/v1",
+            **state.writer.preview(
+                req.files, operation_type=operation_type, vault_id=req.vault_id
+            ),
+        }
 
     @app.post("/api/source/preview")
-    def source_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
-        return {"schema_version": "operation-preview/v1", **app.state.writer.preview(req.files, operation_type="source", vault_id=req.vault_id)}
+    def source_preview(
+        req: WritePreviewRequest,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        return _preview(req, "source")
 
     @app.post("/api/wiki/preview")
-    def wiki_preview(req: WritePreviewRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
-        return {"schema_version": "operation-preview/v1", **app.state.writer.preview(req.files, operation_type="wiki", vault_id=req.vault_id)}
+    def wiki_preview(
+        req: WritePreviewRequest,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        return _preview(req, "wiki")
 
     @app.post("/api/operation/{operation_id}/apply")
-    def operation_apply(operation_id: str, req: ApplyRequest, x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
-        return {"schema_version": "operation-result/v1", **app.state.writer.apply(operation_id, confirmed=req.confirmed, actor_id=req.actor_id, confirmation=req.confirmation)}
+    def operation_apply(
+        operation_id: str,
+        req: ApplyRequest,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        return {
+            "schema_version": "operation-result/v1",
+            **state.writer.apply(
+                operation_id,
+                confirmed=req.confirmed,
+                actor_id=req.actor_id,
+                confirmation=req.confirmation,
+            ),
+        }
 
     @app.get("/api/vault/check")
-    def vault_check(x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability, x_myknowledge_audience, required_scope="vault-check")
-        return VaultRegistry(app.state.root).check()
+    def vault_check(
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize_write(
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            required_scope="vault-check",
+        )
+        return VaultRegistry(state.root).check()
 
     @app.post("/api/validate/{vault_id}/{object_type}/{object_id}")
-    def validate_object(vault_id: str, object_type: str, object_id: str, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_write_capability(x_myknowledge_capability, x_myknowledge_audience)
+    def validate_object(
+        vault_id: str,
+        object_type: str,
+        object_id: str,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        # 校验一律需要写能力（scope 在这里没有语义，不接受被忽略的入参）
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
         if object_type != "wiki":
-            raise HTTPException(status_code=404, detail={"code": "object_type_not_supported", "stage": "validate", "retryable": False, "next_action": "validate a wiki object"})
+            raise api_error(
+                404, "object_type_not_supported", "validate", "validate a wiki object"
+            )
         path = object_path(vault_id, object_type, object_id)
-        report = WikiValidator(VaultRegistry(app.state.root).resolve_vault_path(vault_id)).validate(path)
-        return {"schema_version": "validation-result/v1", "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "report": report}
-
-    def object_path(vault_id: str, object_type: str, object_id: str) -> Path:
-        try:
-            safe_id(vault_id); safe_id(object_id)
-        except ValueError:
-            raise HTTPException(status_code=422, detail={"code": "invalid_object_ref", "stage": "request", "retryable": False, "next_action": "use a safe vault_id/object_id"})
-        if object_type not in {"wiki", "source"}:
-            raise HTTPException(status_code=404, detail={"code": "object_type_not_found", "stage": "read", "retryable": False, "next_action": "use wiki or source"})
-        try:
-            owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
-        except (OSError, ValueError):
-            raise HTTPException(status_code=404, detail={"code": "vault_unavailable", "stage": "read", "retryable": False, "next_action": "check vault registry"})
-        base = owner_root / ("wiki" if object_type == "wiki" else "sources")
-        matches = [p for p in base.rglob(f"{object_id}.md") if p.is_file() and not p.is_symlink()]
-        if not matches: raise HTTPException(status_code=404, detail={"code": "object_not_found", "stage": "read", "retryable": False, "next_action": "check object_ref"})
-        # AC-F006-003：同名对象不得按目录顺序猜测 owner（修复：多匹配结构化拒绝）
-        if len(matches) > 1: raise HTTPException(status_code=409, detail={"code": "object_id_ambiguous", "stage": "read", "retryable": False, "next_action": "disambiguate the object id within this vault"})
-        return matches[0]
+        report = WikiValidator(
+            VaultRegistry(state.root).resolve_vault_path(vault_id)
+        ).validate(path)
+        return {
+            "schema_version": "validation-result/v1",
+            "object_ref": _object_ref(vault_id, object_type, object_id),
+            "report": report,
+        }
 
     @app.get("/api/read/{vault_id}/{object_type}/{object_id}")
-    def read_object(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, "private" if vault_id != "public" else scope, x_myknowledge_audience)
+    def read_object(
+        vault_id: str,
+        object_type: str,
+        object_id: str,
+        scope: str = "public",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(
+            x_myknowledge_capability,
+            "private" if vault_id != "public" else scope,
+            x_myknowledge_audience,
+        )
         if vault_id == "public":
-            # public 读只能来自 projection（与 Skill 同一实现）；
-            # 不得 rglob canonical 内容，否则未发布 wiki 可被免 token 读取
-            try:
-                safe_id(object_id)
-            except ValueError:
-                raise HTTPException(status_code=422, detail={"code": "invalid_object_ref", "stage": "request", "retryable": False, "next_action": "use a safe vault_id/object_id"})
-            from tools.skill_runtime import dispatch
-            result = dispatch("read", {"vault_id": "public", "object_id": object_id}, root=app.state.root)
-            if result.get("state") != "ok" and "body" not in result:
-                raise HTTPException(status_code=404, detail={"code": "object_not_found", "stage": "read", "retryable": False, "next_action": "check object_ref"})
-            return result
+            return _read_public(object_id)
         path = object_path(vault_id, object_type, object_id)
-        owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
-        return {"schema_version": "read-result/v1", "object_ref": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "path": str(path.relative_to(owner_root)), "body": path.read_text(encoding="utf-8")}
+        owner_root = VaultRegistry(state.root).resolve_vault_path(vault_id)
+        return {
+            "schema_version": "read-result/v1",
+            "object_ref": _object_ref(vault_id, object_type, object_id),
+            "path": str(path.relative_to(owner_root)),
+            "body": path.read_text(encoding="utf-8"),
+        }
+
+    def _read_public(object_id: str) -> dict:
+        """public 读只能来自 projection（与 Skill 同一实现）。
+
+        不得 rglob canonical 内容，否则未发布 wiki 可被免 token 读取。
+        """
+        try:
+            safe_id(object_id)
+        except ValueError as exc:
+            raise api_error(
+                422, "invalid_object_ref", "request", "use a safe vault_id/object_id"
+            ) from exc
+        result = dispatch(
+            "read", {"vault_id": "public", "object_id": object_id}, root=state.root
+        )
+        if result.get("state") != "ok" and "body" not in result:
+            raise api_error(404, "object_not_found", "read", "check object_ref")
+        return result
 
     @app.get("/api/backlinks/{vault_id}/{object_type}/{object_id}")
-    def backlinks(vault_id: str, object_type: str, object_id: str, scope: str = "public", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, "private" if vault_id != "public" else scope, x_myknowledge_audience)
+    def backlinks(
+        vault_id: str,
+        object_type: str,
+        object_id: str,
+        scope: str = "public",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(
+            x_myknowledge_capability,
+            "private" if vault_id != "public" else scope,
+            x_myknowledge_audience,
+        )
         if vault_id == "public":
             # 同上：public 反链来自 projection，不扫 canonical
-            from tools.skill_runtime import dispatch
-            result = dispatch("backlinks", {"vault_id": "public", "object_id": object_id}, root=app.state.root)
+            result = dispatch(
+                "backlinks",
+                {"vault_id": "public", "object_id": object_id},
+                root=state.root,
+            )
             if result.get("target") is None:
-                raise HTTPException(status_code=404, detail={"code": "object_not_found", "stage": "read", "retryable": False, "next_action": "check object_ref"})
+                raise api_error(404, "object_not_found", "read", "check object_ref")
             return result
         object_path(vault_id, object_type, object_id)
-        owner_root = VaultRegistry(app.state.root).resolve_vault_path(vault_id)
-        base = owner_root / "wiki"; results = []
+        owner_root = VaultRegistry(state.root).resolve_vault_path(vault_id)
         needle = f"{object_id}.md"
-        for path in base.rglob("*.md"):
-            if path.is_file() and needle in path.read_text(encoding="utf-8", errors="ignore"):
-                results.append({"vault_id": vault_id, "object_type": "wiki", "object_id": path.stem})
-        return {"schema_version": "backlinks-result/v1", "target": {"vault_id": vault_id, "object_type": object_type, "object_id": object_id}, "items": results}
+        items = [
+            _object_ref(vault_id, "wiki", path.stem)
+            for path in (owner_root / "wiki").rglob("*.md")
+            if path.is_file()
+            and needle in path.read_text(encoding="utf-8", errors="ignore")
+        ]
+        return {
+            "schema_version": "backlinks-result/v1",
+            "target": _object_ref(vault_id, object_type, object_id),
+            "items": items,
+        }
 
     @app.post("/api/practice/{question_id}/answer")
-    def practice_answer(question_id: str, response: Any = Body(...), scoring_mode: str = Query(default="manual", pattern="^(manual|deterministic|llm)$"), scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
+    def practice_answer(
+        question_id: str,
+        response: Any = Body(...),  # noqa: B008 - FastAPI 依赖注入的既定写法
+        scoring_mode: str = Query(
+            default="manual", pattern="^(manual|deterministic|llm)$"
+        ),
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
-            return {"schema_version": "practice-answer/v1", **app.state.practice.answer(question_id, response, scoring_mode=scoring_mode)}
-        except (OSError, ValueError):
-            raise HTTPException(status_code=404, detail={"code": "question_not_found", "stage": "practice", "retryable": False, "next_action": "check question_id"})
+            return {
+                "schema_version": "practice-answer/v1",
+                **state.practice.answer(
+                    question_id, response, scoring_mode=scoring_mode
+                ),
+            }
+        except (OSError, ValueError) as exc:
+            raise api_error(
+                404, "question_not_found", "practice", "check question_id"
+            ) from exc
 
     @app.post("/api/practice/{question_id}/review")
-    def practice_review(question_id: str, rating: int, scope: str = "local", x_myknowledge_capability: str | None = Header(default=None), x_myknowledge_audience: str | None = Header(default=None)) -> dict:
-        require_capability(x_myknowledge_capability, scope, x_myknowledge_audience)
+    def practice_review(
+        question_id: str,
+        rating: int,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
-            return {"schema_version": "practice-review/v1", **app.state.practice.review(question_id, rating)}
-        except (OSError, ValueError):
-            raise HTTPException(status_code=404, detail={"code": "question_not_found", "stage": "practice", "retryable": False, "next_action": "check question_id"})
+            return {
+                "schema_version": "practice-review/v1",
+                **state.practice.review(question_id, rating),
+            }
+        except (OSError, ValueError) as exc:
+            raise api_error(
+                404, "question_not_found", "practice", "check question_id"
+            ) from exc
 
     return app
+
 
 app = create_app()
