@@ -141,19 +141,9 @@ class EvidenceAnchor:
             return preflight_error
         try:
             with VaultLock(self.root, "public", operation_id):
-                record = self.store.load(operation_id)
-                if record.get("state") != "previewed":
-                    return {
-                        "state": record.get("state"),
-                        "operation_id": operation_id,
-                    }
-                if self.store.is_expired(record):
-                    self.store.update(record, "expired", error_code="operation_expired")
-                    return {
-                        "state": "expired",
-                        "error_code": "operation_expired",
-                        "operation_id": operation_id,
-                    }
+                record, begin_error = self.store.begin_locked(operation_id)
+                if begin_error is not None:
+                    return begin_error
                 source_path = Path(record["source_path"])
                 snapshot_path = Path(record["snapshot_path"])
                 try:

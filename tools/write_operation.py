@@ -311,22 +311,9 @@ class WriteOperation:
             confirmed_event = confirmation
         try:
             with VaultLock(self.root, vault_id, operation_id) as lock:
-                record = self.store.load(operation_id)
-                if record.get("state") != "previewed":
-                    result = {
-                        "state": record.get("state"),
-                        "operation_id": operation_id,
-                    }
-                    if record.get("applied_files"):
-                        result["applied_files"] = record["applied_files"]
-                    return result
-                if self.store.is_expired(record):
-                    self.store.update(record, "expired", error_code="operation_expired")
-                    return {
-                        "state": "expired",
-                        "operation_id": operation_id,
-                        "error_code": "operation_expired",
-                    }
+                record, begin_error = self.store.begin_locked(operation_id)
+                if begin_error is not None:
+                    return begin_error
                 originals, pre_error = self._collect_originals(
                     record, vault_id, operation_id
                 )
