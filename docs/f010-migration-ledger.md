@@ -38,7 +38,7 @@
   3. **同名 stem 互撞静默覆盖** → 新增 R8 消歧规则，overview×3/commands×2 已用 parent-stem id 补回；
 - 全量 `pytest`（338）与 `SourceValidator`（sources 全部）通过。
 
-| B5 退役批 | `mkdocs.yml` + Astro legacy 预览模式退役；**删除 32 篇 `contents.md` 导航页** | — | Pending | 前置：F007 projection 链路以真实多页内容验收通过 |
+| B5 退役批 | ~~`mkdocs.yml`~~（**已于 2026-08-28 退役**，含 pip 依赖与 README 链路）+ Astro legacy 预览模式退役；**删除 32 篇 `contents.md` 导航页** | — | In Progress | mkdocs 部分完成；剩余前置：F007 projection 链路以真实多页内容验收通过 |
 
 ## 6. 待决项
 

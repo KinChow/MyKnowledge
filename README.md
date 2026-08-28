@@ -26,7 +26,6 @@ MyKnowledge/
 ├── wiki/                  # 目标 Wiki 层（实现后创建）
 ├── config/                # schema、policy 和 public + 0..N vault 示例
 ├── tools/                 # Source/校验/锚定等工具（python -m tools.cli）
-├── mkdocs.yml             # 迁移期间的旧站点回退配置
 ├── requirements.txt       # Python 依赖列表
 └── README.md              # 项目说明
 ```
@@ -75,24 +74,25 @@ MyKnowledge-workspace/
 git clone https://github.com/KinChow/MyKnowledge.git
 cd MyKnowledge
 
-# 安装 Python 依赖（Source/后端/工具）
-pip install -r requirements.txt
+# 一键引导（venv + 依赖 + 自检）
+bash scripts/bootstrap.sh
 
-# 或手动安装核心组件
-pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
+# 或仅安装 Python 依赖
+pip install -r requirements.txt
 ```
 
 ### 2. 本地运行
 
-当前仓库使用迁移期间的 MkDocs 回退预览（frontend 已临时移除，以下为重建后的规划用法）：
+MkDocs 回退预览已于 2026-08-28 退役（B5）。当前用法：
 
 ```bash
-mkdocs serve
+python -m tools.cli doctor          # 健康自检
+python -m tools.cli projection generate   # 生成 public projection
+cd frontend && MYKNOWLEDGE_CONTENT_MODE=projection MYKNOWLEDGE_ROOT=.. npm run build
+cd dist && python3 -m http.server 8766   # 本地预览
 ```
 
-访问 ➡️ [http://127.0.0.1:8000](http://127.0.0.1:8000/)
-
-frontend 重建后的规划用法（对应正式 public projection 消费链路，架构见系统设计文档）：
+frontend 用法（正式 public projection 消费链路，架构见系统设计文档）：
 
 ```bash
 cd frontend
@@ -130,15 +130,6 @@ MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection
 # 由部署仓库维护，且 public CI 不得 checkout 任何 private vault。
 ```
 
-迁移期间如需发布旧 MkDocs 站点，仍可显式使用回退链路：
-
-```bash
-mkdocs gh-deploy --config-file ./mkdocs.yml --remote-branch main
-
-# 自定义部署路径（示例）
-mkdocs build --site-dir ../public_knowledge/
-```
-
 ------
 
 ## 🤝 参与贡献
@@ -146,7 +137,7 @@ mkdocs build --site-dir ../public_knowledge/
 欢迎提交 Issue 或 PR，请遵循：
 
 1. Fork 项目并创建特性分支
-2. 提交前运行 `mkdocs build` 验证构建
+2. 提交前运行 `python -m pytest` 与 `python -m tools.cli doctor`
 3. 使用 Conventional Commits 格式编写提交信息
 
 ------
