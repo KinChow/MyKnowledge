@@ -2,7 +2,7 @@ import unittest, tempfile
 import subprocess
 from pathlib import Path
 from unittest import mock
-from tools.indexing import IndexBuilder, QMDAdapter, Retriever, SQLiteIndex
+from tools.indexing import IndexBuilder, Retriever, SQLiteIndex
 from tools.vault_registry import VaultRegistry
 
 ITEMS = [
@@ -81,7 +81,8 @@ class IndexingTests(unittest.TestCase):
             SQLiteIndex(path).rebuild(ITEMS, "public")
             result = Retriever(ITEMS, path).search("SQLite", "public")
             self.assertEqual(result["method"], "fts5")
-            self.assertIn("qmd_unavailable", result["warnings"])
+            self.assertEqual(result["warnings"], [])  # fts5 是主路径，非降级
+            self.assertFalse(result["degraded"])
 
     def test_retriever_rejects_stale_fts5_index(self):
         with tempfile.TemporaryDirectory() as d:
@@ -124,28 +125,7 @@ class IndexingTests(unittest.TestCase):
             self.assertEqual(path.read_bytes(), original)
             self.assertEqual(SQLiteIndex(path).scope(), "public")
 
-    def test_qmd_cache_probe_is_fail_closed(self):
-        with tempfile.TemporaryDirectory() as d:
-            cache = Path(d) / "cache"; cache.mkdir(mode=0o755)
-            adapter = QMDAdapter(cache, command="missing-qmd")
-            self.assertFalse(adapter.available)
-            self.assertEqual(adapter.unavailable_reason(), "provider_unavailable")
-            adapter = QMDAdapter(cache, command="sh")
-            self.assertEqual(adapter.unavailable_reason(), "cache_permissions")
 
-    def test_qmd_results_are_normalized_and_projection_allowlisted(self):
-        class FakeQMD:
-            available = True
-            def search(self, query, top_k=8):
-                return [
-                    {"object_ref": {"vault_id": "public", "object_type": "wiki", "object_id": "pub"}, "score": 0.9},
-                    {"object_ref": {"vault_id": "private", "object_type": "wiki", "object_id": "priv"}, "score": 1.0},
-                ]
-            def unavailable_reason(self):
-                return None
-        result = Retriever(ITEMS, qmd=FakeQMD()).search("SQLite", "public")
-        self.assertEqual(result["method"], "qmd")
-        self.assertEqual([x["object_ref"]["object_id"] for x in result["items"]], ["pub"])
 
     def test_sqlite_index_recover_rebuilds_corrupt_index_and_keeps_previous(self):
         with tempfile.TemporaryDirectory() as d:

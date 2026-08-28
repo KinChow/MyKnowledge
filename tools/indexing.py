@@ -6,46 +6,12 @@ from .common import canonical_json, hash_canonical
 from .projection import public_allowlisted as _public_allowlisted  # 单份过滤谓词（Step0-1）
 
 
-class QMDAdapter:
-    """Read-only QMD capability probe; never downloads or executes network work."""
-    def __init__(self, cache_dir: Path | None = None, command: str = "qmd"):
-        self.cache_dir = Path(cache_dir).resolve() if cache_dir else None
-        self.command = command
-
-    def unavailable_reason(self) -> str | None:
-        if shutil.which(self.command) is None:
-            return "provider_unavailable"
-        if self.cache_dir is None:
-            return "cache_unconfigured"
-        if not self.cache_dir.is_dir():
-            return "cache_unavailable"
-        if (self.cache_dir.stat().st_mode & 0o777) != 0o700:
-            return "cache_permissions"
-        if any(part == ".git" for part in self.cache_dir.parts):
-            return "cache_in_git"
-        return None
-
-    @property
-    def available(self) -> bool:
-        return self.unavailable_reason() is None
-
-    def search(self, query: str, top_k: int = 8) -> list[dict]:
-        """Run an installed QMD CLI in its isolated cache and parse JSON output."""
-        reason = self.unavailable_reason()
-        if reason:
-            raise RuntimeError(reason)
-        completed = subprocess.run(
-            [self.command, "search", query, "--json", "-n", str(top_k)],
-            cwd=self.cache_dir, capture_output=True, text=True, timeout=10, check=False,
-        )
-        if completed.returncode != 0:
-            raise RuntimeError("provider_error")
-        data = json.loads(completed.stdout or "[]")
-        if isinstance(data, dict):
-            data = data.get("results", data.get("items", []))
-        if not isinstance(data, list) or any(not isinstance(item, dict) for item in data):
-            raise ValueError("provider_schema_invalid")
-        return data[:top_k]
+def _infer_index_root(index_path: Path) -> Path | None:
+    """默认索引约定 state/index/<name>.sqlite3 → root = 上三级。"""
+    parts = Path(index_path).resolve().parts
+    if len(parts) >= 3 and parts[-3:-1] == ("state", "index"):
+        return Path(*parts[:-3])
+    return None
 
 
 def default_public_index_path(root: Path) -> Path:
@@ -55,14 +21,6 @@ def default_public_index_path(root: Path) -> Path:
     均未传 index_path，FTS5 索引可构建但无消费者，真实查询永远走 LIKE。
     """
     return Path(root) / "state" / "index" / "public.sqlite3"
-
-
-def _infer_index_root(index_path: Path) -> Path | None:
-    """默认索引约定 state/index/<name>.sqlite3 → root = 上三级。"""
-    parts = Path(index_path).resolve().parts
-    if len(parts) >= 3 and parts[-3:-1] == ("state", "index"):
-        return Path(*parts[:-3])
-    return None
 
 
 def rebuild_default_public_index(root: Path) -> dict:
@@ -253,10 +211,9 @@ class SQLiteIndex:
             db.close()
 
 class Retriever:
-    def __init__(self, items: list[dict], index_path: Path | None = None, qmd: QMDAdapter | None = None):
+    def __init__(self, items: list[dict], index_path: Path | None = None):
         self.items = items
         self.index_path = Path(index_path) if index_path else None
-        self.qmd = qmd or QMDAdapter()
 
     def search(self, query: str, scope: str = "local", top_k: int = 8, vault_ids: list[str] | None = None) -> dict:
         if (not isinstance(query, str) or len(query) > 4096 or top_k < 1 or top_k > 100
@@ -266,21 +223,8 @@ class Retriever:
         if vault_ids is not None:
             requested = set(vault_ids)
             public = [item for item in public if item.get("vault_id") in requested]
-        if self.qmd.available:
-            try:
-                allowed_refs = {(x.get("vault_id"), x.get("object_type", "wiki"), x.get("object_id")): x for x in public}
-                candidates = self.qmd.search(query, top_k)
-                items = []
-                for candidate in candidates:
-                    ref = candidate.get("object_ref") or {"vault_id": candidate.get("vault_id"), "object_type": candidate.get("object_type", "wiki"), "object_id": candidate.get("object_id")}
-                    source = allowed_refs.get((ref.get("vault_id"), ref.get("object_type", "wiki"), ref.get("object_id")))
-                    if source is None:
-                        continue
-                    available = source.get("availability", "available") == "available"
-                    items.append({"object_ref": {"vault_id": ref.get("vault_id"), "object_type": ref.get("object_type", "wiki"), "object_id": ref.get("object_id")}, "title": source.get("title"), "snippet": str(source.get("body", ""))[:240] if available else None, "score": candidate.get("score"), "availability": "available" if available else "unavailable", "availability_reason": "none" if available else source.get("availability_reason", "unavailable"), "confidentiality": source.get("confidentiality", "public"), "content_sha256": source.get("content_sha256"), "source_ref": source.get("source_ref")})
-                return {"schema_version": "query-result/v1", "items": items, "scope": scope, "method": "qmd", "index_version": "qmd/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": False, "confidentiality_max": "internal" if any(x["confidentiality"] == "internal" for x in items) else "public", "limits": [], "warnings": []}
-            except (OSError, RuntimeError, ValueError, json.JSONDecodeError):
-                pass
+        # §1808 修订：qmd 不可得已被 simple 替代，QMD 适配器退役；
+        # 降级链为 FTS5（simple/unicode61）→ LIKE
         if self.index_path and self.index_path.exists():
             try:
                 index = SQLiteIndex(self.index_path, root=_infer_index_root(self.index_path))
@@ -289,7 +233,7 @@ class Retriever:
                 if index.generated_from() != hash_canonical(public):
                     raise ValueError("index_stale")
                 indexed = index.search(query, top_k)
-                return {"schema_version": "query-result/v1", "items": indexed, "scope": scope, "method": "fts5", "index_version": "fts5/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": True, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in indexed) else "public", "limits": [], "warnings": ["qmd_unavailable", self.qmd.unavailable_reason() or "none"]}
+                return {"schema_version": "query-result/v1", "items": indexed, "scope": scope, "method": "fts5", "index_version": "fts5/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": False, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in indexed) else "public", "limits": [], "warnings": []}
             except (OSError, sqlite3.Error, ValueError):
                 pass
         q = query.casefold()
@@ -298,4 +242,4 @@ class Retriever:
         for x in hits[:top_k]:
             available = x.get("availability", "available") == "available"
             result_items.append({"object_ref": {"vault_id": x.get("vault_id"), "object_type": x.get("object_type", "wiki"), "object_id": x.get("object_id")}, "title": x.get("title"), "snippet": str(x.get("body", ""))[:240] if available else None, "score": 1.0, "availability": "available" if available else "unavailable", "availability_reason": "none" if available else x.get("availability_reason", "unavailable"), "confidentiality": x.get("confidentiality", "public"), "content_sha256": x.get("content_sha256"), "source_ref": x.get("source_ref")})
-        return {"schema_version": "query-result/v1", "items": result_items, "scope": scope, "method": "deterministic-fallback", "index_version": "fallback/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": True, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in public) else "public", "limits": [], "warnings": ["qmd_unavailable", "fts5_unavailable"]}
+        return {"schema_version": "query-result/v1", "items": result_items, "scope": scope, "method": "deterministic-fallback", "index_version": "fallback/v1", "generated_from": hash_canonical(public), "availability": "available", "availability_reason": "none", "degraded": True, "confidentiality_max": "internal" if any(x.get("confidentiality") == "internal" for x in public) else "public", "limits": [], "warnings": ["fts5_unavailable"]}

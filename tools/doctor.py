@@ -32,8 +32,8 @@ def run_doctor(root: Path) -> dict:
     except (OSError, ValueError) as exc:
         add("public_projection", "warning", reason=str(exc), next_action="python -m tools.cli projection generate")
 
-    # 2. 默认 FTS5 索引新鲜度
-    from .indexing import QMDAdapter, SQLiteIndex, default_public_index_path
+    # 2. 默认 FTS5 索引新鲜度（§1808 修订：qmd 已退役，simple 分词的 FTS5 承担检索）
+    from .indexing import SQLiteIndex, default_public_index_path
     from .common import hash_canonical
 
     index_path = default_public_index_path(root)
@@ -50,10 +50,6 @@ def run_doctor(root: Path) -> dict:
                 next_action=None if fresh else "同上 rebuild")
         except Exception as exc:  # sqlite3.Error 等
             add("fts5_index", "warning", reason=f"index_unreadable:{type(exc).__name__}", next_action="rebuild")
-
-    # 3. QMD
-    reason = QMDAdapter().unavailable_reason()
-    add("qmd", "ok" if reason is None else "warning", reason=reason, next_action="install qmd for semantic retrieval" if reason else None)
 
     # 3b. provider profile 与环境变量冲突（参考 cc-switch env-conflict 检测：
     # 同键双来源且值不同时显式告警，而非静默 env 优先）

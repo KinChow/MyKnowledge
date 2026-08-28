@@ -18,7 +18,7 @@ def test_doctor_reports_missing_index_and_manifest_as_visible_warnings(tmp_path:
     assert names["public_projection"]["state"] == "warning"      # manifest 缺失可见
     assert names["fts5_index"]["state"] == "warning"             # 索引缺失可见 + next_action
     assert names["fts5_index"]["next_action"].startswith("python -m tools.cli index rebuild")
-    assert names["qmd"]["state"] in {"ok", "warning"}
+    assert "qmd" not in names  # qmd 已退役（§1808 修订），不再产生不可消除的告警
 
 
 def test_doctor_flags_invalid_source_as_error(tmp_path: Path):
