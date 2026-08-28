@@ -225,6 +225,28 @@ class OperationStore:
             }
         return record, None
 
+    def begin_locked(self, operation_id: str) -> tuple[dict | None, dict | None]:
+        """锁内复查（三个 apply 共用的事务开场）：重读记录 → 仍 previewed → 未过 TTL。
+
+        与 apply_preflight 的分工：preflight 在取锁前做便宜的拒绝；本方法是锁内
+        的权威判定——取锁期间记录可能已被另一进程提交或过期，必须重读磁盘。
+        返回 (record, error_response)；error_response 为 None 表示可继续。
+        """
+        record = self.load(operation_id)
+        if record.get("state") != "previewed":
+            error = {"state": record.get("state"), "operation_id": operation_id}
+            if record.get("applied_files"):
+                error["applied_files"] = record["applied_files"]
+            return None, error
+        if self.is_expired(record):
+            self.update(record, "expired", error_code="operation_expired")
+            return None, {
+                "state": "expired",
+                "operation_id": operation_id,
+                "error_code": "operation_expired",
+            }
+        return record, None
+
     def load(self, operation_id: str) -> dict:
         """按 operation_id 读取 operation 记录；文件缺失或损坏时抛异常由调用方处理。"""
         safe_id(operation_id.removeprefix("op_"))

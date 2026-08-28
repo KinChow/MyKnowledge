@@ -610,12 +610,13 @@ class SourceIngestorTests(unittest.TestCase):
             }
         )
 
-    def test_manifest_failure_after_source_write_removes_new_source(self):
-        """注入点 after_source 抛 OSError：新建导入必须删掉刚写入的 source。
+    def test_failure_at_the_last_write_rolls_back_the_new_source(self):
+        """注入点 after_source（最后一步之后）抛 OSError：新建导入删掉刚写的 source。
 
         既有两个回滚用例都让 archive 写入失败——那时 source 还没写，unlink 是
-        空操作。这里覆盖真正会删文件的分支：source 已原子替换、manifest 尚未
-        入账时失败。
+        空操作。这里覆盖真正会删文件的分支。account 侧的实测语义：账目已在
+        source 之前入账，所以留下的是"多一条指向已存在快照的记录"（无害），
+        而不是缺口——doctor 依然干净。
         """
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -626,16 +627,21 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "apply_failed")
             self.assertFalse((root / "sources" / "tools" / "fail-new-note.md").exists())
-            self.assertFalse((root / "archive" / "manifest.jsonl").exists())
+            manifest = root / "archive" / "manifest.jsonl"
+            self.assertEqual(
+                len(manifest.read_text(encoding="utf-8").strip().splitlines()), 1
+            )
             # archive 是内容寻址的不可变快照，保留无害（重放会命中同一文件）
             self.assertEqual(len(list((root / "archive" / "text").glob("*.md"))), 1)
+            self.assertEqual(run_doctor(root)["errors"], 0)  # 多一条账目不是缺口
 
-    def test_manifest_failure_after_source_write_leaves_documented_gap(self):
-        """注入点 after_source 抛 OSError：覆盖导入的已知权衡被固定成断言。
+    def test_overwrite_failure_keeps_content_and_ledger_consistent(self):
+        """注入点 after_source 抛 OSError：覆盖导入失败后内容与账目仍然自洽。
 
-        实测语义（不是设计意图的复述）：新内容留在 source 文件里、manifest 没有
-        对应条目、失败的 operation 已是 expired **不可重放**——修复只能靠重新
-        preview+apply。doctor 看不到这种不一致（source 与 archive 自洽）。
+        实测语义（不是设计意图的复述）：新内容留在 source 里（原子替换不可回退）、
+        **对应账目已入账**（manifest 先于 source 落盘）、失败的 operation 是
+        expired 不可重放——但也不需要重放，doctor 双向检查全过。这是把不可逆
+        的一步放到最后换来的：过去这里是永久账目缺口，只能人工重做。
         """
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -653,22 +659,39 @@ class SourceIngestorTests(unittest.TestCase):
             manifest = root / "archive" / "manifest.jsonl"
             self.assertEqual(
                 len(manifest.read_text(encoding="utf-8").strip().splitlines()),
-                1,  # 只有第一次导入的条目：新 snapshot 未入账
+                2,  # 旧+新两条 owner record：新 snapshot 已入账
             )
             self.assertEqual(
                 ingestor.apply(second["operation_id"], confirmed=True)["state"],
                 "expired",  # 同一 operation 不可重放（apply_preflight 只接受 previewed）
             )
-            self.assertEqual(run_doctor(root)["errors"], 0)  # 不一致对 doctor 不可见
+            self.assertEqual(run_doctor(root)["errors"], 0)  # 无需人工修复
 
-            repaired = self._preview_note(ingestor, "新版本正文内容", "fail-ovw-note")
-            self.assertEqual(
-                ingestor.apply(repaired["operation_id"], confirmed=True)["state"],
-                "applied",
+    def test_failure_before_source_write_leaves_only_a_harmless_extra_record(self):
+        """注入点 after_manifest 抛 OSError：source 未被改写，只多一条账目。
+
+        这是新顺序引入的唯一新失效面，钉住它的无害性：旧内容完好（覆盖导入未
+        发生）、多出的 record 指向真实存在的快照，doctor 双向检查都过。
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ingestor = SourceIngestor(root)
+            first = self._preview_note(ingestor, "旧版本正文内容", "extra-rec-note")
+            ingestor.apply(first["operation_id"], confirmed=True)
+            second = self._preview_note(ingestor, "新版本正文内容", "extra-rec-note")
+            with mock.patch.dict(os.environ, {"MYKNOWLEDGE_FAIL_AT": "after_manifest"}):
+                applied = ingestor.apply(second["operation_id"], confirmed=True)
+            self.assertEqual(applied["error_code"], "apply_failed")
+            source_text = (root / "sources" / "tools" / "extra-rec-note.md").read_text(
+                encoding="utf-8"
             )
+            self.assertIn("旧版本正文内容", source_text)  # 不可逆的一步没有发生
+            self.assertNotIn("新版本正文内容", source_text)
+            manifest = root / "archive" / "manifest.jsonl"
             self.assertEqual(
                 len(manifest.read_text(encoding="utf-8").strip().splitlines()), 2
             )
+            self.assertEqual(run_doctor(root)["errors"], 0)
 
     def test_crash_injection_source_apply(self):
         """真实进程崩溃注入：4 个提交点 kill -9 后重放恢复为 applied（WAL 语义）。

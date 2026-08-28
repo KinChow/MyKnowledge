@@ -19,6 +19,7 @@ import zlib
 from pathlib import Path
 from typing import NamedTuple, Protocol
 
+from ..archive_manifest import ArchiveManifest
 from ..common import (
     atomic_write,
     canonical_json,
@@ -167,6 +168,7 @@ class SourceIngestor:
         self.root = root
         self.paths = RepoPaths(root)
         self.store: OperationRepository = OperationStore(root)
+        self.manifest = ArchiveManifest(root)
         self.validator: Validator = SourceValidator()
         fetcher: Fetcher = URLFetcher()
         self.fetcher = fetcher
@@ -279,11 +281,9 @@ class SourceIngestor:
 
     def _apply_locked(self, operation_id: str, actor_id: str) -> dict:
         """锁内主流程：复查状态/TTL → 复验输入与目标 → 落盘 → 提交。"""
-        record = self.store.load(operation_id)
-        if record.get("state") != "previewed":
-            return {"state": record.get("state"), "operation_id": operation_id}
-        if self.store.is_expired(record):
-            return self._expire(record, "operation_expired", operation_id)
+        record, begin_error = self.store.begin_locked(operation_id)
+        if begin_error is not None:
+            return begin_error
 
         body = record["body"]
         if record["input_path"]:
@@ -423,24 +423,27 @@ class SourceIngestor:
         source_path: Path,
         archive_path: Path,
     ) -> None:
-        """按 archive → sidecar → source → manifest 顺序落盘（含崩溃注入点）。
+        """按 archive → sidecar → manifest → source 顺序落盘（含崩溃注入点）。
 
-        顺序是恢复语义的一部分：archive 内容寻址先落，source 最后带 manifest
-        入账；任一步 OSError 由调用方回滚未提交状态。
+        顺序即恢复语义：内容寻址的 archive 先落、账目其次，**不可逆的一步
+        （原子替换 source）放在最后**。这样任何中途失败要么什么都没变，要么只
+        多出一条指向已存在快照的 manifest 记录——append-only + record_id 幂等，
+        无害且重放自愈。反过来（source 先写）会留下"内容已改、账目缺失且
+        operation 已 expired 不可重放"的永久缺口，只能人工重做。
         """
         if not archive_path.exists():
             atomic_write(archive_path, body.encode("utf-8"))
         injection_point("after_archive")
         if record["input_path"]:
             metadata["local"] = self._write_sidecar(record)
-        atomic_write(source_path, FrontMatter.render(metadata, body).encode("utf-8"))
-        injection_point("after_source")
         self._append_manifest(
             self._manifest_entry(
                 record, body, metadata["snapshot_sha256"], archive_path
             )
         )
         injection_point("after_manifest")
+        atomic_write(source_path, FrontMatter.render(metadata, body).encode("utf-8"))
+        injection_point("after_source")
 
     def _write_sidecar(self, record: dict) -> dict:
         """local-file 的运行态 sidecar（0600），返回 front matter 的 local 段。"""
@@ -509,49 +512,22 @@ class SourceIngestor:
         return entry
 
     def _append_manifest(self, entry: dict) -> None:
-        """幂等追加 manifest：record_id 已存在则跳过；写入后 fsync 文件与目录。
-
-        manifest 是跨 vault 全局单文件，互斥依赖当前 per-vault 锁（R009）：
-        target_vault 目前硬编码 "public" 无实际竞争；引入多 vault 写入时
-        manifest 追加需全局锁或按 vault 分片。
-        """
-        manifest = self.paths.manifest
-        manifest.parent.mkdir(parents=True, exist_ok=True)
-        existing_ids = set()
-        if manifest.exists():
-            with manifest.open(encoding="utf-8", errors="replace") as handle:
-                for raw_line in handle:
-                    line = raw_line.strip()
-                    if not line:
-                        continue
-                    try:
-                        existing_ids.add(json.loads(line)["record_id"])
-                    except (json.JSONDecodeError, KeyError):
-                        continue
-        if entry["record_id"] in existing_ids:
-            return
-        with manifest.open("ab") as handle:
-            handle.write(canonical_json(entry) + b"\n")
-            handle.flush()
-            os.fsync(handle.fileno())
-        directory_fd = os.open(manifest.parent, os.O_RDONLY)
-        try:
-            os.fsync(directory_fd)
-        finally:
-            os.close(directory_fd)
+        """委派给 manifest 的唯一读写入口（幂等 + fsync 在那里实现）。"""
+        self.manifest.append(entry)
 
     def _rollback_uncommitted(
         self, record: dict, source_path: Path, source_id: str
     ) -> None:
         """提交点（store.update applied）之前失败时的清理。
 
-        仅当本次新建（preview 时目标不存在）才删除已写入的 source。覆盖场景的新
-        内容保留在 source 文件里（atomic_write 已替换旧文件，旧内容不可恢复），
-        此时 manifest 缺少新 snapshot 的条目，而该 operation 已被标记 expired、
-        **不能重放**（apply_preflight 只接受 previewed）：修复只能靠重新
-        preview+apply，在那之前是静默不一致态（source 与 archive 自洽，doctor
-        看不到），属已知权衡。sidecar 是运行缓存一并清理，archive 内容寻址保留
-        无害。上述语义由 after_source 注入点用例逐条断言。
+        仅当本次新建（preview 时目标不存在）才删除已写入的 source；覆盖场景的新
+        内容保留在 source 文件里（atomic_write 已替换旧文件，旧内容不可恢复）。
+        因为 source 是**最后**才写的（见 _write_artifacts），此时账目一定已入账，
+        不会再有"内容已改、manifest 缺条目"的缺口；最坏只是多一条指向已存在快照
+        的 manifest 记录（无害，重放自愈）。operation 已被标记 expired、**不能重放**
+        （apply_preflight 只接受 previewed），需要重做时重新 preview+apply。
+        sidecar 是运行缓存一并清理，archive 内容寻址保留无害。上述语义由
+        after_source / after_manifest 注入点用例逐条断言。
         """
         if record.get("target_hash") is None:
             with contextlib.suppress(OSError):
