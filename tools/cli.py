@@ -190,7 +190,8 @@ def backup_main(argv: list[str]) -> int:
     parser.add_argument("--target", type=Path)
     parser.add_argument("--target-vault-id")
     args = parser.parse_args(argv)
-    manager = BackupManager(args.root)
+    from tools.question import practice_integrity_check
+    manager = BackupManager(args.root, extra_verifiers={"practice": practice_integrity_check})
     if args.action == "status":
         result = manager.status()
     elif args.action == "manifest":

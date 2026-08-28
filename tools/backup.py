@@ -6,11 +6,13 @@ from .common import atomic_write, canonical_json, hash_canonical, safe_id
 from .release_confirmation import validate_event
 from .vault_registry import VaultRegistry
 from .paths import RepoPaths
-from .question import QUESTION_SCHEMA, QuestionStore
 
 class BackupManager:
-    def __init__(self, root: Path, manifest: Path | None = None) -> None:
+    def __init__(self, root: Path, manifest: Path | None = None, *, extra_verifiers: "dict[str, object] | None" = None) -> None:
         self.root = Path(root).resolve(); self.registry = VaultRegistry(self.root, manifest)
+        # 领域语义校验钩子（如 practice_integrity_check）：备份只定义协议，
+        # 不依赖任何具体领域模块（F012 解耦，DIP——组装在 CLI 入口）
+        self.extra_verifiers = extra_verifiers or {}
 
     def status(self) -> dict:
         report = self.registry.check()
@@ -129,9 +131,12 @@ class BackupManager:
                     event = json.loads(entry_path.read_text(encoding="utf-8"))
                     if not event.get("event_sha256") or not validate_event(event).get("valid"):
                         raise ValueError("confirmation_record_invalid")
-            # A byte-valid backup is not sufficient for practice data: replay
-            # the local question/review contracts before accepting the manifest.
-            self._verify_practice_tree(owner_root)
+            # 字节级校验不足以判定领域数据可用：调用注入的领域语义校验钩子
+            for name, verifier in self.extra_verifiers.items():
+                try:
+                    verifier(owner_root)
+                except ValueError as exc:
+                    raise ValueError(f"domain_verifier_failed:{name}:{exc}") from exc
             relative = str(path.resolve().relative_to(owner_root.resolve()))
             return {"state": "verified", "backup_state": "verified", "vault_id": vault_id, "manifest_sha256": expected, "path": relative}
         except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -226,34 +231,9 @@ class BackupManager:
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
 
-    @staticmethod
-    def _verify_practice_tree(target: Path) -> None:
-        """Validate restored practice semantics in addition to byte hashes."""
-        questions = target / "practice" / "questions"
-        if questions.is_dir():
-            store = QuestionStore(target)
-            for path in sorted(questions.glob("*.json")):
-                try:
-                    question = store.load(path.stem)
-                except (OSError, ValueError, json.JSONDecodeError) as exc:
-                    raise ValueError("practice_question_invalid") from exc
-                if question.get("schema_version") != QUESTION_SCHEMA:
-                    raise ValueError("practice_question_schema_invalid")
-        reviews = target / "practice" / "reviews"
-        if reviews.is_dir():
-            for path in sorted(reviews.glob("*.jsonl")):
-                question_id = path.stem
-                for line in path.read_text(encoding="utf-8").splitlines():
-                    try:
-                        record = json.loads(line)
-                    except json.JSONDecodeError as exc:
-                        raise ValueError("practice_review_invalid") from exc
-                    if (record.get("schema_version") != "practice-review-record/v1"
-                            or record.get("question_id") != question_id):
-                        raise ValueError("practice_review_owner_mismatch")
 
     @staticmethod
-    def verify_restored_bundle(bundle: Path, target: Path) -> dict:
+    def verify_restored_bundle(bundle: Path, target: Path, extra_verifiers: "dict[str, object] | None" = None) -> dict:
         """Verify the complete restored file set and owner marker in a target checkout."""
         bundle = Path(bundle).resolve()
         target = Path(target).resolve()
@@ -290,7 +270,11 @@ class BackupManager:
                     break
             if not valid_marker:
                 raise ValueError("restore_marker_missing")
-            BackupManager._verify_practice_tree(target)
+            for name, verifier in (extra_verifiers or {}).items():
+                try:
+                    verifier(target)
+                except ValueError as exc:
+                    raise ValueError(f"domain_verifier_failed:{name}:{exc}") from exc
             allowed_extra = {p.as_posix() for p in (target / "audit" / "backup" / "restores").rglob("*") if p.is_file()} if restore_dir.is_dir() else set()
             extras = []
             for path in target.rglob("*"):
@@ -336,7 +320,7 @@ class BackupManager:
             marker["record_sha256"] = "sha256:" + hashlib.sha256(canonical_json(marker)).hexdigest()
             marker_path = target / "audit" / "backup" / "restores" / f"{data.get('backup_id')}-{marker['record_sha256'].split(':', 1)[1][:16]}.json"
             atomic_write(marker_path, canonical_json(marker) + b"\n", 0o600)
-            verified = self.verify_restored_bundle(bundle, target)
+            verified = self.verify_restored_bundle(bundle, target, extra_verifiers=self.extra_verifiers)
             if verified.get("backup_state") != "verified":
                 raise ValueError(verified.get("error_code", "restore_verification_failed"))
             return {"state": "restored", "backup_state": "verified", "restored_entries": len(created), "target": str(target), "manifest_sha256": checked["manifest_sha256"]}

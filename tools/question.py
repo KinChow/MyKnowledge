@@ -277,3 +277,35 @@ class QuestionStore:
                                          "rating": result["rating"]}
             atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
         return result
+
+
+def practice_integrity_check(target: Path) -> None:
+    """恢复语义校验钩子（供 BackupManager 注入；F012 解耦：备份不依赖题库）。
+
+    逐字节数据不足以判定 practice 数据可用：按 question/v1 与
+    practice-review-record/v1 契约重放校验。任何失败抛 ValueError
+    （practice_question_invalid / practice_question_schema_invalid /
+    practice_review_invalid / practice_review_owner_mismatch）。
+    """
+    questions = target / "practice" / "questions"
+    if questions.is_dir():
+        store = QuestionStore(target)
+        for path in sorted(questions.glob("*.json")):
+            try:
+                question = store.load(path.stem)
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                raise ValueError("practice_question_invalid") from exc
+            if question.get("schema_version") != QUESTION_SCHEMA:
+                raise ValueError("practice_question_schema_invalid")
+    reviews = target / "practice" / "reviews"
+    if reviews.is_dir():
+        for path in sorted(reviews.glob("*.jsonl")):
+            question_id = path.stem
+            for line in path.read_text(encoding="utf-8").splitlines():
+                try:
+                    record = json.loads(line)
+                except json.JSONDecodeError as exc:
+                    raise ValueError("practice_review_invalid") from exc
+                if (record.get("schema_version") != "practice-review-record/v1"
+                        or record.get("question_id") != question_id):
+                    raise ValueError("practice_review_owner_mismatch")

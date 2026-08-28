@@ -170,6 +170,7 @@ def create_confirmation(
             "fail_history": history,
         },
     }
+    operation["record_sha256"] = hash_canonical(operation)  # §1239：durable record 必须带自哈希
     audit_path = paths.operation_file(operation_id)
     try:
         atomic_write(
