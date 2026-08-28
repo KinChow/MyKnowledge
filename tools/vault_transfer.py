@@ -220,10 +220,4 @@ class VaultTransfer:
                 "error_code": "lock_busy",
             }
         except (OSError, ValueError) as exc:
-            self.store.update(record, "expired", error_code="apply_failed")
-            return {
-                "state": "expired",
-                "operation_id": operation_id,
-                "error_code": "apply_failed",
-                "detail": str(exc),
-            }
+            return self.store.failure_response(operation_id, exc)

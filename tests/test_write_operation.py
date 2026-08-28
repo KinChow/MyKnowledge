@@ -8,6 +8,7 @@ from pathlib import Path
 from unittest import mock
 
 from tools.common import sha256_bytes
+from tools.operation_store import IllegalTransition
 from tools.vault_lock import LockBusyError, VaultLock, VaultLockGroup
 from tools.write_operation import WriteOperation
 
@@ -615,6 +616,56 @@ class ReviewFixTests(unittest.TestCase):
             self.assertEqual(result.get("warnings"), ["intent_cleanup_failed"])
             self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "new")
             self.assertEqual(service.store.load(op)["state"], "applied")
+
+    def test_post_commit_failure_never_flips_applied_back_to_expired(self):
+        """已提交后失败（retire marker 写不进去）必须回报 applied，不得谎报 expired。
+
+        与 intent 清理失败同族但走另一条路径：`_write_retire_marker` 抛 OSError
+        会穿到 apply 的外层 except，那里过去用取锁前的旧 record 无条件
+        `update(..., "expired")`——durable 状态图（applied 为终态）现在从机制上
+        挡住这次谎报。
+        """
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            (root / "old.md").write_text("old", encoding="utf-8")
+            retired = service.retire("old.md")
+            op = retired["operation_id"]
+            marker_dir = service.store.paths.audit_retire
+            marker_dir.mkdir(parents=True, exist_ok=True)
+            marker_dir.chmod(0o500)  # 目录不可写：marker 落盘必失败
+            try:
+                result = service.apply(op, confirmed=True)
+            finally:
+                marker_dir.chmod(0o700)
+            self.assertEqual(result["state"], "applied")
+            self.assertEqual(result.get("warnings"), ["post_commit_failed"])
+            self.assertEqual(service.store.load(op)["state"], "applied")
+            self.assertFalse(list(marker_dir.glob("*.json")))  # marker 确实没写成
+
+    def test_illegal_transition_is_rejected_instead_of_silently_applied(self):
+        """durable 状态图之外的转移必须抛 IllegalTransition（applied 是终态）。"""
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            service = WriteOperation(root, projection_rebuilder=lambda r: None)
+            preview = service.preview({"a.md": "new"})
+            op = preview["operation_id"]
+            self.assertEqual(service.apply(op, confirmed=True)["state"], "applied")
+            record = service.store.load(op)
+            with self.assertRaises(IllegalTransition):
+                service.store.update(record, "expired", error_code="apply_failed")
+            self.assertEqual(service.store.load(op)["state"], "applied")
+            # 已落定的 operation 走失败出口时保持 applied，并显式回报 warning
+            self.assertEqual(
+                service.store.failure_response(op, OSError("boom")),
+                {
+                    "state": "applied",
+                    "operation_id": op,
+                    "applied_files": ["a.md"],
+                    "warnings": ["post_commit_failed"],
+                    "detail": "boom",
+                },
+            )
 
     def test_confirmation_without_event_sha256_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
