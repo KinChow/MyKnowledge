@@ -21,6 +21,24 @@
 2. **F003 审计 provider 定位为"可选内置审计器"**：未配置时 `validation_state: not_run` + 人工确认兜底（现有行为，不是硬依赖）。长期演进方向是外层 Agent 消费 `wiki-validation-request/v1` 契约完成审计并回写 response——契约已存在，切换不需要改动门禁。
 3. **确定性优先**：MyKnowledge 的所有门禁（schema/证据/发布/锁）保持确定性可重放；任何"智能"都发生在边界之外，其产物以结构化事件（带 hash）回流。
 
+## 内置审计 provider 的使用方式（保留场景：批量审计批处理）
+
+```bash
+# 路径 A（默认，零配置）：复用本机 Agent CLI（ducc/ducx），无需 API key
+python -m tools.cli audit wiki/work-methods/aar.md
+
+# 路径 B（可选）：任意 OpenAI 兼容 API（需要你提供 key）
+export OPENAI_BASE_URL=https://your-endpoint/v1
+export OPENAI_API_KEY=sk-...
+export OPENAI_MODEL=your-model
+python -m tools.cli audit wiki/work-methods/aar.md --provider openai
+```
+
+- **不需要必须提供 API**：默认路径复用已有 Agent CLI；OpenAI 兼容路径是可选项。
+- endpoint/model/key 只经环境变量注入，不写入仓库、schema、manifest 或审计日志；报告只保存 opaque identity。
+- 未配置/失败一律 `validation_state: not_run`（fail-closed），由人工确认兜底，不阻断发布。
+- 典型场景：F010 大规模 wiki 化后，cron 一条命令批量审计 231 篇，人工只处理确认。
+
 ## 后果
 
 - 少一条 provider 凭据管理面；ask 的"待接线"从 F006 边界中移除（设计排除）。
