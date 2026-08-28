@@ -340,13 +340,7 @@ class WriteOperation:
         except LockBusyError:
             return VaultLock.lock_busy_response(operation_id)
         except (OSError, ValueError) as exc:
-            self.store.update(record, "expired", error_code="apply_failed")
-            return {
-                "state": "expired",
-                "operation_id": operation_id,
-                "error_code": "apply_failed",
-                "detail": str(exc),
-            }
+            return self.store.failure_response(operation_id, exc)
 
     def _collect_originals(
         self, record: dict, vault_id: str, operation_id: str

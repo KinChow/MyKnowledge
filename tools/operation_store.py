@@ -15,6 +15,31 @@ from .paths import RepoPaths
 
 OPERATION_TTL_SECONDS = 1800
 
+# durable 生命周期状态图（唯一真相）。只含**持久**状态：`state/operations/*.json`
+# 里真实写下的值。响应态（blocked / awaiting_confirmation / recovery_required …）
+# 不是 durable state，不在此表内。
+#
+# previewed ─┬─> applied                （提交成功）
+#            ├─> expired                （前置校验失败 / TTL / apply 失败回滚）
+#            └─> applied_index_pending  （canonical 已提交、派生重建失败）
+# expired ────> applied                 （recover 确认文件已按 intent 落盘）
+# applied_index_pending ─> applied      （recover 重跑 projection/索引）
+# applied 是终态：canonical 已提交，任何"翻回失败"都是谎报（F-1 实测 bug）。
+_TRANSITIONS: dict[str, frozenset[str]] = {
+    "previewed": frozenset({"applied", "expired", "applied_index_pending"}),
+    "expired": frozenset({"applied"}),
+    "applied_index_pending": frozenset({"applied"}),
+    "applied": frozenset(),
+}
+
+
+class IllegalTransition(ValueError):
+    """durable 状态图不允许的转移。
+
+    fail-closed：宁可让调用方显式处理，也不静默改写已落定的状态。
+    """
+
+
 # AC-F004-006/011：apply 侧确认事件契约。public release 故意不是合法 scope
 # （它是独立事件类型 public-release-confirmation/v1，schema 层不可冒充）。
 APPLY_CONFIRMATION_SCHEMA = "operation-confirmation/v1"
@@ -276,14 +301,57 @@ class OperationStore:
             return "hash_mismatch"
 
     def update(self, record: dict, state: str, **fields: object) -> dict:
-        """更新 operation 状态与字段：先写审计（预提交），state 最后写入作为提交点。"""
+        """更新 operation 状态与字段：先写审计（预提交）、state 最后写入作为提交点。
+
+        转移合法性以**磁盘当前状态**为准而非传入 record——调用方手里的 record
+        可能是取锁前读的旧副本（F-1 就是这样把已 applied 的操作翻回 expired 的）。
+        非法转移抛 IllegalTransition，由调用方决定如何回报。
+        """
+        operation_id = record["operation_id"]
+        current = str(self.load(operation_id).get("state", ""))
+        if state not in _TRANSITIONS.get(current, frozenset()):
+            raise IllegalTransition(f"illegal_transition:{current}->{state}")
         updated = {**record, "state": state, **fields, "updated_at": time.time()}
         audit = self._audit_snapshot(updated)
-        audit_path = self.paths.operation_file(record["operation_id"])
+        audit_path = self.paths.operation_file(operation_id)
         atomic_write(audit_path, canonical_json(redact(audit)) + b"\n", 0o600)
-        state_path = self.paths.state_operation_file(record["operation_id"])
+        state_path = self.paths.state_operation_file(operation_id)
         atomic_write(state_path, canonical_json(redact(updated)) + b"\n", 0o600)
         return updated
+
+    def expire_after_failure(self, operation_id: str, error_code: str) -> dict:
+        """apply 外层 except 的唯一失败出口：按磁盘状态决定能否标记失败。
+
+        canonical 已提交（applied / applied_index_pending）时**不改状态**，返回
+        durable 记录让调用方按已提交回报——把它翻回 expired 是谎报失败（F-1）。
+        仍是 previewed 才 expire。
+        """
+        record = self.load(operation_id)
+        if str(record.get("state", "")) != "previewed":
+            return record
+        return self.update(record, "expired", error_code=error_code)
+
+    def failure_response(self, operation_id: str, exc: BaseException) -> dict:
+        """apply 外层 except 的统一响应（write / transfer 共用同一失败语义）。
+
+        未提交 → expired + apply_failed；已提交后才失败（如 retire marker 写入
+        失败）→ 回报 durable 真相 + post_commit_failed warning。
+        """
+        durable = self.expire_after_failure(operation_id, "apply_failed")
+        if str(durable.get("state")) == "expired":
+            return {
+                "state": "expired",
+                "operation_id": operation_id,
+                "error_code": "apply_failed",
+                "detail": str(exc),
+            }
+        return {
+            "state": durable.get("state"),
+            "operation_id": operation_id,
+            "applied_files": durable.get("applied_files", []),
+            "warnings": ["post_commit_failed"],
+            "detail": str(exc),
+        }
 
     def _audit_snapshot(self, updated: dict) -> dict:
         """从完整记录中提取审计安全字段，并附 evidence 绑定与记录 hash。"""
