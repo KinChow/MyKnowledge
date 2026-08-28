@@ -52,6 +52,19 @@ repos:
         files: ^frontend/package-lock\.json$
         pass_filenames: false
 
+      # 唯一权威的内容完整性门禁（0.4s）：archive 快照必须自证（文件名 ==
+      # 正文 sha256）、sources front-matter 与快照一致。exclude 是黑名单、永远
+      # 落后于工具演进；这条是白名单式因果闭环——不管是谁改写了内容，提交前必失败。
+      # 它自己抓到过 `ruff format` 改写 Markdown 代码块（2026-08-28）。
+      # 解释器写死 .venv/bin/python：钩子在裸 shell 下由 git 触发，PATH 里可能
+      # 既没有 `python` 也没有项目依赖（scripts/bootstrap.sh 保证 .venv 存在）。
+      - id: doctor
+        name: doctor content integrity (hash chain)
+        entry: .venv/bin/python -m tools.cli doctor --assert-clean
+        language: system
+        pass_filenames: false
+        always_run: true
+
       - id: pytest
         name: pytest (pre-push)
         entry: .venv/bin/python -m pytest -q
