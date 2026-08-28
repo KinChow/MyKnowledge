@@ -69,3 +69,22 @@ def test_cross_vault_move_rolls_back_target_when_source_delete_fails(tmp_path: P
     assert not target.exists()
     assert not (public / "state" / "locks" / "public.owner").exists()
     assert not (public / "state" / "locks" / "private.owner").exists()
+
+
+def test_transfer_confirmation_event_is_validated(tmp_path):
+    """F011 review：跨 vault 迁移与 write 通道同确认语义。"""
+    import json, subprocess as sp
+    ws = tmp_path; pub, a, b = ws/"pub", ws/"va", ws/"vb"
+    for v in (pub, a, b): v.mkdir(); sp.run(["git","init","-q",str(v)],check=True)
+    (a/"wiki").mkdir(parents=True); (a/"wiki"/"n.md").write_text("x", encoding="utf-8")
+    m = pub/"config"/"vaults.local.yaml"; m.parent.mkdir(parents=True)
+    m.write_text(f"schema_version: 1\nlayout: superproject\nworkspace_root: {ws}\nvaults:\n  - {{id: pub, path: pub}}\n  - {{id: va, path: va, confidentiality: internal}}\n  - {{id: vb, path: vb, confidentiality: internal}}\n", encoding="utf-8")
+    from tools.vault_transfer import VaultTransfer
+    from tools.operation_store import validate_apply_confirmation, OperationStore
+    from tools.common import hash_canonical
+    t = VaultTransfer(pub, m)
+    pv = t.preview("va", "wiki/n.md", "vb", "wiki/n.md")
+    forged = {"schema_version":"operation-confirmation/v1","operation_id":pv["operation_id"],"scope":"apply",
+              "actor_type":"human","actor_id":"a","input_hash":"sha256:forged","diff_hash":pv.get("diff_hash"),"event_sha256":"sha256:x"}
+    assert t.apply(pv["operation_id"], confirmed=True, confirmation=forged)["error_code"] == "confirmation_hash_mismatch"
+    assert not (b/"wiki"/"n.md").exists()
