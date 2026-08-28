@@ -1,0 +1,114 @@
+# 工具配置单源（不含打包元数据：本仓库不是可发布包）。
+# 选型来源：ruff（https://github.com/astral-sh/ruff，MIT）——lint + format 单工具，
+# 替代 flake8/isort/black 组合；配置放 pyproject.toml 是官方推荐位置，
+# 本地 pre-commit 与 CI 读同一份，避免"两套风格"再次出现。
+
+[tool.ruff]
+# 与 scripts/bootstrap.sh 声明的下限一致（Python >= 3.12）。设成 py314 会让
+# pyupgrade 把 `except (A, B):` 重写成 3.14 才支持的无括号形式（PEP 758），
+# 在 3.12/3.13 上直接 SyntaxError——target-version 必须跟运行下限绑定。
+target-version = "py312"
+# frontend 由 npm 侧管理；.venv/state 是运行态。
+# *.md 必须排除：ruff >= 0.16 会格式化 Markdown 里的 ```python 代码块，而本仓库的
+# archive/ 文件名就是正文 sha256、sources/wiki 的 content_sha256 进证据链——
+# 2026-08-28 实测 `ruff format .` 改写了 1 个 archive 快照 + 1 个 source + 6 篇 docs，
+# 直接让 doctor 报 sources invalid。ruff 只管 Python 源码。
+extend-exclude = [".venv", "frontend", "state", "*.md"]
+
+[tool.ruff.lint]
+select = [
+  "F",    # pyflakes：未使用 import/变量（死代码基线）
+  "E",    # pycodestyle error
+  "W",    # pycodestyle warning
+  "I",    # isort：import 分组顺序
+  "UP",   # pyupgrade
+  "B",    # flake8-bugbear
+  "SIM",  # flake8-simplify
+  "RET",  # flake8-return
+  "ARG",  # flake8-unused-arguments：未消费参数
+  "ERA",  # eradicate：注释掉的代码
+  "S",    # flake8-bandit：含 S110/S112（try-except-pass/continue）
+  "BLE",  # flake8-blind-except：BLE001 裸 except Exception
+  "TRY",  # tryceratops：异常反模式
+  "C90",  # mccabe 复杂度
+  "PL",   # pylint 子集（含 PLR0912 分支数 / PLR0915 语句数）
+]
+ignore = [
+  # 行宽由 formatter 保证；E501 会大量命中中文注释/docstring（formatter 不换行注释）
+  "E501",
+  # 本仓库把 ValueError("error_code") 当结构化错误码用（fail-closed 归一），
+  # 不引入自定义异常层级；TRY003/TRY301/TRY004 与该 idiom 直接冲突
+  # （TRY004 会要求把 path_invalid 这类错误码改成 TypeError，破坏调用方契约）。
+  # 异常设计的逐点复核见"异常审计"专项，不用这三条规则代替判断。
+  "TRY003",
+  "TRY301",
+  "TRY004",
+  # "成功路径在 try 内 return、except 归一错误码"是本仓库的既有写法，改成
+  # else 块只是位置搬移、不改语义，却要动一批 fail-closed 分支——不为规则改代码。
+  "TRY300",
+  # `200 <= status < 300`、`len(parts) == 3` 这类协议/结构常量在上下文里自明，
+  # 抽成命名常量反而增加一层间接；真正的可配置阈值已经在 config/policy.yaml。
+  "PLR2004",
+  # 惰性 import 是可选依赖 fail-closed 的手段（pypdf/fsrs/openai/jsonschema）。
+  # 偶然写成函数内 import 的站点在逐 Feature 清理时处理，不做一刀切。
+  "PLC0415",
+  # 本仓库就是 CLI 编排器（git / ducc / node）：真正的防线是"列表参数 + 不用
+  # shell=True"（S602 仍启用），S603/S607 对这里只产生噪声。
+  "S603",
+  "S607",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# 测试里 assert 是断言手段、token/magic value 是被测常量、subprocess 是被测通道；
+# 嵌套 with 表达"先建环境再触发"的顺序，合并成一行反而丢失意图。
+"tests/**" = [
+  "S101",
+  "S105",
+  "S106",
+  "S108",
+  "S104",
+  "PLR2004",
+  "ARG001",
+  "ARG002",
+  "ARG005",
+  "SIM117",
+  "PLW1510",
+  "B905",
+]
+
+# ---- 复杂度债台账（逐 Feature 重构后删除对应行；删空即门禁自动收紧）----
+# 阈值本身按下面 mccabe/pylint 段的目标值执行；新文件与未列出的文件从第一天起受约束。
+# create_app 是组合根：C901 统计把 15 个端点闭包的分支计入外层函数（27>12），
+# PLR0913/0917 是 /api/query 的 FastAPI 参数签名。协议层已拆到 errors/security/
+# services/schemas，剩余数字属于框架写法而非设计缺陷，保留白名单不再下压。
+"backend/app.py" = ["C901", "PLR0915", "PLR0913", "PLR0917"]
+"tools/skill_runtime.py" = ["C901", "PLR0911", "PLR0912", "PLR0915"]      # dispatch 41 分支/41 return
+"tools/ingest/source_ingestor.py" = ["C901", "PLR0911", "PLR0912", "PLR0915"]  # apply 95 语句
+"tools/vault_registry.py" = ["C901", "PLR0912", "PLR0915"]                # check 75 语句
+"tools/backup.py" = ["C901", "PLR0912"]                                   # verify_*/restore_* 四处
+"tools/question.py" = ["C901", "PLR0911", "PLR0912"]                      # answer/_validate_spec
+"tools/migrate_legacy.py" = ["C901", "PLR0912"]                           # rollback_sample
+"tools/validation/derived.py" = ["C901", "PLR0911", "PLR0912"]            # compute_evidence_state
+"tools/validation/rules.py" = ["C901", "PLR0912"]                         # domain_rules
+"tools/validation/corroboration.py" = ["C901", "PLR0912"]                 # compute_corroboration
+"tools/validation/audit.py" = ["PLR0913", "PLR0917"]                      # _build_report 10 参数
+"tools/validation/provider.py" = ["C901"]                                 # _extract_json
+"tools/ingest/fetcher.py" = ["C901"]                                      # fetch
+"tools/ingest/source_validator.py" = ["C901"]                             # validate_source_file
+"tools/evidence_anchor.py" = ["C901", "PLR0911"]                          # apply
+"tools/operation_store.py" = ["PLR0911"]                                  # apply_preflight
+"tools/release_confirmation.py" = ["PLR0911"]                             # validate_event
+"tools/cli.py" = ["C901"]                                                 # backup_main 子命令分派
+
+[tool.ruff.lint.mccabe]
+max-complexity = 12
+
+[tool.ruff.lint.pylint]
+max-returns = 8
+max-branches = 15
+max-statements = 60
+max-args = 8
+max-positional-args = 8
+
+[tool.ruff.format]
+docstring-code-format = true
