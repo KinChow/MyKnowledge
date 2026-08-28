@@ -132,6 +132,77 @@ MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection
 
 ------
 
+
+## 日常使用
+
+```bash
+# 健康自检（每天一次即可：projection/索引/QMD/sources/备份一屏可见）
+python -m tools.cli doctor
+
+# 查询知识（FTS5 索引自动接线；结果含 object_ref/snippet/证据 hash）
+python -m tools.cli query "<关键词>"
+python -m tools.cli read <wiki-id>            # 读已发布 wiki 正文
+python -m tools.cli backlinks <wiki-id>       # 反向引用
+```
+
+### 写入（三步：preview → 人工确认 → apply）
+
+```bash
+# 1) 导入外部资料为 Source（url 抓取 / 本地文件 / 个人笔记）
+python -m tools.cli source --url https://... --domain tools --source-id my-doc
+python -m tools.cli source --from-file ./note.md --domain work-methods
+
+# 2) 写/改 wiki 或任意文件（preview 只读不动工作区）
+python -m tools.cli write --files spec.json          # spec.json: {"wiki/xx/yy.md": "正文"}
+python -m tools.cli rename <旧路径> <新路径> | retire <路径>（保留原文+durable marker）
+
+# 3) 人工确认后应用（Agent 通道必须带事件；本地 CLI 可 --confirm）
+python -m tools.cli confirm-apply <operation_id> --actor-id <你> --out event.json
+python -m tools.cli write --apply <operation_id> --confirm --confirmation event.json
+```
+
+### 校验、审计与发布（Source → Wiki → 公开页）
+
+```bash
+python -m tools.cli anchor <snapshot.md> "<引文>" --source sources/<dom>/<id>.md  # 证据锚定
+python -m tools.cli validate wiki/<dom>/<id>.md        # 确定性校验
+python -m tools.cli audit wiki/<dom>/<id>.md           # LLM 证据审计（默认复用本机 agent CLI，零配置）
+python -m tools.cli confirm wiki/<dom>/<id>.md --actor-id <你>   # 人工审计确认
+# 公开发布：写 public-release-confirmation/v1 事件（脚本见 ADR-0012/系统设计 §release）
+python -m tools.cli projection generate               # 重建 public manifest + FTS5 索引
+```
+
+### 静态站（浏览器）
+
+```bash
+cd frontend && MYKNOWLEDGE_CONTENT_MODE=projection MYKNOWLEDGE_ROOT=.. npm run build
+cd dist && python3 -m http.server 8766    # http://127.0.0.1:8766/wiki/<id>/
+```
+
+### 本地 API 与 Agent 通道
+
+```bash
+python -m backend.server --root . --port 8765   # FastAPI（loopback only，写入需 token/确认事件）
+python -m tools.cli skill <action> --payload p.json   # Agent 受控 action（写入强制人工确认事件）
+```
+
+### 备份
+
+```bash
+python -m tools.cli backup manifest --root .          # 生成 durable manifest（写入前校验全库）
+python -m tools.cli backup export-bundle --manifest audit/backup/<id>.json --target /备份盘/bundle
+python -m tools.cli backup restore-bundle --manifest /备份盘/bundle --target /恢复目录 --target-vault-id public
+```
+
+### LLM provider（可选；默认零配置）
+
+```bash
+# 路径 A：默认复用本机 agent CLI（ducc/ducx），无需任何配置
+# 路径 B：OpenAI 兼容 API —— cp config/providers.example.yaml config/providers.local.yaml 填好后：
+export MYKNOWLEDGE_LLM_PROFILE=deepseek
+python -m tools.cli audit wiki/... --provider openai
+```
+
 ## 🤝 参与贡献
 
 欢迎提交 Issue 或 PR，请遵循：
