@@ -84,3 +84,23 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 | `derived.has_public_confirmation` 只 glob `evt_*.json`（下划线），与 `write_event`/generator 的 `*.json` + safe_id 连字符命名不一致，导致发布确认事件永不生效 | **已修复**（统一为 `*.json`，含注释）——这是 F007 发布链路首次真实闭环的直接 blocker |
 | `tools.cli validate` 对含 PosixPath 的 report 做 json.dumps 崩溃 | 待修（report 序列化前 str 化） |
 | `release_confirmation.write_event` 相对 root 下 `relative_to(root.resolve())` 崩溃（事件已写入但返回失败） | 待修（构造时 resolve） |
+
+## 10. 补充迁移：有内容的 article 全量导入（2026-09-02）
+
+- **范围**：上轮实测发现 docs/ 知识域有 6 篇有正文的 article 未进 manifest（此前 B2/B3 批量导入漏掉）；
+  按 owner 决策"有内容的都迁移，后续优化文档"，本批全部导入。
+- **规则应用**：6 篇均无外部 URL，非外部来源快照 → 走 `--personal-note` 通道
+  （`source_type: personal-note` + `origin: personal`），避免 `--from-file` 的
+  `origin: external` 失真登记（与 reposition 改判同一原则，源头就不登记错）。
+- **导入清单**（source_id / domain）：
+  - `dry-principle` / computer-science
+  - `yagni-principle` / computer-science
+  - `algorithm-manual` / work-methods
+  - `camera-competitive-product-analysis` / multimedia
+  - `computer-hardware` / computer-science
+  - `camera-provider-performance` / computer-science
+- **完成定义**：6 篇均在 `content/sources/` 落位、front matter 完整（schema_version:
+  source/v1, snapshot_sha256 绑定）、快照入 `archive/text/`、`archive/manifest.jsonl`
+  登记 6 条新记录；全量 `pytest` 437 通过、`doctor --assert-clean` healthy。
+- **遗留**：docs/ 知识域仍剩 39 篇空文档（R3 待补类），按规则登记待补不迁移；
+  docs/ 原件按 §4.3 保持只读不删，待 B5 退役。迁移后内容优化由 owner 后续执行。
