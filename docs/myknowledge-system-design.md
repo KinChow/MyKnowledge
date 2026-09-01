@@ -1,10 +1,98 @@
 # MyKnowledge 证据驱动知识系统设计
 
-> 文档状态：架构设计与实施规范
+> 文档状态：架构设计与实施规范（唯一事实源）
 >
 > 更新时间：2026-08-26
 >
 > 实施边界：本文记录目标架构、约束和验收标准，不代表所有目标能力已经实现。
+>
+> 读者定位：本文同时面向**人**（理解项目、功能与开发方式）与 **Agent**（作为开发纲领，受控修改）。Agent 动手前必须阅读 §0.4，并遵循其中列出的规范 ID、不可变约束与修改纪律。
+
+## 0. 文档导览（先读这里）
+
+### 0.1 这是什么项目
+
+MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料与个人笔记先进入不可变的 Source 证据层，再综合成带 claim/evidence 绑定的 Wiki 知识页面，经过确定性校验 + LLM 审计 + 人工确认三道门禁后，投影为 public/local 视图并发布。核心承诺是**可追溯写入、不可绕过发布门禁、证据强度对读者可见**。
+
+- 技术栈：Python 3.12 + FastAPI + SQLite FTS5 + Astro/Starlight + Git
+- 运行形态：静态站（GitHub Pages，无需后端）+ 本地后端（查询/写入/验证）+ Agent Skill（受控入口）
+- 已实现能力：见 [功能总览](./feature-list.md)；F001-F013 已进入 `Implemented`
+
+### 0.2 有什么功能
+
+| 能力 | 一句话说明 | 规范章节 | 入口 |
+| --- | --- | --- | --- |
+| Source 导入 | url 抓取 / 本地文件 / 个人笔记 → 不可变快照归档 | §5 | `tools.cli source` |
+| 证据锚定 | 在快照中定位引文，生成 W3C selector + hash | §5.5 | `tools.cli anchor` |
+| Wiki 写作 | 综合 source 产出知识页面，claim/evidence 显式映射 | §6 | `tools.cli write` |
+| 确定性校验 | schema + 跨字段规则 + 引文逐字匹配 | §6.7-§6.9 | `tools.cli validate` |
+| LLM 审计 | 判断 claim 是否被 source 支持（可选层） | §8 | `tools.cli audit` |
+| 人工确认 | 对当前 hash 的人工审计/发布确认 | §9 | `tools.cli confirm` |
+| 索引检索 | FTS5 中文分词 + 确定性 fallback | §11 | `tools.cli query / index` |
+| 本地 API | FastAPI loopback，写入需 capability token | §12 | `backend.server` |
+| 静态发布 | public projection + leak gate + Astro 构建 | §13 | `tools.cli projection` |
+| 练习（F008） | 绑定 claim 的题目 + FSRS 复习（延后） | §7 | 不属当前主链路 |
+
+### 0.3 怎么开发
+
+完整实现边界、失败处理与测试策略见 [Technical Design](./technical-design/README.md)；验收场景见 [Acceptance](./acceptance/README.md)；功能交付状态见 [Feature List](./feature-list.md)。
+
+**两条主线（开发时对照 §3.2 不变量）**：
+
+```text
+写入链：source → anchor → validate → audit → confirm → write → release → projection
+读取链：projection → query / read / backlinks → 静态站 / FastAPI / Agent Skill
+```
+
+**开发纪律**（详见 §15.1）：
+
+- 领域逻辑下沉到 `tools/`，CLI/FastAPI/Skill 只做轻量 glue，不得重复实现规则；
+- 写入必须走 preview → 人工确认 → apply；禁止直接改 `var/queries/`、frontend、backend 源码；
+- 重构不得改变对外契约（CLI 命令、错误码、审计格式、manifest schema）；
+- 复杂度债台账在 `pyproject.toml`，逐 Feature 清理后删除对应行。
+
+### 0.4 Agent 索引（Agent 开发纲领）
+
+本节是 **Agent 修改本文档与代码前的强制查证入口**。任何"这是规范"的引用必须落回下方稳定 ID，不得自行解释或放松。
+
+**A. 规范 ID 索引（唯一事实源，下游引用锚点）**：
+
+| 前缀 | 范围 | 主要章节 |
+| --- | --- | --- |
+| SYS | 系统目标、不变量和边界 | §1-§3、§19 |
+| LAY | 目录分域、五层归属、写入通道与路径迁移 | §4.4-§4.6 |
+| SRC | Source 契约、来源和写入要求 | §5 |
+| ARC | 原文快照、归档和来源漂移 | §4.3、§5.6 |
+| WIKI | Wiki schema、状态和正文契约 | §6 |
+| EVD | Claim、Evidence 和引文 | §6.4、§6.9 |
+| VAL | 确定性校验、LLM 验证和报告失效 | §8 |
+| OPS | Preview/Apply、幂等、锁和对象操作 | §9 |
+| IDX | 索引、检索和 RAG 边界 | §11 |
+| API | FastAPI 本地后端 | §12 |
+| WEB | Astro 公开静态模式 | §13 |
+| QST | Question 和复习（F008 延后） | §7 |
+| SKILL | Agent Skill 受控入口及工具边界 | §14-§15 |
+| MIG | 迁移、发布和回滚 | §16-§18 |
+| SEC | confidentiality、Vault 和公开泄漏门禁 | §4.2、§13.3 |
+
+具体 ID 清单（`SRC-001` … `SEC-004`）见 §21 与 [追踪矩阵](./traceability-matrix.md)。
+
+**B. 不可变约束（Agent 不得放宽）**：
+
+1. 三层数据模型与三个数据域（`content/`、`ledger/`、`var/`）不改变（LAY-001）；
+2. `kind: knowledge` wiki 必须有 source 与 claim-level evidence（SRC/WIKI/EVD）；
+3. 引文必须在 target 指定的 snapshot selector 范围内逐字匹配（VAL-001）；
+4. 写入必须 preview → 确认 → apply，Agent 不能自确认（OPS-001）；
+5. `public_release` 默认 `false`，只有人工事件才能派生 `true`（§6.8）；
+6. `internal` 内容不得进入 public 仓库/构建/泄漏（SEC-002/003）；
+7. 派生字段与 operation-controlled 字段作者/Agent 不得手写（§6.8）。
+
+**C. 修改纪律（Agent 遇到本文档与代码不一致时）**：
+
+1. 以本文档为唯一事实源；下游 Technical Design / Acceptance / 代码与本文档冲突时，以本文档为准并在对应迁移 commit 同步；
+2. 修改规范章节必须先走 ADR 决策流程，再改本文档、追踪矩阵与对应 Acceptance；
+3. 不破坏 § 章节号与规范 ID（下游引用依赖它们）；只允许"新增内容"或"文内重排"，不允许"删除既有 ID"；
+4. 修改代码时不得让测试门禁（`pytest` + `tools.cli doctor`）变红。
 
 ## 1. 文档目的
 
@@ -24,21 +112,36 @@ MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当�
 
 ### 1.1 阅读顺序和术语
 
-本文按“抽象模型 -> 数据契约 -> 工作流 -> 技术实现 -> 迁移和验收”的顺序组织。第一次阅读时建议先看第 2 至 4 节，理解三层数据和两个运行面；需要实现时再按第 5 至 15 节逐项落地；第 16 至 19 节用于迁移、测试和发布判断。
+本文按“抽象模型 -> 数据契约 -> 工作流 -> 技术实现 -> 迁移和验收”的顺序组织。第一次阅读时建议先看第 2 至 4 节，理解三层数据和两个运行面；需要实现时再按第 5 至 15 节逐项落地；第 16 至 19 节用于迁移、测试和发布判断。Agent 阅读前必须先看 §0.4。
 
-本文中的几个词有固定含义：
+本文中的术语有固定含义（按字母序）：
 
 | 术语 | 含义 |
 | --- | --- |
-| source | 原始资料的结构化记录，保存来源、读取范围和证据边界 |
-| wiki | 基于一个或多个 source 综合出的人工知识页面 |
+| allowlist | 明确允许进入 public projection 的对象判定集合（§13.1） |
+| applied_index_pending | canonical 已提交但投影/索引未完成的 operation 状态（§9.3） |
+| availability | 当前 Vault/object/snapshot 是否可读取的轴，不是证据质量判断（§6.2） |
+| body_path | 投影对象正文的物理路径，受 policy 前缀白名单约束（§4.5） |
 | claim | wiki 中可以独立判断真假的核心论断 |
-| snapshot | 不可变、内容寻址的归档文本或本地文件版本，是证据的事实载体 |
+| commit-intent | apply 时先落盘的意图文件（含旧/新 hash 与恢复动作），崩溃恢复依据（§9.2） |
+| corroboration | 多个独立 source 对同一命题的一致支持（§6.4） |
+| derived field | 工具计算的只读字段（evidence_state 等），作者/Agent 不得手写（§6.8） |
+| durable record | 不可变、append-only 的审计/确认记录，带 record_sha256（§6.8） |
 | evidence item | 绑定 snapshot 的 TextQuote/TextPosition selector，可被确定性解析的证据锚点 |
-| source locator | 面向阅读的 source 章节定位；不是唯一的事实证据，权威锚点是 evidence item |
-| validation report | 针对某个 content/wiki/source 内容 hash 生成的 LLM 证据验证报告 |
+| evidence_state | 证据覆盖/一致性轴：missing/partial/supported/corroborated/conflicting/unresolved/stale（§6.2） |
+| fencing token | 锁持有期间不变的随机标识，用于提交点校验（§9.8） |
 | operation | 一次可预览、可确认、可失效、可追踪的写入操作 |
+| operation-controlled field | 只能由受控操作写入的字段（public_release 等）（§6.8） |
 | projection | 从同一内容库生成的 public 或 local 数据视图 |
+| public_release | public 发布物化字段，默认 false，仅人工确认事件可派生 true（§6.8） |
+| review_by | 时间维度复审提示，选填报告项，非状态轴（§6.2） |
+| snapshot | 不可变、内容寻址的归档文本或本地文件版本，是证据的事实载体 |
+| source | 原始资料的结构化记录，保存来源、读取范围和证据边界 |
+| source locator | 面向阅读的 source 章节定位；不是唯一的事实证据，权威锚点是 evidence item |
+| strength | 证据强度标识：verified/corroborated/attested/personal 等（§6.7-§6.8） |
+| validation report | 针对某个 content/wiki/source 内容 hash 生成的 LLM 证据验证报告 |
+| validation_state | LLM 审计运行结果轴：not_run/pass/fail/stale_ruleset（§6.2） |
+| vault | 独立 Git 仓库的知识库单元；public + 0..N 个 private（§4.2） |
 
 ## 2. 当前基线与目标边界
 
@@ -91,7 +194,7 @@ MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当�
 
 ## 3. 总体架构
 
-~~~mermaid
+``` mermaid
 flowchart TD
     A[外部资料 / 个人原始文档] --> B[sources 原始证据层]
     B --> C[确定性 schema 与引文校验]
@@ -116,11 +219,11 @@ flowchart TD
 
     I --> P[myknowledge Agent Skill]
     P --> Q[Agent 查询 / 写入 / 索引]
-~~~
+```
 
 ### 3.1 数据流
 
-~~~text
+``` text
 外部资料或个人文档
   -> source 模板
   -> source 校验
@@ -132,7 +235,7 @@ flowchart TD
   -> wiki 原子写入
   -> public/local 索引
   -> 静态前端 / 本地后端 / Agent Skill
-~~~
+```
 
 ### 3.2 核心不变量
 
@@ -167,7 +270,7 @@ flowchart TD
 
 ### 3.3 三层数据的所有权
 
-```text
+``` text
 sources   = 证据事实的入口，允许半自动生成，但必须人工校对
 wiki      = 面向理解的人工综合，必须逐条绑定证据
 queries   = 可重建的索引投影，任何手工修改都会在下次生成时被覆盖
@@ -179,7 +282,7 @@ queries   = 可重建的索引投影，任何手工修改都会在下次生成�
 
 仓库根目录由「若干工程根 + 三个数据域」组成：组件目录因为语言生态约束必须平铺在根（见 §4.4），数据侧收敛为 `content/`、`ledger/`、`var/` 三个域。知识领域仍由目录路径和 `domain` 表达；来源类型不再通过 blogs/、docs/、books/ 等物理目录表达，而是通过 Front Matter 表达。
 
-~~~text
+``` text
 MyKnowledge/
 ├── tools/  backend/  frontend/  tests/  scripts/  skills/   # 组件：工程根，必须平铺
 ├── config/                     # 运行时契约：schemas.yaml / vocab.yaml / policy.yaml / vaults.*.yaml
@@ -204,7 +307,7 @@ MyKnowledge/
     ├── queries/                #   public/  local/
     ├── state/                  #   本机运行态，Git 忽略，不是事实源
     └── reports/                #   验收与体检报告
-~~~
+```
 
 `<domain>` 取值受 `config/vocab.yaml` 的 `domains` 约束，未知 domain 直接拒绝。`content/` 与 `ledger/` 在每个 vault 内结构一致；`var/` 只在 public checkout 内存在。
 
@@ -233,7 +336,7 @@ Private Git 仓库、多个子仓库挂载、unavailable 语义和内部发布�
 
 当前仓库是 `public` vault。非公开资料放在 `0..N` 个独立的 private Git 仓库中，以可插拔 vault 子仓库形式挂载；任何 private 仓库都不把正文、快照或索引复制进 public 仓库。
 
-~~~yaml
+``` yaml
 # config/vaults.local.yaml（被 .gitignore 忽略；public repo 只提交 vaults.example.yaml）
 workspace_root: null              # 无外挂 vault 时表示当前 public worktree；有外挂时必须显式填写
 vaults:
@@ -273,24 +376,32 @@ vaults:
     private_git_remote: null
     encrypted_backup_target: null
     backup_state: unconfigured
-~~~
+```
 
 每个 private vault 的目录结构与 public vault 相同（`content/sources/`、`content/wiki/`、`content/practice/`、`ledger/archive/`、`var/queries/`），但位于独立私有 Git 仓库。推荐由一个本地私有 workspace superproject 管理 public repo 和任意数量的 private repo：
 
-~~~text
+``` text
 MyKnowledge-workspace/
 ├── public/
 └── vaults/
     ├── team-internal/
     ├── personal-private/
     └── research-private/
-~~~
+```
 
 public repo 不提交任何 private remote URL、子仓库指针或 private 路径；若需要固定版本，submodule 指针只提交到私有 workspace。public repo 只提交不含路径的 `config/vaults.example.yaml`，实际路径和每个 vault 的运行参数放在被忽略的 local manifest。
 
-当前 checkout 可以直接作为 `public` vault 运行。路径解析规则只有两种：`layout: direct-checkout` 且没有外挂 vault 时，`workspace_root: null` 将当前 public worktree 作为 root，`public.path: .` 是唯一特殊值；只要要挂载外部 private checkout，local manifest 就必须显式填写同时包含 public 与外挂仓库的 `workspace_root`，并把 `public.path` 改为该 root 下的相对路径。`layout: superproject` 时 `workspace_root` 必须是私有 superproject 根，public 路径通常为 `public`。两种布局共享同一 Vault Registry，不产生第二套数据模型；所有 path 必须是 root 内的相对路径，realpath 后彼此不重叠。
+当前 checkout 可以直接作为 `public` vault 运行。路径解析规则只有两种：
 
-工具启动时由 Vault Registry 按稳定 `vault_id` 合并对象空间：`(vault_id, object_type, object_id)` 是对象的完整引用键，ID 只要求在**所属 Vault 内**唯一；不同 Vault 可以各自拥有同名知识对象，因为它们通常独立维护且不互相引用。Wiki、Evidence 和 Source 只能在同一 Vault 内互相引用，跨 Vault 内容引用在 canonical 校验阶段直接拒绝；`source_vault_ids` lineage 不属于内容引用。每个 vault 独立报告 `available`、`unavailable`、`revision_mismatch`、`dirty`、`conflict` 或 `invalid`；一个 vault 未挂载时只将其对象标记为 `availability: unavailable` 并附原因，不影响无关 vault 的查询和索引。
+- `layout: direct-checkout` 且没有外挂 vault 时：`workspace_root: null` 将当前 public worktree 作为 root，`public.path: .` 是唯一特殊值；
+- 只要要挂载外部 private checkout：local manifest 就必须显式填写同时包含 public 与外挂仓库的 `workspace_root`，并把 `public.path` 改为该 root 下的相对路径。
+- `layout: superproject` 时：`workspace_root` 必须是私有 superproject 根，public 路径通常为 `public`。
+
+两种布局共享同一 Vault Registry，不产生第二套数据模型；所有 path 必须是 root 内的相对路径，realpath 后彼此不重叠。
+
+**对象引用与合并**：工具启动时由 Vault Registry 按稳定 `vault_id` 合并对象空间：`(vault_id, object_type, object_id)` 是对象的完整引用键，ID 只要求在**所属 Vault 内**唯一；不同 Vault 可以各自拥有同名知识对象，因为它们通常独立维护且不互相引用。Wiki、Evidence 和 Source 只能在同一 Vault 内互相引用，跨 Vault 内容引用在 canonical 校验阶段直接拒绝；`source_vault_ids` lineage 不属于内容引用。
+
+**逐 vault 可用性**：每个 vault 独立报告 `available`、`unavailable`、`revision_mismatch`、`dirty`、`conflict` 或 `invalid`；一个 vault 未挂载时只将其对象标记为 `availability: unavailable` 并附原因，不影响无关 vault 的查询和索引。
 
 Vault 等级按 `public < internal` 比较：对象的有效保密等级不得高于所在 Vault 等级；internal Vault 可以保存 public 对象，但 public projection 的 owner 只能是 `vault_id: public` 且 `allow_public_projection: true`。因此“放在 private Vault”不会自动获得公开资格，也不会改变对象 owner。
 
@@ -339,11 +450,11 @@ manifest 为了保持结构统一，可以在 `public` 条目中保留置空的 
 
 启用步骤是归档功能的前置条件，缺一不可：
 
-~~~text
+``` text
 git lfs install
 git lfs track "ledger/archive/raw/**"      # 写入 .gitattributes 并提交
 # 确认 .gitattributes 已生效后，才允许 Source 导入工具写入 raw
-~~~
+```
 
 Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；不存在时拒绝写入 `ledger/archive/raw/`，只写 `ledger/archive/text/` 并降级为 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
 
@@ -440,7 +551,7 @@ unmanaged 层不参与 operation 协议：它们不进入 `before_hashes`/`after
 ### 5.1 Source Front Matter
 
 
-~~~yaml
+``` yaml
 ---
 id: source-transformer-paper
 title: "Transformer 原始资料"
@@ -490,13 +601,13 @@ evidence_items:
     selector_sha256: "sha256:..."
     quote_sha256: "sha256:..."
 ---
-~~~
+```
 
 Source 文件中的 `vault_id` 仍由 Registry 注入，不由作者填写；上面的示例省略该派生字段。`evidence_items` 的 `exact` 必须是 `snapshot_sha256` 对应归档正文的逐字子串，不能把 Source Markdown 的中文摘要当作证据。
 
 ### 5.2 Source 正文模板
 
-~~~markdown
+``` markdown
 # 资料标题
 
 ## 摘要
@@ -510,7 +621,7 @@ Source 文件中的 `vault_id` 仍由 Registry 注入，不由作者填写；上
 ## 未读取部分与疑点
 
 ## 证据边界
-~~~
+```
 
 ### 5.3 Source 字段约束
 
@@ -589,7 +700,7 @@ Source Front Matter 的 canonical schema version 是 `source/v1`，其中 `evide
 
 Source 的章节 locator 只用于阅读和组织，不是证据锚点。权威证据必须绑定不可变 snapshot 和 selector。
 
-```text
+``` text
 <source-id>#<heading-slug>
 <source-id>#<heading-slug>@L<start>-L<end>
 ```
@@ -600,7 +711,7 @@ Source 的章节 locator 只用于阅读和组织，不是证据锚点。权威�
 
 Source 中增加 `evidence_items`，每个 item 必须指向一个不可变 snapshot：
 
-```yaml
+``` yaml
 evidence_items:
   - id: e1
     snapshot_sha256: "sha256:..."
@@ -623,7 +734,7 @@ evidence_items:
 
 `TextPositionSelector.start/end` 使用**规范化 snapshot 文本的 Unicode code-point offset，半开区间 `[start, end)`**，不是 UTF-8 字节偏移、UTF-16 code unit 或压缩文件偏移。生成 selector 前先固定 `normalization_version`；读取、匹配、高亮和 `selector_sha256` 都必须使用同一版本。snapshot hash 计算的是提取后、LF 归一化、未压缩的 canonical text，压缩格式和文件路径不参与 hash：
 
-```text
+``` text
 snapshot_sha256 = sha256(canonical_snapshot_text_utf8)
 selector_sha256 = sha256(canonical_yaml(selector + normalization_version + snapshot_sha256))
 quote_sha256    = sha256(canonical_quote(exact))
@@ -637,14 +748,14 @@ quote_sha256    = sha256(canonical_quote(exact))
 
 归档采用内容寻址加压缩存储，同一份资料被多个 source 引用时只存一份：
 
-~~~text
+``` text
 ledger/archive/
 ├── text/            # 提取后的正文，纯文本，长期保留
 │   └── <sha256[:2]>/<sha256>.md.zst
 ├── raw/             # 原始 HTML/PDF/附件，体积大
 │   └── <sha256[:2]>/<sha256>.<ext>[.zst]  # compression=none 时不追加 .zst
 └── manifest.jsonl   # append-only logical owner records; blob may be physically deduplicated
-~~~
+```
 
 source 通过 `retrieval` 引用归档条目：
 
@@ -687,18 +798,18 @@ source 通过 `retrieval` 引用归档条目：
 
 原链接已经失效、但手上有离线 HTML、PDF 或其他副本时，**统一以 `local-file` 作为 source 入口**。原 URL 只保留为历史出处；本地文件 hash、抽取器版本和不可变 snapshot 才是可复核证据。
 
-~~~text
+``` text
 tools.cli source --from-file <本地副本路径> --url <原始链接> --url-status dead
   -> acquisition: local-file
   -> 正文提取
   -> ledger/archive/text/<sha256>.md.zst
   -> ledger/archive/raw/<sha256>.<ext>.zst（按 LFS policy）
   -> manifest.jsonl 记录 file_sha256、extractor 和 snapshot hash
-~~~
+```
 
 对应的 source：
 
-~~~yaml
+``` yaml
 source_type: local-file
 url: "https://blog.example.com/dead-post"     # 历史出处
 url_status: dead
@@ -736,7 +847,7 @@ evidence_items:
           offset_space: unicode-code-point
     selector_sha256: "sha256:..."
     quote_sha256: "sha256:..."
-~~~
+```
 
 规则：
 
@@ -749,20 +860,20 @@ evidence_items:
 
 获取方式的优先级：
 
-~~~text
+``` text
 1. URL 可达          -> source_type: blog|doc|book|contest|pr, acquisition: fetch
 2. 已有本地原件      -> source_type: local-file, acquisition: local-file
 3. 以上都没有        -> 不允许写入（见 5.9）
-~~~
+```
 
 来源巡检工具定期巡检外部链接：
 
-~~~text
+``` text
 unchanged     etag/last_modified/snapshot_sha256 一致
 changed       原文已变化，写入新快照版本，标记 source_drift: true
 gone          404/410 或域名失效，标记 link_rot: true（本地快照仍可用）
 unreachable   网络或鉴权问题，不改变任何标记
-~~~
+```
 
 `changed` 时**不覆盖旧快照**：内容寻址天然保留多版本，`retrieval.history[]` 里增加一条历史记录，并保留当前 binding 的 `snapshot_sha256`。这样"我当时读到的是哪一版"永远可回溯。
 
@@ -785,7 +896,7 @@ unreachable   网络或鉴权问题，不改变任何标记
 
 字数阈值是这个原则的兜底，不是主判据。初始值写在 `config/policy.yaml`，先设一档，运行一段时间后按实际重验频率调整：
 
-~~~yaml
+``` yaml
 # config/policy.yaml（初始值，可调）
 granularity:
   default:
@@ -804,7 +915,7 @@ granularity:
 archive:
   text_max_bytes: 2000000
   raw_max_bytes: 2000000
-~~~
+```
 
 `by_kind` 覆盖 `default`，`null` 表示该项只告警、不阻断。`kind: reference` 走这条通道：API 清单、关键字表、枚举这类内容随上游版本整体替换，拆成十份只会增加维护面，因此只提示体积、不拒绝写入。其余 kind 仍然按阻断阈值执行。
 
@@ -812,10 +923,10 @@ archive:
 
 拆分后的关系表达：
 
-~~~yaml
+``` yaml
 id: source-neon-intrinsics-arith
 part_of: source-neon-intrinsics-checklist   # 可选，指向拆分前的父资料
-~~~
+```
 
 `part_of` 只表达资料归属，不产生证据传递：引用子 source 的 claim 不会自动获得父 source 的支持，父 source 也不因子 source 通过验证而变为已读取。
 
@@ -827,7 +938,7 @@ part_of: source-neon-intrinsics-checklist   # 可选，指向拆分前的父资�
 
 `source_type: local-file` 用于本地代码库、下载的 PDF、离线文档、日志和实验输出：
 
-~~~yaml
+``` yaml
 ---
 id: source-llvm-loop-vectorize-pass
 title: "LLVM LoopVectorize.cpp 实现"
@@ -871,7 +982,7 @@ evidence_items:
 read_status: partial
 evidence_status: source-reported
 ---
-~~~
+```
 
 字段规则：
 
@@ -899,13 +1010,13 @@ evidence_status: source-reported
 
 `policy.yaml` 中的开关：
 
-~~~yaml
+``` yaml
 write:
   require_network: true          # apply 前必须确认网络与归档可达
   allow_offline_kinds:           # 例外：不需要抓取的来源形态
     - local-file
     - personal-note
-~~~
+```
 
 `require_network: true` 时，网络 source 的 `apply` 在获取写锁后、写入 staging 前做一次可达性检查；失败即 operation 转 `blocked`，不写入任何文件。`allow_offline_kinds` 是有意保留的窄例外：这两种形态的证据载体本来就在本机，强制联网不增加保障。把例外做成配置项而不是硬编码，是为了让"为什么这次能离线写"有据可查。
 
@@ -934,7 +1045,7 @@ local-file 的历史 URL（如有）其 `url_status` 允许暂时为 `unknown`�
 
 时间锚点使用 W3C Media Fragments URI 语法，作为 `evidence_items.locator` 的可选字段，与 `heading_slug` 并列：
 
-~~~yaml
+``` yaml
 evidence_items:
   - id: e1
     snapshot_sha256: "sha256:..."     # 转录稿的 canonical text hash
@@ -944,7 +1055,7 @@ evidence_items:
       selector:
         - type: TextQuoteSelector
           exact: "转录稿中的完整引文"
-~~~
+```
 
 `media_fragment` 与 §5.5 的章节 locator 同性质：只用于阅读定位，没有 hash 也没有失效轴。逐字校验仍然发生在 selector 与 snapshot 之间。
 
@@ -958,7 +1069,7 @@ evidence_items:
 
 ### 6.1 Wiki Front Matter
 
-~~~yaml
+``` yaml
 ---
 id: wiki-transformer
 title: "Transformer"
@@ -987,11 +1098,11 @@ evidence:
 updated_at: 2026-08-25
 review_by: 2027-08-25         # optional; report-only, see 6.2
 ---
-~~~
+```
 
 上面是作者可编辑的 canonical 输入。`vault_id`、`evidence_state`、`validation_state`、`effective_confidentiality`、`strength`、`public_publishable`、`private_publishable`、`public_confirmation_sha256` 和 `public_release` 不属于作者输入；它们由 Vault Registry、确定性 validator、durable attestation 和 publish operation 计算。为了便于说明，工具生成的运行视图可能包含：
 
-~~~yaml
+``` yaml
 vault_id: public
 evidence_state: supported
 validation_state: not_run
@@ -1000,7 +1111,7 @@ strength: verified
 public_publishable: false
 private_publishable: false
 public_release: false
-~~~
+```
 
 `supporting_quotes.exact` 必须逐字来自 `source-transformer-paper/e1` 所绑定的 snapshot selector 范围；示例中的英文句子只是与 snapshot fixture 配套的原文片段，实际写入时由工具从归档 snapshot 生成并由人工确认，不能把 claim 的中文转述复制进去冒充证据。
 
@@ -1029,7 +1140,7 @@ Wiki Front Matter 的 canonical schema version 是 `content/wiki/v1`，在 `conf
 
 ### 6.2 Wiki 状态机
 
-~~~text
+``` text
 planned -> draft -> review -> published
               ^       |
               |       +-- 确定性校验失败、LLM 审计 fail
@@ -1043,7 +1154,7 @@ published --public_release:false--> human sets true -> public projection
 
 任意状态 -> deprecated（人工判定内容错误或过时）
 deprecated -> draft（修订后重新进入流程）
-~~~
+```
 
 - planned：只有标题和意图，没有正文和 source。用于"知道要写但还没写"的条目，不进索引正文、不进 public build，只出现在待写清单和查询结果的 `pending` 字段。
 - draft：可以编辑、预览和查询，但不进入 public build。
@@ -1077,7 +1188,7 @@ Wiki 的“状态可能很多”不通过无限扩张单一 enum 实现，而通
 
 ### 6.3 Wiki 必填正文
 
-~~~markdown
+``` markdown
 # 知识主题
 
 ## 一句话结论
@@ -1095,13 +1206,13 @@ Wiki 的“状态可能很多”不通过无限扩张单一 enum 实现，而通
 ## 待验证项
 
 ## 关联知识
-~~~
+```
 
 ### 6.4 Claim 和 Evidence
 
 每个核心论断必须有显式证据映射：
 
-~~~yaml
+``` yaml
 evidence:
   - claim_id: c1
     claim: "一个来源明确支持的事实。"
@@ -1136,7 +1247,7 @@ evidence:
     supporting_quotes:
       - evidence_id: e4
         exact: "实验观察的引文"
-~~~
+```
 
 支持类型：
 
@@ -1198,7 +1309,7 @@ Source 不是可信事实的自动证明。验证器必须对同一 claim 的所
 
 `common-knowledge` 不是"不做语义检查"，而是**把语义检查从模型判断换成确定性匹配**。每条 claim 的 evidence 必须人工填写 `supporting_quotes`，并指向已解析的 evidence item：
 
-~~~yaml
+``` yaml
 evidence:
   - claim_id: c1
     claim: "constexpr 变量必须在编译期完成初始化。"
@@ -1209,7 +1320,7 @@ evidence:
     supporting_quotes:
       - evidence_id: e-constexpr-1
         exact: "constexpr 变量必须立即被初始化，且其初始化必须是常量表达式。"
-~~~
+```
 
 工具按 6.9 的规范化规则，在 evidence item 指向的 snapshot 范围内逐字查找每条 supporting quote，找不到即校验失败、页面保持 `draft`。所有普通 claim 也必须经过同一确定性 quote/selector 检查。这样 `attested` 页面的检查强度和 `verified` 相当，而不是仅仅确认"有链接、有归档"。
 
@@ -1235,10 +1346,10 @@ ID 生成规则：用户显式提供的合法 kebab-case ID 优先；需要自�
 
 **hash 只覆盖正文和语义字段。** 分类字段变化不使任何验证报告失效——新增一个标签、补一个别名、调整 related 都不应该触发重新验证和重新花费 LLM 调用。发布/运行态字段也不能被混入内容 hash。
 
-~~~text
+``` text
 content_sha256   = sha256(canonical_body)
 evidence_sha256  = sha256(canonical_json(evidence))          # 仅 wiki
-~~~
+```
 
 `canonical_body` 的规范化规则：剥离 Front Matter，只取正文；统一为 LF；去掉行尾空白；折叠文件末尾空行为单个换行；不做其他改写（不动大小写、不动标点、不重排列表）。
 
@@ -1292,7 +1403,7 @@ claim 级增量重验放在后续阶段：报告结构已按 claim 存储，具�
 
 页面必须显示自己的证据强度，读者不需要读 Front Matter 就能知道这页是"外部来源验证过的事实"还是"我的个人理解"：
 
-~~~text
+``` text
 verified      确定性引文校验通过、LLM 规范审计为 pass，且论断由 ≥2 个独立 source 支撑
 corroborated  多个独立 source 一致支持，但仍显示来源范围和告警
 conflicted    source 之间存在未解决冲突，不可发布
@@ -1301,7 +1412,7 @@ attested      确定性引文校验通过但只有单一 source 支撑（含 LLM
 personal      个人理解或实验记录
 reference     参考清单，只保证条目入口可查
 index         导航页，不含论断
-~~~
+```
 
 `verified` 只授予"多来源交叉可证"的论断：LLM 审计 pass 只证明转述忠实于所引原文，不证明原文本身正确，因此单一 source 的页面上限是 `attested`。这条边界让 `verified` 保持"外部世界交叉验证过"的含义，而不是退化成"模型说 OK"。
 
@@ -1315,49 +1426,60 @@ LLM 规范审计是可选层，因此本节不存在"免 LLM"这一档，也不�
 
 字段分成三组，边界必须清楚：声明字段由人写，派生字段由工具算，operation-controlled 字段只能由对应受控操作写入。作者写错声明字段会被拒绝；作者手写派生字段或直接修改 operation-controlled 字段一律拒绝。
 
-声明字段（人工）：（作者只能直接创建 `planned`/`draft`/`review` 候选；`published` 由 publish operation 在人工审计确认后写入，不接受裸字段跳转。）
+**声明字段（人工）**：作者只能直接创建 `planned`/`draft`/`review` 候选；`published` 由 publish operation 在人工审计确认后写入，不接受裸字段跳转。
 
-~~~text
-kind                knowledge | index | reference
-status              planned | draft | review | published | deprecated
-confidentiality     public | internal
-publication_scope   none | private | public       （期望进入的投影；发布操作仍需显式确认）
-origin              external | personal            （source）
-evidence_status     source-reported | common-knowledge | personal-observation | inferred | metadata-only（source）
-support             direct | synthesis | inferred | personal（claim）
-~~~
+| 字段 | 取值 | 说明 |
+| --- | --- | --- |
+| `kind` | `knowledge` \| `index` \| `reference` | |
+| `status` | `planned` \| `draft` \| `review` \| `published` \| `deprecated` | |
+| `confidentiality` | `public` \| `internal` | |
+| `publication_scope` | `none` \| `private` \| `public` | 期望进入的投影；发布操作仍需显式确认 |
+| `origin` | `external` \| `personal` | source |
+| `evidence_status` | `source-reported` \| `common-knowledge` \| `personal-observation` \| `inferred` \| `metadata-only` | source |
+| `support` | `direct` \| `synthesis` \| `inferred` \| `personal` | claim |
 
-派生字段（工具计算，不入 hash）：
+**派生字段（工具计算，不入 hash）**：
 
-~~~text
-effective_confidentiality   max(自身, 全部上游对象)
-evidence_state              missing | partial | supported | corroborated | conflicting | unresolved | stale
-validation_state            not_run | pass | fail | stale_ruleset
-strength                    verified | corroborated | attested | personal | conflicted | partial | unresolved | reference | index
-private_publishable         true | false
-public_publishable          true | false
-publication_warning         none | internal
-~~~
+| 字段 | 取值 | 说明 |
+| --- | --- | --- |
+| `effective_confidentiality` | max(自身, 全部上游对象) | |
+| `evidence_state` | `missing` \| `partial` \| `supported` \| `corroborated` \| `conflicting` \| `unresolved` \| `stale` | |
+| `validation_state` | `not_run` \| `pass` \| `fail` \| `stale_ruleset` | |
+| `strength` | `verified` \| `corroborated` \| `attested` \| `personal` \| `conflicted` \| `partial` \| `unresolved` \| `reference` \| `index` | |
+| `private_publishable` | `true` \| `false` | |
+| `public_publishable` | `true` \| `false` | |
+| `publication_warning` | `none` \| `internal` | |
 
-operation-controlled 输入字段（只能由对应受控操作写入）：
+**operation-controlled 输入字段（只能由对应受控操作写入）**：
 
-~~~text
-public_release_confirmation_ref  event_id + operation_id（只由人工 public-release confirm 产生）
-public_release              false | true   （默认 false；projection 根据 durable record 派生，不接受 Front Matter/manifest 直接写入）
-~~~
+| 字段 | 取值 | 说明 |
+| --- | --- | --- |
+| `public_release_confirmation_ref` | `event_id` + `operation_id` | 只由人工 public-release confirm 产生 |
+| `public_release` | `false` \| `true` | 默认 `false`；projection 根据 durable record 派生，不接受 Front Matter/manifest 直接写入 |
 
 以下字段是投影/运行时派生值，不能写回 canonical Source/Wiki Front Matter：
 `effective_confidentiality`、`availability`、`availability_reason`、`strength`、`private_publishable`、`public_publishable`、`public_release`、`publication_warning`、`validation_attestation_ref` 和 `public_confirmation_sha256`。它们由 Registry、validator 和 projection generator 根据 canonical 内容、durable record 与当前 Vault 状态重新计算；如果旧生成物中的值与当前计算结果不同，旧值必须被丢弃并报告 `derived_field_mismatch`。`public_release` 只有在 public-safe confirmation event、public owner operation record、当前 release/content/evidence/input-leak hash、人工 actor、未消费 nonce 和完整 audit chain 全部匹配时才派生为 true；hash 变化后旧事件保留但派生值回到 false。
 
 发布确认与验证的 durable record 位置固定为：
 
-~~~text
+``` text
 <owner-vault>/audit/operations/<operation_id>.json
 <owner-vault>/audit/validation/<object_type>/<object_id>/<attestation_sha256>.json
 public/release/public-confirmations/<event_id>.json
-~~~
+```
 
-`var/state/` 中的完整 provider 响应、锁和临时 staging 只能作为运行缓存，不能证明审计、人工确认或恢复能力。每个 durable record 都必须包含 canonical schema version、owner `vault_id`、target ObjectRef、相关 hash、生成工具版本和 `record_sha256`；写入采用 append-only，新状态用新 record 表示，不原地修改已被引用的审计记录。审计侧的 durable record 类型是 `audit-record/v1`。确认事件只有两个版本化类型：`operation-confirmation/v1`（用 `scope: apply | publish_private` 区分普通 apply 与私有发布；有效保密等级为 internal 时还必须携带 `warning_code` 和 `warning_text_sha256`）和 `public-release-confirmation/v1`。**public release 故意不做成一个 scope 值**：它是唯一不可撤销的对外行为，独立类型使"写错一个 scope 就公开了 internal 内容"在 schema 层不可表达。`event_sha256` 定义为去掉自身字段后的 canonical JSON UTF-8 hash；public-safe event 不能包含 private ID、路径、正文或裸 private hash。一次性 `confirmation_nonce` 只用于 public release：apply 与私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配）。public release 的目标 operation record 固定在 public owner 的 `ledger/audit/operations/<operation_id>.json`；若存在 private lineage，源 owner 的同 operation/audit record 只作为私有审计，不进入 public event。
+`var/state/` 中的完整 provider 响应、锁和临时 staging 只能作为运行缓存，不能证明审计、人工确认或恢复能力。每个 durable record 都必须包含 canonical schema version、owner `vault_id`、target ObjectRef、相关 hash、生成工具版本和 `record_sha256`；写入采用 append-only，新状态用新 record 表示，不原地修改已被引用的审计记录。
+
+**Durable record 类型**：
+
+- 审计侧：`audit-record/v1`
+- 确认事件（只有两个版本化类型）：
+  - `operation-confirmation/v1`：用 `scope: apply | publish_private` 区分普通 apply 与私有发布；有效保密等级为 internal 时还必须携带 `warning_code` 和 `warning_text_sha256`
+  - `public-release-confirmation/v1`：public release 独立类型（见下）
+
+**public release 故意不做成一个 scope 值**：它是唯一不可撤销的对外行为，独立类型使"写错一个 scope 就公开了 internal 内容"在 schema 层不可表达。
+
+`event_sha256` 定义为去掉自身字段后的 canonical JSON UTF-8 hash；public-safe event 不能包含 private ID、路径、正文或裸 private hash。一次性 `confirmation_nonce` 只用于 public release：apply 与私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配）。public release 的目标 operation record 固定在 public owner 的 `ledger/audit/operations/<operation_id>.json`；若存在 private lineage，源 owner 的同 operation/audit record 只作为私有审计，不进入 public event。
 
 Durable record 的防篡改由 Git 提供，不自建 hash chain。每条记录仍带 `record_sha256`（按去掉自身字段后的 canonical JSON 计算）用于校验单条记录的自完整性，但记录之间不再串 `sequence` / `previous_record_sha256` / `chain_scope`——Git commit 本身就是一条哈希链：每个 commit 摘要覆盖树内容并指向父 commit，篡改历史任一点都会改变后续所有摘要。在 canonical 文件之上再叠一条自建链，是用弱得多的实现（无签名、无分布式见证、与 Git 历史可能不一致）重复一个已经成立的保证。
 
@@ -1367,7 +1489,7 @@ Durable record 的防篡改由 Git 提供，不自建 hash chain。每条记录�
 
 人工审核不引入复杂的 review 状态机：`public_release` 仍默认为 `false`，唯一允许产生可派生 true 的入口是一次明确的人类确认事件（推荐交互式 `public-release confirm --operation-id ...`，桌面 UI 或人工提交也必须由 writer 校验并记录）。Skill/Agent 只能生成 preview 和展示材料，不能代替该事件。事件至少包含：
 
-```yaml
+``` yaml
 event_type: public-release-confirmation/v1
 event_id: evt_...
 operation_id: op_...
@@ -1455,7 +1577,7 @@ kind 与 status 正交：三种 `kind` 都可处于任一 `status`。真正的�
 
 6.7 的人工引文和 8.2 的模型引文用**同一个规范化函数**，不允许两处各写一套——两处标准不一致会导致同一条引文在一条路径上通过、在另一条路径上失败。
 
-```python
+``` python
 def canonical_quote(s: str) -> str:
     ...
 ```
@@ -1503,7 +1625,7 @@ LLM 只负责判断 wiki claim 是否被 source 支持，不负责替代 source�
 
 ### 8.2 结构化输出
 
-~~~json
+``` json
 {
   "wiki_id": "wiki-transformer",
   "verdict": "pass",
@@ -1527,7 +1649,7 @@ LLM 只负责判断 wiki claim 是否被 source 支持，不负责替代 source�
   "contradictions": [],
   "missing_evidence": []
 }
-~~~
+```
 
 `supporting_quotes` 必填且每一条**必须逐字来自 target 指向的不可变 snapshot**。工具在收到响应后做一次确定性校验：按 6.9 的规范化规则，把引文与 evidence item selector 限定的 snapshot 范围归一后做子串匹配，找不到即判 `unsupported`，无论模型自己给出什么 verdict。
 
@@ -1539,13 +1661,13 @@ LLM 只负责判断 wiki claim 是否被 source 支持，不负责替代 source�
 
 单条 verdict：
 
-~~~text
+``` text
 supported
 partially_supported
 unsupported
 contradicted
 unmapped
-~~~
+```
 
 发布门禁：
 
@@ -1573,7 +1695,7 @@ Skill runtime 未提供合规 provider、网络不可用、返回格式错误、
 
 每次验证保存（只记录运行时安全摘要，不记录 endpoint、密钥或敏感请求正文）：
 
-~~~yaml
+``` yaml
 wiki_id:
 validator_version:
 provider_identity:
@@ -1595,7 +1717,7 @@ claims:
 unmapped_claims:
 contradictions:
 verdict:
-~~~
+```
 
 报告绑定 `wiki_content_sha256`、`wiki_evidence_sha256`，以及**每个 target 的 snapshot/selector/quote**，不是整个 source 文件的摘要 hash。这样修改 source 中未被引用的阅读笔记章节不会波及已审计的 wiki，避免一次错别字修正引发全库重审。报告还应记录审计提示词版本、schema 版本、输入 target 列表和 snapshot manifest 版本，便于复现。完整 provider 响应只保存在被忽略的 `var/state/llm-validation/`；发布所需的人工审计确认必须写入 owner vault 的 `ledger/audit/validation/`，不能把临时目录当作唯一依据。报告不保存 API key、密码和敏感凭据。
 
@@ -1624,9 +1746,9 @@ prompt 或 validator 升级时，`policy.yaml` 必须显式声明兼容策略：
 
 所有写入必须是两阶段 operation，每次写入生成一条 `operation/v1` 记录作为该次写入的权威凭据：
 
-~~~text
+``` text
 preview -> explicit apply
-~~~
+```
 
 ### 9.1 Preview
 
@@ -1642,7 +1764,7 @@ Preview 阶段：
 
 输出格式：
 
-~~~text
+``` text
 status: preview
 operation_id:
 targets:
@@ -1650,7 +1772,7 @@ diff_sha256:
 deterministic_validation:
 llm_validation:
 confirmation_required: true
-~~~
+```
 
 ### 9.2 Apply
 
@@ -1672,7 +1794,7 @@ confirmation_required: true
 
 ### 9.3 Operation 状态和幂等性
 
-```text
+``` text
 created
   -> previewed
   -> awaiting_confirmation
@@ -1740,10 +1862,10 @@ Skill 和知识库工具禁止：
 
 两级操作，都必须走 preview/apply：
 
-~~~text
+``` text
 retire   标记 status: deprecated，保留文件与路由
 purge    真正删除文件，需要 retire 已生效且引用已清理
-~~~
+```
 
 `retire` 的效果：从 public build 与 public 索引移除；从 RAG 索引移除对应 chunk；F008 题目若存在，是否失效由 F008 的独立迁移规则处理；保留旧路由指向一个"此页已废弃"的提示页，避免外部链接直接 404；在 backlinks 中把该页标记为废弃而不是删除链接。
 
@@ -1759,13 +1881,13 @@ purge    真正删除文件，需要 retire 已生效且引用已清理
 
 废弃原因是必填的枚举加自由说明：
 
-~~~text
+``` text
 obsolete      上游版本演进导致内容过时
 incorrect     内容本身错误
 superseded    已被另一个页面取代（必须给出 replaced_by）
 duplicate     与另一个页面重复（必须给出 replaced_by）
 out-of-scope  不再属于本知识库范围
-~~~
+```
 
 `superseded` 与 `duplicate` 必须填 `replaced_by`，前端和查询把旧 ID 解析到新页面，Agent 查询旧 ID 时返回新目标而不是空结果。
 
@@ -1773,11 +1895,11 @@ out-of-scope  不再属于本知识库范围
 
 ID、标题和路径都会需要调整，而一次改名要同时波及：反向索引、backlinks、`related`、`part_of`、`sources` 引用、route map、验证报告中的 object/evidence binding。F008 若启用，再由其迁移规则处理题目引用。手工改这些一定会漏，因此重命名必须是一等操作，而不是"人工去改"。
 
-~~~text
+``` text
 rename   改 ID（连带所有引用）
 move     改路径与 domain（不改 ID）
 retitle  改 title（不影响引用）
-~~~
+```
 
 `rename` 的 preview 必须列出全部受影响对象与文件，并区分两类改动：引用更新（机械替换，可自动）与内容改写（正文里提到旧名称的自然语言表述，需人工确认）。apply 时全部改动在一个 operation 内原子完成，任一文件失败则整体回滚。
 
@@ -1805,16 +1927,16 @@ retitle  改 title（不影响引用）
 
 公开模式：
 
-~~~text
+``` text
 Pagefind -> public_publishable wiki
-~~~
+```
 
 本地模式：
 
-~~~text
+``` text
 精确 ID/反向索引 -> direct lookup
 自然语言/混合查询 -> QMD (default) -> SQLite FTS5 -> Python/SQLite LIKE fallback
-~~~
+```
 
 查询优先级：
 
@@ -1826,7 +1948,7 @@ Pagefind -> public_publishable wiki
 
 统一返回：
 
-~~~text
+``` text
 route:
 answer:
 wiki:
@@ -1840,7 +1962,7 @@ method:
 degraded:
 limits:
 next_gate:
-~~~
+```
 
 Agent 不直接扫描任意 Markdown，而是调用本地 CLI、生成索引或 FastAPI 查询接口。
 
@@ -1848,13 +1970,13 @@ Agent 不直接扫描任意 Markdown，而是调用本地 CLI、生成索引或 
 
 固定写入顺序：
 
-~~~text
+``` text
 source -> wiki -> validate -> index -> build
-~~~
+```
 
 Source 和 wiki 是两个独立 operation：
 
-```text
+``` text
 source preview -> 用户确认 -> 写入 sources -> source 校验
 wiki preview   -> 确定性校验 -> LLM 验证 -> 用户确认 -> 写入 wiki
 ```
@@ -1865,22 +1987,22 @@ wiki preview   -> 确定性校验 -> LLM 验证 -> 用户确认 -> 写入 wiki
 
 生成五张反向索引：
 
-~~~text
+``` text
 by-domain
 by-tag
 by-alias
 by-link
 by-source
-~~~
+```
 
 同时生成：
 
-~~~text
+``` text
 catalog.json
 graph.json
 rag-index.jsonl
 backlog.json
-~~~
+```
 
 `backlog.json` 汇总 `status: planned` 条目和 `content_verdict: pending-review` 的待处理项，是"还需要写什么"的唯一入口。`deprecated` 页面单独成表，供查询时给出替代目标。
 
@@ -1905,17 +2027,17 @@ F008 提供独立 Question/练习服务；题目 schema、claim 绑定、答案/
 
 ### 11.1 Public index
 
-~~~text
+``` text
 wiki.public_publishable == true
   -> var/queries/public
   -> Astro prepare-content
   -> Pagefind
   -> GitHub Pages
-~~~
+```
 
 ### 11.2 Local index
 
-~~~text
+``` text
 sources + wiki
   -> var/queries/local
   -> QMD (default local natural-language/hybrid retriever)
@@ -1923,7 +2045,7 @@ sources + wiki
   -> Python/SQLite LIKE deterministic fallback
   -> FastAPI
   -> 本地前端 / Agent Skill
-~~~
+```
 
 第一阶段的基础检索不引入 Elasticsearch、独立向量数据库或 LangChain。知识规模、部署形态和个人查询需求优先要求确定性、可解释、可离线运行。RAG 作为本地自然语言问答和知识综合能力接入，但不改变 source/wiki 的内容真相源。
 
@@ -1954,7 +2076,7 @@ RAG 的职责是"找到回答所需的上下文并组织答案"；Evidence Valid
 
 ### 11.4 RAG 标准处理链
 
-```text
+``` text
 用户问题
   -> 查询解析
   -> QMD 默认 BM25/向量/RRF 召回
@@ -1972,7 +2094,7 @@ QMD 可用时由 QMD 完成 BM25/向量融合和 RRF；切换到 FTS5 或 LIKE �
 
 本地 RAG 索引由 `content/sources/` 和 `content/wiki/` 投影生成。每个 chunk 必须保留对象身份和证据定位，不能只保存一段没有来源的纯文本：
 
-```json
+``` json
 {
   "chunk_id": "source-transformer-paper:已读取事实:001",
   "object_type": "source",
@@ -2012,7 +2134,7 @@ chunk 的 metadata 至少包含 `chunk_id`、`object_id`、`section`、`source_r
 
 第一阶段采用成熟组件加薄适配层，一次性交付 QMD 默认检索、FTS5/LIKE fallback、QueryResult、索引重建和测试；Embedding/FAISS/Reranker 只作为后续可插拔增强，不是第一阶段的隐含依赖：
 
-```text
+``` text
 Markdown + YAML
   -> MyKnowledge 规范化分块
   -> QMD read-only adapter (default local natural-language/hybrid)
@@ -2041,7 +2163,7 @@ Markdown + YAML
 
 ### 11.7 Retriever 接口和索引工具
 
-```python
+``` python
 class Retriever:
     def search(self, query, scope, top_k=8):
         ...
@@ -2049,7 +2171,7 @@ class Retriever:
 
 第一阶段实现：
 
-```text
+``` text
 FtsRetriever
 QmdRetriever (default local natural-language/hybrid, read-only)
 DeterministicFallbackRetriever
@@ -2059,7 +2181,7 @@ DeterministicFallbackRetriever
 
 建议工具：
 
-```text
+``` text
 tools/ 建议职责模块：
 - 索引构建：规范化分块、Embedding 和本地向量索引；
 - 召回：FTS、向量和混合检索；
@@ -2074,14 +2196,14 @@ tools/ 建议职责模块：
 
 本地后端增加：
 
-```text
+``` text
 POST /api/retrieve
 POST /api/ask
 ```
 
 请求示例：
 
-```json
+``` json
 {
   "query": "Transformer 中 Attention 是如何计算的？",
   "scope": "local",
@@ -2092,7 +2214,7 @@ POST /api/ask
 
 返回必须包含答案、引用、检索方式、片段数量和局限：
 
-```json
+``` json
 {
   "answer": "...",
   "citations": [
@@ -2113,7 +2235,7 @@ Agent Skill 增加 `ask` 模式；`query` 继续负责确定性检索，`synthes
 
 ### 11.9 RAG 分阶段落地
 
-```text
+``` text
 基线能力包：QMD 默认 read-only adapter + SQLite FTS5 fallback + deterministic LIKE fallback + QueryResult + 增量/全量重建 + 引用定位测试，一次性交付。
 可插拔增强：Embedding/FAISS -> QMD/向量 Hybrid（RRF）增强 -> Reranker/回答缓存 -> 必要时评估 Qdrant/pgvector/GraphRAG；任何增强都不能移除 FTS5/LIKE fallback。
 ```
@@ -2124,7 +2246,7 @@ Agent Skill 增加 `ask` 模式；`query` 继续负责确定性检索，`synthes
 
 核心 API：
 
-~~~text
+``` text
 GET  /api/health
 GET  /api/query?q=&scope=&vault_ids=&top_k=
 GET  /api/read/{vault_id}/{object_type}/{object_id}
@@ -2136,7 +2258,7 @@ POST /api/source/preview
 POST /api/wiki/preview
 POST /api/operation/{operation_id}/apply
 POST /api/validate/{vault_id}/{object_type}/{object_id}
-~~~
+```
 
 `POST /api/retrieve` 是结构化检索的唯一规范入口；`GET /api/query` 只是兼容别名，将 `q`/`vault_ids`/`top_k` 归一化为同一个 `RetrieveRequest`，必须返回同一 `query-result/v1`，不能出现独立排序、权限或 fallback 逻辑。请求只允许 `query`、`scope`、`vault_ids`、`top_k`、`include_sources`、`include_archive`；长度、数量、body 和 timeout 上限来自 `config/policy.yaml`，超限返回 `query_limit_exceeded`/`request_too_large`，不得静默截断。`projection` 不是权限 scope，`wiki` 不是合法别名。`POST /api/ask` 是独立生成能力，返回 `AskResult` 和 citations；没有 LLM/引用校验能力时返回 `unavailable`，不能把检索结果伪装成生成回答。
 
@@ -2219,7 +2341,7 @@ Public projection 不复制 source 正文、归档快照、题目答案、题目
 
 Skill 位置（本仓库直接提供，Agent 从当前 checkout 加载）：
 
-~~~text
+``` text
 skills/myknowledge/
 ├── SKILL.md
 ├── agents/openai.yaml
@@ -2229,11 +2351,11 @@ skills/myknowledge/
 │   ├── query-contract.md
 │   └── workflow-modes.md
 └── scripts/            # 仓库根检测与 Skill 调用入口
-~~~
+```
 
 支持模式（当前版本）：
 
-~~~text
+``` text
 query
 read
 ask
@@ -2241,11 +2363,11 @@ ingest
 synthesize
 index
 audit
-~~~
+```
 
 Skill 是 Agent 操作本仓库的官方受控入口。Skill 不实现第二套业务逻辑，而是调用 MyKnowledge 的领域 CLI/API；FastAPI 只是可选的本地 transport：
 
-~~~text
+``` text
 myknowledge skill
   -> 查询工具
   -> 页面读取工具
@@ -2253,7 +2375,7 @@ myknowledge skill
   -> wiki 创建工具
   -> 证据校验工具
   -> 索引生成工具
-~~~
+```
 
 Skill 只负责：
 
@@ -2270,7 +2392,7 @@ Agent 不直接编辑 Markdown、manifest、queries、state 或 Git worktree；�
 
 所有 Skill 模式都返回相同的顶层字段，字段没有值时使用空数组、空对象或明确的 `null`，不省略字段：
 
-```yaml
+``` yaml
 status: ok | preview | applied | rejected | blocked | error
 operation_id: null
 wiki: []
@@ -2316,7 +2438,7 @@ Skill 不根据对话上下文猜测用户确认范围；“确认”必须能�
 
 ## 15. 工具模块边界
 
-~~~text
+``` text
 tools/（按职责划分模块；文件命名是实现细节，不构成契约）
 ├── 共享基础：hash、canonical JSON、front matter、原子写、Vault 锁
 ├── Source 导入与归档：抓取、local-file/personal-note 导入、正文提取、snapshot 与 manifest
@@ -2325,7 +2447,7 @@ tools/（按职责划分模块；文件命名是实现细节，不构成契约�
 ├── 查询与读取：页面读取、检索、重排、带引用回答
 ├── 发布：wiki 创建/重命名/退役、索引生成
 └── 存量迁移：inventory 生成与任务清单
-~~~
+```
 
 建议职责：
 
@@ -2387,7 +2509,7 @@ tools/（按职责划分模块；文件命名是实现细节，不构成契约�
 
 先为每篇旧文档生成：
 
-~~~yaml
+``` yaml
 legacy_path:
 candidate_id:
 domain:
@@ -2399,7 +2521,7 @@ content_verdict:  # keep | downgrade | retire | pending-review
 route:
 link_dependencies:
 migration_status:
-~~~
+```
 
 `content_verdict` 是迁移的核心判断，必须逐篇人工确认，不允许工具推断：
 
@@ -2431,13 +2553,13 @@ migration_status:
 
 迁移顺序建议：
 
-~~~text
+``` text
 computer-science
 -> tools
 -> work-methods
 -> multimedia
 -> reading-notes
-~~~
+```
 
 在迁移完成前，不切换正式站点到 wiki-only，避免现有公开内容一次性消失。切换完成后，旧 docs/ 不再作为第二份维护源。
 
@@ -2676,7 +2798,7 @@ computer-science
 
 最终知识生产链为：
 
-~~~text
+``` text
 source 先行
   -> source 校验
   -> wiki 候选
@@ -2687,7 +2809,7 @@ source 先行
   -> 自动索引
   -> public/private published projection
   -> 静态展示 / 本地查询 / Agent 查询
-~~~
+```
 
 ## 20. 参考实现和对标
 
@@ -2796,3 +2918,16 @@ source 先行
 - `SEC-004`：本地 API capability token、Vault 路径隔离、SSRF/文件竞态和 public allowlist 必须有拒绝与恢复证据。
 
 ID 的详细交付映射见 [规范到验收追踪矩阵](./traceability-matrix.md)；交付状态见 [Feature List](./feature-list.md)。
+
+## 22. 修订记录
+
+本节是正文内嵌修订痕迹的**集中索引**。正文保留规范句与修订说明原文（内容不因修订记录而改变），本节按时间倒序汇总历次实质修订，便于读者/Agent 快速了解"哪些结论在何时被修订过"。
+
+| 日期 | 修订点 | 正文位置 |
+| --- | --- | --- |
+| 2026-08-28 | QMD 替代已定：中文分词由 wangfenjin/simple 承担，FTS5 `tokenize='simple'` + `jieba_query()`；列出已评估未采纳候选（Meilisearch/Tantivy/sqlite-vec）与决策原则 | §11.2 检索分词与替代方案决策 |
+| 2026-08-28 | 检索确认无外部出处的本人综合按 personal 建模：`personal-note` source 作 provenance，`support: personal`，strength 承载 `personal`，不进证据阻断集合 | §6.4 F010 迁移澄清 |
+| 2026-08-26 | 当前验证过的构建基线（legacy content adapter）：277 输入 / 276 篇 / 224 条关系 / 19 条未解析链接 | §2.1 |
+| 2026-08-26 | 组件级实现对标核查（W3C/Trafilatura/ArchiveBox/FTS5/QMD/Pagefind/MCP/FSRS） | §20.2 |
+
+> 维护规则：新增实质修订时在此表追加一行（时间倒序），并在对应正文段落保留修订说明；不因本表而删除或改写正文原文。
