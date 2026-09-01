@@ -20,8 +20,8 @@ class WriteOperationTests(unittest.TestCase):
             workspace = Path(d)
             public = workspace / "public"
             private = workspace / "private"
-            public.mkdir()
-            private.mkdir()
+            public.mkdir(parents=True, exist_ok=True)
+            private.mkdir(parents=True, exist_ok=True)
             subprocess.run(["git", "init", "-q", str(public)], check=True)
             subprocess.run(["git", "init", "-q", str(private)], check=True)
             manifest = workspace / "vaults.yaml"
@@ -36,24 +36,29 @@ class WriteOperationTests(unittest.TestCase):
             service = WriteOperation(
                 public, vault_root_resolver=registry.resolve_vault_path
             )
-            preview = service.preview({"wiki/private.md": "secret"}, vault_id="private")
+            preview = service.preview(
+                {"content/wiki/private.md": "secret"}, vault_id="private"
+            )
             self.assertEqual(preview["state"], "previewed")
             self.assertEqual(
                 service.apply(preview["operation_id"], confirmed=True)["state"],
                 "applied",
             )
             self.assertEqual(
-                (private / "wiki" / "private.md").read_text(encoding="utf-8"), "secret"
+                (private / "content" / "wiki" / "private.md").read_text(
+                    encoding="utf-8"
+                ),
+                "secret",
             )
-            self.assertFalse((public / "wiki" / "private.md").exists())
+            self.assertFalse((public / "content" / "wiki" / "private.md").exists())
 
     def test_preview_is_read_only_and_apply_requires_confirmation(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             service = WriteOperation(root)
-            preview = service.preview({"wiki/a.md": "hello"})
+            preview = service.preview({"content/wiki/a.md": "hello"})
             self.assertEqual(preview["state"], "previewed")
-            self.assertFalse((root / "wiki/a.md").exists())
+            self.assertFalse((root / "content/wiki/a.md").exists())
             self.assertEqual(
                 service.apply(preview["operation_id"])["state"], "awaiting_confirmation"
             )
@@ -88,7 +93,7 @@ class WriteOperationTests(unittest.TestCase):
             service = WriteOperation(root)
             op = service.preview({"nested/a.md": "new"})["operation_id"]
             (root / "nested").mkdir(parents=True)
-            (root / "outside").mkdir()
+            (root / "outside").mkdir(parents=True, exist_ok=True)
             (root / "nested").rmdir()
             (root / "nested").symlink_to(root / "outside", target_is_directory=True)
             result = service.apply(op, confirmed=True)
@@ -184,10 +189,16 @@ class WriteOperationTests(unittest.TestCase):
             with VaultLockGroup(root, ["zeta", "alpha", "alpha"], "op-group") as group:
                 self.assertEqual(group.vault_ids, ("alpha", "zeta"))
                 group.assert_owner()
-                self.assertTrue((root / "state" / "locks" / "alpha.owner").exists())
-                self.assertTrue((root / "state" / "locks" / "zeta.owner").exists())
-            self.assertFalse((root / "state" / "locks" / "alpha.owner").exists())
-            self.assertFalse((root / "state" / "locks" / "zeta.owner").exists())
+                self.assertTrue(
+                    (root / "var" / "state" / "locks" / "alpha.owner").exists()
+                )
+                self.assertTrue(
+                    (root / "var" / "state" / "locks" / "zeta.owner").exists()
+                )
+            self.assertFalse(
+                (root / "var" / "state" / "locks" / "alpha.owner").exists()
+            )
+            self.assertFalse((root / "var" / "state" / "locks" / "zeta.owner").exists())
 
     def test_multi_vault_lock_group_releases_acquired_locks_on_failure(self):
         with tempfile.TemporaryDirectory() as d:
@@ -196,7 +207,9 @@ class WriteOperationTests(unittest.TestCase):
                 with self.assertRaises(LockBusyError):
                     with VaultLockGroup(root, ["alpha", "zeta"], "op-group"):
                         pass
-                self.assertFalse((root / "state" / "locks" / "alpha.owner").exists())
+                self.assertFalse(
+                    (root / "var" / "state" / "locks" / "alpha.owner").exists()
+                )
 
     def test_multi_file_failure_rolls_back(self):
         with tempfile.TemporaryDirectory() as d:
@@ -237,7 +250,9 @@ class WriteOperationTests(unittest.TestCase):
             with mock.patch.object(service, "_path", side_effect=fail_after_first):
                 result = service.apply(op, confirmed=True)
             self.assertEqual(result["error_code"], "apply_failed")
-            self.assertTrue((root / "state" / "commit-intents" / f"{op}.json").exists())
+            self.assertTrue(
+                (root / "var" / "state" / "commit-intents" / f"{op}.json").exists()
+            )
             self.assertEqual(service.recover(op)["state"], "recovery_required")
             self.assertEqual((root / "a.md").read_text(encoding="utf-8"), "old")
 
@@ -272,7 +287,7 @@ class WriteOperationTests(unittest.TestCase):
             self.assertEqual(rebuilt, [op])
             self.assertEqual(service.store.load(op)["state"], "applied")
             self.assertFalse(
-                (root / "state" / "commit-intents" / f"{op}.json").exists()
+                (root / "var" / "state" / "commit-intents" / f"{op}.json").exists()
             )
 
     def test_rename_and_retire_have_distinct_operation_types(self):
@@ -316,7 +331,7 @@ class WriteOperationTests(unittest.TestCase):
             op = service.preview({"a.md": "new"})["operation_id"]
             self.assertEqual(service.apply(op, confirmed=True)["state"], "applied")
             self.assertFalse(
-                (root / "state" / "commit-intents" / f"{op}.json").exists()
+                (root / "var" / "state" / "commit-intents" / f"{op}.json").exists()
             )
 
     def test_purge_requires_verified_owner_backup(self):
@@ -354,7 +369,7 @@ class WriteOperationTests(unittest.TestCase):
 
             intent["intent_sha256"] = hash_canonical(intent)
             atomic_write(
-                root / "state" / "commit-intents" / f"{op}.json",
+                root / "var" / "state" / "commit-intents" / f"{op}.json",
                 canonical_json(intent) + b"\n",
                 0o600,
             )
@@ -368,7 +383,7 @@ class WriteOperationTests(unittest.TestCase):
             service = WriteOperation(root)
             preview = service.preview({"a.md": "new"})
             op = preview["operation_id"]
-            intent_path = root / "state" / "commit-intents" / f"{op}.json"
+            intent_path = root / "var" / "state" / "commit-intents" / f"{op}.json"
             intent_path.parent.mkdir(parents=True, exist_ok=True)
             intent = {
                 "schema_version": "commit-intent/v1",
@@ -484,7 +499,7 @@ class ConfirmationBoundaryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             service = WriteOperation(root, projection_rebuilder=lambda r: None)
-            preview = service.preview({"wiki/secret.md": "internal"})
+            preview = service.preview({"content/wiki/secret.md": "internal"})
             partial = _confirmation_event(
                 preview, scope="publish_private"
             )  # 缺 content/evidence/target_vault
@@ -519,16 +534,20 @@ class RealProjectionRebuildTests(unittest.TestCase):
                 service.apply(preview["operation_id"], confirmed=True)["state"],
                 "applied",
             )
-            self.assertTrue((root / "queries" / "public" / "manifest.json").is_file())
+            self.assertTrue(
+                (root / "var" / "queries" / "public" / "manifest.json").is_file()
+            )
 
     def test_projection_failure_pending_then_real_recover(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             service = WriteOperation(root)
             preview = service.preview({"a.md": "new"})
-            obstacle = root / "queries" / "public" / "manifest.json"
+            obstacle = root / "var" / "queries" / "public" / "manifest.json"
             obstacle.parent.mkdir(parents=True)
-            obstacle.mkdir()  # 目录占位使 manifest 原子写失败
+            obstacle.mkdir(
+                parents=True, exist_ok=True
+            )  # 目录占位使 manifest 原子写失败
             result = service.apply(preview["operation_id"], confirmed=True)
             self.assertEqual(result["state"], "applied_index_pending")
             self.assertEqual(result["error_code"], "projection_failed")
@@ -536,7 +555,9 @@ class RealProjectionRebuildTests(unittest.TestCase):
             obstacle.rmdir()
             recovered = service.recover(preview["operation_id"])
             self.assertEqual(recovered["state"], "applied")
-            self.assertTrue((root / "queries" / "public" / "manifest.json").is_file())
+            self.assertTrue(
+                (root / "var" / "queries" / "public" / "manifest.json").is_file()
+            )
             self.assertEqual(
                 service.store.load(preview["operation_id"])["state"], "applied"
             )
@@ -603,7 +624,7 @@ class ReviewFixTests(unittest.TestCase):
             event = _confirmation_event(preview)
 
             class BoomIntentPath(
-                type(root / "state" / "commit-intents" / f"{op}.json")
+                type(root / "var" / "state" / "commit-intents" / f"{op}.json")
             ):
                 def unlink(self, missing_ok: bool = False) -> None:
                     raise OSError("permission")  # 仅 intent 清理失败，不波及锁清理
@@ -781,7 +802,11 @@ class ConfirmApplyCliTests(unittest.TestCase):
             from tools.common import atomic_write, canonical_json
 
             atomic_write(
-                root / "state" / "operations" / f"{preview['operation_id']}.json",
+                root
+                / "var"
+                / "state"
+                / "operations"
+                / f"{preview['operation_id']}.json",
                 canonical_json(record),
                 0o600,
             )
@@ -803,7 +828,7 @@ class ConfirmApplyCliTests(unittest.TestCase):
                 raise OSError("index rebuild failed")
 
             service = WriteOperation(root, projection_rebuilder=boom)
-            preview = service.preview({"wiki/x.md": "# x\n正文"})
+            preview = service.preview({"content/wiki/x.md": "# x\n正文"})
             op = preview["operation_id"]
             self.assertEqual(
                 service.apply(op, confirmed=True)["state"], "applied_index_pending"
@@ -839,8 +864,47 @@ class IndexAutoRebuildTests(unittest.TestCase):
 
             root = Path(d)
             service = WriteOperation(root)
-            preview = service.preview({"wiki/x.md": "# x\n正文"})
+            preview = service.preview({"content/wiki/x.md": "# x\n正文"})
             result = service.apply(preview["operation_id"], confirmed=True)
             self.assertEqual(result["state"], "applied", result)
             idx = default_public_index_path(root)
             self.assertTrue(idx.exists())  # 写入后索引自动重建，无需手动 rebuild
+
+
+class UnmanagedLayerContractTests(unittest.TestCase):
+    """LAY-003：`content/working/` 唯一的写入约束——必须能回指来源。
+
+    这层没有领域服务，preview 是唯一收口；"来源待补"的中间状态不允许存在
+    （与 §5.9 一致），因此缺回指字段是 `schema_invalid` 而不是 warning。
+    """
+
+    def test_working_note_without_any_reference_is_blocked(self):
+        """缺回指字段（source_ref/legacy_path）必须被 preview 拦为 schema_invalid。"""
+        with tempfile.TemporaryDirectory() as d:
+            result = WriteOperation(Path(d)).preview(
+                {"content/working/tools/scratch.md": "---\ntitle: 草稿\n---\n正文\n"}
+            )
+            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["error_code"], "schema_invalid")
+
+    def test_working_note_with_source_ref_or_legacy_path_is_accepted(self):
+        """带 source_ref 或 legacy_path 任一字段即可通过 working 层入口约束。"""
+        for field in ("source_ref", "legacy_path"):
+            with tempfile.TemporaryDirectory() as d:
+                result = WriteOperation(Path(d)).preview(
+                    {
+                        "content/working/tools/scratch.md": f"---\n{field}: docs/tools/x.md\n---\n正文\n"
+                    }
+                )
+                self.assertEqual(result["state"], "previewed", (field, result))
+
+    def test_other_layers_are_not_subject_to_the_working_contract(self):
+        """working 层入口约束只约束该层，journal/decisions/wiki 不受影响。"""
+        with tempfile.TemporaryDirectory() as d:
+            for name in (
+                "content/journal/2026/09/notes.md",
+                "content/decisions/CDR-0001.md",
+                "content/wiki/x.md",
+            ):
+                result = WriteOperation(Path(d)).preview({name: "正文\n"})
+                self.assertEqual(result["state"], "previewed", name)

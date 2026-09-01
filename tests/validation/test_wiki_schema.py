@@ -17,7 +17,7 @@ class SchemaTests(WikiTestCase):
     def test_private_validator_preserves_explicit_owner_vault(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            wiki = root / "wiki" / "planned.md"
+            wiki = root / "content" / "wiki" / "planned.md"
             wiki.parent.mkdir(parents=True)
             wiki.write_text(
                 "---\nschema_version: wiki/v1\nid: planned\ntitle: Planned\ndomain: tools\nkind: reference\nstatus: planned\n---\n",

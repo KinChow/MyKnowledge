@@ -43,7 +43,7 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "sources" / "tools" / "stale-note.md"
+            source_path = root / "content" / "sources" / "tools" / "stale-note.md"
             snapshot_path = (
                 root
                 / "archive"
@@ -74,7 +74,7 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "sources" / "tools" / "lockbusy-note.md"
+            source_path = root / "content" / "sources" / "tools" / "lockbusy-note.md"
             snapshot_path = (
                 root
                 / "archive"
@@ -86,7 +86,7 @@ class EvidenceAnchorTests(unittest.TestCase):
                 source_path, snapshot_path, "lock_busy 验证", min_chars=6
             )
             # 本进程先 flock 持锁，模拟其他进程占用（flock 按 fd 互斥）
-            lock_path = root / "state" / "locks" / "public.lock"
+            lock_path = root / "var" / "state" / "locks" / "public.lock"
             lock_path.parent.mkdir(parents=True, exist_ok=True)
             with lock_path.open("a+b") as handle:
                 fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -112,7 +112,7 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "sources" / "tools" / "ttl-note.md"
+            source_path = root / "content" / "sources" / "tools" / "ttl-note.md"
             snapshot_path = (
                 root
                 / "archive"
@@ -124,7 +124,11 @@ class EvidenceAnchorTests(unittest.TestCase):
                 source_path, snapshot_path, "TTL 过期验证", min_chars=6
             )
             operation_path = (
-                root / "state" / "operations" / f"{evidence['operation_id']}.json"
+                root
+                / "var"
+                / "state"
+                / "operations"
+                / f"{evidence['operation_id']}.json"
             )
             payload = json.loads(operation_path.read_text(encoding="utf-8"))
             payload["created_at"] = time.time() - (OPERATION_TTL_SECONDS + 1)
@@ -153,7 +157,7 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "sources" / "tools" / "idem-note.md"
+            source_path = root / "content" / "sources" / "tools" / "idem-note.md"
             snapshot_path = (
                 root
                 / "archive"
@@ -194,7 +198,9 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "sources" / "tools" / "anchor-recover-note.md"
+            source_path = (
+                root / "content" / "sources" / "tools" / "anchor-recover-note.md"
+            )
             snapshot_path = (
                 root
                 / "archive"
@@ -248,7 +254,9 @@ class EvidenceAnchorTests(unittest.TestCase):
                         }
                     )
                     ingestor.apply(result["operation_id"], confirmed=True)
-                    source_path = root / "sources" / "tools" / f"{source_id}.md"
+                    source_path = (
+                        root / "content" / "sources" / "tools" / f"{source_id}.md"
+                    )
                     snapshot_path = (
                         root
                         / "archive"

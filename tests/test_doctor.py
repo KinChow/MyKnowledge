@@ -29,6 +29,56 @@ def _run_gate(root: Path):
     return out.returncode, out.stdout.strip(), out.stderr
 
 
+def test_manifest_records_tolerate_historical_archive_prefix(tmp_path: Path):
+    """LAY-004：批次 3 布局下，账目里写着 `archive/` 的历史路径仍必须解析成功。
+
+    fixture 取真实产物——本仓库 `archive/manifest.jsonl` 的全部账目行与它们指向的
+    真实快照，按 §4.6 目标布局搬到 `ledger/archive/` 下。账目 append-only 不可改写，
+    若按记录原样拼路径，迁移当天全部历史账目会一起报 `snapshot_missing`，把一次
+    目录搬迁伪装成数据丢失。
+    """
+    import shutil
+
+    from tools.doctor import _check_manifest_records
+    from tools.paths import RepoPaths
+
+    repo = Path(__file__).resolve().parents[1]
+    real_manifest = repo / "archive" / "manifest.jsonl"
+    lines = [ln for ln in real_manifest.read_text(encoding="utf-8").splitlines() if ln]
+    assert len(lines) > 100, "fixture 必须是真实全量账目，不是构造的小样本"
+
+    # 账目放在当前布局认定的位置（`paths.manifest` 会随批次 3 一起前移，用例不锁死它），
+    # 快照只放在 §4.6 的目标位置——这正是"账目写历史前缀、实物在新位置"的迁移态。
+    manifest_path = RepoPaths(tmp_path).manifest
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(real_manifest, manifest_path)
+    target_text = tmp_path / "ledger" / "archive" / "text"
+    target_text.mkdir(parents=True)
+    for entry in (json.loads(ln) for ln in lines):
+        written = str(entry["archive_path"])
+        assert written.startswith("archive/"), "本用例的前提是账目里是历史前缀"
+        src = repo / written
+        if src.is_file():
+            shutil.copy2(src, target_text / src.name)
+
+    state, fields = _check_manifest_records(tmp_path)
+    assert fields["checked"] == len(lines)
+    assert state == "ok", fields.get("broken")
+
+
+def test_record_path_resolution_prefers_the_current_layout(tmp_path: Path):
+    """历史目录残留时，解析必须落在当前布局那一份，不能悄悄读回旧文件。"""
+    from tools.paths import RepoPaths
+
+    for prefix in ("archive/text", "ledger/archive/text"):
+        (tmp_path / prefix).mkdir(parents=True)
+        (tmp_path / prefix / "x.md").write_text(prefix, encoding="utf-8")
+
+    resolved = RepoPaths(tmp_path).resolve_record_path("archive/text/x.md")
+    assert resolved == tmp_path / "ledger" / "archive" / "text" / "x.md"
+    assert RepoPaths(tmp_path).resolve_record_path("archive/text/missing.md") is None
+
+
 def _write_snapshot(root: Path, body: str) -> Path:
     """按生产约定落一份快照：文件名 == 正文 sha256（tools.common.sha256_text）。"""
     from tools.common import sha256_text
@@ -54,7 +104,7 @@ def test_doctor_reports_missing_index_and_manifest_as_visible_warnings(tmp_path:
 
 
 def test_doctor_flags_invalid_source_as_error(tmp_path: Path):
-    src = tmp_path / "sources" / "tools"
+    src = tmp_path / "content" / "sources" / "tools"
     src.mkdir(parents=True)
     (src / "broken.md").write_text(
         "---\nschema_version: source/v1\nsnapshot_sha256: sha256:deadbeef\n---\n正文\n",
@@ -117,7 +167,7 @@ def test_doctor_flags_source_snapshot_missing_from_manifest(
     assert names["archive_integrity"]["state"] == "ok"  # 快照自证通过
     assert names["manifest_coverage"]["state"] == "error"  # 只有正向账目缺口
     assert names["manifest_coverage"]["unregistered"] == [
-        "sources/tools/orphan-note.md"
+        "content/sources/tools/orphan-note.md"
     ]
     assert "source preview/apply" in names["manifest_coverage"]["next_action"]
 
@@ -175,7 +225,7 @@ def test_doctor_flags_a_stranded_projection_rebuild(tmp_path: Path):
 
     service = WriteOperation(tmp_path)
     first = service.preview(
-        {"wiki/a.md": "---\nschema_version: wiki/v1\nid: a\n---\n一\n"}
+        {"content/wiki/a.md": "---\nschema_version: wiki/v1\nid: a\n---\n一\n"}
     )
     assert service.apply(first["operation_id"], confirmed=True)["state"] == "applied"
     _, baseline = _run(tmp_path)
@@ -186,7 +236,7 @@ def test_doctor_flags_a_stranded_projection_rebuild(tmp_path: Path):
 
     stuck = WriteOperation(tmp_path, projection_rebuilder=boom)
     second = stuck.preview(
-        {"wiki/b.md": "---\nschema_version: wiki/v1\nid: b\n---\n二\n"}
+        {"content/wiki/b.md": "---\nschema_version: wiki/v1\nid: b\n---\n二\n"}
     )
     operation_id = second["operation_id"]
     assert stuck.apply(operation_id, confirmed=True)["state"] == "applied_index_pending"
@@ -216,3 +266,142 @@ def test_doctor_assert_clean_is_quiet_when_healthy_and_loud_on_error(tmp_path: P
     code, stdout, stderr = _run_gate(tmp_path)
     assert code == 2 and stdout == ""
     assert json.loads(stderr)["errors"] == 1
+
+
+def test_doctor_enumerates_domains_not_on_the_historical_allowlist(
+    tmp_path: Path, real_import
+):
+    """域名不得硬编码：新增 domain 必须被枚举到，否则 checked 少算而仍报 ok。"""
+    real_import(tmp_path, "新域枚举验证正文内容", "new-domain-note")
+    moved = tmp_path / "content" / "sources" / "brand-new-domain"
+    moved.mkdir(parents=True)
+    (tmp_path / "content" / "sources" / "tools" / "new-domain-note.md").rename(
+        moved / "new-domain-note.md"
+    )
+    _, report = _run(tmp_path)
+    names = {c["name"]: c for c in report["checks"]}
+    assert names["sources"]["checked"] == 1  # 落在 allowlist 之外的域仍被检查
+    assert names["manifest_coverage"]["checked"] == 1
+
+
+def test_doctor_fails_closed_when_content_exists_but_enumeration_is_empty(
+    tmp_path: Path, real_import
+):
+    """静默归零的回归锁：布局与 paths.py 不一致时，「检查了 0 个」必须是 error。
+
+    实测（2026-09-01）：批次 2 之前的实现里，sources/ 一旦搬走，_check_sources 与
+    _check_manifest_coverage 双双返回 ok/checked=0，doctor 仍 healthy——而验收标准
+    正是"doctor 无新增告警"，等于空洞门禁。这里模拟反向漂移（内容退回 §4.6 的
+    历史位置而代码已指向 content/），两个方向共用同一条判据。
+    """
+    real_import(tmp_path, "静默归零验证正文内容", "silent-zero-note")
+    (tmp_path / "content" / "sources").rename(tmp_path / "sources")
+
+    code, report = _run(tmp_path)
+    assert code == 2 and report["state"] == "failing"
+    names = {c["name"]: c for c in report["checks"]}
+    for name in ("sources", "manifest_coverage"):
+        assert names[name]["state"] == "error", name
+        assert names[name]["reason"] == "layout_mismatch"
+        assert "§4.6" in names[name]["next_action"]
+
+    gate_code, stdout, stderr = _run_gate(tmp_path)
+    assert gate_code == 2 and stdout == ""
+    assert json.loads(stderr)["errors"] >= 2
+
+
+def test_doctor_lists_overdue_working_notes_and_never_touches_them(tmp_path: Path):
+    """LAY-003：`content/working/` TTL 到期只产生按域分组的清单（report-only）。
+
+    两个不变量同时锁住：到期是 warning 而不是 error（不阻断提交），并且文件
+    逐字节不变——`ttl_action: report-only` 的含义是工具永不代替人删除。
+    """
+    working = tmp_path / "content" / "working" / "tools"
+    working.mkdir(parents=True)
+    note = working / "scratch.md"
+    note.write_text(
+        "---\nsource_ref: content/sources/tools/x.md\ncreated_at: '2020-01-01'\n---\n草稿\n",
+        encoding="utf-8",
+    )
+    before = note.read_bytes()
+
+    code, report = _run(tmp_path)
+    assert code == 0  # 到期不是错误
+    check = {c["name"]: c for c in report["checks"]}["working_ttl"]
+    assert check["state"] == "warning"
+    assert check["ttl_action"] == "report-only"
+    assert check["reason"] == "working_ttl_exceeded"
+    assert list(check["overdue"]) == ["tools"]  # 按域分组
+    entry = check["overdue"]["tools"][0]
+    assert entry["path"] == "content/working/tools/scratch.md"
+    assert entry["basis"] == "created_at"
+    assert note.read_bytes() == before
+
+
+def test_doctor_working_ttl_groups_by_full_parent_path(tmp_path: Path):
+    """working 层多级目录时分组键取完整父路径，不把首段当成 domain。
+
+    存量 161 篇按「升级档位/域」两级放置（`content/working/a-external/computer-science/`），
+    只取首段会把分诊目录 `a-external` 报成 domain——那是错报，不是简化。
+    """
+    working = tmp_path / "content" / "working" / "a-external" / "computer-science"
+    working.mkdir(parents=True)
+    (working / "gcc.md").write_text(
+        "---\nlegacy_path: docs/computer-science/gcc.md\ncreated_at: '2020-01-01'\n---\n草稿\n",
+        encoding="utf-8",
+    )
+
+    code, report = _run(tmp_path)
+    assert code == 0
+    check = {c["name"]: c for c in report["checks"]}["working_ttl"]
+    assert list(check["overdue"]) == ["a-external/computer-science"]
+    entry = check["overdue"]["a-external/computer-science"][0]
+    assert entry["path"] == "content/working/a-external/computer-science/gcc.md"
+
+
+def test_doctor_working_ttl_can_be_disabled_but_stays_visible(tmp_path: Path):
+    """`ttl_days: unlimited` 关闭滞留判定，但报告仍点出在册篇数与"已关闭"这件事。
+
+    owner 2026-09-01 把 TTL 设为无限：落位后长期停留是预期状态。关闭必须显式
+    可见（`ttl_days: unlimited` + `reason: ttl_disabled`），不能表现成"检查通过"。
+    """
+    working = tmp_path / "content" / "working" / "tools"
+    working.mkdir(parents=True)
+    (working / "ancient.md").write_text(
+        "---\nsource_ref: content/sources/tools/x.md\ncreated_at: '2020-01-01'\n---\n草稿\n",
+        encoding="utf-8",
+    )
+    config = tmp_path / "config"
+    config.mkdir(exist_ok=True)
+    (config / "policy.yaml").write_text(
+        "layers:\n  working:\n    ttl_days: unlimited\n", encoding="utf-8"
+    )
+
+    code, report = _run(tmp_path)
+    assert code == 0
+    check = {c["name"]: c for c in report["checks"]}["working_ttl"]
+    assert check["state"] == "ok"
+    assert check["ttl_days"] == "unlimited"
+    assert check["reason"] == "ttl_disabled"
+    assert check["checked"] == 1
+    assert "overdue" not in check
+
+
+def test_doctor_working_ttl_falls_back_to_mtime_and_says_so(tmp_path: Path):
+    """基准退化必须可见：无 `created_at` 时用 mtime，并在报告里标明 basis。"""
+    import os
+    import time
+
+    working = tmp_path / "content" / "working"
+    working.mkdir(parents=True)
+    note = working / "undated.md"
+    note.write_text(
+        "---\nsource_ref: content/sources/tools/x.md\n---\n草稿\n", encoding="utf-8"
+    )
+    old = time.time() - 400 * 86400
+    os.utime(note, (old, old))
+
+    code, report = _run(tmp_path)
+    assert code == 0
+    check = {c["name"]: c for c in report["checks"]}["working_ttl"]
+    assert check["overdue"]["(root)"][0]["basis"] == "mtime"

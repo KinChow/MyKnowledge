@@ -53,8 +53,8 @@ class IndexingTests(unittest.TestCase):
             public = root / "public"
             private = root / "private"
             for vault, title in ((public, "Public"), (private, "Private")):
-                (vault / "wiki").mkdir(parents=True)
-                (vault / "wiki" / "same.md").write_text(
+                (vault / "content" / "wiki").mkdir(parents=True)
+                (vault / "content" / "wiki" / "same.md").write_text(
                     f"# {title}\nSQLite", encoding="utf-8"
                 )
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
@@ -216,22 +216,28 @@ class IndexingTests(unittest.TestCase):
     def test_index_cli_rebuild_and_recover_use_public_projection(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "pub.md").write_text("SQLite", encoding="utf-8")
-            (root / "queries" / "public").mkdir(parents=True)
-            (root / "queries" / "public" / "manifest.json").write_text(
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "pub.md").write_text(
+                "SQLite", encoding="utf-8"
+            )
+            (root / "var" / "queries" / "public").mkdir(parents=True)
+            (root / "var" / "queries" / "public" / "manifest.json").write_text(
                 __import__("json").dumps(
                     {
                         "schema_version": "public-projection/v1",
                         "projection": "public",
                         "items": [
-                            {**ITEMS[0], "id": "pub", "body_path": "wiki/pub.md"}
+                            {
+                                **ITEMS[0],
+                                "id": "pub",
+                                "body_path": "content/wiki/pub.md",
+                            }
                         ],
                     }
                 ),
                 encoding="utf-8",
             )
-            path = root / "state" / "index.sqlite3"
+            path = root / "var" / "state" / "index.sqlite3"
             first = subprocess.run(
                 [
                     __import__("sys").executable,
@@ -288,23 +294,29 @@ class F005WiringTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "pub.md").write_text("SQLite 检索", encoding="utf-8")
-            (root / "queries" / "public").mkdir(parents=True)
-            (root / "queries" / "public" / "manifest.json").write_text(
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "pub.md").write_text(
+                "SQLite 检索", encoding="utf-8"
+            )
+            (root / "var" / "queries" / "public").mkdir(parents=True)
+            (root / "var" / "queries" / "public" / "manifest.json").write_text(
                 __import__("json").dumps(
                     {
                         "schema_version": "public-projection/v1",
                         "projection": "public",
                         "items": [
-                            {**ITEMS[0], "id": "pub", "body_path": "wiki/pub.md"}
+                            {
+                                **ITEMS[0],
+                                "id": "pub",
+                                "body_path": "content/wiki/pub.md",
+                            }
                         ],
                     }
                 ),
                 encoding="utf-8",
             )
             repo = Path(__file__).resolve().parents[1]
-            index = root / "state" / "index" / "public.sqlite3"
+            index = root / "var" / "state" / "index" / "public.sqlite3"
             subprocess.run(
                 [
                     sys.executable,
@@ -368,22 +380,30 @@ class SimpleTokenizerTests(unittest.TestCase):
     def test_simple_index_matches_chinese_across_particles(self):
         from tools.indexing import Retriever, SQLiteIndex
 
-        lib = Path(__file__).resolve().parents[1] / "state" / "lib" / "libsimple.dylib"
+        lib = (
+            Path(__file__).resolve().parents[1]
+            / "var"
+            / "state"
+            / "lib"
+            / "libsimple.dylib"
+        )
         if not lib.exists():
             self.skipTest("libsimple 未安装（bootstrap 可装），回退路径由其他测试覆盖")
         import os as _os
 
         repo = Path(__file__).resolve().parents[1]
         _os.environ["MYKNOWLEDGE_SIMPLE_LIB"] = str(
-            repo / "state" / "lib" / "libsimple"
+            repo / "var" / "state" / "lib" / "libsimple"
         )
         self.addCleanup(_os.environ.pop, "MYKNOWLEDGE_SIMPLE_LIB", None)
         root = repo
         with tempfile.TemporaryDirectory() as d:
-            (Path(d) / "state" / "index").mkdir(
+            (Path(d) / "var" / "state" / "index").mkdir(
                 parents=True
             )  # 约定布局：Retriever 由此推断 root
-            idx = SQLiteIndex(Path(d) / "state" / "index" / "public.sqlite3", root=root)
+            idx = SQLiteIndex(
+                Path(d) / "var" / "state" / "index" / "public.sqlite3", root=root
+            )
             idx.rebuild(
                 [
                     {

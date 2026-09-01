@@ -5,7 +5,7 @@ from tools.migrate_legacy import apply_batch, apply_sample, preview, rollback_sa
 
 def test_migration_preview_is_source_first_and_does_not_write(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     source = docs / "guide.md"
     source.write_text("# Guide\n\nSee [other](other.md).\n", encoding="utf-8")
     before = source.read_bytes()
@@ -22,7 +22,7 @@ def test_migration_preview_is_source_first_and_does_not_write(tmp_path: Path):
 
 def test_batch_requires_confirmation_then_applies_each_item_and_replays(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "one.md").write_text("# One\n", encoding="utf-8")
     (docs / "two.md").write_text("# Two\n", encoding="utf-8")
     pending = apply_batch(tmp_path)
@@ -39,7 +39,7 @@ def test_batch_requires_confirmation_then_applies_each_item_and_replays(tmp_path
 
 def test_batch_preview_hash_binding_blocks_changed_input_without_writes(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     source = docs / "one.md"
     source.write_text("# One\n", encoding="utf-8")
     plan = preview(tmp_path)
@@ -49,18 +49,18 @@ def test_batch_preview_hash_binding_blocks_changed_input_without_writes(tmp_path
     )
     assert blocked["state"] == "blocked"
     assert blocked["error_code"] == "input_changed"
-    assert not (tmp_path / "sources").exists()
-    assert not (tmp_path / "wiki").exists()
+    assert not (tmp_path / "content" / "sources").exists()
+    assert not (tmp_path / "content" / "wiki").exists()
 
 
 def test_batch_unknown_item_is_fail_closed_without_writes(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "one.md").write_text("# One\n", encoding="utf-8")
     result = apply_batch(tmp_path, ["docs/missing.md"], confirmed=True)
     assert result["state"] == "blocked"
     assert result["error_code"] == "legacy_item_not_found"
-    assert not (tmp_path / "sources").exists()
+    assert not (tmp_path / "content" / "sources").exists()
 
 
 def test_migrate_cli_batch_uses_confirmation_gate(tmp_path: Path):
@@ -69,7 +69,7 @@ def test_migrate_cli_batch_uses_confirmation_gate(tmp_path: Path):
     import sys
 
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "cli-one.md").write_text("# CLI one\n", encoding="utf-8")
     pending = subprocess.run(
         [
@@ -108,7 +108,7 @@ def test_migrate_cli_batch_uses_confirmation_gate(tmp_path: Path):
 
 def test_migration_preview_changes_with_input_tree(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     path = docs / "a.md"
     path.write_text("# A\n", encoding="utf-8")
     first = preview(tmp_path)["preview_sha256"]
@@ -118,7 +118,7 @@ def test_migration_preview_changes_with_input_tree(tmp_path: Path):
 
 def test_representative_sample_applies_source_then_draft_wiki(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     source = docs / "guide.md"
     source.write_text("# Guide\n\nA migrated note.\n", encoding="utf-8")
     pending = apply_sample(tmp_path, "docs/guide.md")
@@ -127,15 +127,17 @@ def test_representative_sample_applies_source_then_draft_wiki(tmp_path: Path):
     assert applied["state"] == "applied"
     assert applied["writes_applied"] is True
     assert source.exists()
-    source_file = tmp_path / "sources" / "tools" / "legacy-docs-guide-source.md"
-    wiki_file = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    source_file = (
+        tmp_path / "content" / "sources" / "tools" / "legacy-docs-guide-source.md"
+    )
+    wiki_file = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     assert source_file.exists() and wiki_file.exists()
     assert "status: draft" in wiki_file.read_text(encoding="utf-8")
     assert "A migrated note." in source_file.read_text(encoding="utf-8")
 
 
 def test_sample_apply_missing_item_is_fail_closed(tmp_path: Path):
-    (tmp_path / "docs").mkdir()
+    (tmp_path / "docs").mkdir(parents=True, exist_ok=True)
     result = apply_sample(tmp_path, "docs/missing.md", confirmed=True)
     assert result["state"] == "blocked"
     assert result["writes_applied"] is False
@@ -145,7 +147,7 @@ def test_sample_apply_repairs_only_inventory_links_and_reports_unresolved(
     tmp_path: Path,
 ):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "target.md").write_text("# Target\n", encoding="utf-8")
     (docs / "guide.md").write_text(
         "# Guide\n\n[Target](target.md) [Missing](missing.md) [Web](https://example.com)\n",
@@ -157,7 +159,7 @@ def test_sample_apply_repairs_only_inventory_links_and_reports_unresolved(
         {"from": "target.md", "to": "/legacy/docs-target"}
     ]
     assert result["link_repair"]["unresolved"] == ["missing.md"]
-    body = (tmp_path / "wiki" / "tools" / "legacy-docs-guide.md").read_text(
+    body = (tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md").read_text(
         encoding="utf-8"
     )
     assert "](/legacy/docs-target)" in body
@@ -170,7 +172,7 @@ def test_migrate_cli_applies_confirmed_sample(tmp_path: Path):
     import sys
 
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "cli.md").write_text("# CLI\n", encoding="utf-8")
     result = subprocess.run(
         [
@@ -198,7 +200,7 @@ def test_migrate_cli_rollback_uses_confirmation_and_preserves_legacy(tmp_path: P
     import sys
 
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "cli.md").write_text("# CLI\n", encoding="utf-8")
     applied = subprocess.run(
         [
@@ -255,24 +257,31 @@ def test_migrate_cli_rollback_uses_confirmation_and_preserves_legacy(tmp_path: P
 
 def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "guide.md").write_text("# Guide\n\nStable content.\n", encoding="utf-8")
     first = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
-    source = tmp_path / "sources" / "tools" / "legacy-docs-guide-source.md"
-    wiki = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    source = tmp_path / "content" / "sources" / "tools" / "legacy-docs-guide-source.md"
+    wiki = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     first_bytes = (source.read_bytes(), wiki.read_bytes())
     second = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
     assert first["state"] == second["state"] == "applied"
     assert second.get("replayed") is True
     assert (source.read_bytes(), wiki.read_bytes()) == first_bytes
-    assert len(list((tmp_path / "sources").rglob("legacy-docs-guide-source.md"))) == 1
-    assert len(list((tmp_path / "wiki").rglob("legacy-docs-guide.md"))) == 1
+    assert (
+        len(
+            list(
+                (tmp_path / "content" / "sources").rglob("legacy-docs-guide-source.md")
+            )
+        )
+        == 1
+    )
+    assert len(list((tmp_path / "content" / "wiki").rglob("legacy-docs-guide.md"))) == 1
     assert len(list((tmp_path / "audit" / "migrations").glob("*.json"))) == 1
 
 
 def test_tampered_migration_record_is_not_replayed(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "guide.md").write_text("# Guide\n\nStable content.\n", encoding="utf-8")
     first = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
     record_path = next((tmp_path / "audit" / "migrations").glob("*.json"))
@@ -287,8 +296,8 @@ def test_tampered_migration_record_is_not_replayed(tmp_path: Path):
 
 def test_migration_preview_blocks_normalized_id_collision_before_writes(tmp_path: Path):
     docs = tmp_path / "docs"
-    docs.mkdir()
-    (docs / "a").mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
+    (docs / "a").mkdir(parents=True, exist_ok=True)
     (docs / "a" / "one.md").write_text("# A\n", encoding="utf-8")
     (docs / "a-one.md").write_text("# a\n", encoding="utf-8")
     plan = preview(tmp_path)
@@ -308,12 +317,12 @@ def test_rollback_sample_requires_confirmation_and_preserves_legacy_and_snapshot
     tmp_path: Path,
 ):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     legacy = docs / "guide.md"
     legacy.write_text("# Guide\nStable\n", encoding="utf-8")
     apply_sample(tmp_path, "docs/guide.md", confirmed=True)
-    source = tmp_path / "sources" / "tools" / "legacy-docs-guide-source.md"
-    wiki = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    source = tmp_path / "content" / "sources" / "tools" / "legacy-docs-guide-source.md"
+    wiki = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     pending = rollback_sample(tmp_path, "docs/guide.md")
     assert (
         pending["state"] == "awaiting_confirmation"
@@ -331,10 +340,10 @@ def test_rollback_sample_blocks_output_drift_without_deleting_user_change(
     tmp_path: Path,
 ):
     docs = tmp_path / "docs"
-    docs.mkdir()
+    docs.mkdir(parents=True, exist_ok=True)
     (docs / "guide.md").write_text("# Guide\n", encoding="utf-8")
     apply_sample(tmp_path, "docs/guide.md", confirmed=True)
-    wiki = tmp_path / "wiki" / "tools" / "legacy-docs-guide.md"
+    wiki = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     wiki.write_text(wiki.read_text(encoding="utf-8") + "user edit\n", encoding="utf-8")
     result = rollback_sample(tmp_path, "docs/guide.md", confirmed=True)
     assert result["state"] == "blocked"

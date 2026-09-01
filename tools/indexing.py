@@ -14,21 +14,38 @@ from .projection import (
 )
 
 
+def _default_index_relative() -> tuple[str, ...]:
+    """默认索引目录相对仓库根的段序列（口径唯一来源为 `RepoPaths.state_index`）。"""
+    from .paths import RepoPaths
+
+    probe = Path("__root__")
+    return RepoPaths(probe).state_index.relative_to(probe).parts
+
+
 def _infer_index_root(index_path: Path) -> Path | None:
-    """默认索引约定 state/index/<name>.sqlite3 → root = 上三级。"""
-    parts = Path(index_path).resolve().parts
-    if len(parts) >= 3 and parts[-3:-1] == ("state", "index"):
-        return Path(*parts[:-3])
-    return None
+    """默认索引位于 `<root>/var/state/index/<name>.sqlite3` → 反推 root。
+
+    此前这里按 `("state", "index")` 数层级；批次 1 把索引迁到 `var/state/index/`
+    之后，反推出的 root 变成 `<root>/var`——少一层。后果不是报错而是 Retriever
+    拿着错的 root 去读 projection，把"能算出 root"的约定悄悄变成"算出错的 root"。
+    段序列因此改为从 `RepoPaths.state_index` 派生，布局再变也只改一处。
+    """
+    expected = _default_index_relative()
+    parent = Path(index_path).resolve().parent
+    if parent.parts[-len(expected) :] != expected:
+        return None
+    return Path(*parent.parts[: -len(expected)])
 
 
 def default_public_index_path(root: Path) -> Path:
-    """约定默认 public FTS5 索引位置（state/ 属运行缓存，gitignored）。
+    """约定默认 public FTS5 索引位置（var/state/ 属运行缓存，gitignored）。
 
     F005 review（2026-08-28）：此前 CLI query / API / Skill 构造 Retriever 时
     均未传 index_path，FTS5 索引可构建但无消费者，真实查询永远走 LIKE。
     """
-    return Path(root) / "state" / "index" / "public.sqlite3"
+    from .paths import RepoPaths
+
+    return RepoPaths(root).state_index / "public.sqlite3"
 
 
 def rebuild_default_public_index(root: Path) -> dict:
@@ -133,7 +150,7 @@ class SQLiteIndex:
         import os as _os
 
         lib = _os.environ.get(cls.SIMPLE_ENV) or (
-            str(root / "state" / "lib" / "libsimple") if root else None
+            str(root / "var" / "state" / "lib" / "libsimple") if root else None
         )
         if not lib:
             return None
@@ -146,7 +163,7 @@ class SQLiteIndex:
         import os as _os
 
         lib = _os.environ.get(cls.SIMPLE_ENV) or (
-            str(root / "state" / "lib" / "libsimple") if root else None
+            str(root / "var" / "state" / "lib" / "libsimple") if root else None
         )
         if not lib:
             return False

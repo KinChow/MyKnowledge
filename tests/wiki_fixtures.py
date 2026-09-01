@@ -101,7 +101,7 @@ def _make_source(
         "evidence_items": evidence_items or [],
     }
     metadata.update(metadata_overrides)
-    path = root / "sources" / domain / f"{source_id}.md"
+    path = root / "content" / "sources" / domain / f"{source_id}.md"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(FrontMatter.render(metadata, body), encoding="utf-8")
     return snapshot_sha
@@ -125,7 +125,7 @@ def _evidence_item(evidence_id: str, body: str, exact: str) -> dict:
 
 
 def _write_wiki(root: Path, metadata: dict, body: str = WIKI_BODY) -> Path:
-    path = root / "wiki" / metadata["domain"] / f"{metadata['id']}.md"
+    path = root / "content" / "wiki" / metadata["domain"] / f"{metadata['id']}.md"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(FrontMatter.render(metadata, body), encoding="utf-8")
     return path

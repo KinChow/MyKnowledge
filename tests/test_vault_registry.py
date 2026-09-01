@@ -27,8 +27,8 @@ class VaultRegistryTests(unittest.TestCase):
             root = Path(d)
             public = root / "public"
             private = root / "private"
-            public.mkdir()
-            private.mkdir()
+            public.mkdir(parents=True, exist_ok=True)
+            private.mkdir(parents=True, exist_ok=True)
             subprocess.run(["git", "init", "-q", str(public)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -67,7 +67,7 @@ class VaultRegistryTests(unittest.TestCase):
             public = root / "public"
             private = root / "private"
             for vault in (public, private):
-                vault.mkdir()
+                vault.mkdir(parents=True, exist_ok=True)
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -83,8 +83,10 @@ class VaultRegistryTests(unittest.TestCase):
             public = root / "public"
             private = root / "private"
             for vault in (public, private):
-                (vault / "wiki").mkdir(parents=True)
-                (vault / "wiki" / "same.md").write_text("# Same\n", encoding="utf-8")
+                (vault / "content" / "wiki").mkdir(parents=True)
+                (vault / "content" / "wiki" / "same.md").write_text(
+                    "# Same\n", encoding="utf-8"
+                )
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -98,10 +100,14 @@ class VaultRegistryTests(unittest.TestCase):
     def test_duplicate_object_id_inside_one_vault_is_reported_without_paths(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki" / "a").mkdir(parents=True)
-            (root / "wiki" / "b").mkdir(parents=True)
-            (root / "wiki" / "a" / "same.md").write_text("a", encoding="utf-8")
-            (root / "wiki" / "b" / "same.md").write_text("b", encoding="utf-8")
+            (root / "content" / "wiki" / "a").mkdir(parents=True)
+            (root / "content" / "wiki" / "b").mkdir(parents=True)
+            (root / "content" / "wiki" / "a" / "same.md").write_text(
+                "a", encoding="utf-8"
+            )
+            (root / "content" / "wiki" / "b" / "same.md").write_text(
+                "b", encoding="utf-8"
+            )
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             report = VaultRegistry(root).check()
             self.assertEqual(report["conflicts"][0]["code"], "duplicate_object_id")
@@ -110,7 +116,7 @@ class VaultRegistryTests(unittest.TestCase):
     def test_overlap_and_duplicate_are_reported(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "a").mkdir()
+            (root / "a").mkdir(parents=True, exist_ok=True)
             subprocess.run(["git", "init", "-q", str(root / "a")], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -135,7 +141,7 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             target = root / "real"
-            target.mkdir()
+            target.mkdir(parents=True, exist_ok=True)
             link = root / "linked"
             link.symlink_to(target, target_is_directory=True)
             subprocess.run(["git", "init", "-q", str(target)], check=True)
@@ -151,7 +157,7 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             private = root / "private"
-            private.mkdir()
+            private.mkdir(parents=True, exist_ok=True)
             subprocess.run(["git", "init", "-q", str(private)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -183,7 +189,7 @@ class VaultRegistryTests(unittest.TestCase):
             public = root / "public"
             private = root / "private"
             for vault in (public, private):
-                vault.mkdir()
+                vault.mkdir(parents=True, exist_ok=True)
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -210,8 +216,10 @@ class VaultRegistryTests(unittest.TestCase):
             public = root / "public"
             private = root / "private"
             for vault in (public, private):
-                (vault / "wiki").mkdir(parents=True)
-                (vault / "wiki" / "same.md").write_text("x", encoding="utf-8")
+                (vault / "content" / "wiki").mkdir(parents=True)
+                (vault / "content" / "wiki" / "same.md").write_text(
+                    "x", encoding="utf-8"
+                )
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -235,8 +243,10 @@ class VaultRegistryTests(unittest.TestCase):
                 (public, "# Public\nbody"),
                 (private, "# Private\nsecret"),
             ):
-                (vault / "wiki").mkdir(parents=True)
-                (vault / "wiki" / "same.md").write_text(text, encoding="utf-8")
+                (vault / "content" / "wiki").mkdir(parents=True)
+                (vault / "content" / "wiki" / "same.md").write_text(
+                    text, encoding="utf-8"
+                )
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -263,7 +273,7 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             public = root / "public"
-            public.mkdir()
+            public.mkdir(parents=True, exist_ok=True)
             subprocess.run(["git", "init", "-q", str(public)], check=True)
             manifest = root / "manifest.yaml"
             manifest.write_text(
@@ -292,13 +302,13 @@ class VaultRegistryTests(unittest.TestCase):
     def test_local_projection_excludes_same_vault_conflicts(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki" / "one").mkdir(parents=True)
-            (root / "wiki" / "two").mkdir(parents=True)
+            (root / "content" / "wiki" / "one").mkdir(parents=True)
+            (root / "content" / "wiki" / "two").mkdir(parents=True)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            (root / "wiki" / "one" / "same.md").write_text(
+            (root / "content" / "wiki" / "one" / "same.md").write_text(
                 "# first\n", encoding="utf-8"
             )
-            (root / "wiki" / "two" / "same.md").write_text(
+            (root / "content" / "wiki" / "two" / "same.md").write_text(
                 "# second\n", encoding="utf-8"
             )
             projection = VaultRegistry(root).local_projection()
@@ -307,13 +317,15 @@ class VaultRegistryTests(unittest.TestCase):
     def test_local_projection_can_be_materialized_atomically(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "one.md").write_text("# One\n", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "one.md").write_text(
+                "# One\n", encoding="utf-8"
+            )
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             registry = VaultRegistry(root)
             result = registry.write_local_projection()
-            path = root / "queries" / "local" / "manifest.json"
-            self.assertEqual(result["path"], "queries/local/manifest.json")
+            path = root / "var" / "queries" / "local" / "manifest.json"
+            self.assertEqual(result["path"], "var/queries/local/manifest.json")
             self.assertEqual(
                 json.loads(path.read_text())["projection_sha256"],
                 result["projection_sha256"],
@@ -341,7 +353,9 @@ class VaultRegistryTests(unittest.TestCase):
             self.assertEqual(
                 json.loads(result.stdout)["schema_version"], "local-projection/v1"
             )
-            self.assertTrue((root / "queries" / "local" / "manifest.json").is_file())
+            self.assertTrue(
+                (root / "var" / "queries" / "local" / "manifest.json").is_file()
+            )
 
     def test_backup_manifest_verification_detects_tampering(self):
         with tempfile.TemporaryDirectory() as d:
@@ -371,7 +385,7 @@ class VaultRegistryTests(unittest.TestCase):
             created = manager.create_manifest("public")
             external = root.parent / (root.name + "-backup-target")
             try:
-                external.mkdir()
+                external.mkdir(parents=True, exist_ok=True)
                 result = manager.export_manifest(root / created["path"], external)
                 self.assertEqual(result["state"], "exported")
                 self.assertEqual(result["backup_state"], "configured")
@@ -383,8 +397,8 @@ class VaultRegistryTests(unittest.TestCase):
     def test_backup_bundle_exports_and_verifies_owner_entries(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "note.md").write_text("note", encoding="utf-8")
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             manager = BackupManager(root)
             created = manager.create_manifest("public")
@@ -394,7 +408,7 @@ class VaultRegistryTests(unittest.TestCase):
                 self.assertEqual(exported["state"], "exported")
                 verified = BackupManager.verify_bundle(bundle)
                 self.assertEqual(verified["backup_state"], "verified")
-                payload = bundle / "payload" / "wiki" / "note.md"
+                payload = bundle / "payload" / "content" / "wiki" / "note.md"
                 payload.write_text("tampered", encoding="utf-8")
                 self.assertEqual(
                     BackupManager.verify_bundle(bundle)["error_code"], "hash_mismatch"
@@ -407,17 +421,17 @@ class VaultRegistryTests(unittest.TestCase):
     def test_backup_bundle_rejects_intermediate_payload_symlink(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "note.md").write_text("note", encoding="utf-8")
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             manager = BackupManager(root)
             created = manager.create_manifest("public")
             bundle = root.parent / (root.name + "-bundle-symlink")
             outside = root.parent / (root.name + "-outside")
-            outside.mkdir()
+            outside.mkdir(parents=True, exist_ok=True)
             try:
                 manager.export_bundle(root / created["path"], bundle)
-                payload_wiki = bundle / "payload" / "wiki"
+                payload_wiki = bundle / "payload" / "content" / "wiki"
                 shutil.rmtree(payload_wiki)
                 payload_wiki.symlink_to(outside, target_is_directory=True)
                 self.assertEqual(
@@ -467,12 +481,14 @@ class VaultRegistryTests(unittest.TestCase):
             root = Path(d)
             public = root / "public"
             private = root / "private"
-            public.mkdir()
-            private.mkdir()
+            public.mkdir(parents=True, exist_ok=True)
+            private.mkdir(parents=True, exist_ok=True)
             for vault in (public, private):
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
-            (private / "wiki").mkdir()
-            (private / "wiki" / "secret.md").write_text("secret\n", encoding="utf-8")
+            (private / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (private / "content" / "wiki" / "secret.md").write_text(
+                "secret\n", encoding="utf-8"
+            )
             config = root / "manifest.yaml"
             config.write_text(
                 f"schema_version: 1\nlayout: superproject\nworkspace_root: {root}\n"
@@ -494,7 +510,9 @@ class VaultRegistryTests(unittest.TestCase):
                 self.assertEqual(restored["state"], "restored")
                 self.assertEqual(restored["target_vault_id"], "private")
                 self.assertEqual(
-                    (target / "wiki" / "secret.md").read_text(encoding="utf-8"),
+                    (target / "content" / "wiki" / "secret.md").read_text(
+                        encoding="utf-8"
+                    ),
                     "secret\n",
                 )
             finally:
@@ -506,8 +524,8 @@ class VaultRegistryTests(unittest.TestCase):
     def test_backup_bundle_restores_to_empty_checkout_and_cleans_on_failure(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "note.md").write_text("note", encoding="utf-8")
             subprocess.run(["git", "init", "-q", str(root)], check=True)
             manager = BackupManager(root)
             created = manager.create_manifest("public")
@@ -518,7 +536,10 @@ class VaultRegistryTests(unittest.TestCase):
                 restored = manager.restore_bundle(bundle, target)
                 self.assertEqual(restored["state"], "restored")
                 self.assertEqual(
-                    (target / "wiki" / "note.md").read_text(encoding="utf-8"), "note"
+                    (target / "content" / "wiki" / "note.md").read_text(
+                        encoding="utf-8"
+                    ),
+                    "note",
                 )
                 self.assertTrue(
                     list((target / "audit" / "backup" / "restores").glob("*.json"))
@@ -533,8 +554,8 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "one.md").write_text("one", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "one.md").write_text("one", encoding="utf-8")
             created = BackupManager(root).create_manifest("public")
             bundle = root.parent / (root.name + "-cli-bundle")
             exported = subprocess.run(
@@ -578,7 +599,9 @@ class VaultRegistryTests(unittest.TestCase):
                 check=False,
             )
             self.assertEqual(restored.returncode, 0)
-            self.assertEqual((target / "wiki" / "one.md").read_text(), "one")
+            self.assertEqual(
+                (target / "content" / "wiki" / "one.md").read_text(), "one"
+            )
             import shutil
 
             shutil.rmtree(bundle, ignore_errors=True)
@@ -588,8 +611,8 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "note.md").write_text("note", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "note.md").write_text("note", encoding="utf-8")
             manager = BackupManager(root)
             created = manager.create_manifest("public")
             bundle = root.parent / (root.name + "-bundle-verify")
@@ -678,8 +701,10 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "item.md").write_text("# item\n", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "item.md").write_text(
+                "# item\n", encoding="utf-8"
+            )
             config = root / "manifest.yaml"
             config.write_text(
                 f"schema_version: 1\nlayout: direct-checkout\nworkspace_root: {root}\nvaults:\n  - {{id: public, path: ., private_git_remote: opaque-backup}}\n",
@@ -692,7 +717,9 @@ class VaultRegistryTests(unittest.TestCase):
                 restored = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(restored["state"], "restored")
                 self.assertEqual(
-                    (target / "wiki" / "item.md").read_text(encoding="utf-8"),
+                    (target / "content" / "wiki" / "item.md").read_text(
+                        encoding="utf-8"
+                    ),
                     "# item\n",
                 )
             status = manager.status()
@@ -734,7 +761,7 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            practice = root / "practice" / "questions"
+            practice = root / "content" / "practice" / "questions"
             practice.mkdir(parents=True)
             from tools.question import QuestionStore
 
@@ -758,8 +785,8 @@ class VaultRegistryTests(unittest.TestCase):
             (practice / "q-private.json").write_text(
                 json.dumps(question) + "\n", encoding="utf-8"
             )
-            (root / "practice" / "reviews").mkdir(parents=True)
-            (root / "practice" / "reviews" / "q-private.jsonl").write_text(
+            (root / "content" / "practice" / "reviews").mkdir(parents=True)
+            (root / "content" / "practice" / "reviews" / "q-private.jsonl").write_text(
                 json.dumps(
                     {
                         "schema_version": "practice-review-record/v1",
@@ -774,8 +801,8 @@ class VaultRegistryTests(unittest.TestCase):
             manager = BackupManager(root)
             manifest = manager.create_manifest("public")
             paths = {entry["path"] for entry in manifest["entries"]}
-            self.assertIn("practice/questions/q-private.json", paths)
-            self.assertIn("practice/reviews/q-private.jsonl", paths)
+            self.assertIn("content/practice/questions/q-private.json", paths)
+            self.assertIn("content/practice/reviews/q-private.jsonl", paths)
             with tempfile.TemporaryDirectory() as out:
                 restored = manager.restore_manifest(
                     root / manifest["path"], Path(out) / "checkout"
@@ -785,6 +812,7 @@ class VaultRegistryTests(unittest.TestCase):
                     (
                         Path(out)
                         / "checkout"
+                        / "content"
                         / "practice"
                         / "questions"
                         / "q-private.json"
@@ -796,7 +824,7 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            practice = root / "practice" / "questions"
+            practice = root / "content" / "practice" / "questions"
             practice.mkdir(parents=True)
             question = {
                 "schema_version": "question/v1",
@@ -820,7 +848,7 @@ class VaultRegistryTests(unittest.TestCase):
             (practice / "q-one.json").write_text(
                 json.dumps(question) + "\n", encoding="utf-8"
             )
-            reviews = root / "practice" / "reviews"
+            reviews = root / "content" / "practice" / "reviews"
             reviews.mkdir(parents=True)
             (reviews / "q-one.jsonl").write_text(
                 json.dumps(
@@ -843,12 +871,14 @@ class VaultRegistryTests(unittest.TestCase):
                 restored = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(restored["state"], "restored")
                 tampered = json.loads(
-                    (target / "practice" / "questions" / "q-one.json").read_text()
+                    (
+                        target / "content" / "practice" / "questions" / "q-one.json"
+                    ).read_text()
                 )
                 tampered["prompt"] = "tampered"
-                (target / "practice" / "questions" / "q-one.json").write_text(
-                    json.dumps(tampered) + "\n", encoding="utf-8"
-                )
+                (
+                    target / "content" / "practice" / "questions" / "q-one.json"
+                ).write_text(json.dumps(tampered) + "\n", encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, "practice_question_invalid"):
                     practice_integrity_check(target)
 
@@ -876,8 +906,8 @@ class VaultRegistryTests(unittest.TestCase):
                 "review_state": None,
             }
             question["content_sha256"] = QuestionStore._content_hash(question)
-            (root / "practice" / "questions").mkdir(parents=True)
-            (root / "practice" / "questions" / "q-fsrs.json").write_text(
+            (root / "content" / "practice" / "questions").mkdir(parents=True)
+            (root / "content" / "practice" / "questions" / "q-fsrs.json").write_text(
                 json.dumps(question) + "\n", encoding="utf-8"
             )
             first = store.review("q-fsrs", 3)
@@ -905,14 +935,16 @@ class VaultRegistryTests(unittest.TestCase):
             root = Path(d)
             public = root / "public"
             private = root / "private"
-            public.mkdir()
-            private.mkdir()
+            public.mkdir(parents=True, exist_ok=True)
+            private.mkdir(parents=True, exist_ok=True)
             for vault in (public, private):
                 subprocess.run(["git", "init", "-q", str(vault)], check=True)
-            (public / "wiki").mkdir()
-            (public / "wiki" / "public.md").write_text("public", encoding="utf-8")
-            (private / "practice" / "questions").mkdir(parents=True)
-            (private / "practice" / "questions" / "q.md").write_text(
+            (public / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (public / "content" / "wiki" / "public.md").write_text(
+                "public", encoding="utf-8"
+            )
+            (private / "content" / "practice" / "questions").mkdir(parents=True)
+            (private / "content" / "practice" / "questions" / "q.md").write_text(
                 "secret", encoding="utf-8"
             )
             manifest_path = root / "manifest.yaml"
@@ -923,7 +955,7 @@ class VaultRegistryTests(unittest.TestCase):
             manager = BackupManager(public, manifest_path)
             result = manager.create_manifest("private")
             paths = {entry["path"] for entry in result["entries"]}
-            self.assertEqual(paths, {"practice/questions/q.md"})
+            self.assertEqual(paths, {"content/practice/questions/q.md"})
             self.assertTrue(
                 manager.verify_manifest(private / result["path"])["backup_state"]
                 == "verified"
@@ -941,7 +973,7 @@ class VaultRegistryTests(unittest.TestCase):
             manifest = manager.create_manifest("public")
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
-                target.mkdir()
+                target.mkdir(parents=True, exist_ok=True)
                 (target / "keep").write_text("x")
                 result = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(result["error_code"], "restore_target_not_empty")
@@ -950,9 +982,9 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            (root / "wiki").mkdir()
-            (root / "wiki" / "one.md").write_text("one", encoding="utf-8")
-            (root / "wiki" / "two.md").write_text("two", encoding="utf-8")
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+            (root / "content" / "wiki" / "one.md").write_text("one", encoding="utf-8")
+            (root / "content" / "wiki" / "two.md").write_text("two", encoding="utf-8")
             from tools.question import practice_integrity_check
 
             manager = BackupManager(
@@ -1026,10 +1058,10 @@ class VaultRegistryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
             subprocess.run(["git", "init", "-q", str(root)], check=True)
-            (root / "wiki").mkdir()
+            (root / "content" / "wiki").mkdir(parents=True, exist_ok=True)
             source = root / "outside"
             source.write_text("secret", encoding="utf-8")
-            (root / "wiki" / "linked.md").hardlink_to(source)
+            (root / "content" / "wiki" / "linked.md").hardlink_to(source)
             with self.assertRaisesRegex(ValueError, "entry_hardlink"):
                 BackupManager(root).create_manifest("public")
 

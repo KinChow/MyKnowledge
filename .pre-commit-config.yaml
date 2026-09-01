@@ -4,22 +4,20 @@
 # rev 全部固定，升级由人显式执行 `pre-commit autoupdate`。
 
 # 内容与证据目录对任何"自动改写"钩子都是禁区：archive/ 的文件名就是正文
-# sha256，sources/wiki 的 content_sha256 进 evidence 与确认事件——改一个行尾
-# 空白就会让全链 hash 失配。（2026-08-28 实测：trailing-whitespace 与
-# end-of-file-fixer 一次改写了 197 个快照 + 149 个 source + 236 篇文档。）
+# sha256，content/sources 与 content/wiki 的 content_sha256 进 evidence 与确认
+# 事件——改一个行尾空白就会让全链 hash 失配。（2026-08-28 实测：
+# trailing-whitespace 与 end-of-file-fixer 一次改写了 197 个快照 + 149 个 source
+# + 236 篇文档。）路径必须与 tools/paths.py 的 §4.6 布局同步：批次 1/2 之后
+# 旧前缀（sources/、wiki/、queries/…）已不存在，写着旧前缀等于这层保护为空。
 exclude: |
   (?x)^(
     archive/.*|
-    sources/.*|
-    wiki/.*|
     audit/.*|
     release/.*|
-    queries/.*|
-    practice/.*|
-    state/.*|
-    docs/.*|
-    reports/.*|
-    specs/.*
+    ledger/.*|
+    content/.*|
+    var/.*|
+    docs/.*
   )$
 
 repos:

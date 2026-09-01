@@ -1,5 +1,5 @@
 import fs from 'node:fs'; import path from 'node:path';
-const p=process.argv[2]||'../queries/public/manifest.json';
+const p=process.argv[2]||'../var/queries/public/manifest.json';
 if(!fs.existsSync(p)) throw new Error('manifest_missing');
 const manifest=JSON.parse(fs.readFileSync(p,'utf8'));
 if(manifest.schema_version!=='public-projection/v1'||manifest.projection!=='public'||!Array.isArray(manifest.items)) throw new Error('manifest_invalid');

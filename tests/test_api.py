@@ -35,8 +35,8 @@ ITEMS = [
 
 
 def test_cli_query_matches_api_query_result(tmp_path: Path):
-    manifest = tmp_path / "queries" / "public" / "manifest.json"
-    body = tmp_path / "wiki" / "one.md"
+    manifest = tmp_path / "var" / "queries" / "public" / "manifest.json"
+    body = tmp_path / "content" / "wiki" / "one.md"
     manifest.parent.mkdir(parents=True)
     body.parent.mkdir(parents=True)
     body.write_text("离线查询", encoding="utf-8")
@@ -45,7 +45,9 @@ def test_cli_query_matches_api_query_result(tmp_path: Path):
             {
                 "schema_version": "public-projection/v1",
                 "projection": "public",
-                "items": [{**ITEMS[0], "id": "one", "body_path": "wiki/one.md"}],
+                "items": [
+                    {**ITEMS[0], "id": "one", "body_path": "content/wiki/one.md"}
+                ],
             }
         ),
         encoding="utf-8",
@@ -65,8 +67,8 @@ def test_cli_query_matches_api_query_result(tmp_path: Path):
 
 
 def test_cli_read_and_backlinks_use_public_projection(tmp_path: Path):
-    wiki = tmp_path / "wiki"
-    wiki.mkdir()
+    wiki = tmp_path / "content" / "wiki"
+    wiki.mkdir(parents=True, exist_ok=True)
     (wiki / "one.md").write_text("one", encoding="utf-8")
     (wiki / "two.md").write_text("See [one](/wiki/one).", encoding="utf-8")
     manifest = {
@@ -80,7 +82,7 @@ def test_cli_read_and_backlinks_use_public_projection(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/one.md",
+                "body_path": "content/wiki/one.md",
                 "title": "One",
             },
             {
@@ -90,12 +92,12 @@ def test_cli_read_and_backlinks_use_public_projection(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/two.md",
+                "body_path": "content/wiki/two.md",
                 "title": "Two",
             },
         ],
     }
-    out = tmp_path / "queries" / "public"
+    out = tmp_path / "var" / "queries" / "public"
     out.mkdir(parents=True)
     (out / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
     read = subprocess.run(
@@ -168,7 +170,7 @@ def test_uvicorn_loopback_runner_serves_health_and_rotates_token():
                     time.sleep(0.05)
             else:
                 raise AssertionError("uvicorn did not become ready")
-            token_path = Path(directory) / "state" / "capability-token"
+            token_path = Path(directory) / "var" / "state" / "capability-token"
             assert token_path.stat().st_mode & 0o777 == 0o600
             with urlopen(
                 f"http://127.0.0.1:{port}/api/query?q=offline&scope=public", timeout=1
@@ -177,14 +179,14 @@ def test_uvicorn_loopback_runner_serves_health_and_rotates_token():
         finally:
             process.terminate()
             process.wait(timeout=5)
-            assert not (Path(directory) / "state" / "capability-token").exists()
+            assert not (Path(directory) / "var" / "state" / "capability-token").exists()
 
 
 def test_create_app_loads_public_projection_when_items_are_not_injected():
     with tempfile.TemporaryDirectory() as directory:
         root = Path(directory)
-        manifest = root / "queries" / "public" / "manifest.json"
-        body = root / "wiki" / "one.md"
+        manifest = root / "var" / "queries" / "public" / "manifest.json"
+        body = root / "content" / "wiki" / "one.md"
         manifest.parent.mkdir(parents=True)
         body.parent.mkdir(parents=True)
         body.write_text("离线查询", encoding="utf-8")
@@ -193,7 +195,9 @@ def test_create_app_loads_public_projection_when_items_are_not_injected():
                 {
                     "schema_version": "public-projection/v1",
                     "projection": "public",
-                    "items": [{**ITEMS[0], "id": "one", "body_path": "wiki/one.md"}],
+                    "items": [
+                        {**ITEMS[0], "id": "one", "body_path": "content/wiki/one.md"}
+                    ],
                 }
             ),
             encoding="utf-8",
@@ -376,7 +380,7 @@ def _write_public_manifest(root: Path, items: list[dict]) -> None:
     """Fixture：真实形态 public projection manifest（与 PublicProjectionGenerator 输出同构）。"""
     import json as _json
 
-    out = root / "queries" / "public"
+    out = root / "var" / "queries" / "public"
     out.mkdir(parents=True, exist_ok=True)
     (out / "manifest.json").write_text(
         _json.dumps(
@@ -395,7 +399,7 @@ def _released_item(object_id: str, body: str) -> dict:
         "id": object_id,
         "title": object_id,
         "route": f"/wiki/{object_id}",
-        "body_path": f"wiki/{object_id}.md",
+        "body_path": f"content/wiki/{object_id}.md",
         "vault_id": "public",
         "status": "published",
         "public_publishable": True,
@@ -407,7 +411,7 @@ def _released_item(object_id: str, body: str) -> dict:
 
 
 def test_public_read_and_backlinks(tmp_path: Path):
-    wiki = tmp_path / "wiki"
+    wiki = tmp_path / "content" / "wiki"
     wiki.mkdir(parents=True)
     (wiki / "target.md").write_text("# Target\n正文", encoding="utf-8")
     (wiki / "consumer.md").write_text(
@@ -486,10 +490,10 @@ def test_practice_api_is_private_and_does_not_bypass_validator(tmp_path: Path):
 
 def test_capability_token_rotates_with_secure_permissions(tmp_path: Path):
     first = create_app(root=tmp_path)
-    token_path = tmp_path / "state" / "capability-token"
+    token_path = tmp_path / "var" / "state" / "capability-token"
     token_one = token_path.read_text(encoding="utf-8").strip()
     assert first.state.capability_token == token_one
-    assert (tmp_path / "state").stat().st_mode & 0o777 == 0o700
+    assert (tmp_path / "var" / "state").stat().st_mode & 0o777 == 0o700
     assert token_path.stat().st_mode & 0o777 == 0o600
     second = create_app(root=tmp_path)
     token_two = token_path.read_text(encoding="utf-8").strip()
@@ -591,7 +595,7 @@ def test_source_and_wiki_preview_apply_require_capability_and_confirmation(
     tmp_path: Path,
 ):
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
-    body = {"files": {"wiki/api.md": "# API\n"}, "vault_id": "public"}
+    body = {"files": {"content/wiki/api.md": "# API\n"}, "vault_id": "public"}
     assert client.post("/api/wiki/preview", json=body).status_code == 401
     preview = client.post(
         "/api/wiki/preview", headers={"X-MyKnowledge-Capability": "token"}, json=body
@@ -610,7 +614,7 @@ def test_source_and_wiki_preview_apply_require_capability_and_confirmation(
         json={"confirmed": True},
     )
     assert applied.json()["state"] == "applied"
-    assert (tmp_path / "wiki" / "api.md").read_text() == "# API\n"
+    assert (tmp_path / "content" / "wiki" / "api.md").read_text() == "# API\n"
 
 
 def test_vault_check_requires_capability(tmp_path: Path):
@@ -626,7 +630,7 @@ def test_vault_check_requires_capability(tmp_path: Path):
 def test_validate_endpoint_requires_capability_and_reuses_wiki_validator(
     tmp_path: Path,
 ):
-    wiki = tmp_path / "wiki" / "target.md"
+    wiki = tmp_path / "content" / "wiki" / "target.md"
     wiki.parent.mkdir(parents=True)
     wiki.write_text(
         "---\nschema_version: wiki/v1\nid: target\ntitle: Target\ndomain: tools\nkind: reference\nstatus: planned\n---\n# Target\n",
@@ -644,7 +648,7 @@ def test_validate_endpoint_requires_capability_and_reuses_wiki_validator(
 
 
 def test_validate_endpoint_rejects_wrong_capability_audience(tmp_path: Path):
-    wiki = tmp_path / "wiki" / "target.md"
+    wiki = tmp_path / "content" / "wiki" / "target.md"
     wiki.parent.mkdir(parents=True)
     wiki.write_text(
         "---\nschema_version: wiki/v1\nid: target\ntitle: Target\nkind: reference\nstatus: planned\n---\n# Target\n",
@@ -665,19 +669,21 @@ def test_validate_endpoint_rejects_wrong_capability_audience(tmp_path: Path):
 def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
     public = tmp_path / "public"
     private = tmp_path / "private"
-    public.mkdir()
-    private.mkdir()
+    public.mkdir(parents=True, exist_ok=True)
+    private.mkdir(parents=True, exist_ok=True)
     import subprocess
 
     for vault in (public, private):
         subprocess.run(["git", "init", "-q", str(vault)], check=True)
-    (public / "wiki").mkdir()
-    (public / "wiki" / "same.md").write_text("public", encoding="utf-8")
-    (private / "wiki").mkdir()
-    (private / "wiki" / "same.md").write_text("private", encoding="utf-8")
-    (private / "wiki" / "consumer.md").write_text("See same.md", encoding="utf-8")
+    (public / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+    (public / "content" / "wiki" / "same.md").write_text("public", encoding="utf-8")
+    (private / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+    (private / "content" / "wiki" / "same.md").write_text("private", encoding="utf-8")
+    (private / "content" / "wiki" / "consumer.md").write_text(
+        "See same.md", encoding="utf-8"
+    )
     config = public / "config"
-    config.mkdir()
+    config.mkdir(parents=True, exist_ok=True)
     (config / "vaults.local.yaml").write_text(
         f"schema_version: 1\nlayout: superproject\nworkspace_root: {tmp_path}\npublic_vault_id: public\nvaults:\n  - {{id: public, path: public}}\n  - {{id: private, path: private, confidentiality: internal}}\n",
         encoding="utf-8",
@@ -691,7 +697,7 @@ def test_private_vault_read_and_backlinks_are_owner_scoped(tmp_path: Path):
     )
     assert response.status_code == 200
     assert response.json()["body"] == "private"
-    assert response.json()["path"] == "wiki/same.md"
+    assert response.json()["path"] == "content/wiki/same.md"
     links = client.get(
         "/api/backlinks/private/wiki/same",
         params={"scope": "private"},
@@ -788,8 +794,8 @@ def test_include_sources_attaches_references_not_silently_ignored(tmp_path: Path
     """F006 review：include_sources 是 §12 已定义契约，不得被接受但被忽略。"""
     from tests.test_api import _released_item, _write_public_manifest
 
-    wiki = tmp_path / "wiki"
-    wiki.mkdir()
+    wiki = tmp_path / "content" / "wiki"
+    wiki.mkdir(parents=True, exist_ok=True)
     (wiki / "aar.md").write_text(
         '---\ntitle: AAR\nsources: ["aar"]\nrelated: []\n---\n# AAR\n事后回顾\n',
         encoding="utf-8",

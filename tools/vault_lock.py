@@ -21,7 +21,13 @@ from pathlib import Path
 
 from filelock import FileLock, Timeout
 
-from .common import atomic_write, canonical_json, hash_canonical, safe_id
+from .common import (
+    atomic_write,
+    canonical_json,
+    hash_canonical,
+    safe_id,
+    safe_operation_id,
+)
 from .paths import RepoPaths
 
 
@@ -102,7 +108,7 @@ class VaultLock:
     ) -> dict:
         """Recover an orphaned owner sidecar only after acquiring the kernel lock."""
         vault_id = safe_id(vault_id)
-        safe_id(operation_id.removeprefix("op_"))
+        safe_operation_id(operation_id)
         paths = RepoPaths(Path(root))
         lock = FileLock(paths.lock_file(vault_id))
         owner_file = paths.lock_file(vault_id).with_suffix(".owner")

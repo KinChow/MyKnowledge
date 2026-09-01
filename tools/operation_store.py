@@ -7,10 +7,17 @@ from __future__ import annotations
 
 import json
 import time
-import uuid
 from pathlib import Path
 
-from .common import atomic_write, canonical_json, hash_canonical, redact, safe_id
+from .common import (
+    atomic_write,
+    canonical_json,
+    hash_canonical,
+    new_operation_id,
+    redact,
+    safe_id,
+    safe_operation_id,
+)
 from .paths import RepoPaths
 
 OPERATION_TTL_SECONDS = 1800
@@ -174,7 +181,7 @@ class OperationStore:
         与 update 同一提交协议：audit 先行（预提交）、state 最后写入（提交点），
         保证创建的 operation 也有审计证据（R008）。
         """
-        operation_id = "op_" + uuid.uuid4().hex
+        operation_id = new_operation_id()
         record = {
             "schema_version": "operation/v1",
             "operation_id": operation_id,
@@ -274,7 +281,7 @@ class OperationStore:
 
     def load(self, operation_id: str) -> dict:
         """按 operation_id 读取 operation 记录；文件缺失或损坏时抛异常由调用方处理。"""
-        safe_id(operation_id.removeprefix("op_"))
+        safe_operation_id(operation_id)
         path = self.paths.state_operation_file(operation_id)
         with path.open(encoding="utf-8") as handle:
             return json.load(handle)
@@ -282,7 +289,7 @@ class OperationStore:
     def verify_audit(self, operation_id: str) -> str | None:
         """Return an error code when the durable audit snapshot is missing/tampered."""
         try:
-            safe_id(operation_id.removeprefix("op_"))
+            safe_operation_id(operation_id)
             data = json.loads(
                 self.paths.operation_file(operation_id).read_text(encoding="utf-8")
             )

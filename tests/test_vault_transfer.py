@@ -7,8 +7,8 @@ from tools.vault_transfer import VaultTransfer
 
 def _workspace(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
     public, private = tmp_path / "public", tmp_path / "private"
-    public.mkdir()
-    private.mkdir()
+    public.mkdir(parents=True, exist_ok=True)
+    private.mkdir(parents=True, exist_ok=True)
     for path in (public, private):
         subprocess.run(["git", "init", "-q", str(path)], check=True)
     manifest = tmp_path / "vaults.yaml"
@@ -24,44 +24,54 @@ def _workspace(tmp_path: Path) -> tuple[Path, Path, Path, Path]:
 
 def test_private_to_public_transfer_is_blocked_before_write(tmp_path: Path):
     root, public, private, manifest = _workspace(tmp_path)
-    (private / "wiki").mkdir()
-    (private / "wiki" / "secret.md").write_text("secret\n", encoding="utf-8")
+    (private / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+    (private / "content" / "wiki" / "secret.md").write_text(
+        "secret\n", encoding="utf-8"
+    )
     service = VaultTransfer(public, manifest)
-    result = service.preview("private", "wiki/secret.md", "public", "wiki/secret.md")
+    result = service.preview(
+        "private", "content/wiki/secret.md", "public", "content/wiki/secret.md"
+    )
     assert result["error_code"] == "confidentiality_downgrade"
-    assert not (public / "wiki" / "secret.md").exists()
+    assert not (public / "content" / "wiki" / "secret.md").exists()
 
 
 def test_cross_vault_copy_and_move_use_explicit_owner_and_locks(tmp_path: Path):
     root, public, private, manifest = _workspace(tmp_path)
-    (public / "wiki").mkdir()
-    (public / "wiki" / "note.md").write_text("note\n", encoding="utf-8")
+    (public / "content" / "wiki").mkdir(parents=True, exist_ok=True)
+    (public / "content" / "wiki" / "note.md").write_text("note\n", encoding="utf-8")
     service = VaultTransfer(public, manifest)
-    preview = service.preview("public", "wiki/note.md", "private", "wiki/note.md")
+    preview = service.preview(
+        "public", "content/wiki/note.md", "private", "content/wiki/note.md"
+    )
     assert preview["state"] == "previewed"
     assert service.apply(preview["operation_id"])["state"] == "awaiting_confirmation"
     applied = service.apply(preview["operation_id"], confirmed=True)
     assert applied["state"] == "applied"
-    assert (private / "wiki" / "note.md").read_text(encoding="utf-8") == "note\n"
-    assert (public / "wiki" / "note.md").exists()
+    assert (private / "content" / "wiki" / "note.md").read_text(
+        encoding="utf-8"
+    ) == "note\n"
+    assert (public / "content" / "wiki" / "note.md").exists()
 
     move = service.preview(
-        "public", "wiki/note.md", "private", "wiki/moved.md", move=True
+        "public", "content/wiki/note.md", "private", "content/wiki/moved.md", move=True
     )
     assert service.apply(move["operation_id"], confirmed=True)["state"] == "applied"
-    assert not (public / "wiki" / "note.md").exists()
-    assert (private / "wiki" / "moved.md").read_text(encoding="utf-8") == "note\n"
+    assert not (public / "content" / "wiki" / "note.md").exists()
+    assert (private / "content" / "wiki" / "moved.md").read_text(
+        encoding="utf-8"
+    ) == "note\n"
 
 
 def test_cross_vault_move_rolls_back_target_when_source_delete_fails(tmp_path: Path):
     root, public, private, manifest = _workspace(tmp_path)
-    source = public / "wiki" / "note.md"
-    source.parent.mkdir()
+    source = public / "content" / "wiki" / "note.md"
+    source.parent.mkdir(parents=True, exist_ok=True)
     source.write_text("note\n", encoding="utf-8")
-    target = private / "wiki" / "note.md"
+    target = private / "content" / "wiki" / "note.md"
     service = VaultTransfer(public, manifest)
     preview = service.preview(
-        "public", "wiki/note.md", "private", "wiki/note.md", move=True
+        "public", "content/wiki/note.md", "private", "content/wiki/note.md", move=True
     )
     original_unlink = Path.unlink
 
@@ -77,8 +87,8 @@ def test_cross_vault_move_rolls_back_target_when_source_delete_fails(tmp_path: P
     assert result["error_code"] == "apply_failed"
     assert source.read_text(encoding="utf-8") == "note\n"
     assert not target.exists()
-    assert not (public / "state" / "locks" / "public.owner").exists()
-    assert not (public / "state" / "locks" / "private.owner").exists()
+    assert not (public / "var" / "state" / "locks" / "public.owner").exists()
+    assert not (public / "var" / "state" / "locks" / "private.owner").exists()
 
 
 def test_transfer_confirmation_event_is_validated(tmp_path):
@@ -88,10 +98,10 @@ def test_transfer_confirmation_event_is_validated(tmp_path):
     ws = tmp_path
     pub, a, b = ws / "pub", ws / "va", ws / "vb"
     for v in (pub, a, b):
-        v.mkdir()
+        v.mkdir(parents=True, exist_ok=True)
         sp.run(["git", "init", "-q", str(v)], check=True)
-    (a / "wiki").mkdir(parents=True)
-    (a / "wiki" / "n.md").write_text("x", encoding="utf-8")
+    (a / "content" / "wiki").mkdir(parents=True)
+    (a / "content" / "wiki" / "n.md").write_text("x", encoding="utf-8")
     m = pub / "config" / "vaults.local.yaml"
     m.parent.mkdir(parents=True)
     m.write_text(
@@ -101,7 +111,7 @@ def test_transfer_confirmation_event_is_validated(tmp_path):
     from tools.vault_transfer import VaultTransfer
 
     t = VaultTransfer(pub, m)
-    pv = t.preview("va", "wiki/n.md", "vb", "wiki/n.md")
+    pv = t.preview("va", "content/wiki/n.md", "vb", "content/wiki/n.md")
     forged = {
         "schema_version": "operation-confirmation/v1",
         "operation_id": pv["operation_id"],
@@ -116,4 +126,4 @@ def test_transfer_confirmation_event_is_validated(tmp_path):
         t.apply(pv["operation_id"], confirmed=True, confirmation=forged)["error_code"]
         == "confirmation_hash_mismatch"
     )
-    assert not (b / "wiki" / "n.md").exists()
+    assert not (b / "content" / "wiki" / "n.md").exists()

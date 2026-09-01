@@ -25,7 +25,7 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
     applied = ingestor.apply(preview["operation_id"], confirmed=True, actor_id="e2e")
     assert applied["state"] == "applied"
 
-    source_path = tmp_path / "sources" / "tools" / "e2e-source.md"
+    source_path = tmp_path / "content" / "sources" / "tools" / "e2e-source.md"
     snapshot_path = (
         tmp_path
         / "archive"
@@ -41,7 +41,7 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
     source_meta, _ = FrontMatter.parse(source_path.read_text(encoding="utf-8"))
     evidence = source_meta["evidence_items"][0]
 
-    wiki = tmp_path / "wiki" / "tools" / "e2e-wiki.md"
+    wiki = tmp_path / "content" / "wiki" / "tools" / "e2e-wiki.md"
     wiki.parent.mkdir(parents=True)
     metadata = {
         "schema_version": "wiki/v1",

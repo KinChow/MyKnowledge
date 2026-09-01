@@ -133,8 +133,7 @@ class BackupManager:
         owner_root = self.registry.resolve_vault_path(vault_id)
         backup_id = "backup_" + uuid.uuid4().hex
         entries = []
-        for folder in ("sources", "wiki", "archive", "audit", "practice"):
-            base = owner_root / folder
+        for base in RepoPaths(owner_root).backup_roots:
             if not base.is_dir():
                 continue
             for item in sorted(base.rglob("*")):
@@ -213,13 +212,25 @@ class BackupManager:
                 if actual != entry.get("sha256"):
                     raise ValueError("hash_mismatch")
                 rel_text = rel.as_posix()
-                if rel_text.startswith("audit/operations/"):
+                # 前缀由 RepoPaths 派生而非写字面量：批次 3（`audit/` →
+                # `ledger/audit/`）之后写死的字面量会静默落到 else，durable 记录
+                # 从"逐条自证"退化成"只比字节 hash"，而且不报任何错。
+                owner_paths = RepoPaths(owner_root)
+                operations_prefix = (
+                    owner_paths.audit_operations.relative_to(owner_root).as_posix()
+                    + "/"
+                )
+                confirmations_prefix = (
+                    owner_paths.release_confirmations.relative_to(owner_root).as_posix()
+                    + "/"
+                )
+                if rel_text.startswith(operations_prefix):
                     record = json.loads(entry_path.read_text(encoding="utf-8"))
                     if not record.get("record_sha256") or hash_canonical(
                         {k: v for k, v in record.items() if k != "record_sha256"}
                     ) != record.get("record_sha256"):
                         raise ValueError("durable_record_hash_mismatch")
-                elif rel_text.startswith("release/public-confirmations/"):
+                elif rel_text.startswith(confirmations_prefix):
                     event = json.loads(entry_path.read_text(encoding="utf-8"))
                     if not event.get("event_sha256") or not validate_event(event).get(
                         "valid"

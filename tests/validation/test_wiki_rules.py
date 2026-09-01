@@ -153,7 +153,7 @@ class RulesTests(WikiTestCase):
         self.addCleanup(directory.cleanup)
         root = Path(directory.name)
         # index：无 sources/evidence，正文为链接清单（§6.7 替代检查：链接必须可解析）
-        target = root / "wiki" / "tools" / "target-wiki.md"
+        target = root / "content" / "wiki" / "tools" / "target-wiki.md"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(
             "---\nid: target-wiki\ntitle: 目标\ndomain: tools\nkind: knowledge\n"
@@ -177,7 +177,7 @@ class RulesTests(WikiTestCase):
                 "evidence": [],
                 "updated_at": "2026-08-26",
             },
-            body="# 索引页\n\n[target-wiki](target-wiki)\n\n[path-link](wiki/tools/target-wiki.md)",
+            body="# 索引页\n\n[target-wiki](target-wiki)\n\n[path-link](content/wiki/tools/target-wiki.md)",
         )
         report = WikiValidator(root).validate(index)
         self.assertTrue(report["valid"], report["errors"])

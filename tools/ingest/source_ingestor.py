@@ -582,10 +582,21 @@ def main(argv: list[str] | None = None) -> int:
             "media_type": args.media_type,
         }
     elif args.personal_note is not None:
+        # `@path` 从文件读取正文：融合型内容（来源已融进作者表达、无法逐句回指
+        # 外部原文）本来就以文件形式存在，此前只能把正文塞进 argv，实测会把
+        # 路径字符串本身当成正文导入（83 字节的假快照）。`--from-file` 不能用：
+        # 它固定写 `source_type: local-file` + `origin: external`，正是这次内容
+        # 重构要消除的失真登记。
+        body = args.personal_note
+        if body.startswith("@"):
+            try:
+                body = Path(body[1:]).read_text(encoding="utf-8")
+            except (OSError, UnicodeError) as exc:
+                parser.error(f"--personal-note @path 读取失败: {exc}")
         request = {
             "source_type": "personal-note",
             "domain": args.domain,
-            "body": args.personal_note,
+            "body": body,
             "source_id": args.source_id,
             "origin": "personal",
         }
