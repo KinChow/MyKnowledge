@@ -18,6 +18,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 ## P0 设计
 
 - [Source 导入与归档](./source-ingestion-and-archive.md)
+- [分层布局与写入通道](./layers-and-channels.md)
 - [证据锚定（evidence_anchor）](./evidence-anchoring.md)
 - [Wiki Claim 验证](./wiki-claim-validation.md)
 - [可执行 Schema Validator](./schema-validation.md)
@@ -29,6 +30,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 - [FastAPI 本地服务与离线降级](./local-api-and-offline.md)
 - [Agent Skill 受控读写](./agent-skill.md)
 - [存量内容迁移与质量清理](./content-migration.md)
+- [音视频与转录来源](./media-sources.md)
 - [备份、恢复与可观测性](./backup-and-observability.md)
 - [Private Vaults 子仓库（0..N）](./private-vault-submodule.md)
 - [Astro/Starlight 静态 Wiki 发布](./static-wiki-publishing.md)

@@ -117,6 +117,24 @@
 - 失败时不变量：不得删除或覆盖历史 fail 报告；不得在人工审计界面隐藏 fail 历史；
 - 自动化级别：Integration。
 
+## AC-F003-017 审计分歧取 fail，且只能由留痕复议推翻
+
+- Given：同一 `(content_sha256, evidence_sha256)` 下存在多份 `validation-report/v1`，其中一份 `pass`、一份 `fail`（不同 provider 或不同时间的重跑）；
+- When：派生 `validation_state`；
+- Then：结果为 `fail`，与报告 mtime 顺序无关；owner 可以对该 fail 报告写入 `validation-override/v1` 复议记录（`actor_type: human`、`reason` 必填、`reviewed_claim_ids` 覆盖该报告全部非 `supported` claim、绑定当前内容 hash、`record_sha256` 自证），复议后 `pass` 报告重新驱动派生；若复议掉全部 verdict 报告，`validation_state` 回落 `not_run`；内容变化后旧复议自动失效；篡改复议记录（`record_sha256` 不自证）即视为无效，门禁回到 `fail`；
+- 失败时不变量：不得按 mtime 取最新；Agent 不得代签复议；缺 reason、只复议部分 claim、复议 `pass` 报告或复议非当前 hash 的报告必须以结构化错误码拒绝（`reason_required`/`claims_mismatch`/`report_not_failed`/`report_stale`）；复议不得使 `validation_state` 直接变为 `pass` 而无 pass 报告；
+- 自动化级别：Unit/Security；
+- 实现证据：`tools/validation/override.py`、`tools/validation/derived.py::load_validation_report`、`tests/validation/test_override.py`（7 项）。
+
+## AC-F003-018 verified 只授予多来源交叉可证的论断
+
+- Given：一页确定性校验通过、LLM 审计 `pass`，其 claim 的 `resolved_targets` 只指向单一 `source_id`；
+- When：派生 `strength`；
+- Then：结果为 `attested` 而非 `verified`；同等条件下覆盖 ≥2 个不同 `source_id` 时才派生 `verified`；
+- 失败时不变量：不得把"模型说 OK"等同于"外部世界交叉验证过"；单一 source 页面不得出现 `verified`；
+- 自动化级别：Unit；
+- 实现证据：`tools/validation/derived.py::compute_strength`、`tests/validation/test_wiki_derived.py::test_multi_source_pass_is_verified_and_single_source_is_attested`。
+
 ## AC-F003-009 代码与中文引文规范化不扩大范围
 
 - Given：snapshot 同时包含中文排版换行、英文词边界、C/C++ 指针/乘法符号和 Markdown 包装文本；

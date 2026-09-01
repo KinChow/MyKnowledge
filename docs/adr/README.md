@@ -42,3 +42,6 @@ Proposed → Accepted → Superseded
 - [ADR-0010 发布门禁：确定性校验 + 可选 LLM 规范审计 + 必须人工审计](./0010-publish-gate-llm-audit-and-human-approval.md)
 - [ADR-0011 入口层必须消费共享 domain service](./0011-entry-layer-shared-services.md)
 - [ADR-0012 LLM 责任边界：MyKnowledge 不内置生成式能力](./0012-llm-responsibility-boundary.md)
+- [ADR-0013 ASR 派生 snapshot 的证据强度上限为 attested](./0013-asr-derived-snapshot-strength.md)
+- [ADR-0014 数据分域、五层归属与三条写入通道](./0014-layer-domains-and-write-channels.md)
+- [ADR-0015 审计分歧取 fail，唯一推翻路径是留痕的人工复议](./0015-audit-disagreement-and-human-reconsideration.md)

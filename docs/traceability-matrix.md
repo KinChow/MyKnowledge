@@ -8,6 +8,7 @@
 | 前缀 | 范围 |
 | --- | --- |
 | SYS | 系统不变量 |
+| LAY / CHN | 目录分域、五层归属、写入通道与路径迁移 |
 | SRC / ARC | Source 与原文归档 |
 | WIKI / EVD | Wiki、Claim、Evidence |
 | VAL | 确定性和 LLM 验证 |
@@ -26,11 +27,20 @@
 | WIKI-002 | F002 | ADR-0004 | wiki-claim-validation | AC-F002-003/004 | 待实现 | Designed |
 | EVD-001 | F003 | ADR-0001/0005 | wiki-claim-validation | AC-F003-001/002/004/005/006/012 | tests/validation/test_wiki_validator.py + test_corroboration.py（Claim/Evidence 映射、selector replay、owner/hash、corroboration/conflict） | Implemented（部分） |
 | VAL-001 | F003 | ADR-0005/0010 | wiki-claim-validation | AC-F003-003/007/008/011/012/013/014/015/016 | tests/validation/test_audit.py + tests/validation/test_provider.py + tests/validation/test_ruleset.py + tests/validation/test_wiki_schema.py（schema/覆盖完整性含额外 claim 拒绝/引文二次校验/owner context 与 evidence hash/报告幂等/规则集 stale/Agent CLI 与编排层 timeout 归一）；真实 provider 与 cross-vault 集成待补 | Implemented（部分） |
-| OPS-001 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-001/002/003/004/005/006/009/010/011 | tests/test_write_operation.py（preview/apply/回滚/commit-intent 自哈希与显式恢复/fencing/stale lock recovery/durable audit 校验、symlink/hard-link target 拒绝、Preview 后路径竞态结构化失败、private owner checkout 路径绑定、projection 失败后 `applied_index_pending` 与显式 recover；2026-08-28 新增：ApplyConfirmationTests（operation-confirmation/v1 hash 绑定/durable audit 事件 hash/agent actor 拒绝）、ConfirmationBoundaryTests（public_release 非法 scope/publish_private 必填字段）、ConcurrentApplyTests（双进程并发单胜者无半成品）、RealProjectionRebuildTests（public apply 默认真实 manifest 重建 + 障碍恢复））；领域 writer 统一迁移与跨 Vault staging 待补 | Implemented（部分） |
+| VAL-003 | F003 | ADR-0015 | wiki-claim-validation | AC-F003-017/018 | tools/validation/override.py + tools/validation/derived.py::load_validation_report/compute_strength、tests/validation/test_override.py（fail 优先、复议生效、内容变更失效、逐条覆盖、reason/非 fail 拒绝、篡改失效、无 pass 报告回落 not_run）+ tests/validation/test_wiki_derived.py（单来源 attested / 多来源 verified） | Implemented |
+| OPS-001 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-001/002/003/004/005/006/009/010/011/012 | tests/test_write_operation.py（preview/apply/回滚/commit-intent 自哈希与显式恢复/fencing/stale lock recovery/durable audit 校验、symlink/hard-link target 拒绝、Preview 后路径竞态结构化失败、private owner checkout 路径绑定、projection 失败后 `applied_index_pending` 与显式 recover；2026-08-28 新增：ApplyConfirmationTests（operation-confirmation/v1 hash 绑定/durable audit 事件 hash/agent actor 拒绝）、ConfirmationBoundaryTests（public_release 非法 scope/publish_private 必填字段）、ConcurrentApplyTests（双进程并发单胜者无半成品）、RealProjectionRebuildTests（public apply 默认真实 manifest 重建 + 障碍恢复））；2026-09-01 新增：tests/test_release_confirmation.py（幂等命中 `already_applied`、同 ID 异内容 `event_id_conflict`、`safe_operation_id` 生成/校验同源）；领域 writer 统一迁移与跨 Vault staging 待补 | Implemented（部分） |
 | ARC-003 | F001/F003 | ADR-0003/0005 | source-ingestion, wiki-claim-validation | AC-F001-007/008/010, AC-F003-009/010/011 | 待实现 | Designed |
 | ARC-004 | F001/F011/F012 | ADR-0003/0002 | source-ingestion, private-vault-submodule, backup-and-observability | AC-F001-006, AC-F011-004, AC-F012-005 | 待实现 | Designed |
 | OPS-003 | F004/F011/F012 | ADR-0006/0002 | write-operation-and-locking, private-vault-submodule, backup-and-observability | AC-F004-007/008, AC-F011-016/018, AC-F012-004/005 | tests/test_write_operation.py（VaultLockGroup 排序、去重、失败释放、rename source_before_hash 漂移阻断）；跨仓库 apply/恢复待补 | Implemented（部分） |
 | OPS-004 | F004 | ADR-0006 | write-operation-and-locking | AC-F004-009 | `WriteOperation` 默认 `public_projection_rebuilder`：public apply 后真实重建 `queries/public/manifest.json`，失败进入 `applied_index_pending` 并可显式 `recover()`（tests/test_write_operation.py::RealProjectionRebuildTests）；SQLite index 生产重建待 F005 接线 | Implemented（部分） |
+| LAY-001 | F013 | ADR-0014 | [layers-and-channels](./technical-design/layers-and-channels.md) | AC-F013-001/002/005 | 待实现 | Designed |
+| LAY-002 | F013/F011 | ADR-0014/0002 | [layers-and-channels](./technical-design/layers-and-channels.md), [private-vault-submodule](./technical-design/private-vault-submodule.md) | AC-F013-002/011 | 待实现 | Designed |
+| LAY-003 | F013 | ADR-0014 | [layers-and-channels](./technical-design/layers-and-channels.md) | AC-F013-010/012 | tests/test_write_operation.py::UnmanagedLayerContractTests + tests/test_doctor.py（working 入口约束 `schema_invalid`、TTL 到期 report-only 清单）；AC-F013-012（retire/deprecate 必留 CDR）待实现 | Implemented（部分） |
+| LAY-004 | F013/F004 | ADR-0014/0006 | [layers-and-channels](./technical-design/layers-and-channels.md), [write-operation-and-locking](./technical-design/write-operation-and-locking.md) | AC-F013-003/004/005 | 待实现 | Designed |
+| CHN-001 | F013/F002 | ADR-0014 | [layers-and-channels](./technical-design/layers-and-channels.md), [wiki-claim-validation](./technical-design/wiki-claim-validation.md) | AC-F013-006/007 | 语义已按 2026-09-01 决策改为「降级落位 + 逐篇升级」（快速通道取消）；`tools/layers.py::working_contract_error` + tests/test_write_operation.py 覆盖入口约束，整批降级与出口隔离断言待 Task 9 | Implemented（部分） |
+| WIKI-003 | F013/F002 | ADR-0014/0004 | [layers-and-channels](./technical-design/layers-and-channels.md) | AC-F013-008/009 | tests/test_review_by.py（真实页面增删 `review_by` 后双 hash 与派生状态逐项不变、发布确认仍有效、到期只进 doctor 清单、非法日期阻断） | Implemented |
+| SRC-002 | F014/F001 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [source-ingestion](./technical-design/source-ingestion-and-archive.md) | AC-F014-001/006 | 待实现 | Designed |
+| ARC-005 | F014/F003 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [wiki-claim-validation](./technical-design/wiki-claim-validation.md) | AC-F014-002/003/004/005/007/008 | 待实现 | Designed |
 
 ## Public Wiki、索引与 Private Vault
 
@@ -65,7 +75,7 @@
 | F001 | AC-F001-001, AC-F001-002, AC-F001-003, AC-F001-004, AC-F001-005, AC-F001-006, AC-F001-007, AC-F001-008, AC-F001-009, AC-F001-010, AC-F001-011, AC-F001-012, AC-F001-013 |
 | F002 | AC-F002-001, AC-F002-002, AC-F002-003, AC-F002-004, AC-F002-005, AC-F002-006, AC-F002-007 |
 | F003 | AC-F003-001, AC-F003-002, AC-F003-003, AC-F003-004, AC-F003-005, AC-F003-006, AC-F003-007, AC-F003-008, AC-F003-009, AC-F003-010, AC-F003-011, AC-F003-012, AC-F003-013, AC-F003-014, AC-F003-015, AC-F003-016 |
-| F004 | AC-F004-001, AC-F004-002, AC-F004-003, AC-F004-004, AC-F004-005, AC-F004-006, AC-F004-007, AC-F004-008, AC-F004-009, AC-F004-010, AC-F004-011 |
+| F004 | AC-F004-001, AC-F004-002, AC-F004-003, AC-F004-004, AC-F004-005, AC-F004-006, AC-F004-007, AC-F004-008, AC-F004-009, AC-F004-010, AC-F004-011, AC-F004-012 |
 | F005 | AC-F005-001, AC-F005-002, AC-F005-003, AC-F005-004, AC-F005-005, AC-F005-006 |
 | F006 | AC-F006-001, AC-F006-002, AC-F006-003, AC-F006-004, AC-F006-005, AC-F006-006, AC-F006-007, AC-F006-008, AC-F006-009, AC-F006-010, AC-F006-011, AC-F006-012, AC-F006-013 |
 | F007 | AC-F007-001, AC-F007-002, AC-F007-003, AC-F007-004, AC-F007-005, AC-F007-006, AC-F007-007, AC-F007-008, AC-F007-009, AC-F007-010, AC-F007-011, AC-F007-012, AC-F007-013, AC-F007-014, AC-F007-015, AC-F007-016, AC-F007-017, AC-F007-018, AC-F007-019, AC-F007-020, AC-F007-021, AC-F007-022, AC-F007-023, AC-F007-024, AC-F007-025, AC-F007-026 |
@@ -73,6 +83,8 @@
 | F010 | AC-F010-001, AC-F010-002, AC-F010-003 |
 | F011 | AC-F011-001, AC-F011-002, AC-F011-003, AC-F011-004, AC-F011-005, AC-F011-006, AC-F011-007, AC-F011-008, AC-F011-009, AC-F011-010, AC-F011-011, AC-F011-012, AC-F011-013, AC-F011-014, AC-F011-015, AC-F011-016, AC-F011-017, AC-F011-018, AC-F011-019 |
 | F012 | AC-F012-001, AC-F012-002, AC-F012-003, AC-F012-004, AC-F012-005, AC-F012-006, AC-F012-007, AC-F012-008 |
+| F013 | AC-F013-001, AC-F013-002, AC-F013-003, AC-F013-004, AC-F013-005, AC-F013-006, AC-F013-007, AC-F013-008, AC-F013-009, AC-F013-010, AC-F013-011, AC-F013-012 |
+| F014 | AC-F014-001, AC-F014-002, AC-F014-003, AC-F014-004, AC-F014-005, AC-F014-006, AC-F014-007, AC-F014-008 |
 
 ## 完整性要求
 
@@ -86,3 +98,5 @@
 - Provider source context 必须有 prompt-injection/tool/URL 禁用和 capability alias 冲突的拒绝证据；QMD cache、query limit、GET/POST 检索等价性必须有资源边界测试。
 - 发布锁、逐 Vault fencing token、未知 warning 阻断、全量 public 输入扫描、编码路径穿越、额外 HTML allowlist 和 Mermaid SVG 安全必须有独立拒绝/恢复证据。
 - Durable record 只校验单条 `record_sha256` 与 target owner；顺序与篡改证据来自 Git 历史，不自建 audit hash chain。
+- 目录迁移必须证明「对象身份不变 + 历史 durable record 不被重写 + `public_release` 按既有 hash 机制回落并可重新确认」三件事；只跑一次 happy-path 构建不构成证据。
+- 规范层文档（系统设计、ADR、Feature List、本矩阵）已按 §4.6 的目标布局对齐；描述当前实现的 Technical Design 与 Acceptance 保留历史路径，在对应迁移批次的实现 commit 中同步更新。两者不一致时以 §4.6 的映射表为准。

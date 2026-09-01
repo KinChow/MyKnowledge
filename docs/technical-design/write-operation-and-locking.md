@@ -78,3 +78,7 @@
 - **`public-release-confirmation/v1`**，保持独立类型。public release 是唯一不可撤销的对外行为，独立类型让"写错一个 scope 值就公开了 internal 内容"在 schema 层不可表达。它额外必填 `release_input_sha256`、`reviewed_content_sha256`、`reviewed_evidence_sha256`、`leak_gate_report_sha256`、`leak_gate_report_scope`、`reason` 和一次性 `confirmation_nonce`。
 
 事件 hash 使用去掉自身字段后的 canonical JSON UTF-8 计算，在 Apply 前重新校验，任何输入变化都使事件失效。一次性 nonce 只用于 public release：apply 与私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配），再叠一层 nonce 只增加状态而不增加保障。nonce 的消费结果写入 durable operation record。
+
+`operation_id` 只有一套口径：`tools/common.py::new_operation_id` 生成 `op_<32 位 hex>`，`tools/common.py::safe_operation_id` 校验，两端同源。校验只约束前缀、字符集与长度上限——`operation_id` 会成为 `audit/operations/<operation_id>.json` 的文件名，要挡的是路径穿越与文件名注入，而不是复刻生成端位宽。此前各调用点各自 `removeprefix("op_")` 再套 `safe_id`（连字符词表）的写法，使 `release confirm` 对每一个真实 `op_<hex>` 都返回 `event_id_invalid`；不合法时统一返回 `operation_id_invalid`。
+
+`release_confirmation.write_event()` 的返回状态区分三种情况，幂等命中不算失败：内容一致的重复提交返回 `already_applied` 并回带既有记录的 `event_sha256` 与路径（CLI 退出码 0）；同 `event_id`、不同内容返回 `event_id_conflict`；既有事件文件损坏不可读返回 `event_unreadable`，不得按幂等放行。把重复提交报成失败会诱导操作者删掉 append-only 确认记录重签，用删审计换一次“成功”。

@@ -58,6 +58,8 @@
 
 审计报告 append-only。人工审计界面必须展示本页历史 `fail` 次数与最近一次 `fail` 命中的规则条目——用可见性抑制「重跑刷绿」，不用锁定机制。
 
+同一 `(content_sha256, evidence_sha256)` 下的多份报告分歧时取 `fail`（`load_validation_report`，VAL-003/ADR-0015），不按 mtime 取最新——2026-09-01 实测两个 provider 对同一页给出相反结论，取最新等于「最后跑的模型说了算」。唯一推翻路径是 owner 签署的 `validation-override/v1` 复议记录：`actor_type: human`（Agent 不得代签）、`reason` 必填、`reviewed_claim_ids` 必须覆盖该报告全部非 `supported` claim、绑定被复议报告的稳定标识与当前内容 hash、`record_sha256` 自证；记录落在 `audit/validation/wiki/<object_id>/overrides/`（子目录，避免被报告目录的顶层 glob 读成报告）。复议掉全部 verdict 报告时状态回落 `not_run`，不是 `pass`。CLI 入口为 `override list` / `override write`。
+
 单次调用，`temperature=0`，持久化 `call_id`、`input_hash`、`ruleset_sha256`、`schema_version`。不做多次采样聚合——确定性采样下重复调用要么恒同（无信息量）要么说明 provider 并非确定性（声明失效），两种情况都不该用「取最保守」掩盖。
 
 ## 人工审计
