@@ -1,0 +1,27 @@
+{
+  "schema_version": "operation-confirmation/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "how-to-read-a-book"
+  },
+  "scope": "publish",
+  "decision": "approve",
+  "actor_id": "zhouzijian",
+  "confirmed_at": 1788242988.9575198,
+  "content_sha256": "sha256:67e940a4526a9943595e7d23a3b09844e6bcf60b1c517ac8d3a355e3aba42e4a",
+  "evidence_sha256": "sha256:b89fd28fa613a315165f88909f5533a0ddc84fcaeb622bc85ccc3792f7c60fee",
+  "deterministic_report_sha256": "sha256:9df2e2387b0b1ae1a6a4d11484669eb44c620a1e1dbe543b263761979c657317",
+  "llm_state": "pass",
+  "ruleset_sha256": "sha256:69ddc7bbd40c749863face294bfc15fe78286076e753670c14a389214b5e2b73",
+  "fail_history": {
+    "fail_count": 6,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  },
+  "confirmation_sha256": "sha256:f74ee5d133cdf24b659739067774f9068a6ebd931851ff20c2edc590a9c4107e"
+}

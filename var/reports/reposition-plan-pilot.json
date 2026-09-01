@@ -1,0 +1,150 @@
+{
+  "schema_version": "reposition-plan/v1",
+  "confirmed": true,
+  "thresholds": {
+    "final_min_chars": 1500,
+    "final_min_headings": 3
+  },
+  "counts": {
+    "external": 62,
+    "intermediate": 55,
+    "final": 46
+  },
+  "retained": [
+    "aar",
+    "how-to-read-a-book"
+  ],
+  "relocatable": 3,
+  "legacy_time_unresolved": 0,
+  "items": [
+    {
+      "source_id": "activity-diagram",
+      "domain": "computer-science",
+      "path": "content/sources/computer-science/activity-diagram.md",
+      "source_sha256": "sha256:6c098c3ae8cf29cb3ed3476fcf76be2a3e67d7402998e230f266ec51e56d0b4e",
+      "current": {
+        "source_type": "local-file",
+        "origin": "external"
+      },
+      "suggested_category": "external",
+      "category": "external",
+      "retained_by": [],
+      "legacy_path": "docs/computer-science/applied-computer-science/software-engineering/design/software-modeling/UML/diagram/activity-diagram.md",
+      "legacy_first_commit_at": "2025-07-06T20:30:14+08:00",
+      "signals": {
+        "body_chars": 567,
+        "headings": 6,
+        "external_links": 3,
+        "unfinished": false
+      },
+      "reasons": [
+        "正文含 3 个外链，可能有可抓取出处"
+      ]
+    },
+    {
+      "source_id": "algorithm-optimization",
+      "domain": "computer-science",
+      "path": "content/sources/computer-science/algorithm-optimization.md",
+      "source_sha256": "sha256:53a03c6f5b72836bf4324767538c5d97c99871096e998ab23a1a72d013e2b38c",
+      "current": {
+        "source_type": "local-file",
+        "origin": "external"
+      },
+      "suggested_category": "intermediate",
+      "category": "intermediate",
+      "retained_by": [],
+      "legacy_path": "docs/computer-science/applied-computer-science/software-engineering/performance-optimization/program-performance-optimization/06-program-optimization/algorithm-optimization.md",
+      "legacy_first_commit_at": "2025-07-06T20:30:14+08:00",
+      "signals": {
+        "body_chars": 529,
+        "headings": 4,
+        "external_links": 0,
+        "unfinished": false
+      },
+      "reasons": [
+        "正文 529 字符 / 4 个标题，未达终版门槛"
+      ]
+    },
+    {
+      "source_id": "analysis-and-measurement-of-program-performance",
+      "domain": "computer-science",
+      "path": "content/sources/computer-science/analysis-and-measurement-of-program-performance.md",
+      "source_sha256": "sha256:1f23369a7d58bdfab16d95b3765f4a33df687f9b73de245a4f089f4f2910fff0",
+      "current": {
+        "source_type": "local-file",
+        "origin": "external"
+      },
+      "suggested_category": "final",
+      "category": "final",
+      "retained_by": [],
+      "legacy_path": "docs/computer-science/applied-computer-science/software-engineering/performance-optimization/program-performance-optimization/03-analysis-and-measurement-of-program-performance/analysis-and-measurement-of-program-performance.md",
+      "legacy_first_commit_at": "2025-07-06T20:30:14+08:00",
+      "signals": {
+        "body_chars": 2337,
+        "headings": 31,
+        "external_links": 0,
+        "unfinished": false
+      },
+      "reasons": [
+        "正文 2337 字符 / 31 个标题，结构完整"
+      ]
+    },
+    {
+      "source_id": "how-to-read-a-book",
+      "domain": "reading-notes",
+      "path": "content/sources/reading-notes/how-to-read-a-book.md",
+      "source_sha256": "sha256:3df80efc575356e871be16efc455f2c3478b9abe6f692345dceaccba9fe99d58",
+      "current": {
+        "source_type": "local-file",
+        "origin": "external"
+      },
+      "suggested_category": "final",
+      "category": "final",
+      "retained_by": [
+        "how-to-read-a-book"
+      ],
+      "legacy_path": "docs/reading-notes/how-to-read-a-book.md",
+      "legacy_first_commit_at": "2025-07-06T20:30:14+08:00",
+      "signals": {
+        "body_chars": 13491,
+        "headings": 35,
+        "external_links": 0,
+        "unfinished": false
+      },
+      "reasons": [
+        "正文 13491 字符 / 35 个标题，结构完整",
+        "被 wiki how-to-read-a-book 引用，必须留在 content/sources/"
+      ]
+    },
+    {
+      "source_id": "aar",
+      "domain": "work-methods",
+      "path": "content/sources/work-methods/aar.md",
+      "source_sha256": "sha256:f5f2ce31d77449c21ffa5f76a9e48074775a422d63d9a4a3942c29ff0011bf62",
+      "current": {
+        "source_type": "local-file",
+        "origin": "external"
+      },
+      "suggested_category": "intermediate",
+      "category": "intermediate",
+      "retained_by": [
+        "aar"
+      ],
+      "legacy_path": "docs/work-methods/AAR/AAR.md",
+      "legacy_first_commit_at": "2025-03-02T02:37:18+08:00",
+      "signals": {
+        "body_chars": 553,
+        "headings": 3,
+        "external_links": 0,
+        "unfinished": false
+      },
+      "reasons": [
+        "正文 553 字符 / 3 个标题，未达终版门槛",
+        "被 wiki aar 引用，必须留在 content/sources/"
+      ]
+    }
+  ],
+  "confirmed_by": "zhouzijian",
+  "confirmed_via": "conversation-directive 2026-09-01T09:23Z（owner：以迁移内容优先，可以允许失败）",
+  "batch": "pilot-3"
+}

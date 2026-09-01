@@ -1,0 +1,239 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "isa-and-microarchitecture",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_81741fc73525",
+  "input_hash": "sha256:db88355f9cf1612f5017ae5c5b180f9f196d769dcc7e3b5160fd138808544ff9",
+  "provider_duration_ms": 181773,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:69ddc7bbd40c749863face294bfc15fe78286076e753670c14a389214b5e2b73",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:85c2a15bd144f7d05dca8186925822334affcaf8bd81f68f7145baac32fbfa65"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788260692.024292,
+  "wiki_content_sha256": "sha256:f90b159b47d84ca98992808df828d00eed3538cd7ecfed0a2dc86e3b3532e9ac",
+  "wiki_evidence_sha256": "sha256:14cadecae4233abbd7fe8c8fd405c4293d90cbedecad5ace58f865811243b4bd",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "multi-core-software-design-notes"
+      },
+      "source_id": "multi-core-software-design-notes",
+      "evidence_id": "evidence-6787c747f963",
+      "snapshot_sha256": "sha256:7801f83250d8140dc66c5b3b2b53f21dbf0f89b94b9019d009dc5e73114dae0e",
+      "selector_sha256": "sha256:fad894e34776d1f0d320256615cdc73a800cab48745fc0a9e9694e1cf1ba61c7",
+      "quote_sha256": "sha256:96b7e76356dbb3bda4db8002acd70bd3867f43345bcc3de2c709c9b50fe7ebaa"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "multi-core-software-design-notes"
+      },
+      "source_id": "multi-core-software-design-notes",
+      "evidence_id": "evidence-217e752c1835",
+      "snapshot_sha256": "sha256:7801f83250d8140dc66c5b3b2b53f21dbf0f89b94b9019d009dc5e73114dae0e",
+      "selector_sha256": "sha256:bc26015559a2c83f956c66dbbf64675048264937e8989ae1493bddc5a34398bf",
+      "quote_sha256": "sha256:de93081858c5e8134f4c5013d9c79aaed605064c486bf0e4420e41fce3086faf"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "multi-core-software-design-notes"
+      },
+      "source_id": "multi-core-software-design-notes",
+      "evidence_id": "evidence-c44339832298",
+      "snapshot_sha256": "sha256:7801f83250d8140dc66c5b3b2b53f21dbf0f89b94b9019d009dc5e73114dae0e",
+      "selector_sha256": "sha256:93acdf765c8f76f447d32f4197f31cd99e82d1b7546c7d042c8d9e08541dcbdc",
+      "quote_sha256": "sha256:d96e8f470320c0d7fb67fbb6abb4f2f574bc5b7a4c66b302d07c9ff5a8bb6ec6"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "isa-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "multi-core-software-design-notes",
+          "evidence_id": "evidence-6787c747f963"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6787c747f963",
+          "exact": "ISA（instruction set architecture）是计算机的抽象模式，执行ISA所定义指令的设备称为其实现"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文完整覆盖 claim 的两部分表述：ISA 是计算机的抽象模式，以及执行 ISA 所定义指令的设备称为其实现。",
+      "rationale_offsets": [
+        {
+          "source_id": "multi-core-software-design-notes",
+          "evidence_id": "evidence-6787c747f963",
+          "start": 0,
+          "end": 61
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "risc-shape",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "multi-core-software-design-notes",
+          "evidence_id": "evidence-217e752c1835"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-217e752c1835",
+          "exact": "以MIPS、ARM为代表，一条指令完成一个基本动作，多条指令组合完成一个复杂功能"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文直接给出 RISC 以 MIPS、ARM 为代表，并说明一条指令完成一个基本动作、复杂功能由多条指令组合完成。",
+      "rationale_offsets": [
+        {
+          "source_id": "multi-core-software-design-notes",
+          "evidence_id": "evidence-217e752c1835",
+          "start": 0,
+          "end": 40
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cisc-shape",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "multi-core-software-design-notes",
+          "evidence_id": "evidence-c44339832298"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c44339832298",
+          "exact": "以x86为代表，一条指令完成一个复杂功能"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文直接给出 CISC 以 x86 为代表，并说明一条指令完成一个复杂功能。",
+      "rationale_offsets": [
+        {
+          "source_id": "multi-core-software-design-notes",
+          "evidence_id": "evidence-c44339832298",
+          "start": 0,
+          "end": 20
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "multi-core-software-design-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "multi-core-software-design-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "multi-core-software-design-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "isa-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "risc-shape",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cisc-shape",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

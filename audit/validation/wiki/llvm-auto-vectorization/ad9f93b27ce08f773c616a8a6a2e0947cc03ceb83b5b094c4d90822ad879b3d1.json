@@ -1,0 +1,242 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "llvm-auto-vectorization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_15a7a063da1f",
+  "input_hash": "sha256:28d2e0959cda0aa391a9f4e1b954e23fcaea2d532e224a191211244a7a5d3811",
+  "provider_duration_ms": 97436,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:69ddc7bbd40c749863face294bfc15fe78286076e753670c14a389214b5e2b73",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:85c2a15bd144f7d05dca8186925822334affcaf8bd81f68f7145baac32fbfa65"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788255800.588375,
+  "wiki_content_sha256": "sha256:e74d7a1b4e0a816e1f27c28418cee85911728dc39baed6fa48528ab4d033a04a",
+  "wiki_evidence_sha256": "sha256:b6630b5240097032314f934b60b07cc6062ad7992e519eb60dbe609d4b3141ff",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-878e7e0d7d13",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:3a882fe29c2d1f94501ecbc19b83fdcafffa7919a1e81a4f161aa3ca86019e79",
+      "quote_sha256": "sha256:410802f5f80f301c859e0bfbf8bbe9b84de6e432e14853d399afa161e1ea5a97"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-41839e947a4e",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:a4aa8b00ffb2d3e9cd70bb9710078ae7de55594658e5ea63da55e0ca1f573e6c",
+      "quote_sha256": "sha256:0f8207cc8675d49e29bac218fd3c7a72ba616378a12fe392110aafc50701b834"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-b37af9d946eb",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:0d295febf581c44a754006fbd5b3fd5def932f8d1a7242cf22ed43fe955882da",
+      "quote_sha256": "sha256:41bb1e046b357bdcd20ec4a063a6cecf0ad0f03644bc9e2aa9a62f0d8aaaf904"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "two-vectorizers",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-878e7e0d7d13"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-878e7e0d7d13",
+          "exact": "LLVM has two vectorizers: The Loop Vectorizer, which operates on Loops, and the SLP Vectorizer"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target quote [0,92) explicitly states there are two vectorizers and names them as the Loop Vectorizer and the SLP Vectorizer.",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-878e7e0d7d13",
+          "start": 0,
+          "end": 92
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "slp-merges-scalars",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-41839e947a4e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-41839e947a4e",
+          "exact": "The SLP vectorizer merges multiple scalars that are found in the code into vectors"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target quote [0,82) says the SLP vectorizer merges multiple scalars found in the code into vectors, which matches the claim directly.",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-41839e947a4e",
+          "start": 0,
+          "end": 82
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "force-vector-width",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-b37af9d946eb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b37af9d946eb",
+          "exact": "Users can control the vectorization SIMD width using the command line flag “-force-vector-width”"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target quote [0,96) states that users can control the vectorization SIMD width using the command line flag -force-vector-width.",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-b37af9d946eb",
+          "start": 0,
+          "end": 96
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "two-vectorizers",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "slp-merges-scalars",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "force-vector-width",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

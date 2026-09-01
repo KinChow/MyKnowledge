@@ -132,7 +132,7 @@ class AuditTests(AuditSetup):
 
     def test_internal_request_is_blocked_before_provider_call(self):
         """Internal evidence requires explicit provider capability and stays redacted."""
-        source_path = self.root / "sources" / "tools" / "test-source.md"
+        source_path = self.root / "content" / "sources" / "tools" / "test-source.md"
         source_path.write_text(
             source_path.read_text(encoding="utf-8").replace(
                 "confidentiality: public", "confidentiality: internal", 1
@@ -167,7 +167,9 @@ class AuditTests(AuditSetup):
         # 报告驱动派生：validate 后 validation_state: pass
         report = WikiValidator(self.root).validate(self.wiki_path)
         self.assertEqual(report["derived"]["validation_state"], "pass")
-        self.assertEqual(report["derived"]["strength"], "verified")
+        # owner 2026-09-01 决策：单一来源的审计通过落 attested，
+        # verified 保留给多来源互证（fixture 只有 test-source 一个来源）
+        self.assertEqual(report["derived"]["strength"], "attested")
 
     def test_partially_supported_fails(self):
         outcome = self._run(_payload(verdicts=("partially_supported",)))

@@ -159,7 +159,7 @@ def query_main(argv: list[str]) -> int:
         "--index",
         type=Path,
         default=None,
-        help="FTS5 index path (default: state/index/public.sqlite3 when present)",
+        help="FTS5 index path (default: var/state/index/public.sqlite3 when present)",
     )
     parser.add_argument("--top-k", type=int, default=8)
     args = parser.parse_args(argv)
@@ -401,6 +401,221 @@ def projection_main(argv: list[str]) -> int:
     return 0
 
 
+def override_main(argv: list[str]) -> int:
+    """人工复议：声明某份 LLM `fail` 报告为误判（VAL-003，只能由人执行）。
+
+    `list` 只读，列出绑定当前内容的 fail 报告及其标识与判定，供人核对后再签；
+    `write` 写入复议记录，任何前置不满足一律结构化阻断。
+    """
+    from tools.validation.override import OverrideBlocked, write_override
+
+    parser = argparse.ArgumentParser(description="Human review of a failed LLM audit")
+    parser.add_argument("mode", choices=("list", "write"))
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--object-id", required=True)
+    parser.add_argument("--report")
+    parser.add_argument("--actor-id")
+    parser.add_argument("--reason")
+    parser.add_argument("--claims", nargs="*", default=[])
+    args = parser.parse_args(argv)
+
+    if args.mode == "list":
+        _print_json(_failed_reports(args.root, args.object_id))
+        return 0
+    missing = [
+        name
+        for name, value in (
+            ("--report", args.report),
+            ("--actor-id", args.actor_id),
+            ("--reason", args.reason),
+        )
+        if not value
+    ]
+    if missing:
+        parser.error(f"write 模式必须提供 {' '.join(missing)}")
+    try:
+        record = write_override(
+            args.root,
+            object_id=args.object_id,
+            report_sha256=args.report,
+            actor_id=args.actor_id,
+            reason=args.reason,
+            claim_ids=list(args.claims),
+        )
+    except OverrideBlocked as exc:
+        _print_json({"state": "blocked", "error_code": exc.code, "detail": exc.message})
+        return 2
+    _print_json({"state": "written", **record})
+    return 0
+
+
+def _failed_reports(root: Path, object_id: str) -> dict:
+    """列出绑定当前内容的 fail 报告（只读，供人核对）。"""
+    from tools.common import safe_id
+    from tools.paths import RepoPaths
+    from tools.validation.derived import read_json_dict
+    from tools.validation.override import SUPPORTED_VERDICTS, overridden_report_ids
+    from tools.validation.validator import WikiValidator
+
+    try:
+        object_id = safe_id(object_id)
+    except ValueError:
+        return {"state": "blocked", "error_code": "object_id_invalid"}
+    paths = RepoPaths(root)
+    matches = list(paths.wiki_root.rglob(f"{object_id}.md"))
+    if not matches:
+        return {"state": "blocked", "error_code": "object_not_found"}
+    hashes = WikiValidator(root).validate(matches[0]).get("hashes") or {}
+    overridden = overridden_report_ids(object_id, hashes or None, paths)
+    items = []
+    for path in sorted(paths.audit_validation("wiki", object_id).glob("*.json")):
+        record = read_json_dict(path)
+        if record is None or record.get("schema_version") != "validation-report/v1":
+            continue
+        if hashes and (
+            record.get("wiki_content_sha256") != hashes.get("content_sha256")
+            or record.get("wiki_evidence_sha256") != hashes.get("evidence_sha256")
+        ):
+            continue
+        items.append(
+            {
+                "report_sha256": f"sha256:{path.stem}",
+                "verdict": record.get("verdict"),
+                "provider_identity": record.get("provider_identity"),
+                "overridden": f"sha256:{path.stem}" in overridden,
+                "disputed_claims": sorted(
+                    str(c.get("claim_id"))
+                    for c in record.get("claims") or []
+                    if c.get("verdict") not in SUPPORTED_VERDICTS
+                ),
+            }
+        )
+    return {"object_id": object_id, "hashes": hashes, "reports": items}
+
+
+def reposition_main(argv: list[str]) -> int:
+    """存量 source 的定位判定与改判（classify 只读；apply 需 owner 确认过的清单）。"""
+    from tools.reposition import Thresholds, classify
+    from tools.reposition import apply as reposition_apply
+
+    parser = argparse.ArgumentParser(description="Reposition legacy sources")
+    parser.add_argument("mode", choices=("classify", "apply"))
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--plan", type=Path, help="apply 模式必填：owner 确认过的清单")
+    parser.add_argument("--final-min-chars", type=int, default=1500)
+    parser.add_argument("--final-min-headings", type=int, default=3)
+    args = parser.parse_args(argv)
+    if args.mode == "classify":
+        _print_json(
+            classify(
+                args.root,
+                Thresholds(
+                    final_min_chars=args.final_min_chars,
+                    final_min_headings=args.final_min_headings,
+                ),
+            )
+        )
+        return 0
+    if not args.plan:
+        parser.error("apply 模式必须提供 --plan")
+    result = reposition_apply(args.root, args.plan)
+    _print_json(result)
+    return 0 if result.get("schema_version") == "reposition-result/v1" else 2
+
+
+def release_main(argv: list[str]) -> int:
+    """发布输入的计算与人工确认事件写入（§6.8 / ADR-0010）。
+
+    `input` 只读：打印参与 `release_input_sha256` 的全部材料与结果，供人核对——
+    只给一个 hash 让人签，人无法核对。`confirm` 由人在本地终端显式执行，
+    不得接入自动化脚本。
+    """
+    from tools.public_projection import PublicProjectionGenerator
+    from tools.release_confirmation import write_event
+    from tools.release_input import compute
+
+    parser = argparse.ArgumentParser(
+        description="Public release input and confirmation"
+    )
+    parser.add_argument("mode", choices=("input", "confirm"))
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--object-id", required=True)
+    parser.add_argument("--operation-id", required=True)
+    parser.add_argument("--actor-id")
+    parser.add_argument("--reason")
+    parser.add_argument("--nonce")
+    parser.add_argument("--event-id")
+    parser.add_argument("--leak-gate-report-sha256")
+    args = parser.parse_args(argv)
+
+    candidate, error = PublicProjectionGenerator(args.root).release_candidate(
+        args.object_id
+    )
+    if candidate is None:
+        _print_json({"state": "blocked", "error_code": error})
+        return 2
+    digest, material = compute(
+        args.root,
+        item=candidate["item"],
+        content_sha256=candidate["content_sha256"],
+        operation_id=args.operation_id,
+    )
+    if args.mode == "input":
+        _print_json(
+            {
+                "schema_version": "release-input/v1",
+                "object_id": args.object_id,
+                "operation_id": args.operation_id,
+                "release_input_sha256": digest,
+                "material": material,
+                "reviewed_content_sha256": candidate["content_sha256"],
+                "reviewed_evidence_sha256": candidate["evidence_sha256"],
+            }
+        )
+        return 0
+    missing = [
+        name
+        for name, value in (
+            ("--actor-id", args.actor_id),
+            ("--reason", args.reason),
+            ("--nonce", args.nonce),
+            ("--event-id", args.event_id),
+            ("--leak-gate-report-sha256", args.leak_gate_report_sha256),
+        )
+        if not value
+    ]
+    if missing:
+        parser.error("confirm 模式必须提供：" + ", ".join(missing))
+    result = write_event(
+        args.root,
+        {
+            "schema_version": "public-release-confirmation/v1",
+            "event_id": args.event_id,
+            "operation_id": args.operation_id,
+            "target_ref": {
+                "vault_id": "public",
+                "object_type": "wiki",
+                "object_id": args.object_id,
+            },
+            "target_vault": "public",
+            "actor_type": "human",
+            "actor_id": args.actor_id,
+            "decision": "approve",
+            "release_input_sha256": digest,
+            "reviewed_content_sha256": candidate["content_sha256"],
+            "reviewed_evidence_sha256": candidate["evidence_sha256"],
+            "leak_gate_report_sha256": args.leak_gate_report_sha256,
+            "leak_gate_report_scope": "input-tree",
+            "reason": args.reason,
+            "confirmation_nonce": args.nonce,
+        },
+    )
+    _print_json(result)
+    # already_applied 与 created 同为"目标状态已达成"，退出码 0；只有 blocked
+    # 是失败——原来无条件 return 0 会把阻断当成功回报给调用方。
+    return 0 if result["state"] in ("created", "already_applied") else 2
+
+
 def skill_main(argv: list[str]) -> int:
     from tools.skill_runtime import ALLOWED_ACTIONS, dispatch
 
@@ -421,6 +636,7 @@ COMMANDS = {
     "anchor": anchor_main,
     "validate": validate_main,
     "audit": audit_main,
+    "override": override_main,
     "confirm": confirm_main,
     "write": write_main,
     "confirm-apply": confirm_apply_main,
@@ -438,6 +654,8 @@ COMMANDS = {
     "migrate": migrate_main,
     "transfer": transfer_main,
     "projection": projection_main,
+    "release": release_main,
+    "reposition": reposition_main,
     "skill": skill_main,
 }
 
@@ -464,6 +682,8 @@ commands:
   migrate          legacy 内容迁移（F010）
   transfer         跨 vault 复制/移动的 preview/apply（F011）
   projection       生成 public projection manifest（F007）
+  release          发布输入计算与 public release 人工确认（§6.8/ADR-0010）
+  reposition       存量 source 定位判定与改判（classify / apply，F013）
   skill            Agent Skill 受控 action 分发（F009）"""
 
 

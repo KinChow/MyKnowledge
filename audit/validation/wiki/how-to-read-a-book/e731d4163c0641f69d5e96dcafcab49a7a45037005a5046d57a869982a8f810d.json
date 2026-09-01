@@ -1,0 +1,304 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "how-to-read-a-book",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_22e7cb2be01a",
+  "input_hash": "sha256:ff83891c3a8377590e1f4c178e3993acc76fa81646292a9bbdd142e73ab88083",
+  "provider_duration_ms": 44503,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:a2b37c1e1b8b95b620de62fef8f384cf2ca6856fdbfe61a54c44861a863b7b89",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:01e8ae37c755eb8a25af3b600291e3ab7d3547b343a70da079d7042c2a3b2e24"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788203134.28974,
+  "wiki_content_sha256": "sha256:6c58b092f8597cf0597bd2a9f2dbd0536691d4b1e4894d4facff55a5c556122b",
+  "wiki_evidence_sha256": "sha256:e644723fafe44b960920fc29ef8cb129a264d2f0b23188a0d9ba7c1b4fad17d3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "how-to-read-a-book"
+      },
+      "source_id": "how-to-read-a-book",
+      "evidence_id": "evidence-2a9f6e24ba0e",
+      "snapshot_sha256": "sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2",
+      "selector_sha256": "sha256:0ed47bfcdf511dfd43ffd4e1590ec68db497821f938f8f663899b0f4d5f08a03",
+      "quote_sha256": "sha256:f18ef8070ed4f3269fd87b7a09895f9eb531db3cce873781a4b09ed5c5c1a6b9"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "how-to-read-a-book"
+      },
+      "source_id": "how-to-read-a-book",
+      "evidence_id": "evidence-4f7b3619367a",
+      "snapshot_sha256": "sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2",
+      "selector_sha256": "sha256:dba899f9adb78a792d578ca946b0dedeaea5bb6cdee6c0d7981a57383bee10ec",
+      "quote_sha256": "sha256:03ed7f342f2de167ec3266688e772ea372d5f22dcf907302a89efc69307d5204"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "how-to-read-a-book"
+      },
+      "source_id": "how-to-read-a-book",
+      "evidence_id": "evidence-9b37932ea37e",
+      "snapshot_sha256": "sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2",
+      "selector_sha256": "sha256:7c772cea414764645c69b638e2e1b4ca24be2e564abce5809f7aa2d9091103cc",
+      "quote_sha256": "sha256:6a61fed9184010b4602895fa4d69985772b9fc2cb323c40a2ecec577cfeab289"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "how-to-read-a-book"
+      },
+      "source_id": "how-to-read-a-book",
+      "evidence_id": "evidence-cb8197eb2d00",
+      "snapshot_sha256": "sha256:0dd095def0308f2eff298bcc97a3eda78acd86966a070c70105de690efe5cab2",
+      "selector_sha256": "sha256:e27fa77a2bb7c3c66b2afcf6bf8d85ac64303d940a9b6829a4ed67ef5d10c892",
+      "quote_sha256": "sha256:f855026d9412319b2c16a0345415d2217ed945a09f8e0016a7f61b9d8b3fe4e8"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "four-levels",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-2a9f6e24ba0e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2a9f6e24ba0e",
+          "exact": "定义阅读的**四个层次**：基础阅读、检视阅读、分析阅读、主题阅读，奠定全书方法论基础"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确列出四个层次及其名称，支持“分为四个层次”；但引文未明确说明这些层次是“递进”的，因此仅部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-2a9f6e24ba0e",
+          "start": 0,
+          "end": 42
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "understanding-over-information",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-4f7b3619367a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4f7b3619367a",
+          "exact": "所谓吸收资讯，就只是知道某件事发生了。想要被启发，就是要去理解"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文区分“吸收资讯”与“理解”，支持阅读目标偏向理解而非仅获取资讯；但未提及“搞清楚事情为何发生及其关联”，该部分没有被目标引文支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-4f7b3619367a",
+          "start": 0,
+          "end": 31
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "four-questions",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-9b37932ea37e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9b37932ea37e",
+          "exact": "全书在谈什么？细部说了什么？是否真实？与我何干？"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文逐项列出“全书在谈什么、细部说了什么、是否真实、与我何干”四个问题，与 claim 的四项内容一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-9b37932ea37e",
+          "start": 0,
+          "end": 24
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "inspectional-reading",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-cb8197eb2d00"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cb8197eb2d00",
+          "exact": "检视阅读是快速抓取全书框架的“系统化略读”"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持检视阅读是“系统化略读”并用于快速抓取全书框架；但未说明其目标是判断是否值得精读，因此该目的部分未获支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "how-to-read-a-book",
+          "evidence_id": "evidence-cb8197eb2d00",
+          "start": 0,
+          "end": 21
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "four-levels: 递进关系",
+    "understanding-over-information: 事情为何发生及其关联",
+    "inspectional-reading: 判断是否值得精读"
+  ],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "how-to-read-a-book",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "how-to-read-a-book",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "how-to-read-a-book",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "how-to-read-a-book",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "four-levels",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "understanding-over-information",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "four-questions",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "inspectional-reading",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
