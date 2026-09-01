@@ -22,10 +22,16 @@ import argparse
 import contextlib
 import json
 import time
-import uuid
 from pathlib import Path
 
-from ..common import atomic_write, canonical_json, hash_canonical, redact, safe_id
+from ..common import (
+    atomic_write,
+    canonical_json,
+    hash_canonical,
+    new_operation_id,
+    redact,
+    safe_id,
+)
 from ..paths import RepoPaths
 from .derived import fail_history
 from .validator import WikiValidator
@@ -144,7 +150,7 @@ def create_confirmation(
         ) from exc
     # operation/v1 审计记录（derived.has_private_confirmation 消费：
     # scope: publish_private + hash 匹配）
-    operation_id = "op_" + uuid.uuid4().hex
+    operation_id = new_operation_id()
     operation = {
         "schema_version": "operation/v1",
         "operation_id": operation_id,

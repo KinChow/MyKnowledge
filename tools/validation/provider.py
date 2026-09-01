@@ -160,6 +160,18 @@ def _wrap_data(value: object) -> str:
     )
 
 
+def _inline_schema(schema: dict) -> dict:
+    """剥掉 `$schema`/`$id` 后的 schema 副本（传给 ducc 的 `--json-schema`）。
+
+    实测（2026-09-01）：带 `$schema: https://json-schema.org/draft/2020-12/schema`
+    时 ducc 直接拒收——`no schema with key or ref ".../draft/2020-12/schema"`，
+    它的校验器不解析远端 meta-schema。剥掉的只是元信息，约束本身（type/required/
+    properties/additionalProperties）逐字保留；本包自己的 jsonschema 校验仍用
+    完整 schema，因此契约强度不变。
+    """
+    return {k: v for k, v in schema.items() if k not in {"$schema", "$id"}}
+
+
 class AgentCliAdapter:
     """Agent CLI provider：调用 ducc/ducx 非交互模式执行审计（AC-F003-008）。
 
@@ -193,6 +205,9 @@ class AgentCliAdapter:
                 text=True,
                 check=False,  # 返回码由下方结构化判定，不抛 CalledProcessError
                 timeout=self.timeout_seconds,
+                # prompt 由 argv 传入；不给 stdin 会让 ducx 停在"Reading additional
+                # input from stdin..."等待输入
+                stdin=subprocess.DEVNULL,
                 # 独立进程组：超时 killpg 可清理 ducc/ducx 派生的孙进程
                 start_new_session=True,
             )
@@ -241,7 +256,7 @@ class AgentCliAdapter:
                 ),
                 duration_ms=duration_ms,
             )
-        payload = _extract_json(proc.stdout)
+        payload = self._payload(proc.stdout)
         if payload is None:
             return ProviderResult(
                 self.identity,
@@ -266,15 +281,43 @@ class AgentCliAdapter:
     def _command(self, prompt: str, response_schema: dict) -> list[str]:
         base = [self.cli]
         if os.path.basename(self.cli) == "ducx":
-            # Codex CLI：exec 非交互模式 + JSON 输出
+            # Codex CLI：exec 非交互模式 + JSON 事件流输出
             base += ["exec", "--json"]
         else:
             # Comate ducc（Claude Code 包装）：-p 非交互 + --json-schema 结构化输出
-            base += ["-p", "--json-schema", json.dumps(response_schema)]
+            base += ["-p", "--json-schema", json.dumps(_inline_schema(response_schema))]
         if self.model:
             base += ["--model", self.model]
         base.append(prompt)
         return base
+
+    def _payload(self, stdout: str) -> dict | None:
+        """按 CLI 形态提取模型输出。
+
+        ducx 的 `exec --json` 是**事件流**（每行一个事件），首个 JSON 对象是
+        `{"type":"thread.started",...}`——直接用 `_extract_json` 会把事件信封当成
+        模型输出，进而以 `malformed_output` 收场（2026-09-01 实测）。真正的输出在
+        `item.completed` 事件里 `item.type == "agent_message"` 的 `text` 字段。
+        """
+        if os.path.basename(self.cli) != "ducx":
+            return _extract_json(stdout)
+        text: str | None = None
+        for raw in stdout.splitlines():
+            line = raw.strip()
+            if not line.startswith("{"):
+                continue
+            try:
+                event = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            item = event.get("item")
+            if (
+                event.get("type") == "item.completed"
+                and isinstance(item, dict)
+                and item.get("type") == "agent_message"
+            ):
+                text = item.get("text")  # 取最后一条 agent_message
+        return _extract_json(text) if text else None
 
     def _build_prompt(self, request: dict, response_schema: dict) -> str:
         return (
@@ -408,7 +451,10 @@ def _load_provider_profile() -> dict:
     name = os.environ.get("MYKNOWLEDGE_LLM_PROFILE")
     if not name:
         return {}
-    path = Path(__file__).resolve().parents[1] / "config" / "providers.local.yaml"
+    # parents[2] 才是仓库根（本文件在 tools/validation/ 下）：写 parents[1] 会指向
+    # 不存在的 tools/config/，profile 机制永远静默失效。口径与
+    # tools/validation/schema.py 的 config 资源解析一致。
+    path = Path(__file__).resolve().parents[2] / "config" / "providers.local.yaml"
     try:
         data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     except (OSError, ValueError, yaml.YAMLError):

@@ -1,0 +1,327 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpu-pipeline-and-hazards",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_4f67e4251a21",
+  "input_hash": "sha256:7c3b7a174c3f3a525fdc0ce7129ed417659a745ab635535a819c01fc6e5c1ee4",
+  "provider_duration_ms": 100302,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:69ddc7bbd40c749863face294bfc15fe78286076e753670c14a389214b5e2b73",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:85c2a15bd144f7d05dca8186925822334affcaf8bd81f68f7145baac32fbfa65"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788260509.929593,
+  "wiki_content_sha256": "sha256:18af998aa7797e65a646a878edfce31806a221a7eb04d8dc9f5677c2f0a6df0d",
+  "wiki_evidence_sha256": "sha256:e91b80ebae9ae7184ca78e053c4410164822f69333bbce2427985ac486088254",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cpu-and-memory-notes"
+      },
+      "source_id": "cpu-and-memory-notes",
+      "evidence_id": "evidence-6568f40245c9",
+      "snapshot_sha256": "sha256:67f4b34f410dd09fd3c0fdfd980ab466cadd15c435be6a3cebf2659a3dd6d694",
+      "selector_sha256": "sha256:c8983d71ace42c69a02b4fd2df785541ad52ad1ee368fd3fcc9233d5d7e024fe",
+      "quote_sha256": "sha256:21c13ec74e1908e254f9d69ac256c7b4f83bb69bce6be0ffcc1aa454632e7a26"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cpu-and-memory-notes"
+      },
+      "source_id": "cpu-and-memory-notes",
+      "evidence_id": "evidence-7371f8b9b056",
+      "snapshot_sha256": "sha256:67f4b34f410dd09fd3c0fdfd980ab466cadd15c435be6a3cebf2659a3dd6d694",
+      "selector_sha256": "sha256:9e36a49f48dd9dd5c09b4e2b693dd8b2061a8548ba141164b9b6b143fc031880",
+      "quote_sha256": "sha256:7ef88e793368d0f689c4bcc05c91d7af4ca9b0ae7f182f63f09c4e048685647c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cpu-and-memory-notes"
+      },
+      "source_id": "cpu-and-memory-notes",
+      "evidence_id": "evidence-4cb70d6945a3",
+      "snapshot_sha256": "sha256:67f4b34f410dd09fd3c0fdfd980ab466cadd15c435be6a3cebf2659a3dd6d694",
+      "selector_sha256": "sha256:af4ac6e92971e34a7d14005918a55d7e8f815bd0ec482a5f98b1820f404ef6b9",
+      "quote_sha256": "sha256:ac0a9d09aefe0f72c53c723afbc3660e682ddedf94393cf81c62d7023b9a5528"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "pipeline-overlap",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-6568f40245c9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6568f40245c9",
+          "exact": "CPU流水线方式：将一条指令分成若干stage，流水线方式前后两条指令的stage在时间上可以重叠进行"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6568f40245c9",
+          "subject": "CPU流水线方式",
+          "predicate": "将",
+          "object": "一条指令分成若干stage，并使前后两条指令的stage在时间上重叠"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文完整陈述了“将一条指令分成若干stage”以及“前后两条指令的stage在时间上可以重叠进行”，与 claim 一致，故支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-6568f40245c9",
+          "start": 0,
+          "end": 51
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "structural-hazard",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-7371f8b9b056"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7371f8b9b056",
+          "exact": "又称资源冲突，指的是用不同指令争用同一部件产生的冲突"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7371f8b9b056",
+          "subject": "资源冲突",
+          "predicate": "指",
+          "object": "不同指令争用同一部件产生的冲突",
+          "qualifiers": {
+            "alias": "又称"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确支持“又称资源冲突”与“用不同指令争用同一部件产生的冲突”这两部分，但未显式出现“结构冒险”这一名称，因此只能判为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-7371f8b9b056",
+          "start": 0,
+          "end": 6
+        },
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-7371f8b9b056",
+          "start": 7,
+          "end": 26
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "control-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-4cb70d6945a3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4cb70d6945a3",
+          "exact": "指的是由转移指令而引起的流水线中断"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4cb70d6945a3",
+          "subject": "控制冒险",
+          "predicate": "指",
+          "object": "由转移指令而引起的流水线中断"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接给出“由转移指令而引起的流水线中断”，与 claim 完全一致，故支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-4cb70d6945a3",
+          "start": 0,
+          "end": 17
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-6568f40245c9",
+          "independence_group": "source:cpu-and-memory-notes",
+          "observation_sha256": "sha256:7979ddad7f26203681fe70ce1da87ca8d405af6f06a36add3e8819b55ba5e4ad"
+        },
+        "target_b": {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-7371f8b9b056",
+          "independence_group": "source:cpu-and-memory-notes",
+          "observation_sha256": "sha256:e0be2c7d4112d811584584a702d022a5ce797587c74af91946d06f175280f38b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-6568f40245c9",
+          "independence_group": "source:cpu-and-memory-notes",
+          "observation_sha256": "sha256:7979ddad7f26203681fe70ce1da87ca8d405af6f06a36add3e8819b55ba5e4ad"
+        },
+        "target_b": {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-4cb70d6945a3",
+          "independence_group": "source:cpu-and-memory-notes",
+          "observation_sha256": "sha256:43cf0834946acca7e6c8b441044483fc5979e28c59ec499a5facae48b3af6369"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-7371f8b9b056",
+          "independence_group": "source:cpu-and-memory-notes",
+          "observation_sha256": "sha256:e0be2c7d4112d811584584a702d022a5ce797587c74af91946d06f175280f38b"
+        },
+        "target_b": {
+          "source_id": "cpu-and-memory-notes",
+          "evidence_id": "evidence-4cb70d6945a3",
+          "independence_group": "source:cpu-and-memory-notes",
+          "observation_sha256": "sha256:43cf0834946acca7e6c8b441044483fc5979e28c59ec499a5facae48b3af6369"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "cpu-and-memory-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cpu-and-memory-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cpu-and-memory-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "pipeline-overlap",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "structural-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "control-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

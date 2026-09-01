@@ -1,0 +1,248 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "program-performance-analysis",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_5a3f7310e589",
+  "input_hash": "sha256:154f7544d06e2d8da4c945cc314c626b37964f164aec622bb1245154c064fa78",
+  "provider_duration_ms": 77415,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:69ddc7bbd40c749863face294bfc15fe78286076e753670c14a389214b5e2b73",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:85c2a15bd144f7d05dca8186925822334affcaf8bd81f68f7145baac32fbfa65"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788256886.6847281,
+  "wiki_content_sha256": "sha256:6f88006ee247972df598a048679ece55ca2fb6d1eea37ce5bccd7e54f405c482",
+  "wiki_evidence_sha256": "sha256:e4fdc458231d71f4182a6df32709fe2e6d0f46cf5c439a5d1126a65b852992af",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "program-performance-analysis-notes"
+      },
+      "source_id": "program-performance-analysis-notes",
+      "evidence_id": "evidence-5e71c592c1bd",
+      "snapshot_sha256": "sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6",
+      "selector_sha256": "sha256:6beee8d34ca1b6fadd72b5d3d421471fb58754a0deb4e15c6db8d08568e92dc7",
+      "quote_sha256": "sha256:53a641c8342bd5a5b2d2a619953c5ba778fa4c8083a2c2066dda49641d3426bf"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "program-performance-analysis-notes"
+      },
+      "source_id": "program-performance-analysis-notes",
+      "evidence_id": "evidence-c7bd2ab17520",
+      "snapshot_sha256": "sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6",
+      "selector_sha256": "sha256:cab83939eb5396a6fbc42efd0ed066f073f5a96a3b8728caa7859c97f1fc9240",
+      "quote_sha256": "sha256:1674e487032443a9bec2aae2057725d3466a0e04bd250e7281538b2dc48bceee"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "program-performance-analysis-notes"
+      },
+      "source_id": "program-performance-analysis-notes",
+      "evidence_id": "evidence-72311733bcc6",
+      "snapshot_sha256": "sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6",
+      "selector_sha256": "sha256:ea0373f293e1e8ea3548c80c8a0b64064a29a82d634c02a3152efd07bcb42e07",
+      "quote_sha256": "sha256:23567330c25c6bb533ae91c079bd5e0a8a9f64f3c02d1fcae13b62f8280a1cad"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "little-law",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-5e71c592c1bd"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5e71c592c1bd",
+          "exact": "little定律的等式为：L=λ*W"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "证据引文在 offsets 0-18 处直接给出 little 定律等式，与 claim 的核心命题一致；仅有标点差异，不影响支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-5e71c592c1bd",
+          "start": 0,
+          "end": 18
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "profile-form",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-c7bd2ab17520"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c7bd2ab17520",
+          "exact": "概要形式是以汇总或者平均值的形式来展示一段时间的程序信息"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "证据引文在 offsets 0-28 处说明概要形式以汇总/平均值展示一段时间的程序信息，与 claim 一致；措辞差异仅为同义改写。",
+      "rationale_offsets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-c7bd2ab17520",
+          "start": 0,
+          "end": 28
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "segmented-search",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-72311733bcc6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-72311733bcc6",
+          "exact": "分段查找是常用定位程序分析代码段的方法之一"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "证据引文在 offsets 0-21 处明确表明分段查找是常用的定位程序分析代码段的方法之一，与 claim 直接对应。",
+      "rationale_offsets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-72311733bcc6",
+          "start": 0,
+          "end": 21
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "program-performance-analysis-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "program-performance-analysis-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "program-performance-analysis-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "little-law",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "profile-form",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "segmented-search",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

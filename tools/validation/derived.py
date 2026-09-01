@@ -39,9 +39,10 @@ def load_validation_report(object_id: str, hashes: dict | None, paths) -> dict |
     过期无效（旧报告不得驱动 validation_state/verified）。F002 只消费
     verdict/claim_verdicts/corroborated；报告缺失或非法视为未运行。
 
-    优先级：绑定当前 hash 的最新 ``validation-report/v1``（verdict 类）优先
+    优先级：绑定当前 hash 的 ``validation-report/v1``（verdict 类）优先
     ——pass/fail 是已验证的客观证据；``validation-notrun/v1`` 是环境事实，
     只在没有 verdict 报告时用于展示 not_run_reason，不覆盖 pass/fail。
+    多份 verdict 报告分歧时取 **fail**（更保守一侧），见函数内说明。
     """
     base = paths.audit_validation("wiki", object_id)
     if not base.exists():
@@ -50,9 +51,9 @@ def load_validation_report(object_id: str, hashes: dict | None, paths) -> dict |
         candidates = sorted(base.glob("*.json"))
     except OSError:
         return None
-    verdict_latest: dict | None = None
+    verdict_records: list[tuple[float, dict, Path]] = []
     notrun_latest: dict | None = None
-    verdict_mtime = notrun_mtime = 0.0
+    notrun_mtime = 0.0
     for path in candidates:
         try:
             mtime = path.stat().st_mtime
@@ -76,11 +77,33 @@ def load_validation_report(object_id: str, hashes: dict | None, paths) -> dict |
                 or rec_evidence != hashes["evidence_sha256"]
             ):
                 continue  # 绑定的是旧内容，视为过期
-        if version == SCHEMA_VERSION and mtime > verdict_mtime:
-            verdict_latest, verdict_mtime = record, mtime
+        if version == SCHEMA_VERSION:
+            verdict_records.append((mtime, record, path))
         elif version == NOT_RUN_SCHEMA_VERSION and mtime > notrun_mtime:
             notrun_latest, notrun_mtime = record, mtime
-    return verdict_latest if verdict_latest is not None else notrun_latest
+    if verdict_records:
+        # fail 优先（更保守一侧）：绑定同一 hash 的报告出现分歧时取 fail。
+        # 实测（2026-09-01）：两个 provider 对同一页给出 fail/pass 相反结论，
+        # 按 mtime 取最新等于"最后跑的模型说了算"——反复换 provider 重跑直到
+        # 出现一次 pass 就能过门禁（审计洗牌）。要过门禁只能改内容，不能换模型。
+        # 唯一例外是 owner 显式签过复议记录的 fail 报告（VAL-003），它带
+        # actor_id/理由/逐条 claim 且绑定当前 hash——误判可被推翻，但推翻本身留痕。
+        from .override import overridden_report_ids
+
+        overridden = overridden_report_ids(object_id, hashes, paths)
+        usable = [
+            item
+            for item in verdict_records
+            if f"sha256:{item[2].stem}" not in overridden
+        ]
+        if not usable:
+            # 全部 verdict 报告都被复议掉：没有可用的模型判定，回落"未运行"
+            # （仍是 fail-closed：not_run 同样不满足发布门禁），而不是返回一份
+            # owner 已声明误判的报告。
+            return notrun_latest
+        failed = [item for item in usable if item[1].get("verdict") == "fail"]
+        return max(failed or usable, key=lambda item: item[0])[1]
+    return notrun_latest
 
 
 def evidence_sha256(
@@ -295,12 +318,17 @@ def compute_derived(
         and availability == "available"
     )
     private_publishable = base_publishable and scope == "private"
+    # public 门禁分两段：前段（内容、证据、审计确认、保密等级、scope）与后段
+    # （public 发布确认事件）。分开是必需的——`release input` 要先把待审材料算
+    # 出来给人看，人才可能签发布确认；如果把发布确认也算进"能不能算材料"的前
+    # 提，链路自锁：没有确认算不出材料，算不出材料签不了确认（实测 2026-09-01，
+    # aar 之所以有确认事件是因为那份文件是手工编造的）。
+    public_release_ready = (
+        base_publishable and scope == "public" and effective_confidentiality == "public"
+    )
     # F011：public confirmation 须为人类 approve 事件（F007 阶段仍恒 false）
-    public_publishable = (
-        base_publishable
-        and scope == "public"
-        and effective_confidentiality == "public"
-        and has_public_confirmation(object_id, paths)
+    public_publishable = public_release_ready and has_public_confirmation(
+        object_id, paths
     )
 
     # publication_warning（§6.8）
@@ -324,11 +352,30 @@ def compute_derived(
         "effective_confidentiality": effective_confidentiality,
         "strength": strength,
         "private_publishable": private_publishable,
+        "public_release_ready": public_release_ready,
         "public_publishable": public_publishable,
         "public_release": False,  # F002 阶段恒 false；真实派生由 F007 发布 authority 完成
         "publication_warning": publication_warning,
         "fail_history": fail_history(object_id, paths),
     }
+
+
+def _single_source_only(corroboration: dict, report: dict) -> bool:
+    """corroboration 的 unresolved 是否只因「单一来源」而非证据缺陷。
+
+    判据全部取自报告的确定性字段：无冲突对、无同组冲突、且全部独立性告警都是
+    ``independence_unknown``（"独立性判定无 basis 举证，按单一 source 处理"）。
+    出现任何其他告警码或冲突时不适用，仍按 unresolved 阻断。
+    """
+    if corroboration.get("conflict_pairs") or corroboration.get("same_group_conflicts"):
+        return False
+    warnings = report.get("independence_warnings") or []
+    if not isinstance(warnings, list) or not warnings:
+        return False
+    return all(
+        isinstance(w, dict) and w.get("code") == "independence_unknown"
+        for w in warnings
+    )
 
 
 def compute_evidence_state(
@@ -382,6 +429,13 @@ def compute_evidence_state(
         corroboration = report.get("corroboration")
         if isinstance(corroboration, dict):
             state = corroboration.get("evidence_state")
+            if state == "unresolved" and _single_source_only(corroboration, report):
+                # 「只有一个来源」不等于「证据坏了」：unresolved 的本意是 target
+                # 无法定位或 snapshot 漂移，而这里全部 target 定位良好、引文逐字
+                # 匹配，缺的只是第二个独立来源。共用一个取值会让任何单一来源的
+                # 页面（读书笔记天然如此）永远不可发布。强度层用 attested 表达
+                # 「已核实但未交叉验证」（owner 2026-09-01 决策）。
+                return "supported"
             if state in {"conflicting", "corroborated", "unresolved"}:
                 return state
             if state == "supported":
@@ -440,7 +494,15 @@ def compute_strength(
     if evidence_state == "corroborated":
         return "corroborated"
     if validation_state == "pass" and report:
-        return "verified"
+        # owner 2026-09-01 决策：`verified` 保留给多来源互证；单一来源的审计通过
+        # 落 `attested`（已核实的转述，未交叉验证）。读者据此区分"一本书说的"
+        # 与"多个独立来源都说的"。
+        sources = {
+            target.get("source_id")
+            for target in resolution.get("resolved_targets") or []
+            if target.get("source_id")
+        }
+        return "attested" if len(sources) <= 1 else "verified"
     return None  # 其他：不可发布，等待补证/人工决策
 
 
