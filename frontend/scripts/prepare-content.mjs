@@ -1,5 +1,5 @@
 import fs from 'node:fs'; import path from 'node:path'; import crypto from 'node:crypto';
-const root = process.env.MYKNOWLEDGE_ROOT ? path.resolve(process.env.MYKNOWLEDGE_ROOT) : path.resolve('..'); const out = path.resolve('src/content/docs'); const manifestPath = path.join(root,'queries/public/manifest.json');
+const root = process.env.MYKNOWLEDGE_ROOT ? path.resolve(process.env.MYKNOWLEDGE_ROOT) : path.resolve('..'); const out = path.resolve('src/content/docs'); const manifestPath = path.join(root,'var/queries/public/manifest.json');
 if (!fs.existsSync(manifestPath)) { if (process.env.MYKNOWLEDGE_CONTENT_MODE === 'projection') throw new Error('manifest_missing'); process.exit(0); }
 const manifest = JSON.parse(fs.readFileSync(manifestPath,'utf8')); if (manifest.schema_version !== 'public-projection/v1' || manifest.projection !== 'public' || !Array.isArray(manifest.items)) throw new Error('manifest_invalid');
 function canonical(value){ if(Array.isArray(value)) return '['+value.map(canonical).join(',')+']'; if(value&&typeof value==='object') return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+canonical(value[k])).join(',')+'}'; return JSON.stringify(value); }

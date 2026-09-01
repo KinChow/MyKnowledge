@@ -212,7 +212,7 @@ def apply_sample(
     source_result = {
         key: value for key, value in source_result.items() if key != "source_path"
     }
-    source_result["source_path"] = f"sources/tools/{source_id}.md"
+    source_result["source_path"] = f"content/sources/tools/{source_id}.md"
     if source_result.get("state") != "applied":
         return {
             "state": "blocked",
@@ -221,7 +221,7 @@ def apply_sample(
             "writes_applied": False,
         }
     wiki_id = item["wiki_target"]["object_id"]
-    wiki_path = f"wiki/tools/{wiki_id}.md"
+    wiki_path = f"content/wiki/tools/{wiki_id}.md"
     metadata = {
         "schema_version": "wiki/v1",
         "id": wiki_id,
@@ -281,7 +281,7 @@ def apply_sample(
                 *((result.get("source") or {}).get("applied_files") or []),
             )
             if isinstance(p, str)
-            and (p.startswith("wiki/") or p.startswith("sources/"))
+            and (p.startswith("content/wiki/") or p.startswith("content/sources/"))
         ]
         result["output_hashes"] = {
             p: "sha256:" + hashlib.sha256((root / p).read_bytes()).hexdigest()
@@ -460,14 +460,14 @@ def rollback_sample(
     if (
         isinstance(source_path, str)
         and source_path not in paths
-        and source_path.startswith("sources/")
+        and source_path.startswith("content/sources/")
     ):
         paths.append(source_path)
     for item in source.get("applied_files", []) if isinstance(source, dict) else []:
         if (
             isinstance(item, str)
             and item not in paths
-            and item.startswith(("sources/", "wiki/"))
+            and item.startswith(("content/sources/", "content/wiki/"))
         ):
             paths.append(item)
     if not paths:

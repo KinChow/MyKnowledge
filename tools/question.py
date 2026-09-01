@@ -495,7 +495,7 @@ def practice_integrity_check(target: Path) -> None:
     （practice_question_invalid / practice_question_schema_invalid /
     practice_review_invalid / practice_review_owner_mismatch）。
     """
-    questions = target / "practice" / "questions"
+    questions = RepoPaths(target).practice_questions
     if questions.is_dir():
         store = QuestionStore(target)
         for path in sorted(questions.glob("*.json")):
@@ -505,7 +505,7 @@ def practice_integrity_check(target: Path) -> None:
                 raise ValueError("practice_question_invalid") from exc
             if question.get("schema_version") != QUESTION_SCHEMA:
                 raise ValueError("practice_question_schema_invalid")
-    reviews = target / "practice" / "reviews"
+    reviews = RepoPaths(target).practice_reviews_root
     if reviews.is_dir():
         for path in sorted(reviews.glob("*.jsonl")):
             question_id = path.stem

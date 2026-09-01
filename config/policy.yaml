@@ -13,12 +13,55 @@ write:
 
 paths:
   workspace_root: null             # resolved by Vault Registry; see vault manifest layout rules
-  local_source_sidecar: state/local-sources
+  local_source_sidecar: var/state/local-sources
   local_source_sidecar_file_mode: '0600'
   local_source_sidecar_dir_mode: '0700'
   allowed_local_file_roots: []       # empty means the caller must provide an explicit, readable path
   reject_symlink_escape: true
   reject_hardlink_escape: true
+
+layers:                              # §4.4–§4.5：三个数据域与五层归属
+  vault_content_roots:               # 有 object 身份、per-vault
+    - content/sources/
+    - content/wiki/
+  vault_store_roots:                 # append-only（批次 3 迁入 ledger/ 后同步更新）
+    - archive/
+    - audit/
+    - release/
+  derived_roots:                     # 可重建，删除后用命令重新生成
+    - var/queries/
+    - var/state/
+    - var/reports/
+  unmanaged_paths:                   # 无 object 身份、无 schema、无出口
+    - content/working/
+    - content/journal/
+    - content/decisions/
+  unmanaged_excluded_from:           # 显式排除，而不是靠"未声明"被忽略
+    - projection_input_tree
+    - leak_gate_input_tree
+    - operation_hashes
+    - query_result
+  working:
+    # owner 2026-09-01 决策：设为无限。落位后 161 篇长期停在 working 层是**预期
+    # 状态**（升级按需、一篇一篇补），按 30 天判滞留会让 doctor 每次输出 161 行
+    # 全是预期项的清单，淹没真正需要注意的几篇。恢复筛选力的做法是改判据
+    # （只对显式标了 review_by 的篇目催办），不是调大天数。
+    ttl_days: unlimited
+    require_source_ref: true
+    ttl_action: report-only          # 工具永不自动删除
+  journal:
+    path_pattern: content/journal/<YYYY>/<MM>/
+    append_only: true
+  decisions:
+    id_prefix: CDR
+    required_on:
+      - retire
+      - deprecate
+      - downgrade
+
+review:                              # §6.2：报告项，不是状态轴
+  field: review_by
+  required: false
 
 retrieval:
   default: qmd
@@ -181,8 +224,8 @@ security:
     allow_remote_bind: false
     capability_token:
       schema_version: capability-token/v1
-      path: state/capability-token
-      parent_directory: state
+      path: var/state/capability-token
+      parent_directory: var/state
       file_mode: '0600'
       parent_directory_mode: '0700'
       random_bytes: 32
@@ -262,11 +305,11 @@ projection:
     - manifest_sha256
   public_confirmation_path_prefix: release/public-confirmations/
   body_path_prefixes:
-    - queries/public/
-    - wiki/
+    - var/queries/public/
+    - content/wiki/
   attachment_path_prefixes:
-    - queries/public/
-    - wiki/
+    - var/queries/public/
+    - content/wiki/
   max_attachment_bytes: 10000000
   max_body_bytes: 2000000
   max_route_chars: 512
@@ -297,17 +340,21 @@ projection:
 
 locks:
   scope: per-vault
-  heartbeat_seconds: 30
-  stale_after_seconds: 900
+  # 2026-09-01 决策：删除 heartbeat_seconds / stale_after_seconds。锁由 filelock
+  # 的内核锁保证，持锁进程退出（含崩溃）时自动释放，不需要心跳续租；按时间戳
+  # 判活反而多一条"误删活锁"的路径。陈旧 owner sidecar 只能由显式 lock recover
+  # 处理（必须先拿到内核锁），见 tools/vault_lock.py。
   fencing: true
   recovery_requires_explicit_command: true
   recovery_records_audit_event: true
 
 build:
-  release_lock_path: .staging/release.lock
-  release_lock_heartbeat_seconds: 30
-  release_lock_fencing: token-and-inode
+  # 实测实现路径（frontend/scripts/build-release.mjs:7）。原声明写的
+  # `.staging/release.lock` 与实现分叉，属账目虚报，已按实现纠正。
+  release_lock_path: var/state/public-release.lock
   warning_policy: blocking-unknown-v1
+  # `wx` 独占创建 + finally unlink：残留锁文件会让下一次 build 直接 EEXIST 退出，
+  # 因此 stale 即阻断、恢复只能人工删除，两条都是实现的自然结果而非可配项。
   release_lock_stale_action: block
   release_lock_recovery_requires_manual_review: true
   advisory_warning_patterns:

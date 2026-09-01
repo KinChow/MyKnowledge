@@ -20,6 +20,7 @@ from fastapi import Body, FastAPI, Header, Query, Request
 from tools.citation import replay as replay_citation
 from tools.common import atomic_write, safe_id
 from tools.indexing import Retriever, default_public_index_path
+from tools.paths import RepoPaths
 from tools.projection import PublicProjectionStore
 from tools.question import QuestionStore
 from tools.skill_runtime import dispatch
@@ -68,7 +69,7 @@ def _issue_capability_token(state: Any, capability_token: str | None) -> None:
 
 
 def _persist_capability_token(state: Any) -> None:
-    state_dir = state.root / "state"
+    state_dir = RepoPaths(state.root).var_root / "state"
     state_dir.mkdir(parents=True, exist_ok=True)
     os.chmod(state_dir, 0o700)
     token_path = state_dir / "capability-token"
@@ -94,7 +95,7 @@ def create_app(
     app = FastAPI(title="MyKnowledge Local API", version="v1", lifespan=_lifespan)
     state = app.state
     state.root = Path(root or ".").resolve()
-    # F005：默认接线 state/index/public.sqlite3（存在即用；陈旧/损坏自动降级 LIKE）
+    # F005：默认接线 var/state/index/public.sqlite3（存在即用；陈旧/损坏自动降级 LIKE）
     default_index = default_public_index_path(state.root)
     state.retriever = Retriever(
         list(items) if items is not None else _load_public_projection(state.root),
@@ -354,7 +355,7 @@ def create_app(
         needle = f"{object_id}.md"
         items = [
             _object_ref(vault_id, "wiki", path.stem)
-            for path in (owner_root / "wiki").rglob("*.md")
+            for path in RepoPaths(owner_root).wiki_root.rglob("*.md")
             if path.is_file()
             and needle in path.read_text(encoding="utf-8", errors="ignore")
         ]

@@ -20,7 +20,9 @@ def test_graph_page_is_static_and_reads_generated_graph_only():
     page = (FRONTEND / "src/pages/graph.astro").read_text(encoding="utf-8")
     assert "public/generated/graph.json" in page
     assert (
-        "sources" not in page and "practice" not in page and "queries/local" not in page
+        "sources" not in page
+        and "practice" not in page
+        and "var/queries/local" not in page
     )
 
 
@@ -49,7 +51,7 @@ def test_projection_rejects_practice_and_encoded_traversal(tmp_path: Path):
         "status": "published",
         "effective_confidentiality": "public",
     }
-    for body_path in ("practice/questions/q.json", "%2e%2e/wiki/q.md"):
+    for body_path in ("content/practice/questions/q.json", "%2e%2e/wiki/q.md"):
         result = run_manifest(
             tmp_path,
             {
@@ -69,7 +71,7 @@ def test_projection_rejects_duplicate_ids(tmp_path: Path):
         "public_release": True,
         "status": "published",
         "effective_confidentiality": "public",
-        "body_path": "wiki/same.md",
+        "body_path": "content/wiki/same.md",
     }
     result = run_manifest(
         tmp_path,
@@ -83,7 +85,7 @@ def test_projection_rejects_duplicate_ids(tmp_path: Path):
 
 
 def test_release_lock_blocks_concurrent_build():
-    lock = FRONTEND.parent / "state" / "public-release.lock"
+    lock = FRONTEND.parent / "var" / "state" / "public-release.lock"
     lock.parent.mkdir(parents=True, exist_ok=True)
     lock.write_text("held", encoding="utf-8")
     try:
@@ -101,7 +103,7 @@ def test_release_lock_blocks_concurrent_build():
 
 
 def test_release_lock_record_has_fencing_token():
-    lock = FRONTEND.parent / "state" / "public-release.lock"
+    lock = FRONTEND.parent / "var" / "state" / "public-release.lock"
     lock.parent.mkdir(parents=True, exist_ok=True)
     lock.write_text(
         '{"schema_version":"release-lock/v1","fencing_token":"held"}\n',
@@ -118,12 +120,12 @@ def test_release_lock_record_has_fencing_token():
 def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
     root = tmp_path / "repo"
     frontend = tmp_path / "frontend"
-    frontend.mkdir()
+    frontend.mkdir(parents=True, exist_ok=True)
     script = frontend / "prepare-content.mjs"
     shutil.copy(
         Path(__file__).parents[1] / "frontend/scripts/prepare-content.mjs", script
     )
-    body = root / "wiki" / "item.md"
+    body = root / "content" / "wiki" / "item.md"
     body.parent.mkdir(parents=True)
     body.write_text("# Item\n", encoding="utf-8")
     manifest = {
@@ -137,13 +139,13 @@ def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/item.md",
+                "body_path": "content/wiki/item.md",
                 "public_confirmation_path": "release/public-confirmations/event-one.json",
             }
         ],
     }
-    (root / "queries" / "public").mkdir(parents=True)
-    (root / "queries" / "public" / "manifest.json").write_text(
+    (root / "var" / "queries" / "public").mkdir(parents=True)
+    (root / "var" / "queries" / "public" / "manifest.json").write_text(
         json.dumps(manifest), encoding="utf-8"
     )
     result = subprocess.run(
@@ -164,13 +166,13 @@ def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
 def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path):
     root = tmp_path / "repo"
     frontend = tmp_path / "frontend"
-    frontend.mkdir()
+    frontend.mkdir(parents=True, exist_ok=True)
     script = frontend / "prepare-content.mjs"
     script.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(
         Path(__file__).parents[1] / "frontend/scripts/prepare-content.mjs", script
     )
-    body = root / "wiki" / "item.md"
+    body = root / "content" / "wiki" / "item.md"
     body.parent.mkdir(parents=True)
     body.write_text("# Item\n", encoding="utf-8")
     from tools.release_confirmation import write_event
@@ -209,7 +211,7 @@ def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path)
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/item.md",
+                "body_path": "content/wiki/item.md",
                 "public_confirmation_path": "release/public-confirmations/event-one.json",
                 "public_confirmation_sha256": written["event_sha256"],
                 "release_input_sha256": "sha256:new",
@@ -218,8 +220,8 @@ def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path)
             }
         ],
     }
-    (root / "queries" / "public").mkdir(parents=True)
-    (root / "queries" / "public" / "manifest.json").write_text(
+    (root / "var" / "queries" / "public").mkdir(parents=True)
+    (root / "var" / "queries" / "public" / "manifest.json").write_text(
         json.dumps(manifest), encoding="utf-8"
     )
     result = subprocess.run(
@@ -241,18 +243,18 @@ def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path)
 def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     root = tmp_path / "repo"
     frontend = tmp_path / "frontend"
-    frontend.mkdir()
+    frontend.mkdir(parents=True, exist_ok=True)
     for name in ("prepare-content.mjs", "build-graph.mjs"):
         target = frontend / "scripts" / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(Path(__file__).parents[1] / "frontend/scripts" / name, target)
-    wiki = root / "wiki"
+    wiki = root / "content" / "wiki"
     wiki.mkdir(parents=True)
     (wiki / "one.md").write_text("# One\n\n中文 attention\n", encoding="utf-8")
     (wiki / "two.md").write_text("# Two\n\nEnglish transformer\n", encoding="utf-8")
     from tools.release_confirmation import write_event
 
-    (root / "queries" / "public").mkdir(parents=True)
+    (root / "var" / "queries" / "public").mkdir(parents=True)
     (root / "release" / "public-confirmations").mkdir(parents=True)
     items = []
     for ident, title, links in (("one", "One", ["two"]), ("two", "Two", [])):
@@ -288,7 +290,7 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": f"wiki/{ident}.md",
+                "body_path": f"content/wiki/{ident}.md",
                 "public_confirmation_path": f"release/public-confirmations/event-{ident}.json",
                 "public_confirmation_sha256": written["event_sha256"],
                 "release_input_sha256": "sha256:input",
@@ -299,7 +301,7 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
                 "links": links,
             }
         )
-    (root / "queries" / "public" / "manifest.json").write_text(
+    (root / "var" / "queries" / "public" / "manifest.json").write_text(
         json.dumps(
             {
                 "schema_version": "public-projection/v1",
@@ -345,7 +347,7 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
 
 def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):
     script = Path(__file__).parents[1] / "frontend/scripts/leak-gate.mjs"
-    target = tmp_path / "practice" / "questions"
+    target = tmp_path / "content" / "practice" / "questions"
     target.mkdir(parents=True)
     (target / "q.json").write_text('{"answer":"secret"}', encoding="utf-8")
     result = subprocess.run(
@@ -359,7 +361,7 @@ def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):
 
 
 def test_leak_gate_rejects_question_payload_even_under_public_path(tmp_path: Path):
-    target = tmp_path / "wiki"
+    target = tmp_path / "content" / "wiki"
     target.mkdir(parents=True)
     (target / "leaked.md").write_text(
         '{"schema_version":"question/v1","answer":"secret interview answer"}',
@@ -382,8 +384,8 @@ def test_leak_gate_rejects_question_payload_even_under_public_path(tmp_path: Pat
 
 
 def test_leak_gate_rejects_active_html_and_mermaid_callbacks(tmp_path: Path):
-    target = tmp_path / "wiki"
-    target.mkdir()
+    target = tmp_path / "content" / "wiki"
+    target.mkdir(parents=True, exist_ok=True)
     (target / "unsafe.md").write_text(
         '<iframe src="https://evil.example"></iframe>\n', encoding="utf-8"
     )
@@ -451,7 +453,7 @@ def test_validate_build_rejects_pagefind_count_mismatch(tmp_path: Path):
 
 def test_validate_build_requires_exact_sitemap_catalog_closure(tmp_path: Path):
     target = tmp_path / "dist"
-    target.mkdir()
+    target.mkdir(parents=True, exist_ok=True)
     (target / "index.html").write_text("<html></html>", encoding="utf-8")
     (target / "sitemap.xml").write_text(
         "<urlset><url><loc>/</loc></url><url><loc>/graph/</loc></url><url><loc>/one/</loc></url><url><loc>/private/</loc></url></urlset>",

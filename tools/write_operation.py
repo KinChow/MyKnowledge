@@ -28,6 +28,7 @@ from .common import (
     injection_point,
     sha256_bytes,
 )
+from .layers import working_contract_error
 from .operation_store import OperationStore, validate_apply_confirmation
 from .vault_lock import LockBusyError, VaultLock
 from .vault_registry import VaultRegistry
@@ -180,6 +181,13 @@ class WriteOperation:
                 path = self._path(name, vault_id)
                 if path.exists() and path.stat().st_nlink > 1:
                     raise ValueError("path_hardlink")
+                # unmanaged 层唯一的写入约束（LAY-003）：working/ 必须能回指来源。
+                # 这一层没有领域服务，preview 是唯一收口；判定实现在 tools/layers.py
+                layer_error = working_contract_error(
+                    vault_root, str(Path(name)), content
+                )
+                if layer_error:
+                    return {"state": "blocked", "error_code": layer_error}
                 before = sha256_bytes(path.read_bytes()) if path.exists() else None
                 targets.append(
                     {

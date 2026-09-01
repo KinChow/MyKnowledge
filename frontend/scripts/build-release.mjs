@@ -3,7 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 
-const lockDir=path.resolve('../state');
+const lockDir=path.resolve('../var/state');
 const lockPath=path.join(lockDir,'public-release.lock');
 fs.mkdirSync(lockDir,{recursive:true,mode:0o700});
 let lockFd;
@@ -20,7 +20,7 @@ try {
 if(fs.existsSync('dist')) fs.cpSync('dist','dist.previous',{recursive:true});
 try {
   execFileSync('node',['scripts/prepare-content.mjs'],{stdio:'inherit'});
-  execFileSync('node',['scripts/leak-gate.mjs','--scope','input-tree','../queries/public','../release/public-confirmations'],{stdio:'inherit'});
+  execFileSync('node',['scripts/leak-gate.mjs','--scope','input-tree','../var/queries/public','../release/public-confirmations'],{stdio:'inherit'});
   execFileSync('node',['scripts/build-graph.mjs'],{stdio:'inherit'});
   execFileSync('node',['scripts/leak-gate.mjs','--scope','staging','src/content','public/generated'],{stdio:'inherit'});
   execFileSync('npx',['astro','build','--outDir','dist.next'],{stdio:'inherit'});

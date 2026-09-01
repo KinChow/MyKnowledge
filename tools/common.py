@@ -12,12 +12,17 @@ import os
 import re
 import tempfile
 import unicodedata
+import uuid
 from pathlib import Path
+from typing import Any
+
+import yaml
 
 SOURCE_TYPES = {"blog", "doc", "book", "contest", "pr", "local-file", "personal-note"}
 ACQUISITIONS = {"fetch", "local-file", "personal-note"}
 DOMAINS = {"computer-science", "multimedia", "reading-notes", "tools", "work-methods"}
 SAFE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+OPERATION_ID = re.compile(r"^op[-_][a-z0-9][a-z0-9-]{0,62}$")
 
 
 def canonical_json(value: object) -> bytes:
@@ -109,6 +114,27 @@ def safe_id(value: str) -> str:
     return value
 
 
+def new_operation_id() -> str:
+    """生成 operation_id（唯一生成端口径：``op_<32位hex>``）。"""
+    return "op_" + uuid.uuid4().hex
+
+
+def safe_operation_id(value: str) -> str:
+    """校验 operation_id（唯一校验端口径），不合法时抛 ValueError。
+
+    与 ``safe_id`` 分开是因为生产形态 ``op_<hex>`` 含下划线，``safe_id`` 会
+    直接拒掉——每个调用点各自 ``removeprefix("op_")`` 后再 ``safe_id`` 的写法
+    曾让 ``release confirm`` 对**每一个**真实 operation 都返回 event_id_invalid。
+
+    校验只约束"前缀 + 安全字符集 + 长度上限"，不复刻生成端的 32 位 hex：
+    operation_id 会成为 ``audit/operations/<id>.json`` 的文件名，校验要挡的是
+    路径穿越与文件名注入；把校验收紧到生成端格式只会再制造一次"合法 ID 被拒"。
+    """
+    if not OPERATION_ID.fullmatch(value):
+        raise ValueError("invalid_operation_id")
+    return value
+
+
 def redact(value: object) -> object:
     """递归脱敏敏感字段（authorization/cookie/token/password 等），用于写入审计。"""
     if isinstance(value, dict):
@@ -155,6 +181,36 @@ def injection_point(point: str) -> None:
         raise OSError(f"injected_io_error:{point}")
 
 
+def load_config_yaml(path: Path, error_code: str) -> dict[str, Any]:
+    """读取一份 config YAML：缺失返回 {}，损坏抛 ValueError(error_code)。
+
+    `config/policy.yaml` 与 `config/schemas.yaml` 的加载语义完全相同
+    （缺失=合法空覆盖层、损坏=结构化阻断不静默降级），收敛为一处，
+    避免两个模块各写一份 `safe_load` 逐步漂移。
+    """
+    if not path.exists():
+        return {}
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, yaml.YAMLError) as exc:
+        raise ValueError(error_code) from exc
+    if data is None:
+        return {}
+    if not isinstance(data, dict):
+        raise ValueError(error_code)
+    return data
+
+
+def config_value(document: dict[str, Any], *keys: str, default: Any = None) -> Any:
+    """按键路径从配置映射取值；中途非映射节点或缺失返回 default。"""
+    node: Any = document
+    for key in keys:
+        if not isinstance(node, dict) or key not in node:
+            return default
+        node = node[key]
+    return node
+
+
 def atomic_write(path: Path, data: bytes, mode: int | None = None) -> None:
     """原子写入文件：临时文件 + fsync + rename，可选权限位，并 fsync 父目录。"""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -195,6 +251,44 @@ def read_stable(path: Path) -> tuple[bytes, os.stat_result]:
     ):
         raise RuntimeError("hash_mismatch")
     return data, after
+
+
+def safe_relative_path(value: str) -> str:
+    """append-only 记录里写下的相对路径的唯一校验口径（C004）。
+
+    记录本身不可改写，但它是**外部可改写的输入**：`archive_path` 写成
+    `../../etc/passwd` 或 `/etc/passwd` 时，按记录原样拼路径就会读到仓库外的文件。
+    因此在拼接之前先归一并拒绝：绝对路径、Windows 盘符、`..` 段、空串。
+
+    返回归一化后的 POSIX 相对路径；非法输入抛 `ValueError("unsafe_record_path")`，
+    由调用侧映射成结构化错误码——不静默当成"文件不存在"，那会把一次越界尝试
+    伪装成一条正常的缺失账目。
+    """
+    text = str(value).replace("\\", "/").strip()
+    if not text or text.startswith("/") or ":" in text.split("/")[0]:
+        raise ValueError("unsafe_record_path")
+    parts = [seg for seg in text.split("/") if seg not in ("", ".")]
+    if not parts or any(seg == ".." for seg in parts):
+        raise ValueError("unsafe_record_path")
+    return "/".join(parts)
+
+
+def is_contained_regular_file(base: Path, candidate: Path) -> bool:
+    """candidate 是否为 base 内的普通文件（符号链接必须解析后仍落在 base 内）。
+
+    与 `glob_without_symlinks` 同一条控制（C004），但判据不同：那里是遍历，广度
+    未知，只能一律不穿透；这里是一条已知路径，真正的威胁是**逃出仓库**而不是
+    "用了符号链接"。把 archive 目录 symlink 到外挂盘是合理布局，一律禁会让全部
+    快照报缺失——那是门禁过严，且给出的原因还是错的。
+    """
+    try:
+        base_real = base.resolve(strict=False)
+        target = candidate.resolve(strict=False)
+    except OSError:
+        return False
+    if target != base_real and base_real not in target.parents:
+        return False
+    return target.is_file()
 
 
 def glob_without_symlinks(base: Path, pattern: str) -> list[Path]:

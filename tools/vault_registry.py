@@ -236,8 +236,7 @@ class VaultRegistry:
                 continue
             seen_objects: set[tuple[str, str]] = set()
             count = 0
-            for object_type, folder in (("wiki", "wiki"), ("source", "sources")):
-                base = path / folder
+            for object_type, base in RepoPaths(path).object_roots:
                 for item in sorted(base.rglob("*.md")) if base.is_dir() else []:
                     if not item.is_file() or item.is_symlink():
                         continue
@@ -373,8 +372,7 @@ class VaultRegistry:
                 root = self.resolve_vault_path(vault_id)
             except (OSError, ValueError):
                 continue
-            for object_type, folder in (("wiki", "wiki"), ("source", "sources")):
-                base = root / folder
+            for object_type, base in RepoPaths(root).object_roots:
                 for path in sorted(base.rglob("*.md")) if base.is_dir() else []:
                     if not path.is_file() or path.is_symlink():
                         continue
@@ -433,8 +431,7 @@ class VaultRegistry:
                     "confidentiality", "public" if vault_id == public_id else "internal"
                 )
             )
-            for object_type, folder in (("wiki", "wiki"), ("source", "sources")):
-                base = vault_root / folder
+            for object_type, base in RepoPaths(vault_root).object_roots:
                 paths = sorted(base.rglob("*.md")) if base.is_dir() else []
                 for path in paths:
                     if not path.is_file() or path.is_symlink():

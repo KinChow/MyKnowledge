@@ -87,14 +87,14 @@ class DerivedTests(WikiTestCase):
         self.assertTrue(report["valid"], report["errors"])
         self.assertEqual(report["derived"]["evidence_state"], "conflicting")
         self.assertEqual(report["derived"]["strength"], "conflicted")
-        # verdict pass + 无 conflict → verified
+        # verdict pass + 无 conflict → 单一来源落 attested（owner 2026-09-01 决策）
         (report_dir / "attestation1.json").write_text(
             json.dumps(_report("pass", {"c1": "supported"})),
             encoding="utf-8",
         )
         report = WikiValidator(root).validate(wiki_path)
         self.assertEqual(report["derived"]["validation_state"], "pass")
-        self.assertEqual(report["derived"]["strength"], "verified")
+        self.assertEqual(report["derived"]["strength"], "attested")
         self.assertEqual(report["derived"]["evidence_state"], "supported")
         # AC-F003-015：规则集变化只标 stale_ruleset，不使人工确认失效
         (report_dir / "attestation1.json").write_text(
@@ -123,6 +123,71 @@ class DerivedTests(WikiTestCase):
         report = WikiValidator(root).validate(wiki_path)
         self.assertTrue(report["valid"], report["errors"])
         self.assertEqual(report["derived"]["validation_state"], "not_run")
+
+    def test_multi_source_pass_is_verified_and_single_source_is_attested(self):
+        """owner 2026-09-01 决策：verified 要求多来源，单一来源止步 attested。
+
+        读书笔记天然只有一个来源；把两者混为 verified 会让"一本书说的"和
+        "多个独立来源都说的"在读者眼里等价。
+        """
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        root = Path(directory.name)
+        _install_spec_doc(root)
+        second_body = "第二来源正文，包含" + QUOTE_EXACT + "作为独立佐证。"
+        _make_source(
+            root,
+            "test-source",
+            evidence_items=[_evidence_item("e1", SOURCE_BODY, QUOTE_EXACT)],
+        )
+        _make_source(
+            root,
+            "other-source",
+            body=second_body,
+            evidence_items=[_evidence_item("e2", second_body, QUOTE_EXACT)],
+        )
+        wiki = _base_wiki(
+            sources=["test-source", "other-source"],
+            evidence=[
+                {
+                    "claim_id": "c1",
+                    "claim": "测试论断。",
+                    "targets": [{"source_id": "test-source", "evidence_id": "e1"}],
+                    "support": "direct",
+                    "supporting_quotes": [{"evidence_id": "e1", "exact": QUOTE_EXACT}],
+                },
+                {
+                    "claim_id": "c2",
+                    "claim": "第二条测试论断。",
+                    "targets": [{"source_id": "other-source", "evidence_id": "e2"}],
+                    "support": "direct",
+                    "supporting_quotes": [{"evidence_id": "e2", "exact": QUOTE_EXACT}],
+                },
+            ],
+        )
+        wiki_path = _write_wiki(root, wiki)
+        hashes = WikiValidator(root).validate(wiki_path)["hashes"]
+
+        from tools.validation.ruleset import load_ruleset
+
+        report_dir = root / "audit" / "validation" / "wiki" / "test-wiki"
+        report_dir.mkdir(parents=True)
+        (report_dir / "report.json").write_text(
+            json.dumps(
+                {
+                    "schema_version": "validation-report/v1",
+                    "verdict": "pass",
+                    "claim_verdicts": {"c1": "supported", "c2": "supported"},
+                    "ruleset_sha256": load_ruleset(root)["ruleset_sha256"],
+                    "wiki_content_sha256": hashes["content_sha256"],
+                    "wiki_evidence_sha256": hashes["evidence_sha256"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        report = WikiValidator(root).validate(wiki_path)
+        self.assertEqual(report["derived"]["validation_state"], "pass")
+        self.assertEqual(report["derived"]["strength"], "verified")
 
     def test_private_publishable_with_confirmation(self):
         """§6.8：published + scope private + 审计确认 hash 匹配 → private_publishable: true。"""

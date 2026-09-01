@@ -100,6 +100,7 @@ field_contracts:
       - sources
       - evidence
       - updated_at
+      - review_by
       - content_sha256
       - evidence_sha256
   evidence_item:
@@ -137,8 +138,8 @@ field_contracts:
     schema_version: capability-token/v1
     required_fields: []
     allowed_fields: []
-    storage_path: state/capability-token
-    parent_directory: state
+    storage_path: var/state/capability-token
+    parent_directory: var/state
     file_mode: '0600'
     parent_directory_mode: '0700'
     random_bytes: 32
@@ -536,6 +537,49 @@ validation:
     source_is_data_not_instructions: true
     tools_disabled: true
     external_urls_disabled: true
+  report_conflict:
+    # VAL-003: reports bound to the same (content, evidence) hash may disagree
+    # across providers or reruns. Taking the newest one means "the last model
+    # wins", which lets a rerun loop shuffle a page past the gate. Fail wins.
+    resolution: fail_wins
+    latest_by_mtime_forbidden: true
+    all_reports_overridden_state: not_run
+  override:
+    # The signed escape hatch for a misjudged fail. Append-only, self-hashing,
+    # bound to the exact report and the exact content it was signed against.
+    schema_version: validation-override/v1
+    durable_path: audit/validation/wiki/<object_id>/overrides/<record_sha256>.json
+    decisions: [misjudged]
+    actor_types: [human]
+    agent_may_sign: false
+    reason_required: true
+    must_cover_all_non_supported_claims: true
+    overridable_verdicts: [fail]
+    required_fields:
+      - schema_version
+      - object_ref
+      - report_sha256
+      - decision
+      - reviewed_claim_ids
+      - reason
+      - actor_id
+      - actor_type
+      - reviewed_at
+      - wiki_content_sha256
+      - wiki_evidence_sha256
+      - record_sha256
+    record_hash_rule: record_sha256 = sha256(canonical_json(record without record_sha256))
+    error_codes:
+      - reason_required
+      - actor_invalid
+      - report_not_found
+      - report_schema_invalid
+      - report_not_failed
+      - report_stale
+      - claims_mismatch
+      - object_not_found
+      - object_invalid
+      - write_failed
 
 events:
   # ADR-0010 / 3->2 merge: apply confirmation, private publish confirmation and
@@ -644,6 +688,35 @@ event_contracts:
     - private_snapshot_hashes
     - private_content
     - private_operation_fields
+  # `operation_id` 的规范形态与唯一校验实现（§9.3）。生成端与校验端同源，
+  # 禁止调用点各自剥 `op_` 前缀后套用 safe_id 词表。
+  operation_id_rule:
+    canonical_form: op_<32_lowercase_hex>
+    generator: tools/common.py::new_operation_id
+    validator: tools/common.py::safe_operation_id
+    validator_scope: prefix_charset_and_length_only
+    invalid_error_code: operation_id_invalid
+  # 写入结果状态：幂等命中不是失败（§9.3）。
+  write_states:
+    created: 事件首次落盘
+    already_applied: 同 event_id 且内容 hash 完全一致，返回既有记录的 hash 与路径
+    blocked: 校验失败或冲突，不写入
+  write_error_codes:
+    - event_schema_invalid
+    - event_fields_missing
+    - event_id_invalid
+    - operation_id_invalid
+    - target_not_public
+    - target_ref_invalid
+    - event_authority_invalid
+    - reason_not_public_safe
+    - leak_gate_scope_invalid
+    - event_hash_mismatch
+    # 同 event_id、不同内容：拒绝覆盖已签确认（fail-closed）
+    - event_id_conflict
+    # 既有事件文件不可读/损坏：不得当作幂等命中放行
+    - event_unreadable
+    - confirmation_nonce_reused
 
 public_release_authority:
   field: public_release
@@ -754,6 +827,7 @@ hash_inputs:
     - related
     - status
     - updated_at
+    - review_by
     - validation_state
     - public_release
     - public_confirmation_sha256
@@ -877,18 +951,15 @@ build:
   leak_gate_fields: [scope, result, report_sha256]
   input_leak_gate_scope: input-tree
   dist_leak_gate_scope: dist
+  # 按实测实现收敛（frontend/scripts/build-release.mjs:12）：锁记录只有这四个
+  # 字段。原声明的 operation_id/lock_token/host/heartbeat_at/heartbeat_file 从未
+  # 写入，heartbeat 机制也不存在（`wx` 独占创建 + 内核语义已足够），2026-09-01
+  # 决策删除声明而不是实现无用机制。
   release_lock_required_fields:
     - schema_version
-    - operation_id
-    - lock_token
-    - fencing_token
     - pid
-    - host
-    - started_at
-    - heartbeat_at
-    - heartbeat_file
-  release_lock_fencing: token-and-inode
-  release_lock_heartbeat_schema: release-lock-heartbeat/v1
+    - created_at
+    - fencing_token
   warning_policy: blocking-unknown-v1
   advisory_warning_patterns:
     - 'Some chunks are larger than [0-9]+ kB after minification'

@@ -32,10 +32,10 @@ def test_skill_runtime_rejects_unknown_and_dangerous_actions(tmp_path: Path):
 
 def test_skill_runtime_write_preview_delegates_to_writer(tmp_path: Path):
     result = dispatch(
-        "write_preview", {"files": {"wiki/item.md": "# Item\n"}}, root=tmp_path
+        "write_preview", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
     )
     assert result["state"] == "previewed"
-    assert not (tmp_path / "wiki" / "item.md").exists()
+    assert not (tmp_path / "content" / "wiki" / "item.md").exists()
 
 
 def _skill_confirmation(root: Path, operation_id: str) -> dict:
@@ -51,7 +51,7 @@ def _skill_confirmation(root: Path, operation_id: str) -> dict:
 
 def test_skill_runtime_apply_requires_explicit_confirmation(tmp_path: Path):
     preview = dispatch(
-        "write_preview", {"files": {"wiki/item.md": "# Item\n"}}, root=tmp_path
+        "write_preview", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
     )
     # F009 收紧：Agent 裸 confirmed 不得自证，必须携带人工确认事件
     blocked = dispatch(
@@ -64,7 +64,7 @@ def test_skill_runtime_apply_requires_explicit_confirmation(tmp_path: Path):
         root=tmp_path,
     )
     assert bare["error_code"] == "skill_confirmation_required"
-    assert not (tmp_path / "wiki" / "item.md").exists()
+    assert not (tmp_path / "content" / "wiki" / "item.md").exists()
     applied = dispatch(
         "write_apply",
         {
@@ -95,13 +95,13 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
             "myknowledge_dispatch",
             {
                 "action": "write_preview",
-                "payload": {"files": {"wiki/mcp.md": "# MCP\n"}},
+                "payload": {"files": {"content/wiki/mcp.md": "# MCP\n"}},
             },
         )
         assert result["state"] == "previewed"
 
     asyncio.run(exercise())
-    assert not (tmp_path / "wiki" / "mcp.md").exists()
+    assert not (tmp_path / "content" / "wiki" / "mcp.md").exists()
 
 
 def test_mcp_server_enforces_configured_capability_for_sensitive_actions(
@@ -113,7 +113,7 @@ def test_mcp_server_enforces_configured_capability_for_sensitive_actions(
             "myknowledge_dispatch",
             {
                 "action": "write_preview",
-                "payload": {"files": {"wiki/mcp.md": "# MCP\n"}},
+                "payload": {"files": {"content/wiki/mcp.md": "# MCP\n"}},
             },
         )
         assert denied["error_code"] == "capability_token_required"
@@ -121,7 +121,7 @@ def test_mcp_server_enforces_configured_capability_for_sensitive_actions(
             "myknowledge_dispatch",
             {
                 "action": "write_preview",
-                "payload": {"files": {"wiki/mcp.md": "# MCP\n"}},
+                "payload": {"files": {"content/wiki/mcp.md": "# MCP\n"}},
                 "capability_token": "mcp-secret",
             },
         )
@@ -139,14 +139,14 @@ def test_mcp_server_expires_capability_token(tmp_path: Path):
             "myknowledge_dispatch",
             {
                 "action": "write_preview",
-                "payload": {"files": {"wiki/expired.md": "# expired\n"}},
+                "payload": {"files": {"content/wiki/expired.md": "# expired\n"}},
                 "capability_token": "short-lived",
             },
         )
         assert expired["error_code"] == "capability_token_expired"
 
     asyncio.run(exercise())
-    assert not (tmp_path / "wiki" / "expired.md").exists()
+    assert not (tmp_path / "content" / "wiki" / "expired.md").exists()
 
 
 def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
@@ -175,7 +175,7 @@ def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
                     "myknowledge_dispatch",
                     {
                         "action": "write_preview",
-                        "payload": {"files": {"wiki/stdio.md": "# stdio\n"}},
+                        "payload": {"files": {"content/wiki/stdio.md": "# stdio\n"}},
                     },
                 )
                 denied_value = json.loads(denied.content[0].text)
@@ -184,7 +184,7 @@ def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
                     "myknowledge_dispatch",
                     {
                         "action": "write_preview",
-                        "payload": {"files": {"wiki/stdio.md": "# stdio\n"}},
+                        "payload": {"files": {"content/wiki/stdio.md": "# stdio\n"}},
                         "capability_token": "stdio-secret",
                     },
                 )
@@ -192,11 +192,11 @@ def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
                 assert allowed_value["state"] == "previewed"
 
     asyncio.run(exercise())
-    assert not (tmp_path / "wiki" / "stdio.md").exists()
+    assert not (tmp_path / "content" / "wiki" / "stdio.md").exists()
 
 
 def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
-    body = tmp_path / "wiki" / "one.md"
+    body = tmp_path / "content" / "wiki" / "one.md"
     body.parent.mkdir(parents=True)
     body.write_text("中文 projection", encoding="utf-8")
     manifest = {
@@ -210,13 +210,13 @@ def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/one.md",
+                "body_path": "content/wiki/one.md",
                 "title": "One",
             }
         ],
     }
-    (tmp_path / "queries" / "public").mkdir(parents=True)
-    (tmp_path / "queries" / "public" / "manifest.json").write_text(
+    (tmp_path / "var" / "queries" / "public").mkdir(parents=True)
+    (tmp_path / "var" / "queries" / "public" / "manifest.json").write_text(
         json.dumps(manifest), encoding="utf-8"
     )
     query = dispatch("query", {"query": "projection", "scope": "public"}, root=tmp_path)
@@ -235,8 +235,8 @@ def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
 
 
 def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
-    wiki = tmp_path / "wiki"
-    wiki.mkdir()
+    wiki = tmp_path / "content" / "wiki"
+    wiki.mkdir(parents=True, exist_ok=True)
     (wiki / "one.md").write_text("one", encoding="utf-8")
     (wiki / "two.md").write_text("See [one](/wiki/one).", encoding="utf-8")
     manifest = {
@@ -250,7 +250,7 @@ def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/one.md",
+                "body_path": "content/wiki/one.md",
                 "title": "One",
             },
             {
@@ -260,12 +260,12 @@ def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
                 "public_release": True,
                 "status": "published",
                 "effective_confidentiality": "public",
-                "body_path": "wiki/two.md",
+                "body_path": "content/wiki/two.md",
                 "title": "Two",
             },
         ],
     }
-    path = tmp_path / "queries" / "public"
+    path = tmp_path / "var" / "queries" / "public"
     path.mkdir(parents=True)
     (path / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
     retrieve = dispatch("retrieve", {"query": "one"}, root=tmp_path)
@@ -285,14 +285,14 @@ def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
 
 
 def test_skill_ask_reuses_public_retrieval_and_offline_boundary(tmp_path: Path):
-    wiki = tmp_path / "wiki"
-    wiki.mkdir()
+    wiki = tmp_path / "content" / "wiki"
+    wiki.mkdir(parents=True, exist_ok=True)
     (wiki / "one.md").write_text("中文 projection", encoding="utf-8")
-    (tmp_path / "practice" / "questions").mkdir(parents=True)
-    (tmp_path / "practice" / "questions" / "q.json").write_text(
+    (tmp_path / "content" / "practice" / "questions").mkdir(parents=True)
+    (tmp_path / "content" / "practice" / "questions" / "q.json").write_text(
         '{"answer":"secret"}', encoding="utf-8"
     )
-    manifest_dir = tmp_path / "queries" / "public"
+    manifest_dir = tmp_path / "var" / "queries" / "public"
     manifest_dir.mkdir(parents=True)
     manifest_dir.joinpath("manifest.json").write_text(
         json.dumps(
@@ -307,7 +307,7 @@ def test_skill_ask_reuses_public_retrieval_and_offline_boundary(tmp_path: Path):
                         "public_release": True,
                         "status": "published",
                         "effective_confidentiality": "public",
-                        "body_path": "wiki/one.md",
+                        "body_path": "content/wiki/one.md",
                         "title": "One",
                     }
                 ],
@@ -377,15 +377,19 @@ def test_skill_source_preview_and_apply_delegate_to_source_service(tmp_path: Pat
 
 
 def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path):
-    wiki = tmp_path / "wiki" / "skill.md"
+    wiki = tmp_path / "content" / "wiki" / "skill.md"
     wiki.parent.mkdir(parents=True)
     wiki.write_text(
         "---\nschema_version: wiki/v1\nid: skill\nkind: knowledge\ntitle: Skill\nstatus: draft\npublication_scope: none\nconfidentiality: public\nsources: []\nevidence: []\n---\n\n# Skill\n",
         encoding="utf-8",
     )
-    result = dispatch("wiki_validate", {"wiki_path": "wiki/skill.md"}, root=tmp_path)
+    result = dispatch(
+        "wiki_validate", {"wiki_path": "content/wiki/skill.md"}, root=tmp_path
+    )
     assert result["object_ref"]["object_id"] == "skill"
-    preview = dispatch("publish_preview", {"wiki_path": "wiki/skill.md"}, root=tmp_path)
+    preview = dispatch(
+        "publish_preview", {"wiki_path": "content/wiki/skill.md"}, root=tmp_path
+    )
     assert preview["state"] == "blocked"
     assert "wiki_report" in preview
     assert (
@@ -483,7 +487,7 @@ def test_skill_question_create_requires_validator_backed_wiki_path(tmp_path: Pat
 def test_skill_question_create_delegates_validated_report(tmp_path: Path):
     from unittest import mock
 
-    wiki = tmp_path / "wiki" / "one.md"
+    wiki = tmp_path / "content" / "wiki" / "one.md"
     wiki.parent.mkdir(parents=True)
     wiki.write_text("# one\n", encoding="utf-8")
     spec = {
@@ -511,7 +515,9 @@ def test_skill_question_create_delegates_validated_report(tmp_path: Path):
         ) as create,
     ):
         result = dispatch(
-            "question_create", {"spec": spec, "wiki_path": "wiki/one.md"}, root=tmp_path
+            "question_create",
+            {"spec": spec, "wiki_path": "content/wiki/one.md"},
+            root=tmp_path,
         )
     assert result["state"] == "created"
     validate.assert_called_once_with(wiki)

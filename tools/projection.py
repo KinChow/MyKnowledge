@@ -76,13 +76,14 @@ class PublicProjectionStore:
         if not with_body:
             return items
         loaded: list[dict[str, Any]] = []
+        wiki_prefix = RepoPaths(self.root).wiki_root.relative_to(self.root).parts
         for item in items:
             rel = Path(str(item.get("body_path", "")))
             if (
                 rel.is_absolute()
                 or ".." in rel.parts
                 or not rel.parts
-                or rel.parts[0] != "wiki"
+                or rel.parts[: len(wiki_prefix)] != wiki_prefix
             ):
                 raise ValueError("projection_path_invalid")
             body_path = self.root / rel

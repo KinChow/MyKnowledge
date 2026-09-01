@@ -14,8 +14,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-import yaml
-
+from .common import config_value, load_config_yaml
 from .paths import RepoPaths
 
 POLICY_FILENAME = "policy.yaml"
@@ -27,25 +26,10 @@ def policy_path(root: Path) -> Path:
 
 def load_policy(root: Path) -> dict[str, Any]:
     """读取整份策略；文件缺失返回 {}，损坏抛 ValueError("policy_invalid")。"""
-    path = policy_path(root)
-    if not path.exists():
-        return {}
-    try:
-        data = yaml.safe_load(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, yaml.YAMLError) as exc:
-        raise ValueError("policy_invalid") from exc
-    if data is None:
-        return {}
-    if not isinstance(data, dict):
-        raise ValueError("policy_invalid")
-    return data
+    return load_config_yaml(policy_path(root), "policy_invalid")
 
 
 def policy_value(root: Path, *keys: str, default: Any = None) -> Any:
     """按键路径取值；中途遇到非映射节点视为未配置（返回 default）。"""
-    node: Any = load_policy(root)
-    for key in keys:
-        if not isinstance(node, dict) or key not in node:
-            return default
-        node = node[key]
+    node = config_value(load_policy(root), *keys, default=None)
     return default if node is None else node

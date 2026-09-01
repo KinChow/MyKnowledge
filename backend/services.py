@@ -11,6 +11,7 @@ from typing import Any
 
 from tools.common import safe_id
 from tools.front_matter import FrontMatter
+from tools.paths import RepoPaths
 from tools.vault_registry import VaultRegistry
 
 from .errors import api_error
@@ -98,7 +99,8 @@ def resolve_object_path(
         raise api_error(
             404, "vault_unavailable", "read", "check vault registry"
         ) from exc
-    base = owner_root / ("wiki" if object_type == "wiki" else "sources")
+    paths = RepoPaths(owner_root)
+    base = paths.wiki_root if object_type == "wiki" else paths.sources_root
     matches = [
         p for p in base.rglob(f"{object_id}.md") if p.is_file() and not p.is_symlink()
     ]
