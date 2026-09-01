@@ -99,6 +99,16 @@
 - 对应测试：`ConfirmationBoundaryTests` + `tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade`
 - 当前状态：通过。
 
+## AC-F004-012 幂等命中与 operation_id 口径统一
+
+- Given：一条已落盘的 `public-release-confirmation/v1`；再构造三种输入：内容完全一致的重复提交、同 `event_id` 但 `reason` 不同的提交、真实生成的 `op_<32 位 hex>` 与畸形 `operation_id`（`op_`、`op_ABC`、`../op-one`、`op_one/two`、`one`）；
+- When：调用 `release_confirmation.write_event()` / `validate_event()` 与 `tools.common.safe_operation_id()`；
+- Then：重复提交返回 `already_applied` 并回带既有记录的 `event_sha256` 与路径（CLI 退出码 0）；同 ID 异内容返回 `event_id_conflict`；既有文件损坏返回 `event_unreadable`；真实 `op_<hex>` 通过校验，畸形值一律 `operation_id_invalid`；
+- 失败时不变量：幂等命中不得报成失败——否则操作者会删掉 append-only 确认记录重签，用删审计换一次"成功"；`already_applied` 不得覆盖或放行任何内容不一致的事件；`operation_id` 的生成与校验必须共用 `new_operation_id`/`safe_operation_id`，调用点不得各自剥前缀套用其他 ID 词表（该写法曾让 `release confirm` 对每一个真实 operation 都返回 `event_id_invalid`）；CLI 不得对 `blocked` 返回退出码 0；
+- 自动化级别：Unit/Security。
+- 对应测试：`tests/test_release_confirmation.py::test_repeating_the_same_confirmation_is_already_applied`、`::test_same_event_id_with_different_content_is_a_conflict`、`::test_real_generated_operation_id_passes_validation`、`::test_operation_id_rejects_unsafe_forms`
+- 当前状态：通过。
+
 ## AC-F004-008 多 Vault 锁顺序
 
 - Given：operation 同时涉及两个或更多 Vault，另一个 operation 以不同输入顺序并发执行；

@@ -36,7 +36,7 @@ MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当�
 | snapshot | 不可变、内容寻址的归档文本或本地文件版本，是证据的事实载体 |
 | evidence item | 绑定 snapshot 的 TextQuote/TextPosition selector，可被确定性解析的证据锚点 |
 | source locator | 面向阅读的 source 章节定位；不是唯一的事实证据，权威锚点是 evidence item |
-| validation report | 针对某个 wiki/source 内容 hash 生成的 LLM 证据验证报告 |
+| validation report | 针对某个 content/wiki/source 内容 hash 生成的 LLM 证据验证报告 |
 | operation | 一次可预览、可确认、可失效、可追踪的写入操作 |
 | projection | 从同一内容库生成的 public 或 local 数据视图 |
 
@@ -61,7 +61,7 @@ MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当�
 - 生成 224 条显式 Markdown 关系；
 - 仍有 19 条未解析的内部 Markdown 链接需要在迁移阶段处理。
 
-`docs/acceptance/`、`docs/adr/`、`docs/technical-design/`、`docs/deferred/` 以及根目录设计索引属于治理文档，不是公开 Wiki 内容，legacy adapter 必须排除它们。正式构建切换到 `queries/public` 后，`docs/` 只作为迁移输入，不再是静态站点的直接输入。
+`docs/acceptance/`、`docs/adr/`、`docs/technical-design/`、`docs/deferred/` 以及根目录设计索引属于治理文档，不是公开 Wiki 内容，legacy adapter 必须排除它们。正式构建切换到 `var/queries/public` 后，`docs/` 只作为迁移输入，不再是静态站点的直接输入。
 
 当前文章没有统一的知识库 Front Matter，原始 docs/ 不能直接被视为已经完成 source/wiki 分层的语料。
 
@@ -138,14 +138,14 @@ flowchart TD
 
 以下规则属于 blocking gate，违反即失败：
 
-1. 外部资料和个人编写的原始文档必须先进入 sources/。
+1. 外部资料和个人编写的原始文档必须先进入 content/sources/。
 2. `kind: knowledge` 的 wiki.sources 不能为空；`kind: index`、`kind: reference` 和 `status: planned` 按 6.7 分档处理。
 3. wiki.sources 中的每个 ID 必须存在。
 4. source 只有 metadata 时不能支撑 published 的 `kind: knowledge` wiki。
 5. `kind: knowledge` wiki 的每个核心论断必须有 claim 和至少一个绑定 snapshot/selector 的 evidence target；source locator 仅用于阅读导航。
 6. wiki 必须通过确定性校验（schema、target 解析、snapshot 可读、selector 范围、`supporting_quotes.exact` 逐字匹配、hash 绑定）。这是唯一自动阻断门。
 7. 发布必须有绑定当前 `(content_sha256, evidence_sha256)` 的人工审计确认。LLM 规范审计是可选层：未运行时 `validation_state: not_run`，不阻断且不得表述为已验证；运行后为 `fail` 时阻断；LLM 通过不替代人工审计，LLM 未运行也不改变人工审计的要求。详见 ADR-0010。
-8. queries/ 是生成物，禁止人工直接编辑。
+8. var/queries/ 是生成物，禁止人工直接编辑。
 9. public 构建只能包含 `public_publishable: true` 的 wiki。
 10. Agent 不能直接编辑 Markdown、索引、前端或后端代码。
 11. 写入必须经过 preview、用户确认、hash 检查和原子应用。
@@ -173,67 +173,56 @@ wiki      = 面向理解的人工综合，必须逐条绑定证据
 queries   = 可重建的索引投影，任何手工修改都会在下次生成时被覆盖
 ```
 
-`practice/` 目录为 F008 预留，不属于当前主链路；当前索引和发布不读取题目。`state/` 是本机运行状态：它可以记录操作和阅读偏好，但不能改变仓库中 source、wiki 的事实内容。
+`content/practice/` 目录为 F008 预留，不属于当前主链路；当前索引和发布不读取题目。`var/state/` 是本机运行状态：它可以记录操作和阅读偏好，但不能改变仓库中 source、wiki 的事实内容。
 
 ## 4. 目录与对象模型
 
-目录按知识内容组织。来源类型不再通过 blogs/、docs/、books/ 等物理目录表达，而是通过 Front Matter 表达。
+仓库根目录由「若干工程根 + 三个数据域」组成：组件目录因为语言生态约束必须平铺在根（见 §4.4），数据侧收敛为 `content/`、`ledger/`、`var/` 三个域。知识领域仍由目录路径和 `domain` 表达；来源类型不再通过 blogs/、docs/、books/ 等物理目录表达，而是通过 Front Matter 表达。
 
 ~~~text
 MyKnowledge/
-├── sources/
-│   ├── computer-science/
-│   ├── multimedia/
-│   ├── reading-notes/
-│   ├── tools/
-│   └── work-methods/
-├── wiki/
-│   ├── computer-science/
-│   ├── multimedia/
-│   ├── reading-notes/
-│   ├── tools/
-│   └── work-methods/
-├── practice/                    # F008 预留；当前版本不读取
-│   └── questions/               # F008 预留
-├── archive/
-│   ├── text/
-│   ├── raw/
-│   └── manifest.jsonl
-├── queries/
-│   ├── public/
-│   └── local/
-├── config/
-│   ├── schemas.yaml
-│   ├── vocab.yaml
-│   ├── vaults.example.yaml
-│   ├── vaults.local.yaml       # 本机 overlay，Git 忽略
-│   └── policy.yaml
-├── backend/
-├── frontend/
-├── tools/
-├── templates/
-├── audit/                    # 需长期保留、按 vault 归属的审计摘要
-│   ├── operations/
-│   └── validation/
-├── release/
-│   └── public-confirmations/ # public-safe、可提交的人工确认事件
-└── state/                    # 本机临时运行态，不是事实源
-    ├── operations/
-    ├── llm-validation/
-    └── reading/
+├── tools/  backend/  frontend/  tests/  scripts/  skills/   # 组件：工程根，必须平铺
+├── config/                     # 运行时契约：schemas.yaml / vocab.yaml / policy.yaml / vaults.*.yaml
+├── docs/                       # 规范与设计；ruleset 运行时按 (doc, section) 抽取，属组件侧输入
+├── templates/                  # 正文与 Front Matter 模板
+│
+├── content/                    # 域 1：人写、可编辑、不可重建、per-vault
+│   ├── sources/<domain>/       #   managed，source/v1
+│   ├── working/                #   unmanaged，过渡区，有 TTL
+│   ├── journal/<YYYY>/<MM>/    #   unmanaged，append-only，无出口
+│   ├── decisions/              #   轻管，内容级判定记录（CDR）
+│   ├── wiki/<domain>/          #   managed，wiki/v1
+│   │   └── assets/             #   public 附件
+│   └── practice/questions/     #   F008 预留；当前版本不读取
+│
+├── ledger/                     # 域 2：机器写、不可变、append-only、被派生规则引用、per-vault
+│   ├── archive/                #   text/  raw/  manifest.jsonl
+│   ├── audit/                  #   operations/  validation/  backup/  retire/
+│   └── release/                #   public-confirmations/：public-safe 人工确认事件
+│
+└── var/                        # 域 3：机器写、可重建、可删
+    ├── queries/                #   public/  local/
+    ├── state/                  #   本机运行态，Git 忽略，不是事实源
+    └── reports/                #   验收与体检报告
 ~~~
+
+`<domain>` 取值受 `config/vocab.yaml` 的 `domains` 约束，未知 domain 直接拒绝。`content/` 与 `ledger/` 在每个 vault 内结构一致；`var/` 只在 public checkout 内存在。
 
 ### 4.1 目录和元数据的职责
 
 | 信息 | 位置 |
 | --- | --- |
+| 人写内容 / 不可变记录 / 可重建产物 | 顶层数据域 `content/`、`ledger/`、`var/` |
+| 加工阶段（来源、过渡、日志、判定、成品） | `content/` 下的层目录 |
 | 计算机科学、工具、工作方法等知识领域 | 目录路径和 domain |
 | knowledge、index、reference | kind |
 | draft、review、published | status |
-| 博客、文档、个人笔记、PR | source_type |
+| 复审到期时间 | wiki 的 `review_by`（报告项，见 §6.2） |
+| 博客、文档、个人笔记、播客、视频、PR | source_type |
 | 外部资料或个人资料 | origin |
 | 标签、别名和关系 | tags、aliases、Markdown 链接、related |
 | source 证据映射 | wiki 的 evidence |
+| 对象所属 vault | object_ref 的 `vault_id`，不由路径表达 |
 | 题目归属 | F008 预留；当前版本不建立题目关系 |
 
 contents.md 在迁移后作为 kind: index 的普通 wiki 页面，不建立额外的 MOC 目录。
@@ -286,7 +275,7 @@ vaults:
     backup_state: unconfigured
 ~~~
 
-每个 private vault 的目录结构与 public vault 相同（`sources/`、`wiki/`、`practice/`、`archive/`、`queries/`），但位于独立私有 Git 仓库。推荐由一个本地私有 workspace superproject 管理 public repo 和任意数量的 private repo：
+每个 private vault 的目录结构与 public vault 相同（`content/sources/`、`content/wiki/`、`content/practice/`、`ledger/archive/`、`var/queries/`），但位于独立私有 Git 仓库。推荐由一个本地私有 workspace superproject 管理 public repo 和任意数量的 private repo：
 
 ~~~text
 MyKnowledge-workspace/
@@ -329,44 +318,127 @@ manifest 为了保持结构统一，可以在 `public` 条目中保留置空的 
 
 | 路径 | 类别 | Git | 理由 |
 | --- | --- | --- | --- |
-| `sources/`、`wiki/`、`practice/` | 内容 | 入库 | 唯一真相源 |
+| `content/sources/`、`content/wiki/`、`content/practice/` | 内容 | 入库 | 唯一真相源 |
 | `config/`、`templates/`、`tools/`、`backend/`、`frontend/`（源码） | 内容 | 入库 | 规范与实现 |
-| `archive/text/`、`archive/manifest.jsonl` | 证据副本 | 按 vault 入库 | public 只保存明确允许公开的资料；internal 只进入 private 子仓库 |
-| `archive/raw/` | 证据副本 | private 子仓库优先，必要时 git-lfs | 原始文件默认不进入 public 仓库 |
-| `queries/public/` | 生成物 | 入库 | 静态站构建输入，需要可复现发布 |
-| `queries/local/`、`rag-index.jsonl`、向量索引文件 | 生成物 | 忽略 | 体积大、可重建、每次重建全变 |
-| `audit/operations/`、`audit/validation/` | 持久审计/验证摘要 | 按 owner vault 入库；public-safe 摘要可进入 public repo | 人工操作者、确认事件、验证 attestation 和 hash 绑定不可重建，必须随对应内容保留；不得包含敏感正文 |
-| `release/public-confirmations/` | public release 人工确认事件 | public-safe，入 public Git | public projection 在另一台机器上仍能复现当前人工批准；事件不得包含 private ID、路径或正文 |
-| `state/operations/`、`state/llm-validation/` | 本机临时运行态/完整 provider 报告 | 忽略 | 可清理；不能作为发布或恢复的唯一依据 |
-| `state/local-sources/` | 本机 local-file sidecar | 忽略 | 保存绝对路径映射和 file hash；不得进入 canonical Source、public artifact 或日志 |
-| `state/reading/`（本地阅读状态） | 用户数据 | 本机 localStorage/状态目录 | 不属于 canonical 内容；F008 题目复习另行定义 |
+| `ledger/archive/text/`、`ledger/archive/manifest.jsonl` | 证据副本 | 按 vault 入库 | public 只保存明确允许公开的资料；internal 只进入 private 子仓库 |
+| `ledger/archive/raw/` | 证据副本 | private 子仓库优先，必要时 git-lfs | 原始文件默认不进入 public 仓库 |
+| `var/queries/public/` | 生成物 | 入库 | 静态站构建输入，需要可复现发布 |
+| `var/queries/local/`、`rag-index.jsonl`、向量索引文件 | 生成物 | 忽略 | 体积大、可重建、每次重建全变 |
+| `ledger/audit/operations/`、`ledger/audit/validation/` | 持久审计/验证摘要 | 按 owner vault 入库；public-safe 摘要可进入 public repo | 人工操作者、确认事件、验证 attestation 和 hash 绑定不可重建，必须随对应内容保留；不得包含敏感正文 |
+| `ledger/release/public-confirmations/` | public release 人工确认事件 | public-safe，入 public Git | public projection 在另一台机器上仍能复现当前人工批准；事件不得包含 private ID、路径或正文 |
+| `var/state/operations/`、`var/state/llm-validation/` | 本机临时运行态/完整 provider 报告 | 忽略 | 可清理；不能作为发布或恢复的唯一依据 |
+| `var/state/local-sources/` | 本机 local-file sidecar | 忽略 | 保存绝对路径映射和 file hash；不得进入 canonical Source、public artifact 或日志 |
+| `var/state/reading/`（本地阅读状态） | 用户数据 | 本机 localStorage/状态目录 | 不属于 canonical 内容；F008 题目复习另行定义 |
 | `.cache/fetch/`、`frontend/dist/`、`node_modules/` | 临时物 | 忽略 | 无保留价值 |
 
-`queries/public` 入库是有意的：它决定公开站点的内容，需要能对照某个 commit 复现一次发布。`queries/local` 不入库，因为它随每次索引重建整体变化，且可以从内容完全重建。发布确认和验证 attestation 不能只放在被忽略的 `state/`；否则另一台机器无法判断当前 hash 是否确实经过人工批准。
+`var/queries/public` 入库是有意的：它决定公开站点的内容，需要能对照某个 commit 复现一次发布。`var/queries/local` 不入库，因为它随每次索引重建整体变化，且可以从内容完全重建。发布确认和验证 attestation 不能只放在被忽略的 `var/state/`；否则另一台机器无法判断当前 hash 是否确实经过人工批准。
 
 相同 `snapshot_sha256` 的物理去重只发生在内容寻址 blob 层：默认每个 owner Vault 都保留自己的 manifest record 和可恢复路径；可选的 workspace blob cache 只是派生缓存，必须按 `(vault_id, snapshot_sha256)` 做权限检查，不能成为唯一备份或唯一解析入口。不同 Vault 的 Source/Wiki、evidence、confidentiality、备份和发布状态永远不因相同 snapshot 自动合并。
 
-`archive/raw/` 从启用归档的那一次变更起就走 git-lfs，不经过"先普通入库、以后再迁"的中间状态。原因是 git 历史里的 blob 删不掉：一旦二进制原件以普通对象提交过，事后迁 LFS 必须重写历史（`git filter-repo`），而这个仓库是公开的、已有远端，重写历史会打断所有已有 clone 和引用。先配置后归档的顺序成本几乎为零，反过来就很贵。
+`ledger/archive/raw/` 从启用归档的那一次变更起就走 git-lfs，不经过"先普通入库、以后再迁"的中间状态。原因是 git 历史里的 blob 删不掉：一旦二进制原件以普通对象提交过，事后迁 LFS 必须重写历史（`git filter-repo`），而这个仓库是公开的、已有远端，重写历史会打断所有已有 clone 和引用。先配置后归档的顺序成本几乎为零，反过来就很贵。
 
 启用步骤是归档功能的前置条件，缺一不可：
 
 ~~~text
 git lfs install
-git lfs track "archive/raw/**"      # 写入 .gitattributes 并提交
+git lfs track "ledger/archive/raw/**"      # 写入 .gitattributes 并提交
 # 确认 .gitattributes 已生效后，才允许 Source 导入工具写入 raw
 ~~~
 
-Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；不存在时拒绝写入 `archive/raw/`，只写 `archive/text/` 并降级为 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
+Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；不存在时拒绝写入 `ledger/archive/raw/`，只写 `ledger/archive/text/` 并降级为 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
 
-`archive/text/` 保持普通入库：它是可解压回 canonical 文本的压缩 blob，体积在几 MB 量级，需要 Git 历史可追溯性，不适合放进 LFS；snapshot hash 和 selector 永远对解压后的逻辑文本计算。
+`ledger/archive/text/` 保持普通入库：它是可解压回 canonical 文本的压缩 blob，体积在几 MB 量级，需要 Git 历史可追溯性，不适合放进 LFS；snapshot hash 和 selector 永远对解压后的逻辑文本计算。
 
 复习进度属于后续 F008 的用户数据边界，不纳入当前主链路。F008 确定题型、判分和复习算法后，再定义其备份与恢复要求。
 
-生成物统一带生成器版本、生成时间、输入集合 hash 和 schema 版本；`queries/` 中的任何手工修改都会在下次生成时被覆盖，工具不做保护。
+生成物统一带生成器版本、生成时间、输入集合 hash 和 schema 版本；`var/queries/` 中的任何手工修改都会在下次生成时被覆盖，工具不做保护。
+
+### 4.4 布局判据与三个数据域
+
+目录结构的唯一职责是让「这东西该放哪」「要不要备份」「能不能删」有唯一答案。归属由五条可判定属性决定：
+
+1. **谁写**：人手写 / 机器生成；
+2. **能否重建**：删除后能否用命令重新生成；
+3. **是否被引用锁定**：路径是否写进 append-only 记录或派生规则；
+4. **是否随 vault 复制**：per-vault / 只在 public checkout；
+5. **是否是语言生态的工程根**：是否必须位于特定位置才能 import 或构建。
+
+第 5 条决定组件不进子目录：`python -m tools.cli` 依赖 `tools/` 位于仓库根即 `sys.path[0]` 下，`frontend/` 是独立 npm 工程根。把它们收进 `platform/` 或 `src/` 会改写全部 import、Agent Skill 入口和文档命令，成本远大于收益。**组件平铺在根是生态约束下的正解，不是布局缺陷**；需要收敛的是数据侧。
+
+数据域准入规则（新增目录按此判定，不允许无归属目录）：
+
+| 域 | 判据 | 备份 | 可否删除 |
+| --- | --- | --- | --- |
+| `content/` | 人手写、可编辑、删除后必须重写 | 必须 | 否 |
+| `ledger/` | 机器写、只能追加、路径被 durable 派生规则引用 | 必须 | 否 |
+| `var/` | 机器写、可用命令重新生成 | 不必 | 可 |
+| 根级组件 | 需要被 import 或作为外部工具的工程根 | 随代码 | 否 |
+| `config/`、`docs/` | 运行时读取的契约与规范原文 | 随代码 | 否 |
+
+`ledger/archive/` 虽然是「来源的副本」，但它是机器抓取、内容寻址、人不可编辑的，且 `manifest.jsonl` 是 append-only，因此按判据 1 与 3 归入 `ledger/`，不进 `content/`。`docs/` 虽然是人手写的，但 LLM 规范审计的 ruleset 在运行时按 `(doc, section)` 抽取其原文并计算 `extract_sha256`（见 §8），因此它是运行时输入，属组件侧，不进 `content/`。
+
+
+
+### 4.5 五层与三条写入通道
+
+`content/` 内部按加工阶段分五层。层的物理位置与对象归属的关系取决于它是否有 object 身份：
+
+| 层 | 受 schema 管 | object 身份 | 进 projection | TTL | 出口 |
+| --- | --- | --- | --- | --- | --- |
+| `sources/` | 是，`source/v1` | 有 | 否（仅被引用） | 无 | 被 wiki 引用 |
+| `working/` | 否，unmanaged | 无 | 物理不可能 | 30 天 | wiki / journal / 删除 |
+| `journal/` | 否，unmanaged | 无 | 物理不可能 | 无 | 无出口，终点 |
+| `decisions/` | 轻管（CDR 模板） | 无 | 物理不可能 | 无 | 无出口，终点 |
+| `wiki/` | 是，`wiki/v1` | 有 | 是 | 无，用 `review_by` | published → public release |
+
+「进 projection 物理不可能」不是额外门禁：`policy.yaml` 的 `projection.body_path_prefixes` 只允许 `var/queries/public/` 与 `content/wiki/`，未列出的前缀无法成为 `body_path`。
+
+**vault 归属的差异**：`sources/` 与 `wiki/` 有 `object_ref = [vault_id, object_type, object_id]` 且被 `evidence.targets` 真实引用，因此必须每个 vault 各有一份。`working/`、`journal/`、`decisions/` 是 unmanaged、没有 object 身份，`working → wiki` 是人工重写而不是对象引用，因此不构成 cross-vault reference，可以只存在一份：放在当前可用的最私密 vault 中。未挂载 private vault 时这三层位于 public checkout；挂载后 internal 素材使用该 vault 自己的 `content/working/`。维护面因此是 `2N + 3` 而不是 `5N`。
+
+三条写入通道，门禁强度与出口封锁各不相同：
+
+- **通道 A 主链路**：`source → snapshot → evidence item → claim → 确定性校验 → LLM 审计 → 人工确认 → published → public release`，产出 `strength ∈ {verified, corroborated, attested}`。规范见 §5–§9，不因本节改变。
+- **通道 B 降级落位**：写入 `content/working/`，唯一硬约束是 `source_ref` 或 `legacy_path` 非空。它**不产生 wiki 对象**，因此不存在"五字段快速 wiki 条目"这种入口（原快速通道设计已取消，理由见 ADR-0014 决策 4）。存量误登记为 source 的加工文档整批降级到这一层；`content/wiki/` 只能**逐篇人工升级**进入，升级即走通道 A 全流程。安全性由出口封锁保证：不进任何 projection、不出现在任何 wiki 的 `evidence.targets`、不进 RAG 召回。
+- **通道 C 日志**：写入 `journal/`，零门槛，不产生对象，永不升级。
+
+降级与升级不对称是有意的：降级是**批量**动作（承认"它本来就不是 source"这一事实，一条 CDR 记录整批理由即可），升级是**逐篇**动作（八段正文 + claim/evidence 映射 + 引文逐字校验 + 人工确认，无法批量代劳）。任何"把 working 批量升级进 wiki"的路径都不存在——批量升级等于批量伪造证据链。
+
+层间 gate：进入 `working/` 的唯一硬约束是 `source_ref` 或 `legacy_path` 非空；`working/` 到期由 `doctor` 报告，人工在「升级 / 转 journal / 删除」三者中选择，工具永不自动删除。`wiki` 执行 retire 或 deprecate 时必须在 `decisions/` 留一条 CDR 记录理由，判定值沿用 §16.2 `content_verdict` 的四值语义。
+
+unmanaged 层不参与 operation 协议：它们不进入 `before_hashes`/`after_hashes`，手工编辑与后台 apply 的路径集不相交，`locks.scope: per-vault` 无需扩展。它们也没有 `object_ref`，因此不能进入 `query-result/v1`；检索由独立的文本匹配命令提供，不伪造 object 身份。
+
+### 4.6 路径域基线与迁移映射
+
+本表是路径归属的唯一事实源。下游 Technical Design、Acceptance、`config/` 与代码中仍存在的历史路径按本表映射；两者不一致时以本表为准，且必须在执行对应迁移 commit 时同步更新。
+
+| 历史路径 | 目标路径 | 迁移批次 |
+| --- | --- | --- |
+| `queries/` | `var/queries/` | 批次 1 |
+| `state/` | `var/state/` | 批次 1 |
+| `reports/` | `var/reports/` | 批次 1 |
+| `specs/`（空目录） | 删除 | 批次 1 |
+| `sources/` | `content/sources/` | 批次 2 |
+| `wiki/` | `content/wiki/` | 批次 2 |
+| `practice/` | `content/practice/` | 批次 2（F008 预留，尚未创建） |
+| 新增 | `content/working/`、`content/journal/`、`content/decisions/` | 批次 2 |
+| `archive/` | `ledger/archive/` | 批次 3 |
+| `audit/` | `ledger/audit/` | 批次 3 |
+| `release/` | `ledger/release/` | 批次 3 |
+
+迁移的可行前提是**对象身份与物理路径解耦**：`target_ref` 是 `object_ref` 而非路径，`record_sha256 = sha256(canonical_json(record_without_record_sha256))` 不包含路径，因此搬移目录不改变任何对象身份、引用或既有记录的 hash。
+
+三条不变量约束迁移方式：
+
+- 历史 `operation` 记录中的 `applied_files` 记录的是**当时**的相对路径。它们是历史事实，受 `record_sha256` 覆盖且受 `audit.append_only` 约束，**不得重写**；读取侧必须容忍历史路径形态。
+- `ledger/archive/manifest.jsonl` 的 `archive_path` 指向 `ledger/archive/text/`，批次 2 不影响它；批次 3 只改声明式路径常量，不重写已有 manifest 行。
+- `body_path` 属于 `release_input_fields`，因此批次 2 会改变 `release_input_sha256`，已发布页面的 `public_release` 按 `hash_change_behavior: retain-old-event-but-derive-false` 自动回落 `false`，需重新执行一次人工确认。`route` 与 `body_path` 是独立字段，公开路由不变，不产生死链。
+
+`docs/<domain>/` 下的存量旧文档是 `content/working/` 的临时前身：它的 `legacy_path` 已记入迁移台账，因此不参与上述搬移；迁移完成后按 §16 的退役条件删除该目录。
 
 ## 5. Source 规范
 
 ### 5.1 Source Front Matter
+
 
 ~~~yaml
 ---
@@ -566,7 +638,7 @@ quote_sha256    = sha256(canonical_quote(exact))
 归档采用内容寻址加压缩存储，同一份资料被多个 source 引用时只存一份：
 
 ~~~text
-archive/
+ledger/archive/
 ├── text/            # 提取后的正文，纯文本，长期保留
 │   └── <sha256[:2]>/<sha256>.md.zst
 ├── raw/             # 原始 HTML/PDF/附件，体积大
@@ -582,8 +654,8 @@ source 通过 `retrieval` 引用归档条目：
 | fetched_at | 实际读取资料的时间；`local-file` 记录导入/读取时间 |
 | http_status | 抓取时的 HTTP 状态码；`local-file` 留空 |
 | etag、last_modified | 服务端版本标识，用于后续廉价比对 |
-| snapshot_sha256 | 规范化、未压缩正文的 hash，指向 `archive/text/` 中的不可变副本；这是证据权威 hash |
-| raw_sha256 | 原始文件的 hash，指向 `archive/raw/`；未保留时为空 |
+| snapshot_sha256 | 规范化、未压缩正文的 hash，指向 `ledger/archive/text/` 中的不可变副本；这是证据权威 hash |
+| raw_sha256 | 原始文件的 hash，指向 `ledger/archive/raw/`；未保留时为空 |
 | archive_policy | `text-only`、`text+raw`；`external-only` 仅允许 metadata-only、不能支撑 claim |
 | snapshot_url | 第三方快照地址（如 Wayback），作为补充不作为替代 |
 
@@ -596,16 +668,16 @@ source 通过 `retrieval` 引用归档条目：
 - 正文用 zstd（`-19`，文本压缩比通常 4-6 倍）；已压缩格式（PDF、图片、视频）不做二次压缩，按原样存储，并在 manifest 标记 `compression: none`（不强行追加 `.zst`）。
 - 归档前先做正文提取（HTML 去导航去广告），**提取后的文本才是证据载体**；原始 HTML 只作为争议时的复核备份。
 - 单文件阈值写在 `policy.yaml`：正文超过 `text_max_bytes` 需要先按 5.7 拆分；原始文件超过 `raw_max_bytes`（建议 2 MB）时 `archive_policy` 降为 `text-only`，只保留正文并在 manifest 中记录被跳过的原始文件 hash 和体积。
-- `archive/raw/` 走 git-lfs，且 LFS 规则必须先于归档写入配置好，见 4.3。
+- `ledger/archive/raw/` 走 git-lfs，且 LFS 规则必须先于归档写入配置好，见 4.3。
 - 大体积二进制（视频、数据集、完整代码仓）一律不归档，改用 5.8 的 `local-file` 加可复现定位（repo + commit + 路径 + 行号）。
 
-体积预估：当前 285 个独立外链，按网页正文均值 30 KB 计，`archive/text/` 压缩后约 2-3 MB；启用 `text+raw` 后原始 HTML 约 15-25 MB 压缩后 5-8 MB。这个量级适合直接进 git。PDF 与书籍扫描件不在此列，必须走 `text-only` 或 `local-file`。
+体积预估：当前 285 个独立外链，按网页正文均值 30 KB 计，`ledger/archive/text/` 压缩后约 2-3 MB；启用 `text+raw` 后原始 HTML 约 15-25 MB 压缩后 5-8 MB。这个量级适合直接进 git。PDF 与书籍扫描件不在此列，必须走 `text-only` 或 `local-file`。
 
-`archive/raw/` 的 git 归属见 4.3：走 git-lfs，LFS 规则未配置时归档降级为 `text-only`。
+`ledger/archive/raw/` 的 git 归属见 4.3：走 git-lfs，LFS 规则未配置时归档降级为 `text-only`。
 
 归档的三条硬约束：
 
-1. **归档副本不得进入 public build。** 它是第三方内容的本地复制件，用于个人复核，不是可再发布的内容。leak gate 必须扫描 `dist/` 中不出现 `archive/` 的任何内容（见 13.3）。
+1. **归档副本不得进入 public build。** 它是第三方内容的本地复制件，用于个人复核，不是可再发布的内容。leak gate 必须扫描 `dist/` 中不出现 `ledger/archive/` 的任何内容（见 13.3）。
 2. `confidentiality: internal` 的资料，归档副本只能落在 private vault，且禁止提交到 Wayback 等外部快照服务。
 3. 需要鉴权的来源，凭据只从环境变量或本机凭据文件读取，不写入 Front Matter、manifest 和日志；归档文件本身不得包含 Cookie、Authorization 头和会话标识。
 
@@ -619,8 +691,8 @@ source 通过 `retrieval` 引用归档条目：
 tools.cli source --from-file <本地副本路径> --url <原始链接> --url-status dead
   -> acquisition: local-file
   -> 正文提取
-  -> archive/text/<sha256>.md.zst
-  -> archive/raw/<sha256>.<ext>.zst（按 LFS policy）
+  -> ledger/archive/text/<sha256>.md.zst
+  -> ledger/archive/raw/<sha256>.<ext>.zst（按 LFS policy）
   -> manifest.jsonl 记录 file_sha256、extractor 和 snapshot hash
 ~~~
 
@@ -805,7 +877,7 @@ evidence_status: source-reported
 
 - `origin` 仍是 `external`——内容不是你写的；`personal` 只用于你自己产出的记录。
 - `url` 对 `local-file` 不必填；sidecar 的 `local.path`、canonical 的 `local.file_sha256` 和 `retrieval.acquisition: local-file` 必填；`snapshot_url` 不适用。
-- 原始本地文件默认不进仓库，但提取后的不可变 `archive/text` snapshot 必须按 Vault policy 保存；大文件 raw 是否保存由 LFS policy 决定。
+- 原始本地文件默认不进仓库，但提取后的不可变 `ledger/archive/text` snapshot 必须按 Vault policy 保存；大文件 raw 是否保存由 LFS policy 决定。
 - 换机器或文件被移动导致 sidecar 无法解析路径时，状态为 `unresolved`，语义与 4.2 的 vault 未挂载一致：不得判定为证据缺失、不得据此降级或改写引用。
 - `file_sha256` 变化时，若只是 sidecar 检测到本地原件变更而 canonical Source 仍绑定旧 snapshot，则只标记待复核；若用户将 Source 的当前 binding 更新到新 snapshot，则按 6.6 使对应 claim 失效并重新验证。任何情况下都不得覆盖旧 snapshot。
 
@@ -819,7 +891,7 @@ evidence_status: source-reported
 
 | 来源形态 | 完备条件 |
 | --- | --- |
-| 网络来源（`acquisition: fetch`） | `url` 可访问、抓取成功、`archive/text/` 中已存在对应 `snapshot_sha256` 的归档正文 |
+| 网络来源（`acquisition: fetch`） | `url` 可访问、抓取成功、`ledger/archive/text/` 中已存在对应 `snapshot_sha256` 的归档正文 |
 | 本地/离线来源（`acquisition: local-file`） | sidecar 中的 path 可解析、`local.file_sha256` 已计算并记录、归档正文和 snapshot manifest 已生成 |
 | 个人来源（personal-note） | `origin: personal`、正文非空、生成不可变 snapshot，`evidence_status` 为 personal-observation 或 inferred |
 
@@ -854,6 +926,34 @@ local-file 的历史 URL（如有）其 `url_status` 允许暂时为 `unknown`�
 
 因此当前离线能力聚焦于查询、阅读和图谱；题库与复习在 F008 设计完成后再接入。
 
+### 5.10 音视频与转录来源
+
+音视频没有天然的可引用单元，只有时间轴；且原始媒体通常不可归档。因此它的 source 模型一拆为三：原始媒体（`song`/`broadcast`/`speech`）、转录稿（派生实体）、引文（在转录稿上锚定）。
+
+`source_type` 的取值对齐 CSL / Zotero item type 的子集，只新增不重命名：既有的 `blog`、`doc`、`book`、`contest`、`pr`、`local-file`、`personal-note` 全部保留，新增 `podcast`、`video`、`talk`、`paper`、`spec`、`software`、`dataset`。**不允许重命名既有取值**：`source_type` 位于 `hash_inputs.source_semantic`，重命名会改变全部既有 source 的 semantic hash 并触发全库重验。CSL 对齐通过映射表表达，不通过改名表达。
+
+时间锚点使用 W3C Media Fragments URI 语法，作为 `evidence_items.locator` 的可选字段，与 `heading_slug` 并列：
+
+~~~yaml
+evidence_items:
+  - id: e1
+    snapshot_sha256: "sha256:..."     # 转录稿的 canonical text hash
+    locator:
+      media_fragment: "#t=1450,1520"  # 秒；仅用于定位与展示
+      heading_slug: null
+      selector:
+        - type: TextQuoteSelector
+          exact: "转录稿中的完整引文"
+~~~
+
+`media_fragment` 与 §5.5 的章节 locator 同性质：只用于阅读定位，没有 hash 也没有失效轴。逐字校验仍然发生在 selector 与 snapshot 之间。
+
+**转录稿是 lossy 派生物，这决定了它的证据强度上限。** 逐字 exact 匹配成功只证明"匹配了转录稿"，不证明说话人说过这句话。因此 ASR 产生的 snapshot 必须在 `snapshot-manifest/v1` 中记录 `extractor_name`、`extractor_version` 和 `extractor_options_hash`（现有字段已足够表达，无需扩展 schema），并且由它支撑的 claim 强度上限为 `attested`，不得派生为 `verified`；只有人工逐字校对该片段并标注后才解除上限。平台自带的人工字幕属于准原文，不受此上限约束；自动字幕按 ASR 处理。
+
+口头来源的分级落在 claim 级而非来源级：同一集播客里，作者亲述设计意图对「意图」类断言是直接证据，而凭记忆给出的性能数字必须降级。因此固定规则是——**任何数字类断言若仅由口头来源支撑，一律按 `inferred` 处理并写明待验证动作**，须由文档或本人实测升级。
+
+`archive_policies` 新增 `transcript-only`：只归档转录稿与元数据，不归档媒体原件。它避免了在「把几十 MB 音频纳入 git-lfs」与「`external-only` 导致没有可复核快照」之间二选一。此档下转录稿是主快照，不是补充快照。
+
 ## 6. Wiki 严格规范
 
 ### 6.1 Wiki Front Matter
@@ -885,6 +985,7 @@ evidence:
         # source-transformer-paper/e1, not a restatement of the claim above.
         exact: "The output is computed as a weighted sum of the values."
 updated_at: 2026-08-25
+review_by: 2027-08-25         # optional; report-only, see 6.2
 ---
 ~~~
 
@@ -905,7 +1006,7 @@ public_release: false
 
 ### 6.1.1 Wiki 字段级契约
 
-Wiki Front Matter 的 canonical schema version 是 `wiki/v1`，在 `config/schemas.yaml` 的 `objects` 注册表中登记。下表是字段级约束。
+Wiki Front Matter 的 canonical schema version 是 `content/wiki/v1`，在 `config/schemas.yaml` 的 `objects` 注册表中登记。下表是字段级约束。
 
 | 字段 | 必填 | 约束 |
 | --- | --- | --- |
@@ -966,6 +1067,13 @@ Wiki 的“状态可能很多”不通过无限扩张单一 enum 实现，而通
 查询、前端和 Agent 显示组合状态，例如 `status: review + evidence_state: conflicting`、`status: draft + evidence_state: partial`、`status: draft + availability: unavailable`、`status: published + validation_state: not_run`、`status: published + publication_warning: internal`。`corroborated` 只表示多个独立 source 一致支持；它不是事实正确性的数学证明，仍需冲突检查和人工审计。`availability: unavailable` 只表示当前读取条件不足，不得写入 `evidence_state` 作为"证据缺失"的同义词，也不得写入 `validation_state`。`validation_state: not_run` 不得被渲染为"已验证"。
 
 `planned` 条目只需要 `id`、`title`、`domain`、`kind`、`status` 五个字段，不要求 sources 和 evidence——它还不是知识，只是一条待办。批量导入的标题清单（例如一份没有答案的问题列表）应该进 `planned`，而不是生成一批空壳 draft 页面。
+
+`review_by` 是**时间维度的复审提示，不是第七个状态轴**。`evidence_state: stale` 只覆盖"source 或 snapshot 变了"这一类失效，无法表达"source 没变但世界变了"（例如文档描述的是旧版本行为）。因此 `review_by` 是可选的作者声明字段，语义受三条约束：
+
+- 它位于 `hash_inputs.excluded_from_content_hash`，与 `status`、`updated_at` 同列。续期不改变 `content_sha256` 与 `evidence_sha256`，因此**不作废已绑定当前 hash 的人工审计确认**。若续期会作废确认，这个字段的使用成本将高到无人使用。
+- 到期**不改变任何 `*_state` 字段、不改变 `status`**，只出现在 `doctor` 的到期清单里。状态轴已有六个，第七件事应该是报告项而不是状态。
+- 它是选填。只有作者判断"这页会随版本过时"时才填；方法论类内容通常不需要。
+
 
 ### 6.3 Wiki 必填正文
 
@@ -1086,7 +1194,7 @@ Source 不是可信事实的自动证明。验证器必须对同一 claim 的所
 
 `common-knowledge` 的适用范围是"查一下就能确认、且不会因版本而变"的事实：语言关键字语义、标准库接口约定、公开协议字段、数学定义。**不适用**于版本相关行为、编译器实现细节、性能数据和最佳实践——这些必须走正常的 evidence target 加验证路径。判断依据是"权威入口是否直接写了这句话"，不是"我觉得这是常识"。
 
-`common-knowledge` 必须有明确来源：`url` 必填、`read_status` 必须是 `retrieved`、必须有 `archive/text/` 中的归档正文。这条约束是为了消除滥用动机——如果标记它比正常引用更省事，48 篇找不回出处的旧文都会涌向这一类。要求"确实打开过并归档"之后，它的成本与正常引用相当。
+`common-knowledge` 必须有明确来源：`url` 必填、`read_status` 必须是 `retrieved`、必须有 `ledger/archive/text/` 中的归档正文。这条约束是为了消除滥用动机——如果标记它比正常引用更省事，48 篇找不回出处的旧文都会涌向这一类。要求"确实打开过并归档"之后，它的成本与正常引用相当。
 
 `common-knowledge` 不是"不做语义检查"，而是**把语义检查从模型判断换成确定性匹配**。每条 claim 的 evidence 必须人工填写 `supporting_quotes`，并指向已解析的 evidence item：
 
@@ -1110,6 +1218,8 @@ evidence:
 当一个 claim 同时引用 external 和 personal source 时，若结论是普遍事实，至少需要 external source 作为直接或综合证据；personal source 只能作为补充经验。若没有 external source，claim 必须降级为 personal 或 inferred。
 
 `metadata-only` source 可以作为资料目录中的待读取入口保留，但不能出现在任何已验证核心 claim 的 `targets` 中；如果一个 wiki 没有其他可用证据，或者它的核心 claim 只能落到 metadata-only source，页面必须保持 `draft`。
+
+口头、私聊、内部会议和电话沟通类材料**不建立独立 source 类型**：`source_types` 中不存在 `personal-communication`，且不得新增。这类材料若必须使用，只能作为 `personal-note` 承载，`support` 只能是 `personal`，并且不得作为任何普遍事实型 claim 的唯一支撑。理由是它不可被他人复核、没有版本、也没有可归档的原文快照，纳入独立类型只会制造一条绕过 §5.9 来源完备性的通道。
 
 ### 6.6 内容 hash 契约与失效粒度
 
@@ -1168,7 +1278,7 @@ claim 级增量重验放在后续阶段：报告结构已按 claim 存储，具�
 
 不是所有页面都能套用"每条核心论断都要有外部 evidence item"。强行套用会产出大量无意义的仪式性证据（把官方 API 手册抄成 claim，再让模型判断抄得对不对）。但分档必须遵守一条原则：
 
-> **可以免除 sources/claim 级 evidence 的要求，不能免除确定性校验。** 每一档都必须有替代性的确定性检查，并且在页面上对读者可见。
+> **可以免除 content/sources/claim 级 evidence 的要求，不能免除确定性校验。** 每一档都必须有替代性的确定性检查，并且在页面上对读者可见。
 
 | 页面类型 | 判定条件 | 免除什么 | 替代检查 |
 | --- | --- | --- | --- |
@@ -1183,14 +1293,17 @@ claim 级增量重验放在后续阶段：报告结构已按 claim 存储，具�
 页面必须显示自己的证据强度，读者不需要读 Front Matter 就能知道这页是"外部来源验证过的事实"还是"我的个人理解"：
 
 ~~~text
-verified      确定性引文校验通过，且 LLM 规范审计为 pass
+verified      确定性引文校验通过、LLM 规范审计为 pass，且论断由 ≥2 个独立 source 支撑
 corroborated  多个独立 source 一致支持，但仍显示来源范围和告警
 conflicted    source 之间存在未解决冲突，不可发布
-attested      common-knowledge，有权威入口且引文逐字匹配，未做 LLM 语义审计
+attested      确定性引文校验通过但只有单一 source 支撑（含 LLM 审计已 pass 的情形），
+              或 common-knowledge 有权威入口且引文逐字匹配、未做 LLM 语义审计
 personal      个人理解或实验记录
 reference     参考清单，只保证条目入口可查
 index         导航页，不含论断
 ~~~
+
+`verified` 只授予"多来源交叉可证"的论断：LLM 审计 pass 只证明转述忠实于所引原文，不证明原文本身正确，因此单一 source 的页面上限是 `attested`。这条边界让 `verified` 保持"外部世界交叉验证过"的含义，而不是退化成"模型说 OK"。
 
 这个标识由工具从 `kind`、`evidence_state`、`evidence_status`、`origin`、`validation_state` 和验证报告计算，不由作者填写，并且必须同时出现在页面、查询结果和 Agent 输出契约中。多个 source 的一致性可以提升为 `corroborated`，但不改变"来源可能错误"的基本假设。
 
@@ -1244,7 +1357,7 @@ public_release              false | true   （默认 false；projection 根据 d
 public/release/public-confirmations/<event_id>.json
 ~~~
 
-`state/` 中的完整 provider 响应、锁和临时 staging 只能作为运行缓存，不能证明审计、人工确认或恢复能力。每个 durable record 都必须包含 canonical schema version、owner `vault_id`、target ObjectRef、相关 hash、生成工具版本和 `record_sha256`；写入采用 append-only，新状态用新 record 表示，不原地修改已被引用的审计记录。审计侧的 durable record 类型是 `audit-record/v1`。确认事件只有两个版本化类型：`operation-confirmation/v1`（用 `scope: apply | publish_private` 区分普通 apply 与私有发布；有效保密等级为 internal 时还必须携带 `warning_code` 和 `warning_text_sha256`）和 `public-release-confirmation/v1`。**public release 故意不做成一个 scope 值**：它是唯一不可撤销的对外行为，独立类型使"写错一个 scope 就公开了 internal 内容"在 schema 层不可表达。`event_sha256` 定义为去掉自身字段后的 canonical JSON UTF-8 hash；public-safe event 不能包含 private ID、路径、正文或裸 private hash。一次性 `confirmation_nonce` 只用于 public release：apply 与私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配）。public release 的目标 operation record 固定在 public owner 的 `audit/operations/<operation_id>.json`；若存在 private lineage，源 owner 的同 operation/audit record 只作为私有审计，不进入 public event。
+`var/state/` 中的完整 provider 响应、锁和临时 staging 只能作为运行缓存，不能证明审计、人工确认或恢复能力。每个 durable record 都必须包含 canonical schema version、owner `vault_id`、target ObjectRef、相关 hash、生成工具版本和 `record_sha256`；写入采用 append-only，新状态用新 record 表示，不原地修改已被引用的审计记录。审计侧的 durable record 类型是 `audit-record/v1`。确认事件只有两个版本化类型：`operation-confirmation/v1`（用 `scope: apply | publish_private` 区分普通 apply 与私有发布；有效保密等级为 internal 时还必须携带 `warning_code` 和 `warning_text_sha256`）和 `public-release-confirmation/v1`。**public release 故意不做成一个 scope 值**：它是唯一不可撤销的对外行为，独立类型使"写错一个 scope 就公开了 internal 内容"在 schema 层不可表达。`event_sha256` 定义为去掉自身字段后的 canonical JSON UTF-8 hash；public-safe event 不能包含 private ID、路径、正文或裸 private hash。一次性 `confirmation_nonce` 只用于 public release：apply 与私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配）。public release 的目标 operation record 固定在 public owner 的 `ledger/audit/operations/<operation_id>.json`；若存在 private lineage，源 owner 的同 operation/audit record 只作为私有审计，不进入 public event。
 
 Durable record 的防篡改由 Git 提供，不自建 hash chain。每条记录仍带 `record_sha256`（按去掉自身字段后的 canonical JSON 计算）用于校验单条记录的自完整性，但记录之间不再串 `sequence` / `previous_record_sha256` / `chain_scope`——Git commit 本身就是一条哈希链：每个 commit 摘要覆盖树内容并指向父 commit，篡改历史任一点都会改变后续所有摘要。在 canonical 文件之上再叠一条自建链，是用弱得多的实现（无签名、无分布式见证、与 Git 历史可能不一致）重复一个已经成立的保证。
 
@@ -1293,6 +1406,10 @@ event_sha256: sha256:...
 
 `validation_state` 只表达 LLM 规范审计的运行结果：`not_run` 表示未运行（离线、provider 不可用、输出 malformed 或覆盖不全），`pass` 表示审计通过，`fail` 表示存在规则违反，`stale_ruleset` 表示被引用的规范章节已变化、结论需重跑。确定性校验的结果不进这一轴——它是阻断门，不通过页面根本不会进入 `review`。上游不可用属于 `availability` 轴。
 
+同一 `(content_sha256, evidence_sha256)` 下可以存在多份审计报告（不同 provider、不同时间）。它们分歧时**取 `fail`**，不按时间取最新：按最新取值等于"最后跑的模型说了算"，可以反复换 provider 重跑到出现一次 `pass` 就过门禁（审计洗牌）。要过门禁只能改内容，不能换模型。
+
+模型判定本身有随机性，所以 fail 优先必须配一个留痕的复议出口（`VAL-003`）：owner 可以对某一份 `fail` 报告签一条 `validation-override/v1` 记录，声明"我读过这份 fail，它是误判"。该记录必须由 `actor_type: human` 签署（Agent 不得代签）、必须给出 `reason`、必须逐条列出该报告里全部非 `supported` 的 claim（只翻一条不能整份翻案），并绑定被复议报告的稳定标识与当前 `(content_sha256, evidence_sha256)`——内容一改，复议自动失效。复议后该报告不再参与派生；若全部 verdict 报告都被复议掉，`validation_state` 回落 `not_run`，而不是自动变成 `pass`。复议记录 append-only，`record_sha256` 自证，篡改即失效。
+
 `strength` 的映射规则，按顺序命中第一条：
 
 | 条件 | strength |
@@ -1305,7 +1422,8 @@ event_sha256: sha256:...
 | 全部 claim 只能由 `origin: personal` source 支撑 | personal |
 | 全部 claim 为 `evidence_status: common-knowledge` 且替代检查通过 | attested |
 | `evidence_state: corroborated` 且验证报告通过 | corroborated |
-| 有效 LLM report 且 verdict 为 pass | verified |
+| 有效 LLM report 且 verdict 为 pass，且 claim 的 `resolved_targets` 覆盖 ≥2 个不同 `source_id` | verified |
+| 有效 LLM report 且 verdict 为 pass，但只有单一 source | attested |
 | 其他 | 不可发布，等待补证或人工决策 |
 
 `kind: knowledge` 的页面若同时含 personal 与 external claim，取更保守的一侧：只要有任一 claim 只由 personal source 支撑，整页 strength 降为 `personal`。混合来源不产生"部分已验证"这种中间状态，因为读者无法逐条区分。
@@ -1314,11 +1432,11 @@ kind 与 status 正交：三种 `kind` 都可处于任一 `status`。真正的�
 
 `private_publishable` 的判定必须同时满足：`status == published`、`publication_scope == private`、存在明确且可用的 `target_vault`、`validation_state ∈ {not_run, pass, stale_ruleset}`、`evidence_state ∉ {missing, partial, conflicting, unresolved, stale}`、无未解决的 `source_drift` 阻断项，以及存在当前内容 hash 绑定的人工审计确认。当有效保密等级为 `internal` 时，确认操作还必须展示并记录 internal 发布告警确认；未确认告警不得发布。
 
-`public_publishable` 的判定必须同时满足：对象 owner `vault_id == public` 且该 vault `allow_public_projection == true`、`status == published`、`publication_scope == public`、`effective_confidentiality == public`、`validation_state ∈ {not_run, pass, stale_ruleset}`、存在当前 `(content_sha256, evidence_sha256)` 绑定的人工审计确认、`evidence_state ∉ {missing, partial, conflicting, unresolved, stale}`、无 `source_drift` 阻断项、当前 `release_input_sha256` 绑定的 public-safe 人工 confirmation event 存在，且由 durable authority 重新派生的 `public_release == true`。`public_release` 默认值为 `false`；它是 projection 的 materialized field，不是作者可写的 Front Matter 字段。只有匹配当前 release/content/evidence/input-leak hash 的人工事件和 public owner `audit/operations/<operation_id>.json` 才能使它派生为 true；hash 变化后旧事件保留但自动回到 false。任何 private vault 对象不能仅通过修改该字段进入 public projection；必须先生成新的 public-owned 输出、重新校验并通过 leak gate。任一不满足时 public 构建跳过该页，并在构建报告中列出原因。
+`public_publishable` 的判定必须同时满足：对象 owner `vault_id == public` 且该 vault `allow_public_projection == true`、`status == published`、`publication_scope == public`、`effective_confidentiality == public`、`validation_state ∈ {not_run, pass, stale_ruleset}`、存在当前 `(content_sha256, evidence_sha256)` 绑定的人工审计确认、`evidence_state ∉ {missing, partial, conflicting, unresolved, stale}`、无 `source_drift` 阻断项、当前 `release_input_sha256` 绑定的 public-safe 人工 confirmation event 存在，且由 durable authority 重新派生的 `public_release == true`。`public_release` 默认值为 `false`；它是 projection 的 materialized field，不是作者可写的 Front Matter 字段。只有匹配当前 release/content/evidence/input-leak hash 的人工事件和 public owner `ledger/audit/operations/<operation_id>.json` 才能使它派生为 true；hash 变化后旧事件保留但自动回到 false。任何 private vault 对象不能仅通过修改该字段进入 public projection；必须先生成新的 public-owned 输出、重新校验并通过 leak gate。任一不满足时 public 构建跳过该页，并在构建报告中列出原因。
 
-直接创建的 public Wiki 与 private source 脱敏后生成的 public copy 都必须有 operation record：直接 public 的完整审计摘要保存在 public Vault 的 `audit/operations/`，public copy 的完整 lineage、`source_vault_ids` 和人工操作记录保存在源 private Vault；public-owned 的脱敏确认事件另存于 public repo 的 `release/public-confirmations/`，使 public projection 在没有 private checkout 时仍可复现。public projection 只保留当前 `release_input_sha256`、`public_release`、`public_lineage_commitment`、确认事件 hash 和不含 private ID 的公开字段。该 commitment 是 lineage 记录路径的 sha256，只用于本机回到审计记录；它不含 private Vault 名称或对象 ID，因此不需要额外的 HMAC 密钥体系。
+直接创建的 public Wiki 与 private source 脱敏后生成的 public copy 都必须有 operation record：直接 public 的完整审计摘要保存在 public Vault 的 `ledger/audit/operations/`，public copy 的完整 lineage、`source_vault_ids` 和人工操作记录保存在源 private Vault；public-owned 的脱敏确认事件另存于 public repo 的 `ledger/release/public-confirmations/`，使 public projection 在没有 private checkout 时仍可复现。public projection 只保留当前 `release_input_sha256`、`public_release`、`public_lineage_commitment`、确认事件 hash 和不含 private ID 的公开字段。该 commitment 是 lineage 记录路径的 sha256，只用于本机回到审计记录；它不含 private Vault 名称或对象 ID，因此不需要额外的 HMAC 密钥体系。
 
-`publication_warning` 在有效保密等级为 `internal` 且 `private_publishable` 为 true 时为 `internal`，其他情况为 `none`。页面、查询结果和 Agent 输出都必须显示该告警。public release 的 preview 只生成 `public_release: false` 和待审材料；人工通过交互式 confirm 写入 `release/public-confirmations/<event_id>.json` 与 `audit/operations/<operation_id>.json`，projection 再重新派生开关。任何自动流程、LLM、Agent、leak gate、Front Matter 或 manifest 字符串都不能单独修改它。输出 hash 变化、来源变化或 leak gate 重新失败时，旧事件 append-only 保留但不能匹配，工具必须将派生值重置为 `false`。
+`publication_warning` 在有效保密等级为 `internal` 且 `private_publishable` 为 true 时为 `internal`，其他情况为 `none`。页面、查询结果和 Agent 输出都必须显示该告警。public release 的 preview 只生成 `public_release: false` 和待审材料；人工通过交互式 confirm 写入 `ledger/release/public-confirmations/<event_id>.json` 与 `ledger/audit/operations/<operation_id>.json`，projection 再重新派生开关。任何自动流程、LLM、Agent、leak gate、Front Matter 或 manifest 字符串都不能单独修改它。输出 hash 变化、来源变化或 leak gate 重新失败时，旧事件 append-only 保留但不能匹配，工具必须将派生值重置为 `false`。
 
 互斥与前置约束：
 
@@ -1479,11 +1597,11 @@ contradictions:
 verdict:
 ~~~
 
-报告绑定 `wiki_content_sha256`、`wiki_evidence_sha256`，以及**每个 target 的 snapshot/selector/quote**，不是整个 source 文件的摘要 hash。这样修改 source 中未被引用的阅读笔记章节不会波及已审计的 wiki，避免一次错别字修正引发全库重审。报告还应记录审计提示词版本、schema 版本、输入 target 列表和 snapshot manifest 版本，便于复现。完整 provider 响应只保存在被忽略的 `state/llm-validation/`；发布所需的人工审计确认必须写入 owner vault 的 `audit/validation/`，不能把临时目录当作唯一依据。报告不保存 API key、密码和敏感凭据。
+报告绑定 `wiki_content_sha256`、`wiki_evidence_sha256`，以及**每个 target 的 snapshot/selector/quote**，不是整个 source 文件的摘要 hash。这样修改 source 中未被引用的阅读笔记章节不会波及已审计的 wiki，避免一次错别字修正引发全库重审。报告还应记录审计提示词版本、schema 版本、输入 target 列表和 snapshot manifest 版本，便于复现。完整 provider 响应只保存在被忽略的 `var/state/llm-validation/`；发布所需的人工审计确认必须写入 owner vault 的 `ledger/audit/validation/`，不能把临时目录当作唯一依据。报告不保存 API key、密码和敏感凭据。
 
 `confidentiality: internal` 的 source 正文只能发送给满足 runtime 保密要求的 provider；没有这样的 provider 时记 `validation_state: not_run` + `not_run_reason: provider_unavailable`，不得改用公开 provider。provider 的 endpoint、模型版本和密钥由 Skill 运行时读取并管理，不写入仓库或普通报告。
 
-验证报告还应记录 adapter 版本、`ruleset_sha256` 和 call ID；报告 append-only。人工审计确认固定写入 `audit/validation/<object_type>/<object_id>/<confirmation_sha256>.json`，不能把临时目录当作唯一依据。确认证明的是"人在该 hash 上背书过"，不是模型事实正确性的密码学证明。
+验证报告还应记录 adapter 版本、`ruleset_sha256` 和 call ID；报告 append-only。人工审计确认固定写入 `ledger/audit/validation/<object_type>/<object_id>/<confirmation_sha256>.json`，不能把临时目录当作唯一依据。确认证明的是"人在该 hash 上背书过"，不是模型事实正确性的密码学证明。
 
 ### 8.5 验证报告失效规则
 
@@ -1545,7 +1663,7 @@ confirmation_required: true
 5. hash 不匹配则 operation 失效；
 6. 在目标 Vault 同一文件系统创建 staging，写入 canonical 文件、durable record、projection 和索引候选；对每个文件计算 after hash；
 7. 对 staging 运行最终 schema、引用、保密、证据和 leak gate 校验，任何失败都只清理 staging；
-8. 写入并 fsync `state/operations/<operation_id>.commit-intent.json`（包含旧/新 hash、待替换路径和恢复动作），再原子替换 canonical 文件和 durable record；
+8. 写入并 fsync `var/state/operations/<operation_id>.commit-intent.json`（包含旧/新 hash、待替换路径和恢复动作），再原子替换 canonical 文件和 durable record；
 9. 写入 commit marker 并 fsync 目录；启动恢复器若发现 intent 无 marker，按 manifest 恢复旧文件，发现 marker 则补建索引并完成 operation；
 10. 原子替换 projection/index；若此阶段失败，保留旧 projection，operation 进入 `applied_index_pending`，canonical 变更不回滚也不被伪装为全链路成功；
 11. 索引完成后追加 `applied` durable record，清理 intent/staging，释放写锁。
@@ -1572,12 +1690,16 @@ previewed / awaiting_confirmation
 
 `operation_id` 使用随机 UUID，不以标题或时间戳代替。一个 operation 只能应用一次；重复 apply 必须返回既有结果，而不是再次覆盖文件。`blocked` 表示当前前置条件不足，可在条件修复后重新 preview；它不是“暂存后自动继续”。`applied_index_pending` 表示 canonical 文件和 durable record 已安全提交，但 projection/index 尚未完成；在该状态恢复前，相关对象不能成为新的 `public_publishable`，旧 projection 可以继续提供上一版结果。批量操作必须把每个目标文件、before hash、after hash 和失败阶段写入 manifest。幂等 key 必须是字段名明确的 canonical JSON（`kind`、`target_ref`、`input_hash`、`target_vault`、排序后的 `source_vault_ids`、`policy_version`），禁止直接拼接字符串造成碰撞。
 
+`operation_id` 的规范形态是 `op_<32 位小写 hex>`；生成端与校验端必须共用同一实现（`tools/common.py::new_operation_id` / `safe_operation_id`），禁止各调用点自行剥前缀再套用其他 ID 词表——`release confirm` 曾因此对每一个真实 operation 都返回 `event_id_invalid`。校验只约束前缀、字符集与长度上限（`operation_id` 会成为审计文件名，要挡的是路径穿越与文件名注入），不复刻生成端的位宽。
+
+幂等命中不是失败：重复提交一条内容完全相同、且已经落盘的 append-only 记录（确认事件、apply 结果）必须返回 `already_applied` 并回带既有记录的 hash 与路径，退出码为成功。只有“同 ID、不同内容”才是冲突，返回 `*_conflict` 并 fail-closed 拒绝覆盖。把这两种情况都报成失败会诱导操作者删除 append-only 记录重跑，等于用删审计换一次“成功”。
+
 ### 9.4 禁止操作
 
 Skill 和知识库工具禁止：
 
 - 无 source 直接写 wiki；
-- 直接修改 queries/；
+- 直接修改 var/queries/；
 - 直接修改 frontend/、backend/；
 - 自动删除、移动、覆盖和重命名页面；
 - 自动 commit、push、发布；
@@ -1633,7 +1755,7 @@ purge    真正删除文件，需要 retire 已生效且引用已清理
 4. `part_of` 子对象已处理完毕；
 5. route map 中已登记旧路径的最终归属（重定向目标或明确的墓碑页）。
 
-删除的是文件，不是历史：`purge` 前必须把对象的 ID、标题、最后内容 hash 和废弃原因写入 owner vault 的 `audit/operations/` manifest。这样将来遇到同一份错误资料时，能知道它曾被判定为错误并且原因是什么，不会再次原样引入；运行态 `state/operations/` 不能作为唯一历史记录。
+删除的是文件，不是历史：`purge` 前必须把对象的 ID、标题、最后内容 hash 和废弃原因写入 owner vault 的 `ledger/audit/operations/` manifest。这样将来遇到同一份错误资料时，能知道它曾被判定为错误并且原因是什么，不会再次原样引入；运行态 `var/state/operations/` 不能作为唯一历史记录。
 
 废弃原因是必填的枚举加自由说明：
 
@@ -1671,7 +1793,7 @@ retitle  改 title（不影响引用）
 
 单用户环境仍然存在三方并发：Agent、本地后端、编辑器。`before_sha256` 检查与原子替换之间存在窗口，两个 apply 交错会造成一方的写入被静默覆盖。
 
-- 所有 `apply`、`retire`、`purge`、`rename` 和索引生成必须先获取目标 Vault 的排他锁（`state/locks/<vault_id>.lock`，记录持有者、operation_id、随机 `lock_token`、fencing token、获取时间和 `heartbeat_file`）；锁主体在持有期间不可变，最新心跳写入同目录 sidecar 并原子替换；涉及多个 Vault 时按稳定 `vault_id` 顺序获取全部锁，避免死锁；锁目录属于临时运行态并被 Git 忽略。
+- 所有 `apply`、`retire`、`purge`、`rename` 和索引生成必须先获取目标 Vault 的排他锁（`var/state/locks/<vault_id>.lock`，记录持有者、operation_id、随机 `lock_token`、fencing token、获取时间和 `heartbeat_file`）；锁主体在持有期间不可变，最新心跳写入同目录 sidecar 并原子替换；涉及多个 Vault 时按稳定 `vault_id` 顺序获取全部锁，避免死锁；锁目录属于临时运行态并被 Git 忽略。
 - 锁只保护写入，查询与 preview 不加锁；
 - 锁必须有超时与陈旧锁清理（记录 PID、进程启动时间、时间戳和 `lock_token`），避免异常退出后永久阻塞。陈旧锁默认只阻断并要求显式 `lock recover`，不能按时间自动删除；恢复前要检查 PID/进程启动时间，恢复动作追加 `lock-recovery` durable audit record。
 - writer 在写 canonical、commit-intent、projection/index 和释放锁前都必须重新读取锁文件并校验 `lock_token`/operation_id；token 不匹配时立即中止并保留旧产物，防止人工恢复旧锁后原进程继续写入。锁恢复不能当作分布式 fencing，只保证同一工作区内的提交点再次校验。
@@ -1785,7 +1907,7 @@ F008 提供独立 Question/练习服务；题目 schema、claim 绑定、答案/
 
 ~~~text
 wiki.public_publishable == true
-  -> queries/public
+  -> var/queries/public
   -> Astro prepare-content
   -> Pagefind
   -> GitHub Pages
@@ -1795,7 +1917,7 @@ wiki.public_publishable == true
 
 ~~~text
 sources + wiki
-  -> queries/local
+  -> var/queries/local
   -> QMD (default local natural-language/hybrid retriever)
   -> SQLite FTS5 fallback
   -> Python/SQLite LIKE deterministic fallback
@@ -1809,12 +1931,12 @@ sources + wiki
 
 **检索分词与替代方案决策（2026-08-28 修订，均经联网核验）**：
 
-- **QMD 替代已定**：QMD 二进制在公开渠道不可获得（brew 无包）。中文分词由 **wangfenjin/simple**（MIT，https://github.com/wangfenjin/simple，v0.7.1，858★/CI/预编译 release）承担：FTS5 建表 `tokenize='simple'`，查询经 `jieba_query()`（词级分词 + AND，跨虚词命中如"结构化讨论"→"结构化的讨论"）；扩展位于 `state/lib/libsimple`（gitignored，bootstrap 自动下载），加载/词典失败 fail-closed 回退 unicode61，tokenizer 记入 `index_info` 并由 doctor 显性报告。
+- **QMD 替代已定**：QMD 二进制在公开渠道不可获得（brew 无包）。中文分词由 **wangfenjin/simple**（MIT，https://github.com/wangfenjin/simple，v0.7.1，858★/CI/预编译 release）承担：FTS5 建表 `tokenize='simple'`，查询经 `jieba_query()`（词级分词 + AND，跨虚词命中如"结构化讨论"→"结构化的讨论"）；扩展位于 `var/state/lib/libsimple`（gitignored，bootstrap 自动下载），加载/词典失败 fail-closed 回退 unicode61，tokenizer 记入 `index_info` 并由 doctor 显性报告。
 - **其他核验过的候选**（已评估未采纳）：Meilisearch（MIT CE、hybrid 检索、中文优化，但需常驻服务+同步管线，语义需求真实出现时再评估，届时需新 ADR）；Tantivy（MIT、Lucene 级库形态，需 Rust 编译链+替换索引层）；sqlite-vec/向量（仅解决语义，引入 embedding 模型依赖，与确定性内核冲突）。
 - **决策原则**：检索按痛点加层，不做终点站切换。向量**不是**终极方案——精确词组/可解释性/重嵌入成本/模型绑定四项固有短板使纯向量不适合证据驱动库；生产终态是 hybrid（词法+向量+融合），且 FTS5 在 5 万篇内不是规模瓶颈。静态站的检索由 Pagefind 承担（v1 起内建 CJK 分词，与 FTS5 分层互不依赖）。
 
 原契约（qmd 段落继续有效）：
-QMD 自己是否启用向量、rerank 或模型缓存由其运行时能力决定，MyKnowledge 只消费带身份的候选并做权限/hash 二次校验；不要求单独部署 Embedding、FAISS 或 sqlite-vec，也不把它们列为第一阶段退出门。若未来 QMD 质量或规模不足，再以同一 `Retriever` 接口增加可持久化向量 adapter，并为其单独固定模型、索引版本和增量/全量一致性测试。`archive/text/` **可以**作为 local/private RAG 的可选召回输入，但当前 policy 默认 `include_archive_in_local_rag: false`；只有用户在对应 Vault 明确打开且通过 owner/保密检查时才加入。无论是否加入，归档正文都**不是证据载体**：claim 的权威 target 只能指向 source 绑定的 snapshot/evidence item，不能把 RAG 片段当作证据。
+QMD 自己是否启用向量、rerank 或模型缓存由其运行时能力决定，MyKnowledge 只消费带身份的候选并做权限/hash 二次校验；不要求单独部署 Embedding、FAISS 或 sqlite-vec，也不把它们列为第一阶段退出门。若未来 QMD 质量或规模不足，再以同一 `Retriever` 接口增加可持久化向量 adapter，并为其单独固定模型、索引版本和增量/全量一致性测试。`ledger/archive/text/` **可以**作为 local/private RAG 的可选召回输入，但当前 policy 默认 `include_archive_in_local_rag: false`；只有用户在对应 Vault 明确打开且通过 owner/保密检查时才加入。无论是否加入，归档正文都**不是证据载体**：claim 的权威 target 只能指向 source 绑定的 snapshot/evidence item，不能把 RAG 片段当作证据。
 
 ### 11.3 查询、RAG 和证据验证的边界
 
@@ -1848,7 +1970,7 @@ RAG 的职责是"找到回答所需的上下文并组织答案"；Evidence Valid
 
 QMD 可用时由 QMD 完成 BM25/向量融合和 RRF；切换到 FTS5 或 LIKE 后直接返回确定性候选，不伪造 RRF/语义分数，并在响应的 `method`、`degraded` 和 `limits` 中标明降级。
 
-本地 RAG 索引由 `sources/` 和 `wiki/` 投影生成。每个 chunk 必须保留对象身份和证据定位，不能只保存一段没有来源的纯文本：
+本地 RAG 索引由 `content/sources/` 和 `content/wiki/` 投影生成。每个 chunk 必须保留对象身份和证据定位，不能只保存一段没有来源的纯文本：
 
 ```json
 {
@@ -1946,7 +2068,7 @@ tools/ 建议职责模块：
 - 引用校验：校验回答与 claim 的 locator 和 evidence target。
 ```
 
-这些工具只负责索引、召回、回答和引用校验，不拥有 source/wiki 写入权限。默认本地自然语言/混合查询先调用 `QmdRetriever`；其输出必须重新解析为统一 `QueryResult`，验证 object ID、vault、confidentiality、hash 和 source/evidence 定位。QMD 不可用时自动选择 FTS5，FTS5 不可用时选择确定性 fallback 并标记降级；精确 ID/反向索引可直接走确定性路径。第一阶段不生成自有 FAISS/Embedding 文件；若未来启用向量 adapter，其索引、模型缓存和 `queries/local/rag-index.jsonl` 都是受 manifest/hash 管理的生成物，不能人工编辑。
+这些工具只负责索引、召回、回答和引用校验，不拥有 source/wiki 写入权限。默认本地自然语言/混合查询先调用 `QmdRetriever`；其输出必须重新解析为统一 `QueryResult`，验证 object ID、vault、confidentiality、hash 和 source/evidence 定位。QMD 不可用时自动选择 FTS5，FTS5 不可用时选择确定性 fallback 并标记降级；精确 ID/反向索引可直接走确定性路径。第一阶段不生成自有 FAISS/Embedding 文件；若未来启用向量 adapter，其索引、模型缓存和 `var/queries/local/rag-index.jsonl` 都是受 manifest/hash 管理的生成物，不能人工编辑。
 
 ### 11.8 RAG API 和 Agent Skill
 
@@ -2045,17 +2167,17 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 
 ### 12.1 离线降级
 
-未启动后端时，Agent 和前端仍可通过查询工具读取 `queries/public` 或静态 catalog 完成离线查询。以下能力必须明确返回 `unavailable`，不能伪造成功：LLM 验证、写入 apply、后端 local index 和 F008 Question/复习。后端恢复后再重建 local index，不自动补写用户内容。
+未启动后端时，Agent 和前端仍可通过查询工具读取 `var/queries/public` 或静态 catalog 完成离线查询。以下能力必须明确返回 `unavailable`，不能伪造成功：LLM 验证、写入 apply、后端 local index 和 F008 Question/复习。后端恢复后再重建 local index，不自动补写用户内容。
 
 完全断网时的能力边界见 5.9：查询、阅读和图谱可用，网络 source 抓取和 LLM 验证不可用；`local-file` 与 `personal-note` 可以按 policy 写入。Question/复习不属于当前版本。不得为了让页面通过而放宽证据要求或跳过归档。
 
 ## 13. Astro 双运行模式
 
-现有 Astro/Starlight POC 的输入适配、Pagefind/Cytoscape、staging、路由兼容和 leak gate 见 [Astro/Starlight 静态 Wiki 发布实现设计](./technical-design/static-wiki-publishing.md)；本节只保留系统级边界。当前 `legacy-validation` 构建仅用于迁移统计，正式 public build 必须使用 `queries/public/manifest.json`。
+现有 Astro/Starlight POC 的输入适配、Pagefind/Cytoscape、staging、路由兼容和 leak gate 见 [Astro/Starlight 静态 Wiki 发布实现设计](./technical-design/static-wiki-publishing.md)；本节只保留系统级边界。当前 `legacy-validation` 构建仅用于迁移统计，正式 public build 必须使用 `var/queries/public/manifest.json`。
 
 ### 13.1 公开静态模式
 
-- 只读取 public projection 中的 wiki/；
+- 只读取 public projection 中的 content/wiki/；
 - 只包含 `public_publishable: true`；
 - 只建立 wiki Pagefind 索引；
 - 图谱只展示 wiki 节点；
@@ -2075,10 +2197,10 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 
 静态构建结束后必须扫描 dist/：
 
-- 不得出现 sources/ 正文；
-- 不得出现 practice/ 答案和解析；
-- 不得出现 state/；
-- 不得出现 archive/ 中的任何归档正文或原始文件；
+- 不得出现 content/sources/ 正文；
+- 不得出现 content/practice/ 答案和解析；
+- 不得出现 var/state/；
+- 不得出现 ledger/archive/ 中的任何归档正文或原始文件；
 - 不得出现 LLM 验证报告；
 - 不得出现任何 `confidentiality: internal` 对象的 ID、标题、URL 和正文；
 - 文章数量必须等于 `public_publishable: true` 的 wiki 数量；
@@ -2089,7 +2211,7 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 
 - 页面校验工具 必须拒绝 `allow_public_projection: true` 的 vault 中任何 `confidentiality: internal` 文件；
 - 提交前检查（`knowledge-check.yml` 与本地 pre-commit）扫描待提交文件，命中 internal 声明、内网域名模式或任一 private vault 路径即失败；
-- 任一 private vault 的绝对路径不写入 public 仓库中的任何生成物，`queries/public` 不含任何 private 对象的存在性信息（连"有一篇 internal wiki"都不暴露）。
+- 任一 private vault 的绝对路径不写入 public 仓库中的任何生成物，`var/queries/public` 不含任何 private 对象的存在性信息（连"有一篇 internal wiki"都不暴露）。
 
 Public projection 不复制 source 正文、归档快照、题目答案、题目解析、验证报告、操作 manifest 和复习状态。归档副本是第三方内容的本地复制件，只用于个人复核，把它发布到公开站点等于重新发布他人内容，必须由 leak gate 硬拦。wiki 中的“证据映射”可以保留为引用信息，但只能包含 source ID/章节等 locator，不得把 source 正文内联到静态页面。构建前后都要执行一次 allowlist/denylist 扫描，避免模板或错误 import 把 local 数据带入 dist。
 
@@ -2235,7 +2357,7 @@ tools/（按职责划分模块；文件命名是实现细节，不构成契约�
 - **文件命名是实现细节**：不构成契约，总纲领不绑定文件名；technical-design 对已实现部分使用实际文件名。
 - **可检查性**：上述条目纳入 code review 对照清单；重构不得改变对外契约（CLI 命令、错误码、审计格式、manifest schema）。
 
-当前运行时工具集合不包含题目创建工具、题目读取器、quiz/review API 或 FSRS 状态处理器。F008 的工具目录和接口在 `docs/deferred/` 单独设计并通过独立 Feature 接入；在 F008 启动前，任何实现、Skill 或验收脚本都不得创建或解析 `Question`/`practice/` 题目对象。
+当前运行时工具集合不包含题目创建工具、题目读取器、quiz/review API 或 FSRS 状态处理器。F008 的工具目录和接口在 `docs/deferred/` 单独设计并通过独立 Feature 接入；在 F008 启动前，任何实现、Skill 或验收脚本都不得创建或解析 `Question`/`content/practice/` 题目对象。
 
 ## 16. 迁移策略
 
@@ -2305,6 +2427,8 @@ migration_status:
 - 保留旧路径到新 ID 的 route map；
 - 处理特殊字符、重复路由和未解析链接。
 
+`docs/<domain>/` 是 `content/working/` 的临时前身，只承担一次性迁移队列的职责，因此不参与 §4.6 的路径搬移（它的 `legacy_path` 已记入迁移台账，搬移需要改写全部台账条目而收益为零）。**退役条件**：当迁移 inventory 中不存在 `migration_status` 未终结的条目、且 `docs/` 下不再存在任何 `<domain>/` 子目录时，从 `policy.yaml` 的路径声明中移除该目录并删除它。此后新的未定稿内容一律进入 `content/working/`，受 §4.5 的 TTL 约束。
+
 迁移顺序建议：
 
 ~~~text
@@ -2346,7 +2470,7 @@ computer-science
 - `common-knowledge` 的 `supporting_quotes.exact` 无法逐字匹配归档正文时必须失败；
 - 转载链、同一 publisher 或同一实验数据的多个 source 不得被误判为独立 corroboration；independence_group 不明确时按单一 source 处理；
 - 多 source 冲突必须保留冲突 target、版本窗口和人工决策入口，不能用多数票自动清除；
-- `archive/raw/` 在 LFS 规则未配置时必须拒绝写入并降级为 text-only；
+- `ledger/archive/raw/` 在 LFS 规则未配置时必须拒绝写入并降级为 text-only；
 - 无来源的 source 写入必须被拒绝（三种完备形态之一都不满足）；
 - `require_network` 生效且离线时，只有 acquisition 为 `fetch` 或明确需要网络 provider 的 apply 才能被拒绝；`local-file`、`personal-note` 以及引用已有本地证据的 draft 写入按 allowlist 可离线完成，且不得留下伪造的网络检查结果；
 - `metadata-only` source 缺少入口页归档时必须失败；
@@ -2598,7 +2722,7 @@ source 先行
 | --- | --- | --- | --- | --- |
 | 文本证据锚定 | [W3C Web Annotation](https://www.w3.org/TR/annotation-model/) 的 `TextQuoteSelector` + `TextPositionSelector`；[Hypothesis quote matching](https://github.com/hypothesis/client/blob/main/src/annotator/anchoring/match-quote.ts) 使用 exact/approx quote、prefix/suffix 和 position scoring | 标准化、可跨渲染层恢复、已有近似匹配经验 | 近似匹配可能误锚；网页改版会造成漂移 | 采用 W3C 字段；exact + snapshot hash 是 blocking gate，Hypothesis 式近似只生成恢复建议 |
 | HTML/正文提取 | [Trafilatura](https://github.com/adbar/trafilatura) `2.2.0`：HTML 主文、metadata、Markdown/JSON/TXT；[Docling](https://github.com/docling-project/docling) `2.122.0`：PDF/Office/HTML/OCR、版面和页级 provenance | 现成解析器覆盖常见来源，减少自研解析 | 抽取器升级会改变文本和 offset；复杂 PDF/OCR 仍需人工抽查 | source ingestion 通过 adapter 调用；manifest 固定 extractor/version/options hash，升级生成新 snapshot，不覆盖旧证据 |
-| 网页归档 | [ArchiveBox](https://github.com/ArchiveBox/ArchiveBox#readme) 提供 CLI/Web/Python API 和多格式归档 | 归档格式广、导入方便 | 默认配置可能触发 archive.org，不能把第三方快照当内部 canonical store；输出结构需再校验 | 只借鉴归档任务思想；canonical 仍是本地内容寻址 `archive/text`，internal 禁止外发 |
+| 网页归档 | [ArchiveBox](https://github.com/ArchiveBox/ArchiveBox#readme) 提供 CLI/Web/Python API 和多格式归档 | 归档格式广、导入方便 | 默认配置可能触发 archive.org，不能把第三方快照当内部 canonical store；输出结构需再校验 | 只借鉴归档任务思想；canonical 仍是本地内容寻址 `ledger/archive/text`，internal 禁止外发 |
 | 关键词检索 | [SQLite FTS5](https://www.sqlite.org/fts5.html) 的 BM25、highlight、snippet、tokenizer | 内置、离线、确定性、可重建 | 中文 tokenizer 和 external-content 同步由应用负责 | 必选 baseline；维护 object/hash metadata 和 Python fallback |
 | 混合检索 | [QMD](https://github.com/tobi/qmd) / [npm `@tobilu/qmd`](https://www.npmjs.com/package/@tobilu/qmd) `2.8.3`：BM25、向量、RRF、LLM rerank、CJK normalization、hash 增量、行号读取和 MCP | 一次获得较完整的本地语义检索能力 | Node `>=22`、模型/索引缓存、版本和输出 schema 会扩大运行面 | 默认本地 read-only adapter；所有结果回到 canonical projection 校验；不可用回退 FTS5/LIKE，不决定状态；public build 不依赖 |
 | 静态搜索 | [Pagefind multilingual](https://pagefind.app/docs/multilingual/) 按 HTML `lang` 分段索引 | 构建期静态、无需后端、适合 GitHub Pages | 中文分词/混合 token 必须回归；索引只看最终 HTML | 保留现有 Pagefind，加入 zh-CN fixture 和 search degraded 规则 |
@@ -2614,6 +2738,7 @@ source 先行
 | 前缀 | 范围 | 主要章节 |
 | --- | --- | --- |
 | SYS | 系统目标、不变量和边界 | §1–§3、§19 |
+| LAY | 目录分域、五层归属、写入通道与路径迁移 | §4.4–§4.6 |
 | SRC | Source 契约、来源和写入要求 | §5 |
 | ARC | 原文快照、归档和来源漂移 | §4.3、§5.6 |
 | WIKI | Wiki schema、状态和正文契约 | §6 |
@@ -2631,6 +2756,14 @@ source 先行
 当前 P0 规范编号：
 
 - `SRC-001`：每个 Source 必须满足一种来源完备性通道。
+- `SRC-002`：`source_type` 只允许新增取值，不允许重命名或删除既有取值（它位于 `hash_inputs.source_semantic`，改名会触发全库重验）；口头与私聊材料不得新增独立来源类型。
+- `LAY-001`：数据侧只有 `content/`、`ledger/`、`var/` 三个域，新增目录必须按 §4.4 的五条判据归入其中之一；组件目录平铺在仓库根。
+- `LAY-002`：managed 层（`content/sources/`、`content/wiki/`）必须 per-vault；unmanaged 层（`working/`、`journal/`、`decisions/`）无 object 身份，只需单例，且不得进入 projection、leak gate 输入树、operation hash 集合与 `query-result/v1`。
+- `LAY-003`：`content/working/` 到期只产生 `doctor` 报告，工具不得自动删除内容；进入该层的唯一硬约束是 `source_ref` 或 `legacy_path` 非空。
+- `LAY-004`：目录迁移不得重写历史 durable record；`applied_files` 中的历史路径是事实，读取侧必须容忍历史路径形态。
+- `CHN-001`：`content/working/` 的唯一入口约束是 `source_ref` 或 `legacy_path` 非空；该层不产生 wiki 对象，不得进入任何 projection、不得出现在任何 wiki 的 `evidence.targets`、不得进入 RAG 召回。存量误登记为 source 的加工文档整批降级至该层（一次降级一条 CDR），`content/wiki/` 只能逐篇人工升级进入，不存在批量升级路径。
+- `WIKI-003`：`review_by` 是选填的报告项：不进 content hash、不改变任何 `*_state` 或 `status`，到期只出现在 `doctor` 清单中。
+- `ARC-005`：ASR 派生 snapshot 支撑的 claim 强度上限为 `attested`，不得派生 `verified`；解除上限需人工逐字校对该片段并标注。
 - `ARC-001`：网络来源必须保存可复核的本地文本快照。
 - `ARC-002`：权威证据必须绑定不可变 snapshot、TextQuote/TextPosition selector 和 hash；source locator 仅用于阅读导航。
 - `WIKI-001`：知识型 Wiki 必须符合 schema、状态和正文契约。
@@ -2649,12 +2782,13 @@ source 先行
 - `VAL-002`：provider 必须提供 `provider-capability/v1` 的协议与 data-handling capability；缺少必需能力时 fail-closed，不能解释为模型质量判断。
 - `OPS-004`：single-Vault apply 使用 commit-intent/recovery journal；projection 失败进入 `applied_index_pending`，不得伪造完整成功。
 - `WEB-003`：正式 Astro build 只接受 `public-projection/v1` manifest；legacy docs adapter 只能用于 validation baseline。
+- `VAL-003`：同一内容 hash 下多份审计报告分歧时取 `fail`；唯一推翻路径是 owner 签署的 `validation-override/v1` 复议记录（human 签署、reason 必填、逐条覆盖全部非 supported claim、绑定当前 hash、record 自证），复议后无可用 verdict 报告时回落 `not_run`。
 
 当前 P1/P2 规范编号（已进入追踪矩阵，但仍未实现）：
 
 - `ARC-003`：selector/quote 规范化必须保留 canonical offset map；近似匹配只能产生恢复建议，不能放宽证据范围。
 - `WIKI-002`：声明字段、派生字段和 operation-controlled 字段必须分离；非法状态组合和手写派生值必须拒绝。
-- `OPS-003`：confirmation/nonce、durable audit、跨 Vault staging 和索引失败恢复必须可回放，临时 `state/` 不能作为事实源。
+- `OPS-003`：confirmation/nonce、durable audit、跨 Vault staging 和索引失败恢复必须可回放，临时 `var/state/` 不能作为事实源。
 - `SKILL-001`：Agent 只能从本仓库 canonical Skill 调用领域 CLI/API，不能直接修改 Markdown、manifest、索引或发布开关。
 - `MIG-001`：存量迁移必须逐文件保留 source/wiki/route/证据/Vault 状态，人工判定与旧站回滚边界不可被自动化隐藏。
 - `BAK-001`：备份和恢复按 Vault 独立验收，`backup_state` 不能由全局汇总替代。

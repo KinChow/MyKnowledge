@@ -11,6 +11,8 @@ config/providers.local.*.yaml
 # 工具运行时状态整体屏蔽（operations/locks/local-sources 等）
 var/state/
 var/queries/local/
+# Comate 本地工具配置与备忘（从未入库，不入版本库）
+.comate/
 rag-index.jsonl
 *.sqlite3
 *.sqlite3-shm

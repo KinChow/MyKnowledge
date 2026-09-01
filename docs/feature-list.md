@@ -29,6 +29,8 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 | F010 | 存量内容迁移和质量清理 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md)、[迁移台账](./f010-migration-ledger.md) |
 | F011 | Private Vaults 独立私有 Git 子仓库（0..N） | P1 | F001–F004、SEC 契约 | [F011](./acceptance/F011-private-vault.md) |
 | F012 | 备份、恢复和可观测性 | P1 | 核心模块 | [F012](./acceptance/F012-backup-and-observability.md) |
+| F013 | 数据分域、五层布局与三条写入通道 | P0 | F002, F004（F007/F011/F012 需同步路径） | [F013](./acceptance/F013-layers-and-channels.md) |
+| F014 | 音视频与转录来源 | P2 | F001, F013 | [F014](./acceptance/F014-media-sources.md) |
 
 ## Feature 记录模板
 
@@ -70,7 +72,24 @@ F007 的 `public_release` 默认是 `false`，只有人工对当前输出 hash �
 - F010：[内容迁移 Technical Design](./technical-design/content-migration.md)（通过 [Acceptance](./acceptance/F010-content-migration.md)）
 - F011：[Private Vault Technical Design](./technical-design/private-vault-submodule.md)（通过 [Acceptance](./acceptance/F011-private-vault.md)）
 - F012：[备份与可观测性 Technical Design](./technical-design/backup-and-observability.md)（通过 [Acceptance](./acceptance/F012-backup-and-observability.md)）
+- F013：[分层与写入通道 Technical Design](./technical-design/layers-and-channels.md)（通过 [Acceptance](./acceptance/F013-layers-and-channels.md)）
+- F014：[音视频与转录来源 Technical Design](./technical-design/media-sources.md)（通过 [Acceptance](./acceptance/F014-media-sources.md)）
 
 F007 和 F011 均按“完整能力包”交付：projection、门禁、fallback、失败恢复、可观测性和验收场景必须同一版本完成，不先交付会被后续重写的临时实现。
 
 F010 不在 P0 写入门禁稳定前进行批量迁移。先用代表性样本验证迁移规则，再根据实测结果估算全量工作量。
+
+## F013 / F014 的交付边界
+
+F013 是布局与通道 Feature，分三个独立可验收的批次交付（映射见 §4.6）：
+
+- **批次 1（零风险）**：`queries/`、`state/`、`reports/` 迁入 `var/`；删除空目录 `specs/`。只改 `paths.py`、`.gitignore` 与 `policy.yaml` 的 projection 前缀。
+- **批次 2（低风险，窗口收窄中）**：`sources/`、`wiki/` 迁入 `content/`；新建 `content/working|journal|decisions/`。`body_path` 变化会让已发布页面的 `public_release` 自动回落 `false`，需重新人工确认一次。**每多一个已发布页面就多一次重新确认，因此这一批次应尽早执行。**
+- **批次 3（中风险，需独立 review）**：`archive/`、`audit/`、`release/` 迁入 `ledger/`；改约 15 个声明式 durable path 常量。跨 vault 路径模板必须在挂载第一个 private vault 之前定型。
+
+F013 的第二部分是功能项，不依赖上述搬移：`review_by` 报告项（WIKI-003）、`content/working/` 的 TTL 报告、降级落位（CHN-001）。功能项可以在批次 1 之后、批次 2/3 之前先行交付。原计划的快速通道与 unmanaged 层文本检索命令已取消（ADR-0014 决策 4 / 候选 H）。
+
+F014 定为 P2：它是给尚未跑满的主链路增加新入口。日常先用 `content/journal/` 记录"听了哪一集 + 时间点 + 一句话"，真正需要引用时再回去做片段转录。
+
+F013 会改写下游 Technical Design 与 Acceptance 中的历史路径字面量。规范层（本文件、系统设计、ADR、追踪矩阵）已按目标布局对齐；描述**当前实现**的既有 Technical Design 与 Acceptance 文档保持历史路径，在对应批次的实现 commit 中同步更新——这样文档在任何时刻都自洽：规范描述目标，实现文档描述现状，`§4.6` 的映射表是两者之间的唯一权威桥。
+
