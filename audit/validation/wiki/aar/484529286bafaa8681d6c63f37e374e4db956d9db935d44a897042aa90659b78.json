@@ -1,0 +1,231 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "aar",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_cbe73ad093ff",
+  "input_hash": "sha256:00115efc447dd97c9ff0a0b898e30a249e32b6c377b5d4912fe2cefbf72940f1",
+  "provider_duration_ms": 50765,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788371273.4203038,
+  "wiki_content_sha256": "sha256:4dbf0da1c78a6710fd5907ec4892f488dd66e01307c9d069a3d275dbe6cb486b",
+  "wiki_evidence_sha256": "sha256:40d385fa08716510b3ed1d12d5e5d938a8211df85dde54f8bfe5a5378b9c2284",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-bd71610a92c6",
+      "snapshot_sha256": "sha256:1588c2432ac6a329d61b458155f079c3128a928199446f36dfb45dd3638806e5",
+      "selector_sha256": "sha256:43547316e725d8988fef8dde12dca92fd781957409d08d790e8c2850fd75672e",
+      "quote_sha256": "sha256:0560250f48973f9e190f6aa75178aae62c8a2359080f3c5a6392e3d9c3fffc3b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-5ca92dbc3cf1",
+      "snapshot_sha256": "sha256:1588c2432ac6a329d61b458155f079c3128a928199446f36dfb45dd3638806e5",
+      "selector_sha256": "sha256:eff1a055adc36aa31be2dfee62464537f7c3599d05e4303e115565161d2d221b",
+      "quote_sha256": "sha256:663bf96992b8e20dee3c0e0163efc91ef509dda17fbd529131e45e7efb322b8b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-bd71610a92c6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-bd71610a92c6",
+          "exact": "An after-action review (AAR) is a professional discussion of an event, focused on \nperformance standards, that enables soldiers to discover for themselves what happened, \nwhy it happened, and how to sustain strengths and improve on weaknesses."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-bd71610a92c6",
+          "subject": "An after-action review (AAR)",
+          "predicate": "is and enables",
+          "object": "a professional discussion of an event focused on performance standards that enables soldiers to discover what happened, why it happened, and how to sustain strengths and improve weaknesses",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文在 [0,243) 明确将 AAR 定义为针对事件、聚焦绩效标准的专业讨论，并说明其使士兵自行发现发生了什么、为什么发生，以及如何保持优势和改进不足；与 claim 的全部定义性要素一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-bd71610a92c6",
+          "start": 0,
+          "end": 243
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "army-origin",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-5ca92dbc3cf1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5ca92dbc3cf1",
+          "exact": "Training Circular \n25-20 \nHeadquarters\nDepartment of the Army"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5ca92dbc3cf1",
+          "subject": "Training Circular 25-20",
+          "predicate": "is attributed to",
+          "object": "Headquarters, Department of the Army",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文在 [0,61) 记载“Training Circular 25-20”及“Headquarters Department of the Army”，支持存在编号为 TC 25-20 且归属 Department of the Army 的训练通告；但该引文未出现《A Leader’s Guide to After-Action Reviews》这一标题，故不能完整支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-5ca92dbc3cf1",
+          "start": 0,
+          "end": 61
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "army-origin：目标引文未提供《A Leader’s Guide to After-Action Reviews》这一通告标题。"
+  ],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-bd71610a92c6",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:3dade3513e3abdf967d9aebfcab3fd44473c4f608e8f8e941d6965b7209613e0"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-5ca92dbc3cf1",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:2d62ab51ba156b3de87af12a7de76c616c497c8d65ebc7cd6b74b4dc810c025b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "army-origin",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

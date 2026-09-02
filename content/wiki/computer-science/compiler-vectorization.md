@@ -362,7 +362,7 @@ void Add(float *input1, float *input2, float *output, int size)
 - 程序性能的分析和测量
 
 
-## 详细章节（working 指南原文，零删减）
+## 详细章节
 ### 向量化概述
 
 向量化又称为矢量化。相对于标量一条指令运行一个操作，一条向量指令可以运行多个相同类型的操作。向量化是将标量程序转换为矢量程序，发挥程序SIMD（Single Instruction, Multiple Data）并行化的优化技术。
