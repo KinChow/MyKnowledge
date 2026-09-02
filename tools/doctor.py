@@ -404,6 +404,22 @@ def _check_archive_integrity(root: Path) -> tuple[str, dict]:
     }
 
 
+def _check_matrix(root: Path) -> tuple[str, dict]:
+    """追踪矩阵完成度与文件证据一致（matrix sync：完成度列机器派生，
+    人只维护状态列/测试列；引用缺失或完成度被手改都会在此暴露）。"""
+    from .matrix_sync import check as matrix_check
+
+    result = matrix_check(root)
+    state = result.pop("state", "warning")
+    # 矩阵文件缺失是环境事实（临时仓库/测试场景没有该文档），不拖累健康
+    # 状态；存在但 stale/dangling 才是内容破坏（error，阻断提交）。
+    if state == "error" and str(result.get("reason", "")).startswith(
+        "matrix_unreadable"
+    ):
+        state = "ok"
+    return state, result
+
+
 def run_doctor(root: Path) -> dict:
     root = Path(root).resolve()
     report: dict = {
@@ -524,6 +540,10 @@ def run_doctor(root: Path) -> dict:
 
     state, fields = _check_path_contract(root)
     add("path_contract", state, **fields)
+
+    # 4g. 追踪矩阵完成度与文件证据一致（matrix sync）
+    state, fields = _check_matrix(root)
+    add("matrix_sync", state, **fields)
 
     # 5. vault registry / 备份
     try:

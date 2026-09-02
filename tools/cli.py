@@ -19,6 +19,7 @@ from tools.doctor import main as doctor_main
 from tools.evidence_anchor import main as anchor_main
 from tools.ingest.source_ingestor import main as source_main
 from tools.inventory_legacy import main as inventory_main
+from tools.matrix_sync import main as matrix_main
 from tools.migrate_legacy import main as migrate_main
 from tools.public_projection import PublicProjectionGenerator
 from tools.question import QuestionStore
@@ -656,6 +657,7 @@ COMMANDS = {
     "projection": projection_main,
     "release": release_main,
     "reposition": reposition_main,
+    "matrix": matrix_main,
     "skill": skill_main,
 }
 
@@ -684,6 +686,7 @@ commands:
   projection       生成 public projection manifest（F007）
   release          发布输入计算与 public release 人工确认（§6.8/ADR-0010）
   reposition       存量 source 定位判定与改判（classify / apply，F013）
+  matrix           追踪矩阵完成度机器派生（check / sync，勿手改完成度列）
   skill            Agent Skill 受控 action 分发（F009）"""
 
 
