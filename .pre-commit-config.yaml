@@ -78,6 +78,6 @@ repos:
         name: pytest (pre-push)
         entry: scripts/run-pre-push-tests.sh
         language: system
-        types: [python]
         pass_filenames: false
         stages: [pre-push]
+        always_run: true
