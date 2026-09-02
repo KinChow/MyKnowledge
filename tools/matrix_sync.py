@@ -48,6 +48,10 @@ from pathlib import Path
 from tools.common import atomic_write, is_contained_regular_file
 
 MATRIX_REL = "docs/traceability-matrix.md"
+FEATURE_LIST_REL = "docs/feature-list.md"
+
+# feature-list 的四象限分类（与 docs/feature-list.md「Feature 分类」一节保持一致）
+FEATURE_CATEGORIES = ("核心链路", "横向基础", "消费端", "演进/独立域")
 
 # 裸文件名查找的已知前缀（与仓库测试布局一致）
 _TEST_PREFIXES = ("tests", "tests/validation", "tests/ingest", "tests/anchor")
@@ -229,8 +233,92 @@ def _judge_row(root: Path, row: dict) -> list[tuple[str, object]]:
     return []
 
 
-def check(root: Path) -> dict:
-    """校验矩阵完成度与文件证据一致；返回 doctor 风格报告。"""
+def _read_feature_list(root: Path) -> tuple[str | None, dict | None]:
+    """读取 feature-list 文本；失败返回 (None, error 报告)。"""
+    path = root / FEATURE_LIST_REL
+    try:
+        return path.read_text(encoding="utf-8"), None
+    except (OSError, UnicodeDecodeError) as exc:
+        return None, {
+            "state": "error",
+            "reason": f"feature_list_unreadable:{type(exc).__name__}",
+        }
+
+
+def _parse_feature_list(text: str) -> list[dict]:
+    """解析「Feature 总览」表 → [{id, name, category, priority, deps, acceptance}]。
+
+    表为 6 列（ID | Feature | 分类 | 优先级 | 依赖 | 验收），仅接受 F\\d{3} 行。
+    """
+    rows: list[dict] = []
+    for line in text.splitlines():
+        if not line.startswith("| "):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) != 6:
+            continue
+        if cells[0] in ("Feature",) or re.match(r"^:?-+:?$", cells[1] or ""):
+            continue  # 表头 / 分隔行
+        if not re.match(r"^F\d{3}$", cells[0]):
+            continue
+        rows.append(
+            {
+                "id": cells[0],
+                "name": cells[1],
+                "category": cells[2],
+                "priority": cells[3],
+                "deps": cells[4],
+                "acceptance": cells[5],
+            }
+        )
+    return rows
+
+
+def check_feature_list(root: Path) -> dict:
+    """校验 feature-list 分类列合法性（四象限 + ID 唯一）。
+
+    返回 doctor 风格报告；仅做只读校验，不自动改写（分类语义由人决定，
+    机器只阻止非法值进入）。
+    """
+    root = Path(root).resolve()
+    text, read_error = _read_feature_list(root)
+    if read_error is not None:
+        return read_error
+
+    rows = _parse_feature_list(text)
+    ids = [r["id"] for r in rows]
+    dupes = sorted({i for i in ids if ids.count(i) > 1})
+    bad_cat = [
+        {"id": r["id"], "category": r["category"]}
+        for r in rows
+        if r["category"] not in FEATURE_CATEGORIES
+    ]
+    # 交叉一致：feature-list 的 ID 应覆盖矩阵「Feature」列引用的全部 F 编号
+    matrix_text, matrix_err = _read_matrix(root)
+    matrix_features: set[str] = set()
+    if matrix_err is None:
+        for m in re.finditer(r"\b(F\d{3})\b", matrix_text):
+            matrix_features.add(m.group(1))
+    missing_from_feature_list = sorted(matrix_features - set(ids))
+
+    fields: dict = {"features": len(rows)}
+    if dupes:
+        fields["duplicate_ids"] = dupes
+    if bad_cat:
+        fields["invalid_categories"] = bad_cat
+    if missing_from_feature_list:
+        fields["missing_in_feature_list"] = missing_from_feature_list
+    if dupes or bad_cat or missing_from_feature_list:
+        fields["next_action"] = (
+            "修复 docs/feature-list.md 分类列（四象限之一：核心链路/横向基础/"
+            "消费端/演进/独立域）或补全矩阵引用的 Feature 行"
+        )
+        return {"state": "error", **fields}
+    return {"state": "ok", **fields}
+
+
+def _check_matrix_completion(root: Path) -> dict:
+    """校验矩阵完成度与文件证据一致（完成度列机器派生）。"""
     root = Path(root).resolve()
     text, read_error = _read_matrix(root)
     if read_error is not None:
@@ -275,6 +363,27 @@ def check(root: Path) -> dict:
     if not rows:
         return {"state": "error", "reason": "matrix_format_drift", "rows": 0}
     return {"state": "ok", **fields}
+
+
+def check(root: Path) -> dict:
+    """综合门禁：矩阵完成度 + feature-list 分类列；返回 doctor 风格报告。
+
+    任一项为 error 即整体 error；两部分的详情字段都保留在报告中。
+    """
+    matrix_result = _check_matrix_completion(root)
+    fl_result = check_feature_list(root)
+    errors: dict[str, dict] = {}
+    if matrix_result["state"] == "error":
+        errors["matrix"] = matrix_result
+    if fl_result["state"] == "error":
+        errors["feature_list"] = fl_result
+    if errors:
+        return {"state": "error", "checks": errors}
+    # ok 状态合并 rows / features 等摘要字段
+    merged: dict = {"state": "ok"}
+    merged.update({k: v for k, v in matrix_result.items() if k != "state"})
+    merged.update({k: v for k, v in fl_result.items() if k != "state"})
+    return merged
 
 
 def sync(root: Path, *, dry_run: bool = False) -> dict:

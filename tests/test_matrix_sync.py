@@ -26,6 +26,26 @@ MINIMAL_MATRIX = """\
 """
 
 
+MINIMAL_FEATURE_LIST = """\
+| ID | Feature | 分类 | 优先级 | 依赖 | 验收 |
+| --- | --- | --- | --- | --- | --- |
+| F001 | Source 导入 | 核心链路 | P0 | 规范 | link |
+| F002 | Wiki 契约 | 核心链路 | P0 | F001 | link |
+| F003 | 证据验证 | 核心链路 | P0 | F001, F002 | link |
+| F004 | 写操作 | 核心链路 | P0 | F001-F003 | link |
+| F005 | 索引检索 | 核心链路 | P1 | F001-F004 | link |
+| F006 | FastAPI | 消费端 | P1 | F005 | link |
+| F007 | 静态 Wiki | 消费端 | P1 | F005 | link |
+| F008 | 练习 | 消费端 | P1 | F002, F003 | link |
+| F009 | Agent Skill | 消费端 | P1 | F004-F006 | link |
+| F010 | 迁移 | 消费端 | P1 | F001-F004 | link |
+| F011 | Private Vaults | 横向基础 | P1 | F001-F004 | link |
+| F012 | 备份 | 横向基础 | P1 | 核心模块 | link |
+| F013 | 布局 | 演进/独立域 | P0 | F002, F004 | link |
+| F014 | 音视频 | 演进/独立域 | P2 | F001, F013 | link |
+"""
+
+
 def _write_fake_tests(root: Path) -> None:
     """创建解析规则引用的假测试文件。"""
     for rel in (
@@ -36,6 +56,18 @@ def _write_fake_tests(root: Path) -> None:
         path = root / rel
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("# fixture\n", encoding="utf-8")
+
+
+def _write_fixtures(root: Path) -> None:
+    """创建矩阵 + feature-list 的最小 fixture（check 综合门禁依赖两者）。"""
+    (root / "docs").mkdir(parents=True, exist_ok=True)
+    (root / "docs" / "traceability-matrix.md").write_text(
+        MINIMAL_MATRIX, encoding="utf-8"
+    )
+    (root / "docs" / "feature-list.md").write_text(
+        MINIMAL_FEATURE_LIST, encoding="utf-8"
+    )
+    _write_fake_tests(root)
 
 
 class ParseAndResolveTests(unittest.TestCase):
@@ -131,11 +163,11 @@ class CheckTests(unittest.TestCase):
         self.directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.directory.cleanup)
         self.root = Path(self.directory.name)
-        (self.root / "docs").mkdir(parents=True)
-        (self.root / "docs" / "traceability-matrix.md").write_text(
-            MINIMAL_MATRIX, encoding="utf-8"
-        )
-        _write_fake_tests(self.root)
+        _write_fixtures(self.root)
+
+    def _matrix_checks(self, result: dict) -> dict:
+        """从 check() 嵌套报告取矩阵子检查详情。"""
+        return result.get("checks", {}).get("matrix", result)
 
     def test_consistent_matrix_is_ok(self):
         result = ms.check(self.root)
@@ -154,7 +186,7 @@ class CheckTests(unittest.TestCase):
         )
         result = ms.check(self.root)
         self.assertEqual(result["state"], "error")
-        stale = result["stale"]
+        stale = self._matrix_checks(result)["stale"]
         self.assertEqual(stale[0]["id"], "WIKI-001")
         self.assertEqual(stale[0]["matrix"], "主体完成")
         self.assertEqual(stale[0]["derived"], "完成")
@@ -173,8 +205,9 @@ class CheckTests(unittest.TestCase):
         )
         result = ms.check(self.root)
         self.assertEqual(result["state"], "error")
-        self.assertIn("dangling_refs", result)
-        self.assertEqual(result["dangling_refs"][0]["id"], "SRC-001")
+        matrix = self._matrix_checks(result)
+        self.assertIn("dangling_refs", matrix)
+        self.assertEqual(matrix["dangling_refs"][0]["id"], "SRC-001")
 
     def test_designed_with_resolved_refs_reports_drift_warning(self):
         text = (self.root / "docs" / "traceability-matrix.md").read_text(
@@ -207,21 +240,22 @@ class CheckTests(unittest.TestCase):
         )
         result = ms.check(self.root)
         self.assertEqual(result["state"], "error")
-        self.assertEqual(result["stale"][0]["id"], "LAY-004")
-        self.assertEqual(result["stale"][0]["derived"], "未开始")
+        stale = self._matrix_checks(result)["stale"]
+        self.assertEqual(stale[0]["id"], "LAY-004")
+        self.assertEqual(stale[0]["derived"], "未开始")
 
     def test_check_unreadable_encoding_is_structured_error(self):
         """非 UTF-8 矩阵 → matrix_unreadable 结构化错误，不抛 UnicodeDecodeError。"""
         (self.root / "docs" / "traceability-matrix.md").write_bytes(b"\xff\xfe\x00\x01")
         result = ms.check(self.root)
         self.assertEqual(result["state"], "error")
-        self.assertIn("matrix_unreadable", result["reason"])
+        self.assertIn("matrix_unreadable", self._matrix_checks(result)["reason"])
 
     def test_check_missing_matrix_is_structured_error(self):
         (self.root / "docs" / "traceability-matrix.md").unlink()
         result = ms.check(self.root)
         self.assertEqual(result["state"], "error")
-        self.assertIn("matrix_unreadable", result["reason"])
+        self.assertIn("matrix_unreadable", self._matrix_checks(result)["reason"])
 
     def test_check_unknown_status_is_reported_not_silent(self):
         """状态列拼写漂移（如半角括号）计入 unknown_status，不静默跳过。"""
@@ -319,26 +353,77 @@ class SyncTests(unittest.TestCase):
         self.assertTrue(after.endswith(b"\n"))
 
 
+class FeatureListCheckTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        _write_fixtures(self.root)
+
+    def test_valid_feature_list_is_ok(self):
+        result = ms.check_feature_list(self.root)
+        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["features"], 14)
+
+    def test_invalid_category_is_error(self):
+        text = (self.root / "docs" / "feature-list.md").read_text(encoding="utf-8")
+        text = text.replace(
+            "| F001 | Source 导入 | 核心链路 |", "| F001 | Source 导入 | 随便分类 |"
+        )
+        (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
+        result = ms.check_feature_list(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["invalid_categories"][0]["id"], "F001")
+        self.assertEqual(result["invalid_categories"][0]["category"], "随便分类")
+
+    def test_duplicate_id_is_error(self):
+        text = (self.root / "docs" / "feature-list.md").read_text(encoding="utf-8")
+        text = text.replace("| F014 | 音视频 |", "| F001 | 音视频 |", 1)
+        (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
+        result = ms.check_feature_list(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("F001", result["duplicate_ids"])
+
+    def test_matrix_referenced_feature_missing_from_list_is_error(self):
+        """矩阵引用 F013 但 feature-list 缺该行 → 交叉一致失败。"""
+        text = (self.root / "docs" / "feature-list.md").read_text(encoding="utf-8")
+        text = text.replace("| F013 | 布局 |", "| F900 | 布局 |", 1)
+        (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
+        result = ms.check_feature_list(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("F013", result["missing_in_feature_list"])
+
+    def test_check_aggregates_feature_list_error(self):
+        """综合 check 同时暴露矩阵与 feature-list 的错误。"""
+        text = (self.root / "docs" / "feature-list.md").read_text(encoding="utf-8")
+        text = text.replace(
+            "| F001 | Source 导入 | 核心链路 |", "| F001 | Source 导入 | 随便分类 |"
+        )
+        (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("feature_list", result["checks"])
+
+
 class MainExitCodeTests(unittest.TestCase):
     def test_check_ok_exits_zero(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "docs").mkdir(parents=True)
-            (root / "docs" / "traceability-matrix.md").write_text(
-                MINIMAL_MATRIX, encoding="utf-8"
-            )
-            _write_fake_tests(root)
+            _write_fixtures(root)
             self.assertEqual(ms.main(["check", "--root", str(root)]), 0)
 
     def test_check_stale_exits_two(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            (root / "docs").mkdir(parents=True)
             text = MINIMAL_MATRIX.replace(
                 "| Implemented | 完成 |", "| Implemented | 主体完成 |"
             )
+            (root / "docs").mkdir(parents=True)
             (root / "docs" / "traceability-matrix.md").write_text(
                 text, encoding="utf-8"
+            )
+            (root / "docs" / "feature-list.md").write_text(
+                MINIMAL_FEATURE_LIST, encoding="utf-8"
             )
             _write_fake_tests(root)
             self.assertEqual(ms.main(["check", "--root", str(root)]), 2)
