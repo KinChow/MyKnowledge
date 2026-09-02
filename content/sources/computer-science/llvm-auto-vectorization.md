@@ -51,6 +51,261 @@ evidence_items:
     type: TextQuoteSelector
   selector_sha256: sha256:0d295febf581c44a754006fbd5b3fd5def932f8d1a7242cf22ed43fe955882da
   snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-f6d60969c183
+  position:
+    end: 474
+    start: 403
+    type: TextPositionSelector
+  quote_sha256: sha256:24506c67d8ad870681cdc59fa321b6fada8188b9a8cb68c72ccc53b6e863191b
+  selector:
+    exact: Both the Loop Vectorizer and the SLP Vectorizer are enabled by default.
+    prefix: 'ultiple consecutive iterations.
+
+      '
+    suffix: '
+
+      The Loop Vectorizer#
+
+      Usage#
+
+      The'
+    type: TextQuoteSelector
+  selector_sha256: sha256:3c1aaf68853e4abdac882f2775c1668c77bb5bd99555a35cbc0c4639254c5412
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-acbdf3a5d0f7
+  position:
+    end: 611
+    start: 503
+    type: TextPositionSelector
+  quote_sha256: sha256:e7afb4b9920fc22535a2607b3d0225fbead2850609bb492f47f4b1b145187ef6
+  selector:
+    exact: 'The Loop Vectorizer is enabled by default, but it can be disabled through
+      clang using the command line flag:'
+    prefix: 'lt.
+
+      The Loop Vectorizer#
+
+      Usage#
+
+      '
+    suffix: '
+
+      $ clang ... -fno-vectorize  fil'
+    type: TextQuoteSelector
+  selector_sha256: sha256:1a9ab7e4f9909f0cc9dbbe8c89550747848c0767f96e6e1b39149b117ff1274b
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-0b6bd80cc315
+  position:
+    end: 1178
+    start: 1088
+    type: TextPositionSelector
+  quote_sha256: sha256:aa5817a6e539aed1f3cdf0d87e40b381178f6b13d5ec1e2e1817a5b0e491b9e7
+  selector:
+    exact: Users can control the unroll factor using the command line flag “-force-vector-interleave”
+    prefix: 'orize -force-vector-width=8 ...
+
+      '
+    suffix: '
+
+      $ clang  -mllvm -force-vector-i'
+    type: TextQuoteSelector
+  selector_sha256: sha256:7a1328e9b5b98319d63ccddfd2c27c426990316572b140f70bc46eb6fd524311
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-fa72e0bfaddc
+  position:
+    end: 1460
+    start: 1308
+    type: TextPositionSelector
+  quote_sha256: sha256:839be9c97daf469682fd41ba817cf73b741cfba0694496a7f22ddf6c493cbf61
+  selector:
+    exact: 'The #pragma clang loop directive allows loop vectorization hints to be
+
+      specified for the subsequent for, while, do-while, or c++11 range-based for
+
+      loop.'
+    prefix: '..
+
+      Pragma loop hint directives#
+
+      '
+    suffix: ' The directive allows vectorizat'
+    type: TextQuoteSelector
+  selector_sha256: sha256:18661e95b663485f7d33e680448252d9f464e990b962686ef1cf5c08ad61b204
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-03d1de17ae44
+  position:
+    end: 2436
+    start: 2363
+    type: TextPositionSelector
+  quote_sha256: sha256:5f295b0a12b7eb66c4d414e765cc90929c76e14e890951f693ceaef1be8f0926
+  selector:
+    exact: -Rpass=loop-vectorize identifies loops that were successfully vectorized.
+    prefix: 'tion remarks are enabled using:
+
+      '
+    suffix: '
+
+      -Rpass-missed=loop-vectorize id'
+    type: TextQuoteSelector
+  selector_sha256: sha256:541452fe111971b40d5ddf3f8bd68ef75509a9735f64f955e99ebb7f5562f2a8
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-fdd7b1718c11
+  position:
+    end: 2508
+    start: 2437
+    type: TextPositionSelector
+  quote_sha256: sha256:e9a2b2d488fa023996fc15e33d5df20cf8dcdfbf22733018b2fd4cc7545407db
+  selector:
+    exact: -Rpass-missed=loop-vectorize identifies loops that failed vectorization
+    prefix: 't were successfully vectorized.
+
+      '
+    suffix: ' and
+
+      indicates if vectorization '
+    type: TextQuoteSelector
+  selector_sha256: sha256:26ac2c8e4e28f917d09fed9df402b2d4423fbdcc1ce9b6af6ea0dfc1d4687b2c
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-83cd6b02e7df
+  position:
+    end: 3780
+    start: 3718
+    type: TextPositionSelector
+  quote_sha256: sha256:646eabc6c7e2fdcf604bfafb73745949e315f46f04c37cf2f349316f3f2233d8
+  selector:
+    exact: The Loop Vectorizer supports loops with an unknown trip count.
+    prefix: '
+
+      Loops with unknown trip count#
+
+      '
+    suffix: '
+
+      In the loop below, the iteratio'
+    type: TextQuoteSelector
+  selector_sha256: sha256:136422d614a4eb726271472ada1a4bf8b380d5b94c9546c5064544705be1e511
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-97b92953540f
+  position:
+    end: 8090
+    start: 8030
+    type: TextPositionSelector
+  quote_sha256: sha256:293f99eb325e61189511a0fc732178fbfd6c81b82ae2f634dca066ef4dd7f30c
+  selector:
+    exact: The Loop Vectorizer can vectorize programs with mixed types.
+    prefix: '.
+
+      Vectorization of Mixed Types#
+
+      '
+    suffix: ' The Vectorizer cost model can e'
+    type: TextQuoteSelector
+  selector_sha256: sha256:6d22df9ed92e1532a2aebe8e09bfac6a0c5b51e4510bc668f24a56831bf6a19a
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-f6ff3239ca00
+  position:
+    end: 8876
+    start: 8817
+    type: TextPositionSelector
+  quote_sha256: sha256:09cab6a2046fa2492daadc98f39d9941ae139a191c569fa6d952fdbf8d426cfe
+  selector:
+    exact: The Loop Vectorizer can vectorize intrinsic math functions.
+    prefix: 'ectorization of function calls#
+
+      '
+    suffix: ' See the table below for a list '
+    type: TextQuoteSelector
+  selector_sha256: sha256:e2970bd5caeda7bb0747ae28e99fc619f39d8abe813b41d9bb588b39da9e3fef
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-eca4e264cf4d
+  position:
+    end: 9885
+    start: 9704
+    type: TextPositionSelector
+  quote_sha256: sha256:95fb9b1a74f7ef6f9c6c7f648163127f86d4a193c1049d18b945043c131fe818
+  selector:
+    exact: 'Using clang, this is handled by the “-fveclib” command line option with
+      one of the following vector libraries: “Accelerate,libmvec,MASSV,SVML,SLEEF,Darwin_libsystem_m,ArmPL,AMDLIBM”'
+    prefix: 'entation of that math function. '
+    suffix: '
+
+      $ clang ... -fno-math-errno -fv'
+    type: TextQuoteSelector
+  selector_sha256: sha256:614e5176c176cdc834ddc9cbd279d6b725b0bc1ffd2de23e3e6e65df4986cd89
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-dc8a5899f4a1
+  position:
+    end: 10252
+    start: 10141
+    type: TextPositionSelector
+  quote_sha256: sha256:8f71092c88edbf0570a8308e4d9ef6efeedada416d6617a9efe5991f16e27b83
+  selector:
+    exact: The Loop Vectorizer increases the instruction level parallelism (ILP) by
+      performing partial-unrolling of loops.
+    prefix: 'he entire width of the machine. '
+    suffix: '
+
+      In the example below the entire'
+    type: TextQuoteSelector
+  selector_sha256: sha256:34b31a255f473cf6c84e7fae333f56700a4e765c1312e8e953e8a50448d447c7
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-b73fecc37bed
+  position:
+    end: 14192
+    start: 14085
+    type: TextPositionSelector
+  quote_sha256: sha256:851d1bb8c8a8282cb00ba0c288e9769531ad89b599ed35350a57a37ac67e6cf9
+  selector:
+    exact: 'The SLP Vectorizer is enabled by default, but it can be disabled through
+      clang using the command line flag:'
+    prefix: 'h of scalars to combine.
+
+      Usage#
+
+      '
+    suffix: '
+
+      $ clang -fno-slp-vectorize file'
+    type: TextQuoteSelector
+  selector_sha256: sha256:587079b78e6d14566d2824ef4d5763c475139deb310e8f68c237aff23b1da87d
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-1e8de6a08cea
+  position:
+    end: 13536
+    start: 13397
+    type: TextPositionSelector
+  quote_sha256: sha256:9518acdfb5d6af47f30f0124246dd61f2fd20532685a99abe24c69e78f169de2
+  selector:
+    exact: The goal of SLP vectorization (a.k.a. superword-level parallelism) is to
+      combine similar independent instructions into vector instructions.
+    prefix: 'r.
+
+      The SLP Vectorizer#
+
+      Details#
+
+      '
+    suffix: ' Memory accesses, arithmetic ope'
+    type: TextQuoteSelector
+  selector_sha256: sha256:b8ab7d949f8fd050ec4b2fedebfb245a151b3de14bb864819ac8cb780f253715
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
+- evidence_id: evidence-0faa375b91ea
+  position:
+    end: 2646
+    start: 2555
+    type: TextPositionSelector
+  quote_sha256: sha256:7c894f9050e8304e789f70b5ac15aca1117a52c8262e7f8497673dfae05cc85a
+  selector:
+    exact: '-Rpass-analysis=loop-vectorize identifies the statements that caused
+
+      vectorization to fail.'
+    prefix: 'if vectorization was specified.
+
+      '
+    suffix: ' If in addition -fsave-optimizat'
+    type: TextQuoteSelector
+  selector_sha256: sha256:5a63f29bbfe3a695aadbfe38862144c276c1ddd21a7e5337c481a43b8be28dfe
+  snapshot_sha256: sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1
 extractor: trafilatura/2.2.0
 id: llvm-auto-vectorization
 media_type: text/html

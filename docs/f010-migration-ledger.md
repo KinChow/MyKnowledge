@@ -112,6 +112,28 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 - **遗留**：docs/ 知识域仍剩 39 篇空文档（R3 待补类），按规则登记待补不迁移；
   docs/ 原件按 §4.3 保持只读不删，待 B5 退役。迁移后内容优化由 owner 后续执行。
 
+### 8.4 编译器向量化指南：去重 + 补源 + 修复（2026-09-02）
+
+- **去重**：working 层 A 档 `compiler-vectorization-guide` 与 `a-guide-of-compiler-vectorization`
+  为同一文档的重复导入（`snapshot_sha256` 逐字节一致）。保留 canonical
+  `a-guide-of-compiler-vectorization`，删除重复副本 `compiler-vectorization-guide`；
+  manifest/归档为 append-only 历史，不重写。删除后 working 层 161 → 160 文件。
+- **补源**：为指南升级导入 `gcc-auto-vectorization` source
+  （`source --url https://gcc.gnu.org/projects/tree-ssa/vectorization.html`，快照
+  `2dff0614…`）；`llvm-auto-vectorization`（`llvm.org/docs/Vectorizers.html`，快照
+  `15bcdf01…`）为既有 source 复用，未重复导入。
+- **内容修复**：指南正文按联网核对修复 8 类问题（`-fveclib` 取值、`--param min-vect-loop-bound`、
+  `-vectorize-loops` 措辞、`-02→-O2`、Unicode `≥`、未声明 `n`、汇编示例尾部逻辑、~12 处笔误）；
+  "NEON 32 字节对齐最佳"经文献验证不成立，改为"16 字节向量宽度 + cache line"可辩护表述，
+  真机实测留待验证项。front matter `snapshot_sha256` 保留指向归档原文，未动 archive。
+
+### 8.5 编译器向量化指南：wiki 发布闭环（2026-09-03）
+
+- **发布链全通**：`compiler-vectorization` wiki（id `compiler-vectorization`）确定性校验 0 error → LLM 审计 pass（18/18 supported, openai-compatible）→ owner confirm（op_6bd39884…, actor local-user）→ `status: published` → `release confirm`（evt-vec-guide-d958e2, actor zhouzijian01）→ public projection 生成、索引重建、query 可查 → `strength: verified`、`public_publishable: True`。
+- **待验证项收口**：4 项验证完成 3 项（GCC -O2 实证：pass 启用 ≠ 实际向量化；GCC 诊断：`-ftree-vectorizer-verbose` 为 no-op 旧接口；LLVM 特性：clang 21 全默认向量化），验证结论并入正文；NEON 对齐的 Cortex 真机基准为唯一遗留项。验证方法段补"原生执行验证（arm64 主机）"一节。
+- **working 移出**：`a-guide-of-compiler-vectorization` 完成使命，从 working 删除（内容已完整入 wiki，零删减）；working 161 → 159。manifest/归档为 append-only 历史，未动。
+- **遗留说明**：`aar` 在 projection 中报 `lineage_record_missing`（既有问题，与本次无关，A 档剩余 55 篇升级时留意）。
+
 ## 9. 修订记录
 
 | 日期 | 变更 |
