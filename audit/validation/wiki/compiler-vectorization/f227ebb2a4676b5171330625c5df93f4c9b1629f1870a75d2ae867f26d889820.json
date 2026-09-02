@@ -1,0 +1,1219 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "compiler-vectorization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_ddad744ec1d9",
+  "input_hash": "sha256:d5aea64edd5dffd33cee6360fb5d10767225a8bd724818b64f29edcdef1645b4",
+  "provider_duration_ms": 119512,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788366770.325422,
+  "wiki_content_sha256": "sha256:9e5ef98f5cd3cebf669101a91429ef508115d118bb4e5e5a3ff3ea0a4c44e54e",
+  "wiki_evidence_sha256": "sha256:243057740239e6458f44258518b8677b2029af9d2f8e8e94203df81b078375ce",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-878e7e0d7d13",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:3a882fe29c2d1f94501ecbc19b83fdcafffa7919a1e81a4f161aa3ca86019e79",
+      "quote_sha256": "sha256:410802f5f80f301c859e0bfbf8bbe9b84de6e432e14853d399afa161e1ea5a97"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-41839e947a4e",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:a4aa8b00ffb2d3e9cd70bb9710078ae7de55594658e5ea63da55e0ca1f573e6c",
+      "quote_sha256": "sha256:0f8207cc8675d49e29bac218fd3c7a72ba616378a12fe392110aafc50701b834"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-f6d60969c183",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:3c1aaf68853e4abdac882f2775c1668c77bb5bd99555a35cbc0c4639254c5412",
+      "quote_sha256": "sha256:24506c67d8ad870681cdc59fa321b6fada8188b9a8cb68c72ccc53b6e863191b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-acbdf3a5d0f7",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:1a9ab7e4f9909f0cc9dbbe8c89550747848c0767f96e6e1b39149b117ff1274b",
+      "quote_sha256": "sha256:e7afb4b9920fc22535a2607b3d0225fbead2850609bb492f47f4b1b145187ef6"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-b73fecc37bed",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:587079b78e6d14566d2824ef4d5763c475139deb310e8f68c237aff23b1da87d",
+      "quote_sha256": "sha256:851d1bb8c8a8282cb00ba0c288e9769531ad89b599ed35350a57a37ac67e6cf9"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-b37af9d946eb",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:0d295febf581c44a754006fbd5b3fd5def932f8d1a7242cf22ed43fe955882da",
+      "quote_sha256": "sha256:41bb1e046b357bdcd20ec4a063a6cecf0ad0f03644bc9e2aa9a62f0d8aaaf904"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-0b6bd80cc315",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:7a1328e9b5b98319d63ccddfd2c27c426990316572b140f70bc46eb6fd524311",
+      "quote_sha256": "sha256:aa5817a6e539aed1f3cdf0d87e40b381178f6b13d5ec1e2e1817a5b0e491b9e7"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-fa72e0bfaddc",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:18661e95b663485f7d33e680448252d9f464e990b962686ef1cf5c08ad61b204",
+      "quote_sha256": "sha256:839be9c97daf469682fd41ba817cf73b741cfba0694496a7f22ddf6c493cbf61"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-03d1de17ae44",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:541452fe111971b40d5ddf3f8bd68ef75509a9735f64f955e99ebb7f5562f2a8",
+      "quote_sha256": "sha256:5f295b0a12b7eb66c4d414e765cc90929c76e14e890951f693ceaef1be8f0926"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-fdd7b1718c11",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:26ac2c8e4e28f917d09fed9df402b2d4423fbdcc1ce9b6af6ea0dfc1d4687b2c",
+      "quote_sha256": "sha256:e9a2b2d488fa023996fc15e33d5df20cf8dcdfbf22733018b2fd4cc7545407db"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-0faa375b91ea",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:5a63f29bbfe3a695aadbfe38862144c276c1ddd21a7e5337c481a43b8be28dfe",
+      "quote_sha256": "sha256:7c894f9050e8304e789f70b5ac15aca1117a52c8262e7f8497673dfae05cc85a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-83cd6b02e7df",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:136422d614a4eb726271472ada1a4bf8b380d5b94c9546c5064544705be1e511",
+      "quote_sha256": "sha256:646eabc6c7e2fdcf604bfafb73745949e315f46f04c37cf2f349316f3f2233d8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-97b92953540f",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:6d22df9ed92e1532a2aebe8e09bfac6a0c5b51e4510bc668f24a56831bf6a19a",
+      "quote_sha256": "sha256:293f99eb325e61189511a0fc732178fbfd6c81b82ae2f634dca066ef4dd7f30c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-f6ff3239ca00",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:e2970bd5caeda7bb0747ae28e99fc619f39d8abe813b41d9bb588b39da9e3fef",
+      "quote_sha256": "sha256:09cab6a2046fa2492daadc98f39d9941ae139a191c569fa6d952fdbf8d426cfe"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-eca4e264cf4d",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:614e5176c176cdc834ddc9cbd279d6b725b0bc1ffd2de23e3e6e65df4986cd89",
+      "quote_sha256": "sha256:95fb9b1a74f7ef6f9c6c7f648163127f86d4a193c1049d18b945043c131fe818"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-dc8a5899f4a1",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:34b31a255f473cf6c84e7fae333f56700a4e765c1312e8e953e8a50448d447c7",
+      "quote_sha256": "sha256:8f71092c88edbf0570a8308e4d9ef6efeedada416d6617a9efe5991f16e27b83"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "llvm-auto-vectorization"
+      },
+      "source_id": "llvm-auto-vectorization",
+      "evidence_id": "evidence-1e8de6a08cea",
+      "snapshot_sha256": "sha256:15bcdf01d39fc1f96f34f376b39642709ee6e2d06596424645a3aba001766aa1",
+      "selector_sha256": "sha256:b8ab7d949f8fd050ec4b2fedebfb245a151b3de14bb864819ac8cb780f253715",
+      "quote_sha256": "sha256:9518acdfb5d6af47f30f0124246dd61f2fd20532685a99abe24c69e78f169de2"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-auto-vectorization"
+      },
+      "source_id": "gcc-auto-vectorization",
+      "evidence_id": "evidence-e15d32c63ae2",
+      "snapshot_sha256": "sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8",
+      "selector_sha256": "sha256:d38fb8b919e568404efe5f17753c75277cb836f5c952f616de6ea184eb27c28b",
+      "quote_sha256": "sha256:766783cbcf75536b701b6d5c6a1e236445af89e41f6a6a6d8f71474f07ddb6ba"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-auto-vectorization"
+      },
+      "source_id": "gcc-auto-vectorization",
+      "evidence_id": "evidence-b44e2c328ac6",
+      "snapshot_sha256": "sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8",
+      "selector_sha256": "sha256:653c27a3a11ac56e7c17744c56cce598f37c31a3f2e16d83dbf27b8e6e69db96",
+      "quote_sha256": "sha256:e4e84e63dc34bdb397ffd0f1f8bf6085af733bf987a9dbd76f7338b0d1f254a6"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-auto-vectorization"
+      },
+      "source_id": "gcc-auto-vectorization",
+      "evidence_id": "evidence-0784aafedc2e",
+      "snapshot_sha256": "sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8",
+      "selector_sha256": "sha256:69a049bdb9287c5d85faeb9cf9f02a8af9837e446cbf5f641125eb3ea12dda2e",
+      "quote_sha256": "sha256:256a04e1784e5992b1963a3ffb8ef22c6a25860145617721a6d4ce24601a9323"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-auto-vectorization"
+      },
+      "source_id": "gcc-auto-vectorization",
+      "evidence_id": "evidence-978b9fdc3358",
+      "snapshot_sha256": "sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8",
+      "selector_sha256": "sha256:13d17068ad1f7a9d971df7d025bff5e60fc148edeb4e0826fbaf39e9d6362426",
+      "quote_sha256": "sha256:127695fe6e9a887862d176c6e97605187ee080367d616a9018ff1da7cf35164d"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "llvm-two-vectorizers",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-878e7e0d7d13"
+        },
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-41839e947a4e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-878e7e0d7d13",
+          "exact": "LLVM has two vectorizers: The Loop Vectorizer, which operates on Loops, and the SLP Vectorizer"
+        },
+        {
+          "evidence_id": "evidence-41839e947a4e",
+          "exact": "The SLP vectorizer merges multiple scalars that are found in the code into vectors"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-878e7e0d7d13（区间 0–1）明确列出 Loop Vectorizer 与 SLP Vectorizer；evidence-41839e947a4e（区间 0–1）说明 SLP 将多个标量合并为向量，完整支持该 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-878e7e0d7d13",
+          "start": 0,
+          "end": 1
+        },
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-41839e947a4e",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-both-default",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-f6d60969c183"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f6d60969c183",
+          "exact": "Both the Loop Vectorizer and the SLP Vectorizer are enabled by default."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-f6d60969c183（区间 0–1）明确表示两种 vectorizer 默认启用，直接支持该 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-f6d60969c183",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-loopvec-disable",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-acbdf3a5d0f7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-acbdf3a5d0f7",
+          "exact": "The Loop Vectorizer is enabled by default, but it can be disabled through clang using the command line flag:"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-acbdf3a5d0f7（区间 0–1）同时说明 Loop Vectorizer 默认启用且可用 clang 命令行标志关闭。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-acbdf3a5d0f7",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-slp-disable",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-b73fecc37bed"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b73fecc37bed",
+          "exact": "The SLP Vectorizer is enabled by default, but it can be disabled through clang using the command line flag:"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-b73fecc37bed（区间 0–1）同时说明 SLP Vectorizer 默认启用且可用 clang 命令行标志关闭。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-b73fecc37bed",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-force-width",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-b37af9d946eb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b37af9d946eb",
+          "exact": "Users can control the vectorization SIMD width using the command line flag “-force-vector-width”"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-b37af9d946eb（区间 0–1）明确指出 SIMD 宽度可由 -force-vector-width 命令行标志控制。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-b37af9d946eb",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-force-interleave",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-0b6bd80cc315"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0b6bd80cc315",
+          "exact": "Users can control the unroll factor using the command line flag “-force-vector-interleave”"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-0b6bd80cc315（区间 0–1）明确指出 unroll factor 可由 -force-vector-interleave 控制。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-0b6bd80cc315",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-pragma",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-fa72e0bfaddc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fa72e0bfaddc",
+          "exact": "The #pragma clang loop directive allows loop vectorization hints to be\nspecified for the subsequent for, while, do-while, or c++11 range-based for\nloop."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-fa72e0bfaddc（区间 0–1）明确涵盖 #pragma clang loop 以及后续 for、while、do-while 和 C++11 range-based for 循环。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-fa72e0bfaddc",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-rpass",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-03d1de17ae44"
+        },
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-fdd7b1718c11"
+        },
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-0faa375b91ea"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-03d1de17ae44",
+          "exact": "-Rpass=loop-vectorize identifies loops that were successfully vectorized."
+        },
+        {
+          "evidence_id": "evidence-fdd7b1718c11",
+          "exact": "-Rpass-missed=loop-vectorize identifies loops that failed vectorization"
+        },
+        {
+          "evidence_id": "evidence-0faa375b91ea",
+          "exact": "-Rpass-analysis=loop-vectorize identifies the statements that caused\nvectorization to fail."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "三条引文分别说明成功、失败及导致失败的语句，区间均从各自引文起始字符（0–1）取证，完整支持三类 remark 诊断。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-03d1de17ae44",
+          "start": 0,
+          "end": 1
+        },
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-fdd7b1718c11",
+          "start": 0,
+          "end": 1
+        },
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-0faa375b91ea",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-unknown-trip",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-83cd6b02e7df"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-83cd6b02e7df",
+          "exact": "The Loop Vectorizer supports loops with an unknown trip count."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-83cd6b02e7df（区间 0–1）直接说明 Loop Vectorizer 支持未知迭代次数的循环。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-83cd6b02e7df",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-mixed-types",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-97b92953540f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-97b92953540f",
+          "exact": "The Loop Vectorizer can vectorize programs with mixed types."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-97b92953540f（区间 0–1）直接说明 Loop Vectorizer 可向量化混合类型程序。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-97b92953540f",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-fn-calls",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-f6ff3239ca00"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f6ff3239ca00",
+          "exact": "The Loop Vectorizer can vectorize intrinsic math functions."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-f6ff3239ca00（区间 0–1）直接说明 Loop Vectorizer 可向量化 intrinsic math functions。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-f6ff3239ca00",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-fveclib",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-eca4e264cf4d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-eca4e264cf4d",
+          "exact": "Using clang, this is handled by the “-fveclib” command line option with one of the following vector libraries: “Accelerate,libmvec,MASSV,SVML,SLEEF,Darwin_libsystem_m,ArmPL,AMDLIBM”"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-eca4e264cf4d（区间 0–1）说明 clang 通过 -fveclib 指定向量库，并列出 claim 中的示例库。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-eca4e264cf4d",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-partial-unroll",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-dc8a5899f4a1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-dc8a5899f4a1",
+          "exact": "The Loop Vectorizer increases the instruction level parallelism (ILP) by performing partial-unrolling of loops."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-dc8a5899f4a1（区间 0–1）直接说明 Loop Vectorizer 通过部分展开循环提升 ILP。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-dc8a5899f4a1",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "llvm-slp-def",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-1e8de6a08cea"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1e8de6a08cea",
+          "exact": "The goal of SLP vectorization (a.k.a. superword-level parallelism) is to combine similar independent instructions into vector instructions."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-1e8de6a08cea（区间 0–1）明确将 SLP 定义为把相似独立指令合并为向量指令。",
+      "rationale_offsets": [
+        {
+          "source_id": "llvm-auto-vectorization",
+          "evidence_id": "evidence-1e8de6a08cea",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gcc-ftree-vectorize",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-e15d32c63ae2"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e15d32c63ae2",
+          "exact": "    Vectorization is enabled by the flag\n    -ftree-vectorize and by default\n    at -O3."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-e15d32c63ae2（区间 0–1）明确说明 -ftree-vectorize 开启向量化且默认在 -O3。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-e15d32c63ae2",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gcc-ffast-math",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-b44e2c328ac6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b44e2c328ac6",
+          "exact": "    x86_64 platforms use -msse/-msse2. To enable vectorization\n    of floating point reductions use -ffast-math or \n    -fassociative-math."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-b44e2c328ac6（区间 0–1）明确指出浮点归约向量化可用 -ffast-math 或 -fassociative-math 启用。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-b44e2c328ac6",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gcc-slp",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-0784aafedc2e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0784aafedc2e",
+          "exact": "    Basic block vectorization, aka SLP, is enabled by the flag \n    -ftree-slp-vectorize, and requires the same platform dependent flags \n    as loop vectorization. Basic block SLP is enabled by default at -O3\n    and when -ftree-vectorize is enabled."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-0784aafedc2e（区间 0–1）覆盖 SLP 的启用标志、-O3 默认启用以及 -ftree-vectorize 启用时生效。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-0784aafedc2e",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gcc-verbose",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-978b9fdc3358"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-978b9fdc3358",
+          "exact": "    loops were or were not vectorized and why, can be obtained\n    using the flag -ftree-vectorizer-verbose."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文 evidence-978b9fdc3358（区间 0–1）明确说明可用 -ftree-vectorizer-verbose 查看循环是否被向量化及其原因。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-auto-vectorization",
+          "evidence_id": "evidence-978b9fdc3358",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "llvm-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-auto-vectorization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-two-vectorizers",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-both-default",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-loopvec-disable",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-slp-disable",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-force-width",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-force-interleave",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-pragma",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-rpass",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-unknown-trip",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-mixed-types",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-fn-calls",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-fveclib",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-partial-unroll",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "llvm-slp-def",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gcc-ftree-vectorize",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gcc-ffast-math",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gcc-slp",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gcc-verbose",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}
