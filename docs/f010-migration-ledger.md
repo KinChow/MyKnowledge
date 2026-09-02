@@ -17,6 +17,7 @@
 | R5b | 检索确认无外部出处的本人总结 | **迁移终点是 wiki 层而非 source 层**：作为个人知识写入 wiki（provenance 标注为本人综合，不伪装外部证据），或先以 `personal-note` 入 sources 再提炼 wiki | 个人总结不是"来源"，是知识本身；corroboration 为空是事实而非缺陷。**待决**：wiki schema 的证据门禁是否接受"本人综合"类 claim（见 §6） |
 | R6 | 一切迁移必须经 SourceIngestor（`tools.cli source`）/ WriteOperation | 禁止 `git mv` 物理搬家 | 迁移的价值在 front matter + snapshot + manifest 登记 |
 | R7 | wiki 提炼与 source 迁移解耦 | R4/R5a 走 Source→Wiki 链路；R5b 可直接 wiki | 避免为迁移阻塞在提炼质量上 |
+| R8 | 跨目录同名文件（stem 冲突） | source_id 用 `parent-stem` 消歧（如 `gpu-overview`、`git-commands`）；批量导入前检查 inventory stem 重复组 | B2 执行时 69 篇 contents/互撞暴露；classifier 已修复 contents.md 一律判 index |
 
 ## 2. 批次计划
 
@@ -27,33 +28,7 @@
 | B2+B3 source 层 | 全部知识域 article（一次执行，原计划分批；机器成本为零） | 218+13 | **Done（source 层）** | 2026-08-28：B1+B2 批量导入时过滤未限域，实际完成 B3 的 source 层；4 篇根级工程文档被 domain 枚举校验天然拦截（R1 防线生效） |
 | B3 大域批（source 层已并入上格） | wiki 提炼与出处检索（R5a）按需分批 | 250 | Pending | source 层已完成；wiki 化按域渐进 |
 | B4 复核批 | R3 的 16 篇 empty：登记"待补内容"清单，**补充内容后**按 R4/R5 迁移 | 16 | Pending | 逐篇补充并迁移；不丢弃 |
-| R8 | 跨目录同名文件（stem 冲突） | source_id 用 `parent-stem` 消歧（如 `gpu-overview`、`git-commands`）；批量导入前检查 inventory stem 重复组 | B2 执行时 69 篇 contents/互撞暴露；classifier 已修复 contents.md 一律判 index |
-
-## 9. B2/B3 source 层批量执行记录（2026-08-28）
-
-- 实际导入 231 篇（B1 13 + B2/B3 218），4 篇根级工程文档被 domain 校验拦截；
-- 暴露并修复 3 个系统问题：
-  1. **FrontMatter render/parse roundtrip 不保真**（python-frontmatter 库对 body 加前导空行/剥结尾换行）→ 161 篇 source 与 snapshot hash 断链；已改为适配层原样拼接 + 精确切片，全部重写对齐，校验 0 失败（`tools/front_matter.py`）；
-  2. **inventory 分类器把富目录页（contents.md）误判为 article** → 69 篇 R2 导航页混入迁移；已修复（文件名 contents.md 一律 index）；
-  3. **同名 stem 互撞静默覆盖** → 新增 R8 消歧规则，overview×3/commands×2 已用 parent-stem id 补回；
-- 全量 `pytest`（338）与 `SourceValidator`（sources 全部）通过。
-
 | B5 退役批 | ~~`mkdocs.yml`~~（**已于 2026-08-28 退役**，含 pip 依赖与 README 链路）+ Astro legacy 预览模式退役；**删除 32 篇 `contents.md` 导航页** | — | In Progress | mkdocs 部分完成；剩余前置：F007 projection 链路以真实多页内容验收通过 |
-
-## 6. 待决项
-
-1. ~~**R5b 的 wiki 证据门禁**~~ **已决（2026-08-28）**：模型原生支持——`personal-note` source 作 provenance + `support: personal` claim；`evidence_state` 表达映射完整性（supported），信任降级由 `strength: personal` 承载，不进证据阻断集合，published 不被挡。规范 §6.7 已加澄清段；端到端证据 `tests/validation/test_synthesis_claims.py`。
-2. **R5a 联网检索的归属判定**：检索到的"疑似出处"需人工确认确为学习来源（防止把无关网页当出处），B1 中定义确认标准（如内容关键句匹配）。
-
-## 7. B1 R5a 出处检索结论（2026-08-28，待 owner 确认）
-
-| 文档 | 检索结论 | 证据 | 建议出处 |
-| --- | --- | --- | --- |
-| `work-methods/AAR` | 外部方法论转述 | 四个结构化问题与美军 TC 25-20 AAR 逐条对应（多来源交叉：军研论文、百度百科"行动后学习机制"） | U.S. Army TC 25-20 / After Action Review |
-| `reading-notes/how-to-read-a-book` | 读书笔记 | 四阅读层次/分析阅读规则与艾德勒&范多伦《如何阅读一本书》（商务印书馆中译）逐条对应 | 艾德勒、范多伦《如何阅读一本书》 |
-| `tools/code-server` | 工具官方文档摘录 | 正文首行即官方安装脚本 `code-server.dev` | https://code-server.dev / github.com/coder/code-server |
-
-确认标准（B1 校准）：笔记关键结构与检索结果的权威来源逐条对应（非仅主题相似）即判为出处；仅主题相似的判 R5b 本人综合。
 
 ## 3. 当前实测基线（2026-08-28，inventory v1）
 
@@ -77,7 +52,33 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 
 迁移不阻塞 F005/F006 review（主线）；B1 样本批可与 F007 验收互为输入（B1 产出真实 source/wiki 供 F007 projection 验收）。`confirm-apply` CLI 独立小项可插任意空档。
 
-## 8. B1 wiki 提炼演示（AAR）中发现并修复/待修的问题（2026-08-28）
+## 6. 待决项
+
+1. ~~**R5b 的 wiki 证据门禁**~~ **已决（2026-08-28）**：模型原生支持——`personal-note` source 作 provenance + `support: personal` claim；`evidence_state` 表达映射完整性（supported），信任降级由 `strength: personal` 承载，不进证据阻断集合，published 不被挡。规范 §6.7 已加澄清段；端到端证据 `tests/validation/test_synthesis_claims.py`。
+2. **R5a 联网检索的归属判定**：检索到的"疑似出处"需人工确认确为学习来源（防止把无关网页当出处），B1 中定义确认标准（如内容关键句匹配）。
+
+## 7. B1 R5a 出处检索结论（2026-08-28，待 owner 确认）
+
+| 文档 | 检索结论 | 证据 | 建议出处 |
+| --- | --- | --- | --- |
+| `work-methods/AAR` | 外部方法论转述 | 四个结构化问题与美军 TC 25-20 AAR 逐条对应（多来源交叉：军研论文、百度百科"行动后学习机制"） | U.S. Army TC 25-20 / After Action Review |
+| `reading-notes/how-to-read-a-book` | 读书笔记 | 四阅读层次/分析阅读规则与艾德勒&范多伦《如何阅读一本书》（商务印书馆中译）逐条对应 | 艾德勒、范多伦《如何阅读一本书》 |
+| `tools/code-server` | 工具官方文档摘录 | 正文首行即官方安装脚本 `code-server.dev` | https://code-server.dev / github.com/coder/code-server |
+
+确认标准（B1 校准）：笔记关键结构与检索结果的权威来源逐条对应（非仅主题相似）即判为出处；仅主题相似的判 R5b 本人综合。
+
+## 8. 执行记录（按时间正序）
+
+### 8.1 B2/B3 source 层批量执行记录（2026-08-28）
+
+- 实际导入 231 篇（B1 13 + B2/B3 218），4 篇根级工程文档被 domain 校验拦截；
+- 暴露并修复 3 个系统问题：
+  1. **FrontMatter render/parse roundtrip 不保真**（python-frontmatter 库对 body 加前导空行/剥结尾换行）→ 161 篇 source 与 snapshot hash 断链；已改为适配层原样拼接 + 精确切片，全部重写对齐，校验 0 失败（`tools/front_matter.py`）；
+  2. **inventory 分类器把富目录页（contents.md）误判为 article** → 69 篇 R2 导航页混入迁移；已修复（文件名 contents.md 一律 index）；
+  3. **同名 stem 互撞静默覆盖** → 新增 R8 消歧规则，overview×3/commands×2 已用 parent-stem id 补回；
+- 全量 `pytest`（338）与 `SourceValidator`（sources 全部）通过。
+
+### 8.2 B1 wiki 提炼演示（AAR）中发现并修复/待修的问题（2026-08-28）
 
 | 问题 | 状态 |
 | --- | --- |
@@ -85,7 +86,7 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 | `tools.cli validate` 对含 PosixPath 的 report 做 json.dumps 崩溃 | 待修（report 序列化前 str 化） |
 | `release_confirmation.write_event` 相对 root 下 `relative_to(root.resolve())` 崩溃（事件已写入但返回失败） | 待修（构造时 resolve） |
 
-## 10. 补充迁移：有内容的 article 全量导入（2026-09-02）
+### 8.3 补充迁移：有内容的 article 全量导入（2026-09-02）
 
 - **范围**：上轮实测发现 docs/ 知识域有 6 篇有正文的 article 未进 manifest（此前 B2/B3 批量导入漏掉）；
   按 owner 决策"有内容的都迁移，后续优化文档"，本批全部导入。
@@ -104,3 +105,9 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
   登记 6 条新记录；全量 `pytest` 437 通过、`doctor --assert-clean` healthy。
 - **遗留**：docs/ 知识域仍剩 39 篇空文档（R3 待补类），按规则登记待补不迁移；
   docs/ 原件按 §4.3 保持只读不删，待 B5 退役。迁移后内容优化由 owner 后续执行。
+
+## 9. 修订记录
+
+| 日期 | 变更 |
+| --- | --- |
+| 2026-09-02 | 章节编号重排为连续（1-9，原 1/2/9/6/7/3/4/5/8/10 乱序）；R8 从批次表移入 §1 判定规则区；执行记录（原 §8/§9/§10）按时间正序合并为 §8；新增本修订记录表。内容零丢失 |
