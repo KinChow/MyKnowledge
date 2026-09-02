@@ -1,0 +1,26 @@
+{
+  "schema_version": "operation-confirmation/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "aar"
+  },
+  "scope": "publish",
+  "decision": "approve",
+  "actor_id": "local-user",
+  "confirmed_at": 1788372462.742788,
+  "content_sha256": "sha256:10d8fa33a800cab1e38d3c0631c6187d6783937ede0250c7bdcceea054eedd9a",
+  "evidence_sha256": "sha256:211ec48657fff93d85c3b6e0ecbfcfecf442e73bf5d8bbc78ec468dff8d6db29",
+  "deterministic_report_sha256": "sha256:e32be752b2cfbbc208b4e74ea33605da64a3cc4b7133983ce65be8b6b3de6937",
+  "llm_state": "pass",
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "fail_history": {
+    "fail_count": 2,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  },
+  "confirmation_sha256": "sha256:407c7b442667a0cda3f74f43bcfa64b175a04905cd295bd3079ecd10e7f45c82"
+}

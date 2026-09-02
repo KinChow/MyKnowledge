@@ -134,6 +134,20 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 - **working 移出**：`a-guide-of-compiler-vectorization` 完成使命，从 working 删除（内容已完整入 wiki，零删减）；working 161 → 159。manifest/归档为 append-only 历史，未动。
 - **遗留说明**：`aar` 在 projection 中报 `lineage_record_missing`（既有问题，与本次无关，A 档剩余 55 篇升级时留意）。
 
+### 8.6 AAR 定位纠偏 + 来源补建（2026-09-03）
+
+- **定位纠正**：`work-methods/aar` 原为本人加工综述（reposition-plan 判 `intermediate`/C 档）却被登记为 source（`origin: external` + local-file）——登记失真。已从 `content/sources/` 迁至 `content/working/c-intermediate/work-methods/aar.md`，front matter 改造为 working 格式并记录定位判定（positioning 字段）。
+- **来源补建**：新增 `aar-tc25-20` source（U.S. Army TC 25-20《A Leader's Guide to After-Action Reviews》，HSDL 官方 PDF，快照 `1588c243…`，pypdf 抽取），锚定 2 条 evidence：权威定义（`evidence-bd71610a92c6`）+ 陆军官方通告属性（`evidence-5ca92dbc3cf1`）。
+- **wiki 重建**：`content/wiki/work-methods/aar.md` 重建为"蒸馏核心八段 + working 全文零删减"（此前只蒸馏了定义/起源两问，丢了"为什么需要 AAR"等内容），证据从本人笔记切换到 TC 25-20 外部来源；status 重置为 draft 重新走链。
+- **遗留**：AAR 起源（1970s National Training Center）需独立权威来源（Army 历史站当前抓取受限）；旧 source `aar` 的 manifest/归档登记为 append-only 历史保留。
+
+### 8.7 AAR 内容优化 + 两篇 wiki 标题修正（2026-09-03）
+
+- **AAR 内容优化**：阅读重建后 wiki，补"正式/非正式 AAR""引导原则（开放式问题、AAR 非批评）"等核心内容，扩展常见误区，新增与 Retrospective / PDCA 差异对照；待验证项收口（起源 1970s 标注网络限制——Army 站/维基当前不可达，留待补权威来源）。
+- **标题修正（两篇）**：`## 详细章节（working 原文，零删减）` 统一改为 `## 详细章节`（aar + compiler-vectorization）。
+- **发布链重走**：标题/内容改动触发 content_sha256 变化 → 两篇均重跑 校验 + LLM 审计（aar 2/2、vectorization 18/18 均 supported）→ owner confirm → `release confirm`（evt-aar-hdr-20260903-f3da / evt-vec-hdr-20260903-f038）→ projection 重建（manifest 2ab6dc33…，含 aar + compiler-vectorization 两篇）→ 索引重建（item_count 2）→ doctor healthy、477 tests。
+- **存量遗留（非本轮引入）**：`llvm-auto-vectorization` 等旧 wiki `public_publishable: False`、`how-to-read-a-book` `release_input_mismatch`，未进 projection——历史状态待后续处理。
+
 ## 9. 修订记录
 
 | 日期 | 变更 |
