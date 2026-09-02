@@ -13,31 +13,91 @@ Proposed → Designed → Ready → In Progress → Implemented → Accepted →
 - `Accepted`：验收场景全部有证据，阻断级问题关闭。
 - `Released`：已满足发布门禁并进入目标运行环境。
 
+## Feature 分类（正交轴）
+
+Feature 按**两个正交轴**归类，任何新 Feature 必须且只能落在一个象限，不能
+横跨多类（若横跨，说明拆得不够细，应拆分）：
+
+```text
+               纵向（数据链上的位置）
+        ┌───────────────────────────────────────┐
+  横向  │            │                            │
+  （被  │  核心链路    │  消费端 / 能力面           │
+  谁依  │  数据事实    │  对外提供入口              │
+  赖）  │  F001–F005  │  F006–F010                │
+        ├────────────┼────────────────────────────┤
+        │  横向基础    │  演进 / 独立域              │
+        │  被多方依赖  │  可并行，不阻塞主链路        │
+        │  F011–F012  │  F013–F014                │
+        └────────────┴────────────────────────────┘
+```
+
+| 象限 | 轴 | 判定条件 | 当前成员 |
+| --- | --- | --- | --- |
+| **核心链路** | 纵向 | 参与 Source → Wiki → Evidence → Write → Index 数据链，被 ≥3 个下游依赖 | F001, F002, F003, F004, F005 |
+| **横向基础** | 横向 | 不直接产生内容，但被 ≥2 个其它 Feature 依赖的公共能力 | F011, F012 |
+| **消费端 / 能力面** | 纵向 | 依赖核心链路，向用户/Agent/浏览器提供入口 | F006, F007, F008, F009, F010 |
+| **演进 / 独立域** | 横向 | 不进入主链路数据流，可独立推进 | F013, F014 |
+
+**判定规则（新增 Feature 时使用）**：
+
+1. 若它扩展主链路某环节（新来源类型、新校验规则）→ 归核心链路；
+2. 若它被 ≥2 个已有 Feature 依赖且自身不产内容 → 归横向基础；
+3. 若它消费核心链路并向外部提供入口 → 归消费端；
+4. 若它独立于主链路数据流 → 归演进/独立域；
+5. 若同时命中多个象限 → 拆分为多个 Feature，每个只落一个象限（正交约束）。
+
 ## Feature 总览
 
-| ID | Feature | 优先级 | 依赖 | 验收 |
-| --- | --- | --- | --- | --- |
-| F001 | Source 导入、来源完备性和快照归档 | P0 | 规范 | [F001](./acceptance/F001-source-ingestion.md) |
-| F002 | Wiki schema、状态机和内容契约 | P0 | F001 | [F002](./acceptance/F002-wiki-contract.md) |
-| F003 | Claim/Evidence 与证据验证门禁 | P0 | F001, F002 | [F003](./acceptance/F003-evidence-validation.md) |
-| F004 | Preview/Apply、幂等、锁、移动和废弃 | P0 | F001–F003 | [F004](./acceptance/F004-write-operation.md) |
-| F005 | Public/Local 索引与检索 | P1 | F001–F004 | [F005](./acceptance/F005-index-and-retrieval.md) |
-| F006 | FastAPI 本地服务与离线降级 | P1 | F005 | [F006](./acceptance/F006-local-api-and-offline.md) |
-| F007 | Astro/Starlight 公共静态 Wiki 和发布门禁 | P1 | F002, F003, F005, F011（public projection） | [F007](./acceptance/F007-static-wiki-publishing.md) |
-| F008 | Question 题型、claim 绑定和面试练习 | P1 | F002, F003 | [F008](./acceptance/F008-question-practice.md) |
-| F009 | Agent Skill 受控读写 | P1 | F004–F006 | [F009](./acceptance/F009-agent-skill.md) |
-| F010 | 存量内容迁移和质量清理 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md)、[迁移台账](./f010-migration-ledger.md) |
-| F011 | Private Vaults 独立私有 Git 子仓库（0..N） | P1 | F001–F004、SEC 契约 | [F011](./acceptance/F011-private-vault.md) |
-| F012 | 备份、恢复和可观测性 | P1 | 核心模块 | [F012](./acceptance/F012-backup-and-observability.md) |
-| F013 | 数据分域、五层布局与三条写入通道 | P0 | F002, F004（F007/F011/F012 需同步路径） | [F013](./acceptance/F013-layers-and-channels.md) |
-| F014 | 音视频与转录来源 | P2 | F001, F013 | [F014](./acceptance/F014-media-sources.md) |
+| ID | Feature | 分类 | 优先级 | 依赖 | 验收 |
+| --- | --- | --- | --- | --- | --- |
+| F001 | Source 导入、来源完备性和快照归档 | 核心链路 | P0 | 规范 | [F001](./acceptance/F001-source-ingestion.md) |
+| F002 | Wiki schema、状态机和内容契约 | 核心链路 | P0 | F001 | [F002](./acceptance/F002-wiki-contract.md) |
+| F003 | Claim/Evidence 与证据验证门禁 | 核心链路 | P0 | F001, F002 | [F003](./acceptance/F003-evidence-validation.md) |
+| F004 | Preview/Apply、幂等、锁、移动和废弃 | 核心链路 | P0 | F001–F003 | [F004](./acceptance/F004-write-operation.md) |
+| F005 | Public/Local 索引与检索 | 核心链路 | P1 | F001–F004 | [F005](./acceptance/F005-index-and-retrieval.md) |
+| F006 | FastAPI 本地服务与离线降级 | 消费端 | P1 | F005 | [F006](./acceptance/F006-local-api-and-offline.md) |
+| F007 | Astro/Starlight 公共静态 Wiki 和发布门禁 | 消费端 | P1 | F002, F003, F005, F011（public projection） | [F007](./acceptance/F007-static-wiki-publishing.md) |
+| F008 | Question 题型、claim 绑定和面试练习 | 消费端 | P1 | F002, F003 | [F008](./acceptance/F008-question-practice.md) |
+| F009 | Agent Skill 受控读写 | 消费端 | P1 | F004–F006 | [F009](./acceptance/F009-agent-skill.md) |
+| F010 | 存量内容迁移和质量清理 | 消费端 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md)、[迁移台账](./f010-migration-ledger.md) |
+| F011 | Private Vaults 独立私有 Git 子仓库（0..N） | 横向基础 | P1 | F001–F004、SEC 契约 | [F011](./acceptance/F011-private-vault.md) |
+| F012 | 备份、恢复和可观测性 | 横向基础 | P1 | 核心模块 | [F012](./acceptance/F012-backup-and-observability.md) |
+| F013 | 数据分域、五层布局与三条写入通道 | 演进/独立域 | P0 | F002, F004（F007/F011/F012 需同步路径） | [F013](./acceptance/F013-layers-and-channels.md) |
+| F014 | 音视频与转录来源 | 演进/独立域 | P2 | F001, F013 | [F014](./acceptance/F014-media-sources.md) |
+
+## 新增 Feature 流程
+
+新 Feature 从提出到进入本表必须走以下流程，**编号由本仓库唯一分配，不回收不复用**：
+
+1. **编号**：按顺序取下一个未用编号（当前为 F015）。若该编号曾用于已合并/废弃的 Feature，不回收，继续递增。
+2. **起草**：用下方「Feature 记录模板」起草，明确目标、范围、依赖、验收。
+3. **定分类**：按上节「判定规则」落到唯一象限；若横跨多象限，拆分后再编号。
+4. **对齐规范**：在总纲领 [规范 ID 基线](./myknowledge-system-design.md#21-规范-id-基线) 与 [追踪矩阵](./traceability-matrix.md) 登记对应规范 ID 与验收场景。
+5. **评审**：进入本表前经 ADR 决策（若改变既有契约）或 Feature 评审（若不改变）。
+6. **记录**：在本表追加一行，更新实施顺序图与依赖关系；验收文档按
+   [Acceptance 模板](./acceptance/README.md) 新建。
+
+### 新增条目必须包含
+
+| 项 | 必填 | 说明 |
+| --- | --- | --- |
+| ID | 是 | 顺序编号，不回收 |
+| 分类 | 是 | 四象限之一，正交约束 |
+| 优先级 | 是 | P0/P1/P2 |
+| 依赖 | 是 | 前置 Feature，驱动实施顺序 |
+| 验收链接 | 是 | 指向对应 Acceptance 文档 |
+| 规范 ID | 是 | 在总纲领登记，经追踪矩阵映射到测试 |
+
+> 状态列推进同样适用：`Implemented` 只是代码完成，`Accepted` 才意味着验收
+> 场景全部有证据——不要把「实现过」当作「验收过」。
 
 ## Feature 记录模板
 
 每个 Feature 至少明确以下信息：
 
 - 目标、用户价值、范围和非目标；
-- 规范 ID、ADR、Technical Design 和 Acceptance 引用；
+- 分类（四象限之一）、规范 ID、ADR、Technical Design 和 Acceptance 引用；
 - 前置依赖、交付物和完成定义；
 - 当前状态和可复核证据。
 
@@ -93,3 +153,8 @@ F014 定为 P2：它是给尚未跑满的主链路增加新入口。日常先用
 
 F013 会改写下游 Technical Design 与 Acceptance 中的历史路径字面量。规范层（本文件、系统设计、ADR、追踪矩阵）已按目标布局对齐；描述**当前实现**的既有 Technical Design 与 Acceptance 文档保持历史路径，在对应批次的实现 commit 中同步更新——这样文档在任何时刻都自洽：规范描述目标，实现文档描述现状，`§4.6` 的映射表是两者之间的唯一权威桥。
 
+## 修订记录
+
+| 日期 | 变更 |
+| --- | --- |
+| 2026-09-02 | 引入四象限正交分类轴（核心链路/横向基础/消费端/演进独立域），总览表新增「分类」列；新增「新增 Feature 流程」与「新增条目必须包含」表，明确编号不回收与正交约束 |
