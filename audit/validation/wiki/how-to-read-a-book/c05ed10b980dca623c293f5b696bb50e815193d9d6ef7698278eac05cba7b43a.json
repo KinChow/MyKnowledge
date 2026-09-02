@@ -1,0 +1,211 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "how-to-read-a-book",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_c23d62519576",
+  "input_hash": "sha256:e27bb2151cc416047f4cc92663ca2bb7363bb5b0f10db1ccf615f139ccb2bb91",
+  "provider_duration_ms": 27965,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788373944.96465,
+  "wiki_content_sha256": "sha256:580aad4f40d810aa0ddc7a6e9bef23725944a4a081a5ce4eca562de9311c2231",
+  "wiki_evidence_sha256": "sha256:db5c27f9c97ff1256e273c2d7c7ea11d31198b0a1d8a5a129e951760bd763834",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "how-to-read-a-book-book"
+      },
+      "source_id": "how-to-read-a-book-book",
+      "evidence_id": "evidence-2d675af33bf8",
+      "snapshot_sha256": "sha256:38c6f896ce3ba98c13a67a5d12d8e077c0b40a3fc7b7ab47572d6c433a44fa7a",
+      "selector_sha256": "sha256:b5936d6b319b285f402a854e21a3915ebaa84a0b97188f77b3370753d5bf7cde",
+      "quote_sha256": "sha256:4a564d648104e5e37cacb1675ba4b17e80771a8948f35748f2b76c2afabc9128"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "how-to-read-a-book-book"
+      },
+      "source_id": "how-to-read-a-book-book",
+      "evidence_id": "evidence-f9aa7ca713c9",
+      "snapshot_sha256": "sha256:38c6f896ce3ba98c13a67a5d12d8e077c0b40a3fc7b7ab47572d6c433a44fa7a",
+      "selector_sha256": "sha256:7c5f2e322366d4d580a270317e0a53da82ad14c21914feb53440697924a64c04",
+      "quote_sha256": "sha256:8186916f0ed7e5a91658628ddaf56a3f3c79db76bb455539c12ef351cda5611f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "four-levels",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "how-to-read-a-book-book",
+          "evidence_id": "evidence-2d675af33bf8"
+        },
+        {
+          "source_id": "how-to-read-a-book-book",
+          "evidence_id": "evidence-f9aa7ca713c9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2d675af33bf8",
+          "exact": "介绍四种不同层次的阅读—基\n础阅读(elementary reading)、检视阅读(inspectionalreading)、分析阅读、主题阅读(syntopicalreading)"
+        },
+        {
+          "evidence_id": "evidence-f9aa7ca713c9",
+          "exact": "阅读并没有在第二层次的阅读中消失，第二层又包含在第三层中，第三层又在第四层中。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2d675af33bf8",
+          "subject": "阅读能力",
+          "predicate": "分为",
+          "object": "基础阅读、检视阅读、分析阅读、主题阅读四种层次",
+          "qualifiers": {
+            "count": 4
+          }
+        },
+        {
+          "evidence_id": "evidence-f9aa7ca713c9",
+          "subject": "第二、第三、第四层次阅读",
+          "predicate": "层次关系",
+          "object": "较低层次包含于较高层次",
+          "qualifiers": {
+            "order": [
+              "第二层",
+              "第三层",
+              "第四层"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-2d675af33bf8 的[0,92)明确称“介绍四种不同层次的阅读”，并列出基础、检视、分析、主题阅读。引文 evidence-f9aa7ca713c9 的[0,39)说明第二层包含于第三层、第三层包含于第四层，支持这些层次具有递进/包含关系。",
+      "rationale_offsets": [
+        {
+          "source_id": "how-to-read-a-book-book",
+          "evidence_id": "evidence-2d675af33bf8",
+          "start": 0,
+          "end": 92
+        },
+        {
+          "source_id": "how-to-read-a-book-book",
+          "evidence_id": "evidence-f9aa7ca713c9",
+          "start": 0,
+          "end": 39
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "how-to-read-a-book-book",
+          "evidence_id": "evidence-2d675af33bf8",
+          "independence_group": "source:how-to-read-a-book-book",
+          "observation_sha256": "sha256:ef0206346b63146f60b35a06b5ca2c1a2d002acd7d05e0856befdad0cf2fc5c3"
+        },
+        "target_b": {
+          "source_id": "how-to-read-a-book-book",
+          "evidence_id": "evidence-f9aa7ca713c9",
+          "independence_group": "source:how-to-read-a-book-book",
+          "observation_sha256": "sha256:d90e933ff3b9521e1a9b4952fe180695801b46c82348842d1cff352feb6e3999"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "how-to-read-a-book-book",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "how-to-read-a-book-book",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "four-levels",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 8,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}
