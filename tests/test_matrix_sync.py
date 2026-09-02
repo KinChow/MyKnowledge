@@ -58,8 +58,26 @@ def _write_fake_tests(root: Path) -> None:
         path.write_text("# fixture\n", encoding="utf-8")
 
 
+def _write_doc_indexes(root: Path) -> None:
+    """创建三个索引 README + 各自目录内文档（check_doc_indexes 依赖）。"""
+    specs = {
+        "adr": ("0001-source-first.md",),
+        "technical-design": ("source-ingestion.md",),
+        "acceptance": ("F001-source-ingestion.md",),
+    }
+    for dirname, docs in specs.items():
+        d = root / "docs" / dirname
+        d.mkdir(parents=True, exist_ok=True)
+        for doc in docs:
+            (d / doc).write_text(f"# {doc}\n", encoding="utf-8")
+        (d / "README.md").write_text(
+            "## 索引\n\n" + "\n".join(f"- [x](./{doc})" for doc in docs),
+            encoding="utf-8",
+        )
+
+
 def _write_fixtures(root: Path) -> None:
-    """创建矩阵 + feature-list 的最小 fixture（check 综合门禁依赖两者）。"""
+    """创建矩阵 + feature-list + 三个索引的最小 fixture（check 综合门禁依赖）。"""
     (root / "docs").mkdir(parents=True, exist_ok=True)
     (root / "docs" / "traceability-matrix.md").write_text(
         MINIMAL_MATRIX, encoding="utf-8"
@@ -68,6 +86,7 @@ def _write_fixtures(root: Path) -> None:
         MINIMAL_FEATURE_LIST, encoding="utf-8"
     )
     _write_fake_tests(root)
+    _write_doc_indexes(root)
 
 
 class ParseAndResolveTests(unittest.TestCase):
@@ -405,6 +424,45 @@ class FeatureListCheckTests(unittest.TestCase):
         self.assertIn("feature_list", result["checks"])
 
 
+class DocIndexCheckTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        _write_doc_indexes(self.root)
+
+    def test_symmetric_indexes_are_ok(self):
+        result = ms.check_doc_indexes(self.root)
+        self.assertEqual(result["state"], "ok")
+        for name in ("adr", "technical-design", "acceptance"):
+            self.assertEqual(result[name]["state"], "ok")
+            self.assertEqual(result[name]["links"], result[name]["docs"])
+
+    def test_missing_index_entries_are_error(self):
+        """目录内新增文档但 README 未登记 → unindexed_docs error。"""
+        extra = self.root / "docs" / "acceptance" / "F999-new.md"
+        extra.write_text("# F999\n", encoding="utf-8")
+        result = ms.check_doc_indexes(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("F999-new.md", result["checks"]["acceptance"]["unindexed_docs"])
+
+    def test_broken_link_is_error(self):
+        """README 引用不存在的文档 → broken_links error。"""
+        readme = self.root / "docs" / "adr" / "README.md"
+        readme.write_text("## 索引\n\n- [x](./9999-ghost.md)\n", encoding="utf-8")
+        result = ms.check_doc_indexes(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("9999-ghost.md", result["checks"]["adr"]["broken_links"])
+
+    def test_check_aggregates_doc_index_error(self):
+        """综合 check 同时暴露文档索引漂移。"""
+        extra = self.root / "docs" / "technical-design" / "new-design.md"
+        extra.write_text("# new\n", encoding="utf-8")
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("doc_index:technical-design", result["checks"])
+
+
 class MainExitCodeTests(unittest.TestCase):
     def test_check_ok_exits_zero(self):
         with tempfile.TemporaryDirectory() as d:
@@ -426,6 +484,7 @@ class MainExitCodeTests(unittest.TestCase):
                 MINIMAL_FEATURE_LIST, encoding="utf-8"
             )
             _write_fake_tests(root)
+            _write_doc_indexes(root)
             self.assertEqual(ms.main(["check", "--root", str(root)]), 2)
 
 
