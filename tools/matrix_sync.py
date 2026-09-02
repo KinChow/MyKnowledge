@@ -56,6 +56,7 @@ FEATURE_CATEGORIES = ("核心链路", "横向基础", "消费端", "演进/独�
 # docs/ 下三个"目录索引 README"的校验配置：README 必须覆盖目录内全部文档，
 # 且每个链接必须指向真实文件（防新增文档忘更新索引）。
 # 命名规则：ADR 为 NNNN-xxx.md；Acceptance 为 FNNN-xxx.md；Technical Design 为自由名。
+# table 列位置（1 起）用于状态列比对：状态列与链接列。
 _DOC_INDEXES: tuple[dict, ...] = (
     {
         "name": "adr",
@@ -63,6 +64,7 @@ _DOC_INDEXES: tuple[dict, ...] = (
         "directory": "docs/adr",
         "link_prefix": "./",
         "file_pattern": r"^\d{4}-.+\.md$",
+        "table": {"status_col": 2, "link_col": 4},
     },
     {
         "name": "technical-design",
@@ -70,6 +72,7 @@ _DOC_INDEXES: tuple[dict, ...] = (
         "directory": "docs/technical-design",
         "link_prefix": "./",
         "file_pattern": r"^.+\.md$",
+        "table": {"status_col": 2, "link_col": 3},
     },
     {
         "name": "acceptance",
@@ -77,8 +80,86 @@ _DOC_INDEXES: tuple[dict, ...] = (
         "directory": "docs/acceptance",
         "link_prefix": "./",
         "file_pattern": r"^F\d{3}-.+\.md$",
+        "table": {"status_col": 2, "link_col": 3},
     },
 )
+
+
+def _base_status(value: str) -> str:
+    """提取基础状态：取括号/全角括号前的部分（如 ``Implemented（2026-…）`` → ``Implemented``）。"""
+    m = re.match(r"^\s*([^（(]+)", value)
+    return m.group(1).strip() if m else value.strip()
+
+
+def _doc_status(path: Path) -> str | None:
+    """从文档正文「- 状态：」行提取基础状态；无状态行返回 None。"""
+    text, _ = _read_text(path)
+    if text is None:
+        return None
+    for line in text.splitlines()[:15]:
+        m = re.match(r"^-\s*状态[：:]\s*(.+)$", line.strip())
+        if m:
+            return _base_status(m.group(1))
+    return None
+
+
+def _status_mismatches(root: Path, spec: dict, readme_text: str) -> list[dict]:
+    """比对 README 表格状态列与正文状态；返回不一致清单（空 = 一致）。
+
+    README 状态列是人工简写（``Implemented`` / ``Designed（未实现）`` /
+    ``（正文无状态行）``），正文「- 状态：」是权威值。两侧先归一化为基础
+    状态再比对；README 含「无状态行」与正文缺状态行互认。
+    """
+    table = spec["table"]
+    status_col, link_col = table["status_col"], table["link_col"]
+    dir_path = root / spec["directory"]
+    mismatches: list[dict] = []
+    for line in readme_text.splitlines():
+        if not line.startswith("| "):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < max(status_col, link_col):
+            continue
+        status_cell = cells[status_col - 1]
+        link_cell = cells[link_col - 1]
+        # 跳过表头 / 分隔行
+        if status_cell in ("状态", "---") or re.match(r"^:?-+:?$", status_cell):
+            continue
+        m = re.search(r"\]\(\./([^)]+\.md)\)", link_cell)
+        if not m:
+            continue
+        filename = m.group(1)
+        doc_status = _doc_status(dir_path / filename)
+        readme_none = "无状态行" in status_cell
+        readme_status = None if readme_none else _base_status(status_cell)
+        if doc_status is None and not readme_none:
+            mismatches.append(
+                {
+                    "file": filename,
+                    "readme": status_cell,
+                    "doc": None,
+                    "reason": "readme_status_but_doc_missing",
+                }
+            )
+        elif doc_status is not None and readme_none:
+            mismatches.append(
+                {
+                    "file": filename,
+                    "readme": status_cell,
+                    "doc": doc_status,
+                    "reason": "doc_has_status_but_readme_marks_missing",
+                }
+            )
+        elif doc_status is not None and readme_status != doc_status:
+            mismatches.append(
+                {
+                    "file": filename,
+                    "readme": readme_status,
+                    "doc": doc_status,
+                    "reason": "status_mismatch",
+                }
+            )
+    return mismatches
 
 
 def _read_text(path: Path) -> tuple[str | None, dict | None]:
@@ -119,14 +200,17 @@ def _check_one_index(root: Path, spec: dict) -> dict:
 
     broken = sorted(f for f in links if not (dir_path / f).exists())
     unindexed = sorted(actual - links)
+    status_mismatch = _status_mismatches(root, spec, text)
     field: dict = {"links": len(links), "docs": len(actual)}
     if broken:
         field["broken_links"] = broken
     if unindexed:
         field["unindexed_docs"] = unindexed
-    if broken or unindexed:
+    if status_mismatch:
+        field["status_mismatches"] = status_mismatch
+    if broken or unindexed or status_mismatch:
         field["next_action"] = (
-            f"修复 docs/{name}/README.md 索引：补断链目标或登记未索引文档"
+            f"修复 docs/{name}/README.md 索引：补断链目标、登记未索引文档或对齐状态列"
         )
         return {"state": "error", **field}
     return {"state": "ok", **field}

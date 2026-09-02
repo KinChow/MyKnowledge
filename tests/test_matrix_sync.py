@@ -59,19 +59,42 @@ def _write_fake_tests(root: Path) -> None:
 
 
 def _write_doc_indexes(root: Path) -> None:
-    """创建三个索引 README + 各自目录内文档（check_doc_indexes 依赖）。"""
+    """创建三个索引 README（含状态列表格）+ 各自目录内带状态行的文档。
+
+    表格列数与 tools.matrix_sync._DOC_INDEXES 的 table 配置一致：
+    adr 为 4 列（名称|状态|决策|链接），td/acceptance 为 3 列（名称|状态|链接）。
+    """
     specs = {
-        "adr": ("0001-source-first.md",),
-        "technical-design": ("source-ingestion.md",),
-        "acceptance": ("F001-source-ingestion.md",),
+        "adr": {
+            "header": "| 名称 | 状态 | 决策 | 链接 |",
+            "docs": [("0001-source-first.md", "Accepted")],
+        },
+        "technical-design": {
+            "header": "| 名称 | 状态 | 链接 |",
+            "docs": [("source-ingestion.md", "Implemented")],
+        },
+        "acceptance": {
+            "header": "| 名称 | 状态 | 链接 |",
+            "docs": [("F001-source-ingestion.md", "Implemented")],
+        },
     }
-    for dirname, docs in specs.items():
+    for dirname, spec in specs.items():
         d = root / "docs" / dirname
         d.mkdir(parents=True, exist_ok=True)
-        for doc in docs:
-            (d / doc).write_text(f"# {doc}\n", encoding="utf-8")
+        for doc, status in spec["docs"]:
+            (d / doc).write_text(f"# {doc}\n\n- 状态：{status}\n", encoding="utf-8")
+        if dirname == "adr":
+            rows = "\n".join(
+                f"| {doc.removesuffix('.md')} | {status} | 决策说明 | [正文](./{doc}) |"
+                for doc, status in spec["docs"]
+            )
+        else:
+            rows = "\n".join(
+                f"| {doc.removesuffix('.md')} | {status} | [正文](./{doc}) |"
+                for doc, status in spec["docs"]
+            )
         (d / "README.md").write_text(
-            "## 索引\n\n" + "\n".join(f"- [x](./{doc})" for doc in docs),
+            "## 索引\n\n" + spec["header"] + "\n| --- | --- | --- | --- |\n" + rows,
             encoding="utf-8",
         )
 
@@ -449,10 +472,51 @@ class DocIndexCheckTests(unittest.TestCase):
     def test_broken_link_is_error(self):
         """README 引用不存在的文档 → broken_links error。"""
         readme = self.root / "docs" / "adr" / "README.md"
-        readme.write_text("## 索引\n\n- [x](./9999-ghost.md)\n", encoding="utf-8")
+        readme.write_text(
+            "## 索引\n\n| 名称 | 状态 | 链接 |\n| --- | --- | --- |\n"
+            "| ADR-9999 | Accepted | [正文](./9999-ghost.md) |\n",
+            encoding="utf-8",
+        )
         result = ms.check_doc_indexes(self.root)
         self.assertEqual(result["state"], "error")
         self.assertIn("9999-ghost.md", result["checks"]["adr"]["broken_links"])
+
+    def test_status_mismatch_is_error(self):
+        """README 状态列与正文状态不一致 → status_mismatches error。"""
+        readme = self.root / "docs" / "adr" / "README.md"
+        text = readme.read_text(encoding="utf-8")
+        text = text.replace("| Accepted |", "| Proposed |", 1)
+        readme.write_text(text, encoding="utf-8")
+        result = ms.check_doc_indexes(self.root)
+        self.assertEqual(result["state"], "error")
+        mismatch = result["checks"]["adr"]["status_mismatches"]
+        self.assertEqual(mismatch[0]["file"], "0001-source-first.md")
+        self.assertEqual(mismatch[0]["readme"], "Proposed")
+        self.assertEqual(mismatch[0]["doc"], "Accepted")
+
+    def test_status_doc_has_but_readme_marks_missing(self):
+        """正文有状态但 README 标「无状态行」→ error。"""
+        readme = self.root / "docs" / "acceptance" / "README.md"
+        text = readme.read_text(encoding="utf-8")
+        text = text.replace("| Implemented |", "| （正文无状态行） |", 1)
+        readme.write_text(text, encoding="utf-8")
+        result = ms.check_doc_indexes(self.root)
+        self.assertEqual(result["state"], "error")
+        mismatch = result["checks"]["acceptance"]["status_mismatches"]
+        self.assertEqual(
+            mismatch[0]["reason"], "doc_has_status_but_readme_marks_missing"
+        )
+
+    def test_status_both_none_is_ok(self):
+        """README 标「无状态行」且正文确无状态行 → 一致 ok。"""
+        doc = self.root / "docs" / "acceptance" / "F001-source-ingestion.md"
+        doc.write_text("# F001\n", encoding="utf-8")  # 移除状态行
+        readme = self.root / "docs" / "acceptance" / "README.md"
+        text = readme.read_text(encoding="utf-8")
+        text = text.replace("| Implemented |", "| （正文无状态行） |", 1)
+        readme.write_text(text, encoding="utf-8")
+        result = ms.check_doc_indexes(self.root)
+        self.assertEqual(result["state"], "ok")
 
     def test_check_aggregates_doc_index_error(self):
         """综合 check 同时暴露文档索引漂移。"""
