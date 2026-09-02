@@ -148,6 +148,21 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 - **发布链重走**：标题/内容改动触发 content_sha256 变化 → 两篇均重跑 校验 + LLM 审计（aar 2/2、vectorization 18/18 均 supported）→ owner confirm → `release confirm`（evt-aar-hdr-20260903-f3da / evt-vec-hdr-20260903-f038）→ projection 重建（manifest 2ab6dc33…，含 aar + compiler-vectorization 两篇）→ 索引重建（item_count 2）→ doctor healthy、477 tests。
 - **存量遗留（非本轮引入）**：`llvm-auto-vectorization` 等旧 wiki `public_publishable: False`、`how-to-read-a-book` `release_input_mismatch`，未进 projection——历史状态待后续处理。
 
+### 8.8 how-to-read-a-book 定位纠正 + 原书 PDF 补源（2026-09-03）
+
+- **定位纠正**：`reading-notes/how-to-read-a-book` 为个人读书笔记（含书籍模板字段/阅读日期，仅检视阅读层次），被登记为 source——同 aar 的登记失真。已迁至 `content/working/c-intermediate/reading-notes/`，front matter 改造并记录定位判定。
+- **原书补源**：新增 `how-to-read-a-book-book` source（阿德勒、范多伦《如何阅读一本书》PDF，`--from-file` 本地导入，快照 `38c6f896…`，pypdf 提取），锚定四阅读层次总述（`evidence-501345402a89`）。
+- **wiki 重建**：蒸馏核心八段 + 全文零删减 + `## 详细章节` 标题（与 aar/compiler-vectorization 对齐）；`four-levels` claim 切到原书 PDF 外部证据；检视阅读/四问/理解 vs 资讯为笔记转述（personal），不深入补内容（按 owner 指示"只读了一半，无需补充太多"）。
+- **遗留**：分析阅读/主题阅读笔记待读完补；`how-to-read-a-book` 原 `release_input_mismatch` 待重建发布后解决。
+
+### 8.9 how-to-read-a-book 发布闭环 + aar 格式修正（2026-09-03）
+
+- **aar 详细章节格式修正**：`## 详细章节` 下标题层级统一为 `###` 起（原 working `#`/`##` 未降级）——与 compiler-vectorization 对齐；重走审计 pass + owner confirm + release（evt-aar-fmt-20260903-ed47）。
+- **how-to-read-a-book 格式修正**：同样修正详细章节层级 + 修复引文换行缺失（`quote_mismatch`）；重走审计 pass（four-levels supported，原书 PDF `how-to-read-a-book-book` 支撑）+ owner confirm + release（evt-htrab-fmt2-20260903-8c04）。
+- **working 移出**：`how-to-read-a-book`（个人笔记）从 working 删除（内容已完整入 wiki）；working 161 → 159。原 `release_input_mismatch` 已解决，现进 projection。
+- **public projection**：manifest ddbf0ba2…，item_count 3（aar / how-to-read-a-book / compiler-vectorization），query 均可查；doctor healthy、477 tests。
+- **遗留**：`llvm-auto-vectorization` 等 4 篇旧 wiki `public_publishable: False` 仍未进 projection（历史状态，待后续）。
+
 ## 9. 修订记录
 
 | 日期 | 变更 |
