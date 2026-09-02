@@ -76,7 +76,7 @@ repos:
 
       - id: pytest
         name: pytest (pre-push)
-        entry: .venv/bin/python -m pytest -q
+        entry: scripts/run-pre-push-tests.sh
         language: system
         types: [python]
         pass_filenames: false
