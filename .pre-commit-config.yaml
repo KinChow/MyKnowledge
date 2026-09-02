@@ -56,6 +56,17 @@ repos:
       # 它自己抓到过 `ruff format` 改写 Markdown 代码块（2026-08-28）。
       # 解释器写死 .venv/bin/python：钩子在裸 shell 下由 git 触发，PATH 里可能
       # 既没有 `python` 也没有项目依赖（scripts/bootstrap.sh 保证 .venv 存在）。
+      # 追踪矩阵完成度列机器派生（matrix sync）：人只维护状态列/测试列，
+      # 完成度由 tools/matrix_sync.py 按「状态 × 引用文件存在性」派生。
+      # 本钩子作为生成器：检测到完成度需更新时改写矩阵并返回 1（阻止本次
+      # 提交，要求重新 git add 后再提交）——即"每次提交生成 matrix"。
+      - id: matrix-sync
+        name: traceability matrix completion sync
+        entry: .venv/bin/python -m tools.cli matrix sync
+        language: system
+        pass_filenames: false
+        always_run: true
+
       - id: doctor
         name: doctor content integrity (hash chain)
         entry: .venv/bin/python -m tools.cli doctor --assert-clean

@@ -1,0 +1,348 @@
+"""tools/matrix_sync.py：追踪矩阵完成度机器派生的解析、派生、check/sync 契约。
+
+对应「完成度列由机器派生、不人工维护」这条约束：引用悬空（矩阵承诺的文件
+不存在）是硬错误而不是降档；完成度 = 状态列 × 引用存在性的纯函数，任何
+人工改写都会在下次 check/sync 被纠正。
+
+fixture 用 tmp_path 构造最小矩阵与假测试文件，不依赖真实仓库矩阵（避免
+测试随内容演进而漂移）。
+"""
+
+from __future__ import annotations
+
+import tempfile
+import unittest
+from pathlib import Path
+
+from tools import matrix_sync as ms
+
+MINIMAL_MATRIX = """\
+| 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 | 完成度 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SRC-001 | F001 | ADR-0001 | source-ingestion | AC-F001-001 | tests/ingest/test_source_ingestor.py | Implemented（部分） | 主体完成 |
+| WIKI-001 | F002 | ADR-0001 | wiki-claim-validation | AC-F002-001 | test_wiki_schema.py + test_wiki_rules.py | Implemented | 完成 |
+| LAY-004 | F013 | ADR-0014 | layers-and-channels | AC-F013-003 | 待实现 | Designed | 未开始 |
+| WEB-001 | F007 | ADR-0009 | static-wiki-publishing | AC-F007-001 | frontend 工程骨架 | Implemented（部分） | 主体完成 |
+"""
+
+
+def _write_fake_tests(root: Path) -> None:
+    """创建解析规则引用的假测试文件。"""
+    for rel in (
+        "tests/ingest/test_source_ingestor.py",
+        "tests/validation/test_wiki_schema.py",
+        "tests/validation/test_wiki_rules.py",
+    ):
+        path = root / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("# fixture\n", encoding="utf-8")
+
+
+class ParseAndResolveTests(unittest.TestCase):
+    def test_parse_rows_extracts_eight_columns(self):
+        rows, skipped = ms.parse_rows(MINIMAL_MATRIX)
+        self.assertEqual(len(rows), 4)
+        self.assertEqual(skipped, 0)
+        self.assertEqual(rows[0]["id"], "SRC-001")
+        self.assertEqual(rows[0]["completion"], "主体完成")
+        self.assertEqual(rows[2]["status"], "Designed")
+        self.assertEqual(rows[3]["test"], "frontend 工程骨架")
+
+    def test_parse_rows_counts_skipped_bad_rows(self):
+        """列数不符或 ID 非法的行计入 skipped（格式漂移信号），不静默吞掉。"""
+        text = (
+            "| 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 | 完成度 |\n"
+            "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
+            "| BAD-ROW | 只有两列 |\n"
+            "| SRC-001 | F001 | ADR-0001 | source-ingestion | AC | tests/a.py | Implemented（部分） | 主体完成 |\n"
+        )
+        rows, skipped = ms.parse_rows(text)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(skipped, 1)
+
+    def test_parse_rows_accepts_long_prefix_and_resets_at_section(self):
+        """SKILL 5 字母前缀必须匹配；`## ` 章节标题退出矩阵状态（后面 2 列表不误计）。"""
+        text = (
+            "| 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 | 完成度 |\n"
+            "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
+            "| SKILL-001 | F009 | ADR-0006 | agent-skill | AC-F009-001 | tests/test_skill_runtime.py | Implemented（部分） | 主体完成 |\n"
+            "## 验收场景完整覆盖\n"
+            "| Feature | 全部验收场景 |\n"
+            "| --- | --- |\n"
+            "| F001 | AC-F001-001 |\n"
+        )
+        rows, skipped = ms.parse_rows(text)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["id"], "SKILL-001")
+        self.assertEqual(skipped, 0)
+
+    def test_parse_rows_ignores_non_spec_rows(self):
+        text = "| 前缀 | 范围 |\n| --- | --- |\n" + MINIMAL_MATRIX
+        rows, skipped = ms.parse_rows(text)
+        self.assertEqual(len(rows), 4)
+        self.assertEqual(skipped, 0)
+
+    def test_extract_refs_splits_merged_and_dedups(self):
+        cell = "tools/inventory_legacy.py + test_a.py/test_b.py + test_a.py"
+        refs = ms.extract_refs(cell)
+        self.assertEqual(refs, ["tools/inventory_legacy.py", "test_a.py", "test_b.py"])
+
+    def test_resolve_full_path(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            _write_fake_tests(root)
+            self.assertEqual(
+                ms.resolve_ref("tests/ingest/test_source_ingestor.py", root),
+                "tests/ingest/test_source_ingestor.py",
+            )
+            self.assertIsNone(ms.resolve_ref("tests/ingest/missing.py", root))
+
+    def test_resolve_bare_filename_finds_unique_prefix(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            _write_fake_tests(root)
+            self.assertEqual(
+                ms.resolve_ref("test_wiki_schema.py", root),
+                "tests/validation/test_wiki_schema.py",
+            )
+
+
+class DeriveCompletionTests(unittest.TestCase):
+    def test_designed_maps_to_not_started(self):
+        self.assertEqual(ms.derive_completion("Designed", []), ms.NOT_STARTED)
+
+    def test_implemented_with_all_refs_maps_to_done(self):
+        self.assertEqual(ms.derive_completion("Implemented", []), ms.DONE)
+
+    def test_implemented_partial_with_all_refs_maps_to_mostly(self):
+        self.assertEqual(ms.derive_completion("Implemented（部分）", []), ms.MOSTLY)
+
+    def test_missing_refs_never_derives_to_partial(self):
+        """引用缺失是悬空（由 check 报错），不是降档。"""
+        self.assertIsNone(ms.derive_completion("Implemented（部分）", ["a.py"]))
+        self.assertIsNone(ms.derive_completion("Implemented", ["a.py"]))
+
+    def test_unknown_status_returns_none(self):
+        self.assertIsNone(ms.derive_completion("Bogus", []))
+
+
+class CheckTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        (self.root / "docs").mkdir(parents=True)
+        (self.root / "docs" / "traceability-matrix.md").write_text(
+            MINIMAL_MATRIX, encoding="utf-8"
+        )
+        _write_fake_tests(self.root)
+
+    def test_consistent_matrix_is_ok(self):
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["rows"], 4)
+        self.assertIn("WEB-001", result.get("no_refs", []))
+
+    def test_stale_completion_is_error(self):
+        text = (self.root / "docs" / "traceability-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        # WIKI-001 状态是 Implemented 且引用全在 → 应为"完成"，手改成"主体完成"
+        text = text.replace("| Implemented | 完成 |", "| Implemented | 主体完成 |")
+        (self.root / "docs" / "traceability-matrix.md").write_text(
+            text, encoding="utf-8"
+        )
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        stale = result["stale"]
+        self.assertEqual(stale[0]["id"], "WIKI-001")
+        self.assertEqual(stale[0]["matrix"], "主体完成")
+        self.assertEqual(stale[0]["derived"], "完成")
+
+    def test_dangling_ref_is_hard_error_not_downgrade(self):
+        text = (self.root / "docs" / "traceability-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        # 引用一个不存在的文件
+        text = text.replace(
+            "tests/ingest/test_source_ingestor.py",
+            "tests/ingest/ghost.py",
+        )
+        (self.root / "docs" / "traceability-matrix.md").write_text(
+            text, encoding="utf-8"
+        )
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("dangling_refs", result)
+        self.assertEqual(result["dangling_refs"][0]["id"], "SRC-001")
+
+    def test_designed_with_resolved_refs_reports_drift_warning(self):
+        text = (self.root / "docs" / "traceability-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        # LAY-004 改为引用存在的文件但保持 Designed → 状态滞后警示
+        text = text.replace(
+            "| 待实现 | Designed | 未开始 |",
+            "| tests/ingest/test_source_ingestor.py | Designed | 未开始 |",
+        )
+        (self.root / "docs" / "traceability-matrix.md").write_text(
+            text, encoding="utf-8"
+        )
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "ok")
+        drift = result.get("status_drift", [])
+        self.assertTrue(any(d["id"] == "LAY-004" for d in drift))
+
+    def test_designed_completion_hand_edit_is_stale(self):
+        """Designed 行恒派生「未开始」，与引用无关：手改完成度必须被检出不静默跳过。"""
+        text = (self.root / "docs" / "traceability-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        text = text.replace(
+            "| 待实现 | Designed | 未开始 |",
+            "| 待实现 | Designed | 完成 |",
+        )
+        (self.root / "docs" / "traceability-matrix.md").write_text(
+            text, encoding="utf-8"
+        )
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["stale"][0]["id"], "LAY-004")
+        self.assertEqual(result["stale"][0]["derived"], "未开始")
+
+    def test_check_unreadable_encoding_is_structured_error(self):
+        """非 UTF-8 矩阵 → matrix_unreadable 结构化错误，不抛 UnicodeDecodeError。"""
+        (self.root / "docs" / "traceability-matrix.md").write_bytes(b"\xff\xfe\x00\x01")
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("matrix_unreadable", result["reason"])
+
+    def test_check_missing_matrix_is_structured_error(self):
+        (self.root / "docs" / "traceability-matrix.md").unlink()
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("matrix_unreadable", result["reason"])
+
+    def test_check_unknown_status_is_reported_not_silent(self):
+        """状态列拼写漂移（如半角括号）计入 unknown_status，不静默跳过。"""
+        text = (self.root / "docs" / "traceability-matrix.md").read_text(
+            encoding="utf-8"
+        )
+        text = text.replace(
+            "| Implemented（部分） | 主体完成 |",
+            "| Implemented (部分) | 主体完成 |",
+            1,
+        )
+        (self.root / "docs" / "traceability-matrix.md").write_text(
+            text, encoding="utf-8"
+        )
+        result = ms.check(self.root)
+        self.assertEqual(result["state"], "ok")
+        unknown = result.get("unknown_status", [])
+        self.assertTrue(any(u["status"] == "Implemented (部分)" for u in unknown))
+
+
+class SyncTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.directory = tempfile.TemporaryDirectory()
+        self.addCleanup(self.directory.cleanup)
+        self.root = Path(self.directory.name)
+        (self.root / "docs").mkdir(parents=True)
+        self.matrix_path = self.root / "docs" / "traceability-matrix.md"
+        self.matrix_path.write_text(MINIMAL_MATRIX, encoding="utf-8")
+        _write_fake_tests(self.root)
+
+    def test_sync_rewrites_stale_completion_and_reports_changed(self):
+        text = self.matrix_path.read_text(encoding="utf-8")
+        text = text.replace("| Implemented | 完成 |", "| Implemented | 主体完成 |")
+        self.matrix_path.write_text(text, encoding="utf-8")
+
+        result = ms.sync(self.root)
+        self.assertEqual(result["state"], "ok")
+        self.assertEqual(len(result["changed"]), 1)
+        self.assertEqual(result["changed"][0]["id"], "WIKI-001")
+        self.assertEqual(result["changed"][0]["completion"], "完成")
+
+        after = self.matrix_path.read_text(encoding="utf-8")
+        self.assertIn("| Implemented | 完成 |", after)
+        self.assertNotIn("| Implemented | 主体完成 |", after)
+
+    def test_sync_dry_run_does_not_write(self):
+        text = self.matrix_path.read_text(encoding="utf-8")
+        text = text.replace("| Implemented | 完成 |", "| Implemented | 主体完成 |")
+        self.matrix_path.write_text(text, encoding="utf-8")
+
+        result = ms.sync(self.root, dry_run=True)
+        self.assertTrue(result["dry_run"])
+        self.assertEqual(len(result["changed"]), 1)
+        after = self.matrix_path.read_text(encoding="utf-8")
+        self.assertIn("| Implemented | 主体完成 |", after)  # 未写盘
+
+    def test_sync_skips_dangling_refs(self):
+        text = self.matrix_path.read_text(encoding="utf-8")
+        text = text.replace(
+            "tests/ingest/test_source_ingestor.py",
+            "tests/ingest/ghost.py",
+        )
+        self.matrix_path.write_text(text, encoding="utf-8")
+        result = ms.sync(self.root)
+        self.assertEqual(result["changed"], [])  # 悬空不掩盖，留给 check 报错
+
+    def test_sync_missing_matrix_returns_structured_error(self):
+        """矩阵缺失时 sync 返回结构化 error，不抛 FileNotFoundError 崩溃。"""
+        self.matrix_path.unlink()
+        result = ms.sync(self.root)
+        self.assertEqual(result["state"], "error")
+        self.assertIn("matrix_unreadable", result["reason"])
+
+    def test_sync_designed_hand_edit_is_fixed(self):
+        """Designed 行完成度被手改后 sync 应纠正为「未开始」。"""
+        text = self.matrix_path.read_text(encoding="utf-8")
+        text = text.replace(
+            "| 待实现 | Designed | 未开始 |",
+            "| 待实现 | Designed | 完成 |",
+        )
+        self.matrix_path.write_text(text, encoding="utf-8")
+        result = ms.sync(self.root)
+        self.assertEqual(len(result["changed"]), 1)
+        self.assertEqual(result["changed"][0]["id"], "LAY-004")
+        after = self.matrix_path.read_text(encoding="utf-8")
+        self.assertIn("| 待实现 | Designed | 未开始 |", after)
+
+    def test_sync_preserves_trailing_newline(self):
+        """sync 写盘后文件末尾必须保留换行（splitlines keepends）。"""
+        text = self.matrix_path.read_text(encoding="utf-8")
+        text = text.replace("| Implemented | 完成 |", "| Implemented | 主体完成 |")
+        self.matrix_path.write_text(text, encoding="utf-8")
+        ms.sync(self.root)
+        after = self.matrix_path.read_bytes()
+        self.assertTrue(after.endswith(b"\n"))
+
+
+class MainExitCodeTests(unittest.TestCase):
+    def test_check_ok_exits_zero(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "docs").mkdir(parents=True)
+            (root / "docs" / "traceability-matrix.md").write_text(
+                MINIMAL_MATRIX, encoding="utf-8"
+            )
+            _write_fake_tests(root)
+            self.assertEqual(ms.main(["check", "--root", str(root)]), 0)
+
+    def test_check_stale_exits_two(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "docs").mkdir(parents=True)
+            text = MINIMAL_MATRIX.replace(
+                "| Implemented | 完成 |", "| Implemented | 主体完成 |"
+            )
+            (root / "docs" / "traceability-matrix.md").write_text(
+                text, encoding="utf-8"
+            )
+            _write_fake_tests(root)
+            self.assertEqual(ms.main(["check", "--root", str(root)]), 2)
+
+
+if __name__ == "__main__":
+    unittest.main()
