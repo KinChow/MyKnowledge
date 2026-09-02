@@ -405,24 +405,28 @@ def _check_archive_integrity(root: Path) -> tuple[str, dict]:
 
 
 def _check_matrix(root: Path) -> tuple[str, dict]:
-    """追踪矩阵完成度 + feature-list 分类列一致性（matrix sync）。
+    """追踪矩阵完成度 + feature-list 分类列 + 文档索引一致性（matrix sync）。
 
     完成度列机器派生、人只维护状态列/测试列；feature-list 分类列机器校验
-    四象限合法 + ID 唯一。引用缺失、完成度被手改、分类非法都会在此暴露。
+    四象限合法 + ID 唯一；三个索引 README 校验链接-目录双向对称。引用缺失、
+    完成度被手改、分类非法、索引漂移都会在此暴露。
     """
     from .matrix_sync import check as matrix_check
 
     result = matrix_check(root)
     state = result.pop("state", "warning")
     # 文件缺失是环境事实（临时仓库/测试场景没有该文档），不拖累健康状态；
-    # 存在但 stale/dangling/分类非法才是内容破坏（error，阻断提交）。
+    # 存在但 stale/dangling/分类非法/索引漂移才是内容破坏（error，阻断提交）。
     if state == "error":
         checks = result.get("checks", {})
-        unreadable = [c.get("reason", "") for c in checks.values()]
-        if checks and all(
-            str(r).startswith(("matrix_unreadable", "feature_list_unreadable"))
-            for r in unreadable
-        ):
+        unreadable = [
+            str(c.get("reason", "")) for c in checks.values() if isinstance(c, dict)
+        ]
+        # 文件缺失是环境事实（临时仓库/测试场景没有该文档），不拖累健康状态；
+        # 存在但 stale/dangling/分类非法/索引漂移才是内容破坏（error，阻断提交）。
+        # reason 统一形如 `<x>_unreadable:<ExcType>`：含 `_unreadable:` 片段即
+        # 视为环境事实——比按文件名枚举白名单更稳健（覆盖未来新增索引类型）。
+        if checks and all("_unreadable:" in r for r in unreadable):
             state = "ok"
     return state, result
 

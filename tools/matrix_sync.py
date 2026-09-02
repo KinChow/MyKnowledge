@@ -53,6 +53,102 @@ FEATURE_LIST_REL = "docs/feature-list.md"
 # feature-list 的四象限分类（与 docs/feature-list.md「Feature 分类」一节保持一致）
 FEATURE_CATEGORIES = ("核心链路", "横向基础", "消费端", "演进/独立域")
 
+# docs/ 下三个"目录索引 README"的校验配置：README 必须覆盖目录内全部文档，
+# 且每个链接必须指向真实文件（防新增文档忘更新索引）。
+# 命名规则：ADR 为 NNNN-xxx.md；Acceptance 为 FNNN-xxx.md；Technical Design 为自由名。
+_DOC_INDEXES: tuple[dict, ...] = (
+    {
+        "name": "adr",
+        "readme": "docs/adr/README.md",
+        "directory": "docs/adr",
+        "link_prefix": "./",
+        "file_pattern": r"^\d{4}-.+\.md$",
+    },
+    {
+        "name": "technical-design",
+        "readme": "docs/technical-design/README.md",
+        "directory": "docs/technical-design",
+        "link_prefix": "./",
+        "file_pattern": r"^.+\.md$",
+    },
+    {
+        "name": "acceptance",
+        "readme": "docs/acceptance/README.md",
+        "directory": "docs/acceptance",
+        "link_prefix": "./",
+        "file_pattern": r"^F\d{3}-.+\.md$",
+    },
+)
+
+
+def _read_text(path: Path) -> tuple[str | None, dict | None]:
+    """读取 UTF-8 文本；失败返回 (None, error 报告)。"""
+    try:
+        return path.read_text(encoding="utf-8"), None
+    except (OSError, UnicodeDecodeError) as exc:
+        return None, {
+            "state": "error",
+            "reason": f"{path.stem}_unreadable:{type(exc).__name__}",
+        }
+
+
+def _check_one_index(root: Path, spec: dict) -> dict:
+    """校验单个索引 README 与目录文档的双向对称性。"""
+    name = spec["name"]
+    readme_path = root / spec["readme"]
+    dir_path = root / spec["directory"]
+    text, read_error = _read_text(readme_path)
+    if read_error is not None:
+        return read_error
+
+    # 提取 README 内指向本目录的相对链接（排除外部链接与锚点）
+    links: set[str] = set()
+    for m in re.finditer(r"\[[^\]]+\]\(([^)]+)\)", text):
+        href = m.group(1).strip()
+        if href.startswith(spec["link_prefix"]) and href.endswith(".md"):
+            links.add(href[len(spec["link_prefix"]) :])
+
+    # 目录实际文档（排除 README 自身与 prev 备份）
+    actual: set[str] = set()
+    if dir_path.is_dir():
+        for p in dir_path.glob("*.md"):
+            if p.name == "README.md" or p.name.endswith(".prev.md"):
+                continue
+            if re.match(spec["file_pattern"], p.name):
+                actual.add(p.name)
+
+    broken = sorted(f for f in links if not (dir_path / f).exists())
+    unindexed = sorted(actual - links)
+    field: dict = {"links": len(links), "docs": len(actual)}
+    if broken:
+        field["broken_links"] = broken
+    if unindexed:
+        field["unindexed_docs"] = unindexed
+    if broken or unindexed:
+        field["next_action"] = (
+            f"修复 docs/{name}/README.md 索引：补断链目标或登记未索引文档"
+        )
+        return {"state": "error", **field}
+    return {"state": "ok", **field}
+
+
+def check_doc_indexes(root: Path) -> dict:
+    """校验三个索引 README 与目录文档的双向对称性。
+
+    每个 README 的 markdown 链接必须解析到真实文件（防断链），且目录内每篇
+    文档必须被 README 索引（防新增文档漏登记）。返回 doctor 风格报告。
+    """
+    root = Path(root).resolve()
+    results: dict[str, dict] = {}
+    for spec in _DOC_INDEXES:
+        results[spec["name"]] = _check_one_index(root, spec)
+
+    errors = {k: v for k, v in results.items() if v["state"] == "error"}
+    if errors:
+        return {"state": "error", "checks": errors}
+    return {"state": "ok", **results}
+
+
 # 裸文件名查找的已知前缀（与仓库测试布局一致）
 _TEST_PREFIXES = ("tests", "tests/validation", "tests/ingest", "tests/anchor")
 
@@ -366,23 +462,28 @@ def _check_matrix_completion(root: Path) -> dict:
 
 
 def check(root: Path) -> dict:
-    """综合门禁：矩阵完成度 + feature-list 分类列；返回 doctor 风格报告。
+    """综合门禁：矩阵完成度 + feature-list 分类列 + 文档索引；返回 doctor 风格报告。
 
-    任一项为 error 即整体 error；两部分的详情字段都保留在报告中。
+    任一项为 error 即整体 error；各部分的详情字段都保留在报告中。
     """
     matrix_result = _check_matrix_completion(root)
     fl_result = check_feature_list(root)
+    doc_result = check_doc_indexes(root)
     errors: dict[str, dict] = {}
     if matrix_result["state"] == "error":
         errors["matrix"] = matrix_result
     if fl_result["state"] == "error":
         errors["feature_list"] = fl_result
+    if doc_result["state"] == "error":
+        for name, detail in doc_result["checks"].items():
+            errors[f"doc_index:{name}"] = detail
     if errors:
         return {"state": "error", "checks": errors}
     # ok 状态合并 rows / features 等摘要字段
     merged: dict = {"state": "ok"}
     merged.update({k: v for k, v in matrix_result.items() if k != "state"})
     merged.update({k: v for k, v in fl_result.items() if k != "state"})
+    merged.update({k: v for k, v in doc_result.items() if k != "state"})
     return merged
 
 
