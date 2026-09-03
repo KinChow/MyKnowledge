@@ -1,0 +1,692 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "compilers-on-linux",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_3f1cfc67123a",
+  "input_hash": "sha256:1c2a90656d8e43ed0677788144e7778ffc24a1b071f4fffcb96573d70c13164d",
+  "provider_duration_ms": 128814,
+  "provider_meta": {
+    "model": "DeepSeek-V4-Flash"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788460568.252129,
+  "wiki_content_sha256": "sha256:f5e183bdfb6c677c1547a8359c98016234e635255fdba410013347d43150f393",
+  "wiki_evidence_sha256": "sha256:5c0147069c493e6f44d5f8e685ce8d8e7e116a0724d9c7e8e76909158d39d62f",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-install-guide"
+      },
+      "source_id": "gcc-install-guide",
+      "evidence_id": "evidence-75cbde47441e",
+      "snapshot_sha256": "sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8",
+      "selector_sha256": "sha256:a9706b73f9b92c0a8fa105c7c9ef0d89aff658acaa7a115791d198f3d86e490e",
+      "quote_sha256": "sha256:b8734386f9b2a7056c850ebd367d24d864bfc63ecf4c56958d15f39f1a4670c9"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-install-guide"
+      },
+      "source_id": "gcc-install-guide",
+      "evidence_id": "evidence-abe77873564d",
+      "snapshot_sha256": "sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8",
+      "selector_sha256": "sha256:1442a670ef5e70ca04f94d7f3eeb95156074903d3b218910ee73d379031124da",
+      "quote_sha256": "sha256:ef1ab2929c3a55988cacb26abb8091af5ca10f4d664680840be102a1ba284d2c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-prerequisites"
+      },
+      "source_id": "gcc-prerequisites",
+      "evidence_id": "evidence-0df0f0181d75",
+      "snapshot_sha256": "sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316",
+      "selector_sha256": "sha256:6d1d0c90525937c04262cd2a8c438a1aaf235584c86dfa59564993ac07993434",
+      "quote_sha256": "sha256:e7069697b5128d83d12fcae2a57bc7fffb36362ea42a46c7e544a6024cddfafe"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-prerequisites"
+      },
+      "source_id": "gcc-prerequisites",
+      "evidence_id": "evidence-afe64130d587",
+      "snapshot_sha256": "sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316",
+      "selector_sha256": "sha256:3f228e406c952542b2549035e6850b6697fd7dd640dc86317be43ec967c56e2d",
+      "quote_sha256": "sha256:bd517e65fcf9a2b9cfc796faf749c73ce241cfdd0905df3c989ee00cb92658d7"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-prerequisites"
+      },
+      "source_id": "gcc-prerequisites",
+      "evidence_id": "evidence-60b61915a72e",
+      "snapshot_sha256": "sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316",
+      "selector_sha256": "sha256:a764b3e0cbe1b9d7ea634abc6755fc596b01fbca4e8db0a257b41fe5427ff7de",
+      "quote_sha256": "sha256:0d8847386ef8548f5d22a06b113b14b33d5cb65388542d5d47b7b3de4ef280df"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "mpfr-official"
+      },
+      "source_id": "mpfr-official",
+      "evidence_id": "evidence-862d338312ba",
+      "snapshot_sha256": "sha256:e213b2ccebe27e9eeedbda250699fd57a6461e19bb03c1413769d81101f2631b",
+      "selector_sha256": "sha256:e08687317849c6bbaa16929166b283dcd505d17c52dbc30518d47d641d5ab50c",
+      "quote_sha256": "sha256:633ddaed7a8004622e0257ce2d5281b67c77187a0fe9ffd89ac80f30d15a2868"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "mpc-official"
+      },
+      "source_id": "mpc-official",
+      "evidence_id": "evidence-2554ad492f8c",
+      "snapshot_sha256": "sha256:b1e1638deedda65076f74716e40c50d622f1f0fc42df5c9f1fec0474322757c9",
+      "selector_sha256": "sha256:f0d2dc736a0aa0e31ac44e3f2c8a41875c7e2d833ba7679a42571ce67b4a1621",
+      "quote_sha256": "sha256:c4fac18bd4f84039aa032b2624640d898abcd5c3625cfcc6259610d1bbfb76f0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-0586015343b8",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:9cb4c092fc4c959748b4ed7878f559ecac01e7736b3f5e1ea24e1b1f9aacb715",
+      "quote_sha256": "sha256:41eb97904c611aaf7fad37ed5275330229c39d1ed353f93ecebaaf5c195ac30b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-d0174128ad8a",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:ac81c9439f4dfdcb03f871ecb7b5dcd38f05e9a34247acbab24519ff4d66fecb",
+      "quote_sha256": "sha256:b244e5093ac1a5bc2793a3625a6c20c69dd2a83df85e925377c356d1689c9b60"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-bd395148b2f9",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:29dbd27b8f58820a95fa413ec6f12101992c501c5d4b9775d022232f0e755eaf",
+      "quote_sha256": "sha256:9fae3ca331bed7bbad075da39c856c41cb892c3b69895d17ae66cd4efd194b7e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-b4d83f460536",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:2556f7c06f9f7530e04f2445d30f93d8d901b88c9f7c064b0501895bd043bf62",
+      "quote_sha256": "sha256:0ad413f5897b3007ddf367cbd9c5189b25ffe3b2c001fb695b0c0da66b4a9e2a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "install-five-steps",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-75cbde47441e",
+          "exact": "The installation procedure itself is broken into five steps."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接说明安装过程分为五步，与 claim 一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "start": 0,
+          "end": 60
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "own-directory",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-abe77873564d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-abe77873564d",
+          "exact": "we suggest that you install GCC into a directory of its own and simply remove that directory when you do not need that specific version of GCC any longer"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持安装到独立目录并在不需要时删除该目录，但未提及 make uninstall 不支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-abe77873564d",
+          "start": 0,
+          "end": 153
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "deps-gmp",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0df0f0181d75",
+          "exact": "Necessary to build GCC. It can be downloaded from https://gmplib.org/."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 GMP 为构建 GCC 所必需并可从指定地址下载。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "start": 0,
+          "end": 70
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "deps-mpfr",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-afe64130d587",
+          "exact": "Necessary to build GCC. It can be downloaded from https://www.mpfr.org."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 MPFR 为构建 GCC 所必需并可从指定地址下载。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "start": 0,
+          "end": 71
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "deps-mpc",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-60b61915a72e",
+          "exact": "Necessary to build GCC. It can be downloaded from https://www.multiprecision.org/mpc/."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 MPC 为构建 GCC 所必需并可从指定地址下载。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "start": 0,
+          "end": 86
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "mpfr-role",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-862d338312ba"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-862d338312ba",
+          "exact": "MPFR is based on the GMP multiple-precision library."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持 MPFR 基于 GMP 多精度库，但未明确其为浮点计算库。",
+      "rationale_offsets": [
+        {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-862d338312ba",
+          "start": 0,
+          "end": 52
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "mpc-role",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-2554ad492f8c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2554ad492f8c",
+          "exact": "The library is built upon and follows the same principles as GNU MPFR."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持 MPC 遵循 GNU MPFR 原理构建，但未提及高精度复数计算库。",
+      "rationale_offsets": [
+        {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-2554ad492f8c",
+          "start": 0,
+          "end": 70
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "configure-languages",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-0586015343b8"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0586015343b8",
+          "exact": "Specify that only a particular subset of compilers and\ntheir runtime libraries should be built."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持仅构建特定编译器子集，但未出现 --enable-languages 选项名。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-0586015343b8",
+          "start": 0,
+          "end": 95
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "configure-multilib",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-d0174128ad8a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d0174128ad8a",
+          "exact": "Specify that multiple target libraries to support different target variants, calling conventions, etc. should not be built."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持不构建多目标库，但未出现 --disable-multilib 选项名。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-d0174128ad8a",
+          "start": 0,
+          "end": 123
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "configure-with-deps",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-bd395148b2f9",
+          "exact": "If you want to build GCC but do not have the GMP library, the MPFR\nlibrary and/or the MPC library installed in a standard location and\ndo not have their sources present in the GCC source tree then you\ncan explicitly specify the directory where they are installed\n(‘--with-gmp=gmpinstalldir’,\n‘--with-mpfr=mpfrinstalldir’,\n‘--with-mpc=mpcinstalldir’)."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文完整支持在 GMP/MPFR/MPC 未安装于标准位置时用 --with-gmp/--with-mpfr/--with-mpc 指定目录。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "start": 0,
+          "end": 350
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "prefix-separate",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-b4d83f460536"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b4d83f460536",
+          "exact": "We highly recommend against dirname being the same or a\nsubdirectory of objdir or vice versa."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文支持强烈建议目录不要相同或互为子目录，但未出现 --prefix 选项名。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-b4d83f460536",
+          "start": 0,
+          "end": 90
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-install-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-install-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-prerequisites",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-prerequisites",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-prerequisites",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "mpfr-official",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "mpc-official",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "install-five-steps",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "own-directory",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "deps-gmp",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "deps-mpfr",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "deps-mpc",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "mpfr-role",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "mpc-role",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "configure-languages",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "configure-multilib",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "configure-with-deps",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "prefix-separate",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

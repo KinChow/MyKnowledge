@@ -53,6 +53,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
+      # 3.14 leg：marker-pdf 锁 pillow<11，而 Pillow 10.x 早于 Python 3.14，
+      # 无 cp314 wheel（也无 abi3 wheel）→ 只能从源码构建 Pillow。
+      # 本机已实测 Pillow 10.4.0 在 3.14 可编译；补构建依赖（zlib/jpeg/tiff 头文件）
+      # 后 Linux 同样可构建。3.12 leg 有 cp312 wheel，无需源码构建。
+      - if: matrix.python-version == '3.14'
+        name: Install Pillow source build dependencies
+        run: sudo apt-get update && sudo apt-get install -y zlib1g-dev libjpeg-dev libtiff-dev
       - run: pip install -r requirements.txt -r requirements-dev.txt
       - run: ruff check --output-format=github .
       - run: ruff format --check .
