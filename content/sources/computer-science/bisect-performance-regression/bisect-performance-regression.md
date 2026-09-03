@@ -3,22 +3,27 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-85c4410eac8f
+- evidence_id: evidence-fb6d25a01405
   position:
-    end: 437
-    start: 306
+    end: 508
+    start: 286
     type: TextPositionSelector
-  quote_sha256: sha256:8efcd7199c344fc5bab53cb709eec3d6450a7db8bb5187e870ed3b7b5b8badbd
+  quote_sha256: sha256:58cdf28f3aaf5c9ccb624e8b897913f4a492e26abd048e1a05a7413cd20d8fc5
   selector:
-    exact: 'localizing such regressions can be achieved
+    exact: 'The crucial task of localizing such regressions can be achieved
 
       using bisection, which attempts to find the bug-introducing commit using binary
 
-      search.'
-    prefix: 'pplication. The crucial task of '
-    suffix: ' This approach is used extensive'
+      search. This approach is used extensively by many development teams, but it
+      is'
+    prefix: 'lity of a
+
+      software application. '
+    suffix: '
+
+      an inherently heuristical appro'
     type: TextQuoteSelector
-  selector_sha256: sha256:13ce9feddece5bbdf1acbe7ea829911eed477c7d269fbb76001d40a8ada8353c
+  selector_sha256: sha256:7b3a86e39208c92c5bf04358347dbf3312c823eb693dca6982ea0f292177d879
   snapshot_sha256: sha256:360b14a41ba2059744c90f41f1cbf9f053729686b98507da07881f6ea8992605
 extractor: pypdf/6.16.2
 id: bisect-performance-regression

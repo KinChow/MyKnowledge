@@ -3,41 +3,47 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-9ce34a48845e
+- evidence_id: evidence-5138110b0629
   position:
-    end: 791
-    start: 657
-    type: TextPositionSelector
-  quote_sha256: sha256:c3061f7bd62f9dd7f65d73509a1f137fb07c2b0ee89b12677aada15c97ff5d8a
-  selector:
-    exact: Tracing is a profiling technique that captures specific program events,
-      such as entering or exiting a function, every time they occur.
-    prefix: 'ow overhead profiling.
-
-      Tracing¶
-
-      '
-    suffix: ' This allows the collection of a'
-    type: TextQuoteSelector
-  selector_sha256: sha256:931ab5905cadb22b066fb0e302598d89b00876366e6f188db364ebc41b5447c7
-  snapshot_sha256: sha256:4b0f40d2346476f6ac9ccb01a5ccd85ffe6d936505057a4e1509581925eb4e0c
-- evidence_id: evidence-685c7e0035da
-  position:
-    end: 597
+    end: 647
     start: 487
     type: TextPositionSelector
-  quote_sha256: sha256:8dd27dabfdbd035b59ebea9ba12ce55837ceecfecde75727f6b04dc918c36934
+  quote_sha256: sha256:0ac20a4b213fc53cb88ba7592679366299d08aba32e21f1404807524ade9db43
   selector:
     exact: Sampling consists of taking regular snapshots of the application's call
-      stack to create a statistical profile.
+      stack to create a statistical profile. This is a good option for low overhead
+      profiling.
     prefix: 'mum user interaction.
 
       Sampling¶
 
       '
-    suffix: ' This is a good option for low o'
+    suffix: '
+
+      Tracing¶
+
+      Tracing is a profiling'
     type: TextQuoteSelector
-  selector_sha256: sha256:e4fa74c0aa1da4f304dfd2a886de0e81eaaab801b793d4da4017794abdb094fc
+  selector_sha256: sha256:b066d2127d07a53bc11f85f85ef16739e96ab7de2685fe73a11e3db946bc2814
+  snapshot_sha256: sha256:4b0f40d2346476f6ac9ccb01a5ccd85ffe6d936505057a4e1509581925eb4e0c
+- evidence_id: evidence-4321897985b6
+  position:
+    end: 886
+    start: 657
+    type: TextPositionSelector
+  quote_sha256: sha256:fac39133f4e6412469dcc73bce8c2a977c6327de2adc808838c3e82703899e66
+  selector:
+    exact: Tracing is a profiling technique that captures specific program events,
+      such as entering or exiting a function, every time they occur. This allows the
+      collection of accurate profiling information about specific areas of the code.
+    prefix: 'ow overhead profiling.
+
+      Tracing¶
+
+      '
+    suffix: ''
+    type: TextQuoteSelector
+  selector_sha256: sha256:a76fa515aa8b4b6102ce760451f9dcec3fd9ed7056f83af1c146d966f5c1d5b4
   snapshot_sha256: sha256:4b0f40d2346476f6ac9ccb01a5ccd85ffe6d936505057a4e1509581925eb4e0c
 extractor: trafilatura/2.2.0
 id: lumi-profiling-strategies

@@ -1,0 +1,784 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "isa-and-microarchitecture",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_dcfaf7320782",
+  "input_hash": "sha256:e18d3baa30f7cb0c4a07cac1c4d6488d4559b72b9ecd7312e2109b56e31149c1",
+  "provider_duration_ms": 110777,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788441182.853238,
+  "wiki_content_sha256": "sha256:8f282de0c6d7931524b1d45e2b02ac87c332baffc5313c380ac6dd719c3ab2f6",
+  "wiki_evidence_sha256": "sha256:fd0d81f725c1422deab75e34af55a334a0be9202e7e27243759ad3597e8f24ae",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture8-isa-ii"
+      },
+      "source_id": "ddca-lecture8-isa-ii",
+      "evidence_id": "evidence-1a37cd32c397",
+      "snapshot_sha256": "sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246",
+      "selector_sha256": "sha256:ad2f2f397c4e4c7130b2f3efb8d2750e656581349461d2f6804f905eb670971b",
+      "quote_sha256": "sha256:fe410f2cbda50b9c371a787503d111488337afd03b406f09cfd9fd4166ac92b4"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture8-isa-ii"
+      },
+      "source_id": "ddca-lecture8-isa-ii",
+      "evidence_id": "evidence-fa9a29315420",
+      "snapshot_sha256": "sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246",
+      "selector_sha256": "sha256:ff96745b8d936d96a55fab0baf9a86456442a1509e4d09c2c5f09337ab71abaf",
+      "quote_sha256": "sha256:66a5a480224c673ee6e4daa8cb4cf327a2d0b643aa2666feb26e67f9823c1ada"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture9a-isa-microarchitecture"
+      },
+      "source_id": "ddca-lecture9a-isa-microarchitecture",
+      "evidence_id": "evidence-99b25955f40a",
+      "snapshot_sha256": "sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8",
+      "selector_sha256": "sha256:60d7a8b6df7f0750418e7d9caf182b1942c062e2d159a534a6574abd22d775f3",
+      "quote_sha256": "sha256:3380320bff8bd31a0382c750bac92fc5b0f886a5e7ed0ff65ad2a4217288d251"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture9a-isa-microarchitecture"
+      },
+      "source_id": "ddca-lecture9a-isa-microarchitecture",
+      "evidence_id": "evidence-99b25955f40a",
+      "snapshot_sha256": "sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8",
+      "selector_sha256": "sha256:60d7a8b6df7f0750418e7d9caf182b1942c062e2d159a534a6574abd22d775f3",
+      "quote_sha256": "sha256:3380320bff8bd31a0382c750bac92fc5b0f886a5e7ed0ff65ad2a4217288d251"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture9a-isa-microarchitecture"
+      },
+      "source_id": "ddca-lecture9a-isa-microarchitecture",
+      "evidence_id": "evidence-962563aa0e01",
+      "snapshot_sha256": "sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8",
+      "selector_sha256": "sha256:a21949a274c84976e6d7c4e5f333878015094f5c06ef514470ab2cc9d57b7655",
+      "quote_sha256": "sha256:9a155cf5c8656bb4d74d595bee434207e9437aae52662bb455acd1b8cb9a9790"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "risc-cisc"
+      },
+      "source_id": "risc-cisc",
+      "evidence_id": "evidence-2339f6e0de43",
+      "snapshot_sha256": "sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7",
+      "selector_sha256": "sha256:72f999df7bed14b21cd0827815461678982d57caed599fbe191b1179e9a43dca",
+      "quote_sha256": "sha256:1f4848b39e1e498c1cdf250e258526782dd8593adbb392f0f8cd14dd3bd9d5a8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "risc-cisc"
+      },
+      "source_id": "risc-cisc",
+      "evidence_id": "evidence-a1d5f1e8c5ff",
+      "snapshot_sha256": "sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7",
+      "selector_sha256": "sha256:3a2a7ee4faa6f223a1b7b2e8cdc7f6f897adcfdfd6430f22ca115788ade73c9c",
+      "quote_sha256": "sha256:428c6ad66ff67650e2d9f703a79c75181274fdacffe97db02764ce15223ba6ca"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "nvidia-ptx-isa"
+      },
+      "source_id": "nvidia-ptx-isa",
+      "evidence_id": "evidence-57912b49617c",
+      "snapshot_sha256": "sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f",
+      "selector_sha256": "sha256:defa81596034f0caae66ff8450a2720d651fdee0e02ff914643cc36e6a6421c7",
+      "quote_sha256": "sha256:75f08bd198d845aa262d19272a7fa3077c036a348891937e9b3ccabb5e0fe252"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "nvidia-ptx-isa"
+      },
+      "source_id": "nvidia-ptx-isa",
+      "evidence_id": "evidence-924fdf3f14ca",
+      "snapshot_sha256": "sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f",
+      "selector_sha256": "sha256:46d7e563a97735bb72d43dc6f97db2a41a366d01fb63912530aef6dcf0689a5c",
+      "quote_sha256": "sha256:1d41023348507287cd240671726f9f4444bf17feef1b8ce87349fa2b5b2000af"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-instruction-sets"
+      },
+      "source_id": "arm-ddi0487-instruction-sets",
+      "evidence_id": "evidence-1bf0681f2918",
+      "snapshot_sha256": "sha256:ccf816fe505c04568f1a42673f567e9003ac679a45fa433e5432c6ed63c39578",
+      "selector_sha256": "sha256:2732216738e216838d25d5c2dc4c2bb8421a80b2aa4a6ef032a630b40c4496a8",
+      "quote_sha256": "sha256:1206468cce4ef05897518afd0897c568a0667a36d84a9909e409d5f4e08f464a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-29cc639ee281",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:b9be2e70a8bf621970a8dfe683234288e0b0583c5cb55eba3f8439489dad8874",
+      "quote_sha256": "sha256:1f5446f2c31b8f4901e2982492a239cdd099d04771db2f7ea68469c1bc1da357"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-1061d87ee77e",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:7f3158896c18dbe34cd4f6173338f0895ce15e11f40a0bfdb50c59d9535afbd8",
+      "quote_sha256": "sha256:874ccbe59a9550fe66ec633b8ebbc6d1ed16d9a5f7180eb7ec5fbdba897beb8d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-8c92e4905685",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:e0b3910cceb720f83f460534306aca46bf751bc3aa3d1edd36c0b86285e6c91e",
+      "quote_sha256": "sha256:322510c365f2310196a478ec85c9d84636339dcf4b4e756ece666ea6c679b207"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-c1301b51c8bc",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:baf1f0bcca0e1caf2b06f0fb7e71b0f4b7d94bc3a7be8b9290e4a8b37f6beaaf",
+      "quote_sha256": "sha256:95e5d3f617b6cc0565fea806464dddbe17d56f3ce12329bcddc7984f82ed646e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-6d7187d33635",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:e2be07152429a98ae1e4ffc89ceebe8d756e6adfd5faf45c13b73558ca1fbbc0",
+      "quote_sha256": "sha256:fd3dc1fc02ebc8676515aedce8ae6cd3a850e100ca9df1a0476ee385756fa91a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-memory-model"
+      },
+      "source_id": "arm-ddi0487-memory-model",
+      "evidence_id": "evidence-45e7cc979163",
+      "snapshot_sha256": "sha256:b25a5339e746f012a89096b9b67ceaa33a3bb68a1eb8a5d89fb9a314641102a3",
+      "selector_sha256": "sha256:4a3376470643b4de4390086ac911fca624dcb72fde0cfccbc08e6515a84a6c7d",
+      "quote_sha256": "sha256:5f4c7d38857858701f695c3ff0093ffcac105007dc38f86b86ded0ee4d498233"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "isa-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-1a37cd32c397"
+        },
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-fa9a29315420"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1a37cd32c397",
+          "exact": "◼ The ISA is the interface between what the software commands and what the hardware carries out"
+        },
+        {
+          "evidence_id": "evidence-fa9a29315420",
+          "exact": "The term architecture is used here to describe the attributes of a system as seen by the programmer, i.e., the conceptual structure and functional behavior **as distinct from** the organization of the dataflow and controls, the logic design, and the physical implementation."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文一明确将 ISA 定义为软件命令与硬件执行之间的接口；引文二将程序员可见的概念结构和功能行为与数据流/控制组织、逻辑设计和物理实现相区别。",
+      "rationale_offsets": [
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-1a37cd32c397",
+          "start": 0,
+          "end": 95
+        },
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-fa9a29315420",
+          "start": 40,
+          "end": 314
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "isa-vs-micro",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-99b25955f40a"
+        },
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-99b25955f40a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-99b25955f40a",
+          "exact": "Microarchitecture: How the **underlying implementation actually executes** instructions"
+        },
+        {
+          "evidence_id": "evidence-99b25955f40a",
+          "exact": "Microarchitecture can execute instructions in any order as long as it obeys the semantics specified by the ISA when making the instruction results visible to software"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文将微架构表述为底层实现实际执行指令的方式，并明确允许任意顺序执行，条件是软件可见结果遵守 ISA 语义；同一引文还说明程序员应看到 ISA 指定的顺序。重复 target 未提供独立的第二份证据。",
+      "rationale_offsets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-99b25955f40a",
+          "start": 47,
+          "end": 134
+        },
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-99b25955f40a",
+          "start": 138,
+          "end": 193
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "same-isa-implementations",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-962563aa0e01"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-962563aa0e01",
+          "exact": "There can be many implementations of the same ISA"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文直接陈述同一个 ISA 可以有许多实现，并随后列举 MIPS、x86、POWER、ARM 等实现例子。",
+      "rationale_offsets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-962563aa0e01",
+          "start": 87,
+          "end": 132
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "risc-cisc-tendencies",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-2339f6e0de43"
+        },
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a1d5f1e8c5ff"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2339f6e0de43",
+          "exact": "- RISC uses a small set of simple, fixed-length instructions and follows a load/store approach, enabling efficient and fast execution."
+        },
+        {
+          "evidence_id": "evidence-a1d5f1e8c5ff",
+          "exact": "- CISC uses a larger set of complex, variable-length instructions that can perform multiple operations, often requiring multiple clock cycles."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "RISC 引文明确给出简单、定长指令和 load/store 方法；CISC 引文明确给出复杂、变长指令及单条指令可执行多个操作。两条引文分别支持 claim 的两个对照部分，且不冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-2339f6e0de43",
+          "start": 0,
+          "end": 134
+        },
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a1d5f1e8c5ff",
+          "start": 0,
+          "end": 142
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gpu-isa",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c"
+        },
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-924fdf3f14ca"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-57912b49617c",
+          "exact": "This document describes PTX, a low-level parallel thread execution virtual machine and instruction set architecture (ISA)."
+        },
+        {
+          "evidence_id": "evidence-924fdf3f14ca",
+          "exact": "PTX programs are translated at install time to the target hardware instruction set."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "第一条引文将 PTX 明确称为并行线程执行虚拟机和 ISA，并说明其暴露 GPU；第二条引文明确说明 PTX 程序会在安装时翻译为目标硬件指令集。",
+      "rationale_offsets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c",
+          "start": 0,
+          "end": 122
+        },
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-924fdf3f14ca",
+          "start": 0,
+          "end": 82
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "arm-a64-encoding",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-1bf0681f2918"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1bf0681f2918",
+          "exact": "AArch64 state supports a single instruction set, called A64. This is a fixed-length instruction set that uses 32-bit instruction encodings."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文直接说明 AArch64 状态支持名为 A64 的单一指令集，并明确其为使用 32 位指令编码的定长指令集。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-1bf0681f2918",
+          "start": 0,
+          "end": 139
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "arm-aarch64-registers",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-c1301b51c8bc"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d7187d33635"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-29cc639ee281",
+          "exact": "31 general-purpose registers, R0 to R30. Each can be accessed as:"
+        },
+        {
+          "evidence_id": "evidence-1061d87ee77e",
+          "exact": "A 64-bit general-purpose register named X0 to X30."
+        },
+        {
+          "evidence_id": "evidence-8c92e4905685",
+          "exact": "A 32-bit general-purpose register named W0 to W30."
+        },
+        {
+          "evidence_id": "evidence-c1301b51c8bc",
+          "exact": "A 64-bit dedicated Stack Pointer register."
+        },
+        {
+          "evidence_id": "evidence-6d7187d33635",
+          "exact": "A 64-bit Program Counter holding the address of the current instruction."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文依次说明 R0–R30 共 31 个通用寄存器、其 64 位名称为 X0–X30、32 位名称为 W0–W30；另有专用 Stack Pointer 与保存当前指令地址的 Program Counter，支持其与通用寄存器区分的描述。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "start": 0,
+          "end": 65
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "start": 0,
+          "end": 50
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "start": 0,
+          "end": 50
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-c1301b51c8bc",
+          "start": 0,
+          "end": 42
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d7187d33635",
+          "start": 0,
+          "end": 72
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "arm-memory-coherency",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-45e7cc979163",
+          "exact": "Shareability memory attribute indicates the degree to which hardware must ensure memory coherency between a set of observers."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文直接将 Arm 内存模型的 Shareability 属性定义为硬件必须在一组观察者之间确保内存一致性的程度。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "start": 30,
+          "end": 155
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture8-isa-ii",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture8-isa-ii",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "duplicate_target",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "evidence_id": "evidence-99b25955f40a"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "risc-cisc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "risc-cisc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "nvidia-ptx-isa",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "nvidia-ptx-isa",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-instruction-sets",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-memory-model",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [
+      {
+        "code": "duplicate_target",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "evidence_id": "evidence-99b25955f40a"
+      }
+    ],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "isa-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "isa-vs-micro",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "same-isa-implementations",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "risc-cisc-tendencies",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gpu-isa",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-a64-encoding",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-aarch64-registers",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-memory-coherency",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 2,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

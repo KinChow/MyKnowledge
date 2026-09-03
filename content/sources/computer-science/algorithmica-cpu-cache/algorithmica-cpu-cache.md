@@ -3,20 +3,23 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-76d1fe6b7658
+- evidence_id: evidence-9b7a55f92851
   position:
-    end: 447
-    start: 412
+    end: 658
+    start: 504
     type: TextPositionSelector
-  quote_sha256: sha256:cd6d177fd30891adf0c2e6271cd1e2c0af8cee4d115587bbed7d0e011fd08c3a
+  quote_sha256: sha256:3b58861a370927569c3dbd0589eeb009ce579a4ff27bf52dc733967619f2bee9
   selector:
-    exact: lower levels in the cache hierarchy
-    prefix: 'ations, it is too imprecise for '
-    suffix: ', where the costs of these opera'
+    exact: To perform more fine-grained optimization of in-memory algorithms, we have
+      to start taking into account the many specific details of the CPU cache system.
+    prefix: 'e operations become comparable.
+
+      '
+    suffix: ' And instead of studying loads o'
     type: TextQuoteSelector
-  selector_sha256: sha256:ec7bf29c04196685dd4b9f5df27861b0f146813ca35c9020d57d7368bc9a22d0
+  selector_sha256: sha256:fb25848e3625ed50a8c6c13a20468c2f4c1fbfdb7564885d5cc2ac9ea3451a93
   snapshot_sha256: sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f
-- evidence_id: evidence-156850bbfe32
+- evidence_id: evidence-44856c2dbd94
   position:
     end: 1704
     start: 1633
@@ -30,20 +33,6 @@ evidence_items:
       Due to difficulties in preventi'
     type: TextQuoteSelector
   selector_sha256: sha256:29d1d7a5b28fa1278a102a0f3b29c9efccc11f44075da306829f4e399f465856
-  snapshot_sha256: sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f
-- evidence_id: evidence-de0206b20bda
-  position:
-    end: 657
-    start: 571
-    type: TextPositionSelector
-  quote_sha256: sha256:4c9e97f4129d028a8db0fbd7fc64bc1407c108cc58c155fdb1370d1c0f1c798a
-  selector:
-    exact: we have to start taking into account the many specific details of the CPU
-      cache system
-    prefix: 'zation of in-memory algorithms, '
-    suffix: '. And instead of studying loads '
-    type: TextQuoteSelector
-  selector_sha256: sha256:4d06688eea7215a194c772d2cd627f420d2fc6c5a95f0884ba57ccab604c7380
   snapshot_sha256: sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f
 extractor: trafilatura/2.2.0
 id: algorithmica-cpu-cache

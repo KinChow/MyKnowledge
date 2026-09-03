@@ -9,54 +9,49 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-5bad6bce0933
+- evidence_id: evidence-1a37cd32c397
   position:
-    end: 3777
-    start: 3684
+    end: 4201
+    start: 3682
     type: TextPositionSelector
-  quote_sha256: sha256:80e04f0531d2157c269a0d34db4da99baac220919826c29a7aca814f2e35593c
+  quote_sha256: sha256:fe410f2cbda50b9c371a787503d111488337afd03b406f09cfd9fd4166ac92b4
   selector:
-    exact: The ISA is the interface between what the software commands and what the
-      hardware carries out
-    prefix: 'Instruction Set Architecture
+    exact: '◼ The ISA is the interface between what the software commands and what
+      the hardware carries out ◼ The ISA specifies ❑ The memory organization ◼ Address
+      space (LC-3: 2<sup>16</sup>, MIPS: 2<sup>32</sup>) ◼ Addressability (LC-3: 16
+      bits, MIPS: 8 bits) ◼ Word- or Byte-addressable ❑ The register set ◼ 8 registers
+      (R0 to R7) in LC-3 ◼ 32 registers in MIPS ❑ The instruction set ◼ Opcodes ◼
+      Data types ◼ Addressing modes ◼ Length and format of instructions Microarchitecture
+      ISA Program Algorithm Problem Circuits Electrons'
+    prefix: 'e Instruction Set Architecture
 
 
-      ◼ '
-    suffix: ' ◼ The ISA specifies ❑ The memor'
+      '
+    suffix: '
+
+
+      ![](_page_19_Diagram_2.jpeg)
+
+
+      '
     type: TextQuoteSelector
-  selector_sha256: sha256:f4158b686649c091c59acda5ceae87bfe5f9657068843dca1438694c8acf28ec
+  selector_sha256: sha256:ad2f2f397c4e4c7130b2f3efb8d2750e656581349461d2f6804f905eb670971b
   snapshot_sha256: sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246
-- evidence_id: evidence-b4657348ad82
+- evidence_id: evidence-fa9a29315420
   position:
-    end: 3777
-    start: 3684
+    end: 33568
+    start: 33252
     type: TextPositionSelector
-  quote_sha256: sha256:80e04f0531d2157c269a0d34db4da99baac220919826c29a7aca814f2e35593c
+  quote_sha256: sha256:66a5a480224c673ee6e4daa8cb4cf327a2d0b643aa2666feb26e67f9823c1ada
   selector:
-    exact: The ISA is the interface between what the software commands and what the
-      hardware carries out
-    prefix: 'Instruction Set Architecture
-
-
-      ◼ '
-    suffix: ' ◼ The ISA specifies ❑ The memor'
+    exact: ◼ **Traditional (ISA-only) definition:** "The term architecture is used
+      here to describe the attributes of a system as seen by the programmer, i.e.,
+      the conceptual structure and functional behavior **as distinct from** the organization
+      of the dataflow and controls, the logic design, and the physical implementation.
+    prefix: 'cost, and other specific goals. '
+    suffix: '" Gene Amdahl, IBM Journal of R&'
     type: TextQuoteSelector
-  selector_sha256: sha256:f4158b686649c091c59acda5ceae87bfe5f9657068843dca1438694c8acf28ec
-  snapshot_sha256: sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246
-- evidence_id: evidence-4b82a4f930ee
-  position:
-    end: 33567
-    start: 33341
-    type: TextPositionSelector
-  quote_sha256: sha256:0b2e72e6b32fed1bb674627f45dc3524120d44d114962b380a29e13726371d78
-  selector:
-    exact: the attributes of a system as seen by the programmer, i.e., the conceptual
-      structure and functional behavior **as distinct from** the organization of the
-      dataflow and controls, the logic design, and the physical implementation
-    prefix: 'ecture is used here to describe '
-    suffix: ." Gene Amdahl, IBM Journal of R
-    type: TextQuoteSelector
-  selector_sha256: sha256:6ae24aadf094fc88a94ba96f4a88c352ce4ae1dc0dd6efdf335f40565ab9b6bc
+  selector_sha256: sha256:ff96745b8d936d96a55fab0baf9a86456442a1509e4d09c2c5f09337ab71abaf
   snapshot_sha256: sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246
 extractor: marker/2.0.0
 id: ddca-lecture8-isa-ii

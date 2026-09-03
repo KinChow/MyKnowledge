@@ -3,12 +3,12 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-45e295421ed5
+- evidence_id: evidence-8406af58cade
   position:
-    end: 3099
+    end: 3100
     start: 2795
     type: TextPositionSelector
-  quote_sha256: sha256:fc60c68aece654cf4fa43416aeed37a4e0579a8c35b8e491b15850f1485b7eab
+  quote_sha256: sha256:9eb471a467d7f828088778b23528813cb2f0681ff3c8c9e811e7db2930809b9a
   selector:
     exact: 'Steps to Use Queuing Theory
 
@@ -16,15 +16,15 @@ evidence_items:
       arrival process, service process, queue discipline, and number of servers.
 
       2. Collect Data: Gather data on customer arrival rates, service times, and queue
-      lengths to understand the system''s behavior'
+      lengths to understand the system''s behavior.'
     prefix: 'ber of customers in the system.
 
       '
-    suffix: '.
+    suffix: '
 
-      3. Select a Queuing Model: Cho'
+      3. Select a Queuing Model: Choo'
     type: TextQuoteSelector
-  selector_sha256: sha256:b484358f32d68b438b1f2fd081e59c6b88b1704af14c56bace9d393076dcc7a4
+  selector_sha256: sha256:80d81181c1706e66e4ac9bf844bb31680311938ed85451f0018be19f6e89c503
   snapshot_sha256: sha256:1126bc6e6e69c86428b3165a88a8b4d15284cd83a146be3e4f2adc19dc475514
 extractor: trafilatura/2.2.0
 id: queueing-theory-gfg

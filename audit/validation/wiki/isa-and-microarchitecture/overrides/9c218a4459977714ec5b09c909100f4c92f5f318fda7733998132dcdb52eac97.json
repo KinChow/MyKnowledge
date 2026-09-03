@@ -1,0 +1,22 @@
+{
+  "schema_version": "validation-override/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "isa-and-microarchitecture"
+  },
+  "report_sha256": "sha256:3614defa387d993ca31aead2818790b0cc7375e28cd65e4cb22fdd6cd88a86b6",
+  "report_provider_identity": "openai-compatible",
+  "decision": "misjudged",
+  "reviewed_claim_ids": [
+    "same-isa-implementations"
+  ],
+  "reason": "引文逐字含 'There can be many implementations of the same ISA' 与完整实例清单，fail 报告 rationale 自认支持该 claim（verdict 与 rationale 矛盾），判定模型误判；第 3 次独立审计全 supported 佐证",
+  "actor_id": "zhouzijian01",
+  "actor_type": "human",
+  "reviewed_at": 1788441790.876844,
+  "wiki_content_sha256": "sha256:8f282de0c6d7931524b1d45e2b02ac87c332baffc5313c380ac6dd719c3ab2f6",
+  "wiki_evidence_sha256": "sha256:1f067cbb9cddf1a81475c9c82261d1b9f855968dd1cff317b4eb83fb98575a9d",
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "record_sha256": "sha256:9c218a4459977714ec5b09c909100f4c92f5f318fda7733998132dcdb52eac97"
+}

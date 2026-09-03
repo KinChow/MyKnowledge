@@ -9,16 +9,14 @@ evidence:
   claim_id: four-levels
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-2d675af33bf8
-    exact: '介绍四种不同层次的阅读—基
-
-      础阅读(elementary reading)、检视阅读(inspectionalreading)、分析阅读、主题阅读(syntopicalreading)'
-  - evidence_id: evidence-f9aa7ca713c9
-    exact: 阅读并没有在第二层次的阅读中消失，第二层又包含在第三层中，第三层又在第四层中。
+  - evidence_id: evidence-ba477d7c9b28
+    exact: 介绍四种不同层次的阅读—基 础阅读(elementary reading)、检视阅读(inspectionalreading)、分析阅读、主题阅读(syntopicalreading)
+  - evidence_id: evidence-6bcce7d04dcc
+    exact: 阅读并没有在第二层次的阅读中消失,第二层又包含在第三层中,第三层又在第四层中。
   targets:
-  - evidence_id: evidence-2d675af33bf8
+  - evidence_id: evidence-ba477d7c9b28
     source_id: how-to-read-a-book-book
-  - evidence_id: evidence-f9aa7ca713c9
+  - evidence_id: evidence-6bcce7d04dcc
     source_id: how-to-read-a-book-book
 id: how-to-read-a-book
 kind: knowledge

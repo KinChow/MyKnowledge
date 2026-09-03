@@ -9,26 +9,20 @@ attachments:
 confidentiality: public
 domain: work-methods
 evidence_items:
-- evidence_id: evidence-e2cf9a190efb
+- evidence_id: evidence-e3c264394106
   position:
-    end: 3199
-    start: 2958
+    end: 12
+    start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:0560250f48973f9e190f6aa75178aae62c8a2359080f3c5a6392e3d9c3fffc3b
+  quote_sha256: sha256:3adde3673d14df3386f3e1d74c1902f9b4c995d19770e5bef3a1161180bfe505
   selector:
-    exact: An after-action review (AAR) is a professional discussion of an event,
-      focused on performance standards, that enables soldiers to discover for themselves
-      what happened, why it happened, and how to sustain strengths and improve on
-      weaknesses.
-    prefix: 'POSE OF AFTER-ACTION REVIEWS**
-
-
-      '
-    suffix: ' It is a tool leaders and units '
+    exact: '**TC 25-20**'
+    prefix: ''
+    suffix: " \n\n# **A LEADER'S GUIDE TO AFTER"
     type: TextQuoteSelector
-  selector_sha256: sha256:af95646c85a50c7bba346dc2e75c542d733d69aba9c96045fc8c7d6762815f61
+  selector_sha256: sha256:296d91e20a7d459df92d3b0afd7229c510d17452569b2186ef7e222544f395cc
   snapshot_sha256: sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64
-- evidence_id: evidence-68b2a80bb990
+- evidence_id: evidence-b5be10ea5882
   position:
     end: 210
     start: 171
@@ -44,18 +38,45 @@ evidence_items:
     type: TextQuoteSelector
   selector_sha256: sha256:c4768db42645c0308ff308149159fe5c38a56e6cfac705a9196886b472a73871
   snapshot_sha256: sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64
-- evidence_id: evidence-c05892b14a9a
+- evidence_id: evidence-9d66098b1af0
   position:
-    end: 12
-    start: 0
+    end: 3289
+    start: 2958
     type: TextPositionSelector
-  quote_sha256: sha256:3adde3673d14df3386f3e1d74c1902f9b4c995d19770e5bef3a1161180bfe505
+  quote_sha256: sha256:8a5c047223920fe15366ec18f1ccab2302623252fe57d7ae51f5bc161cdb24c8
   selector:
-    exact: '**TC 25-20**'
-    prefix: ''
-    suffix: " \n\n# **A LEADER'S GUIDE TO AFTER"
+    exact: An after-action review (AAR) is a professional discussion of an event,
+      focused on performance standards, that enables soldiers to discover for themselves
+      what happened, why it happened, and how to sustain strengths and improve on
+      weaknesses. It is a tool leaders and units can use to get maximum benefit from
+      every mission or task.
+    prefix: 'POSE OF AFTER-ACTION REVIEWS**
+
+
+      '
+    suffix: ' It provides- -
+
+
+      - Candid insigh'
     type: TextQuoteSelector
-  selector_sha256: sha256:296d91e20a7d459df92d3b0afd7229c510d17452569b2186ef7e222544f395cc
+  selector_sha256: sha256:bf36c18bc968d7eb10d0216aa868049b14318ae30dbb9968fb184fd9a96d7f85
+  snapshot_sha256: sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64
+- evidence_id: evidence-37212beb83de
+  position:
+    end: 1969
+    start: 1877
+    type: TextPositionSelector
+  quote_sha256: sha256:7399fa9917e4a4fcdf17dee5db55f954e88495a3d35f157f2ca14fc52526947f
+  selector:
+    exact: This training circular (TC) is a leader's guide on how to plan, prepare,
+      and conduct an AAR.
+    prefix: 'st (METL) training objectives.
+
+
+      '
+    suffix: ' It supplements and expands the '
+    type: TextQuoteSelector
+  selector_sha256: sha256:9b23935db4c03027f7873fb65191aafda83d31a7a7c0bc50f488a8a6482ea5ec
   snapshot_sha256: sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64
 extractor: marker/2.0.0
 id: aar-tc25-20

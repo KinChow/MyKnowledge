@@ -9,22 +9,35 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-5f68cf369f34
+- evidence_id: evidence-8740808fd2b4
   position:
-    end: 5068
-    start: 4976
+    end: 5398
+    start: 4974
     type: TextPositionSelector
-  quote_sha256: sha256:f2d5dbccdc595fb720005b84c965d3cc868a685d1fc4ebd247c7854e3c7da130
+  quote_sha256: sha256:61960fe0719bde9588188ea11aff6171b55729287d6574710d4f3ae91a6c2122
   selector:
-    exact: Pipelining doesn't help latency of single instruction it helps throughput
-      of entire workload
-    prefix: '![](_page_16_Diagram_0.jpeg)
+    exact: '**Pipelining doesn''t help latency of single instruction it helps throughput
+      of entire workload Pipeline rate limited by slowest pipeline stage Potential
+      speedup = Number pipe stages Unbalanced lengths of pipe stages reduces speedup
+      Time to "fill" pipeline and time to "drain" it reduces speedup Speedup comes
+      from parallelism - for free – no new hardware Many pipelines are more complex
+      - Pentium 4 "Netburst" has 31 stages.'
+    prefix: '
 
 
-      **'
-    suffix: ' Pipeline rate limited by slowes'
+      ![](_page_16_Diagram_0.jpeg)
+
+
+      '
+    suffix: '**
+
+
+      # It''s Not That Easy
+
+
+      - Limi'
     type: TextQuoteSelector
-  selector_sha256: sha256:2377aa0359257b3b81fb6a875029c03e23123e858ff8548f9fe5f9d794c83cbf
+  selector_sha256: sha256:389b639aeae853f28831009ecfddd462d7cbdaf425d9e19d4d66e8233bfcd09f
   snapshot_sha256: sha256:b57021f3ebe49ea8aca788c1fbc9b766f6263ed3cda18354d71900d7dfd58755
 extractor: marker/2.0.0
 id: imperial-pipelines

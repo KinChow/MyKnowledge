@@ -9,152 +9,107 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-dafa299071d6
+- evidence_id: evidence-db047b8816d4
   position:
-    end: 21703
-    start: 21586
+    end: 21609
+    start: 21387
     type: TextPositionSelector
-  quote_sha256: sha256:d5a894249294d9d677623562036d8784c438329faaedb83d2e74d02e8d883c65
+  quote_sha256: sha256:55509a3d9cae9840f4b8eec22a37efec2858bf6824f6422fccb921d5755ae699
   selector:
-    exact: ' an earlier instruction
-
-      - Structural Hazards: An instruction in the pipeline needs a resource being
-      used by another i'
-    prefix: ds on a control decision made by
-    suffix: 'nstruction in the pipeline
-
-      - WAW'
-    type: TextQuoteSelector
-  selector_sha256: sha256:f109d9b22fe948502d71159f6780069f9ee721f3063708c1d0c7a2cb2df1a70c
-  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-c62d5232a704
-  position:
-    end: 26569
-    start: 26442
-    type: TextPositionSelector
-  quote_sha256: sha256:3205f0bad5844d0c7e487947cef4b8bd176750ea388d7c387771d86139af8e82
-  selector:
-    exact: 'zards: RAW Data Hazards**
-
-
-      RAW data hazards occur when one instruction depends on a data value produced
-      by a preceding instruct'
-    prefix: '           |
-
-
-      # **5. Pipeline Ha'
-    suffix: ion still in the pipeline. We us
-    type: TextQuoteSelector
-  selector_sha256: sha256:f96352053bbda4f1086b8014b9f4f0deeb8e0c15c6d0df760a9d65d94486c6f9
-  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-d4cda8ea4bf4
-  position:
-    end: 21583
-    start: 21457
-    type: TextPositionSelector
-  quote_sha256: sha256:5e5bf1e40de6d4ad82bf09806c82be0015b201a3fa87661c4d279f91bbc6734f
-  selector:
-    exact: ' an earlier instruction
+    exact: '- RAW Data Hazards: An instruction depends on a data value produced by
+      an earlier instruction
 
       - Control Hazards: Whether or not an instruction should be executed depends
-      on a control decision made'
-    prefix: ends on a data value produced by
-    suffix: ' by an earlier instruction
-
-      - Str'
-    type: TextQuoteSelector
-  selector_sha256: sha256:5f8f5a64fc8df3eb547082e467f3b6a2e5a63355e58d07e36bf8a8a4a652c135
-  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-0e5a1f0bf1be
-  position:
-    end: 21857
-    start: 21706
-    type: TextPositionSelector
-  quote_sha256: sha256:0878d481fa2631bb60ce273bc0b4db994b9ee20e443c78fe627eb1b01951ef10
-  selector:
-    exact: 'ruction in the pipeline
-
-      - WAW and WAR Name Hazards: An instruction in the pipeline is writing a register
-      that an earlier instruction in the pipeline is'
-    prefix: ource being used by another inst
-    suffix: ' either writing or reading
-
-
-      ####'
-    type: TextQuoteSelector
-  selector_sha256: sha256:8bc3f460c3f310da857e59b88232758bd53d236e4c5a92a0b2808679d3def766
-  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-fa89feb91a65
-  position:
-    end: 27395
-    start: 27251
-    type: TextPositionSelector
-  quote_sha256: sha256:68af772e49bef7e2266de597bfdea5322713254658b844cea4eb5d3a9ae88471
-  selector:
-    exact: 'duling for correctness)
-
-      - Hardware Scheduling: Hardware dynamically schedules instructions to avoid
-      RAW hazards, potentially allowing instructio'
-    prefix: ate hazards (i.e., software sche
-    suffix: 'ns to execute out of order
-
-      - Har'
-    type: TextQuoteSelector
-  selector_sha256: sha256:61a25768da2591d79b60300cdccd1453aa23f4afba5fc1c56af9bd59d4cb15b7
-  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-f9d0c88149fb
-  position:
-    end: 26595
-    start: 26469
-    type: TextPositionSelector
-  quote_sha256: sha256:de25639808cc3bcd3a603db29f1570f44855fc3a0b0acca0209ceabfdb82f421
-  selector:
-    exact: RAW data hazards occur when one instruction depends on a data value produced
-      by a preceding instruction still in the pipeline.
-    prefix: 'ne Hazards: RAW Data Hazards**
+      on a control decision made by an earlier instruction'
+    prefix: ' with each other in pipeline**
 
 
       '
-    suffix: ' We use architectural dependency'
+    suffix: '
+
+      - Structural Hazards: An instru'
     type: TextQuoteSelector
-  selector_sha256: sha256:d9cc053dfe2f7b9cd814a99fb672eb7e2ee78532efdc76d880d90779c8a42e30
+  selector_sha256: sha256:db9d8fdce708145c8d19a03b3f63b84cf5874bfc53ad2f1996e5dadd9d4cc480
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-5c4b286e4308
+- evidence_id: evidence-65f81b23e6e9
+  position:
+    end: 21729
+    start: 21481
+    type: TextPositionSelector
+  quote_sha256: sha256:dc049882d2b1b0ee89d3f1ebd0a6b97b0252b62d12c6100eba7de457cfa4e84d
+  selector:
+    exact: '- Control Hazards: Whether or not an instruction should be executed depends
+      on a control decision made by an earlier instruction
+
+      - Structural Hazards: An instruction in the pipeline needs a resource being
+      used by another instruction in the pipeline'
+    prefix: 'duced by an earlier instruction
+
+      '
+    suffix: '
+
+      - WAW and WAR Name Hazards: An '
+    type: TextQuoteSelector
+  selector_sha256: sha256:845109fcd9d5268122f20f7eaada0cede050b9a825cedc8d121e2268383499f4
+  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
+- evidence_id: evidence-9188927f56e6
   position:
     end: 21883
-    start: 21732
+    start: 21730
     type: TextPositionSelector
-  quote_sha256: sha256:d5feeb22f494422ee2b2fe8549175956b1130fefd283d1f68337f9c0e064ea07
+  quote_sha256: sha256:35653fad11030dca0eb2a010ca983282f169843238921afeab0546781cbf4a12
   selector:
-    exact: 'WAW and WAR Name Hazards: An instruction in the pipeline is writing a
-      register that an earlier instruction in the pipeline is either writing or reading'
-    prefix: 'r instruction in the pipeline
+    exact: '- WAW and WAR Name Hazards: An instruction in the pipeline is writing
+      a register that an earlier instruction in the pipeline is either writing or
+      reading'
+    prefix: 'her instruction in the pipeline
 
-      - '
+      '
     suffix: '
 
 
       #### **Stalling and squashing '
     type: TextQuoteSelector
-  selector_sha256: sha256:1eb84fec2587e4dd900442b409dd77b03551357edcfe8d1878b430d1d2ba977f
+  selector_sha256: sha256:8bb675cdc67b009c456d2ef63381f53192e36a088615d217d27143474d2affab
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
-- evidence_id: evidence-997223e6f9d9
+- evidence_id: evidence-68c51faacee8
+  position:
+    end: 26693
+    start: 26469
+    type: TextPositionSelector
+  quote_sha256: sha256:d94f7482b305abcd9c52dc972a68c8722aefc412083ec828b85653fc9d3aa119
+  selector:
+    exact: RAW data hazards occur when one instruction depends on a data value produced
+      by a preceding instruction still in the pipeline. We use architectural dependency
+      arrows to illustrate RAW dependencies in assembly code sequences.
+    prefix: 'ne Hazards: RAW Data Hazards**
+
+
+      '
+    suffix: '
+
+
+      addiu r1, r2, 1 addiu r3, r1, '
+    type: TextQuoteSelector
+  selector_sha256: sha256:1ee6740a285cc825a5c1e6d53f0efaaa637b3bfa899e67b2717530dc86df5f38
+  snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
+- evidence_id: evidence-542c880e2f2d
   position:
     end: 27421
-    start: 27277
+    start: 27275
     type: TextPositionSelector
-  quote_sha256: sha256:f8e684f82b100790595f35eae8c0ed1efcf0d1799b027452edecd32c5484af9c
+  quote_sha256: sha256:3fe59e175fac1e7308a19bd26d58eaf98ff876dea093802702ef7ab02a985254
   selector:
-    exact: 'Hardware Scheduling: Hardware dynamically schedules instructions to avoid
-      RAW hazards, potentially allowing instructions to execute out of order'
-    prefix: 'e scheduling for correctness)
+    exact: '- Hardware Scheduling: Hardware dynamically schedules instructions to
+      avoid RAW hazards, potentially allowing instructions to execute out of order'
+    prefix: 'are scheduling for correctness)
 
-      - '
+      '
     suffix: '
 
       - Hardware Stalling: Hardware i'
     type: TextQuoteSelector
-  selector_sha256: sha256:b58ecaf7c327d13deb14e0cec771ddeac1247281735f2640b0b1bc8fa301d291
+  selector_sha256: sha256:fc720d5e47f117956cbf5b8b67c35c3624d0fe3bec4606aa7a2d1280a30d5fc9
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
 extractor: marker/2.0.0
 id: cornell-processor-microarchitecture

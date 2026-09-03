@@ -3,21 +3,24 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-37ff700ccf96
+- evidence_id: evidence-45e7cc979163
   position:
-    end: 1454
+    end: 1487
     start: 1300
     type: TextPositionSelector
-  quote_sha256: sha256:3e2ec44dd5725902cc47341225a1152dfeae71fa7890554bef7cee279be32e14
+  quote_sha256: sha256:5f4c7d38857858701f695c3ff0093ffcac105007dc38f86b86ded0ee4d498233
   selector:
     exact: In the Arm memory model, the Shareability memory attribute indicates the
       degree to which hardware must ensure memory coherency between a set of observers.
+      See Memory types and attributes.
     prefix: 'emory accesses, see Reordering.
 
       '
-    suffix: ' See Memory types and attributes'
+    suffix: '
+
+      The Arm architecture defines ad'
     type: TextQuoteSelector
-  selector_sha256: sha256:7fc58b08a6633d7c0d6232a41bbcd0b6ddea2022fbab4b42f4ee04935677a124
+  selector_sha256: sha256:4a3376470643b4de4390086ac911fca624dcb72fde0cfccbc08e6515a84a6c7d
   snapshot_sha256: sha256:b25a5339e746f012a89096b9b67ceaa33a3bb68a1eb8a5d89fb9a314641102a3
 extractor: trafilatura/2.2.0
 id: arm-ddi0487-memory-model

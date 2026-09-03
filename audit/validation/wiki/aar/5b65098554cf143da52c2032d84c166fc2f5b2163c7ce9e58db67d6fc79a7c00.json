@@ -1,0 +1,247 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "aar",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_bbaa15498cec",
+  "input_hash": "sha256:6d2debab5ee42a719047ebf31635684d6b87107c4da5fec52d612563208b6d0a",
+  "provider_duration_ms": 45444,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788441118.034306,
+  "wiki_content_sha256": "sha256:e1b74a2c5d713d058251d6b5d62402ac578777ecfb7633ea5d15af69a4b9c96d",
+  "wiki_evidence_sha256": "sha256:d22fea194e295f6ba1f81892f3d01842f45f689d6c0926fd93bd7abbf7a8f0f6",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-9d66098b1af0",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:bf36c18bc968d7eb10d0216aa868049b14318ae30dbb9968fb184fd9a96d7f85",
+      "quote_sha256": "sha256:8a5c047223920fe15366ec18f1ccab2302623252fe57d7ae51f5bc161cdb24c8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-b5be10ea5882",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:c4768db42645c0308ff308149159fe5c38a56e6cfac705a9196886b472a73871",
+      "quote_sha256": "sha256:8a11d174fc1cdc6bb51a33f6fdcbf28c016a2500db81520d0e73cefeac905676"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-e3c264394106",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:296d91e20a7d459df92d3b0afd7229c510d17452569b2186ef7e222544f395cc",
+      "quote_sha256": "sha256:3adde3673d14df3386f3e1d74c1902f9b4c995d19770e5bef3a1161180bfe505"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9d66098b1af0",
+          "exact": "An after-action review (AAR) is a professional discussion of an event, focused on performance standards, that enables soldiers to discover for themselves what happened, why it happened, and how to sustain strengths and improve on weaknesses. It is a tool leaders and units can use to get maximum benefit from every mission or task."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "引文明确将 AAR 定义为聚焦绩效标准的事件专业讨论，并说明其使士兵自行发现发生了什么、为什么发生，以及如何保持优势和改进不足，完整覆盖 claim 的核心内容。",
+      "rationale_offsets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0",
+          "start": 0,
+          "end": 330
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "aar-tc25-20",
+            "evidence_id": "evidence-9d66098b1af0"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "army-origin",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882"
+        },
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b5be10ea5882",
+          "exact": "**HEADQUARTERS DEPARTMENT OF THE ARMY**"
+        },
+        {
+          "evidence_id": "evidence-e3c264394106",
+          "exact": "**TC 25-20**"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "两条引文分别给出 Department of the Army 的抬头和 TC 25-20 的编号，支持该文档与美国陆军及该编号的关联；但引文未明确说明 TC 25-20 是训练通告或由该部门发布，因此仅部分支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882",
+          "start": 0,
+          "end": 39
+        },
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106",
+          "start": 0,
+          "end": 12
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "aar-tc25-20",
+            "evidence_id": "evidence-b5be10ea5882"
+          },
+          {
+            "source_id": "aar-tc25-20",
+            "evidence_id": "evidence-e3c264394106"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "definition",
+      "source_id": "aar-tc25-20",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "army-origin",
+      "source_id": "aar-tc25-20",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "army-origin",
+      "source_id": "aar-tc25-20",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 2,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}
