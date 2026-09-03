@@ -1,0 +1,391 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "aar",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_d8c994d524ba",
+  "input_hash": "sha256:fdfbbce2b97c267f414ada67c9b64da8532b9b6c2c93b019e00553831e75f077",
+  "provider_duration_ms": 38293,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788441250.100372,
+  "wiki_content_sha256": "sha256:e1b74a2c5d713d058251d6b5d62402ac578777ecfb7633ea5d15af69a4b9c96d",
+  "wiki_evidence_sha256": "sha256:4bbf7b246a4fffad8dadfb9e74cb277bb7f08a9339377d2fbb3e3f53579ec782",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-9d66098b1af0",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:bf36c18bc968d7eb10d0216aa868049b14318ae30dbb9968fb184fd9a96d7f85",
+      "quote_sha256": "sha256:8a5c047223920fe15366ec18f1ccab2302623252fe57d7ae51f5bc161cdb24c8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-b5be10ea5882",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:c4768db42645c0308ff308149159fe5c38a56e6cfac705a9196886b472a73871",
+      "quote_sha256": "sha256:8a11d174fc1cdc6bb51a33f6fdcbf28c016a2500db81520d0e73cefeac905676"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-e3c264394106",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:296d91e20a7d459df92d3b0afd7229c510d17452569b2186ef7e222544f395cc",
+      "quote_sha256": "sha256:3adde3673d14df3386f3e1d74c1902f9b4c995d19770e5bef3a1161180bfe505"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aar-tc25-20"
+      },
+      "source_id": "aar-tc25-20",
+      "evidence_id": "evidence-37212beb83de",
+      "snapshot_sha256": "sha256:53f278d325ff078adf7b33c80d76bdb03981cf8ef5cdc9cdafc55d585624cf64",
+      "selector_sha256": "sha256:9b23935db4c03027f7873fb65191aafda83d31a7a7c0bc50f488a8a6482ea5ec",
+      "quote_sha256": "sha256:7399fa9917e4a4fcdf17dee5db55f954e88495a3d35f157f2ca14fc52526947f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9d66098b1af0",
+          "exact": "An after-action review (AAR) is a professional discussion of an event, focused on performance standards, that enables soldiers to discover for themselves what happened, why it happened, and how to sustain strengths and improve on weaknesses. It is a tool leaders and units can use to get maximum benefit from every mission or task."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-9d66098b1af0",
+          "subject": "AAR",
+          "predicate": "is",
+          "object": "a professional discussion of an event focused on performance standards, enabling soldiers to discover what happened, why, and how to sustain strengths and improve weaknesses",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-9d66098b1af0 的 [0,242) 直接将 AAR 定义为“professional discussion of an event”，并明确其“focused on performance standards”；同一区间明确其使士兵自行发现发生了什么、为什么发生，以及如何保持优势、改进不足，覆盖 claim 的全部定义性要素。",
+      "rationale_offsets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0",
+          "start": 0,
+          "end": 242
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "army-origin",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882"
+        },
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106"
+        },
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-37212beb83de"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b5be10ea5882",
+          "exact": "**HEADQUARTERS DEPARTMENT OF THE ARMY**"
+        },
+        {
+          "evidence_id": "evidence-e3c264394106",
+          "exact": "**TC 25-20**"
+        },
+        {
+          "evidence_id": "evidence-37212beb83de",
+          "exact": "This training circular (TC) is a leader's guide on how to plan, prepare, and conduct an AAR."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b5be10ea5882",
+          "subject": "document headquarters",
+          "predicate": "is",
+          "object": "Department of the Army",
+          "qualifiers": {}
+        },
+        {
+          "evidence_id": "evidence-e3c264394106",
+          "subject": "document",
+          "predicate": "has identifier",
+          "object": "TC 25-20",
+          "qualifiers": {}
+        },
+        {
+          "evidence_id": "evidence-37212beb83de",
+          "subject": "document",
+          "predicate": "is",
+          "object": "a training circular (TC)",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "evidence-b5be10ea5882 的 [0,39) 标明“HEADQUARTERS DEPARTMENT OF THE ARMY”；evidence-e3c264394106 的 [0,12) 给出编号“TC 25-20”；evidence-37212beb83de 的 [0,92) 明确称该文档为“training circular (TC)”。三条 target 引文合并直接覆盖机构、编号和文档类型。",
+      "rationale_offsets": [
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882",
+          "start": 0,
+          "end": 39
+        },
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106",
+          "start": 0,
+          "end": 12
+        },
+        {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-37212beb83de",
+          "start": 0,
+          "end": 92
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:a11a4db90389ee92fcd85f698c61e1be990d2ae0f109bb6a5a2ab0065eb6fd32"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:d1d1a0a4424965fb66da735b5314390501474c8f966d5ce91974fdd6eb38785c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:a11a4db90389ee92fcd85f698c61e1be990d2ae0f109bb6a5a2ab0065eb6fd32"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:3f8746b45091889b2484c6176d7f4d5400eb76aad5e90660f3941b313b28a498"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-9d66098b1af0",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:a11a4db90389ee92fcd85f698c61e1be990d2ae0f109bb6a5a2ab0065eb6fd32"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-37212beb83de",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:b4ef0e85495067749dfcb679828a218d220bc7d48eeabaeae807a8c03dff3460"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:d1d1a0a4424965fb66da735b5314390501474c8f966d5ce91974fdd6eb38785c"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:3f8746b45091889b2484c6176d7f4d5400eb76aad5e90660f3941b313b28a498"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-b5be10ea5882",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:d1d1a0a4424965fb66da735b5314390501474c8f966d5ce91974fdd6eb38785c"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-37212beb83de",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:b4ef0e85495067749dfcb679828a218d220bc7d48eeabaeae807a8c03dff3460"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-e3c264394106",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:3f8746b45091889b2484c6176d7f4d5400eb76aad5e90660f3941b313b28a498"
+        },
+        "target_b": {
+          "source_id": "aar-tc25-20",
+          "evidence_id": "evidence-37212beb83de",
+          "independence_group": "source:aar-tc25-20",
+          "observation_sha256": "sha256:b4ef0e85495067749dfcb679828a218d220bc7d48eeabaeae807a8c03dff3460"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aar-tc25-20",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "army-origin",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 3,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

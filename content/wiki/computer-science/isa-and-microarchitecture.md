@@ -9,7 +9,7 @@ evidence:
   claim_id: isa-definition
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-76d824f0f11f
+  - evidence_id: evidence-1a37cd32c397
     exact: '◼ The ISA is the interface between what the software commands and what
       the hardware carries out ◼ The ISA specifies ❑ The memory organization ◼ Address
       space (LC-3: 2<sup>16</sup>, MIPS: 2<sup>32</sup>) ◼ Addressability (LC-3: 16
@@ -17,42 +17,34 @@ evidence:
       (R0 to R7) in LC-3 ◼ 32 registers in MIPS ❑ The instruction set ◼ Opcodes ◼
       Data types ◼ Addressing modes ◼ Length and format of instructions Microarchitecture
       ISA Program Algorithm Problem Circuits Electrons'
-  - evidence_id: evidence-aaa2bf3aeecb
+  - evidence_id: evidence-fa9a29315420
     exact: ◼ **Traditional (ISA-only) definition:** "The term architecture is used
       here to describe the attributes of a system as seen by the programmer, i.e.,
       the conceptual structure and functional behavior **as distinct from** the organization
       of the dataflow and controls, the logic design, and the physical implementation.
   targets:
-  - evidence_id: evidence-76d824f0f11f
+  - evidence_id: evidence-1a37cd32c397
     source_id: ddca-lecture8-isa-ii
-  - evidence_id: evidence-aaa2bf3aeecb
+  - evidence_id: evidence-fa9a29315420
     source_id: ddca-lecture8-isa-ii
 - claim: 微架构是 ISA 的具体实现，描述如何实际执行指令；可在遵循 ISA 语义的前提下乱序执行，同时把指令结果按 ISA 规定的顺序呈现给软件。
   claim_id: isa-vs-micro
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-89dd693bb82f
-    exact: '❑ Programmer sees a dataflow execution order ◼ Microarchitecture: How
-      the **underlying implementation actually executes** instructions ❑ Microarchitecture
-      can execute instructions in any order as long as it obeys the semantics specified
-      by the ISA when making the instruction results visible to software ◼Programmer
-      should see the order specified by the ISA'
-  - evidence_id: evidence-9261bf0232f6
+  - evidence_id: evidence-99b25955f40a
     exact: '❑ Programmer sees a dataflow execution order ◼ Microarchitecture: How
       the **underlying implementation actually executes** instructions ❑ Microarchitecture
       can execute instructions in any order as long as it obeys the semantics specified
       by the ISA when making the instruction results visible to software ◼Programmer
       should see the order specified by the ISA'
   targets:
-  - evidence_id: evidence-89dd693bb82f
-    source_id: ddca-lecture9a-isa-microarchitecture
-  - evidence_id: evidence-9261bf0232f6
+  - evidence_id: evidence-99b25955f40a
     source_id: ddca-lecture9a-isa-microarchitecture
 - claim: 同一 ISA 可以有多个不同的微架构实现。
   claim_id: same-isa-implementations
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-e0311e1a59ac
+  - evidence_id: evidence-962563aa0e01
     exact: '◼ A specific **implementation** of the ISA ◼ How do we implement the ISA?
       ❑ We will discuss this for many lectures ◼ There can be many implementations
       of the same ISA ❑ **MIPS** R2000, R3000, R4000, R6000, R8000, R10000, … ❑ **x86**:
@@ -63,86 +55,86 @@ evidence:
       M1, … ❑ **Alpha** 21064, 21164, 21264, 21364, … ❑ **RISC-V** … ❑ **z/Architecture**
       … ❑ … 69'
   targets:
-  - evidence_id: evidence-e0311e1a59ac
+  - evidence_id: evidence-962563aa0e01
     source_id: ddca-lecture9a-isa-microarchitecture
 - claim: 典型 RISC 倾向采用简单编码和 load/store，典型 CISC 倾向采用复杂或变长编码并可在单条指令内执行多个操作。
   claim_id: risc-cisc-tendencies
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-98b2dcfb85bb
+  - evidence_id: evidence-2339f6e0de43
     exact: '- RISC uses a small set of simple, fixed-length instructions and follows
       a load/store approach, enabling efficient and fast execution.'
-  - evidence_id: evidence-83016287d4c5
+  - evidence_id: evidence-a1d5f1e8c5ff
     exact: '- CISC uses a larger set of complex, variable-length instructions that
       can perform multiple operations, often requiring multiple clock cycles.'
   targets:
-  - evidence_id: evidence-98b2dcfb85bb
+  - evidence_id: evidence-2339f6e0de43
     source_id: risc-cisc
-  - evidence_id: evidence-83016287d4c5
+  - evidence_id: evidence-a1d5f1e8c5ff
     source_id: risc-cisc
 - claim: GPU 也可以拥有 ISA；NVIDIA PTX 是面向 GPU 的虚拟机和 ISA，并可翻译为目标硬件指令集。
   claim_id: gpu-isa
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-0825f3e4aba0
+  - evidence_id: evidence-57912b49617c
     exact: This document describes PTX, a low-level parallel thread execution virtual
       machine and instruction set architecture (ISA). PTX exposes the GPU as a data-parallel
       computing device.
-  - evidence_id: evidence-5a6f446b88b5
+  - evidence_id: evidence-924fdf3f14ca
     exact: PTX programs are translated at install time to the target hardware instruction
       set. The PTX-to-GPU translator and driver enable NVIDIA GPUs to be used as programmable
       parallel computers.
   targets:
-  - evidence_id: evidence-0825f3e4aba0
+  - evidence_id: evidence-57912b49617c
     source_id: nvidia-ptx-isa
-  - evidence_id: evidence-5a6f446b88b5
+  - evidence_id: evidence-924fdf3f14ca
     source_id: nvidia-ptx-isa
 - claim: Arm AArch64 状态使用固定长度的 A64 指令集，指令编码为 32 位。
   claim_id: arm-a64-encoding
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-457f06b7cbd6
+  - evidence_id: evidence-1bf0681f2918
     exact: AArch64 state supports a single instruction set, called A64. This is a
       fixed-length instruction set that uses 32-bit instruction encodings.
   targets:
-  - evidence_id: evidence-457f06b7cbd6
+  - evidence_id: evidence-1bf0681f2918
     source_id: arm-ddi0487-instruction-sets
 - claim: AArch64 的 R0-R30 是 31 个通用寄存器，分别可按 X0-X30 或 W0-W30 访问；SP 与 PC 是独立的架构状态。
   claim_id: arm-aarch64-registers
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-d0548a3bb06a
+  - evidence_id: evidence-29cc639ee281
     exact: '31 general-purpose registers, R0 to R30. Each can be accessed as:'
-  - evidence_id: evidence-3523e066d483
+  - evidence_id: evidence-1061d87ee77e
     exact: A 64-bit general-purpose register named X0 to X30.
-  - evidence_id: evidence-d02733c9167f
+  - evidence_id: evidence-8c92e4905685
     exact: A 32-bit general-purpose register named W0 to W30.
-  - evidence_id: evidence-326ee57b6b2b
+  - evidence_id: evidence-c1301b51c8bc
     exact: A 64-bit dedicated Stack Pointer register. The least significant 32 bits
       of the stack pointer can be accessed using the register name WSP.
-  - evidence_id: evidence-6d0028ea3af7
+  - evidence_id: evidence-6d7187d33635
     exact: A 64-bit Program Counter holding the address of the current instruction.
   targets:
-  - evidence_id: evidence-d0548a3bb06a
+  - evidence_id: evidence-29cc639ee281
     source_id: arm-ddi0487-aarch64-registers
-  - evidence_id: evidence-3523e066d483
+  - evidence_id: evidence-1061d87ee77e
     source_id: arm-ddi0487-aarch64-registers
-  - evidence_id: evidence-d02733c9167f
+  - evidence_id: evidence-8c92e4905685
     source_id: arm-ddi0487-aarch64-registers
-  - evidence_id: evidence-326ee57b6b2b
+  - evidence_id: evidence-c1301b51c8bc
     source_id: arm-ddi0487-aarch64-registers
-  - evidence_id: evidence-6d0028ea3af7
+  - evidence_id: evidence-6d7187d33635
     source_id: arm-ddi0487-aarch64-registers
 - claim: Arm 内存模型中的 Shareability 属性规定硬件需要在一组观察者之间保证的内存一致性程度。
   claim_id: arm-memory-coherency
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-6e29eb7770bb
+  - evidence_id: evidence-45e7cc979163
     exact: In the Arm memory model, the Shareability memory attribute indicates the
       degree to which hardware must ensure memory coherency between a set of observers.
       See Memory types and attributes.
   targets:
-  - evidence_id: evidence-6e29eb7770bb
+  - evidence_id: evidence-45e7cc979163
     source_id: arm-ddi0487-memory-model
 id: isa-and-microarchitecture
 kind: knowledge

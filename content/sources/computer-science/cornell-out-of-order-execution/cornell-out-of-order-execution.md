@@ -9,146 +9,52 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-5c6395a09514
+- evidence_id: evidence-ebf68b3329f2
+  position:
+    end: 10682
+    start: 10554
+    type: TextPositionSelector
+  quote_sha256: sha256:b4377a61443aa68c136b280d68453c76d1a6c3b3926dccf9696f30609e51f5a2
+  selector:
+    exact: "- Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated
+      out-of-order in W stage\n  - deallocated in-order in C stage"
+    prefix: 'uture regfile, working regfile)
+
+      '
+    suffix: '
+
+      - WAW hazards are possible, whi'
+    type: TextQuoteSelector
+  selector_sha256: sha256:f0de03666926938af85afab1d5978379d7c6f52379a771dcfa53663cbcde653a
+  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
+- evidence_id: evidence-09b58cd6677b
+  position:
+    end: 11147
+    start: 11099
+    type: TextPositionSelector
+  quote_sha256: sha256:aecdfb18b186f44e2757738430246b8f03e15b0a37a030cb0b85546d8e0d31d0
+  selector:
+    exact: '- new instructions allocated ROB entries at tail'
+    prefix: "lemented with circular buffer\n  "
+    suffix: "\n  - instructions update pending"
+    type: TextQuoteSelector
+  selector_sha256: sha256:f30157ad791e0d5ad9d3e2b4d9169698a05d2dc5628a9931c2d01022ccc38816
+  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
+- evidence_id: evidence-38824228f5d4
   position:
     end: 11255
-    start: 11201
+    start: 11199
     type: TextPositionSelector
-  quote_sha256: sha256:4944b50ca3c651d30a717c7f8ab98a495a7b37a23848b282b77dc630cf3a46b8
+  quote_sha256: sha256:7231413ca66b9b732559d1cb9e626411b2a3f9251cdb82812492030e7d8456a7
   selector:
-    exact: commit stage waits for pending bit of head to be clear
-    prefix: "te pending bit out-of-order\n  - "
+    exact: '- commit stage waits for pending bit of head to be clear'
+    prefix: "date pending bit out-of-order\n  "
     suffix: '
 
 
       #### **Example Execution Diagr'
     type: TextQuoteSelector
-  selector_sha256: sha256:356adf9c76ef68b046160ab74193c5adf310c45e7f02c9de7d4aa679da8d9b30
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-4b1166aaeae2
-  position:
-    end: 11147
-    start: 11101
-    type: TextPositionSelector
-  quote_sha256: sha256:1bfc6c0c13a45e2e8b64531c25bc3d166f67a061fac1e587bf547e4a7d8a04bd
-  selector:
-    exact: new instructions allocated ROB entries at tail
-    prefix: "mented with circular buffer\n  - "
-    suffix: "\n  - instructions update pending"
-    type: TextQuoteSelector
-  selector_sha256: sha256:56b8678bedd5f67a06e17f614a9c2715b69e9c51e1539a99ed5f88564086df4b
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-a36154c3e4b6
-  position:
-    end: 10682
-    start: 10556
-    type: TextPositionSelector
-  quote_sha256: sha256:c1cb85dc5e61628002fe951ac91159c42056837563e366f1bb47a52817e5ea37
-  selector:
-    exact: "Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated out-of-order
-      in W stage\n  - deallocated in-order in C stage"
-    prefix: 'ure regfile, working regfile)
-
-      - '
-    suffix: '
-
-      - WAW hazards are possible, whi'
-    type: TextQuoteSelector
-  selector_sha256: sha256:f31d7ad1a57686faf58c22592ee267bba459158051fd4a285e917871f2e5ca91
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-2f13b11e218b
-  position:
-    end: 11255
-    start: 11201
-    type: TextPositionSelector
-  quote_sha256: sha256:4944b50ca3c651d30a717c7f8ab98a495a7b37a23848b282b77dc630cf3a46b8
-  selector:
-    exact: commit stage waits for pending bit of head to be clear
-    prefix: "te pending bit out-of-order\n  - "
-    suffix: '
-
-
-      #### **Example Execution Diagr'
-    type: TextQuoteSelector
-  selector_sha256: sha256:356adf9c76ef68b046160ab74193c5adf310c45e7f02c9de7d4aa679da8d9b30
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-dfad207084f7
-  position:
-    end: 11147
-    start: 11101
-    type: TextPositionSelector
-  quote_sha256: sha256:1bfc6c0c13a45e2e8b64531c25bc3d166f67a061fac1e587bf547e4a7d8a04bd
-  selector:
-    exact: new instructions allocated ROB entries at tail
-    prefix: "mented with circular buffer\n  - "
-    suffix: "\n  - instructions update pending"
-    type: TextQuoteSelector
-  selector_sha256: sha256:56b8678bedd5f67a06e17f614a9c2715b69e9c51e1539a99ed5f88564086df4b
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-536214b9dc5b
-  position:
-    end: 10682
-    start: 10556
-    type: TextPositionSelector
-  quote_sha256: sha256:c1cb85dc5e61628002fe951ac91159c42056837563e366f1bb47a52817e5ea37
-  selector:
-    exact: "Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated out-of-order
-      in W stage\n  - deallocated in-order in C stage"
-    prefix: 'ure regfile, working regfile)
-
-      - '
-    suffix: '
-
-      - WAW hazards are possible, whi'
-    type: TextQuoteSelector
-  selector_sha256: sha256:f31d7ad1a57686faf58c22592ee267bba459158051fd4a285e917871f2e5ca91
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-c0c1aa5b322a
-  position:
-    end: 11255
-    start: 11201
-    type: TextPositionSelector
-  quote_sha256: sha256:4944b50ca3c651d30a717c7f8ab98a495a7b37a23848b282b77dc630cf3a46b8
-  selector:
-    exact: commit stage waits for pending bit of head to be clear
-    prefix: "te pending bit out-of-order\n  - "
-    suffix: '
-
-
-      #### **Example Execution Diagr'
-    type: TextQuoteSelector
-  selector_sha256: sha256:356adf9c76ef68b046160ab74193c5adf310c45e7f02c9de7d4aa679da8d9b30
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-77edc60b478e
-  position:
-    end: 11147
-    start: 11101
-    type: TextPositionSelector
-  quote_sha256: sha256:1bfc6c0c13a45e2e8b64531c25bc3d166f67a061fac1e587bf547e4a7d8a04bd
-  selector:
-    exact: new instructions allocated ROB entries at tail
-    prefix: "mented with circular buffer\n  - "
-    suffix: "\n  - instructions update pending"
-    type: TextQuoteSelector
-  selector_sha256: sha256:56b8678bedd5f67a06e17f614a9c2715b69e9c51e1539a99ed5f88564086df4b
-  snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
-- evidence_id: evidence-c8d9bf0677ec
-  position:
-    end: 10682
-    start: 10556
-    type: TextPositionSelector
-  quote_sha256: sha256:c1cb85dc5e61628002fe951ac91159c42056837563e366f1bb47a52817e5ea37
-  selector:
-    exact: "Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated out-of-order
-      in W stage\n  - deallocated in-order in C stage"
-    prefix: 'ure regfile, working regfile)
-
-      - '
-    suffix: '
-
-      - WAW hazards are possible, whi'
-    type: TextQuoteSelector
-  selector_sha256: sha256:f31d7ad1a57686faf58c22592ee267bba459158051fd4a285e917871f2e5ca91
+  selector_sha256: sha256:267d02c6d48419b077f4c784f8abc8570c494c8ae3e8edd04e12af6b2bd5aa09
   snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
 extractor: marker/2.0.0
 id: cornell-out-of-order-execution

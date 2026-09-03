@@ -9,20 +9,24 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-c938cb25c7de
+- evidence_id: evidence-47e5f178256f
   position:
-    end: 351
-    start: 159
+    end: 357
+    start: 73
     type: TextPositionSelector
-  quote_sha256: sha256:e3eea30c7baca28749ff2408c57473bb2e4c07919f8d65ce6329e824daee7643
+  quote_sha256: sha256:46e6c2bef8ab895f4e8e9073506335c8356776867a1abfe0688ab4bfb1c19646
   selector:
-    exact: also known as l = λw, which asserts that the time average number of customers
-      in a queueing system, l, is equal to the rate at which customers arrive, λ,
-      × the average sojourn time of a custom
-    prefix: 'ing theory called Little''s Law, '
-    suffix: er, w. For example, in a four-ye
+    exact: We consider here a famous and very useful law in queueing theory called
+      Little's Law, also known as l = λw, which asserts that the time average number
+      of customers in a queueing system, l, is equal to the rate at which customers
+      arrive, λ, × the average sojourn time of a customer, w.
+    prefix: 'Notes on Little''s Law (l = λw)
+
+
+      '
+    suffix: ' For example, in a four-year col'
     type: TextQuoteSelector
-  selector_sha256: sha256:ddb09d40d312d002c6c869aaeefdc98ac9b914e7fd9c79e463398e45d237e7dc
+  selector_sha256: sha256:161219d8b2fcf0b28e3de09c8edfd23160a755ae6a014172d0b6a7248e3c220c
   snapshot_sha256: sha256:408794bd88c35946641905060169edf0e5172666a9e9857fe60c520676ff9159
 extractor: marker/2.0.0
 id: little-law-columbia

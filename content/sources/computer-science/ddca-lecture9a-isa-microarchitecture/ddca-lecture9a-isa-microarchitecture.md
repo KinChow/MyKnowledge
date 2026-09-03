@@ -9,90 +9,57 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-6d674ff064e5
+- evidence_id: evidence-99b25955f40a
   position:
-    end: 14477
-    start: 14311
+    end: 14527
+    start: 14170
     type: TextPositionSelector
-  quote_sha256: sha256:d6b2e1b60cb873fac42ea6f5e97ea9fc9b23ecd87b561f012cd94d3e91440df4
+  quote_sha256: sha256:3380320bff8bd31a0382c750bac92fc5b0f886a5e7ed0ff65ad2a4217288d251
   selector:
-    exact: oarchitecture can execute instructions in any order as long as it obeys
-      the semantics specified by the ISA when making the instruction results visible
-      to software ◼Pr
-    prefix: y executes** instructions ❑ Micr
-    suffix: ogrammer should see the order sp
+    exact: '❑ Programmer sees a dataflow execution order ◼ Microarchitecture: How
+      the **underlying implementation actually executes** instructions ❑ Microarchitecture
+      can execute instructions in any order as long as it obeys the semantics specified
+      by the ISA when making the instruction results visible to software ◼Programmer
+      should see the order specified by the ISA'
+    prefix: 'ontrol-flow execution order vs. '
+    suffix: '
+
+
+      #### Let''s Get Back to the von'
     type: TextQuoteSelector
-  selector_sha256: sha256:b54dc0279e1649d2d1cd816a5b1aa670270bf7a8bd62638b289fbf292ed57db9
+  selector_sha256: sha256:60d7a8b6df7f0750418e7d9caf182b1942c062e2d159a534a6574abd22d775f3
   snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
-- evidence_id: evidence-22e3931118cd
+- evidence_id: evidence-962563aa0e01
   position:
-    end: 14477
-    start: 14311
+    end: 17844
+    start: 17211
     type: TextPositionSelector
-  quote_sha256: sha256:d6b2e1b60cb873fac42ea6f5e97ea9fc9b23ecd87b561f012cd94d3e91440df4
+  quote_sha256: sha256:9a155cf5c8656bb4d74d595bee434207e9437aae52662bb455acd1b8cb9a9790
   selector:
-    exact: oarchitecture can execute instructions in any order as long as it obeys
-      the semantics specified by the ISA when making the instruction results visible
-      to software ◼Pr
-    prefix: y executes** instructions ❑ Micr
-    suffix: ogrammer should see the order sp
+    exact: '◼ A specific **implementation** of the ISA ◼ How do we implement the ISA?
+      ❑ We will discuss this for many lectures ◼ There can be many implementations
+      of the same ISA ❑ **MIPS** R2000, R3000, R4000, R6000, R8000, R10000, … ❑ **x86**:
+      Intel 80486, Pentium, Pentium Pro, Pentium 4, Kaby Lake, Coffee Lake, Comet
+      Lake, Ice Lake, Golden Cove, Sapphire Rapids, …, AMD K5, K7, K9, Bulldozer,
+      BobCat, Ryzen X, … ❑ **POWER** 4, 5, 6, 7, 8, 9, 10 (IBM), …, **PowerPC** 604,
+      605, 620, … ❑ **ARM** Cortex-M\*, ARM Cortex-A\*, NVIDIA Denver, Apple A\*,
+      M1, … ❑ **Alpha** 21064, 21164, 21264, 21364, … ❑ **RISC-V** … ❑ **z/Architecture**
+      … ❑ … 69'
+    prefix: 'ectrons
+
+
+      ### Microarchitecture
+
+
+      '
+    suffix: '
+
+
+      ### ISA vs. Microarchitecture
+
+      '
     type: TextQuoteSelector
-  selector_sha256: sha256:b54dc0279e1649d2d1cd816a5b1aa670270bf7a8bd62638b289fbf292ed57db9
-  snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
-- evidence_id: evidence-edc131ff7b4a
-  position:
-    end: 17385
-    start: 17336
-    type: TextPositionSelector
-  quote_sha256: sha256:c4ea09e47f5e7cc67bfaaa341ec845c425779ab050d7c27780924162f24cc3c8
-  selector:
-    exact: n be many implementations of the same ISA ❑ **MIP
-    prefix: his for many lectures ◼ There ca
-    suffix: 'S** R2000, R3000, R4000, R6000, '
-    type: TextQuoteSelector
-  selector_sha256: sha256:cb5f0350ca25e9c0035a92b7fe2c157766005b8596b5ad35962e3366cb47603e
-  snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
-- evidence_id: evidence-859ce5f60b51
-  position:
-    end: 14304
-    start: 14217
-    type: TextPositionSelector
-  quote_sha256: sha256:040497ee604f02a66bd55e1017d41b1d4c3e4589251e56db7658c8adb3a8d24d
-  selector:
-    exact: 'Microarchitecture: How the **underlying implementation actually executes**
-      instructions'
-    prefix: 'es a dataflow execution order ◼ '
-    suffix: ' ❑ Microarchitecture can execute'
-    type: TextQuoteSelector
-  selector_sha256: sha256:b539eec376bc82f66e22ee745f9bec2f8fbf3cafa59fe09e03c06dc9fe5d2e17
-  snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
-- evidence_id: evidence-8984338855f8
-  position:
-    end: 14473
-    start: 14307
-    type: TextPositionSelector
-  quote_sha256: sha256:93fa0258ace39551fbb2a45a6ca95d41a859eb64f0392279ece394be651fd882
-  selector:
-    exact: Microarchitecture can execute instructions in any order as long as it obeys
-      the semantics specified by the ISA when making the instruction results visible
-      to software
-    prefix: 'ually executes** instructions ❑ '
-    suffix: ' ◼Programmer should see the orde'
-    type: TextQuoteSelector
-  selector_sha256: sha256:12a50649d55d55dfc3f67e523e8d76a3c8cfa1c92a9cb121b09c4a9852fdde08
-  snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
-- evidence_id: evidence-57d23e8af00a
-  position:
-    end: 17377
-    start: 17328
-    type: TextPositionSelector
-  quote_sha256: sha256:bc4fb1dc52086e41158872287d649173a4f5424d9427120a4151c211203159e5
-  selector:
-    exact: There can be many implementations of the same ISA
-    prefix: 'iscuss this for many lectures ◼ '
-    suffix: ' ❑ **MIPS** R2000, R3000, R4000,'
-    type: TextQuoteSelector
-  selector_sha256: sha256:4a452dcc1700cfa3d2e79546f9761c09d4d66af6f115a3c3442c373eae648ebc
+  selector_sha256: sha256:a21949a274c84976e6d7c4e5f333878015094f5c06ef514470ab2cc9d57b7655
   snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
 extractor: marker/2.0.0
 id: ddca-lecture9a-isa-microarchitecture

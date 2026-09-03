@@ -3,7 +3,7 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-0825f3e4aba0
+- evidence_id: evidence-57912b49617c
   position:
     end: 324
     start: 145
@@ -22,19 +22,24 @@ evidence_items:
     type: TextQuoteSelector
   selector_sha256: sha256:defa81596034f0caae66ff8450a2720d651fdee0e02ff914643cc36e6a6421c7
   snapshot_sha256: sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f
-- evidence_id: evidence-381ecdafff03
+- evidence_id: evidence-924fdf3f14ca
   position:
-    end: 2040
+    end: 2143
     start: 1957
     type: TextPositionSelector
-  quote_sha256: sha256:ddbaf3da0e8bfd246abdfd301666f636152039e2e0c7e32b5dab9c2da369c44c
+  quote_sha256: sha256:1d41023348507287cd240671726f9f4444bf17feef1b8ce87349fa2b5b2000af
   selector:
     exact: PTX programs are translated at install time to the target hardware instruction
-      set.
+      set. The PTX-to-GPU translator and driver enable NVIDIA GPUs to be used as programmable
+      parallel computers.
     prefix: 'pose parallel thread execution. '
-    suffix: ' The PTX-to-GPU translator and d'
+    suffix: '
+
+      1.2. Goals of PTX
+
+      PTX provides '
     type: TextQuoteSelector
-  selector_sha256: sha256:bfdb8f02513d061116cf74c29c23d4768e70c7f6f6d15f5c4db253aaad0fa550
+  selector_sha256: sha256:46d7e563a97735bb72d43dc6f97db2a41a366d01fb63912530aef6dcf0689a5c
   snapshot_sha256: sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f
 extractor: trafilatura/2.2.0
 id: nvidia-ptx-isa

@@ -9,36 +9,36 @@ attachments:
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-977f7094b06b
+- evidence_id: evidence-098639dc3686
   position:
     end: 1113
-    start: 1013
+    start: 1011
     type: TextPositionSelector
-  quote_sha256: sha256:48bc271ed289933ffbe46226d313e8390b3cbd8fc8f8d70e6cef085f5a521b8a
+  quote_sha256: sha256:e22e4e64897bb147d313330d22eab43b5cfd58ba8fd9519e3dabb045b3a40675
   selector:
-    exact: Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple
-      instructions in parallel
-    prefix: 'amentally limited to CPI >= 1
+    exact: '- Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple
+      instructions in parallel'
+    prefix: 'ndamentally limited to CPI >= 1
 
-      - '
+      '
     suffix: '
 
       - Can have both in-order and ou'
     type: TextQuoteSelector
-  selector_sha256: sha256:e3573abae8d36e7e860b8fb264f56328173a6f4b19e4deaa943dd69a84959d2c
+  selector_sha256: sha256:e1f0dbdf871822995a12c6c18aa629621d2c37eaeb03b42332107ae8b62d8b0e
   snapshot_sha256: sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c
-- evidence_id: evidence-169ec3a3f7ff
+- evidence_id: evidence-e9edfbabf635
   position:
     end: 1219
-    start: 1116
+    start: 1114
     type: TextPositionSelector
-  quote_sha256: sha256:75addade547c5ca1483f10511d06d3d14a8afa72ffa36b94a704cda567495f84
+  quote_sha256: sha256:755c67e88d55bfaae93d206ca5524d1bf0b532c3979c25204eb5ff45d8c779d3
   selector:
-    exact: Can have both in-order and out-of-order superscalar processors, but we
-      will start by exploring in-order
-    prefix: 'iple instructions in parallel
+    exact: '- Can have both in-order and out-of-order superscalar processors, but
+      we will start by exploring in-order'
+    prefix: 'ltiple instructions in parallel
 
-      - '
+      '
     suffix: '
 
 
@@ -47,47 +47,7 @@ evidence_items:
 
       -'
     type: TextQuoteSelector
-  selector_sha256: sha256:1d6999cb9f4a2428bd5bd8ff692c4be85c9fa83337549bdf99de5d3d797c0aff
-  snapshot_sha256: sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c
-- evidence_id: evidence-fdc0d2603ccf
-  position:
-    end: 1113
-    start: 1013
-    type: TextPositionSelector
-  quote_sha256: sha256:48bc271ed289933ffbe46226d313e8390b3cbd8fc8f8d70e6cef085f5a521b8a
-  selector:
-    exact: Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple
-      instructions in parallel
-    prefix: 'amentally limited to CPI >= 1
-
-      - '
-    suffix: '
-
-      - Can have both in-order and ou'
-    type: TextQuoteSelector
-  selector_sha256: sha256:e3573abae8d36e7e860b8fb264f56328173a6f4b19e4deaa943dd69a84959d2c
-  snapshot_sha256: sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c
-- evidence_id: evidence-c7516137140b
-  position:
-    end: 1219
-    start: 1116
-    type: TextPositionSelector
-  quote_sha256: sha256:75addade547c5ca1483f10511d06d3d14a8afa72ffa36b94a704cda567495f84
-  selector:
-    exact: Can have both in-order and out-of-order superscalar processors, but we
-      will start by exploring in-order
-    prefix: 'iple instructions in parallel
-
-      - '
-    suffix: '
-
-
-      ![](_page_1_Diagram_3.jpeg)
-
-
-      -'
-    type: TextQuoteSelector
-  selector_sha256: sha256:1d6999cb9f4a2428bd5bd8ff692c4be85c9fa83337549bdf99de5d3d797c0aff
+  selector_sha256: sha256:4d1ba41b6c0eb0e30ab6561192b88767701e2f148efa40595dfb1cc5dd324eaa
   snapshot_sha256: sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c
 extractor: marker/2.0.0
 id: cornell-superscalar-execution

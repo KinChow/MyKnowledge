@@ -3,24 +3,24 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-bac48d53df0d
+- evidence_id: evidence-29cc639ee281
   position:
-    end: 98
+    end: 123
     start: 58
     type: TextPositionSelector
-  quote_sha256: sha256:60f8bd31585aa5efe6b1a7e9c56c0d5c9bfb5dcab7355e118a79b52b6818c4ad
+  quote_sha256: sha256:1f5446f2c31b8f4901e2982492a239cdd099d04771db2f7ea68469c1bc1da357
   selector:
-    exact: 31 general-purpose registers, R0 to R30.
+    exact: '31 general-purpose registers, R0 to R30. Each can be accessed as:'
     prefix: 'e visible at EL0 using AArch64:
 
       '
-    suffix: ' Each can be accessed as:
+    suffix: '
 
-      A 64-b'
+      A 64-bit general-purpose regist'
     type: TextQuoteSelector
-  selector_sha256: sha256:9e69268c19b95c0f9465fef9568a7c813aa6df8f8f95d94070d9b18edea1e3eb
+  selector_sha256: sha256:b9be2e70a8bf621970a8dfe683234288e0b0583c5cb55eba3f8439489dad8874
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
-- evidence_id: evidence-3523e066d483
+- evidence_id: evidence-1061d87ee77e
   position:
     end: 174
     start: 124
@@ -37,7 +37,7 @@ evidence_items:
     type: TextQuoteSelector
   selector_sha256: sha256:7f3158896c18dbe34cd4f6173338f0895ce15e11f40a0bfdb50c59d9535afbd8
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
-- evidence_id: evidence-d02733c9167f
+- evidence_id: evidence-8c92e4905685
   position:
     end: 225
     start: 175
@@ -54,7 +54,25 @@ evidence_items:
     type: TextQuoteSelector
   selector_sha256: sha256:e0b3910cceb720f83f460534306aca46bf751bc3aa3d1edd36c0b86285e6c91e
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
-- evidence_id: evidence-6d0028ea3af7
+- evidence_id: evidence-c1301b51c8bc
+  position:
+    end: 442
+    start: 304
+    type: TextPositionSelector
+  quote_sha256: sha256:95e5d3f617b6cc0565fea806464dddbe17d56f3ce12329bcddc7984f82ed646e
+  selector:
+    exact: A 64-bit dedicated Stack Pointer register. The least significant 32 bits
+      of the stack pointer can be accessed using the register name WSP.
+    prefix: 'e procedure call link register.
+
+      '
+    suffix: '
+
+      The use of SP as an operand in '
+    type: TextQuoteSelector
+  selector_sha256: sha256:baf1f0bcca0e1caf2b06f0fb7e71b0f4b7d94bc3a7be8b9290e4a8b37f6beaaf
+  snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
+- evidence_id: evidence-6d7187d33635
   position:
     end: 779
     start: 707
@@ -70,21 +88,6 @@ evidence_items:
       Software cannot write directly '
     type: TextQuoteSelector
   selector_sha256: sha256:e2be07152429a98ae1e4ffc89ceebe8d756e6adfd5faf45c13b73558ca1fbbc0
-  snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
-- evidence_id: evidence-66da003c916a
-  position:
-    end: 346
-    start: 304
-    type: TextPositionSelector
-  quote_sha256: sha256:95566494d4ef8039ee654012b8c5a421aff5a874ad84502470d7099fa1a1a53b
-  selector:
-    exact: A 64-bit dedicated Stack Pointer register.
-    prefix: 'e procedure call link register.
-
-      '
-    suffix: ' The least significant 32 bits o'
-    type: TextQuoteSelector
-  selector_sha256: sha256:1ac5ef90cd3489164209f5d1245190c45ea30c2eaa850a1335575b1b5871f295
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
 extractor: trafilatura/2.2.0
 id: arm-ddi0487-aarch64-registers

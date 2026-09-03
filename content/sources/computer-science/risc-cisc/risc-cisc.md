@@ -3,41 +3,41 @@ archive_policy: text-only
 confidentiality: public
 domain: computer-science
 evidence_items:
-- evidence_id: evidence-a8d12c44797d
+- evidence_id: evidence-2339f6e0de43
   position:
     end: 235
-    start: 103
+    start: 101
     type: TextPositionSelector
-  quote_sha256: sha256:9009d4667e809100bddf9e166e28e789b7ebaedb882583fdcaed13350198c1a0
+  quote_sha256: sha256:1f4848b39e1e498c1cdf250e258526782dd8593adbb392f0f8cd14dd3bd9d5a8
   selector:
-    exact: RISC uses a small set of simple, fixed-length instructions and follows
-      a load/store approach, enabling efficient and fast execution.
-    prefix: 'truction handling strategies.
+    exact: '- RISC uses a small set of simple, fixed-length instructions and follows
+      a load/store approach, enabling efficient and fast execution.'
+    prefix: 'nstruction handling strategies.
 
-      - '
+      '
     suffix: '
 
       - CISC uses a larger set of com'
     type: TextQuoteSelector
-  selector_sha256: sha256:268a636646238a71de72c91d8d6a7b1fbbdd934cfdefcc12a402773128b2e386
+  selector_sha256: sha256:72f999df7bed14b21cd0827815461678982d57caed599fbe191b1179e9a43dca
   snapshot_sha256: sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7
-- evidence_id: evidence-fc615f4beb99
+- evidence_id: evidence-a1d5f1e8c5ff
   position:
     end: 378
-    start: 238
+    start: 236
     type: TextPositionSelector
-  quote_sha256: sha256:c5894a1d9a967dce5b6c71e4685a6a26d2133d2640f941811da4bf781f2653f2
+  quote_sha256: sha256:428c6ad66ff67650e2d9f703a79c75181274fdacffe97db02764ce15223ba6ca
   selector:
-    exact: CISC uses a larger set of complex, variable-length instructions that can
-      perform multiple operations, often requiring multiple clock cycles.
-    prefix: 'efficient and fast execution.
+    exact: '- CISC uses a larger set of complex, variable-length instructions that
+      can perform multiple operations, often requiring multiple clock cycles.'
+    prefix: 'g efficient and fast execution.
 
-      - '
+      '
     suffix: '
 
       Reduced Instruction Set Archite'
     type: TextQuoteSelector
-  selector_sha256: sha256:2ca34414d0921012a6bb99dbb06d919ffd0c5a80da0f663188f96de267a41127
+  selector_sha256: sha256:3a2a7ee4faa6f223a1b7b2e8cdc7f6f897adcfdfd6430f22ca115788ade73c9c
   snapshot_sha256: sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7
 extractor: trafilatura/2.2.0
 id: risc-cisc
