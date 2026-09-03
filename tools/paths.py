@@ -98,7 +98,28 @@ class RepoPaths:
         return self.sources_root / domain
 
     def source_file(self, domain: str, source_id: str) -> Path:
-        return self.sources_dir(domain) / f"{source_id}.md"
+        """A3 布局：source 落位 `sources/<domain>/<id>/<id>.md`（目录式，容纳原件/衍生媒体）。
+
+        原文为 `sources/<domain>/<id>.md`；A3 把每个 source 收进以 id 命名的目录，
+        原始附件（`<id>.<ext>`）、衍生媒体（`media/`）、转录（`transcript/`）与 .md 同驻。
+        """
+        return self.source_dir(domain, source_id) / f"{source_id}.md"
+
+    def source_dir(self, domain: str, source_id: str) -> Path:
+        """A3 目录：`sources/<domain>/<id>/`。"""
+        return self.sources_dir(domain) / source_id
+
+    def source_attachment(self, domain: str, source_id: str, filename: str) -> Path:
+        """source 目录内的附件路径（原始件 `<id>.<ext>`、衍生 `media/<name>` 等）。"""
+        return self.source_dir(domain, source_id) / filename
+
+    def raw_file(self, raw_sha256: str, suffix: str = "") -> Path:
+        """证据链原始字节的不可变存放路径（LFS）：`archive/raw/<sha><suffix>`。"""
+        return self.archive_raw / f"{strip_sha256_prefix(raw_sha256)}{suffix}"
+
+    def source_raw_staging(self, operation_id: str, suffix: str = "") -> Path:
+        """fetch 原件在 preview→apply 之间的暂存路径（apply 后清除，不留垃圾）。"""
+        return self.state_root / "source-raw" / f"{operation_id}{suffix}"
 
     def source_domains(self) -> list[str]:
         """sources 下实际存在的域目录。
@@ -112,9 +133,13 @@ class RepoPaths:
         return sorted(p.name for p in root.iterdir() if p.is_dir())
 
     def iter_source_files(self) -> Iterator[Path]:
-        """全部 source 文件（枚举口径的唯一入口，布局变更只影响 sources_root）。"""
+        """全部 source 文件（枚举口径的唯一入口，布局变更只影响 sources_root）。
+
+        A3 布局下 source 收进 `<domain>/<id>/` 目录，用 rglob 递归；`media/`/`transcript/`
+        子目录的附件非 .md，不会被误收。
+        """
         for domain in self.source_domains():
-            yield from sorted(self.sources_dir(domain).glob("*.md"))
+            yield from sorted(self.sources_dir(domain).rglob("*.md"))
 
     @property
     def wiki_root(self) -> Path:

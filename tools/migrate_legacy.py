@@ -12,6 +12,7 @@ from .front_matter import FrontMatter
 from .ingest.extractor import TextExtractor
 from .ingest.source_ingestor import SourceIngestor
 from .inventory_legacy import inventory
+from .paths import RepoPaths
 from .write_operation import WriteOperation
 
 MIGRATION_VERSION = "legacy-migration/v1"
@@ -206,13 +207,17 @@ def apply_sample(
             "source": source_preview,
             "writes_applied": False,
         }
-    source_result = SourceIngestor(root).apply(
+    source_apply_result = SourceIngestor(root).apply(
         source_preview["operation_id"], confirmed=True, actor_id="migration"
     )
     source_result = {
-        key: value for key, value in source_result.items() if key != "source_path"
+        key: value for key, value in source_apply_result.items() if key != "source_path"
     }
-    source_result["source_path"] = f"content/sources/tools/{source_id}.md"
+    source_result["source_path"] = (
+        str(RepoPaths(root).source_file("tools", source_id).relative_to(root))
+        if source_apply_result.get("source_path")
+        else f"content/sources/tools/{source_id}/{source_id}.md"
+    )
     if source_result.get("state") != "applied":
         return {
             "state": "blocked",

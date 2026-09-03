@@ -24,7 +24,7 @@ class ResolutionTests(WikiTestCase):
     def test_duplicate_evidence_id_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
-            source = root / "content" / "sources" / "tools" / "dup.md"
+            source = root / "content" / "sources" / "tools" / "dup" / "dup.md"
             source.parent.mkdir(parents=True)
             metadata = {
                 "schema_version": "source/v1",
@@ -169,7 +169,14 @@ class ResolutionTests(WikiTestCase):
             }
         )
         ingestor.apply(result["operation_id"], confirmed=True)
-        source_path = root / "content" / "sources" / "tools" / "integrated-source.md"
+        source_path = (
+            root
+            / "content"
+            / "sources"
+            / "tools"
+            / "integrated-source"
+            / "integrated-source.md"
+        )
         snapshot_path = (
             root
             / "archive"

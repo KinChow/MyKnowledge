@@ -167,7 +167,7 @@ def test_doctor_flags_source_snapshot_missing_from_manifest(
     assert names["archive_integrity"]["state"] == "ok"  # 快照自证通过
     assert names["manifest_coverage"]["state"] == "error"  # 只有正向账目缺口
     assert names["manifest_coverage"]["unregistered"] == [
-        "content/sources/tools/orphan-note.md"
+        "content/sources/tools/orphan-note/orphan-note.md"
     ]
     assert "source preview/apply" in names["manifest_coverage"]["next_action"]
 
@@ -275,9 +275,14 @@ def test_doctor_enumerates_domains_not_on_the_historical_allowlist(
     real_import(tmp_path, "新域枚举验证正文内容", "new-domain-note")
     moved = tmp_path / "content" / "sources" / "brand-new-domain"
     moved.mkdir(parents=True)
-    (tmp_path / "content" / "sources" / "tools" / "new-domain-note.md").rename(
-        moved / "new-domain-note.md"
-    )
+    (
+        tmp_path
+        / "content"
+        / "sources"
+        / "tools"
+        / "new-domain-note"
+        / "new-domain-note.md"
+    ).rename(moved / "new-domain-note.md")
     _, report = _run(tmp_path)
     names = {c["name"]: c for c in report["checks"]}
     assert names["sources"]["checked"] == 1  # 落在 allowlist 之外的域仍被检查

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import difflib
 
-from ..common import canonical_quote, glob_without_symlinks
+from ..common import canonical_quote
 from ..front_matter import FrontMatter
 from .schema import OWNER_VAULT_ID
 
@@ -23,9 +23,9 @@ SUPPORT_ORIGIN_MATRIX = {
 
 
 def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
-    """owner Vault 内解析 source：sources/<domain>/<source_id>.md 唯一匹配。"""
+    """owner Vault 内解析 source：按 id 匹配（A3 布局 `sources/<domain>/<id>/<id>.md`）。"""
     errors: list[dict] = []
-    hits = glob_without_symlinks(paths.sources_root, f"*/{source_id}.md")
+    hits = [p for p in paths.iter_source_files() if p.stem == source_id]
     if not hits:
         errors.append({"code": "source_not_found", "path": f"sources.{source_id}"})
         return None, errors
