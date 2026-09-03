@@ -1,0 +1,733 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "program-performance-analysis",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_73645db5e8fe",
+  "input_hash": "sha256:3b721cf6671f6ee197a158f71f3d6b91f121f4c4a7d0866f74fa2fb373adc00e",
+  "provider_duration_ms": 234856,
+  "provider_meta": {
+    "model": "DeepSeek-V4-Flash"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788451012.6661792,
+  "wiki_content_sha256": "sha256:b2ad5b0886e56b144185ec300bd8a33a369c442495c230fe3086559a70de55cd",
+  "wiki_evidence_sha256": "sha256:3718435a23c78b1cdaf91e209d6f8fb85d52c5ddada3e3bc538859297ebb99b8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "little-law-columbia"
+      },
+      "source_id": "little-law-columbia",
+      "evidence_id": "evidence-47e5f178256f",
+      "snapshot_sha256": "sha256:408794bd88c35946641905060169edf0e5172666a9e9857fe60c520676ff9159",
+      "selector_sha256": "sha256:161219d8b2fcf0b28e3de09c8edfd23160a755ae6a014172d0b6a7248e3c220c",
+      "quote_sha256": "sha256:46e6c2bef8ab895f4e8e9073506335c8356776867a1abfe0688ab4bfb1c19646"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "osti-profiling-tracing"
+      },
+      "source_id": "osti-profiling-tracing",
+      "evidence_id": "evidence-f6c8afdf6614",
+      "snapshot_sha256": "sha256:06cd5ce56031d25b57b1fe30c994f37a75d7e9865024cc49fec0342109d3bb02",
+      "selector_sha256": "sha256:baa598f5e1057fdf9bc2ce80c2868995cbb452de48f15aeb86c15b77126450e7",
+      "quote_sha256": "sha256:dc4976bd209c8bfdcbb0114be87a414f7a57e7428207a22bb4b3aff23c89df58"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "bisect-performance-regression"
+      },
+      "source_id": "bisect-performance-regression",
+      "evidence_id": "evidence-ab11c6af1882",
+      "snapshot_sha256": "sha256:2ec07aa0984f44c73043dd3c1beb9aa73d89f211f1c47e6d7076c3e8d96c6dab",
+      "selector_sha256": "sha256:2d00942820cfd1804d5061ec291983fd076e453e0fd9b05afd452c3adfaf64ba",
+      "quote_sha256": "sha256:ed3546702827164fce6d549a3ad98a0ff00a3c76db4f8b7b71b372a4f37da106"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "lumi-profiling-strategies"
+      },
+      "source_id": "lumi-profiling-strategies",
+      "evidence_id": "evidence-4321897985b6",
+      "snapshot_sha256": "sha256:4b0f40d2346476f6ac9ccb01a5ccd85ffe6d936505057a4e1509581925eb4e0c",
+      "selector_sha256": "sha256:a76fa515aa8b4b6102ce760451f9dcec3fd9ed7056f83af1c146d966f5c1d5b4",
+      "quote_sha256": "sha256:fac39133f4e6412469dcc73bce8c2a977c6327de2adc808838c3e82703899e66"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "lumi-profiling-strategies"
+      },
+      "source_id": "lumi-profiling-strategies",
+      "evidence_id": "evidence-5138110b0629",
+      "snapshot_sha256": "sha256:4b0f40d2346476f6ac9ccb01a5ccd85ffe6d936505057a4e1509581925eb4e0c",
+      "selector_sha256": "sha256:b066d2127d07a53bc11f85f85ef16739e96ab7de2685fe73a11e3db946bc2814",
+      "quote_sha256": "sha256:0ac20a4b213fc53cb88ba7592679366299d08aba32e21f1404807524ade9db43"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "queueing-theory-gfg"
+      },
+      "source_id": "queueing-theory-gfg",
+      "evidence_id": "evidence-8406af58cade",
+      "snapshot_sha256": "sha256:1126bc6e6e69c86428b3165a88a8b4d15284cd83a146be3e4f2adc19dc475514",
+      "selector_sha256": "sha256:80d81181c1706e66e4ac9bf844bb31680311938ed85451f0018be19f6e89c503",
+      "quote_sha256": "sha256:9eb471a467d7f828088778b23528813cb2f0681ff3c8c9e811e7db2930809b9a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "little-law",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-47e5f178256f",
+          "exact": "We consider here a famous and very useful law in queueing theory called Little's Law, also known as l = λw, which asserts that the time average number of customers in a queueing system, l, is equal to the rate at which customers arrive, λ, × the average sojourn time of a customer, w."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-47e5f178256f",
+          "subject": "Little's Law",
+          "predicate": "states",
+          "object": "l = λw",
+          "qualifiers": {
+            "time_average_number": "l",
+            "arrival_rate": "λ",
+            "average_sojourn_time": "w"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接给出 Little's Law 的等式 l = λw，并说明 l 是顾客时间平均数量、λ 是到达率、w 是平均逗留时间，与 claim 完全一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f",
+          "start": 1806,
+          "end": 2090
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "profile-form",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f6c8afdf6614",
+          "exact": "Profilers provide a summary of execution statistics and/or events. They give an overview of the overall performance of the program, often broken down to the functions, loops or even user-specified sections."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f6c8afdf6614",
+          "subject": "profilers",
+          "predicate": "provide",
+          "object": "summary of execution statistics and/or events"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 profiler 提供执行统计/事件的汇总，并给出程序整体性能概览，支持 claim 的“概要形式以汇总形式展示程序信息”。",
+      "rationale_offsets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "start": 2515,
+          "end": 2721
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "segmented-search",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ab11c6af1882",
+          "exact": "The crucial task of localizing such regressions can be achieved using bisection, which attempts to find the bug-introducing commit using binary search. This approach is used extensively by many development teams"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ab11c6af1882",
+          "subject": "bisection",
+          "predicate": "localizes",
+          "object": "regressions / bug-introducing commit",
+          "qualifiers": {
+            "method": "binary search",
+            "usage": "used extensively by many development teams"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文称 bisection 通过 binary search 定位引入缺陷的提交，且被许多开发团队广泛使用，支持 claim 中“二分定位、定位性能回归/问题代码段、常用方法”的表述。",
+      "rationale_offsets": [
+        {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "start": 3188,
+          "end": 3399
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "trace-form",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4321897985b6",
+          "exact": "Tracing is a profiling technique that captures specific program events, such as entering or exiting a function, every time they occur. This allows the collection of accurate profiling information about specific areas of the code."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4321897985b6",
+          "subject": "tracing",
+          "predicate": "captures",
+          "object": "specific program events such as entering or exiting a function"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 tracing 每次发生时捕获特定程序事件（如函数进入/退出），与 claim 的“逐个记录每个事件”一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6",
+          "start": 3842,
+          "end": 4071
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "snapshot-form",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5138110b0629",
+          "exact": "Sampling consists of taking regular snapshots of the application's call stack to create a statistical profile. This is a good option for low overhead profiling."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5138110b0629",
+          "subject": "sampling",
+          "predicate": "consists_of",
+          "object": "regular snapshots of call stack to create statistical profile"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 sampling 定期对调用栈取快照并形成统计概况，与 claim 的“周期性对调用栈取快照、形成统计概况”一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629",
+          "start": 4515,
+          "end": 4675
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "wait-queue",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8406af58cade",
+          "exact": "Steps to Use Queuing Theory\n1. Define the System: Identify the key components of the system, such as the arrival process, service process, queue discipline, and number of servers.\n2. Collect Data: Gather data on customer arrival rates, service times, and queue lengths to understand the system's behavior."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8406af58cade",
+          "subject": "queuing theory usage",
+          "predicate": "steps",
+          "object": "define system then collect data",
+          "qualifiers": {
+            "step1": "define system",
+            "step2": "collect data"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文列出排队分析步骤：先定义系统（到达过程、服务过程、队列规则、服务台数），再收集到达率、服务时间、队列长度数据，与 claim 完全对应。",
+      "rationale_offsets": [
+        {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade",
+          "start": 5135,
+          "end": 5442
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f",
+          "independence_group": "source:little-law-columbia",
+          "observation_sha256": "sha256:79aa34a9ade8bb7034008c03cd33facab9e3bb6d1ad91deeee23c72e4b6acefe"
+        },
+        "target_b": {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "independence_group": "source:osti-profiling-tracing",
+          "observation_sha256": "sha256:1e1ee547dcb5e672410bb09605186eb91beb4b03f20953e365b4b4c0cea0a5dc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f",
+          "independence_group": "source:little-law-columbia",
+          "observation_sha256": "sha256:79aa34a9ade8bb7034008c03cd33facab9e3bb6d1ad91deeee23c72e4b6acefe"
+        },
+        "target_b": {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "independence_group": "source:bisect-performance-regression",
+          "observation_sha256": "sha256:113e0e63fde84e5d5110134359da184f9ac4cd77556652eac122572933340ed3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f",
+          "independence_group": "source:little-law-columbia",
+          "observation_sha256": "sha256:79aa34a9ade8bb7034008c03cd33facab9e3bb6d1ad91deeee23c72e4b6acefe"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:aa694633d9a8cd3a90aae8078c2cbb0271989e14f7e71cf9b307a6763034411a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f",
+          "independence_group": "source:little-law-columbia",
+          "observation_sha256": "sha256:79aa34a9ade8bb7034008c03cd33facab9e3bb6d1ad91deeee23c72e4b6acefe"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:68bbcaca02c8218fc1268bf452a6edd4a81bad96fc44841c39bf87c554b46249"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-47e5f178256f",
+          "independence_group": "source:little-law-columbia",
+          "observation_sha256": "sha256:79aa34a9ade8bb7034008c03cd33facab9e3bb6d1ad91deeee23c72e4b6acefe"
+        },
+        "target_b": {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade",
+          "independence_group": "source:queueing-theory-gfg",
+          "observation_sha256": "sha256:3e89670b7e5c756b6bed5ef04bd1473cda4932eb443c87028ce812546df286e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "independence_group": "source:osti-profiling-tracing",
+          "observation_sha256": "sha256:1e1ee547dcb5e672410bb09605186eb91beb4b03f20953e365b4b4c0cea0a5dc"
+        },
+        "target_b": {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "independence_group": "source:bisect-performance-regression",
+          "observation_sha256": "sha256:113e0e63fde84e5d5110134359da184f9ac4cd77556652eac122572933340ed3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "independence_group": "source:osti-profiling-tracing",
+          "observation_sha256": "sha256:1e1ee547dcb5e672410bb09605186eb91beb4b03f20953e365b4b4c0cea0a5dc"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:aa694633d9a8cd3a90aae8078c2cbb0271989e14f7e71cf9b307a6763034411a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "independence_group": "source:osti-profiling-tracing",
+          "observation_sha256": "sha256:1e1ee547dcb5e672410bb09605186eb91beb4b03f20953e365b4b4c0cea0a5dc"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:68bbcaca02c8218fc1268bf452a6edd4a81bad96fc44841c39bf87c554b46249"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "independence_group": "source:osti-profiling-tracing",
+          "observation_sha256": "sha256:1e1ee547dcb5e672410bb09605186eb91beb4b03f20953e365b4b4c0cea0a5dc"
+        },
+        "target_b": {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade",
+          "independence_group": "source:queueing-theory-gfg",
+          "observation_sha256": "sha256:3e89670b7e5c756b6bed5ef04bd1473cda4932eb443c87028ce812546df286e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "independence_group": "source:bisect-performance-regression",
+          "observation_sha256": "sha256:113e0e63fde84e5d5110134359da184f9ac4cd77556652eac122572933340ed3"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:aa694633d9a8cd3a90aae8078c2cbb0271989e14f7e71cf9b307a6763034411a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "independence_group": "source:bisect-performance-regression",
+          "observation_sha256": "sha256:113e0e63fde84e5d5110134359da184f9ac4cd77556652eac122572933340ed3"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:68bbcaca02c8218fc1268bf452a6edd4a81bad96fc44841c39bf87c554b46249"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "independence_group": "source:bisect-performance-regression",
+          "observation_sha256": "sha256:113e0e63fde84e5d5110134359da184f9ac4cd77556652eac122572933340ed3"
+        },
+        "target_b": {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade",
+          "independence_group": "source:queueing-theory-gfg",
+          "observation_sha256": "sha256:3e89670b7e5c756b6bed5ef04bd1473cda4932eb443c87028ce812546df286e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:aa694633d9a8cd3a90aae8078c2cbb0271989e14f7e71cf9b307a6763034411a"
+        },
+        "target_b": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:68bbcaca02c8218fc1268bf452a6edd4a81bad96fc44841c39bf87c554b46249"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-4321897985b6",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:aa694633d9a8cd3a90aae8078c2cbb0271989e14f7e71cf9b307a6763034411a"
+        },
+        "target_b": {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade",
+          "independence_group": "source:queueing-theory-gfg",
+          "observation_sha256": "sha256:3e89670b7e5c756b6bed5ef04bd1473cda4932eb443c87028ce812546df286e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "lumi-profiling-strategies",
+          "evidence_id": "evidence-5138110b0629",
+          "independence_group": "source:lumi-profiling-strategies",
+          "observation_sha256": "sha256:68bbcaca02c8218fc1268bf452a6edd4a81bad96fc44841c39bf87c554b46249"
+        },
+        "target_b": {
+          "source_id": "queueing-theory-gfg",
+          "evidence_id": "evidence-8406af58cade",
+          "independence_group": "source:queueing-theory-gfg",
+          "observation_sha256": "sha256:3e89670b7e5c756b6bed5ef04bd1473cda4932eb443c87028ce812546df286e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "little-law-columbia",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "osti-profiling-tracing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "bisect-performance-regression",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "lumi-profiling-strategies",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "lumi-profiling-strategies",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "queueing-theory-gfg",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "little-law",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "profile-form",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "segmented-search",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "trace-form",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "snapshot-form",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "wait-queue",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 4,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}
