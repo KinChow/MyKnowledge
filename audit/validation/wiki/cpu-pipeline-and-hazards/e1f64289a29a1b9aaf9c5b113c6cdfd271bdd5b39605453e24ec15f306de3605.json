@@ -1,0 +1,338 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpu-pipeline-and-hazards",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_11be2c2c8e16",
+  "input_hash": "sha256:0a4c93e4836a74a629ef84f27f174acbed533f62fe40b81592561fc483b721e1",
+  "provider_duration_ms": 48353,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788374850.341268,
+  "wiki_content_sha256": "sha256:c8fb8df74ac2c4b4169914edda2de1a74aaf65d399855c621fc962af0c292b9f",
+  "wiki_evidence_sha256": "sha256:e6e213e666adfc37449301daad39192104ce6859f7385b91d730a27c0b5e9f45",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "pipeline-hazards"
+      },
+      "source_id": "pipeline-hazards",
+      "evidence_id": "evidence-63df9b6249a9",
+      "snapshot_sha256": "sha256:19f40970c4f6d592dd9039469d0ea0409ef8fd47e546443f10ddc03db4968640",
+      "selector_sha256": "sha256:c3a2e00f72deba651c69d8c8278706887c898d1900253de97c697da221b89f8b",
+      "quote_sha256": "sha256:c54cae406baa2b9e25974220e0964b97c631928249522918b541221271e83b2b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "pipeline-hazards"
+      },
+      "source_id": "pipeline-hazards",
+      "evidence_id": "evidence-e4655e64d9dc",
+      "snapshot_sha256": "sha256:19f40970c4f6d592dd9039469d0ea0409ef8fd47e546443f10ddc03db4968640",
+      "selector_sha256": "sha256:e6dc80195248ca8fd1a44bfeac30301990a8a2b1ccb9847ca98cd72abfc7b274",
+      "quote_sha256": "sha256:d5d9fe52f4e290b51fef9cc3324a6e558c756a12794c1c459d7472e655b6cff0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "pipeline-hazards"
+      },
+      "source_id": "pipeline-hazards",
+      "evidence_id": "evidence-e33552e7453f",
+      "snapshot_sha256": "sha256:19f40970c4f6d592dd9039469d0ea0409ef8fd47e546443f10ddc03db4968640",
+      "selector_sha256": "sha256:2352d4df364d1d03e18f6de875f8f82403f97945490830bb8c648251354e5d22",
+      "quote_sha256": "sha256:56fb6e8e077190b02bd1845469b390ceddab22d78ceef070f08287ba46862962"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "structural-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-63df9b6249a9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-63df9b6249a9",
+          "exact": "A structural hazard happens when two or more instructions need the same part of CPU (e.g., an execution unit)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-63df9b6249a9",
+          "subject": "structural hazard",
+          "predicate": "occurs when",
+          "object": "two or more instructions need the same part of the CPU"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "引文明确说明结构冒险发生于“两条或多条指令”需要 CPU 的“同一部件”，与 claim 的主体、条件和关系一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-63df9b6249a9",
+          "start": 0,
+          "end": 110
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "pipeline-hazards",
+            "evidence_id": "evidence-63df9b6249a9",
+            "offset": {
+              "start": 0,
+              "end": 110
+            }
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "data-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e4655e64d9dc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e4655e64d9dc",
+          "exact": "A data hazard happens when you have to wait for an operand to be computed from some previous step."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e4655e64d9dc",
+          "subject": "data hazard",
+          "predicate": "requires waiting for",
+          "object": "an operand to be computed from a previous step"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "引文明确说明数据冒险涉及等待操作数由某个先前步骤计算完成，与 claim 所述后序指令等待前一步骤算出操作数相符。",
+      "rationale_offsets": [
+        {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e4655e64d9dc",
+          "start": 0,
+          "end": 98
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "pipeline-hazards",
+            "evidence_id": "evidence-e4655e64d9dc",
+            "offset": {
+              "start": 0,
+              "end": 98
+            }
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "control-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e33552e7453f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e33552e7453f",
+          "exact": "A control hazard happens when a CPU can’t tell which instructions it needs to execute next."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e33552e7453f",
+          "subject": "control hazard",
+          "predicate": "occurs when",
+          "object": "the CPU cannot determine which instructions to execute next"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "引文明确说明控制冒险发生于 CPU 无法判断接下来需要执行哪些指令，与 claim 的表述一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e33552e7453f",
+          "start": 0,
+          "end": 91
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "pipeline-hazards",
+            "evidence_id": "evidence-e33552e7453f",
+            "offset": {
+              "start": 0,
+              "end": 91
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-63df9b6249a9",
+          "independence_group": "source:pipeline-hazards",
+          "observation_sha256": "sha256:48b96d51417946bf3eb6b78c06702be3351087ca776be558634e97fc91f10676"
+        },
+        "target_b": {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e4655e64d9dc",
+          "independence_group": "source:pipeline-hazards",
+          "observation_sha256": "sha256:39c24ba4d655c125a1b24894d15eb92edab9ef453604887682add29e8a88e642"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-63df9b6249a9",
+          "independence_group": "source:pipeline-hazards",
+          "observation_sha256": "sha256:48b96d51417946bf3eb6b78c06702be3351087ca776be558634e97fc91f10676"
+        },
+        "target_b": {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e33552e7453f",
+          "independence_group": "source:pipeline-hazards",
+          "observation_sha256": "sha256:a1787178654f5bcdab4df7ec93ad734a820cd60c953edc0da3a820e679d282b5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e4655e64d9dc",
+          "independence_group": "source:pipeline-hazards",
+          "observation_sha256": "sha256:39c24ba4d655c125a1b24894d15eb92edab9ef453604887682add29e8a88e642"
+        },
+        "target_b": {
+          "source_id": "pipeline-hazards",
+          "evidence_id": "evidence-e33552e7453f",
+          "independence_group": "source:pipeline-hazards",
+          "observation_sha256": "sha256:a1787178654f5bcdab4df7ec93ad734a820cd60c953edc0da3a820e679d282b5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "pipeline-hazards",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "pipeline-hazards",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "pipeline-hazards",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

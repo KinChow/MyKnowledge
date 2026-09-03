@@ -1,0 +1,2969 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "isa-and-microarchitecture",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_6186b3e417a6",
+  "input_hash": "sha256:80e2b7e1664bddb4890f1b2a29ac3b1abd1dbfb56a281ba9a3c0b42daf4674ba",
+  "provider_duration_ms": 123478,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788403444.375489,
+  "wiki_content_sha256": "sha256:8f282de0c6d7931524b1d45e2b02ac87c332baffc5313c380ac6dd719c3ab2f6",
+  "wiki_evidence_sha256": "sha256:9f0735ef193952345e819e66d199dc7a0196c53787f68d803eef9dcf8b272d6a",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture8-isa-ii"
+      },
+      "source_id": "ddca-lecture8-isa-ii",
+      "evidence_id": "evidence-f997d3883be5",
+      "snapshot_sha256": "sha256:51387d5e57a1ec0f92e1b041dc5632b9ab99c803d245a72000e9bdd703b0f3fb",
+      "selector_sha256": "sha256:79adbad7031a18bf05bd5416e4b63baf6eb8ec309ea307e78bb3f643ec669a74",
+      "quote_sha256": "sha256:80e04f0531d2157c269a0d34db4da99baac220919826c29a7aca814f2e35593c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture8-isa-ii"
+      },
+      "source_id": "ddca-lecture8-isa-ii",
+      "evidence_id": "evidence-26b01009ad0d",
+      "snapshot_sha256": "sha256:51387d5e57a1ec0f92e1b041dc5632b9ab99c803d245a72000e9bdd703b0f3fb",
+      "selector_sha256": "sha256:222a8fd00fe395818c41dd289ae569abbf580ed8da1d7496392445b1a027b2ac",
+      "quote_sha256": "sha256:c6563fa75afd0f852f1bae639a59270612b165cc0531b046ea2d24234823608c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture9a-isa-microarchitecture"
+      },
+      "source_id": "ddca-lecture9a-isa-microarchitecture",
+      "evidence_id": "evidence-934896f7d3b4",
+      "snapshot_sha256": "sha256:b7a50ab4c8641f3ddac6de555d42e559d9af0a09decb3455af36832519cca8d4",
+      "selector_sha256": "sha256:512c15ab189cc945599645c5dc0e91ff9750519e0f96904a3398e9b8764d1bff",
+      "quote_sha256": "sha256:c6550235af532144c778c85098662d3d80d6b0066af8426a802749d96c6de87f"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture9a-isa-microarchitecture"
+      },
+      "source_id": "ddca-lecture9a-isa-microarchitecture",
+      "evidence_id": "evidence-0fcb148be49a",
+      "snapshot_sha256": "sha256:b7a50ab4c8641f3ddac6de555d42e559d9af0a09decb3455af36832519cca8d4",
+      "selector_sha256": "sha256:ffe5f5db653e8a68767955f3674cddc5e6d2f34de870ad2fd54f320a790c5708",
+      "quote_sha256": "sha256:93fa0258ace39551fbb2a45a6ca95d41a859eb64f0392279ece394be651fd882"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "ddca-lecture9a-isa-microarchitecture"
+      },
+      "source_id": "ddca-lecture9a-isa-microarchitecture",
+      "evidence_id": "evidence-b1430ecb4f5d",
+      "snapshot_sha256": "sha256:b7a50ab4c8641f3ddac6de555d42e559d9af0a09decb3455af36832519cca8d4",
+      "selector_sha256": "sha256:6e12a03981137f4b28597acc8e6e3b6cdcf407296299591eb6c87ca65ede3bee",
+      "quote_sha256": "sha256:bc4fb1dc52086e41158872287d649173a4f5424d9427120a4151c211203159e5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "risc-cisc"
+      },
+      "source_id": "risc-cisc",
+      "evidence_id": "evidence-a8d12c44797d",
+      "snapshot_sha256": "sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7",
+      "selector_sha256": "sha256:268a636646238a71de72c91d8d6a7b1fbbdd934cfdefcc12a402773128b2e386",
+      "quote_sha256": "sha256:9009d4667e809100bddf9e166e28e789b7ebaedb882583fdcaed13350198c1a0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "risc-cisc"
+      },
+      "source_id": "risc-cisc",
+      "evidence_id": "evidence-fc615f4beb99",
+      "snapshot_sha256": "sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7",
+      "selector_sha256": "sha256:2ca34414d0921012a6bb99dbb06d919ffd0c5a80da0f663188f96de267a41127",
+      "quote_sha256": "sha256:c5894a1d9a967dce5b6c71e4685a6a26d2133d2640f941811da4bf781f2653f2"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "nvidia-ptx-isa"
+      },
+      "source_id": "nvidia-ptx-isa",
+      "evidence_id": "evidence-0825f3e4aba0",
+      "snapshot_sha256": "sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f",
+      "selector_sha256": "sha256:defa81596034f0caae66ff8450a2720d651fdee0e02ff914643cc36e6a6421c7",
+      "quote_sha256": "sha256:75f08bd198d845aa262d19272a7fa3077c036a348891937e9b3ccabb5e0fe252"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "nvidia-ptx-isa"
+      },
+      "source_id": "nvidia-ptx-isa",
+      "evidence_id": "evidence-381ecdafff03",
+      "snapshot_sha256": "sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f",
+      "selector_sha256": "sha256:bfdb8f02513d061116cf74c29c23d4768e70c7f6f6d15f5c4db253aaad0fa550",
+      "quote_sha256": "sha256:ddbaf3da0e8bfd246abdfd301666f636152039e2e0c7e32b5dab9c2da369c44c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-instruction-sets"
+      },
+      "source_id": "arm-ddi0487-instruction-sets",
+      "evidence_id": "evidence-457f06b7cbd6",
+      "snapshot_sha256": "sha256:ccf816fe505c04568f1a42673f567e9003ac679a45fa433e5432c6ed63c39578",
+      "selector_sha256": "sha256:2732216738e216838d25d5c2dc4c2bb8421a80b2aa4a6ef032a630b40c4496a8",
+      "quote_sha256": "sha256:1206468cce4ef05897518afd0897c568a0667a36d84a9909e409d5f4e08f464a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-bac48d53df0d",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:9e69268c19b95c0f9465fef9568a7c813aa6df8f8f95d94070d9b18edea1e3eb",
+      "quote_sha256": "sha256:60f8bd31585aa5efe6b1a7e9c56c0d5c9bfb5dcab7355e118a79b52b6818c4ad"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-3523e066d483",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:7f3158896c18dbe34cd4f6173338f0895ce15e11f40a0bfdb50c59d9535afbd8",
+      "quote_sha256": "sha256:874ccbe59a9550fe66ec633b8ebbc6d1ed16d9a5f7180eb7ec5fbdba897beb8d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-d02733c9167f",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:e0b3910cceb720f83f460534306aca46bf751bc3aa3d1edd36c0b86285e6c91e",
+      "quote_sha256": "sha256:322510c365f2310196a478ec85c9d84636339dcf4b4e756ece666ea6c679b207"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-66da003c916a",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:1ac5ef90cd3489164209f5d1245190c45ea30c2eaa850a1335575b1b5871f295",
+      "quote_sha256": "sha256:95566494d4ef8039ee654012b8c5a421aff5a874ad84502470d7099fa1a1a53b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-6d0028ea3af7",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:e2be07152429a98ae1e4ffc89ceebe8d756e6adfd5faf45c13b73558ca1fbbc0",
+      "quote_sha256": "sha256:fd3dc1fc02ebc8676515aedce8ae6cd3a850e100ca9df1a0476ee385756fa91a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-memory-model"
+      },
+      "source_id": "arm-ddi0487-memory-model",
+      "evidence_id": "evidence-37ff700ccf96",
+      "snapshot_sha256": "sha256:b25a5339e746f012a89096b9b67ceaa33a3bb68a1eb8a5d89fb9a314641102a3",
+      "selector_sha256": "sha256:7fc58b08a6633d7c0d6232a41bbcd0b6ddea2022fbab4b42f4ee04935677a124",
+      "quote_sha256": "sha256:3e2ec44dd5725902cc47341225a1152dfeae71fa7890554bef7cee279be32e14"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "isa-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5"
+        },
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f997d3883be5",
+          "exact": "The ISA is the interface between what the software commands \nand what the hardware carries out"
+        },
+        {
+          "evidence_id": "evidence-26b01009ad0d",
+          "exact": "the attributes of a \nsystem as seen by the programmer, i.e., the conceptual \nstructure and functional behavior as distinct from the \norganization of the dataflow and controls, the logic design, \nand the physical implementation"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f997d3883be5",
+          "subject": "ISA",
+          "predicate": "is interface between",
+          "object": "software commands and hardware actions"
+        },
+        {
+          "evidence_id": "evidence-26b01009ad0d",
+          "subject": "ISA",
+          "predicate": "specifies",
+          "object": "programmer-visible attributes, conceptual structure, and functional behavior",
+          "qualifiers": {
+            "distinguished_from": [
+              "dataflow and control organization",
+              "logic design",
+              "physical implementation"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "第一条引文明确将 ISA 定义为软件命令与硬件执行之间的接口；第二条引文明确说明其为程序员可见的属性、概念结构和功能行为，并区别于逻辑设计与物理实现。",
+      "rationale_offsets": [
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "start": 0,
+          "end": 59
+        },
+        {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "start": 0,
+          "end": 52
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "isa-vs-micro",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4"
+        },
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-934896f7d3b4",
+          "exact": "Microarchitecture: How the underlying implementation \nactually executes instructions"
+        },
+        {
+          "evidence_id": "evidence-0fcb148be49a",
+          "exact": "Microarchitecture can execute instructions in any order as long \nas it obeys the semantics specified by the ISA when making the \ninstruction results visible to software"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-934896f7d3b4",
+          "subject": "microarchitecture",
+          "predicate": "describes",
+          "object": "how the underlying implementation actually executes instructions"
+        },
+        {
+          "evidence_id": "evidence-0fcb148be49a",
+          "subject": "microarchitecture",
+          "predicate": "may execute instructions",
+          "object": "in any order",
+          "qualifiers": {
+            "constraint": "must obey ISA semantics when results become visible to software"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文分别支持微架构描述指令的实际执行方式，以及可在遵守 ISA 语义并按规定向软件呈现结果的前提下按任意顺序执行。",
+      "rationale_offsets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "start": 0,
+          "end": 51
+        },
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "start": 0,
+          "end": 62
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "same-isa-implementations",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "exact": "There can be many implementations of the same ISA"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "subject": "same ISA",
+          "predicate": "can have",
+          "object": "many implementations"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文直接表述同一 ISA 可以存在许多实现，支持该 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "start": 0,
+          "end": 49
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "risc-cisc-tendencies",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d"
+        },
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a8d12c44797d",
+          "exact": "RISC uses a small set of simple, fixed-length instructions and follows a load/store approach, enabling efficient and fast execution."
+        },
+        {
+          "evidence_id": "evidence-fc615f4beb99",
+          "exact": "CISC uses a larger set of complex, variable-length instructions that can perform multiple operations, often requiring multiple clock cycles."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a8d12c44797d",
+          "subject": "RISC",
+          "predicate": "uses",
+          "object": "small set of simple fixed-length instructions and load/store approach"
+        },
+        {
+          "evidence_id": "evidence-fc615f4beb99",
+          "subject": "CISC",
+          "predicate": "uses",
+          "object": "larger set of complex variable-length instructions",
+          "qualifiers": {
+            "capability": "can perform multiple operations"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "RISC 引文直接支持简单、定长编码和 load/store；CISC 引文支持复杂、变长编码及单条指令执行多项操作，但未明确表述允许更多内存操作，因此该部分仅得到部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "start": 0,
+          "end": 58
+        },
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "start": 0,
+          "end": 63
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gpu-isa",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0"
+        },
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0825f3e4aba0",
+          "exact": "This document describes PTX, a low-level parallel thread execution virtual machine and instruction set architecture (ISA). PTX exposes the GPU as a data-parallel computing device."
+        },
+        {
+          "evidence_id": "evidence-381ecdafff03",
+          "exact": "PTX programs are translated at install time to the target hardware instruction set."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0825f3e4aba0",
+          "subject": "PTX",
+          "predicate": "is",
+          "object": "a low-level parallel thread execution virtual machine and ISA",
+          "qualifiers": {
+            "device": "GPU"
+          }
+        },
+        {
+          "evidence_id": "evidence-381ecdafff03",
+          "subject": "PTX programs",
+          "predicate": "are translated at install time to",
+          "object": "the target hardware instruction set"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "第一条引文明确将 PTX 定义为 GPU 面向的数据并行虚拟机和 ISA；第二条引文明确支持其被翻译为目标硬件指令集。",
+      "rationale_offsets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "start": 0,
+          "end": 27
+        },
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "start": 0,
+          "end": 27
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "arm-a64-encoding",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-457f06b7cbd6",
+          "exact": "AArch64 state supports a single instruction set, called A64. This is a fixed-length instruction set that uses 32-bit instruction encodings."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-457f06b7cbd6",
+          "subject": "AArch64 state",
+          "predicate": "supports",
+          "object": "A64",
+          "qualifiers": {
+            "length": "fixed",
+            "encoding_bits": 32
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文直接说明 AArch64 使用名为 A64 的单一固定长度指令集，并使用 32 位指令编码。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "start": 0,
+          "end": 22
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "arm-aarch64-registers",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-bac48d53df0d",
+          "exact": "31 general-purpose registers, R0 to R30."
+        },
+        {
+          "evidence_id": "evidence-3523e066d483",
+          "exact": "A 64-bit general-purpose register named X0 to X30."
+        },
+        {
+          "evidence_id": "evidence-d02733c9167f",
+          "exact": "A 32-bit general-purpose register named W0 to W30."
+        },
+        {
+          "evidence_id": "evidence-66da003c916a",
+          "exact": "A 64-bit dedicated Stack Pointer register."
+        },
+        {
+          "evidence_id": "evidence-6d0028ea3af7",
+          "exact": "A 64-bit Program Counter holding the address of the current instruction."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-bac48d53df0d",
+          "subject": "AArch64",
+          "predicate": "has",
+          "object": "31 general-purpose registers R0 to R30"
+        },
+        {
+          "evidence_id": "evidence-3523e066d483",
+          "subject": "X0 to X30",
+          "predicate": "are",
+          "object": "64-bit general-purpose registers"
+        },
+        {
+          "evidence_id": "evidence-d02733c9167f",
+          "subject": "W0 to W30",
+          "predicate": "are",
+          "object": "32-bit general-purpose registers"
+        },
+        {
+          "evidence_id": "evidence-66da003c916a",
+          "subject": "Stack Pointer",
+          "predicate": "is",
+          "object": "a dedicated 64-bit register"
+        },
+        {
+          "evidence_id": "evidence-6d0028ea3af7",
+          "subject": "Program Counter",
+          "predicate": "is",
+          "object": "a 64-bit register holding the current instruction address"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文分别支持 31 个 R0–R30 通用寄存器、X 与 W 两种访问宽度，以及独立描述的 Stack Pointer 和 Program Counter 架构状态。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "start": 0,
+          "end": 39
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "start": 0,
+          "end": 42
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "start": 0,
+          "end": 42
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "start": 0,
+          "end": 41
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "start": 0,
+          "end": 24
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "arm-memory-coherency",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-37ff700ccf96",
+          "exact": "In the Arm memory model, the Shareability memory attribute indicates the degree to which hardware must ensure memory coherency between a set of observers."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-37ff700ccf96",
+          "subject": "Shareability memory attribute",
+          "predicate": "indicates",
+          "object": "degree of memory coherency hardware must ensure",
+          "qualifiers": {
+            "observers": "a set of observers"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文直接说明 Arm 内存模型中的 Shareability 属性表示硬件必须在一组观察者之间确保的内存一致性程度。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "start": 0,
+          "end": 24
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-f997d3883be5",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:991327f602cdbcca75388764d84752cff86f0c67bcac7a8e44436bc91792a54d"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture8-isa-ii",
+          "evidence_id": "evidence-26b01009ad0d",
+          "independence_group": "source:ddca-lecture8-isa-ii",
+          "observation_sha256": "sha256:b4d78d61662115fd30ca538d4a2b128994965d51711703462530716dae76a0f1"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-934896f7d3b4",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:79761133e7cc3f09679eaa953f4808340a6cf4927584772f29cc1d24b4ac7079"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-0fcb148be49a",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:edc912d7c76d3e3b21395860fac06b958e986371fa691e8ae4d9eb523dedae21"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "ddca-lecture9a-isa-microarchitecture",
+          "evidence_id": "evidence-b1430ecb4f5d",
+          "independence_group": "source:ddca-lecture9a-isa-microarchitecture",
+          "observation_sha256": "sha256:03b34c9f6e762008b979c6181fd231c55e209576a3b331b1aca22a6f611d5666"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:bfc5d4685490edc95dd50b50c367e99e9dc96974a64002e3038a16dcec043667"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:992f3e2a01d74099ca01556351fbe2b689755355742d95aa02b3abeef9cb5720"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-0825f3e4aba0",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:ee28a56168e3cd5b9eaa06ad1a92035d8e60a18e1c8997fc474d4b75a2573352"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-381ecdafff03",
+          "independence_group": "source:nvidia-ptx-isa",
+          "observation_sha256": "sha256:e40287ca2cad15a5ac258f73f0ffb09f9c149a9b25d4cf189df0eb5bc40b5a9c"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-457f06b7cbd6",
+          "independence_group": "source:arm-ddi0487-instruction-sets",
+          "observation_sha256": "sha256:9c729aa58e6cef34db287782526ca9390ff6e2ee4f542dd878bc2f784e9df610"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-bac48d53df0d",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:2032b93418ed1b053183324a9de5ee2f18c36ec9babbf4d834d83177c68c8f8b"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-3523e066d483",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:7afdf485f5c8774272fa4276b9337a58b50c67f4f813bcbd98d49c9b63aa1089"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-d02733c9167f",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:87e584ce5e4297ca50d33a9adc9288d4331ef6972776f2e52b4dd64de5930073"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-66da003c916a",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:394ef88ef6bd7982746b59a96b2bd97de94c6ea039c95d9f1e20cc0938e8dfd7"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-6d0028ea3af7",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:20ee9dfeb9528af6154d3c246ee423fe8d5c4edb6e46e83921d1820581397ea0"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-37ff700ccf96",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:b1ebd3849fdd9583943a689f5c53c1ab7f6c1f830f0028c908410884757c753f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture8-isa-ii",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture8-isa-ii",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "ddca-lecture9a-isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "risc-cisc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "risc-cisc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "nvidia-ptx-isa",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "nvidia-ptx-isa",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-instruction-sets",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-memory-model",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "isa-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "isa-vs-micro",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "same-isa-implementations",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "risc-cisc-tendencies",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gpu-isa",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-a64-encoding",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-aarch64-registers",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-memory-coherency",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

@@ -1,0 +1,2108 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpu-pipeline-and-hazards",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_977d2601e9dd",
+  "input_hash": "sha256:fb913c6c5f8a1a2fa992dac7ad62864bfaac36de75dc6e20a947bc1041bd1962",
+  "provider_duration_ms": 132036,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788403140.598453,
+  "wiki_content_sha256": "sha256:4c88d905d2d1e4777da443460134a630ce7baccc89c12eddf3d13d859639886c",
+  "wiki_evidence_sha256": "sha256:6e42090058cc1128c0cc235582fc68b6450ede3887219177d5b7864dbbdc1c5e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "imperial-pipelines"
+      },
+      "source_id": "imperial-pipelines",
+      "evidence_id": "evidence-8b1491c048e8",
+      "snapshot_sha256": "sha256:920997cc0ff95a10290da564f0e70ce0664f8b390d282c9d83ec2f038e57f0af",
+      "selector_sha256": "sha256:3a70a35e86e29ae70f21d37adba3173128d3a4b23c121b85ad30d4d73d192378",
+      "quote_sha256": "sha256:f2d5dbccdc595fb720005b84c965d3cc868a685d1fc4ebd247c7854e3c7da130"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-c69b9407150e",
+      "snapshot_sha256": "sha256:d20d0a30b8a23a497534a6dc4acdb6c0b9a51b8685e97ddb440e73a747e638ed",
+      "selector_sha256": "sha256:15fd83ef04746e2b0e2f6fbf9437826a626879c8d39215a19d547d399cee2266",
+      "quote_sha256": "sha256:71dbc9b55c1a481eb72c0111a1ed29fd776b40152144593685ce7b14b951b215"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-e8b610e81cbb",
+      "snapshot_sha256": "sha256:d20d0a30b8a23a497534a6dc4acdb6c0b9a51b8685e97ddb440e73a747e638ed",
+      "selector_sha256": "sha256:728634782be403f0711e42cc2539491cb81bf747478c5a539a29e4729f4e1e26",
+      "quote_sha256": "sha256:de25639808cc3bcd3a603db29f1570f44855fc3a0b0acca0209ceabfdb82f421"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-2ccbb906f313",
+      "snapshot_sha256": "sha256:d20d0a30b8a23a497534a6dc4acdb6c0b9a51b8685e97ddb440e73a747e638ed",
+      "selector_sha256": "sha256:ee567c604c9f3750fc95dc76caead93729b48fdb3168e99de8a71b75e8392e9c",
+      "quote_sha256": "sha256:f1a6b489db73158fbf6376704fb0dfde98c2c8a9c9755b833288ae7fc4bf4c94"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-6438b00733d1",
+      "snapshot_sha256": "sha256:d20d0a30b8a23a497534a6dc4acdb6c0b9a51b8685e97ddb440e73a747e638ed",
+      "selector_sha256": "sha256:aa5e2436cf0cd0f8374a6a209e7e688a17253982eab29e040f184ab7528f3239",
+      "quote_sha256": "sha256:d5feeb22f494422ee2b2fe8549175956b1130fefd283d1f68337f9c0e064ea07"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-superscalar-execution"
+      },
+      "source_id": "cornell-superscalar-execution",
+      "evidence_id": "evidence-bf2ac5ac20ab",
+      "snapshot_sha256": "sha256:b8bf2c6ecab240a5e26df99255fb6c0aa4b6471a8a67f459a245a8468aa5c186",
+      "selector_sha256": "sha256:addb27032cbe31a1a5ff4a4f513f68afa6f82dbfef2b0f7362ee6129209c3306",
+      "quote_sha256": "sha256:48bc271ed289933ffbe46226d313e8390b3cbd8fc8f8d70e6cef085f5a521b8a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-superscalar-execution"
+      },
+      "source_id": "cornell-superscalar-execution",
+      "evidence_id": "evidence-3f4db4b0ab42",
+      "snapshot_sha256": "sha256:b8bf2c6ecab240a5e26df99255fb6c0aa4b6471a8a67f459a245a8468aa5c186",
+      "selector_sha256": "sha256:9ef527c09bf1442920aeba126759c1da9dccb627585382ad1ca1036f73e48926",
+      "quote_sha256": "sha256:75addade547c5ca1483f10511d06d3d14a8afa72ffa36b94a704cda567495f84"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-c8f472b47898",
+      "snapshot_sha256": "sha256:d20d0a30b8a23a497534a6dc4acdb6c0b9a51b8685e97ddb440e73a747e638ed",
+      "selector_sha256": "sha256:b50dd27ab6c1e6c7d930e53851183cb148894eead320de5f35050da81a99b8a0",
+      "quote_sha256": "sha256:f8e684f82b100790595f35eae8c0ed1efcf0d1799b027452edecd32c5484af9c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-out-of-order-execution"
+      },
+      "source_id": "cornell-out-of-order-execution",
+      "evidence_id": "evidence-8cbf47f4bcdd",
+      "snapshot_sha256": "sha256:1629f08faf835ed3d7a9f85ee11e3122ad8693b8dd0a6a32acdc2b6c9eb5c643",
+      "selector_sha256": "sha256:b89db283f7e1625b6c26addd91c6c2b07e5e2caca0e014640989c7a2ea545845",
+      "quote_sha256": "sha256:4944b50ca3c651d30a717c7f8ab98a495a7b37a23848b282b77dc630cf3a46b8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-out-of-order-execution"
+      },
+      "source_id": "cornell-out-of-order-execution",
+      "evidence_id": "evidence-0a67e6c41e7b",
+      "snapshot_sha256": "sha256:1629f08faf835ed3d7a9f85ee11e3122ad8693b8dd0a6a32acdc2b6c9eb5c643",
+      "selector_sha256": "sha256:af88c0faff5a998f90be4a53b6881af1f809adc7b176fe83c869885a18caeb6d",
+      "quote_sha256": "sha256:1bfc6c0c13a45e2e8b64531c25bc3d166f67a061fac1e587bf547e4a7d8a04bd"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-out-of-order-execution"
+      },
+      "source_id": "cornell-out-of-order-execution",
+      "evidence_id": "evidence-1554a03bd9f6",
+      "snapshot_sha256": "sha256:1629f08faf835ed3d7a9f85ee11e3122ad8693b8dd0a6a32acdc2b6c9eb5c643",
+      "selector_sha256": "sha256:9c7a616dcb77b99394b17338a39c9f5836dad6d9fba7abbf8a13ff275aaf98b1",
+      "quote_sha256": "sha256:5aedd1fcf4fc70f07eae578687dbed5db8a7dcfd931995fbc87bedc8c8098f67"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "algorithmica-cpu-cache"
+      },
+      "source_id": "algorithmica-cpu-cache",
+      "evidence_id": "evidence-156850bbfe32",
+      "snapshot_sha256": "sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f",
+      "selector_sha256": "sha256:29d1d7a5b28fa1278a102a0f3b29c9efccc11f44075da306829f4e399f465856",
+      "quote_sha256": "sha256:8364aa44b3c1b1cc5ffe7350bd4af4f9d20a24bd1caa8cb2bf1fe81ba5330b99"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "algorithmica-cpu-cache"
+      },
+      "source_id": "algorithmica-cpu-cache",
+      "evidence_id": "evidence-de0206b20bda",
+      "snapshot_sha256": "sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f",
+      "selector_sha256": "sha256:4d06688eea7215a194c772d2cd627f420d2fc6c5a95f0884ba57ccab604c7380",
+      "quote_sha256": "sha256:4c9e97f4129d028a8db0fbd7fc64bc1407c108cc58c155fdb1370d1c0f1c798a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "pipeline-throughput",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8b1491c048e8",
+          "exact": "Pipelining doesn’t help latency of single instruction\nit helps throughput of entire workload"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8b1491c048e8",
+          "subject": "pipelining",
+          "predicate": "improves",
+          "object": "throughput of the entire workload rather than latency of a single instruction"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确表示流水线不改善单条指令延迟，而改善整个工作负载的吞吐。target 原文区间为 [0,92)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "start": 0,
+          "end": 92
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "structural-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c69b9407150e",
+          "exact": "Structural Hazards: An instruction in the pipeline needs a resource\nbeing used by another instruction in the pipeline"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c69b9407150e",
+          "subject": "structural hazard",
+          "predicate": "occurs when",
+          "object": "an instruction needs a resource being used by another instruction in the pipeline"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接定义结构冒险为流水线中的一条指令需要另一条流水线指令正在使用的资源。target 原文区间为 [0,117)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "start": 0,
+          "end": 117
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "data-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e8b610e81cbb",
+          "exact": "RAW data hazards occur when one instruction depends on a data value\nproduced by a preceding instruction still in the pipeline."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e8b610e81cbb",
+          "subject": "RAW data hazard",
+          "predicate": "occurs when",
+          "object": "one instruction depends on a value produced by a preceding instruction still in the pipeline"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接说明 RAW 冒险涉及后续指令依赖前序指令产生、且前序指令仍在流水线中的数据值。target 原文区间为 [0,125)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "start": 0,
+          "end": 125
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "control-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2ccbb906f313",
+          "exact": "Control Hazards: Whether or not an instruction should be executed\ndepends on a control decision made by an earlier instruction"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2ccbb906f313",
+          "subject": "control hazard",
+          "predicate": "occurs when",
+          "object": "whether an instruction executes depends on a control decision made by an earlier instruction"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接说明一条指令是否执行取决于更早指令作出的控制决策。target 原文区间为 [0,124)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "start": 0,
+          "end": 124
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "name-hazards",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6438b00733d1",
+          "exact": "WAW and WAR Name Hazards: An instruction in the pipeline is\nwriting a register that an earlier instruction in the pipeline is either\nwriting or reading"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6438b00733d1",
+          "subject": "WAW and WAR",
+          "predicate": "are",
+          "object": "name hazards involving a register written by an instruction and written or read by an earlier instruction"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文将 WAW 和 WAR 明确标为名称冒险，并描述同一寄存器的写写或写读关系。target 原文区间为 [0,159)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "start": 0,
+          "end": 159
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "superscalar-ooo-boundary",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab"
+        },
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "exact": "Superscalar processors enable CPI < 1 (i.e., IPC > 1) by\nexecuting multiple instructions in parallel"
+        },
+        {
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "exact": "Can have both in-order and out-of-order superscalar processors,\nbut we will start by exploring in-order"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "subject": "superscalar processors",
+          "predicate": "increase",
+          "object": "instruction throughput by executing multiple instructions in parallel"
+        },
+        {
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "subject": "superscalar processors",
+          "predicate": "can be",
+          "object": "either in-order or out-of-order"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "第一条引文支持并行执行多条指令以获得 IPC > 1，第二条明确区分超标量处理器的 in-order 与 out-of-order 类型，因此超标量不等同于乱序执行。两个 target 区间分别为 [0,99) 与 [0,102)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "start": 0,
+          "end": 99
+        },
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "start": 0,
+          "end": 102
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "out-of-order-commit",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898"
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd"
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b"
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c8f472b47898",
+          "exact": "Hardware Scheduling: Hardware dynamically schedules\ninstructions to avoid RAW hazards, potentially allowing\ninstructions to execute out of order"
+        },
+        {
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "exact": "commit stage waits for pending bit of head to be clear"
+        },
+        {
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "exact": "new instructions allocated ROB entries at tail"
+        },
+        {
+          "evidence_id": "evidence-1554a03bd9f6",
+          "exact": "Reorder buffer (ROB)\n– allocated in-order in D stage\n– updated out-of-order in W stage\n– deallocated in-order in C stage"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c8f472b47898",
+          "subject": "hardware scheduling",
+          "predicate": "may allow",
+          "object": "instructions to execute out of order"
+        },
+        {
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "subject": "commit stage",
+          "predicate": "waits for",
+          "object": "the pending bit of the ROB head to clear"
+        },
+        {
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "subject": "new instructions",
+          "predicate": "are allocated",
+          "object": "ROB entries at the tail"
+        },
+        {
+          "evidence_id": "evidence-1554a03bd9f6",
+          "subject": "ROB",
+          "predicate": "is deallocated",
+          "object": "in order in the C stage"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "引文支持指令可能乱序执行，并显示 ROB 在尾部按序分配、在执行阶段乱序更新、在提交阶段按序释放；commit 等待 ROB head，支持按程序顺序提交。target 区间分别为 [0,140)、[0,54)、[0,46)、[0,118)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "start": 0,
+          "end": 140
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "start": 0,
+          "end": 54
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "start": 0,
+          "end": 46
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "start": 0,
+          "end": 118
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cache-platform-dependence",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32"
+        },
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-156850bbfe32",
+          "exact": "Not all conclusions will generalize to every CPU platform in existence."
+        },
+        {
+          "evidence_id": "evidence-de0206b20bda",
+          "exact": "we have to start taking into account the many specific details of the CPU cache system"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-156850bbfe32",
+          "subject": "cache conclusions",
+          "predicate": "do not necessarily generalize to",
+          "object": "every CPU platform"
+        },
+        {
+          "evidence_id": "evidence-de0206b20bda",
+          "subject": "CPU cache system",
+          "predicate": "requires consideration of",
+          "object": "many specific details"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "ARC-002"
+      ],
+      "rationale": "两条引文一致支持缓存结论具有平台依赖性：并非所有结论可推广到每个平台，且需考虑缓存系统的具体细节。target 区间分别为 [0,71) 与 [0,86)。来源未提供可证明独立性的 provenance 字段，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "start": 0,
+          "end": 71
+        },
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "start": 0,
+          "end": 86
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-8b1491c048e8",
+          "independence_group": "source:imperial-pipelines",
+          "observation_sha256": "sha256:d5b5161cdb7dc152d52677acb842a96f1c0fd6428baef058417c4cdab6fd982e"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c69b9407150e",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:862a4f0dd35f8f46c52d76cd9dd65b7411af9717067c10cd6adc6a0ff7437ac6"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-e8b610e81cbb",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:bc8b46e59905fe08ed6c41ca57e7c89e40aae11865f7aa5359ab6713536c30e9"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-2ccbb906f313",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:8c2498b161339ec4ac6f6633af61d2a59ccb3313c8c727bebd7197af74e28c54"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-6438b00733d1",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:27f0669a63af5a81c76b12b6ea5310fb409ba320233ac252fbd6a8167a3e7350"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-bf2ac5ac20ab",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:7e6ddc0d95b3a3576da37800710be4d034ea3f8168cd5f28f88aaddea91659bf"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "target_b": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-3f4db4b0ab42",
+          "independence_group": "source:cornell-superscalar-execution",
+          "observation_sha256": "sha256:14069c21caef41eb17d4829a76359d1a89d333aa54b8e9c67db57170aa0512c7"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-c8f472b47898",
+          "independence_group": "source:cornell-processor-microarchitecture",
+          "observation_sha256": "sha256:f94842fefa5c5b5d9c6bec0f0b741a3e5e8ff178d47d8b2a75fb199243567057"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-8cbf47f4bcdd",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:14a24913f51dead3ce4690b91a5a36cc2969e5dfaaa81a7d4292d42179bee4a0"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "target_b": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-0a67e6c41e7b",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:a17788854092ccebeca4f864091cf1582c3a715ce3264ba572f02c9b9ba383a8"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-1554a03bd9f6",
+          "independence_group": "source:cornell-out-of-order-execution",
+          "observation_sha256": "sha256:d0ff069a43e74df1576b7899c35b7ade3d80d54c20134782f07af8a6ba9be8d6"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:788f2a505c3578865adfa7bcf48d3851d55091f276c5e05d45c02709bddc7711"
+        },
+        "target_b": {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "independence_group": "source:algorithmica-cpu-cache",
+          "observation_sha256": "sha256:0b8a8b0362b4bb3ab304a77e67597703c75aae06f80e662b17019d1782bd5b5d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "imperial-pipelines",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-superscalar-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-superscalar-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-out-of-order-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-out-of-order-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-out-of-order-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "algorithmica-cpu-cache",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "algorithmica-cpu-cache",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "pipeline-throughput",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "structural-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "data-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "control-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "name-hazards",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "superscalar-ooo-boundary",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "out-of-order-commit",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cache-platform-dependence",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 4,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "operation-confirmation/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "cpu-pipeline-and-hazards"
+  },
+  "scope": "publish",
+  "decision": "approve",
+  "actor_id": "zhouzijian",
+  "confirmed_at": 1788416732.88081,
+  "content_sha256": "sha256:4c88d905d2d1e4777da443460134a630ce7baccc89c12eddf3d13d859639886c",
+  "evidence_sha256": "sha256:6e42090058cc1128c0cc235582fc68b6450ede3887219177d5b7864dbbdc1c5e",
+  "deterministic_report_sha256": "sha256:31879d48793052f4ac8f3758e3606c98d3ccec7fa373e036424fe15abe68ce65",
+  "llm_state": "pass",
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "fail_history": {
+    "fail_count": 4,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  },
+  "confirmation_sha256": "sha256:84b13e0e9f5c197c32dbbbc048fed29e9debb6d6c3bd464662e122cfb36b8c3c"
+}
