@@ -32,15 +32,12 @@ evidence:
   claim_id: segmented-search
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-fb6d25a01405
-    exact: 'The crucial task of localizing such regressions can be achieved
-
-      using bisection, which attempts to find the bug-introducing commit using binary
-
-      search. This approach is used extensively by many development teams, but it
-      is'
+  - evidence_id: evidence-ab11c6af1882
+    exact: The crucial task of localizing such regressions can be achieved using bisection,
+      which attempts to find the bug-introducing commit using binary search. This
+      approach is used extensively by many development teams
   targets:
-  - evidence_id: evidence-fb6d25a01405
+  - evidence_id: evidence-ab11c6af1882
     source_id: bisect-performance-regression
 - claim: 事件记录形式（tracing）逐个记录每个事件，如函数的进入与退出。
   claim_id: trace-form
