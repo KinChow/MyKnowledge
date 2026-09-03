@@ -1,0 +1,266 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "program-performance-analysis",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_97660708bfc6",
+  "input_hash": "sha256:8c5f67deaecf99a3663016c5e9072c0684c2236d374eb180a3d783ba8481ce0a",
+  "provider_duration_ms": 41030,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788403709.281722,
+  "wiki_content_sha256": "sha256:9376954fd0a1333ffd5aa895a5194d14d78f45442c19026d8298b66958861483",
+  "wiki_evidence_sha256": "sha256:f751dab6068aa5692386ed32ebfb3979a5706b05bd7b5237a9d9178717f630e8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "little-law-columbia"
+      },
+      "source_id": "little-law-columbia",
+      "evidence_id": "evidence-b21516b37538",
+      "snapshot_sha256": "sha256:91967eab9c14924c660c7889cfd655650653a065f8fe8cc592958b34da8c9115",
+      "selector_sha256": "sha256:7fcc75eacda2a7ee71ee0d23a9b74d06e449e721c4339cdba0471b725053a4cc",
+      "quote_sha256": "sha256:04cc67951697ced1135257ba0bfa0744270f3d6f8f5373c395a3bf4358ebc2ba"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "osti-profiling-tracing"
+      },
+      "source_id": "osti-profiling-tracing",
+      "evidence_id": "evidence-fbd53f5c9a80",
+      "snapshot_sha256": "sha256:b798abfaf6126c3778f813cbc948a0cf998d31577189cbaa3d2f924bedf13f47",
+      "selector_sha256": "sha256:3e207748aa4073d3d144c7af52faf6f65dbb82e07710c466a574d374eed77414",
+      "quote_sha256": "sha256:1685ee722322fb254b1314267123776655addcff3b1198d5e7141968b1cd5959"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "program-performance-analysis-notes"
+      },
+      "source_id": "program-performance-analysis-notes",
+      "evidence_id": "evidence-72311733bcc6",
+      "snapshot_sha256": "sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6",
+      "selector_sha256": "sha256:ea0373f293e1e8ea3548c80c8a0b64064a29a82d634c02a3152efd07bcb42e07",
+      "quote_sha256": "sha256:23567330c25c6bb533ae91c079bd5e0a8a9f64f3c02d1fcae13b62f8280a1cad"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "little-law",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-b21516b37538"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b21516b37538",
+          "exact": "also known\nas l = λw, which asserts that the time average number of customers in a queueing system, l,\nis equal to the rate at which customers arrive, λ,× the average sojourn time of a customer"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确写明“l = λw”，并说明 l 等于到达率 λ 与平均逗留时间 w 的乘积，直接支持该等式。",
+      "rationale_offsets": [
+        {
+          "source_id": "little-law-columbia",
+          "evidence_id": "evidence-b21516b37538",
+          "start": 0,
+          "end": 190
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "little-law-columbia",
+            "evidence_id": "evidence-b21516b37538"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "profile-form",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-fbd53f5c9a80"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fbd53f5c9a80",
+          "exact": "Profilers provide a summary of execution statistics  and/or events."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明分析器提供执行统计数据和/或事件的 summary，与“概要形式以汇总的形式展示程序信息”相符。",
+      "rationale_offsets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-fbd53f5c9a80",
+          "start": 0,
+          "end": 65
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "osti-profiling-tracing",
+            "evidence_id": "evidence-fbd53f5c9a80"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "segmented-search",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-72311733bcc6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-72311733bcc6",
+          "exact": "分段查找是常用定位程序分析代码段的方法之一"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文逐字说明分段查找是常用的定位程序分析代码段的方法之一，直接支持该 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "program-performance-analysis-notes",
+          "evidence_id": "evidence-72311733bcc6",
+          "start": 0,
+          "end": 21
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "program-performance-analysis-notes",
+            "evidence_id": "evidence-72311733bcc6"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "little-law-columbia",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "osti-profiling-tracing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "program-performance-analysis-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "little-law",
+      "source_id": "little-law-columbia",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "profile-form",
+      "source_id": "osti-profiling-tracing",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "segmented-search",
+      "source_id": "program-performance-analysis-notes",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

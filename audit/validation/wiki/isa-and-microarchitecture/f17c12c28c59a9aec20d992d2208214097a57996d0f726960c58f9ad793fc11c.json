@@ -1,0 +1,481 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "isa-and-microarchitecture",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_69947c41698d",
+  "input_hash": "sha256:f142223507b5ba759649eaceb905959c587c65f36879504a9365bec4dd425b97",
+  "provider_duration_ms": 72872,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788374943.342161,
+  "wiki_content_sha256": "sha256:bdcfef58a2550e75c10bf7bbe115a30233b31dab5d3bdd0ea34170d4a935ebeb",
+  "wiki_evidence_sha256": "sha256:586e290936797737a7bc6b5af87fe3d0e1f55b50f3024a8772c86555e9ad8747",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "isa-microarchitecture"
+      },
+      "source_id": "isa-microarchitecture",
+      "evidence_id": "evidence-cc0375237772",
+      "snapshot_sha256": "sha256:3f7d5b603b80e4012d65d109a817d42edad672e2e8548664808843b181e99080",
+      "selector_sha256": "sha256:9d21cea39cd2b4935bcd140c098d8f2c4d755aa4a632c62f651413637a349a60",
+      "quote_sha256": "sha256:df438a180a53ca753698241c60389f6e44c76c3f3a5801ef74715cbfe214e0e9"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "isa-microarchitecture"
+      },
+      "source_id": "isa-microarchitecture",
+      "evidence_id": "evidence-2dd3071e634f",
+      "snapshot_sha256": "sha256:3f7d5b603b80e4012d65d109a817d42edad672e2e8548664808843b181e99080",
+      "selector_sha256": "sha256:22a7b95d151c46b99ef4642b0b63e8c0bdf04c62db90919dac5a0f2f8d54007a",
+      "quote_sha256": "sha256:2d4cc319aa85fedce3ddd9cf4089fd1aef6f2d3703b24eb538ba74d2849b9b86"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "risc-cisc"
+      },
+      "source_id": "risc-cisc",
+      "evidence_id": "evidence-a8d12c44797d",
+      "snapshot_sha256": "sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7",
+      "selector_sha256": "sha256:268a636646238a71de72c91d8d6a7b1fbbdd934cfdefcc12a402773128b2e386",
+      "quote_sha256": "sha256:9009d4667e809100bddf9e166e28e789b7ebaedb882583fdcaed13350198c1a0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "risc-cisc"
+      },
+      "source_id": "risc-cisc",
+      "evidence_id": "evidence-fc615f4beb99",
+      "snapshot_sha256": "sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7",
+      "selector_sha256": "sha256:2ca34414d0921012a6bb99dbb06d919ffd0c5a80da0f663188f96de267a41127",
+      "quote_sha256": "sha256:c5894a1d9a967dce5b6c71e4685a6a26d2133d2640f941811da4bf781f2653f2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "isa-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-cc0375237772"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cc0375237772",
+          "exact": "ISA is the language of the CPU that tells it what operations it can perform, such as adding numbers, loading data, or jumping to another instruction."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-cc0375237772",
+          "subject": "ISA",
+          "predicate": "defines",
+          "object": "CPU可执行的操作",
+          "qualifiers": {
+            "examples": [
+              "adding numbers",
+              "loading data",
+              "jumping to another instruction"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文明确将 ISA 称为 CPU 的语言，并说明其告知 CPU 可执行的操作，同时列出加法、加载数据和跳转示例。该 target 的 provenance 为空，无法证明独立性，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-cc0375237772",
+          "start": 0,
+          "end": 150
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "isa-microarchitecture",
+            "evidence_id": "evidence-cc0375237772",
+            "offset": {
+              "start": 0,
+              "end": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "isa-vs-micro",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-2dd3071e634f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2dd3071e634f",
+          "exact": "ISA defines what a CPU can do, while microarchitecture is how the CPU is designed internally to carry out those instructions."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2dd3071e634f",
+          "subject": "ISA",
+          "predicate": "defines",
+          "object": "CPU能做什么",
+          "qualifiers": {}
+        },
+        {
+          "evidence_id": "evidence-2dd3071e634f",
+          "subject": "microarchitecture",
+          "predicate": "describes",
+          "object": "CPU为执行这些指令而进行的内部设计",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文直接区分 ISA 的功能定义与微架构的内部实现方式：ISA 定义 CPU 能做什么，微架构说明 CPU 如何在内部执行这些指令。该 target 的 provenance 为空，无法证明独立性，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-2dd3071e634f",
+          "start": 0,
+          "end": 123
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "isa-microarchitecture",
+            "evidence_id": "evidence-2dd3071e634f",
+            "offset": {
+              "start": 0,
+              "end": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "risc-shape",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a8d12c44797d",
+          "exact": "RISC uses a small set of simple, fixed-length instructions and follows a load/store approach, enabling efficient and fast execution."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a8d12c44797d",
+          "subject": "RISC",
+          "predicate": "uses",
+          "object": "小型、简单、定长指令集",
+          "qualifiers": {
+            "execution_approach": "load/store",
+            "claimed_effect": "efficient and fast execution"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文明确支持 RISC 采用小型、简单、定长指令集及 load/store 方式，并明确声称这会带来高效快速执行。该 target 的 provenance 为空，无法证明独立性，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "start": 0,
+          "end": 133
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "risc-cisc",
+            "evidence_id": "evidence-a8d12c44797d",
+            "offset": {
+              "start": 0,
+              "end": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "cisc-shape",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fc615f4beb99",
+          "exact": "CISC uses a larger set of complex, variable-length instructions that can perform multiple operations, often requiring multiple clock cycles."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fc615f4beb99",
+          "subject": "CISC",
+          "predicate": "uses",
+          "object": "较大、复杂、变长指令集",
+          "qualifiers": {
+            "capability": "perform multiple operations",
+            "timing": "often requiring multiple clock cycles"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "引文明确支持 CISC 使用较大、复杂、变长指令集，可执行多种操作，并且通常需要多个时钟周期。该 target 的 provenance 为空，无法证明独立性，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "start": 0,
+          "end": 139
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "risc-cisc",
+            "evidence_id": "evidence-fc615f4beb99",
+            "offset": {
+              "start": 0,
+              "end": 2
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-cc0375237772",
+          "independence_group": "source:isa-microarchitecture",
+          "observation_sha256": "sha256:b16a979883582b297cdd77c5c30e6baf734d61c5168cf47c99ece0f505480885"
+        },
+        "target_b": {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-2dd3071e634f",
+          "independence_group": "source:isa-microarchitecture",
+          "observation_sha256": "sha256:12686d4d0185126dd80d91947c58c0841e392b4e0cbaa2553348abd54c1f1207"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-cc0375237772",
+          "independence_group": "source:isa-microarchitecture",
+          "observation_sha256": "sha256:b16a979883582b297cdd77c5c30e6baf734d61c5168cf47c99ece0f505480885"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:311844f1fde326cf6f937ea9f20385abefc547f012567746f88d5ea1cb276efa"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-cc0375237772",
+          "independence_group": "source:isa-microarchitecture",
+          "observation_sha256": "sha256:b16a979883582b297cdd77c5c30e6baf734d61c5168cf47c99ece0f505480885"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:783e995810e2f14af4f4e721ccc58921a8390a044967f4e0771aed1e344332bb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-2dd3071e634f",
+          "independence_group": "source:isa-microarchitecture",
+          "observation_sha256": "sha256:12686d4d0185126dd80d91947c58c0841e392b4e0cbaa2553348abd54c1f1207"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:311844f1fde326cf6f937ea9f20385abefc547f012567746f88d5ea1cb276efa"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "isa-microarchitecture",
+          "evidence_id": "evidence-2dd3071e634f",
+          "independence_group": "source:isa-microarchitecture",
+          "observation_sha256": "sha256:12686d4d0185126dd80d91947c58c0841e392b4e0cbaa2553348abd54c1f1207"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:783e995810e2f14af4f4e721ccc58921a8390a044967f4e0771aed1e344332bb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-a8d12c44797d",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:311844f1fde326cf6f937ea9f20385abefc547f012567746f88d5ea1cb276efa"
+        },
+        "target_b": {
+          "source_id": "risc-cisc",
+          "evidence_id": "evidence-fc615f4beb99",
+          "independence_group": "source:risc-cisc",
+          "observation_sha256": "sha256:783e995810e2f14af4f4e721ccc58921a8390a044967f4e0771aed1e344332bb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "isa-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "risc-cisc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "risc-cisc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
