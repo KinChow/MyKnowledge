@@ -1,113 +1,15 @@
 ---
-aliases:
-- LLVM 自动向量化
-- Loop Vectorizer
-- SLP Vectorizer
-confidentiality: public
 domain: computer-science
-evidence:
-- claim: LLVM 有两个向量化器：作用于循环的 Loop Vectorizer，以及 SLP Vectorizer。
-  claim_id: two-vectorizers
-  support: direct
-  supporting_quotes:
-  - evidence_id: evidence-878e7e0d7d13
-    exact: 'LLVM has two vectorizers: The Loop Vectorizer, which operates on Loops,
-      and the SLP Vectorizer'
-  targets:
-  - evidence_id: evidence-878e7e0d7d13
-    source_id: llvm-auto-vectorization
-- claim: SLP 向量化器把代码中找到的多个标量合并成向量。
-  claim_id: slp-merges-scalars
-  support: direct
-  supporting_quotes:
-  - evidence_id: evidence-41839e947a4e
-    exact: The SLP vectorizer merges multiple scalars that are found in the code into
-      vectors
-  targets:
-  - evidence_id: evidence-41839e947a4e
-    source_id: llvm-auto-vectorization
-- claim: 向量化的 SIMD 宽度可以用命令行标志 -force-vector-width 控制。
-  claim_id: force-vector-width
-  support: direct
-  supporting_quotes:
-  - evidence_id: evidence-b37af9d946eb
-    exact: Users can control the vectorization SIMD width using the command line flag
-      “-force-vector-width”
-  targets:
-  - evidence_id: evidence-b37af9d946eb
-    source_id: llvm-auto-vectorization
-id: llvm-auto-vectorization
-kind: knowledge
-publication_scope: public
-related: []
-sources:
-- llvm-auto-vectorization
-status: published
-tags:
-- compiler
-- vectorization
-- llvm
-title: LLVM 自动向量化：两个向量化器与宽度控制
-updated_at: '2026-09-03'
+source_ref: llvm-auto-vectorization
+title: LLVM 自动向量化
 ---
-
-# LLVM 自动向量化：两个向量化器与宽度控制
-
-## 一句话结论
-
-LLVM 的自动向量化由两个独立的向量化器承担——Loop Vectorizer 作用于循环、SLP Vectorizer 把散落的标量合并成向量；调优时先判断代码属于哪一类，再用 `-force-vector-width` 等标志干预。
-
-## 核心概念
-
-- **Loop Vectorizer**：作用于循环，把一次处理一个元素的循环改写为一次处理多个元素。
-- **SLP Vectorizer**：把代码中找到的多个标量合并成向量，针对的是不成循环的直线代码。
-- **SIMD 宽度**：一条向量指令同时处理的元素个数，可由命令行标志显式指定。
-
-## 工作机制
-
-1. 两个向量化器面向不同的优化机会，使用不同的技术，因此同一段代码可能只被其中一个处理。
-2. Loop Vectorizer 处理循环形态；直线代码里的多个标量运算由 SLP Vectorizer 合并。
-3. 宽度不由用户猜测：默认由编译器按目标平台选择，需要固定时用 `-force-vector-width` 指定。
-
-## 示例或代码
-
-```shell
-clang -mllvm -force-vector-width=8 ...
-opt -loop-vectorize -force-vector-width=8 ...
-```
-
-## 常见误区
-
-- **以为只有循环能被向量化**：直线代码里的标量运算由 SLP Vectorizer 负责，不是"没有循环就没有向量化"。
-- **默认宽度一定最优**：宽度是可干预的调优参数，但改宽度前应先确认瓶颈确实在向量化上。
-
-## 证据映射
-
-- `two-vectorizers`、`slp-merges-scalars`、`force-vector-width` 三条 claim 均由 `llvm-auto-vectorization` source 快照中的对应句子直接支撑（direct），来源是 LLVM 官方文档 `https://llvm.org/docs/Vectorizers.html`。
-- claim 表述严格不超出引文字面：引文只说"两个向量化器"与"SLP 合并标量"，因此 claim 不写"哪个更快""默认启用哪个"这类文档未写的判断。
-- 正文的推论性内容（调优顺序、常见误区）留在正文，不上升为 claim。
-
-## 待验证项
-
-- [ ] 与 GCC 的向量化实现对照，明确两者在 SLP 上的差异；
-- [ ] 引文为英文原文，尚未评估是否需要为中文读者提供逐句对照。
-
-## 关联知识
-
-- 循环优化与编译器优化选项
-- SIMD 指令集与数据并行
-- 程序性能的分析和测量
-
-
-## 详细章节
-
-### LLVM 自动向量化
+# LLVM 自动向量化
 
 > 本工作文档由 LLVM 官方文档《Auto-Vectorization in LLVM》
 > （https://llvm.org/docs/Vectorizers.html，source_id: llvm-auto-vectorization）
 > 派生，结构按官方页面组织，内容为完整转述（零删减）。新增的加工性判断以"注："标注。
 
-#### 总览：两个向量化器
+## 总览：两个向量化器
 
 LLVM 有两个向量化器：作用于循环的 **Loop Vectorizer**，以及 **SLP Vectorizer**。
 两者面向不同的优化机会、使用不同的技术：
@@ -117,9 +19,9 @@ LLVM 有两个向量化器：作用于循环的 **Loop Vectorizer**，以及 **S
 
 两个向量化器默认都启用。
 
-#### Loop Vectorizer
+## Loop Vectorizer
 
-##### 用法
+### 用法
 
 Loop Vectorizer 默认启用，可通过 clang 命令行标志禁用：
 
@@ -127,7 +29,7 @@ Loop Vectorizer 默认启用，可通过 clang 命令行标志禁用：
 $ clang ... -fno-vectorize  file.c
 ```
 
-##### 命令行标志
+### 命令行标志
 
 循环向量化器用代价模型（cost model）决定最优的向量化因子（vectorization factor）
 与展开因子（unroll factor）。用户也可以强制指定具体值，`clang` 与 `opt` 都支持。
@@ -146,7 +48,7 @@ $ clang  -mllvm -force-vector-interleave=2 ...
 $ opt -loop-vectorize -force-vector-interleave=2 ...
 ```
 
-##### Pragma 循环提示指令
+### Pragma 循环提示指令
 
 `#pragma clang loop` 指令允许为后续的 for / while / do-while / C++11 range-based for
 循环指定向量化提示：可启用或禁用向量化与交错（interleaving），也可手动指定向量宽度
@@ -172,7 +74,7 @@ for(...) {
 
 详见 Clang language extensions 文档。
 
-##### 诊断（Diagnostics）
+### 诊断（Diagnostics）
 
 许多循环无法被向量化：复杂的控制流、不可向量化的类型与函数调用。循环向量化器会生成
 优化备注（optimization remarks），可用命令行选项查询：
@@ -211,11 +113,11 @@ no_switch.cpp:4:5: remark: loop not vectorized: loop contains a switch statement
 
 要得到行列号，需加上 `-gline-tables-only` 与 `-gcolumn-info`（见 Clang 用户手册）。
 
-##### 特性
+### 特性
 
 LLVM Loop Vectorizer 具备一系列特性以向量化复杂循环。
 
-###### 未知循环次数（unknown trip count）
+#### 未知循环次数（unknown trip count）
 
 支持未知迭代次数的循环。当迭代起始与结束未知、且迭代次数不保证是向量宽度整数倍时，
 向量化器把最后几个迭代以标量代码执行（保留标量副本会增加代码体积）：
@@ -227,7 +129,7 @@ void bar(float *A, float* B, float K, int start, int end) {
 }
 ```
 
-###### 指针运行时检查（Runtime Checks of Pointers）
+#### 指针运行时检查（Runtime Checks of Pointers）
 
 若指针 A 与 B 指向连续地址，向量化不合法（A 的某些元素会在从 B 读之前被写）。
 有些程序员用 `restrict` 关键字通知编译器指针不相交，但本例中向量化器无法知道 A 与
@@ -241,7 +143,7 @@ void bar(float *A, float* B, float K, int n) {
 }
 ```
 
-###### 归约（Reductions）
+#### 归约（Reductions）
 
 下例中 sum 变量被循环的连续迭代使用，通常这会阻止向量化；但向量化器能识别 sum 是
 **归约变量**：sum 变成整数向量，循环结束时把向量各元素相加得到正确结果。支持多种
@@ -263,7 +165,7 @@ int foo(int *A, int n) {
 的 **ordered reductions（有序归约）**，实现有限度的、符合标准的向量化；但有序归约
 通常比传统向量化归约低效，因此在这些目标上启用浮点重排仍可能得到更高效的归约。
 
-###### 归纳变量（Inductions）
+#### 归纳变量（Inductions）
 
 向量化器知道如何向量化归纳变量（例如把 i 的值存入数组）：
 
@@ -274,7 +176,7 @@ void bar(float *A, int n) {
 }
 ```
 
-###### 条件转换（If Conversion）
+#### 条件转换（If Conversion）
 
 Loop Vectorizer 能把代码中的 IF 语句"展平"为单条指令流，支持最内层循环的任意控制流
 （可含复杂嵌套的 IF/ELSE 甚至 GOTO）：
@@ -289,7 +191,7 @@ int foo(int *A, int *B, int n) {
 }
 ```
 
-###### 指针归纳变量（Pointer Induction Variables）
+#### 指针归纳变量（Pointer Induction Variables）
 
 下例使用 C++ 标准库的 accumulate 函数，循环用 C++ 迭代器（即指针）而非整数下标。
 Loop Vectorizer 能识别指针归纳变量并向量化——这对大量使用迭代器的 C++ 程序很重要：
@@ -300,7 +202,7 @@ int baz(int *A, int n) {
 }
 ```
 
-###### 反向迭代器（Reverse Iterators）
+#### 反向迭代器（Reverse Iterators）
 
 可向量化向后计数的循环：
 
@@ -311,7 +213,7 @@ void foo(int *A, int n) {
 }
 ```
 
-###### 散聚（Scatter / Gather）
+#### 散聚（Scatter / Gather）
 
 可向量化最终成为标量指令序列散聚（scatter/gather）内存的代码。很多情况下代价模型
 会判定这不划算，LLVM 只在用 `-mllvm -force-vector-width=#` 强制时向量化：
@@ -323,7 +225,7 @@ void foo(int * A, int * B, int n) {
 }
 ```
 
-###### 混合类型（Vectorization of Mixed Types）
+#### 混合类型（Vectorization of Mixed Types）
 
 可向量化混合类型的程序；代价模型会估算类型转换的开销并决定向量化是否划算：
 
@@ -334,7 +236,7 @@ void foo(int *A, char *B, int n) {
 }
 ```
 
-###### 全局结构体别名分析（Global Structures Alias Analysis）
+#### 全局结构体别名分析（Global Structures Alias Analysis）
 
 对全局结构体的访问也可向量化，用别名分析保证访问不冲突；也支持在结构体成员的指针
 访问上添加运行时检查。支持很多变体，但一些依赖忽略未定义行为（其他编译器这样做）的
@@ -348,7 +250,7 @@ void foo() {
 }
 ```
 
-###### 函数调用向量化（Vectorization of function calls）
+#### 函数调用向量化（Vectorization of function calls）
 
 Loop Vectorizer 可向量化**内建数学函数**（intrinsic math functions，清单见官方页面
 表格）。注意：若数学库函数访问外部状态（如 errno），优化器可能无法向量化对应内建
@@ -372,7 +274,7 @@ clang 用 `-fveclib` 选项指定，可选向量库：
 $ clang ... -fno-math-errno -fveclib=libmvec file.c
 ```
 
-###### 向量化过程中的部分展开（Partial unrolling during vectorization）
+#### 向量化过程中的部分展开（Partial unrolling during vectorization）
 
 现代处理器有多个执行单元，只有并行度高的程序才能用满机器整个宽度。Loop Vectorizer
 通过对循环做**部分展开**提升指令级并行（ILP）。下例把整个数组累加进 sum，效率低——
@@ -389,7 +291,7 @@ int foo(int *A, int n) {
 
 Loop Vectorizer 用代价模型决定何时展开有利，取决于寄存器压力与生成代码的体积。
 
-###### 尾声向量化（Epilogue Vectorization）
+#### 尾声向量化（Epilogue Vectorization）
 
 向量化循环时常需要标量余数（epilogue）循环来处理尾部迭代（当循环次数未知或不能整除
 向量化×展开因子时）。当向量化与展开因子较大时，迭代次数较小的循环可能把大部分时间
@@ -397,7 +299,7 @@ Loop Vectorizer 用代价模型决定何时展开有利，取决于寄存器压�
 小迭代次数循环仍以向量代码执行的向量化/展开因子组合来向量化尾声循环。控制流结构化地
 避免复制运行时指针检查，并优化小迭代次数循环的路径长度。
 
-###### 早退向量化（Early Exit Vectorization）
+#### 早退向量化（Early Exit Vectorization）
 
 对带单个早退（early exit）的循环向量化时，早退之后的循环块会被谓词化（predicated），
 向量循环总是经 latch 退出。循环以单个 BranchOnTwoConds VPInstruction 终止：
@@ -408,20 +310,20 @@ Loop Vectorizer 用代价模型决定何时展开有利，取决于寄存器压�
 
 BranchOnTwoConds 在溶解循环区域后被降低为一条条件分支链。
 
-##### 性能（Performance）
+### 性能（Performance）
 
 官方页面给出 clang 在 gcc-loops 基准（GCC autovectorization 页面的一组循环，
 by Dorit Nuzman）上的执行时间对比：GCC-4.7、ICC-13、Clang-SVN 在 -O3 下开启/关闭
 循环向量化，tuned for "corei7-avx"，运行于 Sandybridge iMac；以及相同配置的
 Linpack-pc（Mflops，越高越好）。
 
-##### 持续开发方向（Ongoing Development Directions）
+### 持续开发方向（Ongoing Development Directions）
 
 - **Vectorization Plan**：建模并升级 LLVM Loop Vectorizer 的基础设施。
 
-#### SLP Vectorizer
+## SLP Vectorizer
 
-##### 详情（Details）
+### 详情（Details）
 
 SLP 向量化（又名 superword-level parallelism，超字级并行）的目标是把**相似且独立**的
 指令合并成向量指令。内存访问、算术运算、比较运算、PHI 节点都可用该技术向量化。
@@ -440,7 +342,7 @@ void foo(int a1, int a2, int b1, int b2, int *A) {
 
 SLP 向量化器**自底向上**、跨基本块处理代码，寻找可合并的标量。
 
-##### 用法（Usage）
+### 用法（Usage）
 
 SLP Vectorizer 默认启用，可通过 clang 命令行标志禁用：
 
@@ -448,7 +350,7 @@ SLP Vectorizer 默认启用，可通过 clang 命令行标志禁用：
 $ clang -fno-slp-vectorize file.c
 ```
 
-#### Sandbox Vectorizer
+## Sandbox Vectorizer
 
 Sandbox Vectorizer 是用于构建模块化向量化流水线的**实验性**框架，构建在 Sandbox IR
 之上，聚焦于易测试性与易开发性。
