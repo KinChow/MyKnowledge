@@ -1,0 +1,679 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpu-pipeline-and-hazards",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_0b3bdb58b16e",
+  "input_hash": "sha256:12b99cfae4957db7ed3937649356420ff91cd92bebb6761c49e55bf35c9d7b39",
+  "provider_duration_ms": 104320,
+  "provider_meta": {
+    "model": "gpt-5.6-terra"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788437451.198764,
+  "wiki_content_sha256": "sha256:4c88d905d2d1e4777da443460134a630ce7baccc89c12eddf3d13d859639886c",
+  "wiki_evidence_sha256": "sha256:68088ba10b38426e7f79325d7ed6ddfef90516f78ff41def8b4c8d023a381b70",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "imperial-pipelines"
+      },
+      "source_id": "imperial-pipelines",
+      "evidence_id": "evidence-5f68cf369f34",
+      "snapshot_sha256": "sha256:b57021f3ebe49ea8aca788c1fbc9b766f6263ed3cda18354d71900d7dfd58755",
+      "selector_sha256": "sha256:2377aa0359257b3b81fb6a875029c03e23123e858ff8548f9fe5f9d794c83cbf",
+      "quote_sha256": "sha256:f2d5dbccdc595fb720005b84c965d3cc868a685d1fc4ebd247c7854e3c7da130"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-dafa299071d6",
+      "snapshot_sha256": "sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5",
+      "selector_sha256": "sha256:f109d9b22fe948502d71159f6780069f9ee721f3063708c1d0c7a2cb2df1a70c",
+      "quote_sha256": "sha256:d5a894249294d9d677623562036d8784c438329faaedb83d2e74d02e8d883c65"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-f9d0c88149fb",
+      "snapshot_sha256": "sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5",
+      "selector_sha256": "sha256:d9cc053dfe2f7b9cd814a99fb672eb7e2ee78532efdc76d880d90779c8a42e30",
+      "quote_sha256": "sha256:de25639808cc3bcd3a603db29f1570f44855fc3a0b0acca0209ceabfdb82f421"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-d4cda8ea4bf4",
+      "snapshot_sha256": "sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5",
+      "selector_sha256": "sha256:5f8f5a64fc8df3eb547082e467f3b6a2e5a63355e58d07e36bf8a8a4a652c135",
+      "quote_sha256": "sha256:5e5bf1e40de6d4ad82bf09806c82be0015b201a3fa87661c4d279f91bbc6734f"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-5c4b286e4308",
+      "snapshot_sha256": "sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5",
+      "selector_sha256": "sha256:1eb84fec2587e4dd900442b409dd77b03551357edcfe8d1878b430d1d2ba977f",
+      "quote_sha256": "sha256:d5feeb22f494422ee2b2fe8549175956b1130fefd283d1f68337f9c0e064ea07"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-superscalar-execution"
+      },
+      "source_id": "cornell-superscalar-execution",
+      "evidence_id": "evidence-fdc0d2603ccf",
+      "snapshot_sha256": "sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c",
+      "selector_sha256": "sha256:e3573abae8d36e7e860b8fb264f56328173a6f4b19e4deaa943dd69a84959d2c",
+      "quote_sha256": "sha256:48bc271ed289933ffbe46226d313e8390b3cbd8fc8f8d70e6cef085f5a521b8a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-superscalar-execution"
+      },
+      "source_id": "cornell-superscalar-execution",
+      "evidence_id": "evidence-c7516137140b",
+      "snapshot_sha256": "sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c",
+      "selector_sha256": "sha256:1d6999cb9f4a2428bd5bd8ff692c4be85c9fa83337549bdf99de5d3d797c0aff",
+      "quote_sha256": "sha256:75addade547c5ca1483f10511d06d3d14a8afa72ffa36b94a704cda567495f84"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-processor-microarchitecture"
+      },
+      "source_id": "cornell-processor-microarchitecture",
+      "evidence_id": "evidence-997223e6f9d9",
+      "snapshot_sha256": "sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5",
+      "selector_sha256": "sha256:b58ecaf7c327d13deb14e0cec771ddeac1247281735f2640b0b1bc8fa301d291",
+      "quote_sha256": "sha256:f8e684f82b100790595f35eae8c0ed1efcf0d1799b027452edecd32c5484af9c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-out-of-order-execution"
+      },
+      "source_id": "cornell-out-of-order-execution",
+      "evidence_id": "evidence-c0c1aa5b322a",
+      "snapshot_sha256": "sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463",
+      "selector_sha256": "sha256:356adf9c76ef68b046160ab74193c5adf310c45e7f02c9de7d4aa679da8d9b30",
+      "quote_sha256": "sha256:4944b50ca3c651d30a717c7f8ab98a495a7b37a23848b282b77dc630cf3a46b8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-out-of-order-execution"
+      },
+      "source_id": "cornell-out-of-order-execution",
+      "evidence_id": "evidence-77edc60b478e",
+      "snapshot_sha256": "sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463",
+      "selector_sha256": "sha256:56b8678bedd5f67a06e17f614a9c2715b69e9c51e1539a99ed5f88564086df4b",
+      "quote_sha256": "sha256:1bfc6c0c13a45e2e8b64531c25bc3d166f67a061fac1e587bf547e4a7d8a04bd"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-out-of-order-execution"
+      },
+      "source_id": "cornell-out-of-order-execution",
+      "evidence_id": "evidence-c8d9bf0677ec",
+      "snapshot_sha256": "sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463",
+      "selector_sha256": "sha256:f31d7ad1a57686faf58c22592ee267bba459158051fd4a285e917871f2e5ca91",
+      "quote_sha256": "sha256:c1cb85dc5e61628002fe951ac91159c42056837563e366f1bb47a52817e5ea37"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "algorithmica-cpu-cache"
+      },
+      "source_id": "algorithmica-cpu-cache",
+      "evidence_id": "evidence-156850bbfe32",
+      "snapshot_sha256": "sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f",
+      "selector_sha256": "sha256:29d1d7a5b28fa1278a102a0f3b29c9efccc11f44075da306829f4e399f465856",
+      "quote_sha256": "sha256:8364aa44b3c1b1cc5ffe7350bd4af4f9d20a24bd1caa8cb2bf1fe81ba5330b99"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "algorithmica-cpu-cache"
+      },
+      "source_id": "algorithmica-cpu-cache",
+      "evidence_id": "evidence-de0206b20bda",
+      "snapshot_sha256": "sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f",
+      "selector_sha256": "sha256:4d06688eea7215a194c772d2cd627f420d2fc6c5a95f0884ba57ccab604c7380",
+      "quote_sha256": "sha256:4c9e97f4129d028a8db0fbd7fc64bc1407c108cc58c155fdb1370d1c0f1c798a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "pipeline-throughput",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-5f68cf369f34"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5f68cf369f34",
+          "exact": "Pipelining doesn't help latency of single instruction it helps throughput of entire workload"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确称流水线“不帮助单条指令延迟”且“帮助整个工作负载吞吐”，与 claim 的吞吐/延迟区分直接一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "imperial-pipelines",
+          "evidence_id": "evidence-5f68cf369f34",
+          "start": 0,
+          "end": 92
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "structural-hazard",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-dafa299071d6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-dafa299071d6",
+          "exact": "Structural Hazards: An instruction in the pipeline needs a resource being used by another i"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文将结构冒险描述为流水线中的指令需要另一方正在使用的资源，支持资源竞争核心；但引文在“another i”处截断，未完整明示“另一条指令”。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-dafa299071d6",
+          "start": 26,
+          "end": 117
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "data-hazard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-f9d0c88149fb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f9d0c88149fb",
+          "exact": "RAW data hazards occur when one instruction depends on a data value produced by a preceding instruction still in the pipeline."
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接定义 RAW：一条指令依赖由仍在流水线中的前序指令产生的数据值，覆盖 claim 的前序产生结果与后序依赖关系。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-f9d0c88149fb",
+          "start": 0,
+          "end": 119
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "control-hazard",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-d4cda8ea4bf4"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d4cda8ea4bf4",
+          "exact": "Control Hazards: Whether or not an instruction should be executed depends on a control decision made"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确支持控制冒险涉及“某指令是否应执行”依赖控制决策；但在“decision made”处截断，未完整明示该决策由前序指令作出。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-d4cda8ea4bf4",
+          "start": 26,
+          "end": 126
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "name-hazards",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-5c4b286e4308"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5c4b286e4308",
+          "exact": "WAW and WAR Name Hazards: An instruction in the pipeline is writing a register that an earlier instruction in the pipeline is either writing or reading"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接将 WAW 和 WAR 称为名称冒险，并说明后一条指令写某寄存器而前序指令对该寄存器写或读，支持写写与读写关系。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-5c4b286e4308",
+          "start": 0,
+          "end": 151
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "superscalar-ooo-boundary",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-fdc0d2603ccf"
+        },
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-c7516137140b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fdc0d2603ccf",
+          "exact": "Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple instructions in parallel"
+        },
+        {
+          "evidence_id": "evidence-c7516137140b",
+          "exact": "Can have both in-order and out-of-order superscalar processors, but we will start by exploring in-order"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "第一段将超标量的 IPC 提升归因于并行执行多条指令；第二段明确超标量处理器既可按序也可乱序，支持超标量不等同于乱序执行。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-fdc0d2603ccf",
+          "start": 0,
+          "end": 98
+        },
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-c7516137140b",
+          "start": 0,
+          "end": 104
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "out-of-order-commit",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-997223e6f9d9"
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-c0c1aa5b322a"
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-77edc60b478e"
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-c8d9bf0677ec"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-997223e6f9d9",
+          "exact": "Hardware Scheduling: Hardware dynamically schedules instructions to avoid RAW hazards, potentially allowing instructions to execute out of order"
+        },
+        {
+          "evidence_id": "evidence-c0c1aa5b322a",
+          "exact": "commit stage waits for pending bit of head to be clear"
+        },
+        {
+          "evidence_id": "evidence-77edc60b478e",
+          "exact": "new instructions allocated ROB entries at tail"
+        },
+        {
+          "evidence_id": "evidence-c8d9bf0677ec",
+          "exact": "Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated out-of-order in W stage\n  - deallocated in-order in C stage"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "硬件调度引文说明可允许指令乱序执行；ROB 引文说明其按序分配、乱序更新、按序释放，且提交阶段检查 head，支持通过 ROB 按程序顺序提交。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-processor-microarchitecture",
+          "evidence_id": "evidence-997223e6f9d9",
+          "start": 0,
+          "end": 144
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-c0c1aa5b322a",
+          "start": 0,
+          "end": 54
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-77edc60b478e",
+          "start": 0,
+          "end": 46
+        },
+        {
+          "source_id": "cornell-out-of-order-execution",
+          "evidence_id": "evidence-c8d9bf0677ec",
+          "start": 0,
+          "end": 126
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cache-platform-dependence",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32"
+        },
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-156850bbfe32",
+          "exact": "Not all conclusions will generalize to every CPU platform in existence."
+        },
+        {
+          "evidence_id": "evidence-de0206b20bda",
+          "exact": "we have to start taking into account the many specific details of the CPU cache system"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "第一段明确否定结论可泛化到所有 CPU 平台；第二段要求考虑 CPU cache 系统的诸多具体细节，共同支持平台依赖性及不能将其泛化为通用常数。",
+      "rationale_offsets": [
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-156850bbfe32",
+          "start": 0,
+          "end": 71
+        },
+        {
+          "source_id": "algorithmica-cpu-cache",
+          "evidence_id": "evidence-de0206b20bda",
+          "start": 0,
+          "end": 86
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "structural-hazard：目标引文在“another i”处截断，缺少完整的另一条指令表述。",
+    "control-hazard：目标引文在“control decision made”处截断，缺少控制决策由前序指令作出的完整表述。"
+  ],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "imperial-pipelines",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-superscalar-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-superscalar-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-processor-microarchitecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-out-of-order-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-out-of-order-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-out-of-order-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "algorithmica-cpu-cache",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "algorithmica-cpu-cache",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "pipeline-throughput",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "structural-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "data-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "control-hazard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "name-hazards",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "superscalar-ooo-boundary",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "out-of-order-commit",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cache-platform-dependence",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 4,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

@@ -9,64 +9,75 @@ evidence:
   claim_id: little-law
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-b21516b37538
-    exact: |-
-      also known
-      as l = λw, which asserts that the time average number of customers in a queueing system, l,
-      is equal to the rate at which customers arrive, λ,× the average sojourn time of a customer
+  - evidence_id: evidence-d91fbe6fedff
+    exact: We consider here a famous and very useful law in queueing theory called
+      Little's Law, also known as l = λw, which asserts that the time average number
+      of customers in a queueing system, l, is equal to the rate at which customers
+      arrive, λ, × the average sojourn time of a customer, w.
   targets:
-  - evidence_id: evidence-b21516b37538
+  - evidence_id: evidence-d91fbe6fedff
     source_id: little-law-columbia
 - claim: 概要形式以汇总的形式展示程序信息。
   claim_id: profile-form
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-fbd53f5c9a80
-    exact: Profilers provide a summary of execution statistics  and/or events.
+  - evidence_id: evidence-0419e0390c1f
+    exact: Profilers provide a summary of execution statistics and/or events. They
+      give an overview of the overall performance of the program, often broken down
+      to the functions, loops or even user-specified sections.
   targets:
-  - evidence_id: evidence-fbd53f5c9a80
+  - evidence_id: evidence-0419e0390c1f
     source_id: osti-profiling-tracing
 - claim: 分段查找通过二分定位（bisection）不断缩小范围，是定位性能回归或问题代码段的常用方法。
   claim_id: segmented-search
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-85c4410eac8f
-    exact: |-
-      localizing such regressions can be achieved
+  - evidence_id: evidence-3f000be98fde
+    exact: 'The crucial task of localizing such regressions can be achieved
+
       using bisection, which attempts to find the bug-introducing commit using binary
-      search.
+
+      search. This approach is used extensively by many development teams, but it
+      is'
   targets:
-  - evidence_id: evidence-85c4410eac8f
+  - evidence_id: evidence-3f000be98fde
     source_id: bisect-performance-regression
 - claim: 事件记录形式（tracing）逐个记录每个事件，如函数的进入与退出。
   claim_id: trace-form
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-9ce34a48845e
-    exact: Tracing is a profiling technique that captures specific program events, such as entering or exiting a function, every time they occur.
+  - evidence_id: evidence-d8a4064f50d3
+    exact: Tracing is a profiling technique that captures specific program events,
+      such as entering or exiting a function, every time they occur. This allows the
+      collection of accurate profiling information about specific areas of the code.
   targets:
-  - evidence_id: evidence-9ce34a48845e
+  - evidence_id: evidence-d8a4064f50d3
     source_id: lumi-profiling-strategies
 - claim: 快照形式（sampling）周期性对调用栈取快照，形成统计概况。
   claim_id: snapshot-form
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-685c7e0035da
-    exact: Sampling consists of taking regular snapshots of the application's call stack to create a statistical profile.
+  - evidence_id: evidence-50cea7ccef12
+    exact: Sampling consists of taking regular snapshots of the application's call
+      stack to create a statistical profile. This is a good option for low overhead
+      profiling.
   targets:
-  - evidence_id: evidence-685c7e0035da
+  - evidence_id: evidence-50cea7ccef12
     source_id: lumi-profiling-strategies
 - claim: 排队分析先定义系统（到达过程、服务过程、队列规则、服务台数），再收集到达率、服务时间与队列长度数据以理解系统行为。
   claim_id: wait-queue
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-45e295421ed5
-    exact: |-
-      Steps to Use Queuing Theory
-      1. Define the System: Identify the key components of the system, such as the arrival process, service process, queue discipline, and number of servers.
-      2. Collect Data: Gather data on customer arrival rates, service times, and queue lengths to understand the system's behavior
+  - evidence_id: evidence-a118ca4a7148
+    exact: 'Steps to Use Queuing Theory
+
+      1. Define the System: Identify the key components of the system, such as the
+      arrival process, service process, queue discipline, and number of servers.
+
+      2. Collect Data: Gather data on customer arrival rates, service times, and queue
+      lengths to understand the system''s behavior.'
   targets:
-  - evidence_id: evidence-45e295421ed5
+  - evidence_id: evidence-a118ca4a7148
     source_id: queueing-theory-gfg
 id: program-performance-analysis
 kind: knowledge

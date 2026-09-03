@@ -9,98 +9,101 @@ evidence:
   claim_id: pipeline-throughput
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-8b1491c048e8
-    exact: Pipelining doesn’t help latency of single instruction
-      it helps throughput of entire workload
+  - evidence_id: evidence-527b02b98c98
+    exact: '**Pipelining doesn''t help latency of single instruction it helps throughput
+      of entire workload Pipeline rate limited by slowest pipeline stage Potential
+      speedup = Number pipe stages Unbalanced lengths of pipe stages reduces speedup
+      Time to "fill" pipeline and time to "drain" it reduces speedup Speedup comes
+      from parallelism - for free – no new hardware Many pipelines are more complex
+      - Pentium 4 "Netburst" has 31 stages.'
   targets:
-  - evidence_id: evidence-8b1491c048e8
+  - evidence_id: evidence-527b02b98c98
     source_id: imperial-pipelines
 - claim: 结构冒险发生在流水线中的指令需要另一条指令正在使用的资源时。
   claim_id: structural-hazard
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-c69b9407150e
-    exact: |-
-      Structural Hazards: An instruction in the pipeline needs a resource
-      being used by another instruction in the pipeline
+  - evidence_id: evidence-b1556672b1aa
+    exact: '- Control Hazards: Whether or not an instruction should be executed depends
+      on a control decision made by an earlier instruction
+
+      - Structural Hazards: An instruction in the pipeline needs a resource being
+      used by another instruction in the pipeline'
   targets:
-  - evidence_id: evidence-c69b9407150e
+  - evidence_id: evidence-b1556672b1aa
     source_id: cornell-processor-microarchitecture
 - claim: RAW 数据冒险发生在前序指令仍在流水线中产生结果，而后序指令依赖该结果时。
   claim_id: data-hazard
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-e8b610e81cbb
-    exact: RAW data hazards occur when one instruction depends on a data value
-      produced by a preceding instruction still in the pipeline.
+  - evidence_id: evidence-0a56c5ba2ceb
+    exact: RAW data hazards occur when one instruction depends on a data value produced
+      by a preceding instruction still in the pipeline. We use architectural dependency
+      arrows to illustrate RAW dependencies in assembly code sequences.
   targets:
-  - evidence_id: evidence-e8b610e81cbb
+  - evidence_id: evidence-0a56c5ba2ceb
     source_id: cornell-processor-microarchitecture
 - claim: 控制冒险发生在后续指令是否执行取决于前序指令作出的控制决策时。
   claim_id: control-hazard
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-2ccbb906f313
-    exact: |-
-      Control Hazards: Whether or not an instruction should be executed
-      depends on a control decision made by an earlier instruction
+  - evidence_id: evidence-2a438bc795ab
+    exact: '- RAW Data Hazards: An instruction depends on a data value produced by
+      an earlier instruction
+
+      - Control Hazards: Whether or not an instruction should be executed depends
+      on a control decision made by an earlier instruction'
   targets:
-  - evidence_id: evidence-2ccbb906f313
+  - evidence_id: evidence-2a438bc795ab
     source_id: cornell-processor-microarchitecture
 - claim: WAW 和 WAR 是名称冒险，分别涉及前序指令与后续指令对同一寄存器的写写或读写关系。
   claim_id: name-hazards
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-6438b00733d1
-    exact: |-
-      WAW and WAR Name Hazards: An instruction in the pipeline is
-      writing a register that an earlier instruction in the pipeline is either
-      writing or reading
+  - evidence_id: evidence-97198a550298
+    exact: '- WAW and WAR Name Hazards: An instruction in the pipeline is writing
+      a register that an earlier instruction in the pipeline is either writing or
+      reading'
   targets:
-  - evidence_id: evidence-6438b00733d1
+  - evidence_id: evidence-97198a550298
     source_id: cornell-processor-microarchitecture
 - claim: 超标量处理器通过并行执行多条指令提高指令吞吐，并不等于乱序执行。
   claim_id: superscalar-ooo-boundary
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-bf2ac5ac20ab
-    exact: Superscalar processors enable CPI < 1 (i.e., IPC > 1) by
-      executing multiple instructions in parallel
-  - evidence_id: evidence-3f4db4b0ab42
-    exact: Can have both in-order and out-of-order superscalar processors,
-      but we will start by exploring in-order
+  - evidence_id: evidence-e0c794672f10
+    exact: '- Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple
+      instructions in parallel'
+  - evidence_id: evidence-1e8a3380fb31
+    exact: '- Can have both in-order and out-of-order superscalar processors, but
+      we will start by exploring in-order'
   targets:
-  - evidence_id: evidence-bf2ac5ac20ab
+  - evidence_id: evidence-e0c794672f10
     source_id: cornell-superscalar-execution
-  - evidence_id: evidence-3f4db4b0ab42
+  - evidence_id: evidence-1e8a3380fb31
     source_id: cornell-superscalar-execution
 - claim: 乱序执行可以让就绪指令乱序执行，但通常通过 ROB 等结构按程序顺序提交。
   claim_id: out-of-order-commit
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-c8f472b47898
-    exact: |-
-      Hardware Scheduling: Hardware dynamically schedules
-      instructions to avoid RAW hazards, potentially allowing
-      instructions to execute out of order
-  - evidence_id: evidence-8cbf47f4bcdd
-    exact: commit stage waits for pending bit of head to be clear
-  - evidence_id: evidence-0a67e6c41e7b
-    exact: new instructions allocated ROB entries at tail
-  - evidence_id: evidence-1554a03bd9f6
-    exact: |-
-      Reorder buffer (ROB)
-      – allocated in-order in D stage
-      – updated out-of-order in W stage
-      – deallocated in-order in C stage
+  - evidence_id: evidence-4cd24792c28a
+    exact: '- Hardware Scheduling: Hardware dynamically schedules instructions to
+      avoid RAW hazards, potentially allowing instructions to execute out of order'
+  - evidence_id: evidence-138439b960cd
+    exact: '- commit stage waits for pending bit of head to be clear'
+  - evidence_id: evidence-cdb8de8c9b12
+    exact: '- new instructions allocated ROB entries at tail'
+  - evidence_id: evidence-5404b6130ebb
+    exact: "- Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated
+      out-of-order in W stage\n  - deallocated in-order in C stage"
   targets:
-  - evidence_id: evidence-c8f472b47898
+  - evidence_id: evidence-4cd24792c28a
     source_id: cornell-processor-microarchitecture
-  - evidence_id: evidence-8cbf47f4bcdd
+  - evidence_id: evidence-138439b960cd
     source_id: cornell-out-of-order-execution
-  - evidence_id: evidence-0a67e6c41e7b
+  - evidence_id: evidence-cdb8de8c9b12
     source_id: cornell-out-of-order-execution
-  - evidence_id: evidence-1554a03bd9f6
+  - evidence_id: evidence-5404b6130ebb
     source_id: cornell-out-of-order-execution
 - claim: cache 系统的具体细节依赖处理器平台，不能把某个平台的结论泛化成通用常数。
   claim_id: cache-platform-dependence
@@ -108,12 +111,13 @@ evidence:
   supporting_quotes:
   - evidence_id: evidence-156850bbfe32
     exact: Not all conclusions will generalize to every CPU platform in existence.
-  - evidence_id: evidence-de0206b20bda
-    exact: we have to start taking into account the many specific details of the CPU cache system
+  - evidence_id: evidence-beff31415ee8
+    exact: To perform more fine-grained optimization of in-memory algorithms, we have
+      to start taking into account the many specific details of the CPU cache system.
   targets:
   - evidence_id: evidence-156850bbfe32
     source_id: algorithmica-cpu-cache
-  - evidence_id: evidence-de0206b20bda
+  - evidence_id: evidence-beff31415ee8
     source_id: algorithmica-cpu-cache
 id: cpu-pipeline-and-hazards
 kind: knowledge
