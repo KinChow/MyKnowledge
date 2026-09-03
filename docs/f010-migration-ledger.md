@@ -190,6 +190,15 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 - **program-performance-analysis 未发布**：`segmented-search` 仍 personal → 整页 strength=personal → `not_public_publishable`（projection skipped 列表如实记录）。重确认后仅作私有背书。
 - **验证**：doctor 0 error、477 tests 全过、manifest `d0c401c0…`。
 
+### 8.13 program-performance-analysis 重做：补源 + 内容优化 + 待验证项收口（2026-09-03）
+
+- **重做动机（owner 指示）**：原 wiki"写的很乱"（详细章节混入元注释"外部来源对照"、证据映射误写 strength=attested 实为 personal、待验证项 2 条未收、segmented-search 无外部出处导致不可公开）。
+- **补源（2 个新 source）**：`bisect-performance-regression`（UBC《On the Effectiveness of Bisection in Performance Regression Localization》PDF，支撑分段查找=二分定位）；`queueing-theory-gfg`（GeeksforGeeks 排队论，定义系统与收集数据的操作步骤）。
+- **claim 从 3 条扩到 6 条，全部 direct**：`little-law`（Columbia）、`profile-form`（OSTI）、`segmented-search`（UBC，**从 personal 升级 direct**）、`trace-form`/`snapshot-form`（LUMI tracing/sampling）、`wait-queue`（GfG 排队步骤）。**strength 从 personal 升为 verified**，`public_publishable` 可转为 true。
+- **内容优化**：蒸馏核心重写（核心概念补事件记录/快照/排队分析、证据映射改正、待验证项收口"无遗留"）；详细章节移除元注释"外部来源对照"（sourcing 信息并入证据映射）；working 文档同步移除该节。
+- **验证**：确定性校验 valid + evidence_state supported；LLM 审计一次 pass（6/6）；doctor 0 error、477 tests 全过。
+- **待 owner**：内容变更后需重新 confirm → release input/confirm 进 projection。
+
 ## 9. 修订记录
 
 | 日期 | 变更 |

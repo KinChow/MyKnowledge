@@ -1,0 +1,109 @@
+---
+archive_policy: text-only
+confidentiality: public
+domain: computer-science
+evidence_items:
+- evidence_id: evidence-45e295421ed5
+  position:
+    end: 3099
+    start: 2795
+    type: TextPositionSelector
+  quote_sha256: sha256:fc60c68aece654cf4fa43416aeed37a4e0579a8c35b8e491b15850f1485b7eab
+  selector:
+    exact: 'Steps to Use Queuing Theory
+
+      1. Define the System: Identify the key components of the system, such as the
+      arrival process, service process, queue discipline, and number of servers.
+
+      2. Collect Data: Gather data on customer arrival rates, service times, and queue
+      lengths to understand the system''s behavior'
+    prefix: 'ber of customers in the system.
+
+      '
+    suffix: '.
+
+      3. Select a Queuing Model: Cho'
+    type: TextQuoteSelector
+  selector_sha256: sha256:b484358f32d68b438b1f2fd081e59c6b88b1704af14c56bace9d393076dcc7a4
+  snapshot_sha256: sha256:1126bc6e6e69c86428b3165a88a8b4d15284cd83a146be3e4f2adc19dc475514
+extractor: trafilatura/2.2.0
+id: queueing-theory-gfg
+media_type: text/html
+origin: external
+read_status: retrieved
+retrieval:
+  acquisition: fetch
+  resolved_url: https://www.geeksforgeeks.org/maths/queuing-theory/
+  url: https://www.geeksforgeeks.org/maths/queuing-theory/
+schema_version: source/v1
+snapshot_sha256: sha256:1126bc6e6e69c86428b3165a88a8b4d15284cd83a146be3e4f2adc19dc475514
+source_type: doc
+vault_id: public
+---
+Queuing theory is a branch of mathematics that studies how waiting lines (queues) are formed and managed.
+- Helps understand how customers arrive, how long they wait, how services are provided, and how efficiently the system operates.
+- Main goal of queuing theory is to reduce waiting time, improve service efficiency, and make the best use of available resources.
+The above image illustrates the flow of a queuing system.
+- Customers arrive at the service facility and join the queue if the servers are occupied.
+- They wait according to the queuing discipline until a server becomes available.
+- After receiving service for the required service time, they leave the system.
+- This process helps evaluate waiting time, queue length, and the overall efficiency of the service system.
+Process
+Queuing theory works by modelling a system as a series of components:
+- Arrival Process: The way customers arrive at the system, described by an arrival rate and a probability distribution.
+- Queue: The line of customers waiting for service.
+- Service Process: A specific way of customers being served that may be quantified using a service rate and the probability distribution.
+- Service Discipline: The system of serving the customers, such as first come, first served (FCFS) or the prioritised system.
+For example, consider a simple queuing system with a single server and a first-come-first-served (FCFS) service discipline.
+Let's assume that customers arrive according to a Poisson process with rate λ and that service times follow an exponential distribution with rate μ. The average number of customers in the system (L) and the average waiting time in the queue (Wq) can be calculated using the following formulas:
+L = ρ / (1 - ρ)
+Wq = ρ / (μ - λ)
+where,
+ρ = λ / μ is the utilization factor, which represents the fraction of time the server is busy.
+Basic Elements of Queuing Theory
+1. Arrival Process: It describes how customers enter the system, including the rate and pattern of their arrivals.
+2. Service Process: It defines how customers are served, including the service rate and the time required to complete each service.
+3. Queue Discipline: It specifies the rule used to decide the order in which customers are served, such as First Come, First Served (FCFS) or priority-based service.
+4. Number of Servers: It refers to the total number of service channels available to serve customers at the same time.
+5. System Capacity: It is the maximum number of customers that the system can accommodate, including both those waiting in the queue and those receiving service.
+6. Performance Measures: These are the indicators used to evaluate the efficiency of the queuing system, such as average waiting time, queue length, server utilization, and average number of customers in the system.
+Steps to Use Queuing Theory
+1. Define the System: Identify the key components of the system, such as the arrival process, service process, queue discipline, and number of servers.
+2. Collect Data: Gather data on customer arrival rates, service times, and queue lengths to understand the system's behavior.
+3. Select a Queuing Model: Choose a suitable queuing model based on the characteristics of the system, such as the arrival pattern, service pattern, and number of servers.
+4. Analyze the Model: Use mathematical formulas or simulation techniques to calculate performance measures such as average waiting time, queue length, and server utilization.
+5. Interpret the Results: Use the analysis to improve the system by optimizing staffing, resource allocation, or service design, thereby reducing waiting time and increasing efficiency.
+Real-life Examples
+Various real-life examples where Queuing theory is uses are:
+Call Center Example: Consider a call center with a single server that receives calls according to a Poisson process at a rate of 10 calls per hour. The average service time for each call is 5 minutes, which means the service rate is 12 calls per hour. Since the service rate is greater than the arrival rate, the system is stable.
+Arrival rate (λ) = 10 calls/hour
+Service rate (μ) = 12 calls/hour
+Average number of calls waiting in the queue (Lq):
+Lq = λ² / [μ × (μ − λ)]
+= 10² / [12 × (12 − 10)]
+= 100 / (12 × 2)
+= 100 / 24
+= 4.17 calls
+Average waiting time in the queue (Wq):
+Wq = Lq / λ
+= 4.17 / 10
+= 0.417 hours
+= 0.417 × 60
+= 25 minutes
+Supermarket Checkout Example: Consider a supermarket with two checkout counters, each serving customers independently. Customers arrive according to a Poisson process at a rate of 20 customers per hour. The average service time at each checkout counter is 5 minutes, which means each counter has a service rate of 12 customers per hour. Customers are served on a first-come-first-served (FCFS) basis.
+Arrival rate (λ) = 20 customers/hour
+Service rate per server (μ) = 12 customers/hour
+Number of servers (c) = 2
+Average number of customers in the system (L):
+L = (λ / μ) / (1 − (λ / (2 × μ)))
+= (20 / 12) / (1 − (20 / (2 × 12)))
+= 1.67 / (1 − 0.83)
+= 1.67 / 0.17
+≈ 10 customers
+Average waiting time in the queue (Wq):
+Wq = L / λ − 1 / μ
+= 10 / 20 − 1 / 12
+= 0.50 − 0.083
+= 0.417 hours
+= 0.417 × 60
+= 25 minutes
