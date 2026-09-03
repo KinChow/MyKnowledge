@@ -360,21 +360,25 @@ def compute_derived(
     }
 
 
-def _single_source_only(corroboration: dict, report: dict) -> bool:
+def _single_source_only(corroboration: dict) -> bool:
     """corroboration 的 unresolved 是否只因「单一来源」而非证据缺陷。
 
-    判据全部取自报告的确定性字段：无冲突对、无同组冲突、且全部独立性告警都是
-    ``independence_unknown``（"独立性判定无 basis 举证，按单一 source 处理"）。
+    判据全部取自 corroboration 的确定性字段：无冲突对、无同组冲突、且全部独立性
+    告警都是 ``independence_unknown``（"独立性判定无 basis 举证，按单一 source 处理"）。
     出现任何其他告警码或冲突时不适用，仍按 unresolved 阻断。
+
+    告警源取 corroboration.warnings（确定性计算，独立于模型输出结构）——
+    模型可能在 top-level independence_warnings 缺填（输出结构不稳定），但
+    corroboration.warnings 一定存在。
     """
     if corroboration.get("conflict_pairs") or corroboration.get("same_group_conflicts"):
         return False
-    warnings = report.get("independence_warnings") or []
-    if not isinstance(warnings, list) or not warnings:
+    corr_warnings = corroboration.get("warnings") or []
+    if not corr_warnings:
         return False
     return all(
         isinstance(w, dict) and w.get("code") == "independence_unknown"
-        for w in warnings
+        for w in corr_warnings
     )
 
 
@@ -429,7 +433,7 @@ def compute_evidence_state(
         corroboration = report.get("corroboration")
         if isinstance(corroboration, dict):
             state = corroboration.get("evidence_state")
-            if state == "unresolved" and _single_source_only(corroboration, report):
+            if state == "unresolved" and _single_source_only(corroboration):
                 # 「只有一个来源」不等于「证据坏了」：unresolved 的本意是 target
                 # 无法定位或 snapshot 漂移，而这里全部 target 定位良好、引文逐字
                 # 匹配，缺的只是第二个独立来源。共用一个取值会让任何单一来源的
