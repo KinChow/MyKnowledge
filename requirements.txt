@@ -7,6 +7,7 @@ fastapi>=0.115,<1
 httpx>=0.27,<1
 trafilatura>=2.2,<3
 python-frontmatter>=1.3,<2
+marker-pdf[full]>=2,<3   # PDF/PPT/DOCX → 结构化 Markdown（布局感知；workers=None 规避 macOS spawn 崩溃）
 fsrs>=6.3,<7
 mcp>=1.29,<2
 openai>=1,<4   # 可选：OpenAI 兼容 provider 路径（默认 agent-cli 路径不需要）
