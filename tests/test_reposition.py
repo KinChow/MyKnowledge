@@ -41,7 +41,7 @@ def _ingest_local_file(root: Path, source_id: str, body: str) -> dict:
 
 
 def _front_matter(root: Path, source_id: str) -> dict:
-    path = root / "content" / "sources" / "tools" / f"{source_id}.md"
+    path = root / "content" / "sources" / "tools" / f"{source_id}" / f"{source_id}.md"
     metadata, _ = FrontMatter.parse(path.read_text(encoding="utf-8"))
     return metadata
 
@@ -123,7 +123,9 @@ def test_apply_requires_the_public_vault_write_lock(tmp_path: Path):
     assert result["state"] == "blocked"
     assert result["error_code"] == "lock_busy"
     # 一篇都不能落位：source 仍在原处，working 层没有半成品
-    assert (tmp_path / "content" / "sources" / "tools" / "locked-note.md").is_file()
+    assert (
+        tmp_path / "content" / "sources" / "tools" / "locked-note" / "locked-note.md"
+    ).is_file()
     assert not (tmp_path / "content" / "working").exists()
 
     assert apply(tmp_path, plan_path)["relocated"] == 1
@@ -167,7 +169,12 @@ def test_apply_relocates_every_category_into_the_working_layer(tmp_path: Path):
     for source_id in ("final-note", "stub-note", "linked-note"):
         # source 层不再持有它：object 身份随降级消失
         assert not (
-            tmp_path / "content" / "sources" / "tools" / f"{source_id}.md"
+            tmp_path
+            / "content"
+            / "sources"
+            / "tools"
+            / f"{source_id}"
+            / f"{source_id}.md"
         ).exists()
         metadata = _working_front_matter(tmp_path, source_id)
         assert set(metadata) == {
@@ -254,7 +261,9 @@ def test_apply_retains_wiki_referenced_sources_and_blocks_drifted(tmp_path: Path
     assert plan["retained"] == ["cited-note"]
     assert plan["relocatable"] == 1
 
-    target = tmp_path / "content" / "sources" / "tools" / "drifted-note.md"
+    target = (
+        tmp_path / "content" / "sources" / "tools" / "drifted-note" / "drifted-note.md"
+    )
     target.write_text(
         target.read_text(encoding="utf-8") + "\n清单产出之后的手工改动\n",
         encoding="utf-8",
@@ -275,5 +284,7 @@ def test_apply_retains_wiki_referenced_sources_and_blocks_drifted(tmp_path: Path
     # 两篇都没搬走 → 没有降级发生 → 不写 CDR
     assert result["relocated"] == 0
     assert result["decision_id"] is None
-    assert (tmp_path / "content" / "sources" / "tools" / "cited-note.md").exists()
+    assert (
+        tmp_path / "content" / "sources" / "tools" / "cited-note" / "cited-note.md"
+    ).exists()
     assert not (tmp_path / "content" / "working").exists()

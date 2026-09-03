@@ -1,5 +1,11 @@
 ---
 archive_policy: text-only
+attachments:
+- filename: how-to-read-a-book.pdf
+  kind: document
+  media_type: application/pdf
+  role: original
+  sha256: sha256:9660260d0affb88519970740aded209c406177749a59480c79bde863b5b2421b
 confidentiality: public
 domain: reading-notes
 evidence_items:
@@ -61,6 +67,9 @@ local:
   path_ref: local-sidecar:public/how-to-read-a-book-book
 media_type: application/pdf
 origin: external
+raw_ref:
+  path: archive/raw/9660260d0affb88519970740aded209c406177749a59480c79bde863b5b2421b.pdf
+  sha256: sha256:9660260d0affb88519970740aded209c406177749a59480c79bde863b5b2421b
 read_status: retrieved
 retrieval:
   acquisition: local-file

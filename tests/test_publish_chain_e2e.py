@@ -112,7 +112,9 @@ def _ingest_and_anchor(root: Path) -> str:
     applied = ingestor.apply(preview["operation_id"], confirmed=True, actor_id=ACTOR)
     assert applied["state"] == "applied", applied
 
-    source_path = root / "content" / "sources" / "tools" / f"{SOURCE_ID}.md"
+    source_path = (
+        root / "content" / "sources" / "tools" / f"{SOURCE_ID}" / f"{SOURCE_ID}.md"
+    )
     snapshot = (
         root
         / "archive"

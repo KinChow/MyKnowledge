@@ -128,7 +128,12 @@ def test_representative_sample_applies_source_then_draft_wiki(tmp_path: Path):
     assert applied["writes_applied"] is True
     assert source.exists()
     source_file = (
-        tmp_path / "content" / "sources" / "tools" / "legacy-docs-guide-source.md"
+        tmp_path
+        / "content"
+        / "sources"
+        / "tools"
+        / "legacy-docs-guide-source"
+        / "legacy-docs-guide-source.md"
     )
     wiki_file = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     assert source_file.exists() and wiki_file.exists()
@@ -260,7 +265,14 @@ def test_reapplying_sample_is_idempotent_and_does_not_duplicate_objects(tmp_path
     docs.mkdir(parents=True, exist_ok=True)
     (docs / "guide.md").write_text("# Guide\n\nStable content.\n", encoding="utf-8")
     first = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
-    source = tmp_path / "content" / "sources" / "tools" / "legacy-docs-guide-source.md"
+    source = (
+        tmp_path
+        / "content"
+        / "sources"
+        / "tools"
+        / "legacy-docs-guide-source"
+        / "legacy-docs-guide-source.md"
+    )
     wiki = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     first_bytes = (source.read_bytes(), wiki.read_bytes())
     second = apply_sample(tmp_path, "docs/guide.md", confirmed=True)
@@ -321,7 +333,14 @@ def test_rollback_sample_requires_confirmation_and_preserves_legacy_and_snapshot
     legacy = docs / "guide.md"
     legacy.write_text("# Guide\nStable\n", encoding="utf-8")
     apply_sample(tmp_path, "docs/guide.md", confirmed=True)
-    source = tmp_path / "content" / "sources" / "tools" / "legacy-docs-guide-source.md"
+    source = (
+        tmp_path
+        / "content"
+        / "sources"
+        / "tools"
+        / "legacy-docs-guide-source"
+        / "legacy-docs-guide-source.md"
+    )
     wiki = tmp_path / "content" / "wiki" / "tools" / "legacy-docs-guide.md"
     pending = rollback_sample(tmp_path, "docs/guide.md")
     assert (

@@ -25,7 +25,9 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
     applied = ingestor.apply(preview["operation_id"], confirmed=True, actor_id="e2e")
     assert applied["state"] == "applied"
 
-    source_path = tmp_path / "content" / "sources" / "tools" / "e2e-source.md"
+    source_path = (
+        tmp_path / "content" / "sources" / "tools" / "e2e-source" / "e2e-source.md"
+    )
     snapshot_path = (
         tmp_path
         / "archive"

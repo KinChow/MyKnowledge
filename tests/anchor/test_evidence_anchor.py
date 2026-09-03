@@ -43,7 +43,9 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "content" / "sources" / "tools" / "stale-note.md"
+            source_path = (
+                root / "content" / "sources" / "tools" / "stale-note" / "stale-note.md"
+            )
             snapshot_path = (
                 root
                 / "archive"
@@ -74,7 +76,14 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "content" / "sources" / "tools" / "lockbusy-note.md"
+            source_path = (
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "lockbusy-note"
+                / "lockbusy-note.md"
+            )
             snapshot_path = (
                 root
                 / "archive"
@@ -112,7 +121,9 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "content" / "sources" / "tools" / "ttl-note.md"
+            source_path = (
+                root / "content" / "sources" / "tools" / "ttl-note" / "ttl-note.md"
+            )
             snapshot_path = (
                 root
                 / "archive"
@@ -157,7 +168,9 @@ class EvidenceAnchorTests(unittest.TestCase):
                 }
             )
             ingestor.apply(result["operation_id"], confirmed=True)
-            source_path = root / "content" / "sources" / "tools" / "idem-note.md"
+            source_path = (
+                root / "content" / "sources" / "tools" / "idem-note" / "idem-note.md"
+            )
             snapshot_path = (
                 root
                 / "archive"
@@ -199,7 +212,12 @@ class EvidenceAnchorTests(unittest.TestCase):
             )
             ingestor.apply(result["operation_id"], confirmed=True)
             source_path = (
-                root / "content" / "sources" / "tools" / "anchor-recover-note.md"
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "anchor-recover-note"
+                / "anchor-recover-note.md"
             )
             snapshot_path = (
                 root
@@ -255,7 +273,12 @@ class EvidenceAnchorTests(unittest.TestCase):
                     )
                     ingestor.apply(result["operation_id"], confirmed=True)
                     source_path = (
-                        root / "content" / "sources" / "tools" / f"{source_id}.md"
+                        root
+                        / "content"
+                        / "sources"
+                        / "tools"
+                        / f"{source_id}"
+                        / f"{source_id}.md"
                     )
                     snapshot_path = (
                         root

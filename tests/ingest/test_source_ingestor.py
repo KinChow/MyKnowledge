@@ -94,7 +94,12 @@ class SourceIngestorTests(unittest.TestCase):
             )
             self.assertTrue(evidence["selector_sha256"].startswith("sha256:"))
             source_path = (
-                root / "content" / "sources" / "tools" / "personal-note-one.md"
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "personal-note-one"
+                / "personal-note-one.md"
             )
             snapshot_path = (
                 root
@@ -137,7 +142,14 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "hash_mismatch")
             self.assertFalse(
-                (root / "content" / "sources" / "tools" / "local-note.md").exists()
+                (
+                    root
+                    / "content"
+                    / "sources"
+                    / "tools"
+                    / "local-note"
+                    / "local-note.md"
+                ).exists()
             )
 
     def test_local_file_deleted_returns_path_unresolved(self):
@@ -161,7 +173,14 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "path_unresolved")
             self.assertFalse(
-                (root / "content" / "sources" / "tools" / "deleted-note.md").exists()
+                (
+                    root
+                    / "content"
+                    / "sources"
+                    / "tools"
+                    / "deleted-note"
+                    / "deleted-note.md"
+                ).exists()
             )
 
     def test_target_change_does_not_leave_snapshot(self):
@@ -180,7 +199,14 @@ class SourceIngestorTests(unittest.TestCase):
                     "media_type": "text/plain",
                 }
             )
-            target = root / "content" / "sources" / "tools" / "target-change.md"
+            target = (
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "target-change"
+                / "target-change.md"
+            )
             target.parent.mkdir(parents=True)
             target.write_text("其他 operation 已写入", encoding="utf-8")
             applied = ingestor.apply(result["operation_id"], confirmed=True)
@@ -389,7 +415,7 @@ class SourceIngestorTests(unittest.TestCase):
             applied = ingestor.apply(result["operation_id"], confirmed=True)
             self.assertEqual(applied["state"], "applied")
             source = (
-                root / "content" / "sources" / "tools" / "url-source.md"
+                root / "content" / "sources" / "tools" / "url-source" / "url-source.md"
             ).read_text(encoding="utf-8")
             self.assertIn("url: https://example.com/article", source)
             self.assertIn("resolved_url: https://example.com/article", source)
@@ -522,7 +548,14 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "apply_failed")
             self.assertFalse(
-                (root / "content" / "sources" / "tools" / "rollback-note.md").exists()
+                (
+                    root
+                    / "content"
+                    / "sources"
+                    / "tools"
+                    / "rollback-note"
+                    / "rollback-note.md"
+                ).exists()
             )
 
     def test_apply_recovery_after_partial_write(self):
@@ -556,7 +589,14 @@ class SourceIngestorTests(unittest.TestCase):
                 "confidentiality": "public",
                 "archive_policy": "text-only",
             }
-            source_path = root / "content" / "sources" / "tools" / "recover-note.md"
+            source_path = (
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "recover-note"
+                / "recover-note.md"
+            )
             source_path.parent.mkdir(parents=True)
             source_path.write_text(FrontMatter.render(metadata, body), encoding="utf-8")
             applied = ingestor.apply(result["operation_id"], confirmed=True)
@@ -591,7 +631,14 @@ class SourceIngestorTests(unittest.TestCase):
                 }
             )
             # 模拟崩溃点：source 已由本操作写入（front matter snapshot 为新 hash）
-            source_path = root / "content" / "sources" / "tools" / "overwrite-note.md"
+            source_path = (
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "overwrite-note"
+                / "overwrite-note.md"
+            )
             metadata = {
                 "schema_version": "source/v1",
                 "id": "overwrite-note",
@@ -649,7 +696,12 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "apply_failed")
             source_text = (
-                root / "content" / "sources" / "tools" / "keep-old-note.md"
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "keep-old-note"
+                / "keep-old-note.md"
             ).read_text(encoding="utf-8")
             self.assertIn("旧版本正文内容", source_text)
             self.assertNotIn("新版本正文内容", source_text)
@@ -682,7 +734,14 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(applied["state"], "expired")
             self.assertEqual(applied["error_code"], "apply_failed")
             self.assertFalse(
-                (root / "content" / "sources" / "tools" / "fail-new-note.md").exists()
+                (
+                    root
+                    / "content"
+                    / "sources"
+                    / "tools"
+                    / "fail-new-note"
+                    / "fail-new-note.md"
+                ).exists()
             )
             manifest = root / "archive" / "manifest.jsonl"
             self.assertEqual(
@@ -710,7 +769,14 @@ class SourceIngestorTests(unittest.TestCase):
                 applied = ingestor.apply(second["operation_id"], confirmed=True)
             self.assertEqual(applied["error_code"], "apply_failed")
 
-            source_path = root / "content" / "sources" / "tools" / "fail-ovw-note.md"
+            source_path = (
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "fail-ovw-note"
+                / "fail-ovw-note.md"
+            )
             body = source_path.read_text(encoding="utf-8")
             self.assertIn("新版本正文内容", body)  # 旧内容已被原子替换，不可恢复
             manifest = root / "archive" / "manifest.jsonl"
@@ -740,7 +806,12 @@ class SourceIngestorTests(unittest.TestCase):
                 applied = ingestor.apply(second["operation_id"], confirmed=True)
             self.assertEqual(applied["error_code"], "apply_failed")
             source_text = (
-                root / "content" / "sources" / "tools" / "extra-rec-note.md"
+                root
+                / "content"
+                / "sources"
+                / "tools"
+                / "extra-rec-note"
+                / "extra-rec-note.md"
             ).read_text(encoding="utf-8")
             self.assertIn("旧版本正文内容", source_text)  # 不可逆的一步没有发生
             self.assertNotIn("新版本正文内容", source_text)

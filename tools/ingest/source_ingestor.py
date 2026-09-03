@@ -35,8 +35,8 @@ from ..front_matter import FrontMatter
 from ..operation_store import OperationStore
 from ..paths import RepoPaths
 from ..vault_lock import LockBusyError, VaultLock
-from .extractor import TextExtractor
 from .fetcher import URLFetcher
+from .parser import Attachment, DocumentParser, ParseResult, media_suffix
 from .source_validator import SourceValidator
 
 
@@ -60,9 +60,9 @@ class Fetcher(Protocol):
 
 
 class Extractor(Protocol):
-    """正文提取抽象：实现见 TextExtractor。"""
+    """文档解析抽象：实现见 DocumentParser（多格式，返回 ParseResult）。"""
 
-    def extract(self, data: bytes, media_type: str) -> tuple[str, str]: ...
+    def parse(self, data: bytes, media_type: str) -> ParseResult: ...
 
 
 class Validator(Protocol):
@@ -82,7 +82,11 @@ class OperationRepository(Protocol):
 
 
 class AcquireResult(NamedTuple):
-    """按 source_type 获取正文的结果（供 preview 写入 operation）。"""
+    """按 source_type 获取正文的结果（供 preview 写入 operation）。
+
+    ``raw_data`` 为原始字节（原件落位依据；personal-note 无原件为 None）；
+    ``attachments`` 为解析产生的衍生附件（如 Marker 抽取的图片）。
+    """
 
     body: str
     extractor: str
@@ -90,6 +94,8 @@ class AcquireResult(NamedTuple):
     original_hash: str | None
     original_stat: os.stat_result | None
     resolved_url: str | None = None
+    raw_data: bytes | None = None
+    attachments: list = []
 
 
 class SourceAcquirer(Protocol):
@@ -109,13 +115,15 @@ class LocalFileAcquirer:
         """稳定读取本地文件并提取正文，返回正文/提取器与 hash/stat。"""
         data, stat = read_stable(Path(request["input_path"]))
         media_type = request.get("media_type") or "application/octet-stream"
-        body, extractor_name = extractor.extract(data, media_type)
+        result = extractor.parse(data, media_type)
         return AcquireResult(
-            body=body,
-            extractor=extractor_name,
+            body=result.markdown,
+            extractor=result.extractor,
             media_type=media_type,
             original_hash=sha256_bytes(data),
             original_stat=stat,
+            raw_data=data,
+            attachments=result.attachments,
         )
 
 
@@ -147,14 +155,16 @@ class FetchAcquirer:
     def acquire(self, request: dict, extractor: Extractor) -> AcquireResult:
         """抓取 URL 并提取正文，返回正文/提取器与解析后 URL。"""
         fetched_body, resolved_url, content_type = self.fetcher.fetch(request["url"])
-        body, extractor_name = extractor.extract(fetched_body, content_type)
+        result = extractor.parse(fetched_body, content_type)
         return AcquireResult(
-            body=body,
-            extractor=extractor_name,
+            body=result.markdown,
+            extractor=result.extractor,
             media_type=content_type,
             original_hash=None,
             original_stat=None,
             resolved_url=resolved_url,
+            raw_data=fetched_body,
+            attachments=result.attachments,
         )
 
 
@@ -172,7 +182,7 @@ class SourceIngestor:
         self.validator: Validator = SourceValidator()
         fetcher: Fetcher = URLFetcher()
         self.fetcher = fetcher
-        self.extractor: Extractor = TextExtractor()
+        self.extractor: DocumentParser = DocumentParser()
         self._acquirers: dict[str, SourceAcquirer] = {
             LocalFileAcquirer.source_type: LocalFileAcquirer(),
             PersonalNoteAcquirer.source_type: PersonalNoteAcquirer(),
@@ -238,6 +248,15 @@ class SourceIngestor:
             }
             if acquired.resolved_url is not None:
                 payload["resolved_url"] = acquired.resolved_url
+            if acquired.raw_data is not None:
+                raw_suffix = media_suffix(acquired.media_type)
+                staging = self.paths.source_raw_staging(uuid.uuid4().hex, raw_suffix)
+                staging.parent.mkdir(parents=True, exist_ok=True)
+                staging.write_bytes(acquired.raw_data)
+                payload["raw_staging"] = str(staging.relative_to(self.root))
+                payload["raw_sha256"] = sha256_bytes(acquired.raw_data)
+                payload["raw_suffix"] = raw_suffix
+                payload["attachments"] = [a.to_dict() for a in acquired.attachments]
             operation = self.store.new(payload)
             return {
                 "operation_id": operation["operation_id"],
@@ -299,6 +318,7 @@ class SourceIngestor:
 
         archive_path = self.paths.snapshot_file(snapshot_hash)
         metadata = self._source_metadata(record, snapshot_hash)
+        original_rel, raw_rel = self._attach_originals(record, metadata)
         try:
             self._write_artifacts(record, body, metadata, source_path, archive_path)
         except OSError:
@@ -309,6 +329,14 @@ class SourceIngestor:
                 "error_code": "apply_failed",
             }
         injection_point("before_commit")
+        applied_files = [
+            str(source_path.relative_to(self.root)),
+            str(archive_path.relative_to(self.root)),
+        ]
+        if original_rel:
+            applied_files.append(original_rel)
+        if raw_rel:
+            applied_files.append(raw_rel)
         self.store.update(
             record,
             "applied",
@@ -318,10 +346,7 @@ class SourceIngestor:
                 "scope": "apply",
                 "confirmed_at": time.time(),
             },
-            applied_files=[
-                str(source_path.relative_to(self.root)),
-                str(archive_path.relative_to(self.root)),
-            ],
+            applied_files=applied_files,
         )
         return {
             "state": "applied",
@@ -414,6 +439,61 @@ class SourceIngestor:
             "confidentiality": "public",
             "archive_policy": "text-only",
         }
+
+    def _attach_originals(
+        self, record: dict, metadata: dict
+    ) -> tuple[str | None, str | None]:
+        """把原始字节落位为 A3 原件 + archive/raw 证据副本，并在 front matter 填附件引用。
+
+        返回 (original 相对路径, raw 相对路径)；staging 缺失时静默跳过（不阻断文本快照）。
+        衍生媒体（Marker 抽图等）当前只登记不落位，见附件字段。
+        """
+        staging_rel = record.get("raw_staging")
+        if not staging_rel:
+            return None, None
+        staging = self.root / staging_rel
+        try:
+            raw = staging.read_bytes()
+        except OSError:
+            return None, None
+        try:
+            suffix = record.get("raw_suffix") or media_suffix(
+                record.get("media_type", "")
+            )
+            original_filename = f"{record['source_id']}{suffix}"
+            original_path = self.paths.source_attachment(
+                record["domain"], record["source_id"], original_filename
+            )
+            original_path.parent.mkdir(parents=True, exist_ok=True)
+            original_path.write_bytes(raw)
+            raw_sha = record.get("raw_sha256") or sha256_bytes(raw)
+            raw_path = self.paths.raw_file(raw_sha, suffix)
+            raw_path.parent.mkdir(parents=True, exist_ok=True)
+            raw_path.write_bytes(raw)
+            attachments = [
+                Attachment.from_dict(a) for a in record.get("attachments", [])
+            ]
+            attachments.insert(
+                0,
+                Attachment(
+                    filename=original_filename,
+                    media_type=record.get("media_type", ""),
+                    sha256=raw_sha,
+                    role="original",
+                ),
+            )
+            metadata["attachments"] = [a.to_dict() for a in attachments]
+            metadata["raw_ref"] = {
+                "path": str(raw_path.relative_to(self.root)),
+                "sha256": raw_sha,
+            }
+            return (
+                str(original_path.relative_to(self.root)),
+                str(raw_path.relative_to(self.root)),
+            )
+        finally:
+            with contextlib.suppress(OSError):
+                staging.unlink(missing_ok=True)
 
     def _write_artifacts(
         self,
@@ -536,6 +616,10 @@ class SourceIngestor:
             self.paths.state_local_sources("public").joinpath(
                 f"{source_id}.json"
             ).unlink(missing_ok=True)
+        # 清理 raw staging（apply 失败/回滚时原件暂存不应残留）
+        if record.get("raw_staging"):
+            with contextlib.suppress(OSError):
+                (self.root / record["raw_staging"]).unlink(missing_ok=True)
         self.store.update(record, "expired", error_code="apply_failed")
 
 
