@@ -5,24 +5,30 @@ aliases:
 confidentiality: public
 domain: computer-science
 evidence:
-- claim: little 定律的等式为 L=λ*W。
+- claim: little 定律的等式为 l=λw：排队系统中顾客的时间平均数量等于到达率乘以平均逗留时间。
   claim_id: little-law
-  support: personal
+  support: direct
   supporting_quotes:
-  - evidence_id: evidence-5e71c592c1bd
-    exact: little定律的等式为：L=λ*W
+  - evidence_id: evidence-b21516b37538
+    exact: 'also known
+
+      as l = λw, which asserts that the time average number of customers in a queueing
+      system, l,
+
+      is equal to the rate at which customers arrive, λ,× the average sojourn time
+      of a customer'
   targets:
-  - evidence_id: evidence-5e71c592c1bd
-    source_id: program-performance-analysis-notes
-- claim: 概要形式以汇总或平均值的形式展示一段时间的程序信息。
+  - evidence_id: evidence-b21516b37538
+    source_id: little-law-columbia
+- claim: 概要形式以汇总的形式展示程序信息。
   claim_id: profile-form
-  support: personal
+  support: direct
   supporting_quotes:
-  - evidence_id: evidence-c7bd2ab17520
-    exact: 概要形式是以汇总或者平均值的形式来展示一段时间的程序信息
+  - evidence_id: evidence-fbd53f5c9a80
+    exact: Profilers provide a summary of execution statistics  and/or events.
   targets:
-  - evidence_id: evidence-c7bd2ab17520
-    source_id: program-performance-analysis-notes
+  - evidence_id: evidence-fbd53f5c9a80
+    source_id: osti-profiling-tracing
 - claim: 分段查找是常用的定位程序分析代码段的方法之一。
   claim_id: segmented-search
   support: personal
@@ -38,14 +44,18 @@ publication_scope: public
 related: []
 sources:
 - program-performance-analysis-notes
+- little-law-columbia
+- osti-profiling-tracing
+- lumi-profiling-strategies
 status: published
 tags:
 - performance
 - profiling
 - measurement
 title: 程序性能的分析与测量：视角、方法与信息形式
-updated_at: '2026-09-01'
+updated_at: '2026-09-03'
 ---
+
 # 程序性能的分析与测量：视角、方法与信息形式
 
 ## 一句话结论
@@ -81,15 +91,13 @@ updated_at: '2026-09-01'
 
 ## 证据映射
 
-- 三条 claim 的 `support` 均为 **`personal`**：证据锚定在本人笔记快照 `program-performance-analysis-notes`（`source_type: personal-note`、`origin: personal`），因此整页 `strength` 派生为 `personal`，而不是 attested/verified。
-- 这是**有意的**：本页内容是本人综合多个来源后改写的概念梳理（排队论的 little 定律、性能测量的信息形式分类等），来源已融进表述，无法逐句回指某一份外部原文。把它伪装成外部支撑才是失真。
+- `little-law`、`profile-form` 已升级为 **`direct`**：分别锚定在 Columbia 讲义（Karl Sigman《Notes on Little's Law》PDF，source `little-law-columbia`）与 OSTI《High Performance Tools & Technologies》（source `osti-profiling-tracing`）；`segmented-search` 仍为 `personal`（通用定位手法，暂无外部原文可逐句对应）。
+- 因此本页 `strength` 派生为 `attested`（direct 单一来源）；本人笔记快照 `program-performance-analysis-notes` 仍作为概念梳理的基础，但不承担外部证据责任。
 - 正文中的操作顺序与误区是本人的实践判断，未上升为 claim。
-- 若后续找到可锚定的外部原文（如排队论教材、性能分析专著），应新增外部 source 并把对应 claim 升级为 `direct`，届时 `strength` 才可能到 `attested`。
 
 ## 待验证项
 
-- [ ] 为 little 定律补排队论原始文献的外部 source，把 `little-law` 从 personal 升级为 direct；
-- [ ] 概要形式/事件记录形式的分类出自哪本书尚未确认，需查证后补出处；
+- [ ] 事件记录形式/快照形式可用 LUMI 文档（`lumi-profiling-strategies`：tracing 逐个记录、sampling 周期快照）补锚，待评估是否新增 claim；
 - [ ] 等待排队方法只记录了定义，缺少可操作的测量步骤。
 
 ## 关联知识
@@ -97,3 +105,188 @@ updated_at: '2026-09-01'
 - LLVM 自动向量化（编译器层面的性能优化手段）
 - 循环优化与访存优化
 - 处理器与内存层次结构
+
+
+## 详细章节
+
+### 程序性能的分析和测量
+
+#### 程序性能分析的视角
+
+从硬件层面分析时，是以系统硬件资源的分析为起点，涉及到的系统硬件资源有处理器、内存、磁盘、网卡、总线以及之间的互联等。具体可以从影响性能的硬件资源配置方面展开分析。例如系统有多大的可扩展性、处理并发的能力、系统最大容量、系统可能的性能瓶颈以及通过更换或扩展哪些设备可以提高系统整体能力等。可以根据现有硬件资源信息，或者监测系统资源的占用情况，全面掌握硬件资源的可用情况。
+
+从软件层面分析就是从程序的角度出发，通过调整程序中的算法与代码实现、系统设置或硬件配置等方法提高整体的性能表现。软件层面分析期望的是通过程序性能表现这一“现象”，来准确的定位影响程序性能原因的“本质”，并通过使用针对性的优化手段达到性能优化的目的。从软件层面对程序进行分析，通过优化人员对系统进行软硬一体的联调，可以解决许多类似的性能问题。例如使用大量资源后不释放、频繁的I/O操作、程序执行时频繁的缓存不命中、程序中语句执行效率低等。 
+
+
+
+#### 程序性能分析的方法
+
+程序性能分析的目的是对当前程序的性能进行评估，分析出当前的程序性能与理论性能之间的差异，并找出程序性能提升的方法。 
+
+
+
+##### 分段查找
+
+进行程序性能分析之前需要首先定位导致程序性能瓶颈产生的原因，才能针对性的开展后续的优化。分段查找是常用定位程序分析代码段的方法之一，可以在时间或空间层面进行，主要思想是根据需要获取某段代码的执行信息并进行分析，查找问题所在。
+
+
+
+##### 等待排队
+
+等待排队可以抽象为办理业务排队直到业务办理结束所耗费的整体时间。对应于程序则为程序进入就绪队列到程序执行完成所耗费的时间。等待排队方法主要分析等待进程数以及进程需等待多久。
+
+
+
+##### little 估算
+
+little定律的等式为：L=λ*W。其中变量的意思是L 表示在一段时间内排队系统中的平均任务或项目数量即排队队列中的任务数，λ表示在规定的时间间隔内新进入系统的平均任务或项目数量即新任务到达率，W 表示任务或项目在整个系统中花费的平均时间即任务的平均花费时间。
+
+
+
+#### 程序性能的测量
+
+运用程序性能分析的视角及方法的目的是找到程序性能瓶颈的大概方位，或者分析出程序中制约性能表现的位置。其本质是一种猜测或估算，并不能精准的定位或给出定量的数据。 
+
+
+
+##### 程序性能测量的信息类型
+
+###### 概要形式
+
+概要形式是以汇总或者平均值的形式来展示一段时间的程序信息，必须等待一段时间来获取信息，是比较费时的。其特点是比较适合掌握初步信息，以及用来追溯调查过去的概况，比如处理器使用率高、I/O的平均响应时间长等现象。
+
+
+
+###### 事件记录形式
+
+事件记录形式是逐个记录每个事件，生成系统信息。使用事件记录形式来分析性能情况的时候，需要在同一台计算机下进行测量并且可以跟踪出发与到达，并不能记录程序处理的过程，跟踪过程产生的数据量较大，对系统造成的压力也相应变得很大，可以在确定了某个范围后，来查看详细信息。优点在于可以获得关于时间、位置等详细的信息，缺点是在核对进程到达和出发时会比较费时，效率较低。
+
+
+
+###### 快照形式
+
+快照形式是记录当前信息的方式，来生成性能信息。例如可以显示进程的瞬间状态。优点是比较适合查找引起性能问题的原因。 
+
+
+
+##### 程序性能分析工具类型
+
+Linux性能观测工具按类别可分为系统级别和进程级别，系统级别是对整个系统的性能做统计，而进程级别则可以具体到某个进程的信息。 
+
+
+
+###### 计数器类型
+
+在系统内核中，一般会生成一些用于对事件发生次数进行计数的统计数据，称为计数器。通常计数器为无符号的整型数，事件发生时递增。计数器的使用可以认为是零开销的，因为它们默认就是开启的，而且始终由操作系统内核维护，唯一的使用开销是从用户空间读取它们的时候。 
+
+
+
+####### 虚拟内存统计工具`vmstat`
+
+####### 输入输出统计工具`iostat`
+
+####### 实时状态工具`top`
+
+####### 当前进程信息统计工具`ps`
+
+
+
+###### 跟踪类型
+
+跟踪工具是跟踪收集每个事件的数据，然后供性能分析。一般情况下，跟踪工具的话是默认不启用。因为跟踪工具捕获存储数据数据会有开销，需要很大的存储空间来存放跟踪的数据。
+
+
+
+####### 程序调试工具`gdb`
+
+####### 堆栈统计信息工具`pstack`
+
+####### 跟踪系统调用工具`strace`
+
+
+
+###### 剖析类型
+
+性能剖析通常是按照特定的时间间隔对系统的状态进行采样，然后对这些样本进行分析与研究。性能剖析的目标是寻找性能瓶颈，查找引发性能问题的原因及热点代码。源程序首先被插入将用于性能测试的代码，代码插入的工作原理是让编译器修改函数调用，并插入代码以记录这些调用、调用者或者完整调用栈以及可能需要的时间信息。插入代码之后，程序再运行，最后得到结果。结果中包含程序分析所需要的信息。 
+
+
+
+####### 函数剖析工具`gprof`
+
+####### 可视化软件性能分析工具`oneAPI`
+
+####### 性能分析工具`perf`
+
+####### CUDA程序性能分析工具`nvprof`
+
+
+
+###### 监控类型
+
+性能监视记录了一段时间内的性能统计数据。通过性能监视，可以将过去的记录信息和现在的做比较，这样就能够找出程序基于时间的运行规律。 
+
+
+
+####### 系统活动情况报告工具`sar`
+
+####### 监控网络工具`netstat`
+
+####### 监控硬盘工具`iotop`
+
+####### 实时系统监控工具`mpstat`
+
+#### 外部来源对照（2026-09-03 联网补源）
+
+上文为本人笔记转述（个人视角与方法论梳理）。本轮联网补充三个外部来源，对其中
+可逐句对应外部原文的概念做证据化处理；无法回指原文的表述（分段查找、等待排队的
+程序语境映射）保持 personal 定位，不伪装成外部支撑。
+
+##### Little 定律：定义与变量精化（来源：little-law-columbia）
+
+Karl Sigman《Notes on Little's Law》（Columbia University, 2017，讲义 PDF）给出
+little 定律的精确表述与证明：排队系统中顾客的**时间平均数量** `l` 等于**到达率**
+`λ` 乘以顾客的**平均逗留时间（sojourn time）** `w`，即 `l = λw`（记号与笔记中的
+`L=λ*W` 一一对应）。关键定义：
+
+- `λ = lim N(t)/t`：到达率，单位时间进入系统的平均顾客数；
+- `w`：顾客在系统内停留时间的长期平均（sojourn time 的平均）；
+- `l`：系统内顾客数 `L(s)` 的长期时间平均。
+
+定理：若 `λ` 与 `w` 存在且有限，则 `l` 存在且 `l = λw`。讲义用 sample-path
+（样本路径）论证，不依赖具体随机假设——因此 little 定律不是特定分布下的近似，而是
+排队系统的普适关系。原文给出的应用示例可对应到程序性能判断：
+
+- 队列等待区：`Q = λd`——平均排队长度 = 到达率 × 平均排队延迟；
+- 无限服务台队列：`l = ρ = λ/μ`（ρ 为利用率）；
+- 单服务台：服务器繁忙的长期占比 = `min{1, ρ}`。
+
+> 用法：当到达率与停留时间已知时，可反推队列长度量级（`L = λW`），用于校验"队列
+> 积压到底是因为变慢还是到达变多"这类判断。
+
+##### 概要形式 / 事件记录形式 / 快照形式（来源：osti-profiling-tracing、lumi-profiling-strategies）
+
+两种外部来源给出与笔记三种"信息形式"可对应的分类：
+
+- OSTI《High Performance Tools & Technologies》（美国能源部科技信息库）将性能分析
+  工具分为两大类：**profilers（剖析器）与 tracers（跟踪器）**，其中
+  "Profilers provide a summary of execution statistics and/or events"——剖析器以
+  **汇总**形式呈现执行统计，对应笔记的**概要形式**（以汇总或平均展示一段时间信息）；
+- LUMI 超算官方文档（EuroHPC 文档）定义：
+  - **Sampling（采样）**："taking regular snapshots of the application's call stack
+    to create a statistical profile"——周期性对调用栈取**快照**，对应笔记的
+    **快照形式**（记录当前信息、适合定位问题原因）；
+  - **Tracing（跟踪）**："captures specific program events, such as entering or
+    exiting a function, every time they occur"——**逐个记录每个事件**，对应笔记的
+    **事件记录形式**（可拿到时间与位置，但数据量、系统压力大）。
+
+三者对应关系小结：概要形式 ≈ profiler 汇总、快照形式 ≈ sampling 采样快照、
+事件记录形式 ≈ tracing 逐个记录。
+
+##### 仍为 personal 的表述
+
+- **分段查找**：通用定位手法（时间/空间层面缩小范围），暂无权威外部原文可逐句
+  对应，保持 personal；
+- **等待排队方法**：排队论基础（顾客/到达/逗留）可由 little-law-columbia 支撑，
+  但"进程进入就绪队列到执行完成"这一程序语境映射是本人实践判断，不上升为 claim；
+- **分析工具四分类（计数器/跟踪/剖析/监控）与各工具清单**：是笔记对 Linux 工具
+  生态的归纳，未找到与之一一对应的单一外部原文，保持 personal。
