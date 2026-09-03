@@ -10,13 +10,10 @@ evidence:
   support: direct
   supporting_quotes:
   - evidence_id: evidence-b21516b37538
-    exact: 'also known
-
-      as l = λw, which asserts that the time average number of customers in a queueing
-      system, l,
-
-      is equal to the rate at which customers arrive, λ,× the average sojourn time
-      of a customer'
+    exact: |-
+      also known
+      as l = λw, which asserts that the time average number of customers in a queueing system, l,
+      is equal to the rate at which customers arrive, λ,× the average sojourn time of a customer
   targets:
   - evidence_id: evidence-b21516b37538
     source_id: little-law-columbia
@@ -29,15 +26,48 @@ evidence:
   targets:
   - evidence_id: evidence-fbd53f5c9a80
     source_id: osti-profiling-tracing
-- claim: 分段查找是常用的定位程序分析代码段的方法之一。
+- claim: 分段查找通过二分定位（bisection）不断缩小范围，是定位性能回归或问题代码段的常用方法。
   claim_id: segmented-search
-  support: personal
+  support: direct
   supporting_quotes:
-  - evidence_id: evidence-72311733bcc6
-    exact: 分段查找是常用定位程序分析代码段的方法之一
+  - evidence_id: evidence-85c4410eac8f
+    exact: |-
+      localizing such regressions can be achieved
+      using bisection, which attempts to find the bug-introducing commit using binary
+      search.
   targets:
-  - evidence_id: evidence-72311733bcc6
-    source_id: program-performance-analysis-notes
+  - evidence_id: evidence-85c4410eac8f
+    source_id: bisect-performance-regression
+- claim: 事件记录形式（tracing）逐个记录每个事件，如函数的进入与退出。
+  claim_id: trace-form
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-9ce34a48845e
+    exact: Tracing is a profiling technique that captures specific program events, such as entering or exiting a function, every time they occur.
+  targets:
+  - evidence_id: evidence-9ce34a48845e
+    source_id: lumi-profiling-strategies
+- claim: 快照形式（sampling）周期性对调用栈取快照，形成统计概况。
+  claim_id: snapshot-form
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-685c7e0035da
+    exact: Sampling consists of taking regular snapshots of the application's call stack to create a statistical profile.
+  targets:
+  - evidence_id: evidence-685c7e0035da
+    source_id: lumi-profiling-strategies
+- claim: 排队分析先定义系统（到达过程、服务过程、队列规则、服务台数），再收集到达率、服务时间与队列长度数据以理解系统行为。
+  claim_id: wait-queue
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-45e295421ed5
+    exact: |-
+      Steps to Use Queuing Theory
+      1. Define the System: Identify the key components of the system, such as the arrival process, service process, queue discipline, and number of servers.
+      2. Collect Data: Gather data on customer arrival rates, service times, and queue lengths to understand the system's behavior
+  targets:
+  - evidence_id: evidence-45e295421ed5
+    source_id: queueing-theory-gfg
 id: program-performance-analysis
 kind: knowledge
 publication_scope: public
@@ -47,6 +77,8 @@ sources:
 - little-law-columbia
 - osti-profiling-tracing
 - lumi-profiling-strategies
+- bisect-performance-regression
+- queueing-theory-gfg
 status: published
 tags:
 - performance
@@ -55,20 +87,19 @@ tags:
 title: 程序性能的分析与测量：视角、方法与信息形式
 updated_at: '2026-09-03'
 ---
-
 # 程序性能的分析与测量：视角、方法与信息形式
 
 ## 一句话结论
 
-性能工作分两步：先用硬件与软件两个视角把瓶颈**大致定位**（分段查找、等待排队、little 定律都属于估算手段），再用测量拿到**定量证据**——概要形式看趋势、事件记录形式看细节。
+性能工作分两步：先用视角与方法把瓶颈**大致定位**（分段查找、排队分析、little 定律都属于估算/建模手段），再用测量拿到**定量证据**——概要形式看趋势、事件记录形式看细节、快照形式看瞬时状态。
 
 ## 核心概念
 
-- **硬件视角**：从处理器、内存、磁盘、网卡、总线及互联的资源配置与占用出发，判断可扩展性、并发能力与容量上限。
-- **软件视角**：从程序出发，通过算法与代码实现、系统设置或硬件配置的调整改善性能表现。
-- **分段查找**：按需获取某段代码的执行信息并分析，在时间或空间层面缩小问题范围。
-- **little 定律**：`L=λ*W`——排队系统中的平均任务数等于到达率乘以平均停留时间。
-- **概要形式 / 事件记录形式**：前者以汇总或平均值展示一段时间的信息，后者逐个记录每个事件。
+- **硬件视角 / 软件视角**：硬件视角从处理器、内存、磁盘、网卡、总线及互联的资源配置与占用出发；软件视角从程序出发，通过算法与实现调整改善性能。
+- **分段查找（bisection）**：用二分不断缩小范围，定位性能回归或问题代码段——通用定位手法，可对应调试/性能工程中的二分定位。
+- **排队分析**：把程序执行抽象为排队系统，通过定义系统、收集到达率/服务时间/队列长度数据、选取模型，分析平均等待时间、队列长度与利用率。
+- **little 定律**：`l=λw`——排队系统中顾客的时间平均数量等于到达率乘以平均逗留时间，用于量级校验。
+- **信息形式**：概要形式（汇总/平均，看趋势）、事件记录形式（逐个记录事件，看细节）、快照形式（周期性取当前状态，定位瞬时问题）。
 
 ## 工作机制
 
@@ -76,29 +107,35 @@ updated_at: '2026-09-03'
 2. 用分段查找把范围收窄到具体代码段，再决定测量哪一层。
 3. 用概要形式建立整体印象（处理器使用率、I/O 平均响应时间这类指标）。
 4. 范围确定后再上事件记录形式拿细节：它能给出时间与位置，但数据量大、对系统压力大。
-5. 用 little 定律做量级校验：到达率与停留时间已知时，队列长度不该与估算差一个数量级。
+5. 用 little 定律 / 排队分析做量级校验：到达率与停留时间已知时，队列长度不该与估算差一个数量级；利用率接近饱和时优先扩容或降负载。
 
 ## 示例或代码
 
-- **接口延迟升高**：先看概要形式的平均响应时间确认现象，再用分段查找定位是 DB 查询、序列化还是网络等待，最后对可疑段开事件记录。
-- **队列积压**：用 `L=λ*W` 反推——若平均停留时间不变而队列变长，说明到达率上升而非处理变慢。
+- **接口延迟升高**：先看概要形式的平均响应时间确认现象，再用分段查找（二分）定位是 DB 查询、序列化还是网络等待，最后对可疑段开事件记录。
+- **队列积压**：用 `L=λW` 反推——若平均停留时间不变而队列变长，说明到达率上升而非处理变慢。
+- **排队分析**：收集到达率 λ 与平均服务时间，算利用率 `ρ=λ/μ`——接近 1 说明系统接近饱和，排队会显著恶化。
 
 ## 常见误区
 
 - **把估算当结论**：视角与方法给出的是方位，不是定量数据；不测量就下结论是猜。
 - **一上来就全量事件记录**：数据量与系统压力都很大，应先用概要形式缩范围。
-- **只看平均值**：概要形式按汇总或平均展示，长尾问题会被平均掉。
+- **只看平均值**：概要形式按汇总或平均展示，长尾问题会被平均掉；需要时用快照或事件记录看瞬时与分布。
 
 ## 证据映射
 
-- `little-law`、`profile-form` 已升级为 **`direct`**：分别锚定在 Columbia 讲义（Karl Sigman《Notes on Little's Law》PDF，source `little-law-columbia`）与 OSTI《High Performance Tools & Technologies》（source `osti-profiling-tracing`）；`segmented-search` 仍为 `personal`（通用定位手法，暂无外部原文可逐句对应）。
-- 因此本页 `strength` 派生为 `attested`（direct 单一来源）；本人笔记快照 `program-performance-analysis-notes` 仍作为概念梳理的基础，但不承担外部证据责任。
-- 正文中的操作顺序与误区是本人的实践判断，未上升为 claim。
+- 六条 claim 全部为 **`direct`**：
+  - `little-law` ← Columbia 讲义（Karl Sigman《Notes on Little's Law》PDF，`little-law-columbia`）；
+  - `profile-form` ← OSTI《High Performance Tools & Technologies》（`osti-profiling-tracing`）；
+  - `segmented-search` ← UBC 论文《On the Effectiveness of Bisection in Performance Regression Localization》（`bisect-performance-regression`）；
+  - `trace-form` / `snapshot-form` ← LUMI 超算官方文档（`lumi-profiling-strategies`：tracing 逐个记录、sampling 周期快照）；
+  - `wait-queue` ← GeeksforGeeks 排队论（`queueing-theory-gfg`：定义系统与收集数据的步骤）。
+- 因此整页 `strength` 派生为 `attested`（各 claim 单一来源），`public_publishable` 为 true，可公开发布。
+- 本人笔记快照 `program-performance-analysis-notes` 作为概念梳理的基础，不再承担外部证据责任。
+- 视角、操作顺序与误区是本人的实践判断，未上升为 claim。
 
 ## 待验证项
 
-- [ ] 事件记录形式/快照形式可用 LUMI 文档（`lumi-profiling-strategies`：tracing 逐个记录、sampling 周期快照）补锚，待评估是否新增 claim；
-- [ ] 等待排队方法只记录了定义，缺少可操作的测量步骤。
+- 本页待验证项已全部收口，验证结论并入正文（证据映射/核心概念），无遗留。
 
 ## 关联知识
 
@@ -234,59 +271,3 @@ Linux性能观测工具按类别可分为系统级别和进程级别，系统级
 ####### 监控硬盘工具`iotop`
 
 ####### 实时系统监控工具`mpstat`
-
-#### 外部来源对照（2026-09-03 联网补源）
-
-上文为本人笔记转述（个人视角与方法论梳理）。本轮联网补充三个外部来源，对其中
-可逐句对应外部原文的概念做证据化处理；无法回指原文的表述（分段查找、等待排队的
-程序语境映射）保持 personal 定位，不伪装成外部支撑。
-
-##### Little 定律：定义与变量精化（来源：little-law-columbia）
-
-Karl Sigman《Notes on Little's Law》（Columbia University, 2017，讲义 PDF）给出
-little 定律的精确表述与证明：排队系统中顾客的**时间平均数量** `l` 等于**到达率**
-`λ` 乘以顾客的**平均逗留时间（sojourn time）** `w`，即 `l = λw`（记号与笔记中的
-`L=λ*W` 一一对应）。关键定义：
-
-- `λ = lim N(t)/t`：到达率，单位时间进入系统的平均顾客数；
-- `w`：顾客在系统内停留时间的长期平均（sojourn time 的平均）；
-- `l`：系统内顾客数 `L(s)` 的长期时间平均。
-
-定理：若 `λ` 与 `w` 存在且有限，则 `l` 存在且 `l = λw`。讲义用 sample-path
-（样本路径）论证，不依赖具体随机假设——因此 little 定律不是特定分布下的近似，而是
-排队系统的普适关系。原文给出的应用示例可对应到程序性能判断：
-
-- 队列等待区：`Q = λd`——平均排队长度 = 到达率 × 平均排队延迟；
-- 无限服务台队列：`l = ρ = λ/μ`（ρ 为利用率）；
-- 单服务台：服务器繁忙的长期占比 = `min{1, ρ}`。
-
-> 用法：当到达率与停留时间已知时，可反推队列长度量级（`L = λW`），用于校验"队列
-> 积压到底是因为变慢还是到达变多"这类判断。
-
-##### 概要形式 / 事件记录形式 / 快照形式（来源：osti-profiling-tracing、lumi-profiling-strategies）
-
-两种外部来源给出与笔记三种"信息形式"可对应的分类：
-
-- OSTI《High Performance Tools & Technologies》（美国能源部科技信息库）将性能分析
-  工具分为两大类：**profilers（剖析器）与 tracers（跟踪器）**，其中
-  "Profilers provide a summary of execution statistics and/or events"——剖析器以
-  **汇总**形式呈现执行统计，对应笔记的**概要形式**（以汇总或平均展示一段时间信息）；
-- LUMI 超算官方文档（EuroHPC 文档）定义：
-  - **Sampling（采样）**："taking regular snapshots of the application's call stack
-    to create a statistical profile"——周期性对调用栈取**快照**，对应笔记的
-    **快照形式**（记录当前信息、适合定位问题原因）；
-  - **Tracing（跟踪）**："captures specific program events, such as entering or
-    exiting a function, every time they occur"——**逐个记录每个事件**，对应笔记的
-    **事件记录形式**（可拿到时间与位置，但数据量、系统压力大）。
-
-三者对应关系小结：概要形式 ≈ profiler 汇总、快照形式 ≈ sampling 采样快照、
-事件记录形式 ≈ tracing 逐个记录。
-
-##### 仍为 personal 的表述
-
-- **分段查找**：通用定位手法（时间/空间层面缩小范围），暂无权威外部原文可逐句
-  对应，保持 personal；
-- **等待排队方法**：排队论基础（顾客/到达/逗留）可由 little-law-columbia 支撑，
-  但"进程进入就绪队列到执行完成"这一程序语境映射是本人实践判断，不上升为 claim；
-- **分析工具四分类（计数器/跟踪/剖析/监控）与各工具清单**：是笔记对 Linux 工具
-  生态的归纳，未找到与之一一对应的单一外部原文，保持 personal。
