@@ -6,25 +6,32 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-echo "== 1/4 Python venv =="
+echo "== 1/6 Python venv =="
 if [ ! -x ".venv/bin/python" ]; then
   python3 -c "import sys; sys.exit(0 if sys.version_info >= (3, 12) else 1)" || {
     echo "需要 Python >= 3.12"; exit 1; }
   python3 -m venv .venv
 fi
 
-echo "== 2/4 Python 依赖 =="
+echo "== 2/6 Python 依赖 =="
 .venv/bin/python -m pip install --quiet --upgrade pip
+echo "    注：requirements.txt 含 marker-pdf[full]（PDF/PPT/DOCX → Markdown）及其 torch 依赖，体积较大（~GB 级），首次安装需耐心。"
 .venv/bin/python -m pip install --quiet -r requirements.txt
 
-echo "== 3/4 前端依赖（可选，仅静态站构建需要）=="
+echo "== 3/6 Marker 模型（可选，首次文档转换前需下载 ~2-4GB）=="
+if command -v python3 >/dev/null 2>&1; then
+  echo "    Marker 首次转换 PDF/PPT/DOCX 时会自动从 HuggingFace 下载 Surya 模型（~2-4GB，缓存于 ~/.cache/huggingface）。"
+  echo "    如需预下载避免首次转换等待，可执行：.venv/bin/python -c \"from marker.models import create_model_dict; create_model_dict()\""
+fi
+
+echo "== 4/6 前端依赖（可选，仅静态站构建需要）=="
 if command -v npm >/dev/null 2>&1; then
   (cd frontend && npm install --silent)
 else
   echo "跳过：未安装 npm（静态站构建时再装）"
 fi
 
-echo "== 4/5 中文分词扩展（可选，缺失回退 unicode61 并告警）=="
+echo "== 5/6 中文分词扩展（可选，缺失回退 unicode61 并告警）=="
 if [ ! -f state/lib/libsimple.dylib ] && [ ! -f state/lib/libsimple.so ]; then
   SIMPLE_VER=v0.7.1
   case "$(uname -s)-$(uname -m)" in
@@ -46,11 +53,12 @@ else
   echo "simple: 已安装"
 fi
 
-echo "== 5/5 自检 =="
+echo "== 6/6 自检 =="
 .venv/bin/python -m pytest -q 2>&1 | tail -1
 
 echo
 echo "可选外部依赖（按需安装，缺失时对应能力自动降级并显式告警）："
 echo "  qmd      - 语义/向量检索（缺失 -> FTS5 降级）"
 echo "  git lfs  - archive/raw 二进制快照（缺失 -> text-only 归档）"
+echo "  marker   - PDF/PPT/DOCX → 结构化 Markdown（已随 requirements 安装；模型 ~2-4GB 首次使用下载）"
 echo "完成。日常入口：python -m tools.cli（查看命令列表）/ python -m tools.cli doctor"
