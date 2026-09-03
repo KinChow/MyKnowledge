@@ -163,6 +163,33 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 - **public projection**：manifest ddbf0ba2…，item_count 3（aar / how-to-read-a-book / compiler-vectorization），query 均可查；doctor healthy、477 tests。
 - **遗留**：`llvm-auto-vectorization` 等 4 篇旧 wiki `public_publishable: False` 仍未进 projection（历史状态，待后续）。
 
+### 8.10 4 篇存量 wiki review + CRLF 快照漂移修复 + 详细章节补全（2026-09-03）
+
+- **CRLF 快照漂移修复（2 个孤儿 source）**：`cornell-memory-concepts`、`ddca-lecture10-microarchitecture` 的 archive 快照含 CRLF 行尾（pypdf 抽取 Windows 风格 PDF），快照以 CRLF 原始字节 sha 命名，而 doctor/validator 用 `read_text()`（通用换行归一 CRLF→LF）重算 → 漂移。修复：LF 归一化 + 重命名 blob（`1123ad49…`/`7a51de54…`）+ 更新 source front-matter `snapshot_sha256` + **就地重写 2 条未提交的 manifest record**（append-only 只约束已提交历史）。全量扫描 261 blob：仅这 2 个有 CR，同类型清零。两 source 无 wiki evidence 引用，未破坏锚点。
+- **4 篇 wiki 详细章节修复/补全**：
+  - `program-performance-analysis`、`llvm-auto-vectorization`：**补** `## 详细章节`（此前 working 内容完全未入 wiki，即"working 内容缺失"根因）——working 全文 +2 降级（`#`→`###`、`##`→`####`…）零删减捕获。
+  - `cpu-pipeline-and-hazards`：详细章节补回 working 的 `分级缓存机制`/`虚拟内存管理`/`常见性能优化手段` 三节，并修正标题层级（`####`/`#####` 被拍平 → 恢复 +2 层级嵌套 `######`/`#######`）。
+  - `isa-and-microarchitecture`：详细章节补回 working 的 `现代处理器基本架构`/`CPU核微架构`/`Cache子系统`/`基于处理器微架构的性能分析`/`基于处理器微架构的软件调优` 五节，修正 ISA 节标题层级，修正遗留错别字（井→并、架抅→架构、教据→数据、返度→速度、营换→替换、決→决、統→统、Wal→Wall 等）。
+- **审查结论**：4 篇 wiki 的改写多数是证据驱动正确修正（五阶段非冯诺依曼通用、AArch64 SP/PC 非通用寄存器等）；引文截断 2 处（isa `isa-definition`/`isa-vs-micro`）待重锚，未在本轮处理。
+- **验证**：4 篇 wiki 确定性校验全 `valid` + `evidence_state: supported`；doctor healthy、477 tests 全过。
+
+### 8.11 4 篇 wiki 遗留项收口：引文重锚 + claim 升级 + 重审计（2026-09-03）
+
+- **isa 引文重锚**：`isa-definition`/`isa-vs-micro` 两条截断引文重锚为完整句（接口句 + Hennessy-Patterson"程序可见属性"定义 + 微架构实现句 + 乱序语义句），并校准 claim（"规定程序可见的属性（概念结构与功能行为）"）。审计过程中又裁 4 条超出引文的 claim（same-isa 去掉"性能/内部组织不必相同"、risc-cisc 去掉"设计倾向而非硬性定义"（"更多内存操作"→"单条指令执行多个操作"）、arm-aarch64-registers 去掉"不应计作第 32/33 个"——这些限定/排除仍在正文/详细章节）。
+- **program-performance claim 升级**：`little-law`→direct（Columbia `little-law-columbia`）、`profile-form`→direct（OSTI `osti-profiling-tracing`），`segmented-search` 保持 personal。因 F007 保守规则（任一 claim personal → 整页 personal），本页 `strength` 仍 `personal`（如实反映）。
+- **cpu-pipeline 审计修正**：3 条 partially_supported 修正——`pipeline-throughput` 裁剪"多个事务同时进行"、`out-of-order-commit` 补 ROB 引文（tail allocation + 按序分配/回收）并去"维持精确状态"、`cache-platform-dependence` 补"cache 系统具体细节"引文。
+- **审计结果**：4 篇全部 `pass`；`strength`：cpu-pipeline/isa `verified`、llvm `attested`、program-performance `personal`。`public_publishable: false`（待 owner confirm + release）。
+- **待验证项收口**：cpu-pipeline/isa 全部 `[x]` 删除（结论并入正文），保留小节标注"已收口"；llvm 删除已验证项（运行时指针检查/epilogue 已在详细章节），保留 GCC 对照与英文引文两项；program-performance 删已升级项，保留 LUMI 补锚与等待排队两项。
+- **文件名结论**：4 篇 wiki 文件名（object_id）不需要修改——文件名反映蒸馏身份（claim 范围），详细章节是 working 材料零删减捕获；改 object_id 会破坏引用链且无收益。
+
+### 8.12 3 篇 wiki 发布闭环：cpu-pipeline / isa / llvm 进 public projection（2026-09-03）
+
+- **发布链走通**：4 篇全部重审 `validation_state: pass` → owner confirm（cpu-pipeline 用 zhouzijian、isa/llvm 用 local-user）→ `release input` → `release confirm`（owner 在终端执行，actor zhouzijian01，三条：evt-cpu-pipeline-and-hazards-20260903-e144 / evt-isa-and-microarchitecture-20260903-a572 / evt-llvm-auto-vectorization-20260903-f37e）→ `public_publishable: true`。
+- **release confirm 参数来源（实操教训）**：`release confirm` 需要 `--nonce`（一次性随机数，secrets.token_hex(8)）、`--event-id`（evt-<wiki>-<日期>-<hex> 约定）、`--leak-gate-report-sha256`（**= sha256_text(leak-gate.mjs --scope input-tree 输出原文)**；干净扫描三篇同值 `14f65263…`，与既有 htrab 事件一致——干净报告本就相同，勿多加换行）。
+- **projection**：`item_count 6`（aar / compiler-vectorization / how-to-read-a-book + cpu-pipeline-and-hazards / isa-and-microarchitecture / llvm-auto-vectorization）；索引重建 item_count 6；query 可检索（fts5 环境降级走 fallback，不影响结果）。
+- **program-performance-analysis 未发布**：`segmented-search` 仍 personal → 整页 strength=personal → `not_public_publishable`（projection skipped 列表如实记录）。重确认后仅作私有背书。
+- **验证**：doctor 0 error、477 tests 全过、manifest `d0c401c0…`。
+
 ## 9. 修订记录
 
 | 日期 | 变更 |
