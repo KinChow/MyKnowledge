@@ -9,22 +9,27 @@ evidence:
   claim_id: definition
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-bd71610a92c6
-    exact: "An after-action review (AAR) is a professional discussion of an event,
-      focused on \nperformance standards, that enables soldiers to discover for themselves
-      what happened, \nwhy it happened, and how to sustain strengths and improve on
-      weaknesses."
+  - evidence_id: evidence-6ee1d813f9cd
+    exact: An after-action review (AAR) is a professional discussion of an event,
+      focused on performance standards, that enables soldiers to discover for themselves
+      what happened, why it happened, and how to sustain strengths and improve on
+      weaknesses. It is a tool leaders and units can use to get maximum benefit from
+      every mission or task.
   targets:
-  - evidence_id: evidence-bd71610a92c6
+  - evidence_id: evidence-6ee1d813f9cd
     source_id: aar-tc25-20
 - claim: 存在由美国陆军（Department of the Army）发布的训练通告 TC 25-20。
   claim_id: army-origin
   support: direct
   supporting_quotes:
-  - evidence_id: evidence-5ca92dbc3cf1
-    exact: "Training Circular \n25-20 \nHeadquarters\nDepartment of the Army"
+  - evidence_id: evidence-68b2a80bb990
+    exact: '**HEADQUARTERS DEPARTMENT OF THE ARMY**'
+  - evidence_id: evidence-c05892b14a9a
+    exact: '**TC 25-20**'
   targets:
-  - evidence_id: evidence-5ca92dbc3cf1
+  - evidence_id: evidence-68b2a80bb990
+    source_id: aar-tc25-20
+  - evidence_id: evidence-c05892b14a9a
     source_id: aar-tc25-20
 id: aar
 kind: knowledge
