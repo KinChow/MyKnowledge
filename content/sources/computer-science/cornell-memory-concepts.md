@@ -1,0 +1,1135 @@
+---
+archive_policy: text-only
+confidentiality: public
+domain: computer-science
+extractor: pypdf/6.16.2
+id: cornell-memory-concepts
+media_type: application/pdf
+origin: external
+read_status: retrieved
+retrieval:
+  acquisition: fetch
+  resolved_url: https://bpb-us-w2.wpmucdn.com/sites.coecis.cornell.edu/dist/4/81/files/2017/03/ece4750_handout4-1arsc4i.pdf
+  url: https://ocw.ece.cornell.edu/files/2017/03/ece4750_handout4-1arsc4i.pdf
+schema_version: source/v1
+snapshot_sha256: sha256:1123ad498b1221b5ba614320bf45ec36009638dd05c20a374a034bc00fe2cb7a
+source_type: doc
+vault_id: public
+---
+ECE 4750 Computer Architecture, Fall 2015
+T03 Fundamental Memory Concepts
+School of Electrical and Computer Engineering
+Cornell University
+revision: 2015-10-05-13-36
+1 Memory/Library Analogy 2
+1.1. Three Example Scenarios . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.2. Memory Technology . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+1.3. Cache Memories in Computer Architecture . . . . . . . . . . . . . . 11
+2 Cache Concepts 13
+2.1. Three Key Questions . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+2.2. Categorizing Misses: The Three C’s . . . . . . . . . . . . . . . . . . . 19
+2.3. Write Policies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+3 Memory T ranslation, Protection, and Virtualization 24
+3.1. Memory Translation . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+3.2. Memory Protection . . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+3.3. Memory Virtualization . . . . . . . . . . . . . . . . . . . . . . . . . . 34
+4 Analyzing Memory Performance 37
+4.1. Estimating AMAL . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 38
+1
+1. Memory/Library Analogy 1.1. Three Example Scenarios
+1. Memory/Library Analogy
+Our goal is to do some research on a new computer architecture, and
+so we wish to consult the literature to learn more about past computer
+systems. The library contains most of the literature we are interested in,
+although some of the literature is stored off-site in a large warehouse.
+There are too many distractions at the library, so we prefer to do our
+reading in our doorm room or ofﬁce. Our doorm room or ofﬁce has an
+empty bookshelf that can hold ten books or so, and our desk can hold a
+single book at a time.
+Desk
+(can hold one book)
+Book Shelf
+(can hold a few books)
+Library
+(can hold many books)
+Warehouse
+(long-term storage)
+1.1. Three Example Scenarios
+• Use desk and library
+• Use desk, book shelf, and library
+• Use desk, book shelf, library, and warehouse
+2
+1. Memory/Library Analogy 1.1. Three Example Scenarios
+Books from library with no bookshelf “cache”
+Desk
+(can hold one book)
+Library
+(can hold many books)
+Need book 1
+Checkout book 1
+(10 min)
+Walk to library (15m)
+Walk to oﬃce (15m)
+Read some of book 1
+(10 min)
+Need book 2 Return book 1
+Checkout book 2
+(10 min)
+Walk to library (15m)
+Walk to oﬃce (15m)
+Read some of book 2
+(10 min)
+Need book 1
+again! Return book 2
+Checkout book 1
+(10 min)
+Walk to library (15m)
+Walk to oﬃce (15m)
+Read some of book 1
+(10 min)
+Need book 2
+• Some inherent “translation” since we need to use the online catalog
+to translate a book author and title into a physical location in the
+library (e.g., ﬂoor, row, shelf)
+• Average latency to access a book: 40 minutes
+• Average throughput including reading time: 1.2 books/hour
+• Latency to access library limits our throughput
+3
+1. Memory/Library Analogy 1.1. Three Example Scenarios
+Books from library with bookshelf “cache”
+Desk
+(can hold one book)
+Need book 1
+Read some of book 1
+Book Shelf
+(can hold a few books)
+Library
+(can hold many books)
+Check bookshelf (5m) Walk to library (15m)
+Walk to oﬃce (15m)
+Checkout book 1
+and book 2
+(10 min)
+Check bookshelf (5m)
+Cache Miss!
+Read some of book 2
+Read some of book 1
+Cache Hit! (Spatial Locality)
+Check bookshelf (5m)
+Cache Hit! (Temporal Locality)
+• Average latency to access a book: <20 minutes
+• Average throughput including reading time: ≈2 books/hour
+• Bookshelf acts as a small “cache” of the books in the library
+– Cache Hit: Book is on the bookshelf when we check, so there is no need to
+go to the library to get the book
+– Cache Miss: Book is not on the bookshelf when we check, so we need to
+go to the library to get the book
+• Caches exploit structure in the access pattern to avoid the library
+access time which limits throughput
+– Temporal Locality: If we access a book once we are likely to access the
+same book again in the near future
+– Spatial Locality: If we access a book on a given topic we are likely to
+access other books on the same topic in the near future
+4
+1. Memory/Library Analogy 1.1. Three Example Scenarios
+Books from warehouse
+Desk
+(can hold one book)
+Need 
+book 1
+Book Shelf
+(can hold a few books)
+Library
+(can hold many books)
+Check bookshelf (5m)
+Walk to library (15m)
+Walk to oﬃce (15m)
+Check library
+(10 min)
+Cache Miss!
+Warehouse
+(long-term storage)
+Go to Warehouse (1hr)
+Retrieve
+Book
+(30 min)
+Back to Library (1hr)
+Read 
+book 1
+Walk to library (15m)
+Return book 1
+Keep book 1 in the library
+(10 min)
+• Keep very frequently used books on book shelf, but also keep books
+that have recently been checked out in the library before moving
+them back to long-term storage in the warehouse
+• We have created a “book storage hierarchy”
+• Book Shelf : low latency, low capacity
+• Library : high latency, high capacity
+• Warehouse : very high latency, very high capacity
+5
+1. Memory/Library Analogy 1.2. Memory Technology
+1.2. Memory T echnology
+Level-High Latch Positive Edge-Triggered Register
+D Q
+clk
+D Q
+clk
+QD
+clk clk
+6
+1. Memory/Library Analogy 1.2. Memory Technology
+Memory Arrays: Register Files
+Memory Arrays: SRAM
+65nm [Bai04]45nm [Mistry07] 130nm [Tyagi00]32nm [Natarajan08] 90nm [Thompson02]
+1 micron
+7
+1. Memory/Library Analogy 1.2. Memory Technology
+Memory Arrays: DRAM
+Adapted from [Foss, ʺImplementing Application-Speciﬁc Memory.ʺ ISSCCʹ96]
+Row Decoder
+I/Os
+Column Decoder
+Helper
+FFs
+I/O Strip
+Memory Controller
+Rankwordline
+bitline
+Bank
+Sub-bank
+Bank
+Array Core Array Block Bank & Chip Channel
+On-Chip
+SRAM
+DRAM in
+Dedicated Process
+SRAM in
+Dedicated Process
+On-Chip
+DRAM
+8
+1. Memory/Library Analogy 1.2. Memory Technology
+Flash and Disk
+• Magnetic hard drives require
+rotating platters resulting in long
+random acess times which have
+hardly improved over several
+decades
+• Solid-state drives using ﬂash have
+100× lower latencies but also
+lower density and higher cost
+Memory T echnology T rade-Offs
+Latches &
+Registers
+Register Files
+SRAM
+DRAM
+High Capacity
+High Latency
+Low Bandwidth
+Low Capacity
+Low Latency
+High Bandwidth
+(more and wider ports)
+Flash & Disk
+9
+1. Memory/Library Analogy 1.2. Memory Technology
+Latency numbers every programmer (architect) should know
+L1 cache reference 1 ns
+Branch mispredict 3 ns
+L2 cache reference 4 ns
+Mutex lock/unlock 17 ns
+Main memory reference 100 ns
+Send 2KB over commodity network 250 ns
+Compress 1KB with zip 2 us
+Read 1MB sequentially from main memory 9 us
+SSD random read 16 us
+Read 1MB sequentially from SSD 156 us
+Round trip in datacenter 500 us
+Read 1MB sequentially from disk 2 ms
+Disk random read 4 ms
+Packet roundtrip from CA to Netherlands 150 ms
+http://www.eecs.berkeley.edu/~rcs/research/interactive_latency.html
+Aside: Combinational vs. Synchronous SRAMs
+10
+1. Memory/Library Analogy 1.3. Cache Memories in Computer Architecture
+1.3. Cache Memories in Computer Architecture
+Main MemoryCacheProcessor
+P $ M
+Cache Accesses
+(10 or fewer cycles)
+Main Memory Access
+(100s of cycles)
+Disk/Flash
+D
+Disk Access
+(100,000s of cycles)
+Desk Book Shelf Library Warehouse
+Cache memories exploit temporal and spatial locality
+Address 
+Time 
+Instruction 
+   fetches 
+Stack 
+accesses 
+Data 
+accesses 
+n loop iterations 
+subroutine 
+call 
+subroutine 
+return 
+argument access 
+vector access
+ 
+scalar accesses 
+11
+1. Memory/Library Analogy 1.3. Cache Memories in Computer Architecture
+Understanding locality for assembly programs
+Examine each of the following assembly programs and rank each pro-
+gram based on the level of temporal and spatial locality in both the in-
+struction and data address stream on a scale from 0 to 5 with 0 being no
+locality and 5 being very signiﬁcant locality.
+Inst Inst Data Data
+Temp Spat Temp Spat
+loop:
+lw r1, 0(r2)
+lw r3, 0(r4)
+addiu r5, r1, r3
+sw r5, 0(r6)
+addiu r2, r2, 4
+addiu r4, r4, 4
+addiu r6, r6, 4
+addiu r7, r7, -1
+bne r7, r0, loop
+loop:
+lw r1, 0(r2)
+lw r3, 0(r1) # random ptrs
+lw r4, 0(r3) # random ptrs
+addiu r4, r4, 1
+addiu r2, r2, 4
+addiu r7, r7, -1
+bne r7, r0, loop
+loop:
+lw r1, 0(r2) # many diff
+jalr r1 # func ptrs
+addiu r2, r2, 4
+addiu r7, r7, -1
+bne r7, r0, loop
+12
+2. Cache Concepts 2.1. Three Key Questions
+2. Cache Concepts
+• Three Key Questions
+– How much data is aggregated in a cache line (spatial locality)?
+– How do we organize multiplie lines in the cache (spatial/temporal
+locality)?
+– What data is replaced to make room for new data when cache is full
+(temporal locality)?
+• Categorizing Misses
+• Write Policies
+• Multi-Level Cache
+2.1. Three Key Questions
+How much data is stored in a cache line?
+Consider only 4B word accesses and three single-line cache designs:
+13
+2. Cache Concepts 2.1. Three Key Questions
+00
+V Tag
+tag
+30b
+32bhit
+00
+V Tag
+tag
+29b
+32bhit 32b
+32b
+off
+1b
+00
+V Tag
+tag
+28b
+32bhit 32b
+32b
+off
+2b
+32b 32b
+How do we organize multiple lines in the cache?
+Four-line direct-mapped cache with 4B cache lines
+00
+V Tag
+tag
+28b
+32b
+idx
+2b Data
+0x000
+0x004
+0x008
+0x00c
+0x010
+0x014
+0x018
+0x01c
+0x020
+0x024
+4 Sets
+hit
+14
+2. Cache Concepts 2.1. Three Key Questions
+Example execution worksheet and table for direct-mapped cache
+V Tag Data0x000
+0x004
+0x008
+0x00c
+0x010
+rd 0x000
+rd 0x004
+rd 0x000
+rd 0x010
+Dynamic Transaction
+ Stream
+Set 0
+Set 1
+Set 2
+Set 3
+13
+14
+15
+16
+17
+rd 0x004
+Set
+tag idx h/m 0 1 2 3
+rd 0x000
+rd 0x004
+rd 0x010
+rd 0x000
+rd 0x004
+rd 0x020
+15
+2. Cache Concepts 2.1. Three Key Questions
+Increasing cache associativity
+Four-line direct-mapped cache with 4B cache lines
+00
+V Tag
+tag
+28b
+32b
+idx
+2b Data
+0x000
+0x004
+0x008
+0x00c
+0x010
+0x014
+0x018
+0x01c
+0x020
+0x024
+4 Sets
+hit
+Four-line two-way set-associative cache with 4B cache lines
+00
+V Tag
+tag
+29b
+32b
+idx
+1b Data V Tag
+32b
+Data
+2 Sets
+2 Ways0x000
+0x004
+0x008
+0x00c
+0x010
+0x014
+0x018
+0x01c
+0x020
+0x024
+Four-line fully-associative cache with 4B cache lines
+32b
+00
+V Tag
+tag
+30b
+32b
+Data V Tag
+32b
+Data
+hit
+4 Ways
+V Tag Data V Tag Data
+enc
+32b 32b
+16
+2. Cache Concepts 2.1. Three Key Questions
+Increasing cache line size
+00
+V Tag
+off
+2b
+tag
+27b
+32b
+32b32b 32b 32b
+idx
+1b Data
+hit
+Way 1
+Way 0
+What data is replaced to make room for new data when cache is full?
+• No choice in a direct-mapped cache
+• Random
+– Good average case performance, but difﬁcult to implement
+• Least Recently Used (LRU)
+– Replace cache line which has not been accessed recently
+– Exploits temporal locality
+– LRU cache state must be updated on every access which is expensive
+– True implementation only feasible for small sets
+– Two-way cache can use a single “last used bit”
+– Pseudo-LRU uses binary tree to approximate LRU for higher associativity
+• First-In First-Out (FIFO, Round Robin)
+– Simpler implementation, but does not exploit temporal locality
+– Potentially useful in large fully associative caches
+17
+2. Cache Concepts 2.1. Three Key Questions
+Example execution worksheet and table for 2-way set associative cache
+V Tag Data
+0x000
+0x004
+0x008
+0x00c
+0x010
+rd 0x000
+rd 0x004
+rd 0x000
+rd 0x010
+Dynamic 
+Transaction
+ Stream Set 0
+Set 1
+13
+14
+15
+16
+17
+rd 0x004
+V Tag Data
+Way 0 Way 1
+U
+Set 0 Set 1
+tag idx h/m U Way 0 Way 1 U Way 0 Way 1
+rd 0x000
+rd 0x004
+rd 0x010
+rd 0x000
+rd 0x004
+rd 0x020
+18
+2. Cache Concepts 2.2. Categorizing Misses: The Three C’s
+2.2. Categorizing Misses: The Three C’s
+• Compulsory : ﬁrst-reference to a block
+• Capacity : cache is too small to hold all of the data
+• Conﬂict : collisions in a speciﬁc set
+Classifying misses in a cache with a target capacity and associativity as
+a sequence of three questions:
+• Q1) Would this miss occur in a cache with inﬁnite capacity? If the
+answer is yes, then this is a compulsory miss and we are done. If the
+answer is no, then consider question 2.
+• Q2) Would this miss occur in a fully associative cache with the desired
+capacity? If the answer is yes, then this is a capacity miss and we are
+done. If the answer is no, then consider question 3.
+• Q3) Would this miss occur in a cache with the desired capacity and
+associativity? If the answer is yes, then this is a conﬂict miss and we
+are done. If the answer is no, then this is not a miss – it is a hit!
+19
+2. Cache Concepts 2.2. Categorizing Misses: The Three C’s
+Example 1 illustrating categorizing misses
+Assume we have a direct-mapped cache with two 16B lines, each with four 4B
+words for a total cache capacity of 32B. We will need four-bits for the offset, one
+bit for the index, and the remaining bits for the tag.
+tag idx h/m type Set 0 Set 1
+rd 0x000
+rd 0x020
+rd 0x000
+rd 0x020
+Q1. Would the cache miss occur in an inﬁnite capacity cache? For the ﬁrst two
+misses, the answer is yes so they are compulsory misses. For the last two
+misses, the answer is no, so consider question 2.
+Q2. Would the cache miss occur in a fully associative cache with the target
+capacity (two 16B lines)? Re-run address stream on such a fully associative
+cache. For the last two misses, the answer is no, so consider question 3.
+tag idx h/m Way 0 Way 1
+rd 0x000
+rd 0x020
+rd 0x000
+rd 0x020
+3. Would the cache miss occur in a cache with the desired capacity and
+associativity? For the last two misses, the asnwer is yes, so these are conﬂict
+misses. There is enough capacity in the cache; the limited associativity is what is
+causing the misses.
+20
+2. Cache Concepts 2.2. Categorizing Misses: The Three C’s
+Example 2 illustrating categorizing misses
+Assume we have a direct-mapped cache with two 16B lines, each with four 4B
+words for a total cache capacity of 32B. We will need four-bits for the offset, one
+bit for the index, and the remaining bits for the tag.
+tag idx h/m type Set 0 Set 1
+rd 0x000
+rd 0x020
+rd 0x030
+rd 0x000
+Q1. Would the cache miss occur in an inﬁnite capacity cache? For the ﬁrst three
+misses, the answer is yes so they are compulsory misses. For the last miss, the
+answer is no, so consider question 2.
+Q2. Would the cache miss occur in a fully associative cache with the target
+capacity (two 16B lines)? Re-run address stream on such a fully associative
+cache. For the last miss, the answer is yes, so this is a capacity miss.
+tag idx h/m Way 0 Way 1
+rd 0x000
+rd 0x020
+rd 0x030
+rd 0x000
+Categorizing misses helps us understand how to reduce miss rate.
+Should we increase associativity? Should we use a larger cache?
+21
+2. Cache Concepts 2.3. Write Policies
+2.3. Write Policies
+Write-Through with No Write Allocate
+• On write miss, write memory but do not bring line into cache
+• On write hit, write both cache and memory
+• Requires more memory bandwidth, but simpler to implement
+Set write
+tag idx h/m 0 1 2 3 mem?
+rd 0x010
+wr 0x010
+wr 0x024
+rd 0x024
+rd 0x020
+Assume 4-line direct-mapped cache with 4B cache lines
+22
+2. Cache Concepts 2.3. Write Policies
+Write-Back with Write Allocate
+• On write miss, bring cache line into cache then write
+• On write hit, only write cache, do not write memory
+• Only update memory when a dirty cache line is evicted
+• More efﬁcient, but more complicated to implement
+Write-Back Flow-Chart
+Set write
+tag idx h/m 0 1 2 3 mem?
+rd 0x010
+wr 0x010
+wr 0x024
+rd 0x024
+rd 0x020
+Assume 4-line direct-mapped cache with 4B cache lines
+23
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+3. Memory T ranslation, Protection, and Virtualization
+Memory Management Unit (MMU)
+• Translation : mapping of virtual addresses to physical addresses
+• Protection : permission to access address in memory
+• Virtualization : transparent extension of memory space using disk
+Most modern systems provide support for all three functions
+with a single paged-based MMU
+3.1. Memory T ranslation
+Mapping of virtual addresses to physical addresses
+24
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+Why memory translation?
+• Enables using full virtual address space with less physical memory
+• Enables multiple programs to execute concurrently
+• Can facilitate memory protection and virtualization
+Simple base-register translation
+25
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+Memory fragmentation
+ECE 4750 T16: Address Translation and Protection 8!
+Memory Fragmentation 
+  As users come and go, the storage is “fragmented”.  
+  Therefore, at some stage programs have to be moved 
+  around to compact the storage.  
+OS 
+Space 
+16K 
+24K 
+24K 
+32K 
+24K 
+user 1 
+user 2 
+user 3 
+OS 
+Space 
+16K 
+24K 
+16K 
+32K 
+24K 
+user 1 
+user 2 
+user 3 
+user 5 
+user 4 
+8K 
+Users 4 & 5  
+arrive 
+Users 2 & 5 
+leave OS 
+Space 
+16K 
+24K 
+16K 
+32K 
+24K 
+user 1 
+user 4 
+8K  
+user 3 
+free 
+26
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+Linear-page table tranlsation
+PTE V
+Physical Memory
+off
+Physical 
+Page
+Physical 
+Page
+Physical
+Address
+Space
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Logical
+Address
+Space
+Logical 
+Page
+Logical 
+Page
+Logical 
+Page
+Logical 
+Page
+PPN off
+Logical to Physical
+Address Translation
+VPN off
+Virtual Address
+Physical
+Address
+Linear Page Table
+• Logical address can be interpreted as a page number and offset
+• Page table contains the physical address of the base of each page
+• Page tables make it possible to store the pages of a program
+non-contiguously
+27
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+PT Base Reg
+Program 2
+Page Table
+Program 1
+Page Table
+Physical
+Address
+Space
+Physical
+Address
+Space
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Page in PMem
+Page not allocated
+Linear Page Table
+Per Program
+Storing Page
+Tables
+in Physical
+Memory
+• Not all page tabele entries (PTEs) are valid
+• Invalid PTE means the program has not allocated that page
+• Each program has its own page table with entry for each logical page
+• Where should page tables reside?
+– Space required by page table proportional to address space
+– Too large too keep in registers
+– Keep page tables in memory
+– Need one mem access for page bage address, and another for actual data
+28
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+Size of linear page table?
+• With 32-bit addresses, 4KB pages, and 4B PTEs
+– Potentially 4GB of physical memory needed per program
+– 4KB page means VPN is 20 bits and offset is 12 bits
+– 2 20 PTEs, which means 4MB page table overhead per program
+• With 64-bit addresses, 1MB pages, and 8B PTEs
+– 1MB pages means VPN is 44 bits and offset is 20 bits
+– 2 44 PTEs, which means 35TB page table overhead per program
+• How can this possible ever work? Exploit program structure, i.e.,
+sparsity in logical address usage
+Two-level table translation
+VPN off
+L1 PTE V
+Physical Memory
+off
+Physical 
+Page
+Physical 
+Page
+L2 PTE V
+PPN off
+Virtual Address
+Physical
+Address
+29
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+off
+L2 Page Tables
+Physical
+Address
+Space
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+L1 Page Table
+p1 p2
+Physical 
+Page
+p2
+p2
+p2
+p1
+Virtual Address
+Page in PMem
+Page not allocated
+PT Base Reg
+Physical
+Address
+Space
+Physical 
+Page
+Physical 
+Page
+Physical 
+Page
+• Again, we store page tables in physical memory
+• Space requirements are now much more modest
+• Now need three memory accesses to retieve one piece of data
+30
+3. Memory Translation, Protection, and Virtualization 3.1. Memory Translation
+T ranslation lookaside buffers
+• Address translation is very expensive
+• Every reference requires multiple memory accesses
+• Solution: Cache translations in a translation lookaside buffer
+– TLB Hit: Single-cycle translation
+– TLB Miss: Page table walk to reﬁll TLB
+ECE 4750 T16: Address Translation and Protection 18!
+Translation Lookaside Buffers 
+Address translation is very expensive! 
+In a two-level page table, each reference becomes 
+several memory accesses 
+Solution: Cache translations in TLB 
+ TLB hit ⇒ Single Cycle Translation 
+ TLB miss  ⇒ Page Table Walk to refill TLB  
+VPN          offset 
+V   R W D    tag            PPN 
+physical address PPN       offset 
+virtual address 
+hit? 
+(VPN = virtual page number) 
+(PPN = physical page number) 
+• Typically 32-128 entries, usually fully associative
+– Each entry maps large number of consecutive addresses so most spatial
+locality within page as opposed to across pages -> More likely that two
+entries conﬂict
+– Sometimes larger TLBs (256-512 entries) are 4-8 way set-associative
+– Larger systems sometimes have multi-level (L1 and L2) TLBs
+• Random or FIFO replacement policy
+• Usually no program identiﬁer in the TLB
+– Flush TLB on program context switch
+• TLB Reach: Size of largest virtual address space that can be
+simultaneously mapped by TLB
+– Example: 64 TLB entries, 4KB pages, one page pery entry
+– TLB Reach: 64 entries * 4 KB = 256 KB (if contiguous)
+31
+3. Memory Translation, Protection, and Virtualization 3.2. Memory Protection
+• Handling a TLB miss in software (MIPS, Alpha)
+– TLB miss causes an exception and the operating system walks the page
+tables and reloads TLB. A privileged “untranslated” addressing mode
+used for walk
+• Handling a TLB miss in hardware (SPARCv8, x86, PowerPC)
+– The memory management unit (MMU) walks the page tables and reloads
+the TLB, any additional complexities encountered during walk causes
+MMU to give up and signal an exception
+3.2. Memory Protection
+Base-and-bound protection
+ECE 4750 T16: Address Translation and Protection 5!
+Simple Base and Bound Translation 
+Load X 
+Program 
+Address 
+Space 
+Bound 
+Register ≤
+Bounds 
+Violation? 
+Physical Memory 
+current 
+segment 
+Base 
+Register 
++ 
+Physical 
+Address Effective 
+Address 
+Base and bounds registers are visible/accessible only 
+when processor is running in the supervisor mode 
+Base Physical Address 
+Segment Length 
+32
+3. Memory Translation, Protection, and Virtualization 3.2. Memory Protection
+Separate areas for program and data
+ECE 4750 T16: Address Translation and Protection 6!
+Separate Areas for Program and Data 
+What is an advantage of this separation? 
+Load X 
+Program 
+Address 
+Space 
+Physical Memory 
+data  
+segment  
+Data Bound 
+Register 
+Effective Addr 
+Register 
+Data Base 
+Register + 
+Bounds 
+Violation? 
+Program Bound 
+Register 
+Program 
+Counter 
+Program Base 
+Register + 
+Bounds 
+Violation? 
+program 
+segment 
+< 
+< 
+Page-based protection
+• We can store protection information in the page-tables to enable
+page-level protection
+• Protection information prevents two programs from being able to
+read or write each other’s physical memory space
+33
+3. Memory Translation, Protection, and Virtualization 3.3. Memory Virtualization
+3.3. Memory Virtualization
+ECE 4750 L20: Virtual Memory and Caches 4 
+Adding VM to Page Based Mem Management 
+ Illusion of a large, private, uniform store 
+• More than just translation and protection 
+• Use disk to extend apparent size of mem 
+• Treat DRAM as cache of disk contents 
+• Only need to hold active working set of 
+processes in DRAM, rest of memory 
+image can be swapped to disk 
+• Inactive processes can be completely 
+swapped to disk (except usually the root 
+of the page table) 
+Primary 
+Memory 
+Swapping 
+Store 
+• Hides machine configuration from software 
+• Implemented with combination of hardware/software 
+• ATLAS was first implementation of this idea 
+ECE 4750 L20: Virtual Memory and Caches 5 
+Page Fault Handler 
+• When the referenced page is not in DRAM: 
+– The missing page is located (or created) 
+– It is brought in from disk, and page table is updated 
+   Another job may be run on the CPU while the first job waits 
+for the requested page to be read from disk 
+– If no free pages are left, a page is swapped out 
+   Pseudo-LRU replacement policy  
+• Since it takes a long time to transfer a page 
+(msecs), page faults are handled completely in 
+software by the OS 
+– Untranslated addressing mode is essential to allow kernel 
+to access page tables 
+34
+3. Memory Translation, Protection, and Virtualization 3.3. Memory Virtualization
+ECE 4750 L20: Virtual Memory and Caches 6 
+Caching vs. Demand Paging 
+CPU cache primary 
+memory 
+secondary 
+memory 
+Caching           Demand paging 
+cache entry    page frame 
+cache block (~32 bytes)   page (~4K bytes) 
+cache miss rate (1% to 20%) page miss rate (<0.001%) 
+cache hit (~1 cycle)   page hit (~100 cycles) 
+cache miss (~100 cycles)  page miss (~5M cycles) 
+a miss is handled            a miss is handled  
+     in hardware                 mostly in software 
+primary 
+memory CPU 
+ECE 4750 L20: Virtual Memory and Caches 7 
+Hierarchical Page Table with VM 
+Level 1  
+Page Table 
+Level 2 
+Page Tables  
+Data Pages 
+page in primary memory  
+page in secondary memory 
+Root of the Current 
+Page Table 
+p1 
+offset 
+p2 
+Virtual Address 
+(Processor 
+Register) 
+PTE of a nonexistent page 
+p1          p2          offset 
+0 11 12 21 22 31 
+10-bit 
+L1 index 
+10-bit  
+L2 index 
+If on page table walk, reach page that is in 
+secondary memory then must handle a page fault 
+to bring page into primary memory 
+35
+3. Memory Translation, Protection, and Virtualization 3.3. Memory Virtualization
+ECE 4750 L20: Virtual Memory and Caches 
+Address Translation: 
+putting it all together 
+8
+Virtual Address 
+TLB 
+Lookup 
+Page Table 
+Walk 
+Update TLB Page Fault 
+(OS loads page) 
+Protection 
+Check 
+Physical 
+Address 
+(to cache) 
+miss hit 
+                 the page is  
+∉ Memory                   ∈ memory 
+denied permitted 
+Protection 
+Fault 
+hardware 
+hardware or software 
+software 
+SEGFAULT 
+Restart instruction 
+36
+4. Analyzing Memory Performance
+4. Analyzing Memory Performance
+Time
+Mem Access Sequence = Mem Accesses
+Sequence × Avg Cycles
+Mem Access × Time
+Cycle
+Avg Cycles
+Mem Access = Avg Cycles
+Hit +
+( Num Misses
+Num Accesses × Avg Extra Cycles
+Miss
+)
+• Mem access / sequence depends on program and translation
+• Time / cycle depends on microarchitecture and implementation
+• Also called the average memory access latency (AMAL)
+• Avg cycles / hit is called the hit latency
+• Number of misses / number of accesses is called the miss rate
+• Avg extra cycles / miss is called the miss penalty
+• Avg cycles per hit depends on microarchitecture
+• Miss rate depends on microarchitecture
+• Miss penalty depends on microarchitecture, rest of memory system
+MMUProcessor Cache Main
+MemoryHit
+Latency
+Miss
+Penalty
+Extra Accesses
+Microarchitecture Hit Latency for T ranslation
+FSM Cache >1 1+
+Pipelined Cache ≈1 1+
+Pipelined Cache + TLB ≈1 ≈0
+37
+4. Analyzing Memory Performance 4.1. Estimating AMAL
+4.1. Estimating AMAL
+Consider the following sequence of memory acceses which might
+correspond to copying 4 B elements from a source array to a destination
+array. Each array contains 64 elements. Assume two-way set associative
+cache with 16 B cache lines, hit latency of 1 cycle and 10 cycle miss
+penalty. What is the AMAL in cycles?
+rd 0x1000
+wr 0x2000
+rd 0x1004
+wr 0x2004
+rd 0x1008
+wr 0x2008
+...
+rd 0x1040
+wr 0x2040
+Consider the following sequence of memory acceses which might
+correspond to incrementing 4 B elements in an array. The array contains
+64 elements. Assume two-way set associative cache with 16 B cache
+lines, hit latency of 1 cycle and 10 cycle miss penalty. What is the AMAL
+in cycles?
+rd 0x1000
+wr 0x1000
+rd 0x1004
+wr 0x1004
+rd 0x1008
+wr 0x1008
+...
+rd 0x1040
+wr 0x1040
+38
