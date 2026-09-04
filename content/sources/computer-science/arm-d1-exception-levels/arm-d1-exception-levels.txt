@@ -1,0 +1,152 @@
+#### D1.1 Exception levels
+ 
+   
+    
+     
+     R 
+     FYTFG 
+     
+     
+      
+      The architecture defines four Exception levels: EL0, EL1, EL2, and EL3. 
+      
+     
+    
+   
+   
+    
+     
+     R 
+     VPSDB 
+     
+     
+      
+      EL3 is the highest Exception level and EL0 the lowest. Therefore, EL3 is higher than EL2, EL2 is higher than EL1, and EL1 is higher than EL0. 
+      
+     
+    
+   
+   
+    
+     
+     R 
+     CCQWK 
+     
+     
+      
+      Unprivileged execution is any execution that occurs at EL0. 
+      
+     
+    
+   
+   
+    
+     
+     I 
+     WRRKQ 
+     
+     
+      
+      EL2 provides support for the virtualization of EL0 and EL1. 
+      
+     
+    
+   
+   
+    
+     
+     R 
+     NXCRB 
+     
+     
+      
+      A PE: 
+       
+       Implements EL1 and EL0. 
+       Also implements EL3 and EL2 if FEAT_RME is implemented. 
+       
+      In a PE without FEAT_RME, all the following are true: 
+       
+       Whether EL3 is implemented is IMPLEMENTATION DEFINED. 
+       Whether EL2 is implemented is IMPLEMENTATION DEFINED. 
+       Implementing a contiguous set of Exception levels is not required. 
+       
+      For which Security state each Exception level can be in, see Security states. 
+      For which Execution state each Exception level is using, see Execution states. 
+      
+     
+    
+   
+   
+    
+     
+     R 
+     NZZNS 
+     
+     
+      
+      The current Exception level changes only when any of the following occur: 
+       
+       Taking an exception. 
+       Returning from an exception. 
+       Processor reset. 
+       Exiting from Debug state. 
+       If in Debug state, executing a DCPSx instruction. 
+       If in Debug state, executing a DRPS instruction. 
+       
+      
+     
+    
+   
+   
+    
+     
+     R 
+     XRQKF 
+     
+     
+      
+      The target Exception level is the Exception level to which an exception is taken. 
+      
+     
+    
+   
+   
+    
+     
+     R 
+     FFJBB 
+     
+     
+      
+      Each exception type has a target Exception level that is either: 
+       
+       Implicit in the type of the exception. 
+       Defined by configuration bits in the System registers. 
+       
+      
+     
+    
+   
+   
+    
+     
+     R 
+     TKYYF 
+     
+     
+      
+      An exception cannot be taken to EL0. 
+      
+     
+    
+   
+   
+    
+     
+     R 
+     QNTPB 
+     
+     
+      
+      An exception cannot cause entry to a lower Exception level.
