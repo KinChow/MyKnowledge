@@ -1,0 +1,696 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "demosaic",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_37f49bd2c2ed",
+  "input_hash": "sha256:5c6a2283868fbfb6fe3799e9fb939312c815e5a84614e61e8f51cb66f0da6408",
+  "provider_duration_ms": 31809,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788523133.263676,
+  "wiki_content_sha256": "sha256:f531307de20e50bd5e0bef0b9dbba9551eab6aee23aba83c5ec87c8f464c3db6",
+  "wiki_evidence_sha256": "sha256:7996b63fb08a38003512226105d8793086ed27741d875517ae6868616fb09f7d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-demosaicing"
+      },
+      "source_id": "wiki-demosaicing",
+      "evidence_id": "evidence-1b4036ae3965",
+      "snapshot_sha256": "sha256:d2e32e18644b22b99fd033cec167d5b6719395501b390a63349542fc34e06b7b",
+      "selector_sha256": "sha256:e13b67566fb8488b21e8b3f44280eb129c9178cf5a5f651f17a943558f05b65a",
+      "quote_sha256": "sha256:dac32fe23df218c37602fdc2596f522bd9d43d8a10979231c5227603701c726a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-demosaicing"
+      },
+      "source_id": "wiki-demosaicing",
+      "evidence_id": "evidence-523317d6e1c5",
+      "snapshot_sha256": "sha256:d2e32e18644b22b99fd033cec167d5b6719395501b390a63349542fc34e06b7b",
+      "selector_sha256": "sha256:c5a5fcde7cb2930b3e7a27203a340a0ed5c574a497473f08aff027b08ef80b54",
+      "quote_sha256": "sha256:9f9b9ba84925ea57a6cc8675c2be7c1a44be93dbc60366b9c9214185d7a449d1"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-demosaicing"
+      },
+      "source_id": "wiki-demosaicing",
+      "evidence_id": "evidence-6aaef04e1cb5",
+      "snapshot_sha256": "sha256:d2e32e18644b22b99fd033cec167d5b6719395501b390a63349542fc34e06b7b",
+      "selector_sha256": "sha256:fec95defcf998e326bc83d03a55e1be1aeb75864c454f579269e07b61fa40d21",
+      "quote_sha256": "sha256:8e2d6f1b99b3022ca112bd5f5057859e85e682f16fd667b5fa9620a73944bf3d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-bayer-filter"
+      },
+      "source_id": "wiki-bayer-filter",
+      "evidence_id": "evidence-429e23e81582",
+      "snapshot_sha256": "sha256:3cf1e4976c3115232071e794d895fe0ca80158f2acf16fbbda34e070055cf4da",
+      "selector_sha256": "sha256:746696a13ea7b49ca7be676f2f2812057ebbd0acffec1dd651b926e56fa6cf4f",
+      "quote_sha256": "sha256:819de1dfb6c7cb4dd42bcd295077eb3e2407cf8c473b9d2c363b3860a4cb3409"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-bayer-filter"
+      },
+      "source_id": "wiki-bayer-filter",
+      "evidence_id": "evidence-97e7b6a0a0ad",
+      "snapshot_sha256": "sha256:3cf1e4976c3115232071e794d895fe0ca80158f2acf16fbbda34e070055cf4da",
+      "selector_sha256": "sha256:56886e583dead741d95e4668834a0b091e0338d490a57dbaa3ee6c6ff8fa05e8",
+      "quote_sha256": "sha256:25dc506434ab11f4f327e2ee614db12761f23bb98d314ccc311627ec450007a3"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-bayer-filter"
+      },
+      "source_id": "wiki-bayer-filter",
+      "evidence_id": "evidence-1717e3722229",
+      "snapshot_sha256": "sha256:3cf1e4976c3115232071e794d895fe0ca80158f2acf16fbbda34e070055cf4da",
+      "selector_sha256": "sha256:5f01f4ef8cc2c835bfd25cee3681d65e91210904bdddaf60a3bb3df7c1716179",
+      "quote_sha256": "sha256:b3bf58307523ae1c26e823e138a85d535dbf50d47b3d293de68d89138940f606"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "demosaic-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1b4036ae3965",
+          "exact": "Demosaicing, also known as color reconstruction, is a digital image processing algorithm used to reconstruct a full color image from the incomplete color samples output from an image sensor overlaid with a color filter array (CFA) such as a Bayer filter."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1b4036ae3965",
+          "subject": "demosaicing",
+          "predicate": "is_defined_as",
+          "object": "digital image processing algorithm reconstructing full color image from incomplete color samples of CFA overlaid sensor"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文精确定义去马赛克（色彩重建）为从覆有 CFA（如 Bayer 滤色阵）传感器的不完整颜色采样重建完整色彩图像的数字图像处理算法，与 claim 的每个成分（色彩重建、数字图像处理、完整 RGB 重建、CFA/Bayer 示例）完全对应，无冲突且自洽。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965",
+          "start": 0,
+          "end": 302
+        }
+      ]
+    },
+    {
+      "claim_id": "demosaic-single-pixel",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-523317d6e1c5",
+          "exact": "Since each pixel of the sensor is behind a color filter, the output is an array of pixel values, each indicating a raw intensity of one of the three filter colors."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-523317d6e1c5",
+          "subject": "sensor pixel",
+          "predicate": "outputs",
+          "object": "raw intensity of one of three filter colors"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文直接支持 claim 前半句：每像素在滤色片后输出三种滤色之一的光强原始值（高度一致）。但 claim 后半句'需算法为每像素估计所有颜色分量色级'在引文中未明示——引文只描述单色强度输出，未说明算法须为全部分量估计色级；该部分需借助 demosaic-definition 的完整重建定义推导，仅凭此引文属部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5",
+          "start": 0,
+          "end": 192
+        }
+      ]
+    },
+    {
+      "claim_id": "demosaic-correlation",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "exact": "Spatial correlation is the tendency of pixels to assume similar color values within a small homogeneous region of an image. Spectral correlation is the dependency between the pixel values of different color planes in a small image region."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "subject": "spatial and spectral correlation",
+          "predicate": "defined_as",
+          "object": "spatial: similar colors in homogeneous regions; spectral: dependency between color planes in small regions"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文分别给出空间相关（同质小区域内像素趋向相近颜色值）与谱相关（小区域内不同颜色平面像素值相互依赖）的明确定义，与 claim 两项成分逐字对应，完全支持，自洽无冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "start": 0,
+          "end": 246
+        }
+      ]
+    },
+    {
+      "claim_id": "bayer-pattern",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-429e23e81582",
+          "exact": "The filter pattern is half green, one quarter red and one quarter blue, hence is also called BGGR, RGBG, GRBG, or RGGB."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-429e23e81582",
+          "subject": "bayer filter pattern",
+          "predicate": "composed_of",
+          "object": "half green, one quarter red, one quarter blue; aliases BGGR/RGBG/GRBG/RGGB"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文直接声明滤色阵排列为半绿、四分之一红、四分之一蓝，并给出 BGGR、RGBG、GRBG、RGGB 四个别名，与 claim 完全一致；用户可见事实在源文本中精确出现，自洽无内部矛盾。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "start": 0,
+          "end": 111
+        }
+      ]
+    },
+    {
+      "claim_id": "bayer-needs-demosaic",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "exact": "Since each pixel is filtered to record only one of three colors, the data from each pixel cannot fully specify each of the red, green, and blue values on its own."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "subject": "bayer pixel data",
+          "predicate": "cannot_fully_specify",
+          "object": "each of red, green and blue values on its own"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文直接支持 claim 前半：每像素仅记录三色之一、故单像素数据无法给出完整 RGB 值。但 claim 后半'需用去马赛克算法由周围同色像素插值得到完整红绿蓝值'未在引文中明示（引文未提及插值或周围像素）；该结论需要同页上下文或 demosaicing 定义推导，属合理外推而非原文断言，故部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "start": 0,
+          "end": 172
+        }
+      ]
+    },
+    {
+      "claim_id": "demosaic-artifacts",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1717e3722229",
+          "exact": "The most frequent artifact is Moiré, which may appear as repeating patterns, color artifacts or pixels arranged in an unrealistic maze-like pattern."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1717e3722229",
+          "subject": "demosaicing artifacts",
+          "predicate": "most_frequent_is",
+          "object": "Moiré: repeating patterns, color artifacts, unrealistic maze-like arrangement"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文明确称最常见伪影为摩尔纹（Moiré），并列举其表现为重复图案、颜色伪影或不真实的迷宫状排列，与 claim 完全对应；引文语境为图像伪影主题，与去马赛克伪影主题一致，未发现与同组其他引文的冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229",
+          "start": 0,
+          "end": 179
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:d04e694ac1a55b80931b6be9acdd585d2800e42f9068e8b8b46b62c900c0ca0a"
+        },
+        "target_b": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:7825cc62e0612c10dfaad6833c7495f716bd21415be4dff7d4cade07a67d24d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:d04e694ac1a55b80931b6be9acdd585d2800e42f9068e8b8b46b62c900c0ca0a"
+        },
+        "target_b": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:961b77b47398831b6e954319650b4fdd3258f8f602d8220735f9b6eceb2f37a1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:d04e694ac1a55b80931b6be9acdd585d2800e42f9068e8b8b46b62c900c0ca0a"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:bc040b6d98282781ae32705ab7a9dcbdf9dcd9ba6e440b1de6b33e92342eaea9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:d04e694ac1a55b80931b6be9acdd585d2800e42f9068e8b8b46b62c900c0ca0a"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:965b41feb4f956cdd694f5d98c1e68b2e0dcd94b44d45cc2995bdcad257e3eab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-1b4036ae3965",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:d04e694ac1a55b80931b6be9acdd585d2800e42f9068e8b8b46b62c900c0ca0a"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:8e36261dbf2316595fd9575bb43a26ff5d8b9ebd721137e9da6de40b7c550d82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:7825cc62e0612c10dfaad6833c7495f716bd21415be4dff7d4cade07a67d24d8"
+        },
+        "target_b": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:961b77b47398831b6e954319650b4fdd3258f8f602d8220735f9b6eceb2f37a1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:7825cc62e0612c10dfaad6833c7495f716bd21415be4dff7d4cade07a67d24d8"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:bc040b6d98282781ae32705ab7a9dcbdf9dcd9ba6e440b1de6b33e92342eaea9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:7825cc62e0612c10dfaad6833c7495f716bd21415be4dff7d4cade07a67d24d8"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:965b41feb4f956cdd694f5d98c1e68b2e0dcd94b44d45cc2995bdcad257e3eab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-523317d6e1c5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:7825cc62e0612c10dfaad6833c7495f716bd21415be4dff7d4cade07a67d24d8"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:8e36261dbf2316595fd9575bb43a26ff5d8b9ebd721137e9da6de40b7c550d82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:961b77b47398831b6e954319650b4fdd3258f8f602d8220735f9b6eceb2f37a1"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:bc040b6d98282781ae32705ab7a9dcbdf9dcd9ba6e440b1de6b33e92342eaea9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:961b77b47398831b6e954319650b4fdd3258f8f602d8220735f9b6eceb2f37a1"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:965b41feb4f956cdd694f5d98c1e68b2e0dcd94b44d45cc2995bdcad257e3eab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-demosaicing",
+          "evidence_id": "evidence-6aaef04e1cb5",
+          "independence_group": "source:wiki-demosaicing",
+          "observation_sha256": "sha256:961b77b47398831b6e954319650b4fdd3258f8f602d8220735f9b6eceb2f37a1"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:8e36261dbf2316595fd9575bb43a26ff5d8b9ebd721137e9da6de40b7c550d82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:bc040b6d98282781ae32705ab7a9dcbdf9dcd9ba6e440b1de6b33e92342eaea9"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:965b41feb4f956cdd694f5d98c1e68b2e0dcd94b44d45cc2995bdcad257e3eab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:bc040b6d98282781ae32705ab7a9dcbdf9dcd9ba6e440b1de6b33e92342eaea9"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:8e36261dbf2316595fd9575bb43a26ff5d8b9ebd721137e9da6de40b7c550d82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-97e7b6a0a0ad",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:965b41feb4f956cdd694f5d98c1e68b2e0dcd94b44d45cc2995bdcad257e3eab"
+        },
+        "target_b": {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-1717e3722229",
+          "independence_group": "source:wiki-bayer-filter",
+          "observation_sha256": "sha256:8e36261dbf2316595fd9575bb43a26ff5d8b9ebd721137e9da6de40b7c550d82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-demosaicing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-demosaicing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-demosaicing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-bayer-filter",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-bayer-filter",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-bayer-filter",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "demosaic-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "demosaic-single-pixel",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "demosaic-correlation",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bayer-pattern",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bayer-needs-demosaic",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "demosaic-artifacts",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

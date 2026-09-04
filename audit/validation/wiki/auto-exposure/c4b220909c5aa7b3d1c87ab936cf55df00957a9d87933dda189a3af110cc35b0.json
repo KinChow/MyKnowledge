@@ -1,0 +1,883 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "auto-exposure",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_b76c1116f67e",
+  "input_hash": "sha256:d6e91ab1d7fea55e7fda9a00f9531748bf17b2c025d789188250e2542c9723a4",
+  "provider_duration_ms": 74011,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788525929.686831,
+  "wiki_content_sha256": "sha256:0240788f22d8513dbce010f0c766e67202355ca2514b527429943fdcc83f5d2e",
+  "wiki_evidence_sha256": "sha256:0cd0477a1cad15c726378bd561955c45f9d2710301b29c3ea7c55e098ace427c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-exposure-photography"
+      },
+      "source_id": "wiki-exposure-photography",
+      "evidence_id": "evidence-43626ae79bd6",
+      "snapshot_sha256": "sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472",
+      "selector_sha256": "sha256:ee7b2f23df4bd734899061e0fcf05bff20df52ae73b5213643cf0cb97d49b450",
+      "quote_sha256": "sha256:6172a3b4428846e377c1595658852f0067e498d7edc61b1df1c6c17410ed4183"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-exposure-photography"
+      },
+      "source_id": "wiki-exposure-photography",
+      "evidence_id": "evidence-445f3cce2365",
+      "snapshot_sha256": "sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472",
+      "selector_sha256": "sha256:9de67906c7c4c14536827f70aee19ba3bdfacd56b0c3de4c5f7851f29438df18",
+      "quote_sha256": "sha256:533a5fab44b7a2f1f30bf7e64ced4b620f7f76ae7ee93c5db9706b019c88887f"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-exposure-photography"
+      },
+      "source_id": "wiki-exposure-photography",
+      "evidence_id": "evidence-733c5ff57fe0",
+      "snapshot_sha256": "sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472",
+      "selector_sha256": "sha256:de0368bdae2c0e5eb6a9cc6cf5b7d9d7c285d8f8627a8bd224477eb59c93ec01",
+      "quote_sha256": "sha256:790ff23bf9b971202cc9962a5d26adc5af1f4f28d1d05ef3a023430fb54a4ae7"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-apex-system"
+      },
+      "source_id": "wiki-apex-system",
+      "evidence_id": "evidence-258de73af385",
+      "snapshot_sha256": "sha256:60753153f1014ee0c963fb98cd8e4b913e63b1c77595ee25ad243a63481219ed",
+      "selector_sha256": "sha256:8655fe9932c65353379487118555bb9c1694bd6de42abcc8dfa181bbbc0b03c8",
+      "quote_sha256": "sha256:8f7b8b7aa766a620f0f7e352ae6924ed9273ffa47939c69ad5f5d8c2761d4c0e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-apex-system"
+      },
+      "source_id": "wiki-apex-system",
+      "evidence_id": "evidence-d3ce18f48bf3",
+      "snapshot_sha256": "sha256:60753153f1014ee0c963fb98cd8e4b913e63b1c77595ee25ad243a63481219ed",
+      "selector_sha256": "sha256:0c96dceef61938b4be5f5d984358d1e54c63a57d2490fb16bc4487475da597fe",
+      "quote_sha256": "sha256:7beaa82e4fe63e176f8f157d75d5531f1f7cb5cdb78e23af49eeed49cb3abd47"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-metering-mode"
+      },
+      "source_id": "wiki-metering-mode",
+      "evidence_id": "evidence-04409216fcbc",
+      "snapshot_sha256": "sha256:945fc1d9e9d0e115998e37ab517da419f4efd2fd8824d23e936f8718ea1047db",
+      "selector_sha256": "sha256:a7616b7e565d78e255b85eadee83e752eb94cc9c3edf77d677ccc24a700bdb07",
+      "quote_sha256": "sha256:37024790a09acd97765466db5d51a88020c43fa7a3298c8fb7b080a2ad95d6cc"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-metering-mode"
+      },
+      "source_id": "wiki-metering-mode",
+      "evidence_id": "evidence-080bacea2101",
+      "snapshot_sha256": "sha256:945fc1d9e9d0e115998e37ab517da419f4efd2fd8824d23e936f8718ea1047db",
+      "selector_sha256": "sha256:08f35be1f9e35d796c662e128b07097200772435158f0ec3906f59e43f08f813",
+      "quote_sha256": "sha256:543da931782a31fb214b68e47991fe403ef4b83693f76da371b205737a08c0d2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "exposure-factors",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-43626ae79bd6",
+          "exact": "Exposure is a combination of the length of time and the illuminance at the photosensitive material. Exposure time is controlled in a camera by shutter speed, and the illuminance depends on the lens aperture and the scene luminance."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-43626ae79bd6",
+          "subject": "exposure",
+          "predicate": "is_combination_of",
+          "object": "length of time (shutter speed) and illuminance (aperture, scene luminance)",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,231] 直接陈述曝光是时间长度与感光材料照度的组合，且曝光时间由快门速度控制、照度取决于光圈与场景亮度；claim 中更慢快门/更大光圈/更亮场景产生更大曝光是举出组合关系方向性的简洁归纳，引文完整支持 claim 的每一条要素，无超出证据的断言。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "start": 0,
+          "end": 231
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "exposure-iso",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-445f3cce2365",
+          "exact": "Faster film, that is, film with a higher ISO rating, requires less exposure to make a readable image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-445f3cce2365",
+          "subject": "film with higher ISO rating",
+          "predicate": "requires",
+          "object": "less exposure to make a readable image",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,101] 与 claim 完全对应：更高 ISO 的胶片（即快速胶片）需要更少曝光即可得到可读图像；claim 中感光材料为 film 的泛称，未改变引文语义。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "start": 0,
+          "end": 101
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "exposure-underexposure",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-733c5ff57fe0",
+          "exact": "A photograph may be described as underexposed when it has a loss of shadow detail, that is, when important dark areas are \"muddy\" or indistinguishable from black, known as \"blocked-up shadows\"."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-733c5ff57fe0",
+          "subject": "underexposed photograph",
+          "predicate": "characterized_by",
+          "object": "loss of shadow detail: important dark areas muddy or indistinguishable from black (blocked-up shadows)",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,193] 明确给出欠曝定义：当暗部细节丢失、重要暗区浑浊或与黑色无法区分（即 blocked-up shadows，对应死黑/压死暗部）时称欠曝，与 claim 逐项一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "start": 0,
+          "end": 193
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "exposure-equation",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-258de73af385",
+          "exact": "The relationship of recommended photographic exposure to a scene's average luminance is given by the camera exposure equation"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-258de73af385",
+          "subject": "recommended photographic exposure and scene average luminance",
+          "predicate": "related_by",
+          "object": "camera exposure equation",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,125] 仅声称推荐曝光与场景平均亮度的关系由相机曝光方程给定，但引文中未出现方程形式 A²/T = B·Sx/K，也未定义 A、T、B、Sx、K 各变量的含义；claim 的方程与符号定义部分无直接引文支持，仅前半句（方程关联二者）被支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "start": 0,
+          "end": 125
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "exposure-ev",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "exact": "Taking base-2 logarithms of both sides of the exposure equation and separating numerators and denominators reduces exposure calculation to a matter of addition"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "subject": "exposure calculation",
+          "predicate": "reduced_to",
+          "object": "addition via base-2 logarithms and separation of numerators/denominators",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,158] 支持对曝光方程取以 2 为底对数并分离分子分母后曝光计算化为加法；但引文未给出具体等式 Ev = Av + Tv = Bv + Sv（未出现 Ev/Av/Tv/Bv/Sv 符号），claim 的符号化表达式部分无引文支持，故为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "start": 0,
+          "end": 158
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "metering-modes",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-04409216fcbc",
+          "exact": "In photography, the metering mode refers to the way in which a camera determines exposure."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-04409216fcbc",
+          "subject": "metering mode",
+          "predicate": "refers_to",
+          "object": "the way in which a camera determines exposure",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,90] 支持 claim 前半句（测光模式指相机确定曝光的方式）；但引文未提及点测光、中央重点平均测光或多区测光等可选模式，claim 后半句列举无对应引文，故为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "start": 0,
+          "end": 90
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "metering-spot",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-080bacea2101",
+          "exact": "With spot metering, the camera will measure only a very small area of the scene (1–5% of the viewfinder area)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-080bacea2101",
+          "subject": "spot metering",
+          "predicate": "measures",
+          "object": "only 1-5% of the viewfinder area",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,111] 支持点测光只测量场景中很小一块区域（取景面积的 1–5%）；但引文未提及默认位于画面中央，claim 后半句无对应证据，故为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "start": 0,
+          "end": 111
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:b69b9b5045d631ee6897b093e1e5237602f35ec83455105ef4646a6d39e816ef"
+        },
+        "target_b": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:c1c538f04a4598a527602e35a3cf63dd674f60e2fa1530d5f26ac0f1ad33b63d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:b69b9b5045d631ee6897b093e1e5237602f35ec83455105ef4646a6d39e816ef"
+        },
+        "target_b": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:115a50bc62244f6e972155a96d3b4ff4438b37373d93886b5db588a931c9e0a7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:b69b9b5045d631ee6897b093e1e5237602f35ec83455105ef4646a6d39e816ef"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:fef270ddba26cc4ff9d8e6c57e71ff647fac485babf7f4911498b0e867c64779"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:b69b9b5045d631ee6897b093e1e5237602f35ec83455105ef4646a6d39e816ef"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:62838e8794a5263d4fe5052d412924cbe0a5f8d66cd9aa0a09ba4ba7bc8a44c6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:b69b9b5045d631ee6897b093e1e5237602f35ec83455105ef4646a6d39e816ef"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:dbccfafbdfb8cc7dfa24f50bc767b03a3d7629407783df9e0564d7c70c0d221b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:b69b9b5045d631ee6897b093e1e5237602f35ec83455105ef4646a6d39e816ef"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:812fa2d28ffafda24f0b547bf13141c97bcb908cf90fa0d80ac48737afc4a05c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:c1c538f04a4598a527602e35a3cf63dd674f60e2fa1530d5f26ac0f1ad33b63d"
+        },
+        "target_b": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:115a50bc62244f6e972155a96d3b4ff4438b37373d93886b5db588a931c9e0a7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:c1c538f04a4598a527602e35a3cf63dd674f60e2fa1530d5f26ac0f1ad33b63d"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:fef270ddba26cc4ff9d8e6c57e71ff647fac485babf7f4911498b0e867c64779"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:c1c538f04a4598a527602e35a3cf63dd674f60e2fa1530d5f26ac0f1ad33b63d"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:62838e8794a5263d4fe5052d412924cbe0a5f8d66cd9aa0a09ba4ba7bc8a44c6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:c1c538f04a4598a527602e35a3cf63dd674f60e2fa1530d5f26ac0f1ad33b63d"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:dbccfafbdfb8cc7dfa24f50bc767b03a3d7629407783df9e0564d7c70c0d221b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-445f3cce2365",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:c1c538f04a4598a527602e35a3cf63dd674f60e2fa1530d5f26ac0f1ad33b63d"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:812fa2d28ffafda24f0b547bf13141c97bcb908cf90fa0d80ac48737afc4a05c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:115a50bc62244f6e972155a96d3b4ff4438b37373d93886b5db588a931c9e0a7"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:fef270ddba26cc4ff9d8e6c57e71ff647fac485babf7f4911498b0e867c64779"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:115a50bc62244f6e972155a96d3b4ff4438b37373d93886b5db588a931c9e0a7"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:62838e8794a5263d4fe5052d412924cbe0a5f8d66cd9aa0a09ba4ba7bc8a44c6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:115a50bc62244f6e972155a96d3b4ff4438b37373d93886b5db588a931c9e0a7"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:dbccfafbdfb8cc7dfa24f50bc767b03a3d7629407783df9e0564d7c70c0d221b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-733c5ff57fe0",
+          "independence_group": "source:wiki-exposure-photography",
+          "observation_sha256": "sha256:115a50bc62244f6e972155a96d3b4ff4438b37373d93886b5db588a931c9e0a7"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:812fa2d28ffafda24f0b547bf13141c97bcb908cf90fa0d80ac48737afc4a05c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:fef270ddba26cc4ff9d8e6c57e71ff647fac485babf7f4911498b0e867c64779"
+        },
+        "target_b": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:62838e8794a5263d4fe5052d412924cbe0a5f8d66cd9aa0a09ba4ba7bc8a44c6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:fef270ddba26cc4ff9d8e6c57e71ff647fac485babf7f4911498b0e867c64779"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:dbccfafbdfb8cc7dfa24f50bc767b03a3d7629407783df9e0564d7c70c0d221b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-258de73af385",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:fef270ddba26cc4ff9d8e6c57e71ff647fac485babf7f4911498b0e867c64779"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:812fa2d28ffafda24f0b547bf13141c97bcb908cf90fa0d80ac48737afc4a05c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:62838e8794a5263d4fe5052d412924cbe0a5f8d66cd9aa0a09ba4ba7bc8a44c6"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:dbccfafbdfb8cc7dfa24f50bc767b03a3d7629407783df9e0564d7c70c0d221b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-apex-system",
+          "evidence_id": "evidence-d3ce18f48bf3",
+          "independence_group": "source:wiki-apex-system",
+          "observation_sha256": "sha256:62838e8794a5263d4fe5052d412924cbe0a5f8d66cd9aa0a09ba4ba7bc8a44c6"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:812fa2d28ffafda24f0b547bf13141c97bcb908cf90fa0d80ac48737afc4a05c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-04409216fcbc",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:dbccfafbdfb8cc7dfa24f50bc767b03a3d7629407783df9e0564d7c70c0d221b"
+        },
+        "target_b": {
+          "source_id": "wiki-metering-mode",
+          "evidence_id": "evidence-080bacea2101",
+          "independence_group": "source:wiki-metering-mode",
+          "observation_sha256": "sha256:812fa2d28ffafda24f0b547bf13141c97bcb908cf90fa0d80ac48737afc4a05c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-exposure-photography",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-exposure-photography",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-exposure-photography",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-apex-system",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-apex-system",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-metering-mode",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-metering-mode",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "exposure-factors",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "exposure-iso",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "exposure-underexposure",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "exposure-equation",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "exposure-ev",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "metering-modes",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "metering-spot",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 3,
+    "last_fail_rule_refs": [
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

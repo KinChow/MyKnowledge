@@ -1,0 +1,11 @@
+# Source: https://en.wikipedia.org/wiki/Bayer_filter (retrieved 2026-09-04)
+
+The filter pattern is half green, one quarter red and one quarter blue, hence is also called BGGR, RGBG, GRBG, or RGGB. It is named after its inventor, Bryce Bayer of Eastman Kodak.
+
+Since each pixel is filtered to record only one of three colors, the data from each pixel cannot fully specify each of the red, green, and blue values on its own. To obtain a full-color image, various demosaicing algorithms can be used to interpolate a set of complete red, green, and blue values for each pixel. These algorithms make use of the surrounding pixels of the corresponding colors to estimate the values for a particular pixel.
+
+The raw output of Bayer-filter cameras is referred to as a Bayer pattern image.
+
+The Foveon X3 sensor (which layers red, green, and blue sensors vertically rather than using a mosaic) and arrangements of three separate CCDs (one for each color) does not need demosaicing.
+
+Images with small-scale detail close to the resolution limit of the digital sensor can be a problem to the demosaicing algorithm, producing a result which does not look like the model. The most frequent artifact is Moiré, which may appear as repeating patterns, color artifacts or pixels arranged in an unrealistic maze-like pattern.
