@@ -1,0 +1,231 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "hdr",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_2e1eb3925ae4",
+  "input_hash": "sha256:d6814c2e34c666881314f63c34db3b89fe8c363a8ce929a09c5823ec514a9ea5",
+  "provider_duration_ms": 23908,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788530891.8851252,
+  "wiki_content_sha256": "sha256:002f2a995ae5b12942da50c459f0e16c7ec89f7b17b01e948b96b19a28df9d78",
+  "wiki_evidence_sha256": "sha256:45648f21698ba8de839a45fa7108083d69f0c62e876bf0da568fbaebf090f563",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-hdri"
+      },
+      "source_id": "wiki-hdri",
+      "evidence_id": "evidence-15fd931b7867",
+      "snapshot_sha256": "sha256:2f63e0cb6e4ae73c4f0e68c83daace3430b74dcd40422ff7564bc1a7ed27aeba",
+      "selector_sha256": "sha256:3b45049f429bd49528e8717edb50afca036cfff5eb5244808a8f7a75542d860d",
+      "quote_sha256": "sha256:fde3005deb2c040fe3d3888242edc56bb75e7c5dba4ddf8116de7b66083f0f44"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-hdri"
+      },
+      "source_id": "wiki-hdri",
+      "evidence_id": "evidence-f41c52103f5f",
+      "snapshot_sha256": "sha256:2f63e0cb6e4ae73c4f0e68c83daace3430b74dcd40422ff7564bc1a7ed27aeba",
+      "selector_sha256": "sha256:683d4ba65bbc14020e66a981ceda9a76b1ae750ea079193aa64c8b6746337892",
+      "quote_sha256": "sha256:2010014771fc5905903c55d50ed577958d5c332ff236c05dcb74a405fd5fa0cf"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "hdr-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-15fd931b7867",
+          "exact": "In this context, the term high dynamic range means there is a large amount of variation in light levels within a scene or an image. The dynamic range refers to the range of luminosity between the brightest area and the darkest area of that scene or image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-15fd931b7867",
+          "subject": "high dynamic range / dynamic range",
+          "predicate": "defined as",
+          "object": "large amount of variation in light levels within a scene or image; range of luminosity between the brightest and darkest area of that scene or image",
+          "qualifiers": {
+            "definitional": true,
+            "both_terms_covered": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文原句与 claim 逐项对应：'high dynamic range means there is a large amount of variation in light levels within a scene or an image' 对应 claim 的'HDR（高动态范围）指场景或图像中光线水平变化大'；'The dynamic range refers to the range of luminosity between the brightest area and the darkest area of that scene or image' 对应 claim 的'动态范围指场景或图像中最亮区与最暗区之间的亮度范围'。语义转述无增删，两半句均被覆盖，无矛盾信息。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "start": 0,
+          "end": 131
+        },
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "start": 132,
+          "end": 255
+        }
+      ]
+    },
+    {
+      "claim_id": "hdr-capture",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f41c52103f5f",
+          "exact": "In photography and videography, a technique, commonly named high dynamic range (HDR) allows the dynamic range of photos and videos to be captured beyond the native capability of the camera. It consists of capturing multiple frames of the same scene but with different exposures and then combining them into one, resulting in an image with a dynamic range higher than the individually captured frames."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f41c52103f5f",
+          "subject": "HDR technique in photography and videography",
+          "predicate": "captures",
+          "object": "multiple frames of the same scene with different exposures, combines them into one, yielding dynamic range beyond native capability of the camera and higher than individually captured frames",
+          "qualifiers": {
+            "domain": "photography and videography"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文完整支撑 claim 三个要素：（1）'In photography and videography' 对应 claim 限定的'摄影中的'；（2）'capturing multiple frames of the same scene but with different exposures and then combining them into one' 对应'拍摄同一场景多帧不同曝光再合并'；（3）'captured beyond the native capability of the camera' 与'dynamic range higher than the individually captured frames' 对应'得到高于单帧的、超出相机原生能力的动态范围'。claim 为引文的忠实中文转述，无超出或矛盾内容。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "start": 85,
+          "end": 188
+        },
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "start": 190,
+          "end": 400
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "independence_group": "source:wiki-hdri",
+          "observation_sha256": "sha256:76e22d88f0a9a55aa57dbc6418e8afca224a8c7129b7e393b6b837505e0b492d"
+        },
+        "target_b": {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "independence_group": "source:wiki-hdri",
+          "observation_sha256": "sha256:c71c32f85eff8d0f618769ce2182de7bc59aa9941e0a35c53976f50e58ebd2eb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-hdri",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-hdri",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "hdr-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hdr-capture",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
