@@ -1,0 +1,2380 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "adb",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_ca0cc4495fec",
+  "input_hash": "sha256:0e8d4ffffd266d93a0b108be930847bd830d1e36dd4a144659759d8650fb9f42",
+  "provider_duration_ms": 152488,
+  "provider_meta": {
+    "model": "GLM-5.3-Flash"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788487571.7138638,
+  "wiki_content_sha256": "sha256:79f0ca590fc07510afc7006e2e4874052a51785b0f5c911e9e4a0d8145ef9737",
+  "wiki_evidence_sha256": "sha256:3130b4bb22b6e94613fc9a1291aeaa2a718fc2defaeb1bbefc5ec0a7a571d19c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-13340361505e",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:1517f55c839e9f442ff0e3ea2f6837a01230e36be35ebb2d5e1bffa591915679",
+      "quote_sha256": "sha256:ea04468846430ecbeb619e37d502e5f299d464bf6f9eea6d55146942705dbff2"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-f54fa20e67c1",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:189940a78b27b9bd45a0d1d4c43cd11281903fb44ac117d88bcb9cda3e7278ba",
+      "quote_sha256": "sha256:7431c98beadb9b01590e04fcda779f032848f3ee3dc33af6dfcc2ac7366f532b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-fc90a2d45789",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:5fcc5cb35c3dc2641a6c44a1a91986dc04fb458a17812614672063eab60c5c7e",
+      "quote_sha256": "sha256:e3b241e4cafe17bf9432af908bd008e31f2a679c911dd518d0d99f5215ffe394"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-a5342d654f4e",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:35fc581e9b602164c5b4d2b3eda27fea504963b8cf6e1d0da509ec9fc9bc8b04",
+      "quote_sha256": "sha256:d6e1211e17e235fe0ebf98b74d38671a461e11cb19fec5a114fac18dd368f619"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-ffe377f53faf",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:b1695f807f08e9db0b3805598c61325fdb46b65685a72afe395052906c068fdc",
+      "quote_sha256": "sha256:7681e1b50d0fd71afa2e2ab174c2a03d08031f24a67f0de75b89abc0e00d9a11"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-ac9d97596664",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:25b1187a9ac15f70be6105e4d8fb3f69031d0ad9af035b23a26a815d1af31754",
+      "quote_sha256": "sha256:619be0416199ede1a85e524a3351d1bca5f037e641bcae87944bb99e392cea06"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-a45ee5354880",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:c7d3814f3b7833e9b6e54f09d862d92b4d2dc43bd0186be770639770bc27ad55",
+      "quote_sha256": "sha256:c95a6292682948c1214fd487ba98371da17cf2a42eb629d5376cd0775ec3be7d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-a6e6d0e8e1a3",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:c691bfbef04c0f0d0346546c1fe9b529ba10ea066967f024065ea5708f35569b",
+      "quote_sha256": "sha256:9963bf4a0dc7490af1c1fd9208bbe0001e7f2b9a2ff7f38f5ee2286b727cde04"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-89d257d47bde",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:764ce4158ec832bd522ca1e63bfce3a77df97c17c423ca8ffaad74ab0864d3dd",
+      "quote_sha256": "sha256:2f4b981ccabbfae03681b3a6618ec2197aa5d9cdeddc46529050ee1ae763506b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-juejin-guide"
+      },
+      "source_id": "adb-juejin-guide",
+      "evidence_id": "evidence-9fe8da080468",
+      "snapshot_sha256": "sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867",
+      "selector_sha256": "sha256:4d236d7c4dc513c9032298b12ed8b0f87b8cbabee4f9bf7f31e42db7264473a1",
+      "quote_sha256": "sha256:d822270f276a9576682e65888e0f843bfbb4ba8e650b4cab7dbb7915adecabcd"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-juejin-guide"
+      },
+      "source_id": "adb-juejin-guide",
+      "evidence_id": "evidence-471cae011964",
+      "snapshot_sha256": "sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867",
+      "selector_sha256": "sha256:19c451536e08dbbfa8af368965c8f68c642700a21bca41e1edeef382fc99ce12",
+      "quote_sha256": "sha256:7a5d3122dbf855653cfbd33ff36972141c66273dc50389418fc9b936fc44d9d2"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-juejin-guide"
+      },
+      "source_id": "adb-juejin-guide",
+      "evidence_id": "evidence-72d22a4cbce3",
+      "snapshot_sha256": "sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867",
+      "selector_sha256": "sha256:68de743f34e49936c74f0b53674097aa07974c5786ad577edb07fa9c546b9667",
+      "quote_sha256": "sha256:2a0e580735b9873615126414077ef7497514841aa7bb73f0fe5af86529950ac6"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-juejin-guide"
+      },
+      "source_id": "adb-juejin-guide",
+      "evidence_id": "evidence-3c61753783ab",
+      "snapshot_sha256": "sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867",
+      "selector_sha256": "sha256:2c175ccca19b8bd39d97b01b64f6c42b2940f89fe830358d4fbe600b9c47e912",
+      "quote_sha256": "sha256:e74e82c092ef94796220db6b5474b00ac34b82327d91bf86a4e26460e6b380a7"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "adb-role",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-13340361505e",
+          "exact": "Connects to the ADB Server via its smart socket interface. Allows sending requests, receives responses and manages lifecycle of the adb server"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-13340361505e",
+          "subject": "ADB (adb client)",
+          "predicate": "connects via smart socket interface; sends requests; receives responses; manages lifecycle of",
+          "object": "adb server",
+          "qualifiers": {
+            "interface": "smart socket"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,58)『Connects to the ADB Server via its smart socket interface.』直接支持『通过 smart socket 接口连接 adb server』；[59,142)『Allows sending requests, receives responses and manages lifecycle of the adb server』逐项对应『发送请求、接收响应并管理 server 生命周期』。claim 中『（Android Debug Bridge）』为 ADB 缩写展开，引文未含该展开但与引文 ADB Server 指称一致，属非实质性注释，不影响判定。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "start": 0,
+          "end": 58
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "start": 59,
+          "end": 142
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "client-server-daemon",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f54fa20e67c1",
+          "exact": "Some commands are fulfilled directly by the server while others are “forwarded over to the adbd(ADB daemon) running on the device"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f54fa20e67c1",
+          "subject": "adb commands",
+          "predicate": "are fulfilled partly directly by the server and partly forwarded to",
+          "object": "adbd (ADB daemon) running on the device",
+          "qualifiers": {
+            "execution_split": "some direct / others forwarded"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,50)『Some commands are fulfilled directly by the server』支持『一部分由 server 直接执行』；[68,129)『“forwarded over to the adbd(ADB daemon) running on the device』支持『另一部分转发给设备上的 adbd 守护进程执行』（引文在偏移 68 处以未闭合左引号起始，系原文截取，不影响语义）。『（client-server-daemon 架构）』为对引文所述 server/daemon 分工的概括标签，非引文原词。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "start": 0,
+          "end": 50
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "start": 68,
+          "end": 129
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "devices-list",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fc90a2d45789",
+          "exact": "devices [-l] List connected devices"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fc90a2d45789",
+          "subject": "devices [-l] (adb devices)",
+          "predicate": "lists",
+          "object": "connected devices"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,12)『devices [-l]』表明所述为 devices 命令（-l 为可选参数），[13,35)『List connected devices』与『列出已连接的设备』为直接对应；claim 的『adb』前缀为 man page 命令上下文的常规补全，与引文一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "start": 0,
+          "end": 12
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "start": 13,
+          "end": 35
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "target-device",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a5342d654f4e",
+          "exact": "-s SERIAL\n- Use device with given SERIAL (overrides $ANDROID_SERIAL)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a5342d654f4e",
+          "subject": "-s SERIAL",
+          "predicate": "uses device with given SERIAL, overriding",
+          "object": "$ANDROID_SERIAL",
+          "qualifiers": {
+            "context": "multi-device selection (claim context, not verbatim in quote)"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文第一行 [0,9)『-s SERIAL』为选项签名（偏移 9 为换行符）；第二行 [12,40)『Use device with given SERIAL』支持『用 -s SERIAL 指定目标设备』，[41,68)『(overrides $ANDROID_SERIAL)』支持『覆盖 $ANDROID_SERIAL 环境变量』。『多设备时』为该选项的使用场景语境，引文未明示亦不冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "start": 0,
+          "end": 9
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "start": 12,
+          "end": 40
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "start": 41,
+          "end": 68
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "file-push",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ffe377f53faf",
+          "exact": "push [–sync] [-z ALGORITHM] [-Z] LOCAL... REMOTE Copy local files/directories to device"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ffe377f53faf",
+          "subject": "push LOCAL... REMOTE",
+          "predicate": "copies local files/directories to",
+          "object": "device",
+          "qualifiers": {
+            "options": "[–sync] [-z ALGORITHM] [-Z]"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,4)『push』确认命令名，[33,48)『LOCAL... REMOTE』给出参数方向（本地在前、设备在后），[48,87)『Copy local files/directories to device』与『把本地文件/目录复制到设备』直接对应；[5,12)『[–sync]』（en-dash）等为可选参数，claim 未涉及，不构成冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "start": 0,
+          "end": 4
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "start": 33,
+          "end": 48
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "start": 48,
+          "end": 87
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "start": 5,
+          "end": 12
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "file-pull",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ac9d97596664",
+          "exact": "pull [-a] [-z ALGORITHM] [-Z] REMOTE... LOCAL Copy files/dirs from device"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ac9d97596664",
+          "subject": "pull REMOTE... LOCAL",
+          "predicate": "copies files/dirs from",
+          "object": "device to local",
+          "qualifiers": {
+            "options": "[-a] [-z ALGORITHM] [-Z]"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,4)『pull』确认命令名，[30,45)『REMOTE... LOCAL』给出参数方向（设备在前、本地在后），[46,73)『Copy files/dirs from device』与『把设备文件/目录复制到本地』直接对应。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "start": 0,
+          "end": 4
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "start": 30,
+          "end": 45
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "start": 46,
+          "end": 73
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "app-install",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880"
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a45ee5354880",
+          "exact": "install [-lrtsdg] [–instant] PACKAGE Push a single package to the device and install it"
+        },
+        {
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "exact": "-r: Replace existing application."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a45ee5354880",
+          "subject": "install [-lrtsdg] [–instant] PACKAGE",
+          "predicate": "pushes a single package to the device and installs",
+          "object": "single application package"
+        },
+        {
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "subject": "-r option of install",
+          "predicate": "replaces",
+          "object": "existing application (覆盖安装)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文1 [0,36) 为 install 命令签名（含 [-lrtsdg] [–instant] PACKAGE），[36,87)『Push a single package to the device and install it』直接支持『推送单个应用包到设备并安装』；引文2 [0,3)『-r:』标识选项，[4,32)『Replace existing application』支持『-r 选项表示覆盖安装』。两条引文同出 adb-man-page，为同源互补引文，不构成独立佐证。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "start": 0,
+          "end": 36
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "start": 36,
+          "end": 87
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "start": 0,
+          "end": 3
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "start": 4,
+          "end": 32
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "server-port",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-89d257d47bde",
+          "exact": "Smart socket PORT of adb server [default=5037]."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-89d257d47bde",
+          "subject": "smart socket PORT of adb server",
+          "predicate": "defaults to",
+          "object": "5037"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,31)『Smart socket PORT of adb server』指明所述对象为 adb server 的 smart socket 端口，[32,46)『[default=5037]』直接给出默认值 5037，与 claim『默认端口为 5037』一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "start": 0,
+          "end": 31
+        },
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "start": 32,
+          "end": 46
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "logcat",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9fe8da080468",
+          "exact": "Android 系统的日志分为两部分，底层的 Linux 内核日志输出到 /proc/kmsg，Android 的日志输出到 /dev/log"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-9fe8da080468",
+          "subject": "Android 系统日志",
+          "predicate": "分为两部分：底层 Linux 内核日志输出到 /proc/kmsg，Android 日志输出到",
+          "object": "/dev/log"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,18)『Android 系统的日志分为两部分』对应『日志分两部分』；[19,47)『底层的 Linux 内核日志输出到 /proc/kmsg』对应内核日志路径（/proc/kmsg 位于 [37,47)）；[48,71)『Android 的日志输出到 /dev/log』对应 Android 日志路径（/dev/log 位于 [63,71)）。逐项一致；偏移按 Unicode 码点半开区间计。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "start": 0,
+          "end": 18
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "start": 19,
+          "end": 47
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "start": 37,
+          "end": 47
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "start": 48,
+          "end": 71
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "start": 63,
+          "end": 71
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "keyevent",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-471cae011964",
+          "exact": "keyevent [--longpress] <key code number or name> ... (Default: keyboard"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-471cae011964",
+          "subject": "keyevent 子命令",
+          "predicate": "accepts",
+          "object": "key code number or name",
+          "qualifiers": {
+            "option": "[--longpress]",
+            "default": "keyboard",
+            "quote_truncated": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,8)『keyevent』确认子命令名，[9,22)『[--longpress]』为可选项，[23,48)『<key code number or name>』支持『用 key code 数字或名称』，[53,71)『(Default: keyboard』支持『默认 keyboard』（引文在此截断、无右括号，『输入源』为对该默认项的补全表述）。claim 的『input 的』归属与『模拟按键』为该子命令条目所在语境的表述，引文片段未含『input』字样但不与引文冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "start": 0,
+          "end": 8
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "start": 9,
+          "end": 22
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "start": 23,
+          "end": 48
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "start": 53,
+          "end": 71
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "dumpsys-activity",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-72d22a4cbce3",
+          "exact": "adb shell dumpsys activity activities | grep mResumedActivity"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-72d22a4cbce3",
+          "subject": "adb shell dumpsys activity activities | grep mResumedActivity",
+          "predicate": "command pipeline presented for viewing",
+          "object": "mResumedActivity (前台 Activity)",
+          "qualifiers": {
+            "form": "command example"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,36)『adb shell dumpsys activity activities』与 [37,60)『| grep mResumedActivity』完整给出 claim 所述命令及 grep mResumedActivity 的配合用法（mResumedActivity 位于 [44,60)）；『可查看前台 Activity』为对该命令管道用途的概括，与引文所示用法一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "start": 0,
+          "end": 36
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "start": 37,
+          "end": 60
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "start": 44,
+          "end": 60
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "pm-list",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3c61753783ab",
+          "exact": "adb shell pm list packages [-f] [-d] [-e] [-s] [-3] [-i] [-u] [--user USER_ID] [FILTER]"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3c61753783ab",
+          "subject": "adb shell pm list packages",
+          "predicate": "lists packages with filter options",
+          "object": "[-f] [-d] [-e] [-s] [-3] [-i] [-u] [--user USER_ID] [FILTER]"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,26)『adb shell pm list packages』支持『可查看应用列表』，[27,61) 依次列出 [-f] [-d] [-e] [-s] [-3] [-i] [-u] 过滤参数，[62,87) 为 [--user USER_ID] [FILTER]；claim 以『等』涵盖 --user 与 FILTER，与引文一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "start": 0,
+          "end": 26
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "start": 27,
+          "end": 61
+        },
+        {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "start": 62,
+          "end": 87
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e664def78fd3fee900d40bc82d2afcc243c968430d7df9c34ec89df352ca4f8e"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-f54fa20e67c1",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:e86832f9c32ba7b13b266da6d9b9b9e9f53be0c8d53948bc7ad8380a19eb3f51"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-fc90a2d45789",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:4d788987a2057ca9dd06490d2020da89f566816e431a77531f2afb489d4037ff"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a5342d654f4e",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:9772d344181ba6e719b2418bd7e6071666eea030488cd163849af0c87f5e16f3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ffe377f53faf",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:6430421ff3425047daafac5f1366d6671bff2b8cc9a8732b6412f4661de213ec"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-ac9d97596664",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:efbcf52fa95240bd7c5ab8e448b18d2aad041acfd6cb8a698b136338d152a298"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a45ee5354880",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b05339ff962c76590417d76aa58d6adbfd5f850a0038e2d3498dc19a249090a3"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "target_b": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-a6e6d0e8e1a3",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:b0f70b77ded2f8e9d390b3ece91df02c10966b370d74c4df1d0b32a2148f11e2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-89d257d47bde",
+          "independence_group": "source:adb-man-page",
+          "observation_sha256": "sha256:fdf62e84c0291eba395efe7ea99f0dc6c5a5d353a186e066f566a03fdc5b6c64"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-9fe8da080468",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:ea24e7f4f3821d6cda697ca16705bfc2dc2cdc3b89420f0984c9b6a5fb71b7c2"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-471cae011964",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:f2b5011e286421a143f904fbf70467578b4ffd3050d16a9ff0b7f8c20bb931df"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-72d22a4cbce3",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:577f235dce13e68517f1bf10aec734201855f282760ed6c8b9370abd19ad68d8"
+        },
+        "target_b": {
+          "source_id": "adb-juejin-guide",
+          "evidence_id": "evidence-3c61753783ab",
+          "independence_group": "source:adb-juejin-guide",
+          "observation_sha256": "sha256:2f0309704bfa82b6c5c64cc9ef69f4d4bb9fa544e34036c8ff48f54e03948ec5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-juejin-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-juejin-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-juejin-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-juejin-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "adb-role",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "client-server-daemon",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "devices-list",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "target-device",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "file-push",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "file-pull",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "app-install",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "server-port",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "logcat",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "keyevent",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "dumpsys-activity",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "pm-list",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}
