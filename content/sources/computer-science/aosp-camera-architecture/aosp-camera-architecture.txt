@@ -1,0 +1,5 @@
+# Source: https://source.android.com/docs/core/camera (Camera architecture overview, retrieved 2026-09-04)
+
+Android's camera hardware abstraction layer (HAL) connects the higher-level camera framework APIs in Camera 2 to your underlying camera driver and hardware. The camera subsystem includes implementations for camera pipeline components while the camera HAL provides interfaces for use in implementing your version of these components.
+
+The HAL sits between the camera driver and the higher-level Android framework and defines an interface that you must implement so apps can correctly operate the camera hardware. The HIDL interfaces for the Camera HAL are defined in hardware/interfaces/camera.

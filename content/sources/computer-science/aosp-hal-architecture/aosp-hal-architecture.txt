@@ -1,0 +1,7 @@
+# Source: https://source.android.com/docs/core/architecture/hal (Hardware abstraction layer overview, retrieved 2026-09-04)
+
+A hardware abstraction layer (HAL) is type of abstraction layer with a standard interface for hardware vendors to implement. A HAL allows hardware vendors to implement lower-level, device-specific features without affecting or modifying code in higher-level layers.
+
+The hardware-specific code, such as the code that talks to your specific device's camera. You must implement all required HALs listed in the compatibility matrix for the release you target in your vendor partition.
+
+A language used to define interfaces in a way that is independent of the programming language being used. HIDL enables communication between HAL clients and HAL services.

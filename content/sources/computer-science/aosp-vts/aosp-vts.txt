@@ -1,0 +1,7 @@
+# Source: https://source.android.com/docs/core/tests/vts (Vendor Test Suite and infrastructure, retrieved 2026-09-04)
+
+Most tests in VTS are GTest-style tests that check the HAL implementation. The test is written in C++ and runs on the device. A typical VTS GTest iterates through each instance of a given interface, and runs all the test cases against it.
+
+Linux kernel tests: Kselftest is a collection of tests included within the Linux kernel repository at tools/testing/selftests, of which 23 are included in VTS to run on ARM. Linux Test Project (LTP) tests validate the reliability, robustness, and stability of the Linux kernel.
+
+A small set of host-driven tests in VTS are JUnit-style tests. Some VTS tests, such as vts_treble_sys_prop_test, are written in Python3. The Python-based tests are implemented as unittest.TestCase and each test case can interact with the device through shell commands.
