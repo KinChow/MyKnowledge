@@ -1,0 +1,7 @@
+# Source: https://source.android.com/docs/core/camera/multi-camera (Multi-camera support, retrieved 2026-09-04)
+
+Android 9 introduced API support for multi-camera devices through a new logical camera device composed of two or more physical camera devices pointing in the same direction. The logical camera device is exposed as a single CameraDevice/CaptureSession to an app allowing for interaction with HAL-integrated multi-camera features. Apps can optionally access and control underlying physical camera streams, metadata, and controls.
+
+In the multi-camera diagram, different camera IDs are color coded. The app can stream raw buffers from each physical camera at the same time. It is also possible to set separate controls and receive separate metadata from different physical cameras.
+
+A logical camera device should operate in the same way as a physical camera device based on its hardware level and capabilities. It's recommended that its feature set is a superset of that of individual physical cameras.
