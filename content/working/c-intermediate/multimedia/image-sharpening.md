@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/noise-reconstruction/image-sharpening.md
 snapshot_sha256: sha256:b63409fc212fc0759bf9dfb7c0d224e140f85936aaa4c475d878b5c2d1140eef
@@ -71,3 +71,6 @@ $$
 
 要想实现更好的sharpen效果，只做USM是不够的，还要做Clipping。
 Clipping的作用是去除/降低overshoot和undershoot
+## 参考
+- Unsharp Mask：https://en.wikipedia.org/wiki/Unsharp_masking
+- 锐化与光晕控制：Gonzalez R C, Woods R E. Digital Image Processing[M]. 4th ed, 2018

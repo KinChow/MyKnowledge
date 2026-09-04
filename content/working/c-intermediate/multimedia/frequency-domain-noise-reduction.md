@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/noise-reconstruction/frequency-domain-noise-reduction.md
 snapshot_sha256: sha256:7261b9e1dee8bdd9526c8e94e88e023bafd8674d360aa753f9e49dde8097bd25
@@ -115,3 +115,7 @@ title: 频域降噪
 ## 应用
 
 BM3D
+## 参考
+- 图像傅里叶变换与频域滤波：Gonzalez R C, Woods R E. Digital Image Processing[M]. 4th ed, 2018
+- 小波去噪（软/硬阈值）：Donoho D L. De-noising by soft-thresholding[J]. IEEE Trans IT, 1995
+- BM3D：Dabov K, et al. Image Denoising by Sparse 3-D Transform-Domain Collaborative Filtering[J]. IEEE TIP, 2007

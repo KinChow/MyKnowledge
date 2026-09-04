@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/overview-of-3A.md
 snapshot_sha256: sha256:6a30b6fb92cea2f4ade362d1273feb06aa5ba39bf1ead56a6b5b38363a3e1a5c
@@ -57,7 +57,7 @@ title: 3A统计概述
 感光度：感光元件对光线敏感程度
 
 * ISO越小，对光线的感应能力越弱，但是画质表现较好
-* ISO越大，对光线的感应能力越强，但是会形成早点影响画质
+* ISO越大，对光线的感应能力越强，但是会形成噪点影响画质
 
 
 
@@ -69,12 +69,14 @@ title: 3A统计概述
 
 #### 白平衡（White Balance）
 
+白平衡的色温 K 表示"针对该色温光源做补偿"：K 越低补偿越偏蓝（去暖色），K 越高补偿越偏红/黄（去冷色）。因此：
+
 * 还原环境的真实色彩
-  * 画面偏黄就降低色温K值
-  * 画面偏蓝就提高色温K值
+  * 画面偏黄（暖色过重）就提高色温K值（增加蓝色补偿）
+  * 画面偏蓝（冷色过重）就降低色温K值（增加红色补偿）
 * 调整画面冷暖
-  * 需要偏黄的暖色调效果时，调高色温K值
-  * 需要偏蓝的冷色调效果时，降低色温K值
+  * 需要偏黄的暖色调效果时，降低色温K值（减少蓝色补偿）
+  * 需要偏蓝的冷色调效果时，提高色温K值（增加蓝色补偿）
 
 
 
@@ -110,3 +112,6 @@ Focus value计算方法
 
 * 选取统计区域并分为M*N块，统计每块的R/G/B均值与白点个数
 * 选取统计区域并分为M*N块，统计每块的R/G和B/G均值
+## 参考
+- 3A（AE/AF/AWB）概述：https://en.wikipedia.org/wiki/Autofocus / https://en.wikipedia.org/wiki/Color_balance
+- 曝光三角（光圈/快门/ISO）：https://en.wikipedia.org/wiki/Exposure_(photography)

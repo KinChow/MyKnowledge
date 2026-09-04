@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/noise-reconstruction/space-domain-noise-reduction.md
 snapshot_sha256: sha256:41b7564d364f23326ffe483c1a9d59505bf4de1271bb1023b7daf941d5831879
@@ -104,3 +104,9 @@ title: 空域降噪
     *  通过方向差分来寻找噪声像素，从而赋予噪声像素与非噪声像素不同的权重
     *   自适应地寻找最优窗口大小
     *  不同频率使用不同的降噪强度
+## 参考
+
+- 双边滤波：Tomasi C, Manduchi R. Bilateral Filtering for Gray and Color Images[C]. ICCV, 1998.
+- 引导滤波：He K, Sun J, Tang X. Guided Image Filtering[J]. IEEE TPAMI, 2013, 35(6): 1397-1409.
+- 非局部均值：Buades A, Coll B, Morel J M. A Non-Local Algorithm for Image Denoising[C]. CVPR, 2005.
+- 空域滤波综述：https://en.wikipedia.org/wiki/Median_filter / https://en.wikipedia.org/wiki/Gaussian_filter
