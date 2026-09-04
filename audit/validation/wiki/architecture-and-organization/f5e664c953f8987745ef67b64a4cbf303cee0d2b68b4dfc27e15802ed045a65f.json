@@ -1,0 +1,1742 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "architecture-and-organization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_6b41fae8ae6e",
+  "input_hash": "sha256:6f86f0b6e7cb64198c8907adfd8e7c62d6f08a798bcb2f7e487dceeab1b41957",
+  "provider_duration_ms": 298529,
+  "provider_meta": {
+    "model": "GLM-5.3-Flash"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788499803.6364741,
+  "wiki_content_sha256": "sha256:4ce9334c5faf4b5788a41911b514f11643661d211f276b504cc5c470e80437e2",
+  "wiki_evidence_sha256": "sha256:97882317e76b151a75d139a664aec7e0c0826431bd464d1b060c591de8854786",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-a-profile-architectures"
+      },
+      "source_id": "arm-a-profile-architectures",
+      "evidence_id": "evidence-802fb55860c5",
+      "snapshot_sha256": "sha256:21c2545aafe0b249647c49343242cb9251dd2bbc49bcfb0b582acbb2c78106f5",
+      "selector_sha256": "sha256:281cb08579361bd19a52d338e4088a901d92a88170e1f390e81320cc7fe92738",
+      "quote_sha256": "sha256:fd0c0134ffbe49ca39a343a58bfb2b16feea85a5ed41d1f305e7e9bb3f954a6a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-a-profile-architectures"
+      },
+      "source_id": "arm-a-profile-architectures",
+      "evidence_id": "evidence-3dc4401ba81e",
+      "snapshot_sha256": "sha256:21c2545aafe0b249647c49343242cb9251dd2bbc49bcfb0b582acbb2c78106f5",
+      "selector_sha256": "sha256:1af70610203117ad92a245b7bef6bf3112cf0715a90e1d36272b02b91feec781",
+      "quote_sha256": "sha256:8332318de5dfc3601fb7e86cbe4a10d162beb67f7300d022ffecfaf0e70a048b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-d1-exception-levels"
+      },
+      "source_id": "arm-d1-exception-levels",
+      "evidence_id": "evidence-f20a3948ce05",
+      "snapshot_sha256": "sha256:e0874b85f90d0cfa1dcca7ab40b2e992f10050afe29e8f030c2f79d0fa4d3772",
+      "selector_sha256": "sha256:748bf33b32ce6e33d2424841620c17073db53323c6ab74491450638be611a2d7",
+      "quote_sha256": "sha256:3ea8501302f87def0c40cf99471b5fd71a91bb25d7c2aaf2dac4c4a4b7bd71ed"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-29cc639ee281",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:b9be2e70a8bf621970a8dfe683234288e0b0583c5cb55eba3f8439489dad8874",
+      "quote_sha256": "sha256:1f5446f2c31b8f4901e2982492a239cdd099d04771db2f7ea68469c1bc1da357"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-1061d87ee77e",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:7f3158896c18dbe34cd4f6173338f0895ce15e11f40a0bfdb50c59d9535afbd8",
+      "quote_sha256": "sha256:874ccbe59a9550fe66ec633b8ebbc6d1ed16d9a5f7180eb7ec5fbdba897beb8d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-aarch64-registers"
+      },
+      "source_id": "arm-ddi0487-aarch64-registers",
+      "evidence_id": "evidence-8c92e4905685",
+      "snapshot_sha256": "sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4",
+      "selector_sha256": "sha256:e0b3910cceb720f83f460534306aca46bf751bc3aa3d1edd36c0b86285e6c91e",
+      "quote_sha256": "sha256:322510c365f2310196a478ec85c9d84636339dcf4b4e756ece666ea6c679b207"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cortex-a76-deep-dive"
+      },
+      "source_id": "cortex-a76-deep-dive",
+      "evidence_id": "evidence-0b9e4d4f5b0c",
+      "snapshot_sha256": "sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9",
+      "selector_sha256": "sha256:e77851deaef25b484228b32c79abc2cc62394b679a39e9547aff6cfd3e2acda6",
+      "quote_sha256": "sha256:428a35c161ea43a694f971c6e7187aa3be78b113d14271d3e87e8540f056828b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cortex-a76-deep-dive"
+      },
+      "source_id": "cortex-a76-deep-dive",
+      "evidence_id": "evidence-620cb82ae63b",
+      "snapshot_sha256": "sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9",
+      "selector_sha256": "sha256:464f5bdf7cc58356da2c70f3781939b647cf8a75481c893482664cfe74c0564b",
+      "quote_sha256": "sha256:b03f2e8f46dbb7e684bf437af4a7085a3dbafbe314eb8fc4a94a8d4beb7d2358"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cortex-a76-deep-dive"
+      },
+      "source_id": "cortex-a76-deep-dive",
+      "evidence_id": "evidence-5649ac82db63",
+      "snapshot_sha256": "sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9",
+      "selector_sha256": "sha256:be8189966814ccccc8f3f018f66fad1e0b0726ebe0603fc9ed98c1c7571b8e10",
+      "quote_sha256": "sha256:db6dbf5e12694c1fe8cf25e700559b04789cc839a1c8b7d93d01b1d2bbaef1a8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-memory-model"
+      },
+      "source_id": "arm-ddi0487-memory-model",
+      "evidence_id": "evidence-45e7cc979163",
+      "snapshot_sha256": "sha256:b25a5339e746f012a89096b9b67ceaa33a3bb68a1eb8a5d89fb9a314641102a3",
+      "selector_sha256": "sha256:4a3376470643b4de4390086ac911fca624dcb72fde0cfccbc08e6515a84a6c7d",
+      "quote_sha256": "sha256:5f4c7d38857858701f695c3ff0093ffcac105007dc38f86b86ded0ee4d498233"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-b27-caches"
+      },
+      "source_id": "arm-b27-caches",
+      "evidence_id": "evidence-b118c048c8bb",
+      "snapshot_sha256": "sha256:11071521d18f596ea751490332161a64c8c9966caad45a72b943af5187c99a28",
+      "selector_sha256": "sha256:66b0391adb148236287dc9633edfc69f6daa9d16fbdd0079ca351cf57c93de31",
+      "quote_sha256": "sha256:42c36b6b242a9316194a567d298b1eac1c6f38f6826970c0e92c19e45c907bbd"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "arm-nine-versions",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-802fb55860c5",
+          "exact": "Nine major versions of the architecture have been defined to date, denoted by the version numbers 1 to 9. Of these, the first three versions are now obsolete"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-802fb55860c5",
+          "subject": "ARM 架构",
+          "predicate": "已定义主要版本",
+          "object": "9 个（版本号 1-9）",
+          "qualifiers": {
+            "obsolete": "前三个版本已废弃"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,105)明示'Nine major versions...version numbers 1 to 9'，对应'9 个主要版本（1-9）'；引文[106,157)明示'Of these, the first three versions are now obsolete'，对应'前 3 个已废弃'。单 target，无跨源冲突。target.provenance 为空且引文无转载声明，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "start": 0,
+          "end": 105
+        },
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "start": 106,
+          "end": 157
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "aarch64-exec-state",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3dc4401ba81e",
+          "exact": "Is the 64-bit Execution state, meaning addresses are held in 64-bit registers, and instructions in the base instruction set can use 64-bit registers for their processing. AArch64 state supports the A64 instruction set"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3dc4401ba81e",
+          "subject": "AArch64",
+          "predicate": "是",
+          "object": "64 位执行状态",
+          "qualifiers": {
+            "addresses": "存于 64 位寄存器",
+            "base_instruction_set": "可使用 64 位寄存器处理",
+            "instruction_set": "A64"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,170)明示'Is the 64-bit Execution state'、'addresses are held in 64-bit registers'、'instructions in the base instruction set can use 64-bit registers for their processing'，逐点覆盖 claim 前三要素；引文[171,217)明示'AArch64 state supports the A64 instruction set'，覆盖 A64 指令集要素。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "start": 0,
+          "end": 170
+        },
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "start": 171,
+          "end": 217
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "exception-levels",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f20a3948ce05",
+          "exact": "The architecture defines four Exception levels: EL0, EL1, EL2, and EL3. \n      \n     \n    \n   \n   \n    \n     \n     R \n     VPSDB \n     \n     \n      \n      EL3 is the highest Exception level and EL0 the lowest"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f20a3948ce05",
+          "subject": "ARM 架构",
+          "predicate": "定义异常级别",
+          "object": "EL0、EL1、EL2、EL3（共 4 个）",
+          "qualifiers": {
+            "highest": "EL3",
+            "lowest": "EL0"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,71)明示'The architecture defines four Exception levels: EL0, EL1, EL2, and EL3'，对应'四个异常级别 EL0-EL3'；[71,155)为页面版式噪声，不承载语义；引文[155,208)明示'EL3 is the highest Exception level and EL0 the lowest'，对应'EL3 最高、EL0 最低'。两段同源一致。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "start": 0,
+          "end": 71
+        },
+        {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "start": 155,
+          "end": 208
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "aarch64-registers",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e"
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-29cc639ee281",
+          "exact": "31 general-purpose registers, R0 to R30. Each can be accessed as:"
+        },
+        {
+          "evidence_id": "evidence-1061d87ee77e",
+          "exact": "A 64-bit general-purpose register named X0 to X30."
+        },
+        {
+          "evidence_id": "evidence-8c92e4905685",
+          "exact": "A 32-bit general-purpose register named W0 to W30."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-29cc639ee281",
+          "subject": "AArch64",
+          "predicate": "具有通用寄存器",
+          "object": "31 个（R0 到 R30）",
+          "qualifiers": {
+            "access": "每个可按列出的方式访问"
+          }
+        },
+        {
+          "evidence_id": "evidence-1061d87ee77e",
+          "subject": "通用寄存器",
+          "predicate": "可按位宽命名访问",
+          "object": "64 位 X0 到 X30",
+          "qualifiers": {}
+        },
+        {
+          "evidence_id": "evidence-8c92e4905685",
+          "subject": "通用寄存器",
+          "predicate": "可按位宽命名访问",
+          "object": "32 位 W0 到 W30",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文一[0,40)明示'31 general-purpose registers, R0 to R30'，[41,65)明示'Each can be accessed as:'确立访问方式语境；引文二[0,50)明示 64 位'X0 to X30'；引文三[0,50)明示 32 位'W0 to W30'。三条引文同源（同一 source）互补且无冲突，共同完整覆盖 claim 全部要素。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "start": 0,
+          "end": 40
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "start": 41,
+          "end": 65
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "start": 0,
+          "end": 50
+        },
+        {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "start": 0,
+          "end": 50
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cortex-a76-decode",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "exact": "moves over to a 4-instruction/cycle decode path rising to eight 16-bit instructions, up from three with the A75"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "subject": "Cortex-A76",
+          "predicate": "解码宽度为",
+          "object": "每周期 4 条指令",
+          "qualifiers": {
+            "对比 A75": "3 条",
+            "补充": "可升至 8 条 16 位指令"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[16,47)明示'4-instruction/cycle decode path'，对应'每周期 4 条指令'；引文[85,111)明示'up from three with the A75'，对应'对比 A75 的 3 条'；[58,69)'eight 16-bit instructions'为 16 位指令吞吐的补充说明，与 claim 不矛盾。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "start": 16,
+          "end": 47
+        },
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "start": 85,
+          "end": 111
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cortex-a76-cache",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-620cb82ae63b",
+          "exact": "the same 64KB, 4-way set associative L1 cache and 256-512KB private L2"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-620cb82ae63b",
+          "subject": "Cortex-A76",
+          "predicate": "保持缓存配置",
+          "object": "64KB 4 路组相联 L1 与 256-512KB 私有 L2",
+          "qualifiers": {
+            "same_as": "与上一代相同"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,8)'the same'对应 claim 的'保持'；引文[9,70)明示'64KB, 4-way set associative L1 cache and 256-512KB private L2'，逐项对应'64KB 4 路组相联 L1 cache 与 256-512KB 私有 L2'。claim 要素齐备，无冲突。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "start": 0,
+          "end": 8
+        },
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "start": 9,
+          "end": 70
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cortex-a76-neon",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5649ac82db63",
+          "exact": "paired up with two SIMD NEON execution pipelines, only one of which can handle floating-point divide and multiply-accumulate instructions. Both of these dual 128-bit"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5649ac82db63",
+          "subject": "Cortex-A76",
+          "predicate": "配有 SIMD NEON 执行流水线",
+          "object": "两条",
+          "qualifiers": {
+            "浮点除法与乘加": "仅其中一条可处理",
+            "位宽": "两条均为 128 位"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[15,48)明示'two SIMD NEON execution pipelines'，对应'两个 SIMD NEON 执行流水线'；引文[50,137)明示'only one of which can handle floating-point divide and multiply-accumulate instructions'，对应括注'仅一个可处理浮点除法与乘加'。引文与 claim 完全一致。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "start": 15,
+          "end": 48
+        },
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "start": 50,
+          "end": 137
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "memory-model",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-45e7cc979163",
+          "exact": "In the Arm memory model, the Shareability memory attribute indicates the degree to which hardware must ensure memory coherency between a set of observers. See Memory types and attributes."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-45e7cc979163",
+          "subject": "Arm 内存模型中的 Shareability 内存属性",
+          "predicate": "表示",
+          "object": "硬件须在一组观察者之间确保内存一致性的程度",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,154)明示'the Shareability memory attribute indicates the degree to which hardware must ensure memory coherency between a set of observers'，与 claim 的'表示硬件须在多个观察者之间保证内存一致性的程度'逐点对应；'In the Arm memory model'锚定上下文。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "start": 0,
+          "end": 154
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "multi-core-cache",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b118c048c8bb",
+          "exact": "The Arm architecture defines the application level interface to the memory system, including a hierarchical memory system with multiple levels of cache"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b118c048c8bb",
+          "subject": "ARM 架构",
+          "predicate": "定义应用层存储接口",
+          "object": "含多级 cache 的分层存储系统",
+          "qualifiers": {
+            "implementation_defined": "本引文未涉及"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "前半被支持：引文[0,81)明示'The Arm architecture defines the application level interface to the memory system'，[83,151)明示'including a hierarchical memory system with multiple levels of cache'，对应'应用层可见的分层存储系统（多级 cache）'。但后半'存储系统细节是 IMPLEMENTATION DEFINED'在引文[0,151)全区间内无任何对应表述，属无引文支持的推断，故仅部分支持。provenance 为空，独立性无法举证（independence_unknown）。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "start": 0,
+          "end": 81
+        },
+        {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "start": 83,
+          "end": 151
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "multi-core-cache: claim 后半句'存储系统细节是 IMPLEMENTATION DEFINED'在 evidence-b118c048c8bb 引文全长区间[0,151)内无对应表述，缺少支持该断言的引文"
+  ],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:bb4010c25a7f8854edd6d403c1ba01bf60ffe26c9d6755d5f6bbce9bb940b722"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-3dc4401ba81e",
+          "independence_group": "source:arm-a-profile-architectures",
+          "observation_sha256": "sha256:ba59483afea6c154d8a915a0da018ad83b132e2f10c48140665b8625baa294bb"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-d1-exception-levels",
+          "evidence_id": "evidence-f20a3948ce05",
+          "independence_group": "source:arm-d1-exception-levels",
+          "observation_sha256": "sha256:326a71643be6d3c2a7b18c02bf5907dbc8e6e9412906eca24f61ccf45c1b26c0"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-29cc639ee281",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:da945f726ef402524c8f5bc57ea163c009d2fe86604e2d2999459591ed32f644"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-1061d87ee77e",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:6dfd35fcc341868174820972bd160f46bb0b8025199eb5958bcc3be7f197ce1f"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-aarch64-registers",
+          "evidence_id": "evidence-8c92e4905685",
+          "independence_group": "source:arm-ddi0487-aarch64-registers",
+          "observation_sha256": "sha256:078a4b337bef7865a99ea0e7f1085bb52a8c0d8bdff51922073495c7250bbcac"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:808fc75ee14f1abb0e733a5d8c46259dd30987092e5a94641c0e1f2c697f000a"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "target_b": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-620cb82ae63b",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:376e0d5cb0c436a8627467507d04d81d088876aab8b6cb05b3ed909f502f5c79"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "target_b": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-5649ac82db63",
+          "independence_group": "source:cortex-a76-deep-dive",
+          "observation_sha256": "sha256:2a2fe75da3ba4b8c07f66bd39ef0ee30584c5dc962c2c2e96ff685643e228c82"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-ddi0487-memory-model",
+          "evidence_id": "evidence-45e7cc979163",
+          "independence_group": "source:arm-ddi0487-memory-model",
+          "observation_sha256": "sha256:df9af6830b69cc05e24efacfe198bfc1ed3b14084cdc844aae82f2184e4afdf3"
+        },
+        "target_b": {
+          "source_id": "arm-b27-caches",
+          "evidence_id": "evidence-b118c048c8bb",
+          "independence_group": "source:arm-b27-caches",
+          "observation_sha256": "sha256:0eaf0463f718335184dd5464be7c4f9e46ed110339aa288b86601ae4e94a9ac2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-a-profile-architectures",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-a-profile-architectures",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-d1-exception-levels",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-aarch64-registers",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cortex-a76-deep-dive",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cortex-a76-deep-dive",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "cortex-a76-deep-dive",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-memory-model",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-b27-caches",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-nine-versions",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "aarch64-exec-state",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "exception-levels",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "aarch64-registers",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cortex-a76-decode",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cortex-a76-cache",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cortex-a76-neon",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "memory-model",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "multi-core-cache",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}
