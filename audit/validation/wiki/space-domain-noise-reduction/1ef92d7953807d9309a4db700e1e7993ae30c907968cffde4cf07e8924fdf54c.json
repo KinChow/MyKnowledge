@@ -1,0 +1,437 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "space-domain-noise-reduction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_6b0f428aae0f",
+  "input_hash": "sha256:929c5534cfe3100122ccac3a3519205daf9c33edf0a1b6bd87aab2daca3510d7",
+  "provider_duration_ms": 60596,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788529181.570861,
+  "wiki_content_sha256": "sha256:6867d083b4a2f3893c1a628ffb2d05f30907e2ef3c1d300cfeec18efb870727e",
+  "wiki_evidence_sha256": "sha256:a8bd110811ef3a9a6a09cddcfb954c22ab8d3a5bbf0cc03d015ea63c546989ea",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-noise-reduction"
+      },
+      "source_id": "wiki-noise-reduction",
+      "evidence_id": "evidence-04c098537dac",
+      "snapshot_sha256": "sha256:bf07555f2b3be2e2d2d967d5fd80c35e17d225807d09c9de73d31ed49ec15699",
+      "selector_sha256": "sha256:cf93742fcad998207b1030e563155118ef7a13b49f3c24c680517d94964aa9f8",
+      "quote_sha256": "sha256:442556fc1d1079f7ff330cc8f6dc6dc8ac74cc53f34890eaa07bfaf806a092c5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-noise-reduction"
+      },
+      "source_id": "wiki-noise-reduction",
+      "evidence_id": "evidence-b1196b6868bf",
+      "snapshot_sha256": "sha256:bf07555f2b3be2e2d2d967d5fd80c35e17d225807d09c9de73d31ed49ec15699",
+      "selector_sha256": "sha256:3dfbc6eabdb1941921a7c3762f16c7f5f94366ca45398ba3cd3f3dde3f263f3c",
+      "quote_sha256": "sha256:71b0eb63d7d7bf1e4d26243f98d499d77468712261fb3412b994d3b2b024b2b7"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-noise-reduction"
+      },
+      "source_id": "wiki-noise-reduction",
+      "evidence_id": "evidence-1f1b599dffe7",
+      "snapshot_sha256": "sha256:bf07555f2b3be2e2d2d967d5fd80c35e17d225807d09c9de73d31ed49ec15699",
+      "selector_sha256": "sha256:fa2cf84f8fb611e79bdb7d7238760d8f45b653e6f3ebbe10b6caa1121d3db283",
+      "quote_sha256": "sha256:49052ad5369cbcc9ae08d81d62988cf2ab9844d3d939bdd65837af80d9d78d5c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-non-local-means"
+      },
+      "source_id": "wiki-non-local-means",
+      "evidence_id": "evidence-5a2113b47195",
+      "snapshot_sha256": "sha256:1ecf5024d2368a37e5535883705ace1132f96606f5c61f01345740b0485b6e68",
+      "selector_sha256": "sha256:07957fc41246f231d8bb790b9f2b52a1d96fbda92cde35b184cedb7906f2a2bd",
+      "quote_sha256": "sha256:40dfdee05efff8ac62e9328d93db2ae1bf4b97a93ee111aa07e84c769200c8bf"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "noise-tradeoff",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "exact": "There are many noise reduction algorithms in image processing. In selecting a noise reduction algorithm, one must weigh several factors: the available computer power and time available; whether sacrificing some real detail is acceptable if it allows more noise to be removed; and the characteristics of the noise and the detail in the image, to better make those decisions."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "subject": "selecting a noise reduction algorithm",
+          "predicate": "must weigh several factors",
+          "object": "available computer power and time; acceptability of sacrificing real detail for more noise removal; characteristics of the noise and detail",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文区间 [0,373) 逐项支持 claim 的三要素：其一 \"the available computer power and time available\"（约 [139,185)）对应\"可用算力与时间\"；其二 \"whether sacrificing some real detail is acceptable if it allows more noise to be removed\"（约 [186,275)）对应\"是否接受牺牲一些真实细节来换取更多降噪\"；其三 \"the characteristics of the noise and the detail in the image\"（约 [284,341)）对应\"噪声与图像细节的特性\"；引文开头 \"one must weigh several factors\"（约 [105,137)）对应\"权衡多个因素\"。claim 无超出引文的内容，无概念偏移，无遗漏。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 0,
+          "end": 373
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "noise-nlm",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-b1196b6868bf"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b1196b6868bf",
+          "exact": "Another approach for removing noise is based on non-local averaging of all the pixels in an image. In particular, the amount of weighting for a pixel is based on the degree of similarity between a small patch centered on that pixel and the small patch centered on the pixel being de-noised."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b1196b6868bf",
+          "subject": "non-local means",
+          "predicate": "removes noise via non-local averaging of all pixels; pixel weight determined by",
+          "object": "degree of similarity between the small patch centered on that pixel and the patch centered on the de-noised pixel",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文区间 [0,290) 与 claim 完全对应：第一句 \"non-local averaging of all the pixels in an image\"（约 [45,97)）对应\"基于图像中所有像素的非局部平均去除噪声\"；第二句 \"the amount of weighting for a pixel is based on the degree of similarity between a small patch centered on that pixel and the small patch centered on the pixel being de-noised\"（约 [118,290)）即\"像素的权重由以其为中心的小块与被去噪像素小块之间的相似度决定\"。\"非局部均值\"为 non-local means 的标准译名，仅一处忠实转述，无添加、无遗漏。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-b1196b6868bf",
+          "start": 0,
+          "end": 290
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "noise-median",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-1f1b599dffe7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1f1b599dffe7",
+          "exact": "A median filter is an example of a nonlinear filter and, if properly designed, is very good at preserving image detail."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1f1b599dffe7",
+          "subject": "median filter",
+          "predicate": "is a nonlinear filter and, if properly designed, is very good at",
+          "object": "preserving image detail",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,119) 与 claim 两句话直接对应：\"A median filter is an example of a nonlinear filter\"（约 [0,55)）对应\"中值滤波是非线性滤波\"；\"if properly designed, is very good at preserving image detail\"（约 [57,119)）对应\"设计得当能很好地保留图像细节\"。\"中值滤波\"即 median filter 的译名；claim 未添加条件变化或程度夸大，逐项支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-1f1b599dffe7",
+          "start": 0,
+          "end": 119
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "nlm-cost",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-non-local-means",
+          "evidence_id": "evidence-5a2113b47195"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5a2113b47195",
+          "exact": "The computational complexity of the non-local means algorithm is quadratic in the number of pixels in the image, making it particularly expensive to apply directly."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5a2113b47195",
+          "subject": "non-local means algorithm",
+          "predicate": "has computational complexity quadratic in the number of pixels, making it",
+          "object": "particularly expensive to apply directly",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,164) 与 claim 逐项一致：\"The computational complexity of the non-local means algorithm is quadratic in the number of pixels in the image\"（约 [0,112)）对应\"计算复杂度是图像像素数的二次方\"；\"making it particularly expensive to apply directly\"（约 [113,164)）对应\"直接应用非常昂贵\"。claim 中的\"非局部均值算法\"即 non-local means algorithm 的译名；\"二次方\"即 quadratic，无量化偏差；无冗余表述。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-non-local-means",
+          "evidence_id": "evidence-5a2113b47195",
+          "start": 0,
+          "end": 164
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:13db269fc9f07b931cdc11bee48c84c8d35b201fecf95b1420250179deace433"
+        },
+        "target_b": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-b1196b6868bf",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:1d8260acd6eaa7d9c4e82d3d13407355b064dfb74fa2904c8d61c4a34c7d7d3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:13db269fc9f07b931cdc11bee48c84c8d35b201fecf95b1420250179deace433"
+        },
+        "target_b": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-1f1b599dffe7",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:0de802221b7b594db6573329f829b50818a1576b3d02412998caac5bdd9331db"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:13db269fc9f07b931cdc11bee48c84c8d35b201fecf95b1420250179deace433"
+        },
+        "target_b": {
+          "source_id": "wiki-non-local-means",
+          "evidence_id": "evidence-5a2113b47195",
+          "independence_group": "source:wiki-non-local-means",
+          "observation_sha256": "sha256:3e251b88851c67fedefac616162ce03590285f1fed5f3206ae680cd075ead25b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-b1196b6868bf",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:1d8260acd6eaa7d9c4e82d3d13407355b064dfb74fa2904c8d61c4a34c7d7d3d"
+        },
+        "target_b": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-1f1b599dffe7",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:0de802221b7b594db6573329f829b50818a1576b3d02412998caac5bdd9331db"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-b1196b6868bf",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:1d8260acd6eaa7d9c4e82d3d13407355b064dfb74fa2904c8d61c4a34c7d7d3d"
+        },
+        "target_b": {
+          "source_id": "wiki-non-local-means",
+          "evidence_id": "evidence-5a2113b47195",
+          "independence_group": "source:wiki-non-local-means",
+          "observation_sha256": "sha256:3e251b88851c67fedefac616162ce03590285f1fed5f3206ae680cd075ead25b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-1f1b599dffe7",
+          "independence_group": "source:wiki-noise-reduction",
+          "observation_sha256": "sha256:0de802221b7b594db6573329f829b50818a1576b3d02412998caac5bdd9331db"
+        },
+        "target_b": {
+          "source_id": "wiki-non-local-means",
+          "evidence_id": "evidence-5a2113b47195",
+          "independence_group": "source:wiki-non-local-means",
+          "observation_sha256": "sha256:3e251b88851c67fedefac616162ce03590285f1fed5f3206ae680cd075ead25b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-noise-reduction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-noise-reduction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-noise-reduction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-non-local-means",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "noise-tradeoff",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "noise-nlm",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "noise-median",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "nlm-cost",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

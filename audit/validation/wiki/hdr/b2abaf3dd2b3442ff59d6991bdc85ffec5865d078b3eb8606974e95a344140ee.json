@@ -1,0 +1,232 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "hdr",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_17fd4bee7290",
+  "input_hash": "sha256:0b7439dbbb0006adf1ec6599555d7b1aafacf89deb44ebde068fc84e00e76482",
+  "provider_duration_ms": 40731,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788529029.8739378,
+  "wiki_content_sha256": "sha256:aa1eb42408fe0adf0d0339e8912d9ae3a7fd71a29ef6fd4e3454bb868d7291ea",
+  "wiki_evidence_sha256": "sha256:45648f21698ba8de839a45fa7108083d69f0c62e876bf0da568fbaebf090f563",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-hdri"
+      },
+      "source_id": "wiki-hdri",
+      "evidence_id": "evidence-15fd931b7867",
+      "snapshot_sha256": "sha256:2f63e0cb6e4ae73c4f0e68c83daace3430b74dcd40422ff7564bc1a7ed27aeba",
+      "selector_sha256": "sha256:3b45049f429bd49528e8717edb50afca036cfff5eb5244808a8f7a75542d860d",
+      "quote_sha256": "sha256:fde3005deb2c040fe3d3888242edc56bb75e7c5dba4ddf8116de7b66083f0f44"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-hdri"
+      },
+      "source_id": "wiki-hdri",
+      "evidence_id": "evidence-f41c52103f5f",
+      "snapshot_sha256": "sha256:2f63e0cb6e4ae73c4f0e68c83daace3430b74dcd40422ff7564bc1a7ed27aeba",
+      "selector_sha256": "sha256:683d4ba65bbc14020e66a981ceda9a76b1ae750ea079193aa64c8b6746337892",
+      "quote_sha256": "sha256:2010014771fc5905903c55d50ed577958d5c332ff236c05dcb74a405fd5fa0cf"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "hdr-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-15fd931b7867",
+          "exact": "In this context, the term high dynamic range means there is a large amount of variation in light levels within a scene or an image. The dynamic range refers to the range of luminosity between the brightest area and the darkest area of that scene or image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-15fd931b7867",
+          "subject": "high dynamic range / dynamic range",
+          "predicate": "defined as",
+          "object": "large amount of variation in light levels within a scene or an image; range of luminosity between the brightest area and the darkest area of that scene or image"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001"
+      ],
+      "rationale": "引文前半句（[26,131)）定义 high dynamic range 为场景或图像内光线水平的大量变化，与 claim 前半句一一对应；后半句（[132,255)）定义 dynamic range 为最亮区与最暗区之间的亮度范围（luminosity），与 claim 后半句对应。claim 为引文的忠实转述，未引入引文之外的信息，判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "start": 26,
+          "end": 131
+        },
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "start": 132,
+          "end": 255
+        }
+      ]
+    },
+    {
+      "claim_id": "hdr-capture",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f41c52103f5f",
+          "exact": "In photography and videography, a technique, commonly named high dynamic range (HDR) allows the dynamic range of photos and videos to be captured beyond the native capability of the camera. It consists of capturing multiple frames of the same scene but with different exposures and then combining them into one, resulting in an image with a dynamic range higher than the individually captured frames."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f41c52103f5f",
+          "subject": "HDR technique in photography and videography",
+          "predicate": "captures dynamic range beyond native capability by",
+          "object": "capturing multiple frames of the same scene with different exposures and combining them into one, yielding dynamic range higher than individually captured frames"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001"
+      ],
+      "rationale": "引文 [147,190) 表明 HDR 使动态范围可被捕捉到超出相机原生能力之上，对应 claim 的“超出相机原生能力”；[206,279) 表明其方式是拍摄同一场景多帧但曝光不同，对应“拍摄同一场景多帧不同曝光”；[288,312) 与 [313,401) 表明合并为一帧并得到高于单帧的动态范围，对应“再合并，得到高于单帧的”。claim 全部要素在引文中均有直接支撑；引文同时涵盖摄影与摄像，而 claim 仅述及摄影，属子集关系而非矛盾，判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "start": 147,
+          "end": 190
+        },
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "start": 206,
+          "end": 279
+        },
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "start": 288,
+          "end": 312
+        },
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "start": 313,
+          "end": 401
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "independence_group": "source:wiki-hdri",
+          "observation_sha256": "sha256:90cbc922026865fc0e7e696312a56a848b7c4e2149e76c6fe45cc428e7bbca70"
+        },
+        "target_b": {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-f41c52103f5f",
+          "independence_group": "source:wiki-hdri",
+          "observation_sha256": "sha256:97ab3453406f74e4f0c96fa37d01d6723dbc953510c0a73344307c38d63b65e1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-hdri",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-hdri",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "hdr-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hdr-capture",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

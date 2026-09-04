@@ -1,0 +1,328 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "tonemapping",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_a83a6ba8262f",
+  "input_hash": "sha256:cfedb4058378cd84f5c1f5d8fa81862838da5d42c4d065e4751a5e253d7a9d16",
+  "provider_duration_ms": 51544,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788531307.4870121,
+  "wiki_content_sha256": "sha256:de51e77adbf7b6b660cb4657e365a07c082b82c0426171da37ecfa91205c7cc1",
+  "wiki_evidence_sha256": "sha256:e434447ae4902c4e307263ea28363e772605d921d02588729e5e6d97afc71f3f",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-tone-mapping"
+      },
+      "source_id": "wiki-tone-mapping",
+      "evidence_id": "evidence-0682d4015b96",
+      "snapshot_sha256": "sha256:3fe116d85d8721842c18fffb7f905f31a4c4394f2008db011491c7f66f836850",
+      "selector_sha256": "sha256:6ef13dee6143b11e8a8f7ed94b3090710ba93cb149312c2ffaf7b99ea7459a4c",
+      "quote_sha256": "sha256:2d5792e60891398ffbfc4a907b5bc40f58f39394e8c8bfa684e3a32a8edf5016"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-tone-mapping"
+      },
+      "source_id": "wiki-tone-mapping",
+      "evidence_id": "evidence-cb52956d0035",
+      "snapshot_sha256": "sha256:3fe116d85d8721842c18fffb7f905f31a4c4394f2008db011491c7f66f836850",
+      "selector_sha256": "sha256:5a393e22412dbffefa7f3980504f137ebd97ec7bbcfb81155be02c15f92c6691",
+      "quote_sha256": "sha256:abec01e1c8e38313cf3952b7b08b95634268b3903570db557864300a287bb910"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-tone-mapping"
+      },
+      "source_id": "wiki-tone-mapping",
+      "evidence_id": "evidence-5f91df4675bb",
+      "snapshot_sha256": "sha256:3fe116d85d8721842c18fffb7f905f31a4c4394f2008db011491c7f66f836850",
+      "selector_sha256": "sha256:2e8ba52077911a2ccd2fb894d4399378e1bbba13793a026f6bf6ed9fcc58785b",
+      "quote_sha256": "sha256:d48189bf42eb6b6c368b923a014d15edc8207d9f1498a46e494590be9c1931ea"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "tone-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-0682d4015b96"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0682d4015b96",
+          "exact": "Tone mapping is a technique used in image processing and computer graphics to map one set of colors to another to approximate the appearance of high-dynamic-range (HDR) images in a medium that has a more limited dynamic range."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0682d4015b96",
+          "subject": "tone mapping",
+          "predicate": "is defined as",
+          "object": "a technique to map one set of colors to another to approximate the appearance of HDR images in a medium with a more limited dynamic range",
+          "qualifiers": {
+            "context": "image processing and computer graphics"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文（[0,226]，evidence-0682d4015b96）原文为：Tone mapping 是把一组颜色映射到另一组、以在动态范围更有限的媒介上近似显示高动态范围（HDR）图像外观的技术（'map one set of colors to another to approximate the appearance of high-dynamic-range (HDR) images in a medium that has a more limited dynamic range'），与 claim 的「把一组颜色映射到另一组」「在动态范围更有限的媒介上近似显示 HDR 图像外观」「技术」逐项对应。claim 仅省略了 'used in image processing and computer graphics' 这一领域背景限定，未改变或添加任何断言内容，翻译忠实，引文直接支持该 claim。独立性：target 的 provenance 为空对象，引文亦无转载/来源声明，无法举证独立性，输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-0682d4015b96",
+          "start": 0,
+          "end": 226
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "tone-local-ops",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-cb52956d0035"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cb52956d0035",
+          "exact": "Local (or spatially varying) operators: the parameters of the non-linear function change in each pixel, according to features extracted from the surrounding parameters. In other words, the effect of the algorithm changes in each pixel according to the local features of the image. Those algorithms are more complicated than the global ones; they can show artifacts (e.g. halo effect and ringing); and the output can look unrealistic, but they can (if used correctly) provide the best performance, since human vision is mainly sensitive to local contrast."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-cb52956d0035",
+          "subject": "local (spatially varying) tone mapping operators",
+          "predicate": "are characterized by",
+          "object": "per-pixel changing non-linear function parameters based on local image features, being more complicated than global ones, showing artifacts (halo effect, ringing), and providing the best performance since human vision is mainly sensitive to local contrast",
+          "qualifiers": {
+            "conditional": "if used correctly"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文（[0,555]，evidence-cb52956d0035）逐句对应 claim：①'the parameters of the non-linear function change in each pixel, according to features extracted from the surrounding parameters' 与 'changes in each pixel according to the local features of the image' →「非线性函数参数随像素局部特征逐像素变化」；②'more complicated than the global ones' →「比全局算子复杂」；③'can show artifacts (e.g. halo effect and ringing)' →「可能产生 halo（光晕）与振铃伪影」；④'can (if used correctly) provide the best performance, since human vision is mainly sensitive to local contrast' →「能提供最佳性能——因为人眼主要对局部对比敏感」。claim 把 'can...provide' 的条件式表述为「能提供」，与引文语义一致（未断言必然性，且引文本身的 'can' 即表可能），未夸大；其余为忠实转述。引文完全支持该 claim。独立性：provenance 为空，无法举证，输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-cb52956d0035",
+          "start": 0,
+          "end": 555
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "tone-reinhard",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-5f91df4675bb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5f91df4675bb",
+          "exact": "A simple example of global tone mapping filter is Vout = Vin/(Vin+1) (Reinhard), where Vin is the luminance of the original pixel and Vout is the luminance of the filtered pixel."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5f91df4675bb",
+          "subject": "global tone mapping filter (Reinhard)",
+          "predicate": "is given by",
+          "object": "Vout = Vin/(Vin+1), with Vin the luminance of the original pixel and Vout the luminance of the filtered pixel",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文（[0,177]，evidence-5f91df4675bb）为：'A simple example of global tone mapping filter is Vout = Vin/(Vin+1) (Reinhard), where Vin is the luminance of the original pixel and Vout is the luminance of the filtered pixel.'，与 claim 的「全局色调映射的简单例子是 Reinhard 算子」「Vout = Vin/(Vin+1)」「Vin 为原像素亮度，Vout 为映射后像素亮度」逐项一致；claim 仅将 'filter' 译作「算子」（同义术语），公式与变量定义完全对应，未作增删。引文直接、完整地支持该 claim。独立性：provenance 为空，无法举证，输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-5f91df4675bb",
+          "start": 0,
+          "end": 177
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-0682d4015b96",
+          "independence_group": "source:wiki-tone-mapping",
+          "observation_sha256": "sha256:3d8929cc0a552bfef048f6aeec2bf689c744fa72e6a422b3edc434f424b25078"
+        },
+        "target_b": {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-cb52956d0035",
+          "independence_group": "source:wiki-tone-mapping",
+          "observation_sha256": "sha256:34ff0dbbc8f4656417fb3f4e1b51f662d81f4486a630b2cf0038771f6a871076"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-0682d4015b96",
+          "independence_group": "source:wiki-tone-mapping",
+          "observation_sha256": "sha256:3d8929cc0a552bfef048f6aeec2bf689c744fa72e6a422b3edc434f424b25078"
+        },
+        "target_b": {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-5f91df4675bb",
+          "independence_group": "source:wiki-tone-mapping",
+          "observation_sha256": "sha256:81902284d052a32fd42f690f9c313ddaf0b9329c6dc0dea05f3f46899f5b2e4a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-cb52956d0035",
+          "independence_group": "source:wiki-tone-mapping",
+          "observation_sha256": "sha256:34ff0dbbc8f4656417fb3f4e1b51f662d81f4486a630b2cf0038771f6a871076"
+        },
+        "target_b": {
+          "source_id": "wiki-tone-mapping",
+          "evidence_id": "evidence-5f91df4675bb",
+          "independence_group": "source:wiki-tone-mapping",
+          "observation_sha256": "sha256:81902284d052a32fd42f690f9c313ddaf0b9329c6dc0dea05f3f46899f5b2e4a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-tone-mapping",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-tone-mapping",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-tone-mapping",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "tone-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "tone-local-ops",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "tone-reinhard",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
