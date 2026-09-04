@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/noise-reconstruction/defective-pixel-correction.md
 snapshot_sha256: sha256:c9b060dcf50a623164860f81f6afd9484abf62d02b9f6f9bb30471de01fc7945
@@ -86,7 +86,7 @@ title: 坏点矫正
 
 
 
-静态坏点矫正是毁于已有的静态坏点表，比较当前点的坐标是否与静态坏点表中的某个坐标一致，若一致则判定为坏点，然后再计算矫正结果对其进行矫正。
+静态坏点矫正是基于已有的静态坏点表，比较当前点的坐标是否与静态坏点表中的某个坐标一致，若一致则判定为坏点，然后再计算矫正结果对其进行矫正。
 
 
 

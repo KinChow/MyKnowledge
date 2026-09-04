@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/color-aberration-correction.md
 snapshot_sha256: sha256:bc2f8b188798f64b05aa43a2e6ad18bbf480e39eac2b554a47379d78335ae79f
@@ -66,3 +66,6 @@ title: 色差校正
 
 * 普适性与局部性
 *  场景难以检测，校正尺度难以把握
+## 参考
+- 色差（Chromatic Aberration）基础：https://en.wikipedia.org/wiki/Chromatic_aberration
+- Cambridge in Colour - Understanding Chromatic Aberration：https://www.cambridgeincolour.com/tutorials/ chromatic-aberration.htm

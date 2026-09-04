@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/performance/performance-indicator/performance-indicator.md
 snapshot_sha256: sha256:432e24cdb5c5f52fced4b30827db91493d5775308db436892bb3fe7d92e357e8
@@ -180,3 +180,7 @@ title: 关键指标
 
 ## 交互流畅性体验评估模型
 
+
+## 来源说明
+
+本文为相机性能评测的内部方法论（启动/拍照/对焦/录像/切换时延等指标口径），来源于团队评测规范，无单一外部文献来源；指标定义以本仓库为准。

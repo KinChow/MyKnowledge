@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/hdr.md
 snapshot_sha256: sha256:0a65c09538251c3c01da379f323dc684e989496f53f51f4f66ca2efaf1f41176
@@ -236,3 +236,8 @@ Spatially Multiplexed Exposure HDR (SME-HDR)
 ### Local tone mapping
 
 通过图像局部区域的亮度信息重新分布亮度，提高图像的局部对比度和细节部分
+## 参考
+
+- Debevec P, Malik J. Recovering High Dynamic Range Radiance Maps from Photographs[C]. SIGGRAPH, 1997.
+- Reinhard E, et al. High Dynamic Range Imaging: Acquisition, Display, and Image-Based Lighting[M]. 2nd ed, 2010.
+- HDR 鬼影消除（Rejection/Alignment/Optimization）综述：https://en.wikipedia.org/wiki/High_dynamic_range

@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/lens-vignetting-correction.md
 snapshot_sha256: sha256:9c8531ce0024a8a78f08fdc62c4483445514ceaaf4aecc037416d928423b05b6
@@ -69,3 +69,7 @@ $$
   * 主要是对一些均匀光源，如A光、C光、D65等
 * 主观评测
   * 主要是对一些色彩单一的物体拍摄，如天空、地板、墙面、白纸、天花板等
+
+## 参考
+- Vignetting（渐晕/暗角）：https://en.wikipedia.org/wiki/Vignetting
+- Lens Shading Correction：https://www.opticsforhire.com/blog/lens-shading

@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/dynamic-range-compression.md
 snapshot_sha256: sha256:9fffd7bfb7f38c6f188117759c7f59a3b1c2bd8db309a55c2bbff5759b7a2eaa
@@ -109,3 +109,6 @@ title: 动态范围压缩
 
 核心原理是将原图分为不同patch，每个patch根据自身直方图分布情况单独做均衡， 然后在各patch之间边界做好平滑。
 这样的好处是可以尽可能多的保留或增加局部细节
+## 参考
+- 直方图均衡（HE/CLAHE）：https://en.wikipedia.org/wiki/Adaptive_histogram_equalization
+- 双边滤波分离高低频做局部增强：Tomasi C, Manduchi R. Bilateral Filtering for Gray and Color Images[C]. ICCV, 1998

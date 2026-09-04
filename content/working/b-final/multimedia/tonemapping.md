@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/tonemapping.md
 snapshot_sha256: sha256:0b02062f0a099273994361daf926d35736d19b2311ad802a4ed6a0163a960b51

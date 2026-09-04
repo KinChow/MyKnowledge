@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/noise-reconstruction/time-domain-noise-reduction.md
 snapshot_sha256: sha256:2795cf7ac537162c2f43dfa3d1e0d343fdab4d57637c91a69f9b5b3ae6979c2a
@@ -149,3 +149,7 @@ title: 时域降噪
 * 图像的运动检测分区
 *   图像的噪声进行分类
 *   选择合适的融合帧数
+
+## 参考
+- 时域/时空域降噪：https://en.wikipedia.org/wiki/Noise_reduction
+- MASTF 运动自适应时空滤波：参考 3DNR 专利与厂商白皮书

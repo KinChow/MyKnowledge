@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/noise-reconstruction/noise-evaluation.md
 snapshot_sha256: sha256:91a1694b90e28e29a2f2abeeb97eb382dd534a5474cf543df545f3434534d7ea

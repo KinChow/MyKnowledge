@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/flash.md
 snapshot_sha256: sha256:f1aa85ba971f5a3dd045e32561d24a9b8237c85f66a410e6364067275c89738d
@@ -76,3 +76,8 @@ $$
 * Flash AWB造成的色偏
 * 能量不够造成的远景不亮
 * 曝光时间太长造成运动模糊
+
+
+## 参考
+- 氙灯 vs LED 闪光灯对比：https://en.wikipedia.org/wiki/Flash_(photography)
+- 闪光灯同步（前帘/后帘/高速同步）：https://en.wikipedia.org/wiki/Flash_synchronization

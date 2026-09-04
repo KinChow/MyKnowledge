@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-reconstruction/auto-focus.md
 snapshot_sha256: sha256:19cfb2ab1139b4295f093442755c4075328b5d7e659dedf70efe44caf235a534
@@ -157,3 +157,8 @@ TOF对焦的原理是通过ToF传感器的自动对焦系统，检测物体与�
 
 优点：计算一次即可完成对焦，降低处理器计算负担，降低了背景光的干扰
 缺点：物理器件性能要求很高，时间测量精度要求高
+## 参考
+
+- 反差对焦（CDAF）与相位对焦（PDAF）原理：https://en.wikipedia.org/wiki/Autofocus
+- 相机自动对焦技术综述：https://www.cambridgeincolour.com/tutorials/camera-autofocus.htm
+- 激光对焦 / TOF 对焦（主动对焦）：https://www.dpreview.com/articles/0465668628/how-autofocus-systems-work

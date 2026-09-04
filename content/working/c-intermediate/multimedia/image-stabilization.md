@@ -1,5 +1,5 @@
 ---
-domain: computer-science
+domain: multimedia
 legacy_first_commit_at: '2025-07-06T20:30:14+08:00'
 legacy_path: docs/computer-science/applied-computer-science/multimedia/camera/algorithm/image-processing/image-stabilization.md
 snapshot_sha256: sha256:7a4b0fdc410631179b57ddf1d57001494fba65c323faddc765016cc0c5879ce7
@@ -147,3 +147,7 @@ title: 图像防抖
 * 光照突然变化
 * 运动模糊(Motion Blur)
 * 大面积阴影
+
+## 参考
+- OIS/EIS 防抖技术综述：https://en.wikipedia.org/wiki/Image_stabilization
+- 果冻效应与卷帘快门：https://en.wikipedia.org/wiki/Rolling_shutter
