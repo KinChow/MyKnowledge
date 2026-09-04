@@ -1,0 +1,561 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "arm-neon",
+  "validator_version": "wiki-validator",
+  "provider_identity": "openai-compatible",
+  "call_id": "call_028a2207ae66",
+  "input_hash": "sha256:e0420753a73302232b0387cdb017cc2077a1b11d12d1cada98a6ab800785e66f",
+  "provider_duration_ms": 241377,
+  "provider_meta": {
+    "model": "GLM-5.3-Flash"
+  },
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788506013.854615,
+  "wiki_content_sha256": "sha256:4b27e279d761ab55521819d3faa9a16a31526e6df98e1f5a80776701ff5751ec",
+  "wiki_evidence_sha256": "sha256:a7262d1732ddd47ed04a840c7887eda02fb61169a28e60a5f888544b6e1b7e4b",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-neon-intro"
+      },
+      "source_id": "arm-neon-intro",
+      "evidence_id": "evidence-068c54a90cb8",
+      "snapshot_sha256": "sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c",
+      "selector_sha256": "sha256:3559b7f6327b0723cedb2d28565c7a4de5e2f7e324d54e61a8d576db13ec5ec2",
+      "quote_sha256": "sha256:ee40eeb7c1eb9a35ef7bb0cb5626a2986e6635d1f8beec2d4a1e64d058a8ccdb"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-neon-intro"
+      },
+      "source_id": "arm-neon-intro",
+      "evidence_id": "evidence-1a3104fe62bf",
+      "snapshot_sha256": "sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c",
+      "selector_sha256": "sha256:d3767b88ade81289253d1061bf8a547ab19b102fe3802ee7c82741a1cb7e5c6e",
+      "quote_sha256": "sha256:75f831da9d0edbf2c598610452b95594fb9f8f880413e4707227f3fc8b279caa"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-neon-why-intrinsics"
+      },
+      "source_id": "arm-neon-why-intrinsics",
+      "evidence_id": "evidence-b972ba96913c",
+      "snapshot_sha256": "sha256:289696a6de76c6d4e11c321bb08efcecd13f759fe4dfa55ce4d08c26002d8c38",
+      "selector_sha256": "sha256:e84976b6da32ed87b18c0e7e48b5fb97519412b87e7d4943dc82939144c8cef5",
+      "quote_sha256": "sha256:d0f9966d03562cc590c295273b5a0191fcfcb0f44886324ba85505a5be033ffc"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-neon-conventions"
+      },
+      "source_id": "arm-neon-conventions",
+      "evidence_id": "evidence-83f47882ed36",
+      "snapshot_sha256": "sha256:1bcc9b9ae1f357e0a69a33499eb547ce025902b487872248b83f0d3009f5e7e7",
+      "selector_sha256": "sha256:c324a449adc8e956af0ee74788d3ea86b9e33bb77cea01956c5aca3c4537a7ff",
+      "quote_sha256": "sha256:68c06994d1abbc5fd5762f046ecf11ed70d9bba960a3018a9a7c3d2f4171c586"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "neon-role",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-068c54a90cb8",
+          "exact": "Neon is the implementation of Arm’s Advanced SIMD architecture."
+        },
+        {
+          "evidence_id": "evidence-068c54a90cb8",
+          "exact": "Thirty-two 128-bit vector registers, each capable of containing multiple lanes of data."
+        },
+        {
+          "evidence_id": "evidence-068c54a90cb8",
+          "exact": "SIMD instructions to operate simultaneously on those multiple lanes of data"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-068c54a90cb8",
+          "subject": "Neon",
+          "predicate": "is the implementation of",
+          "object": "Arm’s Advanced SIMD architecture",
+          "qualifiers": {
+            "provides": [
+              "Thirty-two 128-bit vector registers, each capable of containing multiple lanes of data",
+              "SIMD instructions to operate simultaneously on those multiple lanes of data"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,62)直接陈述 'Neon is the implementation of Arm’s Advanced SIMD architecture.'；[159,246)列出 'Thirty-two 128-bit vector registers, each capable of containing multiple lanes of data.'；[254,329)陈述 'SIMD instructions to operate simultaneously on those multiple lanes of data'。claim 三要素（Advanced SIMD 实现、32×128 位向量寄存器、多通道同时操作）与引文逐句对应，无超出引文的外推，判 supported。targets.provenance 为空对象且引文内无转载声明，独立性无法举证，记 independence_unknown。偏移为该 quote 文本的 Unicode 码点半开区间。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8",
+          "start": 0,
+          "end": 62
+        },
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8",
+          "start": 159,
+          "end": 246
+        },
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8",
+          "start": 254,
+          "end": 329
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "neon-ways",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1a3104fe62bf",
+          "exact": "As a programmer, there are a number of ways you can make use of Neon technology:"
+        },
+        {
+          "evidence_id": "evidence-1a3104fe62bf",
+          "exact": "Neon-enabled open source libraries such as the Arm Compute Library provide one of the easiest ways to take advantage of Neon."
+        },
+        {
+          "evidence_id": "evidence-1a3104fe62bf",
+          "exact": "Auto-vectorization features in your compiler can automatically optimize your code to take advantage of Neon."
+        },
+        {
+          "evidence_id": "evidence-1a3104fe62bf",
+          "exact": "Neon intrinsics are function calls that the compiler replaces with appropriate Neon instructions."
+        },
+        {
+          "evidence_id": "evidence-1a3104fe62bf",
+          "exact": "For very high performance, hand-coded Neon assembler can be the best approach for experienced programmers"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1a3104fe62bf",
+          "subject": "programmer",
+          "predicate": "can make use of Neon technology via",
+          "object": "Neon-enabled open source libraries (e.g. Arm Compute Library), compiler auto-vectorization, Neon intrinsics, hand-coded Neon assembler",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,80)总述 'a number of ways you can make use of Neon technology'；[95,220)对应 Neon 开源库（Arm Compute Library）；[228,336)对应编译器 Auto-vectorization；[344,441)对应 Neon intrinsics（C/C++ 函数调用）；[555,660)对应 hand-coded Neon assembler。claim 列举的四种使用方式与引文逐项一一对应，无遗漏无外推，判 supported。targets.provenance 为空对象且引文内无转载声明，独立性无法举证，记 independence_unknown。偏移为该 quote 文本的 Unicode 码点半开区间。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "start": 0,
+          "end": 80
+        },
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "start": 95,
+          "end": 220
+        },
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "start": 228,
+          "end": 336
+        },
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "start": 344,
+          "end": 441
+        },
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "start": 555,
+          "end": 660
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "intrinsics",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b972ba96913c",
+          "exact": "The Neon intrinsics are a set of C and C++ functions defined in arm_neon.h which are supported by the Arm compilers and GCC."
+        },
+        {
+          "evidence_id": "evidence-b972ba96913c",
+          "exact": "the functions themselves contain short assembly kernels which are inlined into the calling code."
+        },
+        {
+          "evidence_id": "evidence-b972ba96913c",
+          "exact": "register allocation and pipeline optimization are handled by the compiler"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b972ba96913c",
+          "subject": "Neon intrinsics",
+          "predicate": "are a set of C and C++ functions defined in",
+          "object": "arm_neon.h",
+          "qualifiers": {
+            "inlining": "short assembly kernels inlined into the calling code (implementation known to the compiler)",
+            "compiler_handling": "register allocation and pipeline optimization handled by the compiler"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[78,202)陈述 intrinsics 是 'a set of C and C++ functions defined in arm_neon.h'；[289,386)陈述 'the functions themselves contain short assembly kernels which are inlined into the calling code.'（结合[0,78) 'precise implementation is known to a compiler'，内联由编译器完成）；[401,475)陈述 'register allocation and pipeline optimization are handled by the compiler'。claim 三要素（arm_neon.h 定义的 C/C++ 函数、内联短汇编内核、寄存器分配与流水线优化）均被直接覆盖，判 supported。targets.provenance 为空对象且引文内无转载声明，独立性无法举证，记 independence_unknown。偏移为该 quote 文本的 Unicode 码点半开区间。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c",
+          "start": 78,
+          "end": 202
+        },
+        {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c",
+          "start": 289,
+          "end": 386
+        },
+        {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c",
+          "start": 401,
+          "end": 475
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "intrinsics-conventions",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-83f47882ed36",
+          "exact": "There are three major categories of data type available in arm_neon.h"
+        },
+        {
+          "evidence_id": "evidence-83f47882ed36",
+          "exact": "baseW_t scalar data types"
+        },
+        {
+          "evidence_id": "evidence-83f47882ed36",
+          "exact": "baseWxL_t vector data types"
+        },
+        {
+          "evidence_id": "evidence-83f47882ed36",
+          "exact": "baseWxLxN_t vector array data types"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-83f47882ed36",
+          "subject": "arm_neon.h data types",
+          "predicate": "have three major categories",
+          "object": "baseW_t scalar data types, baseWxL_t vector data types, baseWxLxN_t vector array data types",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,69)陈述 'There are three major categories of data type available in arm_neon.h'；[113,138) 'baseW_t scalar data types'；[146,173) 'baseWxL_t vector data types'；[181,216) 'baseWxLxN_t vector array data types'。引文给出的三类模式与 claim 的三类（标量/向量/向量数组）逐项对应，分类数量一致，判 supported。targets.provenance 为空对象且引文内无转载声明，独立性无法举证，记 independence_unknown。偏移为该 quote 文本的 Unicode 码点半开区间。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "start": 0,
+          "end": 69
+        },
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "start": 113,
+          "end": 138
+        },
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "start": 146,
+          "end": 173
+        },
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "start": 181,
+          "end": 216
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8",
+          "independence_group": "source:arm-neon-intro",
+          "observation_sha256": "sha256:0eb36cd4e2d568886c02d8fc90bbce3e82a5a18d3b2a9ca4e72e1874448e4a1f"
+        },
+        "target_b": {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "independence_group": "source:arm-neon-intro",
+          "observation_sha256": "sha256:cae4216527eeea4fabc2c5c8aae28ca8e58f2f1ddd9fddfe1ab8ab9f5e052271"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8",
+          "independence_group": "source:arm-neon-intro",
+          "observation_sha256": "sha256:0eb36cd4e2d568886c02d8fc90bbce3e82a5a18d3b2a9ca4e72e1874448e4a1f"
+        },
+        "target_b": {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c",
+          "independence_group": "source:arm-neon-why-intrinsics",
+          "observation_sha256": "sha256:573a301648bfc3ed0576d18f8444984566f0374f41807c519cf0be357037806c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-068c54a90cb8",
+          "independence_group": "source:arm-neon-intro",
+          "observation_sha256": "sha256:0eb36cd4e2d568886c02d8fc90bbce3e82a5a18d3b2a9ca4e72e1874448e4a1f"
+        },
+        "target_b": {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "independence_group": "source:arm-neon-conventions",
+          "observation_sha256": "sha256:bb4cc451b3f96183b0dba563c63f0f8d026805ee60b4462f8dbaef7a7fb10073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "independence_group": "source:arm-neon-intro",
+          "observation_sha256": "sha256:cae4216527eeea4fabc2c5c8aae28ca8e58f2f1ddd9fddfe1ab8ab9f5e052271"
+        },
+        "target_b": {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c",
+          "independence_group": "source:arm-neon-why-intrinsics",
+          "observation_sha256": "sha256:573a301648bfc3ed0576d18f8444984566f0374f41807c519cf0be357037806c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-1a3104fe62bf",
+          "independence_group": "source:arm-neon-intro",
+          "observation_sha256": "sha256:cae4216527eeea4fabc2c5c8aae28ca8e58f2f1ddd9fddfe1ab8ab9f5e052271"
+        },
+        "target_b": {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "independence_group": "source:arm-neon-conventions",
+          "observation_sha256": "sha256:bb4cc451b3f96183b0dba563c63f0f8d026805ee60b4462f8dbaef7a7fb10073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "arm-neon-why-intrinsics",
+          "evidence_id": "evidence-b972ba96913c",
+          "independence_group": "source:arm-neon-why-intrinsics",
+          "observation_sha256": "sha256:573a301648bfc3ed0576d18f8444984566f0374f41807c519cf0be357037806c"
+        },
+        "target_b": {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-83f47882ed36",
+          "independence_group": "source:arm-neon-conventions",
+          "observation_sha256": "sha256:bb4cc451b3f96183b0dba563c63f0f8d026805ee60b4462f8dbaef7a7fb10073"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-neon-intro",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-neon-intro",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-neon-why-intrinsics",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-neon-conventions",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "neon-role",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "neon-ways",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "intrinsics",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "intrinsics-conventions",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-002"
+    ]
+  }
+}

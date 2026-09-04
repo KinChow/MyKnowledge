@@ -1,0 +1,19 @@
+### What is Neon?
+ 
+    
+    Neon is the implementation of Arm’s Advanced SIMD architecture.  
+     
+     The purpose of Neon is to accelerate data manipulation by providing: 
+      
+      Thirty-two 128-bit vector registers, each capable of containing multiple lanes of data. 
+      SIMD instructions to operate simultaneously on those multiple lanes of data. 
+      
+     Applications that can benefit from Neon technology include multimedia and signal processing, 3D graphics, speech, image processing, or other applications where fixed and floating-point performance is critical. 
+     As a programmer, there are a number of ways you can make use of Neon technology: 
+      
+      Neon-enabled open source libraries such as the Arm Compute Library provide one of the easiest ways to take advantage of Neon. 
+      Auto-vectorization features in your compiler can automatically optimize your code to take advantage of Neon. 
+      Neon intrinsics are function calls that the compiler replaces with appropriate Neon instructions. This gives you direct, low-level access to the exact Neon instructions you want, all from C, or C++ code. 
+      For very high performance, hand-coded Neon assembler can be the best approach for experienced programmers. 
+      
+     In this guide we focus on using the Neon intrinsics for AArch64, but they can also be compiled for AArch32. For more information about AArch32 Neon see Introducing Neon for Armv8-A.
