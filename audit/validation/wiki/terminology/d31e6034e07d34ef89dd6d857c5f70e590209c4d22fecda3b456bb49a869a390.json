@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "terminology",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_ab380bfdb649",
+  "input_hash": "sha256:bfbd7bae522632450e98f95393f7c01128659093b07690f298a7d760e0876f0b",
+  "provider_duration_ms": 27062,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582251.600241,
+  "wiki_content_sha256": "sha256:0e7a5a5ed647a51be61fe866560d37f19eaa6976206b34f61af15ca903c9964c",
+  "wiki_evidence_sha256": "sha256:87e222fd7a289f626b3e8e4ff5b10391000f0b54cea56d20b07e30bf666062a3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-color-v2"
+      },
+      "source_id": "wikipedia-color-v2",
+      "evidence_id": "evidence-e689bd00f023",
+      "snapshot_sha256": "sha256:3c2fb280de79e80df5d49514f96b08e8d1772a4692a86f7cd7a901251b2c7e71",
+      "selector_sha256": "sha256:09a0af38dbb15c5fc51164ee3b3ef01c10722e28956403837b5dbcf1cef0a5c6",
+      "quote_sha256": "sha256:e22b5fb9e638ad7bfb80c0e3d948e3c5d4d963323edcdb795211be7897127f4b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "color-terminology",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e689bd00f023",
+          "exact": "Color (or colour) is the visual perception produced by the activation of the different types of cone cells in the eye caused by light. Though color is not an inherent property of matter, color perception is related to an object's light absorption, emission, reflection and transmission."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e689bd00f023",
+          "subject": "Color",
+          "predicate": "is visual perception produced by cone-cell activation caused by light and is not inherent property of matter",
+          "object": "visual perception / not inherent property",
+          "qualifiers": {
+            "cause": "light activation of different types of cone cells in the eye"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文明确称颜色是由光导致眼中不同类型视锥细胞激活而产生的视觉感知，并称颜色不是物质的固有属性；这直接支持 claim 的两个组成部分。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023",
+          "start": 0,
+          "end": 134
+        },
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023",
+          "start": 135,
+          "end": 186
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-color-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "color-terminology",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

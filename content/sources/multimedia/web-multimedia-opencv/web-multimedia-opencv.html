@@ -1,0 +1,826 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>OpenCV documentation &#8212; OpenCV Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <style type="text/css">@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:400;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:500;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:600;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/greek-ext/wght/normal.woff2);unicode-range:U+1F00-1FFF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'Inter';font-style:normal;font-weight:700;src:url(/cf-fonts/v/inter/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:400;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/vietnamese/wght/normal.woff2);unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic/wght/normal.woff2);unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin/wght/normal.woff2);unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/greek/wght/normal.woff2);unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/cyrillic-ext/wght/normal.woff2);unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F;font-display:swap;}@font-face {font-family:'JetBrains Mono';font-style:normal;font-weight:500;src:url(/cf-fonts/v/jetbrains-mono/5.2.8/latin-ext/wght/normal.woff2);unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;font-display:swap;}</style>
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=ab0fec70" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9ef8e43b"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>window.MathJax = {"loader": {"load": ["[tex]/ams"]}, "tex": {"packages": {"[+]": ["ams"]}, "macros": {"matTT": ["\\[ \\left|\\begin{array}{ccc} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \\end{array}\\right| \\]", 9], "fork": ["\\left\\{ \\begin{array}{l l} #1 & \\mbox{#2}\\\\ #3 & \\mbox{#4}\\\\ \\end{array} \\right.", 4], "forkthree": ["\\left\\{ \\begin{array}{l l} #1 & \\mbox{#2}\\\\ #3 & \\mbox{#4}\\\\ #5 & \\mbox{#6}\\\\ \\end{array} \\right.", 6], "forkfour": ["\\left\\{ \\begin{array}{l l} #1 & \\mbox{#2}\\\\ #3 & \\mbox{#4}\\\\ #5 & \\mbox{#6}\\\\ #7 & \\mbox{#8}\\\\ \\end{array} \\right.", 8], "vecthree": ["\\begin{bmatrix} #1\\\\ #2\\\\ #3 \\end{bmatrix}", 3], "vecthreethree": ["\\begin{bmatrix} #1 & #2 & #3\\\\ #4 & #5 & #6\\\\ #7 & #8 & #9 \\end{bmatrix}", 9], "cameramatrix": ["#1 = \\begin{bmatrix} f_x & 0 & c_x\\\\ 0 & f_y & c_y\\\\ 0 & 0 & 1 \\end{bmatrix}", 1], "distcoeffs": ["(k_1, k_2, p_1, p_2[, k_3[, k_4, k_5, k_6 [, s_1, s_2, s_3, s_4[, \\tau_x, \\tau_y]]]]) \\text{ of 4, 5, 8, 12 or 14 elements}"], "distcoeffsfisheye": ["(k_1, k_2, k_3, k_4)"], "hdotsfor": ["\\dots", 1], "mathbbm": ["\\mathbb{#1}", 1], "bordermatrix": ["\\matrix{#1}", 1]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction" href="intro.html" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+<link rel="stylesheet" href="../../doc/doxygen/html/search/search.css"/>
+<script src="_static/search_map.js"></script>
+<script src="../../doc/doxygen/html/cookie.js"></script>
+<script src="../../doc/doxygen/html/search/searchdata.js"></script>
+<script src="../../doc/doxygen/html/search/search.js"></script>
+<script>
+  // SearchBox lives in search.js; guard so a load failure can't abort this
+  // script (which would leave the modal trigger unwired).
+  var searchBox;
+  try {
+    searchBox = new SearchBox("searchBox", "../../doc/doxygen/html/search/", '.html');
+    // Each search is now cheap (see the top-N renderer below), so a short
+    // debounce gives live-feeling results without lag.
+    if (searchBox) searchBox.keyTimeoutLength = 120;
+  } catch (e) {}
+
+  // Open/close the centered modal. Defined early so the Ctrl+K handler can use
+  // them, and kept independent of the Doxygen backend so opening always works.
+  function opencvOpenSearch() {
+    var ov = document.getElementById("opencvSearchOverlay");
+    if (!ov) return;
+    ov.classList.add("opencv-search-open");
+    var f = document.getElementById("MSearchField");
+    if (f) { f.focus(); f.select(); }
+  }
+  function opencvCloseSearch() {
+    var ov = document.getElementById("opencvSearchOverlay");
+    if (ov) ov.classList.remove("opencv-search-open");
+    if (window.searchBox && searchBox.CloseResultsWindow) searchBox.CloseResultsWindow();
+  }
+
+  // Win Ctrl+K over the theme's deferred handler + the browser (registered
+  // before the theme's, so stopImmediatePropagation pre-empts it).
+  window.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && /^k$/i.test(e.key)) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      opencvOpenSearch();
+    }
+  }, true);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Relabel the left sidebar heading "Section Navigation" -> "Navigation Bar".
+    document.querySelectorAll(".bd-links__title").forEach(function (el) {
+      if (/section navigation/i.test(el.textContent)) el.textContent = "Navigation Bar";
+    });
+
+    // Sidebar drawer: the theme's hamburger only OPENS the dialog. Make it also
+    // close when tapped while open (toggle), and close on an outside/backdrop click.
+    (function () {
+      var dlg = document.getElementById("pst-primary-sidebar-modal");
+      var tog = document.querySelector(".primary-toggle");
+      if (!dlg || !tog) return;
+      tog.addEventListener("click", function (e) {
+        if (dlg.open) { e.preventDefault(); e.stopImmediatePropagation(); dlg.close(); }
+      }, true);  // capture: pre-empt the theme's open-only handler when already open
+      dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+    })();
+
+    // The theme renders navbar_end twice (desktop header + mobile drawer), so
+    // the search component appears twice → duplicate #opencvSearchTrigger /
+    // #opencvSearchOverlay IDs. Keep ONE overlay; wire EVERY trigger to it
+    // (the visible button may be the second copy — getElementById sees only the
+    // first, which is why clicking did nothing before).
+    var overlays = document.querySelectorAll("#opencvSearchOverlay");
+    for (var k = overlays.length - 1; k >= 1; k--) overlays[k].parentNode.removeChild(overlays[k]);
+    var overlay = overlays[0];
+    if (overlay && overlay.parentNode !== document.body) document.body.appendChild(overlay);
+
+    // 1) Wire opening FIRST so the modal works even if Doxygen init throws.
+    document.querySelectorAll("#opencvSearchTrigger").forEach(function (btn) {
+      btn.addEventListener("click", function (e) { e.preventDefault(); opencvOpenSearch(); });
+    });
+    if (overlay) overlay.addEventListener("mousedown", function (e) { if (e.target === overlay) opencvCloseSearch(); });
+    document.addEventListener("keydown", function (e) { if (/^Escape$/i.test(e.key)) opencvCloseSearch(); });
+
+    // 2) Doxygen search backend (guarded: a failure must not break typing).
+    try {
+      var boxes = document.querySelectorAll("#MSearchBox");
+      for (var i = 1; i < boxes.length; i++) boxes[i].remove();
+
+      var sel = document.createElement("div");
+      sel.id = "MSearchSelectWindow";
+      sel.setAttribute("onmouseover", "return searchBox.OnSearchSelectShow()");
+      sel.setAttribute("onmouseout", "return searchBox.OnSearchSelectHide()");
+      sel.setAttribute("onkeydown", "return searchBox.OnSearchSelectKey(event)");
+      document.body.appendChild(sel);
+
+      var res = document.createElement("div");
+      res.id = "MSearchResultsWindow";
+      res.innerHTML = '<div id="MSearchResults"><div class="SRPage"><div id="SRIndex">' +
+        '<div id="SRResults"></div>' +
+        '<div class="SRStatus" id="Loading">Loading...</div>' +
+        '<div class="SRStatus" id="Searching">Searching...</div>' +
+        '<div class="SRStatus" id="NoMatches">No Matches</div></div></div></div>';
+      document.body.appendChild(res);
+
+      init_search();
+      searchBox.OnSelectItem(0); // default to "All" on every page load
+
+      // Fast results: render only the top matches from the in-memory index,
+      // instead of Doxygen building/toggling all ~4000 rows every keystroke.
+      try { createResults = function () {}; } catch (e) {}
+      if (typeof searchResults !== "undefined" && searchResults) {
+        searchResults.Search = function (q) {
+          q = (q || "").replace(/^ +| +$/g, "").toLowerCase();
+          var box = document.getElementById("SRResults");
+          if (!box) return true;
+          box.innerHTML = "";
+          var data = (typeof searchData !== "undefined") ? searchData : [];
+          var rp = searchBox.resultsPath, shown = 0, MAX = 40;
+          function cls(el, c) { el.setAttribute("class", c); el.setAttribute("className", c); }
+          for (var i = 0; i < data.length && shown < MAX; i++) {
+            var el = data[i];
+            if ((el[1][0] || "").replace(/<[^>]*>/g, "").toLowerCase().indexOf(q) !== 0) continue;
+            var r = document.createElement("div");
+            r.id = "SR_" + el[0]; cls(r, "SRResult"); r.style.display = "block";
+            var e = document.createElement("div"); cls(e, "SREntry");
+            var a = document.createElement("a"); a.id = "Item" + shown; cls(a, "SRSymbol");
+            a.innerHTML = el[1][0]; e.appendChild(a);
+            if (el[1].length === 2) {
+              a.setAttribute("href", rp + el[1][1][0]);
+              a.setAttribute("onclick", "searchBox.CloseResultsWindow()");
+              a.setAttribute("target", el[1][1][1] ? "_parent" : "_blank");
+              var sp = document.createElement("span"); cls(sp, "SRScope");
+              sp.innerHTML = el[1][1][2] || ""; e.appendChild(sp);
+            } else {
+              a.setAttribute("href", 'javascript:searchResults.Toggle("SR_' + el[0] + '")');
+              var chn = document.createElement("div"); cls(chn, "SRChildren");
+              for (var c = 0; c < el[1].length - 1; c++) {
+                var ca = document.createElement("a"); cls(ca, "SRScope");
+                ca.setAttribute("href", rp + el[1][c + 1][0]);
+                ca.setAttribute("onclick", "searchBox.CloseResultsWindow()");
+                ca.setAttribute("target", el[1][c + 1][1] ? "_parent" : "_blank");
+                ca.innerHTML = el[1][c + 1][2] || ""; chn.appendChild(ca);
+              }
+              e.appendChild(chn);
+            }
+            r.appendChild(e); box.appendChild(r); shown++;
+          }
+          var nm = document.getElementById("NoMatches"); if (nm) nm.style.display = shown ? "none" : "block";
+          var ld = document.getElementById("Loading"); if (ld) ld.style.display = "none";
+          var sg = document.getElementById("Searching"); if (sg) sg.style.display = "none";
+          searchResults.lastMatchCount = shown;
+          return true;
+        };
+      }
+
+      var sphinxRoot = "";
+      // Doxygen result href -> Sphinx page, or "" if that page is not in our build.
+      function resolveSphinx(href) {
+        if (!href || href.indexOf("javascript:") === 0) return "";
+        var map = (typeof sphinxPageMap !== "undefined") ? sphinxPageMap : {};
+        var stem = href.split("/").pop().replace(/#.*$/, "").replace(/\.html$/, "");
+        var key = stem.replace(/^group__/, "").replace(/^tutorial_/, "").replace(/__/g, "_");
+        var path = map[stem] || map[key];
+        if (!path && stem.indexOf("namespace") === 0) path = map["core_basic"];
+        var rest = stem;
+        while (!path && rest.indexOf("_1_1") >= 0) {
+          rest = rest.substring(0, rest.lastIndexOf("_1_1"));
+          path = map[rest];
+        }
+        return path || "";
+      }
+
+      document.body.addEventListener("click", function (e) {
+        var a = e.target.closest ? e.target.closest("a.SRSymbol, a.SRScope") : null;
+        if (!a) return;
+        var href = a.getAttribute("href") || "";
+        var sphinxPath = resolveSphinx(href);
+        if (sphinxPath) {
+          e.preventDefault();
+          e.stopPropagation();
+          // Jump to the symbol's section on the Sphinx page. Doxygen anchors
+          // (#ga…, #autotoc_md) don't exist here, so rebuild the slug from the
+          // result text: tutorials use the full heading; functions/enums/members
+          // use the name (scope + "(args)" stripped) -> e.g. "Canny" -> #canny.
+          var t = (a.textContent || "").trim();
+          var slug = /#autotoc_md/.test(href)
+            ? t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "")
+            : t.replace(/.*::/, "").replace(/\s*\(.*$/, "").toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+          var frag = slug ? "#" + slug : "";
+          window.location.href = sphinxRoot + sphinxPath + frag;
+        } else if (href.indexOf("doc/doxygen/html/") >= 0) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      }, true);
+
+      // Pin the Doxygen popups under the (centered) box with position:fixed
+      // (Doxygen places them absolute at document-top → off-screen here).
+      var box = boxes[0];
+      function pin(w, left) {
+        if (!box) return;
+        var r = box.getBoundingClientRect();
+        w.style.setProperty("position", "fixed", "important");
+        w.style.setProperty("top", (r.bottom + 4) + "px", "important");
+        var x = left ? r.left : Math.max(8, r.right - (w.offsetWidth || 300));
+        w.style.setProperty("left", x + "px", "important");
+      }
+      [[res, false], [sel, true]].forEach(function (p) {
+        var w = p[0], opt = { attributes: true, attributeFilter: ["style"] };
+        var obs = new MutationObserver(function () {
+          if (w.style.display === "block") { obs.disconnect(); pin(w, p[1]); obs.observe(w, opt); }
+        });
+        obs.observe(w, opt);
+      });
+    } catch (err) {
+      if (window.console) console.error("Doxygen search init failed:", err);
+    }
+  });
+</script>
+
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+    
+      
+    
+    
+    <img src="_static/opencv-logo.svg" class="logo__image only-light" alt=""/>
+    <img src="_static/opencv-logo.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <span class="logo__textwrap">
+      <p class="title logo__title">OpenCV 5.0</p>
+      <p class="logo__subtitle">Open Source Computer Vision</p>
+    </span>
+  
+</a></div>
+    
+      <div class="navbar-item">
+<form class="opencv-version-switcher" role="search"
+      aria-label="OpenCV documentation version"
+      onsubmit="return false">
+  <select id="opencv-version-select"
+          aria-label="Select OpenCV documentation version"
+          onchange="if(this.value){window.location.href=this.value;}">
+    <option value="" selected>5.0</option>
+  </select>
+</form>
+<script src="_static/version.js"></script>
+<script>
+  (function () {
+    var current = "5.0";
+
+    // Each version.js entry is a bare directory path (e.g. "/4.13.0"). Link
+    // straight to that directory's index document: the S3 *website* endpoint
+    // would resolve "/4.13.0/" to index.html on its own, but the plain REST
+    // endpoint (bucket.s3.amazonaws.com) does NOT — there "/4.13.0" is a
+    // missing object key. Appending "/index.html" works on both endpoints.
+    function toHref(path) {
+      if (/\.html?($|[?#])/.test(path)) return path;   // already a file
+      return path.replace(/\/+$/, '') + '/index.html';
+    }
+
+    function populate() {
+      var versions = window.OPENCV_DOC_VERSIONS;
+      if (!Array.isArray(versions)) return;   // version.js absent (list stays at current release)
+      document.querySelectorAll('#opencv-version-select').forEach(function (sel) {
+        // Rebuild from the canonical list so the order matches the legacy
+        // docs.opencv.org dropdown exactly.
+        while (sel.firstChild) sel.removeChild(sel.firstChild);
+        versions.forEach(function (v) {
+          var label = v[0], path = v[1];
+          var opt = document.createElement('option');
+          // Selecting the current version is a no-op (empty value -> the
+          // inline `onchange` guard skips navigation); every other option
+          // navigates to that version's index document.
+          opt.value = (label === current) ? '' : toHref(path);
+          opt.textContent = label;
+          if (label === current) opt.selected = true;
+          sel.appendChild(opt);
+        });
+      });
+    }
+
+    function resetSelection() {
+      // After picking an older version and hitting Back, the browser can
+      // restore the <select> from bfcache with the OLD choice. Snap it back
+      // to the current release (the option whose value is empty).
+      document.querySelectorAll('#opencv-version-select').forEach(function (sel) {
+        for (var i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].value === '') { sel.selectedIndex = i; break; }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', populate);
+    } else {
+      populate();
+    }
+    // `pageshow` fires on initial load AND on bfcache restore (Back button).
+    window.addEventListener('pageshow', resetSelection);
+  })();
+</script></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#">Main Page</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="related_pages.html">Related Pages</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="namespace_list.html">Namespaces</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="class_list.html">Classes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="examples/examples_root.html">Examples</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://docs.opencv.org/5.x/javadoc/" target="_blank" rel="noopener noreferrer">Java documentation</a>
+    </li>
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+
+<style>
+  #MSearchSelect { background-image: url('../../doc/doxygen/html/search/mag_sel.svg') !important; }
+  html[data-theme="dark"] #MSearchSelect { background-image: url('../../doc/doxygen/html/search/mag_seld.svg') !important; }
+</style>
+
+<button id="opencvSearchTrigger" type="button" class="btn search-button-field"
+        title="Search" aria-label="Search">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <span class="search-button__default-text">Search</span>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+
+<div id="opencvSearchOverlay" class="opencv-search-overlay" role="dialog"
+     aria-modal="true" aria-label="Search">
+  <div class="opencv-search-modal">
+    <div id="MSearchBox" class="MSearchBoxInactive">
+      <span class="left">
+        <span id="MSearchSelect"
+              onmouseover="return searchBox.OnSearchSelectShow()"
+              onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+        <input type="text" id="MSearchField" value="" placeholder="Search the docs ..."
+               accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)"
+               onblur="searchBox.OnSearchFieldFocus(false)"
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+      </span>
+      <span class="right">
+        <span id="MSearchKbd" class="search-button__kbd-shortcut">
+          <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+        </span>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()">
+          <img id="MSearchCloseImg" border="0" src="../../doc/doxygen/html/search/close.svg" alt=""/></a>
+      </span>
+    </div>
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/opencv/opencv" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#">Main Page</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="related_pages.html">Related Pages</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="namespace_list.html">Namespaces</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="class_list.html">Classes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="examples/examples_root.html">Examples</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="https://docs.opencv.org/5.x/javadoc/" target="_blank" rel="noopener noreferrer">Java documentation</a>
+    </li>
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<style>
+  #MSearchSelect { background-image: url('../../doc/doxygen/html/search/mag_sel.svg') !important; }
+  html[data-theme="dark"] #MSearchSelect { background-image: url('../../doc/doxygen/html/search/mag_seld.svg') !important; }
+</style>
+
+<button id="opencvSearchTrigger" type="button" class="btn search-button-field"
+        title="Search" aria-label="Search">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <span class="search-button__default-text">Search</span>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+
+<div id="opencvSearchOverlay" class="opencv-search-overlay" role="dialog"
+     aria-modal="true" aria-label="Search">
+  <div class="opencv-search-modal">
+    <div id="MSearchBox" class="MSearchBoxInactive">
+      <span class="left">
+        <span id="MSearchSelect"
+              onmouseover="return searchBox.OnSearchSelectShow()"
+              onmouseout="return searchBox.OnSearchSelectHide()">&#160;</span>
+        <input type="text" id="MSearchField" value="" placeholder="Search the docs ..."
+               accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)"
+               onblur="searchBox.OnSearchFieldFocus(false)"
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+      </span>
+      <span class="right">
+        <span id="MSearchKbd" class="search-button__kbd-shortcut">
+          <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+        </span>
+        <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()">
+          <img id="MSearchCloseImg" border="0" src="../../doc/doxygen/html/search/close.svg" alt=""/></a>
+      </span>
+    </div>
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/opencv/opencv" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="opencv-documentation">
+<h1>OpenCV documentation<a class="headerlink" href="#opencv-documentation" title="Link to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>OpenCV (Open Source Computer Vision Library) is an open-source computer vision and machine learning software library. It has more than 2,500 optimised algorithms, a comprehensive mix of both classic and state-of-the-art computer vision and machine learning methods. These can be used to detect and recognise faces, identify objects, classify human actions in video, track camera and object motion, extract 3D models, stitch images together to produce high-resolution panoramas, and much more. The library has interfaces for C++, Python, Java, and JavaScript, runs on Windows, Linux, macOS, Android, and iOS, and accelerates work on CPU (SIMD), CUDA, OpenCL, and Vulkan.</p>
+<p>OpenCV 5.0 is a major release built on OpenCV 4.x. C++17 is now the minimum required standard, Python 2 support has been dropped (Python 3.6+ is required), and the legacy C API has been fully removed. New data types (CV_16BF, CV_32U, CV_64U, CV_64S, CV_Bool) and proper 0D/1D array support extend the core, while the former calib3d module is split into the geometry, calib, stereo, and ptcloud modules. A next-generation DNN engine now covers over 80% of the ONNX specification (up from under 23%), with ONNX Runtime integration and models hosted on Hugging Face. Performance gains include Universal Intrinsics 2.0 (SSE/AVX/NEON/SVE/RISC-V), Vulkan compute support, image-warping speed-ups of 10% to over 300%, and USAC as the default framework for robust estimation.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<ul><li><a href="intro.html">Introduction</a></li></ul>
+</section>
+<section id="how-to-use-pre-built-opencv-binaries">
+<h2>How to use pre-built OpenCV binaries<a class="headerlink" href="#how-to-use-pre-built-opencv-binaries" title="Link to this heading">#</a></h2>
+<ul><li><a href="tutorials/introduction/using_prebuilt_binaries/using_prebuilt_binaries.html">Using OpenCV pre-built binaries in your own projects</a></li></ul>
+</section>
+<section id="opencv-tutorials">
+<h2>OpenCV Tutorials<a class="headerlink" href="#opencv-tutorials" title="Link to this heading">#</a></h2>
+<ul><li><a href="tutorials/tutorials.html">OpenCV tutorials</a></li></ul>
+</section>
+<section id="python-tutorials">
+<h2>Python Tutorials<a class="headerlink" href="#python-tutorials" title="Link to this heading">#</a></h2>
+<ul><li><a href="py_tutorials/py_tutorials.html">OpenCV-Python tutorials</a></li></ul>
+</section>
+<section id="javascript-tutorials">
+<h2>Javascript Tutorials<a class="headerlink" href="#javascript-tutorials" title="Link to this heading">#</a></h2>
+<ul><li><a href="js_tutorials/js_tutorials.html">OpenCV.js tutorials</a></li></ul>
+</section>
+<section id="contrib-tutorials">
+<h2>Contrib Tutorials<a class="headerlink" href="#contrib-tutorials" title="Link to this heading">#</a></h2>
+<ul><li><a href="tutorials_contrib/contrib_root.html">Tutorials for contrib module</a></li></ul>
+</section>
+<section id="main-modules">
+<h2>Main modules<a class="headerlink" href="#main-modules" title="Link to this heading">#</a></h2>
+<ul><li><a href="main_modules/api_root.html">Documentation for main modules</a></li></ul>
+</section>
+<section id="extra-modules">
+<h2>Extra modules<a class="headerlink" href="#extra-modules" title="Link to this heading">#</a></h2>
+<ul><li><a href="extra_modules/api_root.html">Documentation for extra modules</a></li></ul>
+</section>
+<section id="frequently-asked-questions">
+<h2>Frequently Asked Questions<a class="headerlink" href="#frequently-asked-questions" title="Link to this heading">#</a></h2>
+<ul><li><a href="faq.html">Frequently Asked Questions</a></li></ul>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Link to this heading">#</a></h2>
+<ul><li><a href="citelist.html">Bibliography</a></li></ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="right-next"
+       href="intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Introduction</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-pre-built-opencv-binaries">How to use pre-built OpenCV binaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#opencv-tutorials">OpenCV Tutorials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-tutorials">Python Tutorials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#javascript-tutorials">Javascript Tutorials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contrib-tutorials">Contrib Tutorials</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-modules">Main modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-modules">Extra modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequently-asked-questions">Frequently Asked Questions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bibliography">Bibliography</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+  <i class="fa-solid fa-link"></i> Resources
+</div>
+<nav class="page-toc" aria-label="Resources">
+  <ul class="visible nav section-nav flex-column">
+    <li class="toc-h2 nav-item toc-entry"><a class="reference external nav-link" href="https://github.com/opencv/opencv/wiki">OpenCV Wiki</a></li>
+    <li class="toc-h2 nav-item toc-entry"><a class="reference external nav-link" href="https://github.com/opencv/opencv/wiki/OpenCV-5">What's new in 5.0</a></li>
+    <li class="toc-h2 nav-item toc-entry"><a class="reference external nav-link" href="https://forum.opencv.org">Forum</a></li>
+    <li class="toc-h2 nav-item toc-entry"><a class="reference external nav-link" href="https://stackoverflow.com/questions/tagged/opencv">Stack Overflow</a></li>
+    <li class="toc-h2 nav-item toc-entry"><a class="reference external nav-link" href="https://github.com/opencv/opencv/issues">Issue tracker</a></li>
+  </ul>
+</nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.17.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  <script id="opencv-sidebar-autoscroll">document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('.bd-sidebar-primary');if(!s)return;var a=s.querySelectorAll('a.current'),t=a[a.length-1];if(!t)return;var sr=s.getBoundingClientRect(),tr=t.getBoundingClientRect();s.scrollTop+=(tr.top-sr.top)-(s.clientHeight-tr.height)/2;});</script><script>window.__CF$cv$params={r:'a35e1f67d8b608b8',t:'MTc4ODUzNjc0MQ==',u:'01a06d18de2871e0a3cce83834c513fb',ut:'kDpqWiPL289LHXA4XtOKn0H_aFkrUEy0F2DCiqq0B3o-1788536741-1.2.1.1-ItCE7NfsCIbtfyKadzuhZjRkXjSlS.dPdYSLPva7z9Vvbi6m702MfkmLAZr3Ag2NKgPJLFOaGMx7wdHfLeaPBP4iipjglj_MmaLNvQUowYU',i:60};(function(){if(!document.body)return;var s=document.createElement('script');s.src='/cdn-cgi/challenge-platform/scripts/precursor/main.js';document.head.appendChild(s);})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"55698296dd8c4381b9a17117972ffe0c","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

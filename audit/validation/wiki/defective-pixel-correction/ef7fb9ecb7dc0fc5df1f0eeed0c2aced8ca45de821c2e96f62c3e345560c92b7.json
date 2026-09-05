@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "defective-pixel-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_98b17850b098",
+  "input_hash": "sha256:f0b8506dae8fe99248da897b432f93984e07a26d1d6dc0bdb87be58409888246",
+  "provider_duration_ms": 20504,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580520.880555,
+  "wiki_content_sha256": "sha256:85cd93c1c6c525de749d1b7226de00dd86acc61de7e5f84085f6dee1e7521065",
+  "wiki_evidence_sha256": "sha256:6fe4d5ca4c6eb022b03ae90dd6a89ea7fb51025ba2148838321e7652e5771b4e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-image-file-format"
+      },
+      "source_id": "wiki-image-file-format",
+      "evidence_id": "evidence-adc91f5255c3",
+      "snapshot_sha256": "sha256:771494adc2eb18b401d564fad8b6ba2e5b59f6b103f49783a4f9ef7600e5dd74",
+      "selector_sha256": "sha256:25a76a9a725b92980b5b56ff46b36d42cf539f1a5141df3566f49b2a17bd1431",
+      "quote_sha256": "sha256:ad2fe00b684cc11fc5ce522a2d9efa410c7fd930b46b5a7bdc87b11e32727fe6"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "defective-pixel-correction-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-image-file-format",
+          "evidence_id": "evidence-adc91f5255c3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-adc91f5255c3",
+          "exact": "An image file format is a file format for a digital image. There are many formats that can be used, such as JPEG, PNG, and GIF."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-adc91f5255c3",
+          "subject": "image file format",
+          "predicate": "is and examples include",
+          "object": "a file format for a digital image; JPEG, PNG, and GIF"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "The target quote exactly states the claim: it defines an image file format as a file format for a digital image and lists JPEG, PNG, and GIF as examples. The cited text spans offsets 0-127 of the target quote. No provenance fields are available to establish source independence.",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-image-file-format",
+          "evidence_id": "evidence-adc91f5255c3",
+          "start": 0,
+          "end": 127
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-image-file-format",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "defective-pixel-correction-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

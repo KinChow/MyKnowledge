@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "auto-focus",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_0dae882884d5",
+  "input_hash": "sha256:05da15a0e02ddeab4a8739022e28f0a6cdea264b6ef3bd78020a10f50c687e67",
+  "provider_duration_ms": 22215,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580504.80372,
+  "wiki_content_sha256": "sha256:b8cbaeb992ab56c8c09905cd957735d401d389293b4a43799fab866e83710afa",
+  "wiki_evidence_sha256": "sha256:29d0dda462e01d30d036c13a4fc71034023ac3d1dce177b3909b730d75f78964",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-autofocus-v2"
+      },
+      "source_id": "wikipedia-autofocus-v2",
+      "evidence_id": "evidence-440f3d165e06",
+      "snapshot_sha256": "sha256:d5266ca5e6aa3492d51309ef9a6d6d9391a968b2f4d764402c8bf69dcd38dbff",
+      "selector_sha256": "sha256:d58c8d4ffcadcdadae0847400953962916ba9099d4ec4c2eec7f7da90cde300f",
+      "quote_sha256": "sha256:af198fb612fe5d44ef46fa2661e7dfdca8bec6ad85f4325dd98501321bdbf304"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "auto-focus-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-autofocus-v2",
+          "evidence_id": "evidence-440f3d165e06"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-440f3d165e06",
+          "exact": "An autofocus (AF) optical system uses a sensor, a control system and a motor to focus on an automatically or manually selected point or area. Autofocus methods are distinguished as active, passive or hybrid types."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-440f3d165e06",
+          "subject": "autofocus optical system",
+          "predicate": "uses and methods are classified as",
+          "object": "sensor, control system and motor; active, passive or hybrid types",
+          "qualifiers": {
+            "focus_target": "automatically or manually selected point or area"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文明确说自动对焦光学系统使用 sensor、control system、motor，并对 automatically or manually selected point or area 对焦；同一引文还说明方法区分为 active、passive 或 hybrid types，覆盖 claim 的全部要点。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-autofocus-v2",
+          "evidence_id": "evidence-440f3d165e06",
+          "start": 0,
+          "end": 137
+        },
+        {
+          "source_id": "wikipedia-autofocus-v2",
+          "evidence_id": "evidence-440f3d165e06",
+          "start": 138,
+          "end": 207
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-autofocus-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "auto-focus-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

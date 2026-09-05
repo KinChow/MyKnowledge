@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "isp-system",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e5341a00c964",
+  "input_hash": "sha256:52f00cf900ad32a49540bca57c75b58770616e4626639df5ffcf8911b8854ba7",
+  "provider_duration_ms": 21172,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580440.255614,
+  "wiki_content_sha256": "sha256:54e157899f5159ba46a92d1971ab8b75e06b347337901318f30777967ab93be6",
+  "wiki_evidence_sha256": "sha256:91c8dc79bf60c40626d6599da46f8acf93d67dc1d2687cacd441661b5c5d3e21",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-architecture"
+      },
+      "source_id": "aosp-camera-architecture",
+      "evidence_id": "evidence-d937f440c251",
+      "snapshot_sha256": "sha256:1de539a835d27fd8a30a86ca5187cfe596452baa8fe000a38817e0a237b5f359",
+      "selector_sha256": "sha256:406b1e6d57dd2e77f1189c203d3929d82a6d640a580fb8b5e4bad10710f2986e",
+      "quote_sha256": "sha256:d72970201858a35ab1f6891c98470dfe6cbe3b5f590476622a01cbca899badd6"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "isp-system-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d937f440c251",
+          "exact": "The HAL sits between the camera driver and the higher-level Android framework and defines an interface that you must implement so apps can correctly operate the camera hardware."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d937f440c251",
+          "subject": "HAL",
+          "predicate": "sits between and defines interface",
+          "object": "camera driver, higher-level Android framework, and implementable camera hardware interface",
+          "qualifiers": {
+            "apps": "can correctly operate the camera hardware"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文完整陈述了 claim 的全部要点：HAL 位于 camera driver 与 higher-level Android framework 之间，并定义必须实现的接口，使 apps 能正确操作 camera hardware；claim 与引文逐字一致。独立性无法从空 provenance 或引文文本中举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "start": 0,
+          "end": 177
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-architecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "isp-system-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

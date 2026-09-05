@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "color-aberration-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_b1c5a59133a2",
+  "input_hash": "sha256:5d3717e5075861e368ea414b4d62f6f73ff617586aaac2237874ad4d5d3af65e",
+  "provider_duration_ms": 26339,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582182.548706,
+  "wiki_content_sha256": "sha256:25bcf2640f3ea6ecc07afac65f3caca1e5618e3aba0f2c422635c0c32631ba76",
+  "wiki_evidence_sha256": "sha256:5662a027ae1f2672d38b1fcaf2af643a67c72cca32e8e873486761f954b0fbb3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-chromatic-aberration-v2"
+      },
+      "source_id": "wikipedia-chromatic-aberration-v2",
+      "evidence_id": "evidence-c78a7d62f3fe",
+      "snapshot_sha256": "sha256:5e5e17269b66121d3780234bd3946b5f78e69bc860b7945bd715e5f0f1eb2f92",
+      "selector_sha256": "sha256:e058a32b20ab4adfc3d6c96a20a9b7616955c6adf014005d140a8271e505a0b4",
+      "quote_sha256": "sha256:9de0316329489135f684b2281d2079d65fb05a20a65c734f657208e59da7eb2c"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "chromatic-aberration-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-chromatic-aberration-v2",
+          "evidence_id": "evidence-c78a7d62f3fe"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c78a7d62f3fe",
+          "exact": "In optics, chromatic aberration (CA), also called chromatic distortion, color aberration, color fringing, or purple fringing, is a failure of a lens to focus all colors to the same point."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c78a7d62f3fe",
+          "subject": "chromatic aberration",
+          "predicate": "is",
+          "object": "a failure of a lens to focus all colors to the same point"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "target 引文 [126,187) 明确说色差“is a failure of a lens to focus all colors to the same point”，直接支持 claim 中“镜头无法将所有颜色聚焦到同一点”的定义。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-chromatic-aberration-v2",
+          "evidence_id": "evidence-c78a7d62f3fe",
+          "start": 126,
+          "end": 187
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-chromatic-aberration-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "chromatic-aberration-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

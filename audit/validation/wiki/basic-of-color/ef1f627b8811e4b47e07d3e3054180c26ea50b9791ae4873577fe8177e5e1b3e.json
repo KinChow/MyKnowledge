@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "basic-of-color",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_8dfbb5d20962",
+  "input_hash": "sha256:82c851d31438427592c040514cde812bfd359922f1ef102730ae88fdc24e83f3",
+  "provider_duration_ms": 52475,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555141.633548,
+  "wiki_content_sha256": "sha256:10cfb55580a6fbbcf45e7c93486b2851dd748c3da96114e9438212244d6b3dec",
+  "wiki_evidence_sha256": "sha256:60f9047ada5d2b96765b4a57887ba3d18d5af298d1799d102ff2b09f9cb41e8d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-auto-white-balance"
+      },
+      "source_id": "web-multimedia-auto-white-balance",
+      "evidence_id": "evidence-33a2fc20ca9d",
+      "snapshot_sha256": "sha256:80e333e65c05394fb50eab84820fbaef6369f4f80d145d36fca57377d73bf175",
+      "selector_sha256": "sha256:cf612ddbccdad335d3126825fb5bcdebd7837c5c0abcb207e12637375f5c1dce",
+      "quote_sha256": "sha256:7e0cb5e306a6e380b1783e6e68bd765bdf81e9045ea268941f0a7497db56ba32"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "basic-of-color-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-auto-white-balance",
+          "evidence_id": "evidence-33a2fc20ca9d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-33a2fc20ca9d",
+          "exact": "In photography and image processing, color balance is the global adjustment of the intensities of the colors (typically red, green, and blue primary colors). An important goal of this adjustment is to render specific colors – particularly neutral colors like white or grey – correctly. Hence, the general method is sometimes called gray balance, neutral balance, or white balance. Color balance changes the overall mixture of colors in an image and is used for color correction."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-33a2fc20ca9d",
+          "subject": "color balance",
+          "predicate": "is described as",
+          "object": "global adjustment of color intensities for rendering neutral colors correctly and color correction",
+          "qualifiers": {
+            "context": "photography and image processing"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "claim 声明的摘录文本与 target quote 在区间 0-478 完全一致；该区间直接包含 color balance 的定义、white/grey neutral balance 目标、gray/neutral/white balance 别名以及用于 color correction 的说明，因此 claim 作为“该外部来源中可回放的原文摘录如下”被支持。provenance 为空，quote 区间 0-478 也未给出 publisher、derived_from、independence_group 或转载声明，独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-auto-white-balance",
+          "evidence_id": "evidence-33a2fc20ca9d",
+          "start": 0,
+          "end": 478
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-auto-white-balance",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "basic-of-color-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

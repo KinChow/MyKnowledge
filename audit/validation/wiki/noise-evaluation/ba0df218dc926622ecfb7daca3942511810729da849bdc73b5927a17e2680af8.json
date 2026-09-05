@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "noise-evaluation",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_c06d0e863973",
+  "input_hash": "sha256:3de3608989dfcf1111497ec91eebc15b5f6075b1b4e010662bfe6614ce2226f5",
+  "provider_duration_ms": 59025,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582257.535338,
+  "wiki_content_sha256": "sha256:6f17eb34e51af4169f8be380890d4c9ee00863a347f3e98686abe9ff4ebbaad8",
+  "wiki_evidence_sha256": "sha256:896669fe6ff738c8e5d9749c3c6c0570f869c522dc1c72329332be3bb6c2db65",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-noise-reduction-v2"
+      },
+      "source_id": "wikipedia-noise-reduction-v2",
+      "evidence_id": "evidence-42fbc162a23a",
+      "snapshot_sha256": "sha256:8283789f1d05a8a1f3a2be2b96c492515d3baf48208dbe53deea3b6c480a32d3",
+      "selector_sha256": "sha256:8ba21fb3d012614026d9cab4ba11935c8c519cf4c3847ab6f43841a5d46912b3",
+      "quote_sha256": "sha256:4ce4329d35df2d251b61e72da3d20eefee976d4272117b01bde203ef05bac0af"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "noise-reduction-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-noise-reduction-v2",
+          "evidence_id": "evidence-42fbc162a23a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-42fbc162a23a",
+          "exact": "Noise reduction is the process of removing noise from a signal. Noise reduction techniques exist for audio and images."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-42fbc162a23a",
+          "subject": "Noise reduction",
+          "predicate": "is the process of",
+          "object": "removing noise from a signal",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The target quote directly states that noise reduction removes noise from a signal at [0,63) and that noise reduction techniques exist for audio and images at [64,118). That matches both parts of the claim.",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-noise-reduction-v2",
+          "evidence_id": "evidence-42fbc162a23a",
+          "start": 0,
+          "end": 63
+        },
+        {
+          "source_id": "wikipedia-noise-reduction-v2",
+          "evidence_id": "evidence-42fbc162a23a",
+          "start": 64,
+          "end": 118
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-noise-reduction-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "noise-reduction-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "color-enhancement",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_9261fa44231b",
+  "input_hash": "sha256:0e16cc291f2840edac3d0144b0994ac469571d4beb3e43c89265fde0afcaa9a1",
+  "provider_duration_ms": 95629,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555225.051702,
+  "wiki_content_sha256": "sha256:a29aeea7afc6931b2c50113e4bf11af4f59d3e86e239443027f4edf8016b54a5",
+  "wiki_evidence_sha256": "sha256:e056f88c07f92e365b2570d765f4faf243a01d65cffe26faf6733b57401ca803",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-auto-white-balance"
+      },
+      "source_id": "web-multimedia-auto-white-balance",
+      "evidence_id": "evidence-33a2fc20ca9d",
+      "snapshot_sha256": "sha256:80e333e65c05394fb50eab84820fbaef6369f4f80d145d36fca57377d73bf175",
+      "selector_sha256": "sha256:cf612ddbccdad335d3126825fb5bcdebd7837c5c0abcb207e12637375f5c1dce",
+      "quote_sha256": "sha256:7e0cb5e306a6e380b1783e6e68bd765bdf81e9045ea268941f0a7497db56ba32"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "color-enhancement-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-auto-white-balance",
+          "evidence_id": "evidence-33a2fc20ca9d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-33a2fc20ca9d",
+          "exact": "In photography and image processing, color balance is the global adjustment of the intensities of the colors (typically red, green, and blue primary colors). An important goal of this adjustment is to render specific colors – particularly neutral colors like white or grey – correctly. Hence, the general method is sometimes called gray balance, neutral balance, or white balance. Color balance changes the overall mixture of colors in an image and is used for color correction."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-33a2fc20ca9d",
+          "subject": "color balance",
+          "predicate": "is described as",
+          "object": "the global adjustment of color intensities and a method for correcting overall color mixture",
+          "qualifiers": {
+            "scope": "photography and image processing"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target 引文与 claim 的英文正文逐句一致，且全文可直接在同一 evidence 中定位；没有出现与该引文冲突的第二证据。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-auto-white-balance",
+          "evidence_id": "evidence-33a2fc20ca9d",
+          "start": 0,
+          "end": 475
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-auto-white-balance",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "color-enhancement-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

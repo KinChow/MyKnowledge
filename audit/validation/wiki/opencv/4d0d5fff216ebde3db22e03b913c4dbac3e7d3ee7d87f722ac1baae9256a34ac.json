@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "opencv",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_97f05838fa32",
+  "input_hash": "sha256:76297326420d02576f15647a19d4bcf5e639ac1ea758d079edb2cec300403fb7",
+  "provider_duration_ms": 28329,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580584.8380868,
+  "wiki_content_sha256": "sha256:53096f3031c185539509af8c9f1a9bfeadb80aef50246e31a5aa0bef1a8885eb",
+  "wiki_evidence_sha256": "sha256:f496846ef0a871d1c299df59f7eceb63391a3ed168dabe9d1999221bf45d7ad8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-opencv"
+      },
+      "source_id": "web-multimedia-opencv",
+      "evidence_id": "evidence-7e6069f3047b",
+      "snapshot_sha256": "sha256:0a0221fc82e90f9017e097dfbf9ac952e269d04f29899da3da12f71f59f5571a",
+      "selector_sha256": "sha256:e9ab3f7e064186bd1bc49f2d63a13049aad25926f39947d84fa2884b6b0c8d88",
+      "quote_sha256": "sha256:9c091ae29215e78834a8f8c0708a65949deb8680fcdd2b949ede1c10a745e3da"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "opencv-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-opencv",
+          "evidence_id": "evidence-7e6069f3047b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7e6069f3047b",
+          "exact": "OpenCV documentation#\nOpenCV (Open Source Computer Vision Library) is an open-source computer vision and machine learning software library. It has more than 2,500 optimised algorithms, a comprehensive mix of both classic and state-of-the-art computer vision and machine learning methods."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7e6069f3047b",
+          "subject": "OpenCV",
+          "predicate": "is described as",
+          "object": "an open-source computer vision and machine learning software library with more than 2,500 optimised algorithms and a mix of classic and state-of-the-art methods",
+          "qualifiers": {
+            "quote_range": "0-287"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Claim text is exactly matched by the declared target quote over code point range [0,287), including the documentation title, OpenCV definition, algorithm count, and method mix; therefore the target directly supports the claim. Independence cannot be established from the target because provenance is empty and the quote text in [0,287) contains no reposting or derivation statement.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-opencv",
+          "evidence_id": "evidence-7e6069f3047b",
+          "start": 0,
+          "end": 287
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-multimedia-opencv",
+            "evidence_id": "evidence-7e6069f3047b"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-opencv",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "opencv-audit-1",
+      "source_id": "web-multimedia-opencv",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

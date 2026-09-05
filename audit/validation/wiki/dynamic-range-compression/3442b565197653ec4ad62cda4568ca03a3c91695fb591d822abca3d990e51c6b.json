@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "dynamic-range-compression",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_6a9b9db7f03b",
+  "input_hash": "sha256:5431c2800d52e277cc84908ee57452109d8106bc5eee06323f145cc0ef709ac4",
+  "provider_duration_ms": 36050,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555200.524457,
+  "wiki_content_sha256": "sha256:b43eae245a641c02f098d17e209258b70b9e1a5c78be6ac2e5ea04332dcc4c69",
+  "wiki_evidence_sha256": "sha256:0463d750996d476966f93ac1fcb6ddba721f9c1d03910682c575412fcdd73859",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-hdri"
+      },
+      "source_id": "wiki-hdri",
+      "evidence_id": "evidence-15fd931b7867",
+      "snapshot_sha256": "sha256:2f63e0cb6e4ae73c4f0e68c83daace3430b74dcd40422ff7564bc1a7ed27aeba",
+      "selector_sha256": "sha256:3b45049f429bd49528e8717edb50afca036cfff5eb5244808a8f7a75542d860d",
+      "quote_sha256": "sha256:fde3005deb2c040fe3d3888242edc56bb75e7c5dba4ddf8116de7b66083f0f44"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "dynamic-range-compression-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-15fd931b7867",
+          "exact": "In this context, the term high dynamic range means there is a large amount of variation in light levels within a scene or an image. The dynamic range refers to the range of luminosity between the brightest area and the darkest area of that scene or image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-15fd931b7867",
+          "subject": "high dynamic range / dynamic range",
+          "predicate": "means / refers to",
+          "object": "large variation in light levels; range of luminosity between brightest and darkest areas",
+          "qualifiers": {
+            "context": "within a scene or an image"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文字符区间 0-255 与 claim 中声明的英文摘录逐字一致，因此该 claim 被其声明的 target 支持。独立性方面，target provenance 为空，且引文字符区间 0-255 未给出转载或来源独立性声明，故为 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-hdri",
+          "evidence_id": "evidence-15fd931b7867",
+          "start": 0,
+          "end": 255
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-hdri",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "dynamic-range-compression-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

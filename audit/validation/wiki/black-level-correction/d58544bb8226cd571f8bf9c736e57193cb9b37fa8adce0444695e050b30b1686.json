@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "black-level-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_216f74e61fae",
+  "input_hash": "sha256:46224d1c58ae04f5e392e9f33152ec27c58722b32ce222e31e3fc454ba29306d",
+  "provider_duration_ms": 30764,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580563.4814022,
+  "wiki_content_sha256": "sha256:0fcebdc7e2ebb1f72a79f0312d6c50a96e93bfceeaa94aa9f242c7a77776b036",
+  "wiki_evidence_sha256": "sha256:035afafb9e1ff55b2acd4d5915889099fe6bc85706d6c20bd191dec69c1dfe26",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-highgui"
+      },
+      "source_id": "web-multimedia-highgui",
+      "evidence_id": "evidence-842d5b04eeae",
+      "snapshot_sha256": "sha256:593c75d03c74d764b8f6860ed54be10cf86b0d0fdcb998c78ed18a11b89cbd0c",
+      "selector_sha256": "sha256:780c98deed2a67b3099982408dea19a8b3628e702e4a5691af639dabcdd3103b",
+      "quote_sha256": "sha256:a907548b6ade9900c3c03f8e267f4619db91322941cd3cf2863d026f4a9a579d"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "black-level-correction-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-highgui",
+          "evidence_id": "evidence-842d5b04eeae"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-842d5b04eeae",
+          "exact": "While OpenCV was designed for use in full-scale applications and can be used within functionally rich UI frameworks (such as Qt*, WinForms*, or Cocoa*) or without any UI at all, sometimes there it is required to try functionality quickly and visualize the results. This is what the HighGUI module has been designed for."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-842d5b04eeae",
+          "subject": "HighGUI module",
+          "predicate": "has been designed for",
+          "object": "trying functionality quickly and visualizing results",
+          "qualifiers": {
+            "context": "OpenCV can be used in full-scale applications, rich UI frameworks, or without UI"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Claim 与 target 引文完全一致；引文 [0,319) 明确说明 OpenCV 的使用场景以及 HighGUI module 的设计目的，因此 direct support 成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-highgui",
+          "evidence_id": "evidence-842d5b04eeae",
+          "start": 0,
+          "end": 319
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-highgui",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "black-level-correction-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

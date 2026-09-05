@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "image-quality-assessment",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_edef33fc42b0",
+  "input_hash": "sha256:015b85aa378c4d3faf96aae85838f67ad90af0211fa7023575842b16ea004596",
+  "provider_duration_ms": 24952,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582199.92347,
+  "wiki_content_sha256": "sha256:cc80ef4fa71fb57af47a3801eb671a57bdea71713ef7b57a1e785e8025ac48fa",
+  "wiki_evidence_sha256": "sha256:2c26e1f74d99cb16f87fd8583e17a91953dfb5ec96c63194866becdba58c33ed",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-image-quality-v2"
+      },
+      "source_id": "wikipedia-image-quality-v2",
+      "evidence_id": "evidence-20ab7f83863b",
+      "snapshot_sha256": "sha256:aa95e592cc1055595cabfa9a5f148af55abc19e947f7a4163ebb2aa42a5b8181",
+      "selector_sha256": "sha256:0d9b280beae83ca2ba78d5a4ca3b85b06396f456e9cb12b978ba16de299ed3f7",
+      "quote_sha256": "sha256:a3e676d7ff26c41073e02d178630ec37aaa0176c78c955b3860c9cf6de9d32f7"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "image-quality-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-image-quality-v2",
+          "evidence_id": "evidence-20ab7f83863b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-20ab7f83863b",
+          "exact": "Image quality can refer to the level of accuracy with which different imaging systems capture, process, store, compress, transmit and display the signals that form an image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-20ab7f83863b",
+          "subject": "Image quality",
+          "predicate": "can refer to",
+          "object": "the level of accuracy with which different imaging systems capture, process, store, compress, transmit and display the signals that form an image"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-173 明确说明 image quality 可指不同成像系统采集、处理、存储、压缩、传输和显示形成图像的信号时的准确程度，与 claim 表述一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-image-quality-v2",
+          "evidence_id": "evidence-20ab7f83863b",
+          "start": 0,
+          "end": 173
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-image-quality-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "image-quality-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

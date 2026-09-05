@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "image-sharpening",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_db5e8ba1323d",
+  "input_hash": "sha256:913c6f72d94f8da85ddbcc7b5dff02592dd6bb09601a23cf2a1fac6ed4d6c20d",
+  "provider_duration_ms": 22617,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582205.429923,
+  "wiki_content_sha256": "sha256:518c6a1e0faf37c25029fa276476c44831afffda6ec5232f05f95b079a51b5f8",
+  "wiki_evidence_sha256": "sha256:874536bab450a2ee17d3c44e883cb7800455e465eea00933edf0afa1331c6b40",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-unsharp-masking-v2"
+      },
+      "source_id": "wikipedia-unsharp-masking-v2",
+      "evidence_id": "evidence-61e3978cb63e",
+      "snapshot_sha256": "sha256:655530017799a76cd1c3de73ce857a1ae5736f9b37c64ba868e8710af4316352",
+      "selector_sha256": "sha256:084afbf8e9cf2930a45d8e16d3d1b71734d955402d15e00c19cf364cf9b2d64b",
+      "quote_sha256": "sha256:3e9103e95312c461bfcae09af953117a57c98514c4e3cdcc01227f9f76a2ccab"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "image-sharpening-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-unsharp-masking-v2",
+          "evidence_id": "evidence-61e3978cb63e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-61e3978cb63e",
+          "exact": "Unsharp masking (USM) is an image sharpening technique, first implemented in darkroom photography, but now commonly used in digital image processing software."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-61e3978cb63e",
+          "subject": "Unsharp masking (USM)",
+          "predicate": "is and is now commonly used as",
+          "object": "an image sharpening technique used in digital image processing software"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-55 明确称 USM 是 image sharpening technique；99-158 明确称 now commonly used in digital image processing software，与 claim 的定义和普遍用于数字图像处理软件一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-unsharp-masking-v2",
+          "evidence_id": "evidence-61e3978cb63e",
+          "start": 0,
+          "end": 55
+        },
+        {
+          "source_id": "wikipedia-unsharp-masking-v2",
+          "evidence_id": "evidence-61e3978cb63e",
+          "start": 99,
+          "end": 158
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-unsharp-masking-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "image-sharpening-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

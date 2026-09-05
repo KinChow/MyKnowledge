@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "lens-vignetting-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_31791914b803",
+  "input_hash": "sha256:eabf3d70986b15dcaf0e85fc46dd9e574d2bb8940a0125b457b76a7399e80984",
+  "provider_duration_ms": 52020,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555314.867845,
+  "wiki_content_sha256": "sha256:29267a0f5b23fadb1de5f58ace04bb6227fa2edad7a540464879ac64619220d3",
+  "wiki_evidence_sha256": "sha256:2d7e73c34443f8a6059052963fec81e16b19a913f901f2ab1ac5a528016cedc5",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-exposure-photography"
+      },
+      "source_id": "wiki-exposure-photography",
+      "evidence_id": "evidence-43626ae79bd6",
+      "snapshot_sha256": "sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472",
+      "selector_sha256": "sha256:ee7b2f23df4bd734899061e0fcf05bff20df52ae73b5213643cf0cb97d49b450",
+      "quote_sha256": "sha256:6172a3b4428846e377c1595658852f0067e498d7edc61b1df1c6c17410ed4183"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "lens-vignetting-correction-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-43626ae79bd6",
+          "exact": "Exposure is a combination of the length of time and the illuminance at the photosensitive material. Exposure time is controlled in a camera by shutter speed, and the illuminance depends on the lens aperture and the scene luminance."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-43626ae79bd6",
+          "subject": "Exposure",
+          "predicate": "is described as",
+          "object": "a combination of time and illuminance; exposure time is controlled by shutter speed; illuminance depends on lens aperture and scene luminance"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "The target quote exactly matches the claim text, so the claim is directly supported by the cited evidence. The supporting span is the full quote at [0,230) in the target evidence.",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-exposure-photography",
+          "evidence_id": "evidence-43626ae79bd6",
+          "start": 0,
+          "end": 230
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-exposure-photography",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "lens-vignetting-correction-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

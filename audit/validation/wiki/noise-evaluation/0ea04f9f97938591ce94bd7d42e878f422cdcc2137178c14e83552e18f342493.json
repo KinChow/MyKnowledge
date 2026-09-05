@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "noise-evaluation",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_64cd4b0b6b00",
+  "input_hash": "sha256:076feb91b6466e64eb9eb131879699eb60fbb528460e85016fcfab2b731d77ee",
+  "provider_duration_ms": 140850,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555404.4816651,
+  "wiki_content_sha256": "sha256:6f17eb34e51af4169f8be380890d4c9ee00863a347f3e98686abe9ff4ebbaad8",
+  "wiki_evidence_sha256": "sha256:a1b9079cc84f0253b5c266c934de11d35d186b66c1fbf88a9ef185fc6808b852",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-noise-reduction"
+      },
+      "source_id": "wiki-noise-reduction",
+      "evidence_id": "evidence-04c098537dac",
+      "snapshot_sha256": "sha256:bf07555f2b3be2e2d2d967d5fd80c35e17d225807d09c9de73d31ed49ec15699",
+      "selector_sha256": "sha256:cf93742fcad998207b1030e563155118ef7a13b49f3c24c680517d94964aa9f8",
+      "quote_sha256": "sha256:442556fc1d1079f7ff330cc8f6dc6dc8ac74cc53f34890eaa07bfaf806a092c5"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "noise-evaluation-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "exact": "There are many noise reduction algorithms in image processing. In selecting a noise reduction algorithm, one must weigh several factors: the available computer power and time available; whether sacrificing some real detail is acceptable if it allows more noise to be removed; and the characteristics of the noise and the detail in the image, to better make those decisions."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "subject": "target quote",
+          "predicate": "verbatim matches",
+          "object": "the quoted English excerpt in the claim"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "目标引文与 claim 中给出的英文摘录逐字一致，因此该 claim 被支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 0,
+          "end": 372
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-noise-reduction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "noise-evaluation-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
