@@ -28,7 +28,7 @@ evidence:
   targets:
   - evidence_id: evidence-f6c8afdf6614
     source_id: osti-profiling-tracing
-- claim: 分段查找通过二分定位（bisection）不断缩小范围，是定位性能回归或问题代码段的常用方法。
+- claim: 分段查找通过二分定位（bisection）不断缩小范围，可用于定位回归或引入 bug 的提交。
   claim_id: segmented-search
   support: direct
   supporting_quotes:
