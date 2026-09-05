@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "ipd",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_06956e8e076d",
+  "input_hash": "sha256:1e2a8f3acc10107a4ef3ee91b22fc4eab54b6e6247e9073760a38fc93a39c57a",
+  "provider_duration_ms": 30438,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580401.593376,
+  "wiki_content_sha256": "sha256:64c94c6cfd39b140a4fa83bceb6863bd2304f18a00e88b0025a587be0008b8db",
+  "wiki_evidence_sha256": "sha256:e4f5681c3be5e44672bd089024436fa078b7ec030bfedff7eaec9600bb7b4e09",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-ipd"
+      },
+      "source_id": "working-work-methods-ipd",
+      "evidence_id": "evidence-9830e57adc1d",
+      "snapshot_sha256": "sha256:202718277fbcc2f3ba736dd003084b3b436f11fc3d8607303882f89787ed08f0",
+      "selector_sha256": "sha256:142544720ceefc131d7df5d17a52cf028e704acc6c8469ba142052e77fa9b00e",
+      "quote_sha256": "sha256:10bd094789732c61f56bbc07e84086799101005b5c1fa06de4c9fdee665af333"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "ipd-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-ipd",
+          "evidence_id": "evidence-9830e57adc1d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9830e57adc1d",
+          "exact": "IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的端到端管理过程，它以市场需求为驱动，将产品开发作为一项投资来管理，及时交付有竞争力的、高质量的产品包和解决方案。IPD流程是分阶段的、各阶段间用门槛分开的结构化流程，从商业角度保证产品投资和产品开发取得成功，Charter和DCP是IPD的最基本管理手段，能够保证减少产品投资的浪费，有效地保证产品投资收益的最大化。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-9830e57adc1d",
+          "subject": "IPD",
+          "predicate": "拉通端到端管理过程并作为结构化投资管理流程",
+          "object": "从路标规划、Charter开发、产品开发到生命周期管理；以市场需求驱动，将产品开发作为投资管理；通过阶段门、Charter和DCP减少浪费并最大化收益"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target引文0-191完整陈述了claim中的全部要点，包括IPD端到端过程、市场需求驱动、投资管理、阶段门结构、商业成功目的以及Charter和DCP作为基本管理手段；claim与该target文本逐字一致，因此成立。独立性方面，provenance为空且引文0-191未提供publisher、derived_from、independence_group或转载声明，故为independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-ipd",
+          "evidence_id": "evidence-9830e57adc1d",
+          "start": 0,
+          "end": 191
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-ipd",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "ipd-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

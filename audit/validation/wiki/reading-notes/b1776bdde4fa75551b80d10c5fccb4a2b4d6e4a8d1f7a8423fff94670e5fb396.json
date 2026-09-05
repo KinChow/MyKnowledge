@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "reading-notes",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_fc9e461a2838",
+  "input_hash": "sha256:4b8391d68f0d4f28e2f2f20478dc4a0188f9f1575864c850270032920a5fa98f",
+  "provider_duration_ms": 26869,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580418.627108,
+  "wiki_content_sha256": "sha256:5ea38bde9b27927811e92ac433425be4fb19a85e007d6632cafe686b55e3c86a",
+  "wiki_evidence_sha256": "sha256:c048cd495f4f7389898761136622058c5e39b680075ba8da00f64581ec701a46",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-reading-notes"
+      },
+      "source_id": "working-work-methods-reading-notes",
+      "evidence_id": "evidence-613f13259053",
+      "snapshot_sha256": "sha256:fefbafff239a61368fe6826e40d2a33e3bb9120da8e0881141c38f6fe01aa864",
+      "selector_sha256": "sha256:3d1224bf2d2a9de59e16643f6deb85c2da3369302685129cdaccf213ba528731",
+      "quote_sha256": "sha256:f780c2ad4d32ed62c0bc6427bbfc4a200e74b49930b4aaf7f92cdd8389b7406e"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "reading-notes-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-reading-notes",
+          "evidence_id": "evidence-613f13259053"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-613f13259053",
+          "exact": "- **书名**：\n- **作者**：\n- **类型**：□ 理论型 □ 实用型 □ 文学 □ 其他____\n- **阅读目的**：□ 提升技能 □ 拓展认知 □ 解决问题 □ 兴趣探索\n- **阅读日期**：____年____月____日 - ____年____月____日\n- **阅读层次**：□ 检视阅读 □ 分析阅读 □ 主题阅读"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-613f13259053",
+          "subject": "阅读笔记模板",
+          "predicate": "包含字段",
+          "object": "书名、作者、类型、阅读目的、阅读日期、阅读层次",
+          "qualifiers": {
+            "origin": "personal"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文字符区间 [0,170) 与 claim 文本完全一致，逐项包含书名、作者、类型、阅读目的、阅读日期、阅读层次，因此该 claim 被声明 target 支持。该 target 的 provenance 为空，且引文 [0,170) 未包含转载或派生声明，独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-reading-notes",
+          "evidence_id": "evidence-613f13259053",
+          "start": 0,
+          "end": 170
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "working-work-methods-reading-notes",
+            "evidence_id": "evidence-613f13259053"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-reading-notes",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "reading-notes-audit-1",
+      "source_id": "working-work-methods-reading-notes",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
