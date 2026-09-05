@@ -1,6 +1,6 @@
 ---
 aliases: []
-confidentiality: internal
+confidentiality: public
 domain: work-methods
 evidence:
 - claim: 四种工作模式：深、快、新、透。
@@ -41,12 +41,12 @@ evidence:
     source_id: working-work-methods-insight
 id: insight
 kind: reference
-publication_scope: none
+publication_scope: public
 related: []
 schema_version: wiki/v1
 sources:
 - working-work-methods-insight
-status: draft
+status: published
 tags:
 - needs-fact-check
 - personal-note-source
