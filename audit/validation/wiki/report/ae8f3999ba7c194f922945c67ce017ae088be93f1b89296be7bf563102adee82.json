@@ -1,0 +1,151 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "report",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_fee1f22221ec",
+  "input_hash": "sha256:a054c83d1f0f5fedb2d6692b6d5791eb3909b8869f7903f77d5e0c0e59072f6f",
+  "provider_duration_ms": 23368,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580402.916322,
+  "wiki_content_sha256": "sha256:3f149d5689230f77fb364943883caee4faf5334b4077fc647405f538973adbfe",
+  "wiki_evidence_sha256": "sha256:9868148ea6b7a3709d4fc4168ba3aff6b515e43e44d2a39c31fe04e6594f0873",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-report"
+      },
+      "source_id": "working-work-methods-report",
+      "evidence_id": "evidence-5c04bcb73482",
+      "snapshot_sha256": "sha256:701ee3bf1126263e75203f2ac7d5c91313e962594691dc951f9462c8949cc143",
+      "selector_sha256": "sha256:aef6fd793b2611ab1a5490a7d55a7bd8fd5f1cf164fc85b61ff466bc528313cb",
+      "quote_sha256": "sha256:592ad12f78993b3e92e6e39971ba6b299a5b923e4dacf2dfa4233254771cafc5"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "report-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-report",
+          "evidence_id": "evidence-5c04bcb73482"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5c04bcb73482",
+          "exact": "* 洞察：通过各种渠道收集信息，对数据和信息进行分析整理，形成关键发现并给出可执行建议。\n* 洞察力：就是对事物或问题本质的把握，透过现象看本质，也就是找到问题的关键点和主要矛盾。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5c04bcb73482",
+          "subject": "洞察与洞察力",
+          "predicate": "定义为",
+          "object": "洞察是收集、分析整理信息形成关键发现并给出建议；洞察力是把握本质、找到关键点和主要矛盾"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 内容与 target 引文完全一致：[0,44) 支持“洞察”的定义及可执行建议表述，[45,90) 支持“洞察力”的本质把握、关键点和主要矛盾表述。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-report",
+          "evidence_id": "evidence-5c04bcb73482",
+          "start": 0,
+          "end": 44
+        },
+        {
+          "source_id": "working-work-methods-report",
+          "evidence_id": "evidence-5c04bcb73482",
+          "start": 45,
+          "end": 90
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "working-work-methods-report",
+            "evidence_id": "evidence-5c04bcb73482"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-report",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "report-audit-1",
+      "source_id": "working-work-methods-report",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
