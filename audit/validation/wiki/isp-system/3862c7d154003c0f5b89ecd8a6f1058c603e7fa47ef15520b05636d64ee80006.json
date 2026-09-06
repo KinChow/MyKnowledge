@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "isp-system",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_bc0e73a8d6f0",
+  "input_hash": "sha256:b7eab6ff72ea3974ac4ac1d5a782c94186c00b9d452cc9db5fff36c20927d1cd",
+  "provider_duration_ms": 29153,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623877.10806,
+  "wiki_content_sha256": "sha256:78f9c5c4ee32905fa69e6df144f48c49ca565640afa70d76696c93afe72f888c",
+  "wiki_evidence_sha256": "sha256:7b016b4b23dbc57e838127ab67c8f52994a4ef346e479822d9013ca66d95e18e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-multimedia-isp-system"
+      },
+      "source_id": "working-multimedia-isp-system",
+      "evidence_id": "evidence-a194d9673e4d",
+      "snapshot_sha256": "sha256:eda419d333d8bc5310e63c070a8ee03678cc952da2492b1807d6e466e8c306df",
+      "selector_sha256": "sha256:bee901587250c3932b915e416602a61c28f77078c16ddf87b84637b27be8203b",
+      "quote_sha256": "sha256:b6ad5c5a0562e7b98c8ce3813e1bba993437a2ddf998f9f22736076651c653bd"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "isp-system-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-multimedia-isp-system",
+          "evidence_id": "evidence-a194d9673e4d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a194d9673e4d",
+          "exact": "整个ISP pipeline都是围绕对真实世界的还原而设计的。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a194d9673e4d",
+          "subject": "整个ISP pipeline",
+          "predicate": "被设计为",
+          "object": "围绕对真实世界的还原",
+          "qualifiers": {
+            "source_position": "[255,286)",
+            "quote_sha256": "sha256:b6ad5c5a0562e7b98c8ce3813e1bba993437a2ddf998f9f22736076651c653bd"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "证据 working-multimedia-isp-system:evidence-a194d9673e4d 的精确引文为「整个ISP pipeline都是围绕对真实世界的还原而设计的。」，经与源文件核对，该句位于文档「## 数字成像系统」一节第47行同一完整句的尾部，字符区间 [255,286)（开区间），与源文件 evidence_items 中记录的 position(start:255, end:286) 逐字节吻合，quote_sha256 亦与引文哈希一致，证据定位可信。引文与 claim 第二分句逐字一致，直接完整支持「整个ISP pipeline 都是围绕对真实世界的还原而设计的」；claim 首分句「数字成像系统…尽可能把现实场景恢复得与人眼接近」虽未落在精确引文区间内，但同一句的引文前缀（「…是为了模仿人的视觉系统，尽可能地把现实场景恢复得与人眼接近。」）提供了对应文字，且前缀与引文同属一个完整陈述句、无否定或对冲成分，故整体主张与证据一致，无部分支持或矛盾情形。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-multimedia-isp-system",
+          "evidence_id": "evidence-a194d9673e4d",
+          "start": 255,
+          "end": 286
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-multimedia-isp-system",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "isp-system-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "green-balance-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_8155878ac615",
+  "input_hash": "sha256:4badebd9f757a650440a9341f41e05b6ac9eee3b42eeb1e838d7ad6af97fd563",
+  "provider_duration_ms": 15098,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623631.278253,
+  "wiki_content_sha256": "sha256:06f745ffcaf34e947557142adc4b993b1195227f2f896ec580abdc6471cb6ff5",
+  "wiki_evidence_sha256": "sha256:5a9a0555af34b59b02db51351c9b9be85cb8a12447e32ef08d51f6741ac19294",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-bayer-filter"
+      },
+      "source_id": "wiki-bayer-filter",
+      "evidence_id": "evidence-429e23e81582",
+      "snapshot_sha256": "sha256:3cf1e4976c3115232071e794d895fe0ca80158f2acf16fbbda34e070055cf4da",
+      "selector_sha256": "sha256:746696a13ea7b49ca7be676f2f2812057ebbd0acffec1dd651b926e56fa6cf4f",
+      "quote_sha256": "sha256:819de1dfb6c7cb4dd42bcd295077eb3e2407cf8c473b9d2c363b3860a4cb3409"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "green-balance-correction-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-429e23e81582",
+          "exact": "The filter pattern is half green, one quarter red and one quarter blue, hence is also called BGGR, RGBG, GRBG, or RGGB."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-429e23e81582",
+          "subject": "the filter pattern",
+          "predicate": "is described as",
+          "object": "half green, one quarter red and one quarter blue, hence also called BGGR, RGBG, GRBG, or RGGB"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Claim 与 target 引文（evidence-429e23e81582）逐字一致：引文完整断言 filter pattern 为 half green、one quarter red、one quarter blue，并称其又被称为 BGGR、RGBG、GRBG、RGGB 四种名称之一，与 claim 陈述相同。字符区间 [0,119) 覆盖整段引文，即 claim 的全部直接支持文本；单源直引，无证据间冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-bayer-filter",
+          "evidence_id": "evidence-429e23e81582",
+          "start": 0,
+          "end": 119
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-bayer-filter",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "green-balance-correction-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -2,6 +2,39 @@
 archive_policy: text-only
 confidentiality: public
 domain: multimedia
+evidence_items:
+- evidence_id: evidence-8490e5fbc009
+  position:
+    end: 152
+    start: 22
+    type: TextPositionSelector
+  quote_sha256: sha256:d5cf4990ef3f40d4343c47cc7facfecc0820b2e171fb82ec67ecb5ce99030b0d
+  selector:
+    exact: '黑电平（Black Level / Optical Black）：黑电平是图像数据中黑色数据（0）对应图像传感器采集的电平值。
+
+
+      一般sensor上会预留了一些完全没有曝光的像素，在上下两端都有一些未曝光的像素行，通过读取这些像素值的大小，可以实时得到黑电平。'
+    prefix: '# 黑电平与线性化
+
+
+      ## 黑电平的定义
+
+
+      '
+    suffix: '
+
+
+
+
+
+
+      ## 黑电平的成因
+
+
+      黑电平形成的原因有多种，主要的'
+    type: TextQuoteSelector
+  selector_sha256: sha256:64499cc8754de7d4467588cb271474f3b059eb17f21d2f9e3148b4b83a309d0c
+  snapshot_sha256: sha256:ba2df7ad79eef36199997f43c500ff31f29faf38d294713753387c01a184550b
 extractor: personal-note/1
 id: working-multimedia-black-level-correction
 media_type: text/markdown

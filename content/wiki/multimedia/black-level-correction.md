@@ -1,207 +1,175 @@
 ---
-aliases: []
+aliases:
+- 黑电平校正
+- Black Level Correction
+- BLC
+- 线性化
 confidentiality: public
 domain: multimedia
 evidence:
-- claim: 视频黑电平表示图像最暗部分的亮度，或屏幕不发光形成纯黑时的亮度水平。
+- claim: 黑电平（Black Level / Optical Black）是图像数据中黑色数据（0）对应的图像传感器采集电平值；sensor 预留未曝光像素行以实时测量黑电平。
   claim_id: black-level-definition
-  support: direct
+  support: personal
   supporting_quotes:
-  - evidence_id: evidence-686098363fd0
-    exact: Video black level is defined as the level of brightness at the darkest (black) part of a visual image or the level of brightness at which no light is emitted from a screen, resulting in a pure black screen.
+  - evidence_id: evidence-8490e5fbc009
+    exact: |-
+      黑电平（Black Level / Optical Black）：黑电平是图像数据中黑色数据（0）对应图像传感器采集的电平值。
+
+      一般sensor上会预留了一些完全没有曝光的像素，在上下两端都有一些未曝光的像素行，通过读取这些像素值的大小，可以实时得到黑电平。
   targets:
-  - evidence_id: evidence-686098363fd0
-    source_id: wikipedia-black-level-v2
+  - evidence_id: evidence-8490e5fbc009
+    source_id: working-multimedia-black-level-correction
 id: black-level-correction
-kind: reference
+kind: knowledge
 publication_scope: public
 related: []
 schema_version: wiki/v1
 sources:
-- wikipedia-black-level-v2
 - working-multimedia-black-level-correction
 status: published
 tags:
-- needs-fact-check
-- web-source-added
-- working-migration
+- camera
+- isp
+- black-level
+- raw
+- multimedia
 title: 黑电平与线性化
-updated_at: '2026-09-05'
+updated_at: '2026-09-04'
 ---
+
 # 黑电平与线性化
 
-## 来源与迁移记录
+## 一句话结论
 
-### 迁移与校验记录
+黑电平（Black Level / Optical Black）是图像数据中黑色（0）对应的图像传感器采集电平值，源于 AD 前的固定偏移与 sensor 暗电流。sensor 预留未曝光像素行（光学黑 OB）实时测量它，ISP 在 raw 域最前端减去黑电平（Raw = SensorOutput - OpticalBlackLevel + pedestal），否则干扰信息会破坏 AWB 与后续处理。黑电平随温度/gain 漂移，扣除不当会导致暗部偏色。线性化则是把 sensor 的非线性输出在校正前转为线性，供后端乘法类算法（LSC/CCM）使用。
 
-- 原始位置：`content/working/a-external/multimedia/black-level-correction.md`
-- 原文快照：`working-multimedia-black-level-correction`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 外部链接：3 条；链接仅作为待补来源线索，尚未自动认定为事实依据。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
+## 核心概念
 
-### 来源补充
-- 来源隔离：当前绑定中的 `web-multimedia-black-level-correction` 经正文检查确认是错误页/残留文本，已移除当前引用；Source 文件和历史审计记录保留。
+- **黑电平（OB）**：图像数据黑色（0）对应的 sensor 采集电平；sensor 上下预留未曝光像素行实时测量。
+- **成因**：固定偏移（AD 前加偏置保暗部细节）+ 暗电流（无光照也有输出，随曝光/gain/温度变化）。
+- **扣除公式**：Raw = SensorOutput - OpticalBlackLevel + pedestal；在 ISP 最前端去除。
+- **扣除方法**：中值 / 全局均值（常用）/ 局部均值 / 自定义；分块双线性插值。
+- **线性化**：把 sensor 非线性输出转为线性（P_out = P_in + F(x,y)，分 region/section 查表插值）。
 
-- 已联网读取：`https://docs.baslerweb.com/black-level`；来源正文已保存为不可变 Source 快照。
+## 工作机制
+
+1. **测量**：sensor 预留未曝光像素行（光学黑 OB），读取其值得到当前黑电平。
+2. **扣除**：ISP 最前端按公式 Raw = SensorOutput - OpticalBlackLevel + pedestal 减去黑电平。
+3. **线性化**：非线性 sensor 输出经校正曲线（region/section 查表 + 双线性插值）转为线性，供后端 LSC/CCM 等乘法模块使用。
+4. **漂移处理**：黑电平随温度/gain 漂移，可分级（不同 gain 用不同值）或按漂移曲线校正。
+
+## 示例或代码
+
+```text
+黑电平扣除：
+  Raw = SensorOutput - OpticalBlackLevel + pedestal
+  （去掉 pedestal 基底即可）
+
+线性化：
+  P_out(x, y) = P_in(x, y) + F(x, y)
+  （每通道一条校正曲线；Gr/Gb 共用一条）
+  步骤：分 region → 每 region 分 section（暗/亮区 section 最多）→
+        查表得 section 端点校正值 → 双线性插值 → 施加
+```
+
+## 常见误区
+
+- **"黑电平是显示黑位"**：这里指 sensor 光学黑（未曝光像素的电平），不是视频信号的黑位（那是另一种 black level）。
+- **"黑电平固定不变"**：随温度、gain、位置变化；增益增大时暗电流增强，需不同 gain 减不同值。
+- **"多扣一点黑电平无所谓"**：多扣会导致 AWB 暗区偏绿、破坏噪声形态；分通道扣除会致不同色温偏色不同。
+- **"扣除后就不用管"**：扣除过少画面灰蒙、对比度低；过多画面暗沉、黑色偏色且白平衡无法校正。
+
+## 证据映射
+
+| Claim | 来源 | 要点 |
+| --- | --- | --- |
+| black-level-definition | working-multimedia-black-level-correction | 黑电平 = 图像黑色对应的 sensor 采集电平 |
+
+## 待验证项
+
+无。
+
+## 关联知识
+
+- [[auto-white-balance]] —— 黑电平扣除残留会导致 AWB 暗区偏色。
+- [[basic-of-color]] —— 色彩链前端的 raw 域处理。
+- [[demosaic]] —— 黑电平校正/线性化位于去马赛克前的 raw 域。
 
 ## 详细章节
 
-### 黑电平与线性化
+### 黑电平的定义
 
-#### 黑电平的定义
+黑电平（Black Level / Optical Black）：黑电平是图像数据中黑色数据（0）对应图像传感器采集的电平值。一般 sensor 上会预留一些完全没有曝光的像素（上下两端未曝光像素行），通过读取这些像素值的大小，可以实时得到黑电平。
 
-黑电平（Black Level / Optical Black）：黑电平是图像数据中黑色数据（0）对应图像传感器采集的电平值。
+### 黑电平的成因
 
-一般sensor上会预留了一些完全没有曝光的像素，在上下两端都有一些未曝光的像素行，通过读取这些像素值的大小，可以实时得到黑电平。
+- **固定偏移**：CCD/CMOS 传感器采集信息经转换生成 RAW 数据。以 8bit 为例有效值 0~255；AD 芯片精度可能无法转换很小电压，sensor 厂家在 AD 输入前加固定偏移量，使输出像素值在 5（非固定）~255 之间，目的是保留暗部细节（ISP 后面有 LSC、AWB、Gamma 等增益模块，亮区一点损失可接受）。
+- **暗电流**：sensor 电路本身存在暗电流，无光照时也有输出电压；暗电流跟曝光时间和 gain 有关，不同位置不同。gain 增大时暗电流增强，因此很多 ISP 会在不同 gain 下减不同的黑电平值。
 
+**温度影响**：环境温度升高，OB 偏移加大，去除 OB 需考虑温度影响（考验各家 sensor 设计/工艺/算法）；不考虑温度时 OB 波动大、RGB 分布不均会导致偏色。
 
+### 黑电平的消除
 
+BLC 各通道均需校正，常用方法：中值、全局均值（几乎各家常用）、局部均值、自定义。
 
+**使用场景**：
+1. 图像平面趋于平整 → 推荐全局均值
+2. 图像出现明显突出山峰（峰值）→ 推荐中值
+3. 某个角的值较高（电源等原因）→ 推荐局部计算
 
-#### 黑电平的成因
-
-黑电平形成的原因有多种，主要的形成原因为如下两点：
-
-* 固定偏移。CCD/CMOS传感器采集的信息经过一系列转换生成原始RAW格式数据，RAW数据每个像素点有对应颜色的灰度信息。以8bit数据为例，单个像素的有效值是0~255。实际AD芯片（模数转换芯片）的精度可能无法将电压值很小的一部分转换出来，因此sensor厂家一般会在AD的输入之前加上一个固定的偏移量，使输出的像素值在5（非固定）~255之间，目的是为了让暗部的细节完全保留，但同时也会损失一些亮部细节。对于图像来说，更倾向关注暗部区域，因为ISP后面会有很多增益模块（LSC、AWB、Gamma等），因此亮区的一点点损失是可以接受的。
-* 暗电流。sensor的电路本身会存在暗电流，导致在没有光线照射的时候，采集像素点也会有一定的输出电压。暗电流跟曝光时间和gain都有关系，不同的位置也是不一样的。因此在gain增大的时候，电路的增益增大，暗电流也会增强，因此很多ISP会选择在不同gain下减去不同的bl的值。
-
-
-
-不同的温度，对OB的影响：
-
-随着环境温度的变高，其OB的偏移也在加大，在去除OB的时候要考虑温度的影响，这个时候就要考验各家sensor的设计，工艺，算法上能力的时候了；同样道理，不考虑温度，其波动很大，RGB分布不均，也会导致偏色；
-
-
-
-#### 黑电平的消除
-
-BLC各个通道均需要校正，目前比较常用的方法有：
-
-* 中值
-* 全局均值（几乎各家常用做法）
-* 局部均值
-* 自定义
-
-
-
-##### 使用场景
-
-1. 校正前需要根据图像的具体情况进行分析，若图像平面趋于平整，则推荐使用全局均值
-2. 若图像出现一些峰值，有明显的突出山峰，则推荐使用中值
-3. 若图像出现某个角的值比较高，可能由于电源或者其他原因引起的，则推荐使用局部计算的方法
-
-
-
-##### 全局均值
-
-在sensor上会预留了一些完全没有曝光的像素，在上下两端都有一些未曝光的像素行，通过读取这些像素值的大小，可以实时得到黑电平。sensor厂家称之为optical black level。
-
-
-
-针对黑电平形成的原因，sensor采集的RAW数据在ISP处理时需要减去黑电平才是真正的RAW数据。
+**全局均值**：sensor 预留未曝光像素行，读取像素值实时得到黑电平（sensor 厂家称 optical black level）。RAW 数据在 ISP 处理时需减去黑电平才是真正的 RAW 数据：
 $$
 Raw = SensorOutput - OpticalBlackLevel + pedestal
 $$
+- Black level correction 基本在 ISP 做，去掉 pedestal 基底即可
+- optical black level：固定数值，对 RGB 各通道可一样也可不一样；可根据增益不同选不同数值
+- 利用黑电平随温度和 gain 的漂移曲线，用一次函数校正（不同 sensor 漂移曲线不同，未作通用方案）
 
-* Black level correction基本上都在ISP来做，去掉那个pedestal基底即可
+**双线性插值计算 BLC 减去的数值**：将图像分块，根据块内四个顶点的黑电平偏移值，计算块网格各点像素位置的黑电平偏移值。
 
-* optical black level
+**高通平台**：ISP pipeline 两个地方去 black level——
+- black level correction：整体清晰度好（raw 域降噪程度少）
+- ABF 后的 BLS 部分：整体噪声更好（满足 raw 域降噪算法，降噪更多）
 
+高通思路：ABF 中前期在 black level 少扣一点基底留给 ABF，根据噪声分布做双边滤波优化暗区 RGB 分布不均、减少偏色，之后在 BLS 模块把剩余基底扣掉。
 
-  * 固定数值，对RGB各通道可以是一样，也可以是不一样。
+### 黑电平的影响
 
+高倍 gain 下，画面既有亮区又有暗区时，OB 平均值可能没变但波动（方差）变大（尤其暗区，噪声影响变大）。各家 sensor 用均值扣除 OB，会导致暗部区域偏紫——因为 OB 方差加大，按均值扣除会有残余且 RGB 分量不平衡，再受白平衡（Rgain/Bgain）影响。
 
-  * 固定数值，可以根据增益不同选择不同的数值。
+sensor 输出 raw 数据附加的黑电平值需在 ISP 最前端去干净，否则干扰后端各模块，尤其导致 AWB 不准、画面偏绿或偏红：
+- ISP 多扣一点 OB：AWB 暗区偏绿、噪声形态被破坏
+- ISP 分通道扣 OB：不同色温下偏色情况不同
 
+**校正失效影响**：
+- 彩色图像：扣除过少 → 画面灰蒙蒙、对比度低；扣除过多 → 画面暗沉、细节损失、黑色偏色且白平衡无法校正
+- 黑白图像：扣除过少 → 灰蒙、对比度低；扣除过多 → 暗沉、动态范围降低、细节损失、黑色偏色
 
-* 利用黑电平随温度和gain的漂移曲线，利用一次函数的方式进行校正，但是对于不同sensor，漂移曲线不一样，因此该方案没有作为通用方案
+### 线性化背景
 
+目前 sensor 输出图像大部分是非线性的，但后端很多算法模块用乘法（如镜头暗角矫正、色彩校正），所以 ISP 通路开端需将非线性转换为线性。
 
+### 线性化定义
 
-##### 双线性插值计算BLC减去的数值
+对传感器的非线性校正：数学模型中 sensor 输出值和光强在整个有效范围内呈线性正比关系，但物理上只有中间区域是线性的。
 
-将图像进行分块，根据块内四个顶点的黑电平偏移值，计算块网格给点像素位置的黑电平偏移值
+### 线性化方法
 
-
-
-##### 高通平台
-
-在高通的ISP pipeline，可以在两个地方去除black level值：
-
-* black level correction
-  * 整体清晰度好，因为raw域降噪程度少
-* ABF后的BLS部分
-  * 则整体噪声更好，因为满足raw域降噪算法，降噪更多；
-
-当前在高通平台上的解决思路是，在ABF中，我们前期在black level中少去扣除一点基底，留一些给ABF，因为会根据不同的噪声分布，做双边滤波器，可以优化这种暗区RGB分布不均的情况，进而减少偏色现象，其后再在BLS模块中把剩下的基底再扣除掉
-
-
-
-
-
-#### 黑电平的影响
-
-随着AG的增加，尤其是高倍gain，对于整幅画面中没有明显的亮区暗区变化的，其分布还是比较集中的，但是针对一副画面中既有亮区，又有暗区部分的时候，OB的平均值可能没变，但是其波动肯定会变大，尤其是暗区，是因为AG的增加，导致噪声的影响变大，所以OB的波动变大，这个时候sensor内部就不可能会增加OB均值去扣除，但是目前来看，各家sensor在扣除OB上，应该是均值扣除法，会导致暗部区域有偏色现象，而且是偏紫的，原因是因为OB的波动（方差）加大，如果再按照OB的均值扣除，那么就可能会有较多的残余，且RGB分量明显不平衡，后又受白平衡（Rgain、Bgain）的影响，故画面暗处会偏紫。
-
-
-
-sensor输出raw数据中附加的黑电平值，需要在ISP最前端去干净。如果不去干净，干扰信息会影响后端ISP各模块的处理，尤其会导致AWB容易不准，画面整体出现偏绿或者偏红现象。
-
-* 若ISP多扣一点OB，一是会导致AWB在暗区偏绿，二是会导致噪声形态被破坏；
-* 若ISP分通道扣除OB，会导致不同的色温下，偏色情况不同；
-
-
-黑电平校正失效在彩色图像的影响
-
-* 当black level扣除过少时，整体图像画面灰蒙蒙的，对比度没有那么高
-* 当black level扣除过多时，整体画面暗沉，细节损失多，黑色部分偏色，无法通过白平衡校正
-
-
-
-黑电平校正失效在黑白图像中的影响
-
-* 当black level扣除过少时，整体图像画面灰蒙蒙的，对比度没有那么高
-* 当black level扣除过多时，整体画面暗沉，动态范围变低，细节损失多，黑色部分偏色，无法通过白平衡校正
-
-
-
-
-
-#### 线性化背景
-
-目前sensor输出的图像大部分都是非线性的，但是后端很多算法模块的处理是使用乘法（如镜头暗角矫正、色彩校正等），所以在ISP通路的开端就需要将非线性转换为线性。
-
-
-
-#### 线性化定义
-
-对传感器的非线性校正，数学模型中sensor输出值和光强在整个有效范围内呈线性正比关系，但是物理上只有中间区域是线性的
-
-
-
-#### 线性化方法
-
-在原像素上加减值，每个颜色通道都有一个校正曲线，其中Gr和Gb使用一个校正曲线
+在原像素上加减值，每个颜色通道有一条校正曲线（Gr 和 Gb 共用一条）：
 $$
 P_{out}(x, y) = P_{in}(x, y) + F(x,y)
 $$
 
+**步骤**：
+1. 线性化校正曲线把有效像素范围分为多个 regions
+2. 每个 region 划分不同 sections；最暗区和最亮区 sensor 随光强变化曲线变化最大，划分 section 最多
+3. 根据输入像素值判断当前像素在第几个 region、当前 region 第几个 section
+4. 查表得到当前 section 左右端点对应的校正值
+5. 用双线性插值根据当前 section 端点的校正值，计算当前像素的校正值
+6. 将校正值作用到输入像素值上，得到输出像素
 
-###### 步骤
+## 参考
 
-*  线性化校正曲线主要是把有效像素范围分为多个 regions
-*   每个region划分不同的sections，最暗区和最亮区sensor随光强变化曲线变化最大，划分的section最多
-*   根据输入像素值判断当前像素在第几个region， 在当前region的第几个section
-*   通过查表得到当前section的左右端点对应的校正值
-*  使用双线性插值根据当前section端点的校正值，计算出当前像素的校正值
-*   将计算得到的校正值作用到输入像素值上，得到输出像素
-
-
-
-#### 参考
-
-https://zhuanlan.zhihu.com/p/194206599
-
-https://blog.csdn.net/xiaoyouck/article/details/72824534
-
-https://deepinout.com/qcom-camera-tuning/qcom-camera-tuning-black-level-analysis.html
+- https://zhuanlan.zhihu.com/p/194206599
+- https://blog.csdn.net/xiaoyouck/article/details/72824534
+- https://deepinout.com/qcom-camera-tuning/qcom-camera-tuning-black-level-analysis.html

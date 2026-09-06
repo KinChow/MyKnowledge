@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "frequency-domain-noise-reduction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_a3f07d0613bd",
+  "input_hash": "sha256:c45d1c220e69f7cfa60ac924fb2bac30b7874ce2c8b91d52735926c6d183864b",
+  "provider_duration_ms": 25871,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623593.859971,
+  "wiki_content_sha256": "sha256:186be15fe1fc4dca869f60982254c7473f4056a2ae4d84cb39a953dc192cedc5",
+  "wiki_evidence_sha256": "sha256:859dc44bf06dd1fb64404245427628e09725c0fcb64be52ff8934afaae80c6d8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-noise-reduction"
+      },
+      "source_id": "wiki-noise-reduction",
+      "evidence_id": "evidence-04c098537dac",
+      "snapshot_sha256": "sha256:bf07555f2b3be2e2d2d967d5fd80c35e17d225807d09c9de73d31ed49ec15699",
+      "selector_sha256": "sha256:cf93742fcad998207b1030e563155118ef7a13b49f3c24c680517d94964aa9f8",
+      "quote_sha256": "sha256:442556fc1d1079f7ff330cc8f6dc6dc8ac74cc53f34890eaa07bfaf806a092c5"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "frequency-domain-noise-reduction-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "exact": "There are many noise reduction algorithms in image processing. In selecting a noise reduction algorithm, one must weigh several factors: the available computer power and time available; whether sacrificing some real detail is acceptable if it allows more noise to be removed; and the characteristics of the noise and the detail in the image, to better make those decisions."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "subject": "noise reduction algorithm selection in image processing",
+          "predicate": "requires weighing multiple factors",
+          "object": "available computer power and time; whether sacrificing real detail is acceptable to remove more noise; characteristics of the noise and the detail",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文 [0,374)（wiki-noise-reduction / evidence-04c098537dac）与 claim 文本逐字一致：claim 即为该 quote 的完整原文，未作任何增删、改写或概括。引文完整覆盖 claim 的全部组成要素——噪声消除算法众多（\"many noise reduction algorithms\"）、选择时需权衡的三项因素（计算机算力与时间、为去除更多噪声而牺牲真实细节的可接受性、图像中噪声与细节的特性），claim 未超出引文信息量，无扩展性陈述。evidence_status=source-reported，引文作为来源片段原样呈现，属直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 0,
+          "end": 374
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-noise-reduction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "frequency-domain-noise-reduction-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "terminology",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_40b8e02cdabc",
+  "input_hash": "sha256:e27dad93d41322b0cbed0f1cfe7493a473567a5015e27de5c730d8c708d69fce",
+  "provider_duration_ms": 123324,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788669669.6564631,
+  "wiki_content_sha256": "sha256:58160b09d1b03a19356af0d1c8c4492ceccd541d024687f99f7e01bdeb0a45d3",
+  "wiki_evidence_sha256": "sha256:00110dc88c067602cb3229b4138abe11a8f1307c795e1b1974fd7c6f67b78aac",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-multimedia-terminology"
+      },
+      "source_id": "working-multimedia-terminology",
+      "evidence_id": "evidence-53c12a8d4693",
+      "snapshot_sha256": "sha256:e3d5a3007bf2c03f83b688ea3d7b5bab584bf610b46640ae541b1afa744686ba",
+      "selector_sha256": "sha256:ce81ca2751636c070f77dff17ae5cfc9bd9306bd6e2ec414d8bacb07ab50db55",
+      "quote_sha256": "sha256:9aea8dad270fe9a21c0cdb5414943a48f5ba6030e5aa02e04e72d8e2d8662a16"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "terminology-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-multimedia-terminology",
+          "evidence_id": "evidence-53c12a8d4693"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-53c12a8d4693",
+          "exact": "|  缩写   |                             全称                             |\n| :-----: | :----------------------------------------------------------: |\n|   CHI   |                  Camera Hardware Interface                   |\n| chi-cdk | Camera Hardward Interface 相机硬件接口；Camera Development Kit，相机开发包 |\n|   IFE   |      Image Front End， Sensor输出的数据首先会到达IFE。       |\n|   IPE   |                   Image processing engine                    |\n|   BPS   |                   Bayer processing segment                   |\n|   TFE   |                        Thin Front End                        |\n|   OPE   |                  Offline Processing Engine                   |\n|   UMD   |                       User Mode Driver                       |\n|   KMD   |                      Kernal Mode Driver                      |\n|   RDI   |                      Raw Dump Interface                      |\n|   RTB   |                       Real Time Bokeh                        |\n|  MFNR   |        Multi Frame Noise Reduction，拍照时的多帧降噪         |"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-53c12a8d4693",
+          "subject": "working-multimedia-terminology 术语缩写表",
+          "predicate": "defines",
+          "object": "CHI = Camera Hardware Interface；MFNR = Multi Frame Noise Reduction，拍照时的多帧降噪",
+          "qualifiers": {
+            "origin": "personal",
+            "evidence_status": "source-reported",
+            "confidentiality": "public"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文为单一来源缩写表（working-multimedia-terminology, evidence-53c12a8d4693）。claim 要素逐项核对：(1) 总体表述——表内收录 CHI/chi-cdk/IFE/IPE/BPS/TFE/OPE/UMD/KMD/RDI/RTB 等相机硬件接口与 ISP 模块缩写，覆盖 claim 所述'相机硬件接口与 ISP 处理模块的常用缩写'（见引文码点 [0,964) 区域）；(2) CHI 行（码点 [149,223)）：'|   CHI   |                  Camera Hardware Interface'，全称与 claim 中 CHI（Camera Hardware Interface）逐字一致；(3) MFNR 行（码点 [964,1019)）：'|  MFNR   |        Multi Frame Noise Reduction，拍照时的多帧降噪'，与 claim 中 MFNR 的全称及中文释义逐字一致。引文 provenance 为空（无 publisher/derived_from/independence_group），引文内容亦无转载声明，无法举证独立性，判定 independence_unknown；该 claim 为单一源内容描述型命题，引文完整直接覆盖 claim 全部要素，故 verdict=supported，非 unsupported/contradicted。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-multimedia-terminology",
+          "evidence_id": "evidence-53c12a8d4693",
+          "start": 149,
+          "end": 223
+        },
+        {
+          "source_id": "working-multimedia-terminology",
+          "evidence_id": "evidence-53c12a8d4693",
+          "start": 964,
+          "end": 1019
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-multimedia-terminology",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "terminology-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 2,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002"
+    ]
+  }
+}

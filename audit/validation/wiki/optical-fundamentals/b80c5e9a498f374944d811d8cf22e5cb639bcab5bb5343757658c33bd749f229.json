@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "optical-fundamentals",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_06128dd4ee9c",
+  "input_hash": "sha256:1962432a944fdfbeaf13efc4f253eebf97031c535880e7cb7b5dc2cca9bbcab5",
+  "provider_duration_ms": 39945,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788624014.4367502,
+  "wiki_content_sha256": "sha256:c5b204493118e7e569faa0d16b99d13ca0165f863498eabe7813701f6651a6d5",
+  "wiki_evidence_sha256": "sha256:0c5c50dffcf803f13e4cf37afb122e453141e409b604932a3c79c479ba8f3529",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-optics-v2"
+      },
+      "source_id": "wikipedia-optics-v2",
+      "evidence_id": "evidence-fd40ca77b6e9",
+      "snapshot_sha256": "sha256:7c4013a16e59046745dd48871cb5477496a2271890ad663277905cfaa32542b2",
+      "selector_sha256": "sha256:1e9bcbcbe8782d7084fb8f91cac3fd7376a77eb83d5523379fec6c29f8540c7b",
+      "quote_sha256": "sha256:46a916089a2e1c62ddaaca367eecb81d260f53013f53a6b87e15b0258ccee2aa"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "optics-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-optics-v2",
+          "evidence_id": "evidence-fd40ca77b6e9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fd40ca77b6e9",
+          "exact": "Optics is the branch of physics that studies the behaviour, manipulation, and detection of electromagnetic radiation, including its interactions with matter and instruments that use or detect it."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fd40ca77b6e9",
+          "subject": "Optics",
+          "predicate": "is the branch of physics that studies the behaviour, manipulation, and detection of electromagnetic radiation",
+          "object": "including its interactions with matter and instruments that use or detect it"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 为引文的中文翻译，语义逐段对应：光学=the branch of physics；研究电磁辐射的行为、操控和探测=studies the behaviour, manipulation, and detection of electromagnetic radiation；与物质和相关仪器相互作用=interactions with matter and instruments that use or detect it（“相关仪器”为 that use or detect it 的凝练译法，内涵一致）。引文 [0,196) 完整覆盖 claim，无添加无遗漏，判定 supported。仅 1 个 target 且 provenance 为空对象，无 publisher/derived_from/independence_group 或转载声明可举证来源独立性，故按约定输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-optics-v2",
+          "evidence_id": "evidence-fd40ca77b6e9",
+          "start": 0,
+          "end": 196
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-optics-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "optics-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

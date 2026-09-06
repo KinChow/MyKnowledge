@@ -1,0 +1,151 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "time-domain-noise-reduction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_6201179252d1",
+  "input_hash": "sha256:19cc6d6e7f96393e53f76e32e2f3a514cced4b5e0a5c5b595a89601b7a996490",
+  "provider_duration_ms": 44121,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788624181.758145,
+  "wiki_content_sha256": "sha256:a674d4313b1018e3d32817417d57c6673ff3b99ef8bb4d2171d654c4166d32c5",
+  "wiki_evidence_sha256": "sha256:74de44b34ab7417852d721b718bac814da42d36bc0ed327916eac4ac09998b23",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-noise-reduction"
+      },
+      "source_id": "wiki-noise-reduction",
+      "evidence_id": "evidence-04c098537dac",
+      "snapshot_sha256": "sha256:bf07555f2b3be2e2d2d967d5fd80c35e17d225807d09c9de73d31ed49ec15699",
+      "selector_sha256": "sha256:cf93742fcad998207b1030e563155118ef7a13b49f3c24c680517d94964aa9f8",
+      "quote_sha256": "sha256:442556fc1d1079f7ff330cc8f6dc6dc8ac74cc53f34890eaa07bfaf806a092c5"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "time-domain-noise-reduction-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "exact": "There are many noise reduction algorithms in image processing. In selecting a noise reduction algorithm, one must weigh several factors: the available computer power and time available; whether sacrificing some real detail is acceptable if it allows more noise to be removed; and the characteristics of the noise and the detail in the image, to better make those decisions."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-04c098537dac",
+          "subject": "noise reduction algorithm selection",
+          "predicate": "must weigh",
+          "object": "available computer power and time; acceptability of sacrificing real detail for more noise removal; characteristics of the noise and the detail in the image"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 三段内容与引文逐句对应：[0,62)（\"There are many noise reduction algorithms in image processing.\"）支撑\"图像处理中有许多降噪算法\"；[137,185)（\"the available computer power and time available;\"）支撑\"权衡可用算力与时间\"；[186,275)（\"whether sacrificing some real detail is acceptable if it allows more noise to be removed;\"）支撑\"是否接受牺牲细节以换取更多噪声去除\"；[276,341)（\"and the characteristics of the noise and the detail in the image,\"）支撑\"以及图像中噪声与细节的特性\"。claim 未引入引文之外的信息，仅省略了框架性词组\"one must weigh several factors\"与末句\"to better make those decisions\"，属忠实译述，故 supported。注：审计输入未含源文档全文，offset 为相对所引 evidence 引文文本的 Unicode 码点区间。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 0,
+          "end": 62
+        },
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 137,
+          "end": 185
+        },
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 186,
+          "end": 275
+        },
+        {
+          "source_id": "wiki-noise-reduction",
+          "evidence_id": "evidence-04c098537dac",
+          "start": 276,
+          "end": 341
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-noise-reduction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "time-domain-noise-reduction-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

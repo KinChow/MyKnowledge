@@ -1,0 +1,147 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "defective-pixel-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_1deeef329121",
+  "input_hash": "sha256:6ffcc969eb6571c793394329ce31c53dedd2295f444e616df9ee8ed55f1c5211",
+  "provider_duration_ms": 31117,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623439.796746,
+  "wiki_content_sha256": "sha256:2d39e3f88dcf0407625f45844651c8031bd33abd42118bd04517d2d3067a6969",
+  "wiki_evidence_sha256": "sha256:d3231c1c47ca36da9d853ed6df26efe0873e7d85a02f1a4da51e7c2c03f11244",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-defective-pixel-camera-v2"
+      },
+      "source_id": "wikipedia-defective-pixel-camera-v2",
+      "evidence_id": "evidence-94447c9e16dd",
+      "snapshot_sha256": "sha256:c76f2b06633e6e72eb13426015a7056db897cf844ffd474069d083eef9cd712d",
+      "selector_sha256": "sha256:76db9bb99ed0334db742b54b5695b0cc6754a5c88e19922b58b78e822bb072ee",
+      "quote_sha256": "sha256:447242262e256f34b0811c4c1e5bbe0ee82f00098ee9f6f3bc17266ea96c3383"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "defective-pixel-camera-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-defective-pixel-camera-v2",
+          "evidence_id": "evidence-94447c9e16dd"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-94447c9e16dd",
+          "exact": "In these devices, defective pixels fail to sense light levels correctly, whereas defective pixels in LCDs fail to reproduce light levels correctly."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-94447c9e16dd",
+          "subject": "defective pixels (in these devices, i.e. digital cameras per source context; and in LCDs)",
+          "predicate": "fail to sense / fail to reproduce",
+          "object": "light levels correctly"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文逐项映射：claim 前件「数字相机中坏点不能正确感知光照」对应引文 [35,72) \"fail to sense light levels correctly,\"；引文 [0,17) \"In these devices,\" 的先行词依 source_id \"wikipedia-defective-pixel-camera-v2\"（camera 变体）解析为数字相机。claim 后件「液晶显示器中的坏点不能正确再现光照」对应引文 [81,147) \"defective pixels in LCDs fail to reproduce light levels correctly.\"。语义对齐（sense↔感知、reproduce↔再现、fail to↔不能、light levels↔光照），无抵牾、无实质增补；证据为 source-reported 外部转述，按 EVD-001 处理，故判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-defective-pixel-camera-v2",
+          "evidence_id": "evidence-94447c9e16dd",
+          "start": 35,
+          "end": 72
+        },
+        {
+          "source_id": "wikipedia-defective-pixel-camera-v2",
+          "evidence_id": "evidence-94447c9e16dd",
+          "start": 81,
+          "end": 147
+        },
+        {
+          "source_id": "wikipedia-defective-pixel-camera-v2",
+          "evidence_id": "evidence-94447c9e16dd",
+          "start": 0,
+          "end": 17
+        }
+      ],
+      "advisory": false
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-defective-pixel-camera-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "defective-pixel-camera-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

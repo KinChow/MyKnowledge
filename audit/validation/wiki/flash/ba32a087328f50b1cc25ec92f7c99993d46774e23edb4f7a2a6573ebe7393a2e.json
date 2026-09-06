@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "flash",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_4c26099bf456",
+  "input_hash": "sha256:fa55e06e07abf210f95a9e2913ce7c3e1aae2f14db68d639ec71311a4cbbe01c",
+  "provider_duration_ms": 28940,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623567.285418,
+  "wiki_content_sha256": "sha256:a515bc5d55c87d84ba5ee5d75f57048dfee911a023728fa083844304939ae524",
+  "wiki_evidence_sha256": "sha256:4ae00ffa3437824d71fd66537c423272dbfcc55a650046c6a36d4e0debf17597",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-multimedia-flash"
+      },
+      "source_id": "working-multimedia-flash",
+      "evidence_id": "evidence-551753d08f49",
+      "snapshot_sha256": "sha256:11a11e3f56a676de0f861377e6c079827664151d143a290987df3e7ffde6f8d5",
+      "selector_sha256": "sha256:8cc356c53194d4b8165ebe13853e6c18ea568522b38c15fbb0330d308d75b787",
+      "quote_sha256": "sha256:6d25c87125775dbabe11c083e5575c01250da10f122e6a6af08bf4661c2d8d7c"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "flash-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "working-multimedia-flash",
+          "evidence_id": "evidence-551753d08f49"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-551753d08f49",
+          "exact": "闪光灯是在摄影时所使用的人造光源。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-551753d08f49",
+          "subject": "闪光灯",
+          "predicate": "是",
+          "object": "在摄影时所使用的人造光源",
+          "qualifiers": {
+            "origin": "personal",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "EVD-001"
+      ],
+      "rationale": "引文 [0,17)『闪光灯是在摄影时所使用的人造光源。』仅支持 claim 的第一分句：与『闪光灯是摄影时所使用的人造光源』一致，仅省略助词『在』，语义无差异（VAL-001）。但 claim 第二分句『按下快门后（通常 1/1000 到 1/200 秒之间）照亮场景』所涉要素（快门、1/1000–1/200 秒、照亮场景）在引文 [0,17) 中完全无对应内容，该时序断言没有任何证据支撑；且该证据 origin=personal、evidence_status=source-reported，无外部来源佐证（EVD-001）。故判定 partially_supported：前半 supported、后半 unsupported。target 的 provenance 字段为空对象，引文原文亦无转载声明，无法举证证据独立性，输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-multimedia-flash",
+          "evidence_id": "evidence-551753d08f49",
+          "start": 0,
+          "end": 17
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-multimedia-flash",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "flash-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

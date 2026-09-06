@@ -2,6 +2,29 @@
 archive_policy: text-only
 confidentiality: public
 domain: multimedia
+evidence_items:
+- evidence_id: evidence-852cd706ccab
+  position:
+    end: 71
+    start: 18
+    type: TextPositionSelector
+  quote_sha256: sha256:3a983061bed670d476d85033934f34654c3cd9aeb292834efc45f6c4ea7fef87
+  selector:
+    exact: 闪光灯是在摄影时所使用的人造光源。当接下照相机的快门之后，通常在1/1000到1/200秒之间，照亮场景。
+    prefix: '# 闪光灯
+
+
+      ## 闪光灯的作用
+
+
+      '
+    suffix: '
+
+
+      闪光灯多用于光线较暗的场合瞬间照明，也用于光线较亮的场合给被'
+    type: TextQuoteSelector
+  selector_sha256: sha256:2d213d767dfcea5c11bfa6f8c123cbdbb88252ec5d515223730a24556642acdd
+  snapshot_sha256: sha256:11a11e3f56a676de0f861377e6c079827664151d143a290987df3e7ffde6f8d5
 extractor: personal-note/1
 id: working-multimedia-flash
 media_type: text/markdown

@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "gamma",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_925e2d470aae",
+  "input_hash": "sha256:bbfe7bc7089b8b8f42a707fb3d07fa8d811a1f9c1922aaa17ca879e5563126fe",
+  "provider_duration_ms": 21273,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623615.64865,
+  "wiki_content_sha256": "sha256:c9544bce6904a15a21231487b40645defdc798a773a46304865b338c2602e55c",
+  "wiki_evidence_sha256": "sha256:754e3d47c7be44bf2aa53bbb319d821f3829ac37fbbdabdc5aae90211f6fb568",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-multimedia-gamma"
+      },
+      "source_id": "working-multimedia-gamma",
+      "evidence_id": "evidence-568bb0bf2131",
+      "snapshot_sha256": "sha256:2066e10c0dc51753812aaab9bbfad47285485c3c90a0c6d177deae7ba66f0b05",
+      "selector_sha256": "sha256:005f0c7928ad643a8200ee6ff245d5f20fed3bf4f17eb91a3efbe672cd941079",
+      "quote_sha256": "sha256:d242905aa489aaf05cf274535684dfbfe0c1f3ed6ee87da50340cd56b7981a1a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "gamma-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-multimedia-gamma",
+          "evidence_id": "evidence-568bb0bf2131"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-568bb0bf2131",
+          "exact": "输入亮度与输出亮度的非线性变换"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-568bb0bf2131",
+          "subject": "gamma_correction",
+          "predicate": "对输入亮度与输出亮度进行",
+          "object": "非线性变换",
+          "qualifiers": {
+            "quote": "输入亮度与输出亮度的非线性变换"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文『输入亮度与输出亮度的非线性变换』（按所提供引文文本计，Unicode code point 半开区间 0–15）与 claim 的核心论元逐字对应：claim 断言 Gamma 矫正对输入亮度与输出亮度做非线性变换，引文原样给出『输入亮度与输出亮度的非线性变换』，主体（输入/输出亮度）与谓词（非线性变换）结构完全匹配，来源主题即 gamma（source-reported 笔记），故 claim 核心内容被引文支持。claim 中『数学变换』系对『变换』一词的修饰性补充，未与引文冲突，不构成额外事实断言。独立性：仅单一 target 来源，provenance 为空对象且引文无转载声明，无法举证多来源独立性，输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-multimedia-gamma",
+          "evidence_id": "evidence-568bb0bf2131",
+          "start": 0,
+          "end": 15
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-multimedia-gamma",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "gamma-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

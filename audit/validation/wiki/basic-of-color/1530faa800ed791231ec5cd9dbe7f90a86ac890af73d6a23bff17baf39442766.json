@@ -1,0 +1,150 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "basic-of-color",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_9a03636eccad",
+  "input_hash": "sha256:b20b46983d0bf3254533170cda3b25095d4e183a729d4625ee6753fc0b7b8a66",
+  "provider_duration_ms": 26736,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623278.632349,
+  "wiki_content_sha256": "sha256:069599c0cc13acc15299fd99310c906a7a26805c6dc82f03103c08225f713317",
+  "wiki_evidence_sha256": "sha256:0e057990465e68cb1a0c67e2fe78c2d9b3b9921fb31b97e6787a5001e288b1d9",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-color-v2"
+      },
+      "source_id": "wikipedia-color-v2",
+      "evidence_id": "evidence-e689bd00f023",
+      "snapshot_sha256": "sha256:3c2fb280de79e80df5d49514f96b08e8d1772a4692a86f7cd7a901251b2c7e71",
+      "selector_sha256": "sha256:09a0af38dbb15c5fc51164ee3b3ef01c10722e28956403837b5dbcf1cef0a5c6",
+      "quote_sha256": "sha256:e22b5fb9e638ad7bfb80c0e3d948e3c5d4d963323edcdb795211be7897127f4b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "basic-of-color-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e689bd00f023",
+          "exact": "Color (or colour) is the visual perception produced by the activation of the different types of cone cells in the eye caused by light. Though color is not an inherent property of matter, color perception is related to an object's light absorption, emission, reflection and transmission."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e689bd00f023",
+          "subject": "Color",
+          "predicate": "is",
+          "object": "the visual perception produced by the activation of the different types of cone cells in the eye caused by light; not an inherent property of matter; color perception related to an object's light absorption, emission, reflection and transmission",
+          "qualifiers": {
+            "support": "direct",
+            "origin": "external",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "claim 的三段语义均可在目标引文中逐段映射：引文 [0,134) 即 'Color (or colour) is the visual perception produced by the activation of the different types of cone cells in the eye caused by light'，其中 'activation ... caused by light' 对应 claim 的'光刺激'、'different types of cone cells' 对应'不同类型视锥细胞'，完整支持'颜色是…视觉感知'；引文 [135,186) 即 'Though color is not an inherent property of matter' 支持'不是物体固有属性'；引文 [187,286) 即 'color perception is related to an object's light absorption, emission, reflection and transmission' 中的 absorption/emission/reflection/transmission 对应'吸收、发射、反射和透射'，支持'与物体对光的…有关'。仅有的弱化差异是英文源为 'matter'（物质）而 claim 用'物体'，属同义转述，不改变语义。单源直接支持（support=direct），无相互冲突或多源一致性问题，按 EVD-001/VAL-001 判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023",
+          "start": 0,
+          "end": 134
+        },
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023",
+          "start": 135,
+          "end": 186
+        },
+        {
+          "source_id": "wikipedia-color-v2",
+          "evidence_id": "evidence-e689bd00f023",
+          "start": 187,
+          "end": 286
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-color-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "basic-of-color-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "lens-vignetting-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_fc390063e542",
+  "input_hash": "sha256:0b3a6c4c34dd8b398a365325a1194806357770cb1b04daaff4a74d0f400a1776",
+  "provider_duration_ms": 44532,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623922.245931,
+  "wiki_content_sha256": "sha256:ff50a157d53ca1b102602331c1ce26a522f69c370cdb6c717d348905d7bc107f",
+  "wiki_evidence_sha256": "sha256:6866b7d4afd5b8b697edb03701b368c555e041cc00bf9c02619f0eef12b4f2e1",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-vignetting-v2"
+      },
+      "source_id": "wikipedia-vignetting-v2",
+      "evidence_id": "evidence-2342d6d34d74",
+      "snapshot_sha256": "sha256:896317a6687daeaee2c49f331e55677f76e1c82654f4bb46e7d2f50dc789ab9b",
+      "selector_sha256": "sha256:7dcf4129afbe8cc4397bf1860089ba66247b90268d07b3cc471a48ae6dadfb76",
+      "quote_sha256": "sha256:9b0a789350cea022ad8d80b954de9e83e64219069ab5fb167f656992a6b95e39"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "vignetting-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-vignetting-v2",
+          "evidence_id": "evidence-2342d6d34d74"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2342d6d34d74",
+          "exact": "In photography and optics, vignetting is a reduction of an image's brightness or saturation toward the periphery compared to the image center."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2342d6d34d74",
+          "subject": "vignetting",
+          "predicate": "is",
+          "object": "a reduction of an image's brightness or saturation toward the periphery compared to the image center"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文明确定义 vignetting 为“向边缘（periphery）相比图像中心（image center）在亮度或饱和度上的降低（reduction）”；claim 以中文转述该定义（图像边缘相对中心亮度或饱和度降低），语义与引文完全一致，属于直接的等价转述，支持成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-vignetting-v2",
+          "evidence_id": "evidence-2342d6d34d74",
+          "start": 1789,
+          "end": 1931
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-vignetting-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "vignetting-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

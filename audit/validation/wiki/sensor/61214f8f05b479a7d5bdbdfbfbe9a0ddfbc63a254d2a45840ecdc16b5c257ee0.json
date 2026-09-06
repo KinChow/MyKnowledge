@@ -1,0 +1,133 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "sensor",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_5c1ad7ac0879",
+  "input_hash": "sha256:52c56f43e6b77d6832f716266c09efc461f0be203775f90adc7fb611b08aefb8",
+  "provider_duration_ms": 18001,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788624094.183959,
+  "wiki_content_sha256": "sha256:5f334b0d96dbfe0a9304c8bd83718bb1c1a9679b3d4af2d03e04d973b405a2a5",
+  "wiki_evidence_sha256": "sha256:cdb7cfb489d9154011a31c66ec5dfa10ebf9c32741069687d6c5149408f6ffa5",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-image-sensor-v2"
+      },
+      "source_id": "wikipedia-image-sensor-v2",
+      "evidence_id": "evidence-fc1795855e8e",
+      "snapshot_sha256": "sha256:b70107b87587c720d549cbd4660f33220a9dffd31d370f98ce24a17dee75a31d",
+      "selector_sha256": "sha256:c543a0e06f2e22abb81758b57c51f914cb20a1ecaf57ab6483d68f31d1dbd4ad",
+      "quote_sha256": "sha256:dafc86407a526c47dfa54e5ed77657f67d2f2b6438c8053d4fbe2c11793f7f17"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "image-sensor-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-image-sensor-v2",
+          "evidence_id": "evidence-fc1795855e8e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fc1795855e8e",
+          "exact": "An image sensor or imager is a sensor used for imaging. It detects and conveys information used to form an image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fc1795855e8e",
+          "subject": "image sensor (imager)",
+          "predicate": "is used for imaging and detects and conveys information used to form an image",
+          "object": "image"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "claim 与 target 引文语义完全对应：引文 “An image sensor or imager is a sensor used for imaging. It detects and conveys information used to form an image.” 可逐段对译为 claim 的“图像传感器用于成像，能够检测并传递形成图像所需的信息”（imaging→用于成像；detects and conveys→检测并传递；information used to form an image→形成图像所需的信息）。claim 未增加、遗漏或引申引文未包含的内容，属于对引文的准确转述，证据充分支持该 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-image-sensor-v2",
+          "evidence_id": "evidence-fc1795855e8e",
+          "start": 0,
+          "end": 113
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-image-sensor-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "image-sensor-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

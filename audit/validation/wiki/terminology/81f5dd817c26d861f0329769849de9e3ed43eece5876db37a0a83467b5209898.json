@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "terminology",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_56f6ace662b4",
+  "input_hash": "sha256:19c96656bd3983801c5559c98dc03c76b3476d47a501808cb5f176c27ca740fa",
+  "provider_duration_ms": 25017,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788669323.6304588,
+  "wiki_content_sha256": "sha256:58160b09d1b03a19356af0d1c8c4492ceccd541d024687f99f7e01bdeb0a45d3",
+  "wiki_evidence_sha256": "sha256:1bbb6deefdb412a8ce037e1e91815e523141b87a13971c3faf9839e264aa26c6",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-multimedia-terminology"
+      },
+      "source_id": "working-multimedia-terminology",
+      "evidence_id": "evidence-940110685ed9",
+      "snapshot_sha256": "sha256:e3d5a3007bf2c03f83b688ea3d7b5bab584bf610b46640ae541b1afa744686ba",
+      "selector_sha256": "sha256:a291d84bec44343724ee425cb0c024f53c9bcded432ea6582abd4d3e00f01e24",
+      "quote_sha256": "sha256:df9426c310503bd8375f7904225dfba29a0990bb80600b8fd88a11cc07ab689e"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "terminology-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "working-multimedia-terminology",
+          "evidence_id": "evidence-940110685ed9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-940110685ed9",
+          "exact": "|   CHI   |                  Camera Hardware Interface                   |"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-940110685ed9",
+          "subject": "CHI",
+          "predicate": "缩写为",
+          "object": "Camera Hardware Interface",
+          "qualifiers": {
+            "support": "personal",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文为术语表的一行（| CHI | Camera Hardware Interface |），直接支持 claim 中的具体例证：CHI 是 Camera Hardware Interface 的缩写，属于相机硬件接口常用缩写，此部分得到证实。但 claim 还断言术语表收录'相机硬件接口与 ISP 处理模块'两类常用缩写：引文仅提供 CHI 单一条目，未提供任何 ISP 处理模块缩写条目，无法证实'与 ISP 处理模块'所表述的覆盖范围，故该复合断言仅部分成立，判为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-multimedia-terminology",
+          "evidence_id": "evidence-940110685ed9",
+          "start": 0,
+          "end": 74
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-multimedia-terminology",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "terminology-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

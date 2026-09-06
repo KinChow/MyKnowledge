@@ -2,6 +2,51 @@
 archive_policy: text-only
 confidentiality: public
 domain: multimedia
+evidence_items:
+- evidence_id: evidence-53c12a8d4693
+  position:
+    end: 1031
+    start: 6
+    type: TextPositionSelector
+  quote_sha256: sha256:9aea8dad270fe9a21c0cdb5414943a48f5ba6030e5aa02e04e72d8e2d8662a16
+  selector:
+    exact: '|  缩写   |                             全称                             |
+
+      | :-----: | :----------------------------------------------------------: |
+
+      |   CHI   |                  Camera Hardware Interface                   |
+
+      | chi-cdk | Camera Hardward Interface 相机硬件接口；Camera Development Kit，相机开发包 |
+
+      |   IFE   |      Image Front End， Sensor输出的数据首先会到达IFE。       |
+
+      |   IPE   |                   Image processing engine                    |
+
+      |   BPS   |                   Bayer processing segment                   |
+
+      |   TFE   |                        Thin Front End                        |
+
+      |   OPE   |                  Offline Processing Engine                   |
+
+      |   UMD   |                       User Mode Driver                       |
+
+      |   KMD   |                      Kernal Mode Driver                      |
+
+      |   RDI   |                      Raw Dump Interface                      |
+
+      |   RTB   |                       Real Time Bokeh                        |
+
+      |  MFNR   |        Multi Frame Noise Reduction，拍照时的多帧降噪         |'
+    prefix: '# 术语
+
+
+      '
+    suffix: '
+
+      |  MCTF   | Motion Compensation'
+    type: TextQuoteSelector
+  selector_sha256: sha256:ce81ca2751636c070f77dff17ae5cfc9bd9306bd6e2ec414d8bacb07ab50db55
+  snapshot_sha256: sha256:e3d5a3007bf2c03f83b688ea3d7b5bab584bf610b46640ae541b1afa744686ba
 extractor: personal-note/1
 id: working-multimedia-terminology
 media_type: text/markdown

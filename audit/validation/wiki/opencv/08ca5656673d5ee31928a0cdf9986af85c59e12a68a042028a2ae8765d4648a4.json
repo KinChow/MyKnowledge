@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "opencv",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_7c9e4722633d",
+  "input_hash": "sha256:1c657467e42c45bcaf4c4ac4261a5c45e7b84a0cf678a7c8507691e171e91d23",
+  "provider_duration_ms": 31258,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623973.689613,
+  "wiki_content_sha256": "sha256:2d1225e50237119204f19bd32f9b9dc9fa6cd2bb87028f1326ab87d3cade61f9",
+  "wiki_evidence_sha256": "sha256:826fa300a3567ea9aa7e54bf153631bf799bdd5087847a01614cc8b705f83220",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-opencv"
+      },
+      "source_id": "web-multimedia-opencv",
+      "evidence_id": "evidence-7e6069f3047b",
+      "snapshot_sha256": "sha256:0a0221fc82e90f9017e097dfbf9ac952e269d04f29899da3da12f71f59f5571a",
+      "selector_sha256": "sha256:e9ab3f7e064186bd1bc49f2d63a13049aad25926f39947d84fa2884b6b0c8d88",
+      "quote_sha256": "sha256:9c091ae29215e78834a8f8c0708a65949deb8680fcdd2b949ede1c10a745e3da"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "opencv-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-opencv",
+          "evidence_id": "evidence-7e6069f3047b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7e6069f3047b",
+          "exact": "OpenCV documentation#\nOpenCV (Open Source Computer Vision Library) is an open-source computer vision and machine learning software library. It has more than 2,500 optimised algorithms, a comprehensive mix of both classic and state-of-the-art computer vision and machine learning methods."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7e6069f3047b",
+          "subject": "OpenCV (Open Source Computer Vision Library)",
+          "predicate": "is defined as",
+          "object": "an open-source computer vision and machine learning software library with more than 2,500 optimised algorithms covering both classic and state-of-the-art computer vision and machine learning methods",
+          "qualifiers": {
+            "evidence_status": "source-reported",
+            "confidentiality": "public"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [22,287)（即 'OpenCV (Open Source Computer Vision Library) ... methods.' 完整句子）逐项对应 claim 的三项断言：'is an open-source computer vision and machine learning software library' 对应「开源的计算机视觉与机器学习软件库」；'more than 2,500 optimised algorithms' 对应「超过 2500 个优化算法」；'both classic and state-of-the-art computer vision and machine learning methods' 对应「涵盖经典与前沿的计算机视觉和机器学习方法」。claim 为引文的忠实中文转述，关键限定（more than、2,500、both...and）均保留，无添加、无夸大、无删减；首行 'OpenCV documentation#' 为来源标题标记，不承载 claim 内容。单条 source-reported、public 引文完整支持该直接型（direct）claim，故判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-opencv",
+          "evidence_id": "evidence-7e6069f3047b",
+          "start": 22,
+          "end": 287
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-opencv",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "opencv-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

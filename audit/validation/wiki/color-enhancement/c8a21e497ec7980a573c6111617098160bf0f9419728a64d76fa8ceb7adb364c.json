@@ -1,0 +1,135 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "color-enhancement",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_77e063b7d45e",
+  "input_hash": "sha256:1f6bfadc86257e6bba016cd50e4839105e3287a6c09ba5fb47017f160cded2ee",
+  "provider_duration_ms": 24215,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623408.041783,
+  "wiki_content_sha256": "sha256:981cac1ce3e2ca5812929c3c7489f2e852682b2f8030fb03490ca351c76eb9de",
+  "wiki_evidence_sha256": "sha256:9580753b64ca456d7024f307b5077279eee341e3193725c42a224e5ac4b1573b",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-hsl-hsv-v2"
+      },
+      "source_id": "wikipedia-hsl-hsv-v2",
+      "evidence_id": "evidence-e9031ab746c7",
+      "snapshot_sha256": "sha256:201656c59fb26d20de56f6f7d7bd482ebba560eb5b4cf824881d3db77ce74cd0",
+      "selector_sha256": "sha256:0b0dbc835af67a73bdc57846d8135aeb71dc46bbda4456d337215b66146fb422",
+      "quote_sha256": "sha256:8404a73f4565b3f6ce29e2ae2d8e31b16a859c4d209332c4e252ddd8ed05060b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "color-enhancement-hsv",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-hsl-hsv-v2",
+          "evidence_id": "evidence-e9031ab746c7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e9031ab746c7",
+          "exact": "HSL and HSV are the two most common cylindrical-coordinate representations of points in an RGB color model."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e9031ab746c7",
+          "subject": "HSL and HSV",
+          "predicate": "are",
+          "object": "the two most common cylindrical-coordinate representations of points in an RGB color model",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 与 target 引文（wikipedia-hsl-hsv-v2 / evidence-e9031ab746c7，引文全文本 [0,107)）逐项对照：引文直接陈述 \"HSL and HSV are the two most common cylindrical-coordinate representations of points in an RGB color model\"，即断言二者为 RGB 色彩模型中点的柱面坐标表示。claim 系该句的中文转述，仅将最高级 \"the two most common\" 弱化为\"两种常见\"，属表达强度减弱而非断言升级，claim 的全部内容均被引文蕴含，未引入超出引文的任何额外断言，故判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-hsl-hsv-v2",
+          "evidence_id": "evidence-e9031ab746c7",
+          "start": 0,
+          "end": 107
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-hsl-hsv-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "color-enhancement-hsv",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

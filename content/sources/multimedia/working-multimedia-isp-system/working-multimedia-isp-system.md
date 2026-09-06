@@ -2,6 +2,20 @@
 archive_policy: text-only
 confidentiality: public
 domain: multimedia
+evidence_items:
+- evidence_id: evidence-a194d9673e4d
+  position:
+    end: 286
+    start: 255
+    type: TextPositionSelector
+  quote_sha256: sha256:b6ad5c5a0562e7b98c8ce3813e1bba993437a2ddf998f9f22736076651c653bd
+  selector:
+    exact: 整个ISP pipeline都是围绕对真实世界的还原而设计的。
+    prefix: 系统是为了模仿人的视觉系统，尽可能地把现实场景恢复得与人眼接近。
+    suffix: "\n\n\n\n## 组成\n\n* 镜头（Lens）\n  * 镜头由透镜组"
+    type: TextQuoteSelector
+  selector_sha256: sha256:bee901587250c3932b915e416602a61c28f77078c16ddf87b84637b27be8203b
+  snapshot_sha256: sha256:eda419d333d8bc5310e63c070a8ee03678cc952da2492b1807d6e466e8c306df
 extractor: personal-note/1
 id: working-multimedia-isp-system
 media_type: text/markdown

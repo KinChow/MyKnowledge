@@ -25,7 +25,7 @@ evidence:
   targets:
   - evidence_id: evidence-97ea187b1d05
     source_id: wiki-demosaicing
-- claim: 高级去马赛克算法利用像素的空间相关与谱相关：空间相关指同质小区域内像素取相近颜色值，谱相关指小区域内不同颜色平面的像素值相互依赖。
+- claim: 高级去马赛克算法利用像素的空间相关和/或谱相关：空间相关指同质小区域内像素取相近颜色值，谱相关指小区域内不同颜色平面的像素值相互依赖。
   claim_id: demosaic-correlation
   support: direct
   supporting_quotes:

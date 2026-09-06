@@ -2,6 +2,33 @@
 archive_policy: text-only
 confidentiality: public
 domain: multimedia
+evidence_items:
+- evidence_id: evidence-568bb0bf2131
+  position:
+    end: 62
+    start: 47
+    type: TextPositionSelector
+  quote_sha256: sha256:d242905aa489aaf05cf274535684dfbfe0c1f3ed6ee87da50340cd56b7981a1a
+  selector:
+    exact: 输入亮度与输出亮度的非线性变换
+    prefix: 'Gamma
+
+
+      Gamma：一种数学变换。
+
+
+      Gamma矫正：
+
+
+      '
+    suffix: '，一般写作：
+
+      $$
+
+      L_{out} = L_{in}^{1/\g'
+    type: TextQuoteSelector
+  selector_sha256: sha256:005f0c7928ad643a8200ee6ff245d5f20fed3bf4f17eb91a3efbe672cd941079
+  snapshot_sha256: sha256:2066e10c0dc51753812aaab9bbfad47285485c3c90a0c6d177deae7ba66f0b05
 extractor: personal-note/1
 id: working-multimedia-gamma
 media_type: text/markdown

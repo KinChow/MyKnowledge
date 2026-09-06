@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "black-level-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_e947c3f35aa5",
+  "input_hash": "sha256:a7b563d3b85afb1883edb695b5330827e128a3999b4e9f2cb52b5082dd7dd051",
+  "provider_duration_ms": 61848,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788623341.049292,
+  "wiki_content_sha256": "sha256:00f7ee537fa62c7a50e3a51341b180995f3f195e6ab4da624c55940224f211b8",
+  "wiki_evidence_sha256": "sha256:3980c6f9868dc5fb93ccabd12025ade77a6073f6d80f575c78d2c1ebbd893a99",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-multimedia-black-level-correction"
+      },
+      "source_id": "working-multimedia-black-level-correction",
+      "evidence_id": "evidence-56feaf116695",
+      "snapshot_sha256": "sha256:ba2df7ad79eef36199997f43c500ff31f29faf38d294713753387c01a184550b",
+      "selector_sha256": "sha256:e6264b82bbc10ace5dddadb7b9115b801bfec8a277d44b3d9b63c2f13abd8f33",
+      "quote_sha256": "sha256:e184e50cc551410f60c3c37ed2ce903a8d592fbe87f024eb0b9d29476de7121e"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "black-level-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "working-multimedia-black-level-correction",
+          "evidence_id": "evidence-56feaf116695"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-56feaf116695",
+          "exact": "黑电平（Black Level / Optical Black）：黑电平是图像数据中黑色数据（0）对应图像传感器采集的电平值。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-56feaf116695",
+          "subject": "黑电平",
+          "predicate": "是",
+          "object": "图像数据中黑色数据（0）对应图像传感器采集的电平值"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文（evidence-56feaf116695，定位于源文件 [1049,1111)）仅陈述黑电平定义：黑电平是图像数据中黑色数据（0）对应图像传感器采集的电平值，与 claim 前半句（含 Black Level / Optical Black 别名）语义一致，该部分受支持。但 claim 后半句「sensor 预留未曝光像素行以实时测量黑电平」不在该引文声明的字符区间内；该内容虽见于源文件第 46 行（sensor 上会预留完全没有曝光的像素……通过读取这些像素值的大小，可以实时得到黑电平），但未被本 evidence 引用，故 claim 仅部分被声明的 target 引文支持。源文件 frontmatter 的 TextPositionSelector 记录 [22,85)（相对提取内容），以实际全文匹配的 [1049,1111) 为准。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-multimedia-black-level-correction",
+          "evidence_id": "evidence-56feaf116695",
+          "start": 1049,
+          "end": 1111
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-multimedia-black-level-correction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "black-level-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
