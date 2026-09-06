@@ -1,0 +1,2176 @@
+<!DOCTYPE html><html lang="zh-tw"><head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>&#x4ECB;&#x7ECD; | 100&#x4E2A;gdb&#x5C0F;&#x6280;&#x5DE7;</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="&#x4F5C;&#x8005;&#xFF1A;hellogcc">
+        <meta name="generator" content="GitBook 2.6.7">
+        <meta name="author" content="wizardforcel">
+        
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="https://gstatic.gitbook.com/images/b1c4c86ca817a71628d2debe73be9a64.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-comment/plugin.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="./part1.html">
+    
+    
+
+        
+    
+<style>
+    .book .book-summary .book-search,
+    .book .book-summary ul.summary {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+    }
+    .book-summary {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        overflow-y: auto;
+    }
+    .book-summary > nav {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        overflow-y: overlay;
+    }
+    .gl-wrapper {
+        margin: 0;
+        display: block;
+        padding: 0;
+        position: relative;
+        line-height: 15px;
+        background: #fafafa;
+    }
+    .gl-wrapper:before {
+        background: -webkit-linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%);
+        background: -moz-linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%);
+        top: -24px;
+        width: 100%;
+        height: 24px;
+        content: "";
+        display: block;
+        position: absolute;
+        background: linear-gradient(to bottom, rgba(250,250,250,0) 0%, #fafafa 100%);
+    }
+    .book.color-theme-1 .gl-wrapper {
+        background: #121212;
+    }
+    .book.color-theme-1 .gl-wrapper:before {
+        background: -webkit-linear-gradient(to bottom, rgba(18,18,18,0) 0%, #121212 100%);
+        background: -moz-linear-gradient(to bottom, rgba(18,18,18,0) 0%, #121212 100%);
+        background: linear-gradient(to bottom, rgba(18,18,18,0) 0%, #121212 100%);
+    }
+    .book.color-theme-2 .gl-wrapper {
+        background: #2e3243;
+    }
+    .book.color-theme-2 .gl-wrapper:before {
+        background: -webkit-linear-gradient(to bottom, rgba(46,50,67,0) 0%, #2e3243 100%);
+        background: -moz-linear-gradient(to bottom, rgba(46,50,67,0) 0%, #2e3243 100%);
+        background: linear-gradient(to bottom, rgba(46,50,67,0) 0%, #2e3243 100%);
+    }
+    .gl-wrapper .gitbook-link {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        color: #9DAAB6;
+        margin: 16px;
+        display: flex;
+        padding: 0;
+        align-items: center;
+        margin-left: 32px;
+        padding-top: 8px;
+        padding-left: 16px;
+        border-radius: 3px;
+        padding-right: 16px;
+        padding-bottom: 8px;
+        text-decoration: none;
+        background-color: #E6ECF1;
+        -webkit-box-align: center;
+    }
+    .gl-wrapper .tm-logo {
+        margin: 0;
+        display: block;
+        padding: 0;
+        font-size: 40px;
+    }
+    .gl-wrapper .tm-content {
+        flex: 1;
+        margin: 0;
+        display: block;
+        padding: 0;
+        padding-left: 16px;
+    }
+    .gl-wrapper .tm-content .container {
+        margin: 0;
+        display: block;
+        padding: 0;
+    }
+    .gl-wrapper .tm-content .tm-container .tm-text {
+        font-size: 12px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        line-height: 1.625;
+    }
+</style></head>
+    <body>
+        
+        
+    <div class="book" data-level="0" data-chapter-title="&#x4ECB;&#x7ECD;" data-filepath="README.md" data-basepath="." data-revision="Sun May 01 2016 03:19:58 GMT+0000 (UTC)" data-innerlanguage>
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+                
+                <li>
+                    <a href="https://www.gitbook.com/book/wizardforcel/100-gdb-tips" target="blank" class="custom-link">100&#x4E2A;gdb&#x5C0F;&#x6280;&#x5DE7;</a>
+                </li>
+            
+            
+
+            
+            <li class="divider"></li>
+            
+
+            
+    
+        <li class="chapter active" data-level="0" data-path="index.html">
+            
+                
+                    <a href="./index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        &#x4ECB;&#x7ECD;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="part1.html">
+            
+                
+                    <a href="./part1.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        &#x4FE1;&#x606F;&#x663E;&#x793A;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.1" data-path="show-version.html">
+            
+                
+                    <a href="./show-version.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        &#x663E;&#x793A;gdb&#x7248;&#x672C;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="show-copying-warranty.html">
+            
+                
+                    <a href="./show-copying-warranty.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.2.</b>
+                        
+                        &#x663E;&#x793A;gdb&#x7248;&#x6743;&#x76F8;&#x5173;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="start-gdb-silently.html">
+            
+                
+                    <a href="./start-gdb-silently.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.3.</b>
+                        
+                        &#x542F;&#x52A8;&#x65F6;&#x4E0D;&#x663E;&#x793A;&#x63D0;&#x793A;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="quit-gdb-silently.html">
+            
+                
+                    <a href="./quit-gdb-silently.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.4.</b>
+                        
+                        &#x9000;&#x51FA;&#x65F6;&#x4E0D;&#x663E;&#x793A;&#x63D0;&#x793A;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="set-pagination-off.html">
+            
+                
+                    <a href="./set-pagination-off.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.5.</b>
+                        
+                        &#x8F93;&#x51FA;&#x4FE1;&#x606F;&#x591A;&#x65F6;&#x4E0D;&#x4F1A;&#x6682;&#x505C;&#x8F93;&#x51FA;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="part2.html">
+            
+                
+                    <a href="./part2.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        &#x51FD;&#x6570;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1" data-path="info-function.html">
+            
+                
+                    <a href="./info-function.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                        &#x5217;&#x51FA;&#x51FD;&#x6570;&#x7684;&#x540D;&#x5B57;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="step-and-next-function.html">
+            
+                
+                    <a href="./step-and-next-function.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.</b>
+                        
+                        &#x662F;&#x5426;&#x8FDB;&#x5165;&#x5E26;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x7684;&#x51FD;&#x6570;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="set-step-mode-on.html">
+            
+                
+                    <a href="./set-step-mode-on.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.3.</b>
+                        
+                        &#x8FDB;&#x5165;&#x4E0D;&#x5E26;&#x8C03;&#x8BD5;&#x4FE1;&#x606F;&#x7684;&#x51FD;&#x6570;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="finish-and-return.html">
+            
+                
+                    <a href="./finish-and-return.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.4.</b>
+                        
+                        &#x9000;&#x51FA;&#x6B63;&#x5728;&#x8C03;&#x8BD5;&#x7684;&#x51FD;&#x6570;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="call-func.html">
+            
+                
+                    <a href="./call-func.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.5.</b>
+                        
+                        &#x76F4;&#x63A5;&#x6267;&#x884C;&#x51FD;&#x6570;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="info-frame.html">
+            
+                
+                    <a href="./info-frame.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.6.</b>
+                        
+                        &#x6253;&#x5370;&#x51FD;&#x6570;&#x5806;&#x6808;&#x5E27;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="set-debug-entry-values.html">
+            
+                
+                    <a href="./set-debug-entry-values.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.7.</b>
+                        
+                        &#x6253;&#x5370;&#x5C3E;&#x8C03;&#x7528;&#x5806;&#x6808;&#x5E27;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="select-frame.html">
+            
+                
+                    <a href="./select-frame.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.8.</b>
+                        
+                        &#x9009;&#x62E9;&#x51FD;&#x6570;&#x5806;&#x6808;&#x5E27;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="up-down-select-frame.html">
+            
+                
+                    <a href="./up-down-select-frame.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.9.</b>
+                        
+                        &#x5411;&#x4E0A;&#x6216;&#x5411;&#x4E0B;&#x5207;&#x6362;&#x51FD;&#x6570;&#x5806;&#x6808;&#x5E27;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="part3.html">
+            
+                
+                    <a href="./part3.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        &#x65AD;&#x70B9;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1" data-path="break-anonymous-namespace.html">
+            
+                
+                    <a href="./break-anonymous-namespace.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                        &#x5728;&#x533F;&#x540D;&#x7A7A;&#x95F4;&#x8BBE;&#x7F6E;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="break-on-address.html">
+            
+                
+                    <a href="./break-on-address.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                        &#x5728;&#x7A0B;&#x5E8F;&#x5730;&#x5740;&#x4E0A;&#x6253;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="break-on-entry.html">
+            
+                
+                    <a href="./break-on-entry.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                        &#x5728;&#x7A0B;&#x5E8F;&#x5165;&#x53E3;&#x5904;&#x6253;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="break-on-linenum.html">
+            
+                
+                    <a href="./break-on-linenum.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                        &#x5728;&#x6587;&#x4EF6;&#x884C;&#x53F7;&#x4E0A;&#x6253;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="save-breakpoints.html">
+            
+                
+                    <a href="./save-breakpoints.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.5.</b>
+                        
+                        &#x4FDD;&#x5B58;&#x5DF2;&#x7ECF;&#x8BBE;&#x7F6E;&#x7684;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="set-tbreak.html">
+            
+                
+                    <a href="./set-tbreak.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.6.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x4E34;&#x65F6;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="set-condition-break.html">
+            
+                
+                    <a href="./set-condition-break.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.7.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x6761;&#x4EF6;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="ignore-break.html">
+            
+                
+                    <a href="./ignore-break.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.8.</b>
+                        
+                        &#x5FFD;&#x7565;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="part4.html">
+            
+                
+                    <a href="./part4.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        &#x89C2;&#x5BDF;&#x70B9;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1" data-path="set-watchpoint.html">
+            
+                
+                    <a href="./set-watchpoint.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.1.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x89C2;&#x5BDF;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="set-watchpoint-on-specified-thread.html">
+            
+                
+                    <a href="./set-watchpoint-on-specified-thread.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.2.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x89C2;&#x5BDF;&#x70B9;&#x53EA;&#x9488;&#x5BF9;&#x7279;&#x5B9A;&#x7EBF;&#x7A0B;&#x751F;&#x6548;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="set-read-watchpoint.html">
+            
+                
+                    <a href="./set-read-watchpoint.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.3.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x8BFB;&#x89C2;&#x5BDF;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="set-read-write-watchpoint.html">
+            
+                
+                    <a href="./set-read-write-watchpoint.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.4.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x8BFB;&#x5199;&#x89C2;&#x5BDF;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="part5.html">
+            
+                
+                    <a href="./part5.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        Catchpoint
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1" data-path="tcatch.html">
+            
+                
+                    <a href="./tcatch.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                        &#x8BA9;catchpoint&#x53EA;&#x89E6;&#x53D1;&#x4E00;&#x6B21;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="catch-fork.html">
+            
+                
+                    <a href="./catch-fork.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                        &#x4E3A;fork&#x8C03;&#x7528;&#x8BBE;&#x7F6E;catchpoint
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="catch-vfork.html">
+            
+                
+                    <a href="./catch-vfork.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                        &#x4E3A;vfork&#x8C03;&#x7528;&#x8BBE;&#x7F6E;catchpoint
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="catch-exec.html">
+            
+                
+                    <a href="./catch-exec.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                        &#x4E3A;exec&#x8C03;&#x7528;&#x8BBE;&#x7F6E;catchpoint
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="catch-syscall.html">
+            
+                
+                    <a href="./catch-syscall.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.5.</b>
+                        
+                        &#x4E3A;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;&#x8BBE;&#x7F6E;catchpoint
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="catch-ptrace.html">
+            
+                
+                    <a href="./catch-ptrace.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.6.</b>
+                        
+                        &#x901A;&#x8FC7;&#x4E3A;ptrace&#x8C03;&#x7528;&#x8BBE;&#x7F6E;catchpoint&#x7834;&#x89E3;anti-debugging&#x7684;&#x7A0B;&#x5E8F;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="part6.html">
+            
+                
+                    <a href="./part6.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        &#x6253;&#x5370;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="6.1" data-path="print-ascii-and-wide-string.html">
+            
+                
+                    <a href="./print-ascii-and-wide-string.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                        &#x6253;&#x5370;ASCII&#x548C;&#x5BBD;&#x5B57;&#x7B26;&#x5B57;&#x7B26;&#x4E32;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="print-STL-container.html">
+            
+                
+                    <a href="./print-STL-container.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.2.</b>
+                        
+                        &#x6253;&#x5370;STL&#x5BB9;&#x5668;&#x4E2D;&#x7684;&#x5185;&#x5BB9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="print-large-array.html">
+            
+                
+                    <a href="./print-large-array.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.3.</b>
+                        
+                        &#x6253;&#x5370;&#x5927;&#x6570;&#x7EC4;&#x4E2D;&#x7684;&#x5185;&#x5BB9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.4" data-path="print-consecutive-array-elements.html">
+            
+                
+                    <a href="./print-consecutive-array-elements.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.4.</b>
+                        
+                        &#x6253;&#x5370;&#x6570;&#x7EC4;&#x4E2D;&#x4EFB;&#x610F;&#x8FDE;&#x7EED;&#x5143;&#x7D20;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.5" data-path="print-array-indexes.html">
+            
+                
+                    <a href="./print-array-indexes.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.5.</b>
+                        
+                        &#x6253;&#x5370;&#x6570;&#x7EC4;&#x7684;&#x7D22;&#x5F15;&#x4E0B;&#x6807;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.6" data-path="print-local-variables.html">
+            
+                
+                    <a href="./print-local-variables.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.6.</b>
+                        
+                        &#x6253;&#x5370;&#x51FD;&#x6570;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.7" data-path="print-process-memory.html">
+            
+                
+                    <a href="./print-process-memory.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.7.</b>
+                        
+                        &#x6253;&#x5370;&#x8FDB;&#x7A0B;&#x5185;&#x5B58;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.8" data-path="print-static-variables.html">
+            
+                
+                    <a href="./print-static-variables.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.8.</b>
+                        
+                        &#x6253;&#x5370;&#x9759;&#x6001;&#x53D8;&#x91CF;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.9" data-path="print-variable-info.html">
+            
+                
+                    <a href="./print-variable-info.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.9.</b>
+                        
+                        &#x6253;&#x5370;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#x548C;&#x6240;&#x5728;&#x6587;&#x4EF6;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.10" data-path="examine-memory.html">
+            
+                
+                    <a href="./examine-memory.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.10.</b>
+                        
+                        &#x6253;&#x5370;&#x5185;&#x5B58;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.11" data-path="print-source-lines.html">
+            
+                
+                    <a href="./print-source-lines.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.11.</b>
+                        
+                        &#x6253;&#x5370;&#x6E90;&#x4EE3;&#x7801;&#x884C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.12" data-path="set-print-pretty-on.html">
+            
+                
+                    <a href="./set-print-pretty-on.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.12.</b>
+                        
+                        &#x6BCF;&#x884C;&#x6253;&#x5370;&#x4E00;&#x4E2A;&#x7ED3;&#x6784;&#x4F53;&#x6210;&#x5458;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.13" data-path="print-derived-type.html">
+            
+                
+                    <a href="./print-derived-type.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.13.</b>
+                        
+                        &#x6309;&#x7167;&#x6D3E;&#x751F;&#x7C7B;&#x578B;&#x6253;&#x5370;&#x5BF9;&#x8C61;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.14" data-path="set-io-tty.html">
+            
+                
+                    <a href="./set-io-tty.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.14.</b>
+                        
+                        &#x6307;&#x5B9A;&#x7A0B;&#x5E8F;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x8BBE;&#x5907;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.15" data-path="use-$_-$__-variables.html">
+            
+                
+                    <a href="./use-$_-$__-variables.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.15.</b>
+                        
+                        &#x4F7F;&#x7528;&#x201C;$\\_&#x201D;&#x548C;&#x201C;$\\__&#x201D;&#x53D8;&#x91CF;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.16" data-path="print-malloc-memory.html">
+            
+                
+                    <a href="./print-malloc-memory.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.16.</b>
+                        
+                        &#x6253;&#x5370;&#x7A0B;&#x5E8F;&#x52A8;&#x6001;&#x5206;&#x914D;&#x5185;&#x5B58;&#x7684;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6.17" data-path="print-frame-variables.html">
+            
+                
+                    <a href="./print-frame-variables.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.17.</b>
+                        
+                        &#x6253;&#x5370;&#x8C03;&#x7528;&#x6808;&#x5E27;&#x4E2D;&#x53D8;&#x91CF;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="part7.html">
+            
+                
+                    <a href="./part7.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        &#x591A;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="7.1" data-path="attach-process.html">
+            
+                
+                    <a href="./attach-process.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.1.</b>
+                        
+                        &#x8C03;&#x8BD5;&#x5DF2;&#x7ECF;&#x8FD0;&#x884C;&#x7684;&#x8FDB;&#x7A0B;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="set-follow-fork-mode-child.html">
+            
+                
+                    <a href="./set-follow-fork-mode-child.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.2.</b>
+                        
+                        &#x8C03;&#x8BD5;&#x5B50;&#x8FDB;&#x7A0B;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="set-detach-on-fork.html">
+            
+                
+                    <a href="./set-detach-on-fork.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.3.</b>
+                        
+                        &#x540C;&#x65F6;&#x8C03;&#x8BD5;&#x7236;&#x8FDB;&#x7A0B;&#x548C;&#x5B50;&#x8FDB;&#x7A0B;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="print-threads.html">
+            
+                
+                    <a href="./print-threads.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.4.</b>
+                        
+                        &#x67E5;&#x770B;&#x7EBF;&#x7A0B;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="maint-info-sol-threads.html">
+            
+                
+                    <a href="./maint-info-sol-threads.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.5.</b>
+                        
+                        &#x5728;Solaris&#x4E0A;&#x4F7F;&#x7528;maintenance&#x547D;&#x4EE4;&#x67E5;&#x770B;&#x7EBF;&#x7A0B;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" data-path="show-print-thread-events.html">
+            
+                
+                    <a href="./show-print-thread-events.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.6.</b>
+                        
+                        &#x4E0D;&#x663E;&#x793A;&#x7EBF;&#x7A0B;&#x542F;&#x52A8;&#x548C;&#x9000;&#x51FA;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" data-path="set-scheduler-locking-on.html">
+            
+                
+                    <a href="./set-scheduler-locking-on.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.7.</b>
+                        
+                        &#x53EA;&#x5141;&#x8BB8;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x8FD0;&#x884C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" data-path="use-$_thread-variable.html">
+            
+                
+                    <a href="./use-$_thread-variable.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.8.</b>
+                        
+                        &#x4F7F;&#x7528;&#x201C;$_thread&#x201D;&#x53D8;&#x91CF;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.9" data-path="add-copy-inferiors.html">
+            
+                
+                    <a href="./add-copy-inferiors.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.9.</b>
+                        
+                        &#x4E00;&#x4E2A;gdb&#x4F1A;&#x8BDD;&#x4E2D;&#x540C;&#x65F6;&#x8C03;&#x8BD5;&#x591A;&#x4E2A;&#x7A0B;&#x5E8F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.10" data-path="maint-info-program-space.html">
+            
+                
+                    <a href="./maint-info-program-space.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.10.</b>
+                        
+                        &#x6253;&#x5370;&#x7A0B;&#x5E8F;&#x8FDB;&#x7A0B;&#x7A7A;&#x95F4;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7.11" data-path="use-$_exitcode.html">
+            
+                
+                    <a href="./use-$_exitcode.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.11.</b>
+                        
+                        &#x4F7F;&#x7528;&#x201C;$_exitcode&#x201D;&#x53D8;&#x91CF;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="part8.html">
+            
+                
+                    <a href="./part8.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        core dump&#x6587;&#x4EF6;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="8.1" data-path="generate-core-dump-file.html">
+            
+                
+                    <a href="./generate-core-dump-file.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.1.</b>
+                        
+                        &#x4E3A;&#x8C03;&#x8BD5;&#x8FDB;&#x7A0B;&#x4EA7;&#x751F;core dump&#x6587;&#x4EF6;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="load-executable-and-coredump-file.html">
+            
+                
+                    <a href="./load-executable-and-coredump-file.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.2.</b>
+                        
+                        &#x52A0;&#x8F7D;&#x53EF;&#x6267;&#x884C;&#x7A0B;&#x5E8F;&#x548C;core dump&#x6587;&#x4EF6;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="part9.html">
+            
+                
+                    <a href="./part9.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        &#x6C47;&#x7F16;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="9.1" data-path="set-disassembly-flavor.html">
+            
+                
+                    <a href="./set-disassembly-flavor.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.1.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x6C47;&#x7F16;&#x6307;&#x4EE4;&#x683C;&#x5F0F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.2" data-path="break-on-first-assembly-code.html">
+            
+                
+                    <a href="./break-on-first-assembly-code.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.2.</b>
+                        
+                        &#x5728;&#x51FD;&#x6570;&#x7684;&#x7B2C;&#x4E00;&#x6761;&#x6C47;&#x7F16;&#x6307;&#x4EE4;&#x6253;&#x65AD;&#x70B9;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.3" data-path="disassemble-next-line.html">
+            
+                
+                    <a href="./disassemble-next-line.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.3.</b>
+                        
+                        &#x81EA;&#x52A8;&#x53CD;&#x6C47;&#x7F16;&#x540E;&#x9762;&#x8981;&#x6267;&#x884C;&#x7684;&#x4EE3;&#x7801;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.4" data-path="map-source-code-and-assembly.html">
+            
+                
+                    <a href="./map-source-code-and-assembly.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.4.</b>
+                        
+                        &#x5C06;&#x6E90;&#x7A0B;&#x5E8F;&#x548C;&#x6C47;&#x7F16;&#x6307;&#x4EE4;&#x6620;&#x5C04;&#x8D77;&#x6765;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.5" data-path="display-instruction-pc.html">
+            
+                
+                    <a href="./display-instruction-pc.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.5.</b>
+                        
+                        &#x663E;&#x793A;&#x5C06;&#x8981;&#x6267;&#x884C;&#x7684;&#x6C47;&#x7F16;&#x6307;&#x4EE4;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.6" data-path="print-registers.html">
+            
+                
+                    <a href="./print-registers.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.6.</b>
+                        
+                        &#x6253;&#x5370;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9.7" data-path="disassemble-raw-machine-code.html">
+            
+                
+                    <a href="./disassemble-raw-machine-code.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.7.</b>
+                        
+                        &#x663E;&#x793A;&#x7A0B;&#x5E8F;&#x539F;&#x59CB;&#x673A;&#x5668;&#x7801;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="part10.html">
+            
+                
+                    <a href="./part10.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        &#x6539;&#x53D8;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="10.1" data-path="change-string.html">
+            
+                
+                    <a href="./change-string.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.1.</b>
+                        
+                        &#x6539;&#x53D8;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.2" data-path="set-var.html">
+            
+                
+                    <a href="./set-var.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.2.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x53D8;&#x91CF;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.3" data-path="modify-pc-register.html">
+            
+                
+                    <a href="./modify-pc-register.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.3.</b>
+                        
+                        &#x4FEE;&#x6539;PC&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x503C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.4" data-path="jump.html">
+            
+                
+                    <a href="./jump.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.4.</b>
+                        
+                        &#x8DF3;&#x8F6C;&#x5230;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x6267;&#x884C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.5" data-path="breakpoint-command.html">
+            
+                
+                    <a href="./breakpoint-command.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.5.</b>
+                        
+                        &#x4F7F;&#x7528;&#x65AD;&#x70B9;&#x547D;&#x4EE4;&#x6539;&#x53D8;&#x7A0B;&#x5E8F;&#x7684;&#x6267;&#x884C;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10.6" data-path="patch-program.html">
+            
+                
+                    <a href="./patch-program.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.6.</b>
+                        
+                        &#x4FEE;&#x6539;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;&#x4E8C;&#x8FDB;&#x5236;&#x6587;&#x4EF6;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="part11.html">
+            
+                
+                    <a href="./part11.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        &#x4FE1;&#x53F7;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="11.1" data-path="info-signals.html">
+            
+                
+                    <a href="./info-signals.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.1.</b>
+                        
+                        &#x67E5;&#x770B;&#x4FE1;&#x53F7;&#x5904;&#x7406;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.2" data-path="stop-signal.html">
+            
+                
+                    <a href="./stop-signal.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.2.</b>
+                        
+                        &#x4FE1;&#x53F7;&#x53D1;&#x751F;&#x65F6;&#x662F;&#x5426;&#x6682;&#x505C;&#x7A0B;&#x5E8F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.3" data-path="print-signal.html">
+            
+                
+                    <a href="./print-signal.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.3.</b>
+                        
+                        &#x4FE1;&#x53F7;&#x53D1;&#x751F;&#x65F6;&#x662F;&#x5426;&#x6253;&#x5370;&#x4FE1;&#x53F7;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.4" data-path="pass-signal.html">
+            
+                
+                    <a href="./pass-signal.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.4.</b>
+                        
+                        &#x4FE1;&#x53F7;&#x53D1;&#x751F;&#x65F6;&#x662F;&#x5426;&#x628A;&#x4FE1;&#x53F7;&#x4E22;&#x7ED9;&#x7A0B;&#x5E8F;&#x5904;&#x7406;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.5" data-path="send-signal.html">
+            
+                
+                    <a href="./send-signal.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.5.</b>
+                        
+                        &#x7ED9;&#x7A0B;&#x5E8F;&#x53D1;&#x9001;&#x4FE1;&#x53F7;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11.6" data-path="use-$_siginfo-variable.html">
+            
+                
+                    <a href="./use-$_siginfo-variable.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.6.</b>
+                        
+                        &#x4F7F;&#x7528;&#x201C;$_siginfo&#x201D;&#x53D8;&#x91CF;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="12" data-path="part12.html">
+            
+                
+                    <a href="./part12.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.</b>
+                        
+                        &#x5171;&#x4EAB;&#x5E93;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="12.1" data-path="info_sharedlibrary.html">
+            
+                
+                    <a href="./info_sharedlibrary.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>12.1.</b>
+                        
+                        &#x663E;&#x793A;&#x5171;&#x4EAB;&#x94FE;&#x63A5;&#x5E93;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="13" data-path="part13.html">
+            
+                
+                    <a href="./part13.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.</b>
+                        
+                        &#x811A;&#x672C;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="13.1" data-path="config-gdbinit.html">
+            
+                
+                    <a href="./config-gdbinit.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.1.</b>
+                        
+                        &#x914D;&#x7F6E;gdb init&#x6587;&#x4EF6;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13.2" data-path="set-script-extension.html">
+            
+                
+                    <a href="./set-script-extension.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.2.</b>
+                        
+                        &#x6309;&#x4F55;&#x79CD;&#x65B9;&#x5F0F;&#x89E3;&#x6790;&#x811A;&#x672C;&#x6587;&#x4EF6;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="13.3" data-path="save-history-commands.html">
+            
+                
+                    <a href="./save-history-commands.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>13.3.</b>
+                        
+                        &#x4FDD;&#x5B58;&#x5386;&#x53F2;&#x547D;&#x4EE4;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="14" data-path="part14.html">
+            
+                
+                    <a href="./part14.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.</b>
+                        
+                        &#x6E90;&#x6587;&#x4EF6;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="14.1" data-path="directory.html">
+            
+                
+                    <a href="./directory.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.1.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x6E90;&#x6587;&#x4EF6;&#x67E5;&#x627E;&#x8DEF;&#x5F84;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="14.2" data-path="substitute-path.html">
+            
+                
+                    <a href="./substitute-path.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>14.2.</b>
+                        
+                        &#x66FF;&#x6362;&#x67E5;&#x627E;&#x6E90;&#x6587;&#x4EF6;&#x7684;&#x76EE;&#x5F55;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="15" data-path="part15.html">
+            
+                
+                    <a href="./part15.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.</b>
+                        
+                        &#x56FE;&#x5F62;&#x5316;&#x754C;&#x9762;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="15.1" data-path="tui-mode.html">
+            
+                
+                    <a href="./tui-mode.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.1.</b>
+                        
+                        &#x8FDB;&#x5165;&#x548C;&#x9000;&#x51FA;&#x56FE;&#x5F62;&#x5316;&#x8C03;&#x8BD5;&#x754C;&#x9762;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.2" data-path="layout-asm.html">
+            
+                
+                    <a href="./layout-asm.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.2.</b>
+                        
+                        &#x663E;&#x793A;&#x6C47;&#x7F16;&#x4EE3;&#x7801;&#x7A97;&#x53E3;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.3" data-path="layout-regs.html">
+            
+                
+                    <a href="./layout-regs.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.3.</b>
+                        
+                        &#x663E;&#x793A;&#x5BC4;&#x5B58;&#x5668;&#x7A97;&#x53E3;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="15.4" data-path="winheight.html">
+            
+                
+                    <a href="./winheight.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>15.4.</b>
+                        
+                        &#x8C03;&#x6574;&#x7A97;&#x53E3;&#x5927;&#x5C0F;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="16" data-path="part16.html">
+            
+                
+                    <a href="./part16.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.</b>
+                        
+                        &#x5176;&#x5B83;
+                    </a>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="16.1" data-path="option-format.html">
+            
+                
+                    <a href="./option-format.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.1.</b>
+                        
+                        &#x547D;&#x4EE4;&#x884C;&#x9009;&#x9879;&#x7684;&#x683C;&#x5F0F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.2" data-path="preprocessor-macro.html">
+            
+                
+                    <a href="./preprocessor-macro.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.2.</b>
+                        
+                        &#x652F;&#x6301;&#x9884;&#x5904;&#x7406;&#x5668;&#x5B8F;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.3" data-path="use-short-command.html">
+            
+                
+                    <a href="./use-short-command.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.3.</b>
+                        
+                        &#x4F7F;&#x7528;&#x547D;&#x4EE4;&#x7684;&#x7F29;&#x5199;&#x5F62;&#x5F0F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.4" data-path="run-shell-command.html">
+            
+                
+                    <a href="./run-shell-command.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.4.</b>
+                        
+                        &#x5728;gdb&#x4E2D;&#x6267;&#x884C;shell&#x547D;&#x4EE4;&#x548C;make
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.5" data-path="run-cd-pwd.html">
+            
+                
+                    <a href="./run-cd-pwd.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.5.</b>
+                        
+                        &#x5728;gdb&#x4E2D;&#x6267;&#x884C;cd&#x548C;pwd&#x547D;&#x4EE4;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.6" data-path="set-prompt.html">
+            
+                
+                    <a href="./set-prompt.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.6.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x547D;&#x4EE4;&#x63D0;&#x793A;&#x7B26;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.7" data-path="set-program-args.html">
+            
+                
+                    <a href="./set-program-args.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.7.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;&#x53C2;&#x6570;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.8" data-path="set-program-env.html">
+            
+                
+                    <a href="./set-program-env.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.8.</b>
+                        
+                        &#x8BBE;&#x7F6E;&#x88AB;&#x8C03;&#x8BD5;&#x7A0B;&#x5E8F;&#x7684;&#x73AF;&#x5883;&#x53D8;&#x91CF;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.9" data-path="help.html">
+            
+                
+                    <a href="./help.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.9.</b>
+                        
+                        &#x5F97;&#x5230;&#x547D;&#x4EE4;&#x7684;&#x5E2E;&#x52A9;&#x4FE1;&#x606F;
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="16.10" data-path="set-logging.html">
+            
+                
+                    <a href="./set-logging.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>16.10.</b>
+                        
+                        &#x8BB0;&#x5F55;&#x6267;&#x884C;gdb&#x7684;&#x8FC7;&#x7A0B;
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            
+            
+        </ul>
+    </nav>
+
+<div class="gl-wrapper">
+    <a class="gitbook-link" href="https://www.gitbook.com?utm_source=public_site_legacy&amp;utm_medium=referral&amp;utm_campaign=trademark&amp;utm_term=wizardforcel&amp;utm_content=powered_by" target="blank">
+        <div class="tm-logo">
+            <svg preserveAspectRatio="xMidYMid meet" height="1em" width="1em" fill="currentColor" viewBox="0 0 1067 769" xmlns="http://www.w3.org/2000/svg" stroke="none" class="icon-7f6730be--text-3f89f380"><g><path d="M480.026 640.677c17.205 0 31.2 13.997 31.2 31.194s-13.995 31.193-31.2 31.193c-17.197 0-31.193-13.996-31.193-31.193 0-17.197 13.996-31.194 31.193-31.194m489.93-193.226c-17.203 0-31.2-13.998-31.2-31.195 0-17.204 13.997-31.2 31.2-31.2 17.198 0 31.194 13.996 31.194 31.2 0 17.197-13.996 31.195-31.193 31.195m0-127.804c-53.269 0-96.609 43.34-96.609 96.609 0 10.373 1.723 20.702 5.123 30.741L559.328 616.879c-18.132-26.128-47.521-41.617-79.302-41.617-36.821 0-70.391 21.065-86.63 54.003L106.68 478.109c-30.288-15.927-52.965-65.817-50.56-111.223 1.248-23.687 9.438-42.071 21.897-49.17 7.916-4.493 17.436-4.099 27.526 1.188l1.916 1.01c75.96 40.022 324.6 170.981 335.063 175.844 16.157 7.47 25.14 10.5 52.659-2.547l513.958-267.3c7.53-2.844 16.315-10.062 16.315-21.023 0-15.205-15.72-21.199-15.765-21.199-29.218-14.018-74.163-35.054-117.987-55.57C798.033 84.26 691.861 34.547 645.23 10.132c-40.253-21.072-72.655-3.311-78.432.282l-11.227 5.555C345.727 119.743 64.898 258.826 48.911 268.553 20.278 285.973 2.547 320.679.252 363.768c-3.586 68.304 31.261 139.506 81.069 165.634l303.172 156.354c6.83 47.306 47.55 82.725 95.532 82.725 52.78 0 95.808-42.546 96.603-95.14L910.541 492.38c16.93 13.233 37.92 20.486 59.416 20.486 53.268 0 96.61-43.341 96.61-96.61s-43.342-96.61-96.61-96.61" fill-rule="evenodd"/></g></svg>
+        </div>
+        <div class="tm-content">
+            <div class="tm-container">
+                <span class="tm-text">
+                    Powered by <b>GitBook</b>
+                </span>
+            </div>
+        </div>
+    </a>
+</div></div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="./">100&#x4E2A;gdb&#x5C0F;&#x6280;&#x5DE7;</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="&#x300A;100&#x4E2A;gdb&#x5C0F;&#x6280;&#x5DE7;&#x300B;">&#x300A;100&#x4E2A;gdb&#x5C0F;&#x6280;&#x5DE7;&#x300B;</h1>
+<blockquote>
+<p>&#x4F5C;&#x8005;&#xFF1A;<a href="https://github.com/hellogcc" target="_blank">hellogcc</a></p>
+<p>&#x6765;&#x6E90;&#xFF1A;<a href="https://github.com/hellogcc/100-gdb-tips" target="_blank">100-gdb-tips</a></p>
+</blockquote>
+<p>&#x4E00;&#x4E2A;&#x5173;&#x4E8E;gdb&#x4F7F;&#x7528;&#x5C0F;&#x6280;&#x5DE7;&#x7684;&#x6587;&#x6863;&#x3002;100&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x53EF;&#x80FD;&#x53EA;&#x662F;&#x8868;&#x660E;&#x5F88;&#x591A;&#xFF1B;&#x5177;&#x4F53;&#x7684;&#x6570;&#x76EE;&#x53D6;&#x51B3;&#x4E8E;&#x60A8;&#x7684;&#x53C2;&#x4E0E;&#x548C;&#x8D21;&#x732E;&#x3002;</p>
+<h2 id="&#x5982;&#x4F55;&#x53C2;&#x4E0E;">&#x5982;&#x4F55;&#x53C2;&#x4E0E;</h2>
+<p>&#x76F4;&#x63A5;&#x53D1;PULL REQUEST&#xFF0C;&#x6216;&#x4E0E;&#x6211;&#x4EEC;&#x8054;&#x7CFB;&#x3002;</p>
+<p>&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x5C0F;&#x6280;&#x5DE7;&#x7684;&#x6B65;&#x9AA4;&#xFF1A;</p>
+<ol>
+<li>&#x5728;src&#x76EE;&#x5F55;&#x4E0B;&#x65B0;&#x589E;&#x4E00;&#x4E2A;md&#x6587;&#x4EF6;&#xFF0C;&#x53C2;&#x7167;&#x73B0;&#x6709;&#x6587;&#x4EF6;&#x7684;&#x683C;&#x5F0F;&#x98CE;&#x683C;&#xFF0C;&#x7F16;&#x5199;&#x4E00;&#x4E2A;&#x5C0F;&#x6280;&#x5DE7;<br>markdown&#x8BED;&#x6CD5;&#x53C2;&#x89C1; <a href="http://wowubuntu.com/markdown/" target="_blank">http://wowubuntu.com/markdown/</a><br>md&#x6587;&#x4EF6;&#x7F16;&#x5199;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x5728;&#x7EBF;&#x6240;&#x89C1;&#x5373;&#x6240;&#x5F97;&#x7F16;&#x8F91;&#x5668; <a href="https://www.zybuluo.com/mdeditor" target="_blank">https://www.zybuluo.com/mdeditor</a></li>
+<li>&#x5728;index.md&#x4E2D;&#x4E3A;&#x65B0;md&#x6587;&#x4EF6;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x7D22;&#x5F15;&#xFF0C;&#x53EF;&#x4EE5;&#x653E;&#x5230;&#x5DF2;&#x6709;&#x5206;&#x7C7B;&#x4E2D;&#xFF0C;&#x6216;&#x589E;&#x52A0;&#x4E00;&#x4E2A;&#x5206;&#x7C7B;</li>
+<li>&#x5982;&#x679C;&#x9884;&#x89C8;&#x4E0B;&#x6CA1;&#x6709;&#x95EE;&#x9898;&#xFF0C;OK!</li>
+</ol>
+<p>&#x672C;&#x5730;&#x751F;&#x6210;html&#x7684;&#x6B65;&#x9AA4;&#xFF1A;</p>
+<ol>
+<li>&#x786E;&#x4FDD;<a href="http://code.google.com/p/go" target="_blank">go</a>&#x548C;<a href="https://github.com/fairlyblank/md2min" target="_blank">md2min</a>&#x5DF2;&#x7ECF;&#x5B89;&#x88C5;&#x5E76;&#x53EF;&#x7528;</li>
+<li>&#x76F4;&#x63A5;&#x8FD0;&#x884C;build.sh</li>
+<li>&#x5982;&#x679C;&#x987A;&#x5229;&#xFF0C;&#x4F1A;&#x5728;html&#x76EE;&#x5F55;&#x4E0B;&#x751F;&#x6210;&#x6240;&#x6709;&#x7684;html&#x6587;&#x4EF6;</li>
+</ol>
+<h2 id="&#x8054;&#x7CFB;&#x65B9;&#x5F0F;">&#x8054;&#x7CFB;&#x65B9;&#x5F0F;</h2>
+<ul>
+<li><a href="http://www.hellogcc.org" target="_blank">&#x535A;&#x5BA2;&#x7F51;&#x7AD9;</a></li>
+<li>&#x5728;&#x7EBF;&#x8BA8;&#x8BBA;&#x95EE;&#x9898;&#xFF1A;IRC, freenode, #hellogcc&#x623F;&#x95F4;</li>
+<li><a href="http://www.freelists.org/list/hellogcc" target="_blank">&#x90AE;&#x4EF6;&#x5217;&#x8868;</a> (&#x53D1;&#x4FE1;&#x9700;&#x8981;&#x5148;&#x8BA2;&#x9605;)</li>
+</ul>
+<h2 id="&#x7248;&#x6743;">&#x7248;&#x6743;</h2>
+<p>&#x672C;&#x6587;&#x6863;&#x7248;&#x6743;&#x5F52;&#x8D21;&#x732E;&#x8005;&#x6240;&#x6709;&#x3002;</p>
+<h2 id="&#x6388;&#x6743;&#x8BB8;&#x53EF;">&#x6388;&#x6743;&#x8BB8;&#x53EF;</h2>
+<p>&#x672C;&#x6587;&#x6863;&#x4F7F;&#x7528;&#x7684;&#x662F;<a href="http://www.gnu.org/licenses/fdl.html" target="_blank">GNU Free Documentation License</a>&#x3002;</p>
+<h2 id="&#x81F4;&#x8C22;">&#x81F4;&#x8C22;</h2>
+<ul>
+<li>&#x5404;&#x4F4D;&#x53C2;&#x4E0E;&#x8005;</li>
+</ul>
+<h2 id="&#x5176;&#x5B83;&#x8D44;&#x6E90;">&#x5176;&#x5B83;&#x8D44;&#x6E90;</h2>
+<ul>
+<li><a href="https://sourceware.org/gdb/onlinedocs/gdb" target="_blank">GDB&#x5728;&#x7EBF;&#x624B;&#x518C;</a></li>
+<li><a href="https://github.com/hellogcc/100-gdb-tips/blob/master/refcard.pdf" target="_blank">GDB&#x547D;&#x4EE4;&#x5361;&#x7247;</a></li>
+<li><a href="https://github.com/cyrus-and/gdb-dashboard" target="_blank">GDB dashboard</a></li>
+<li><a href="https://github.com/gdbinit/Gdbinit" target="_blank">Gdbinit for OS X, iOS and others - x86, x86_64 and ARM</a></li>
+<li><a href="https://github.com/dholm/dotgdb" target="_blank">dotgdb&#xFF1A;&#x5173;&#x4E8E;&#x5E95;&#x5C42;&#x8C03;&#x8BD5;&#x548C;&#x53CD;&#x5411;&#x5DE5;&#x7A0B;&#x7684;gdb&#x811A;&#x672C;&#x96C6;</a></li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        
+        <a href="./part1.html" class="navigation navigation-next navigation-unique" aria-label="Next page: &#x4FE1;&#x606F;&#x663E;&#x793A;"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="gitbook/app.js"></script>
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-comment/plugin.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"comment":{"highlightCommented":true},"autocover":{},"highlight":{},"search":{"maxIndexSize":1000000},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    
+    
+
+</body></html>

@@ -1,0 +1,7 @@
+In object-oriented programming, the iterator pattern is a design pattern in which an iterator is used to traverse a container and access the container's elements. The iterator pattern decouples algorithms from containers; in some cases, algorithms are necessarily container-specific and thus cannot be decoupled.
+
+For example, the hypothetical algorithm searchForElement() can be implemented generally using a specified type of iterator rather than implementing it as a container-specific algorithm. This allows searchForElement() to be used on any container that supports the required type of iterator.
+
+The essence of the Iterator Pattern is to Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation. Different iterators can be used to access and traverse an aggregate in different ways. New access and traversal operations can be defined independently by defining new iterators.
+
+The Iterator design pattern is one of the 23 well-known Gang of Four design patterns that describe how to solve recurring design problems to design flexible and reusable object-oriented software, that is, objects that are easier to implement, change, test, and reuse. Defining access and traversal operations in the aggregate interface is inflexible because it commits the aggregate to particular access and traversal operations and makes it impossible to add new operations later without having to change the aggregate interface.

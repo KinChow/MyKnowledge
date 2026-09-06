@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+            "http://www.w3.org/TR/REC-html40/loose.dtd">
+<HTML>
+<HEAD>
+<meta name="booktitle" content="Developing Applications With Objective Caml" >
+<META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<META name="GENERATOR" content="hevea 1.05-7 of 2000-02-24">
+<META NAME="Author" CONTENT="Christian.Queinnec@lip6.fr">
+<LINK rel=stylesheet type="text/css" href="videoc-ocda.css">
+<script language="JavaScript" src="videoc.js"><!--
+//--></script>
+<TITLE>
+ Classes, Objects, and Methods
+</TITLE>
+</HEAD>
+<BODY class="regularBody">
+<A HREF="book-ora139.html"><IMG SRC ="previous_motif.gif" ALT="Previous"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Contents"></A>
+<A HREF="book-ora141.html"><IMG SRC ="next_motif.gif" ALT="Next"></A>
+<HR>
+
+<H2> Classes, Objects, and Methods</H2>
+The object-oriented extension of Objective CAML is integrated with the functional and
+imperative kernels of the language, as well as with its type system. Indeed, this
+last point is unique to the language. Thus we have an object-oriented,
+statically typed language, with type inference. This extension allows
+definition of classes and instances, class inheritance (including multiple
+inheritance), parameterized classes, and abstract classes. Class interfaces are
+generated from their definition, but may be made more precise through a
+signature, similarly to what is done for modules.<BR>
+<BR>
+<A NAME="toc196"></A>
+<H3> Object-Oriented Terminology</H3><A NAME="@concepts294"></A>
+<A NAME="@concepts295"></A>
+<A NAME="@concepts296"></A>
+<A NAME="@concepts297"></A>
+<A NAME="@concepts298"></A>
+<A NAME="@concepts299"></A>
+We summarize below the main object-oriented programming terms.
+<DL COMPACT=compact>
+<DT>
+class:<DD> a class describes the contents of the objects that belong to it:
+ it describes an aggregate of data fields (called instance variables),
+ and defines the operations (called methods).
+
+<DT>object:<DD> an object is an element (or instance) of a class; objects have
+ the behaviors of their class. The object is the actual
+ component of programs, while the class specifies how instances are
+ created and how they behave.
+
+<DT>method:<DD> a method is an action which an object is able to perform. 
+
+<DT>sending a message<DD> sending a message to an object means asking
+ the object to execute or invoke one of its methods.
+</DL><A NAME="toc197"></A>
+<H3> Class Declaration</H3>
+<A NAME="@fonctions382"></A>
+<A NAME="@fonctions383"></A>
+<A NAME="@fonctions384"></A>
+The simplest syntax for defining a class is as follows. We shall develop this
+definition throughout this chapter.
+
+
+<H3> Syntax </H3> <HR>
+
+
+<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD  ALIGN=left NOWRAP><B>class</B> <I>name</I> <I>p</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB> ...<I>p</I><SUB><I><FONT SIZE=2><I>n</I></FONT></I></SUB> <B>=</B></TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;<B>object</B></TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;&nbsp;&nbsp;<I>instance variables</I></TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;&nbsp;&nbsp;<I>methods</I></TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>&nbsp;&nbsp;<B>end</B></TD>
+</TR></TABLE>
+
+
+
+<HR>
+
+
+<I>p</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB>, ..., <I>p</I><SUB><I><FONT SIZE=2><I>n</I></FONT></I></SUB> are the parameters for the constructor of the
+class; they are omitted if the class has no parameters.<BR>
+<BR>
+<A NAME="@fonctions385"></A>
+<A NAME="@fonctions386"></A>
+An instance variable is declared as follows:
+
+
+<H3> Syntax </H3> <HR>
+
+
+<TABLE CELLSPACING=2 CELLPADDING=0>
+<TR><TD  ALIGN=left NOWRAP><B>val</B> <I>name</I> <B>=</B> <I>expr</I></TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP>or</TD>
+</TR>
+<TR><TD  ALIGN=left NOWRAP><B>val</B> <B>mutable</B> <I>name</I> <B>=</B> <I>expr</I></TD>
+</TR></TABLE>
+
+
+
+<HR>
+
+
+When a data field is declared <B>mutable</B>, its value may be modified.
+Otherwise, the value is always the one that was computed when <I>expr</I> was evaluated during object creation.<BR>
+<BR>
+<A NAME="@fonctions387"></A>
+Methods are declared as follows:
+
+
+<H3> Syntax </H3> <HR>
+
+
+<B>method</B> <I>name</I> <I>p</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB> ...<I>p</I><SUB><I><FONT SIZE=2><I>n</I></FONT></I></SUB> <B>=</B> <I>expr</I>
+
+
+
+<HR>
+
+<BR>
+<BR>
+Other clauses than <B>val</B> and <B>method</B> can be used in a class
+declaration: we shall introduce them as needed. <BR>
+<BR>
+
+<H5> Our first class example.</H5><A NAME="subsec-class-dec"></A>
+We start with the unavoidable class <TT>point</TT>: 
+<UL>
+<LI>
+
+the data fields <TT>x</TT> and <TT>y</TT> contain the coordinates of the point,
+
+<LI>
+two methods provide access to the data fields (<TT>get_x</TT> and <TT>get_y</TT>),
+
+<LI>
+two displacement methods (<TT>moveto</TT>: absolute displacement) and (<TT>rmoveto</TT>: relative displacement),
+
+<LI>
+one method presents the data as a <I>string</I> (<TT>to_string</TT>), 
+
+<LI>
+one method computes the distance to the point from the origin (<TT>distance</TT>). 
+</UL>
+
+<PRE><BR># <B>class</B><CODE> </CODE>point<CODE> </CODE><TT>(</TT>x_init<CODE>,</CODE>y_init<TT>)</TT><CODE> </CODE><CODE>=</CODE><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>object</B><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>val</B><CODE> </CODE><B>mutable</B><CODE> </CODE>x<CODE> </CODE><CODE>=</CODE><CODE> </CODE>x_init<BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>val</B><CODE> </CODE><B>mutable</B><CODE> </CODE>y<CODE> </CODE><CODE>=</CODE><CODE> </CODE>y_init<BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>method</B><CODE> </CODE>get_x<CODE> </CODE><CODE>=</CODE><CODE> </CODE>x<BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>method</B><CODE> </CODE>get_y<CODE> </CODE><CODE>=</CODE><CODE> </CODE>y<BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>method</B><CODE> </CODE>moveto<CODE> </CODE><TT>(</TT>a<CODE>,</CODE>b<TT>)</TT><CODE> </CODE><CODE>=</CODE><CODE> </CODE><CODE> </CODE>x<CODE> </CODE><CODE>&lt;-</CODE><CODE> </CODE>a<CODE> </CODE>;<CODE> </CODE>y<CODE> </CODE><CODE>&lt;-</CODE><CODE> </CODE>b<CODE> </CODE><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>method</B><CODE> </CODE>rmoveto<CODE> </CODE><TT>(</TT>dx<CODE>,</CODE>dy<TT>)</TT><CODE> </CODE><CODE>=</CODE><CODE> </CODE><CODE> </CODE>x<CODE> </CODE><CODE>&lt;-</CODE><CODE> </CODE>x<CODE> </CODE><CODE>+</CODE><CODE> </CODE>dx<CODE> </CODE>;<CODE> </CODE>y<CODE> </CODE><CODE>&lt;-</CODE><CODE> </CODE>y<CODE> </CODE><CODE>+</CODE><CODE> </CODE>dy<CODE> </CODE><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>method</B><CODE> </CODE>to_string<CODE> </CODE>()<CODE> </CODE><CODE>=</CODE><CODE> </CODE><CODE> </CODE><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE>"( "</CODE><CODE> </CODE><CODE>^</CODE><CODE> </CODE><TT>(</TT>string_of_int<CODE> </CODE>x<TT>)</TT><CODE> </CODE><CODE>^</CODE><CODE> </CODE><CODE>", "</CODE><CODE> </CODE><CODE>^</CODE><CODE> </CODE><TT>(</TT>string_of_int<CODE> </CODE>y<TT>)</TT><CODE> </CODE><CODE>^</CODE><CODE>")"</CODE><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>method</B><CODE> </CODE>distance<CODE> </CODE>()<CODE> </CODE><CODE>=</CODE><CODE> </CODE>sqrt<CODE> </CODE><TT>(</TT>float<TT>(</TT>x<CODE>*</CODE>x<CODE> </CODE><CODE>+</CODE><CODE> </CODE>y<CODE>*</CODE>y<TT>)</TT><TT>)</TT><BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><B>end</B><CODE> </CODE>;;<BR>
+
+</PRE>
+
+Note that some methods do not need parameters; this is the case for <TT>get_x</TT>
+and <TT>get_y</TT>. We usually access instance variables with
+parameterless methods.<BR>
+<BR>
+After we declare the class <TT>point</TT>, the system prints the following text:<BR>
+<BR>
+
+
+<PRE>
+<CODE>class point :</CODE><BR><CODE>  int * int -&gt;</CODE><BR><CODE>  object</CODE><BR><CODE>    val mutable x : int</CODE><BR><CODE>    val mutable y : int</CODE><BR><CODE>    method distance : unit -&gt; float</CODE><BR><CODE>    method get_x : int</CODE><BR><CODE>    method get_y : int</CODE><BR><CODE>    method moveto : int * int -&gt; unit</CODE><BR><CODE>    method rmoveto : int * int -&gt; unit</CODE><BR><CODE>    method to_string : unit -&gt; string</CODE><BR><CODE>  end</CODE><BR>
+
+</PRE>
+<BR>
+<BR>
+This text contains two pieces of information. First, the type for objects of the class;
+this type will be abbreviated as <I>point</I>. The type of an object is the
+list of names and types of methods in its class. In our
+example, <I>point</I> is an abbreviation for:
+
+
+<PRE>
+<CODE> </CODE><CODE> </CODE><BR><CODE> </CODE><CODE> </CODE><CODE>&lt;</CODE><CODE> </CODE>distance<CODE> </CODE><CODE>:</CODE><CODE> </CODE>unit<CODE> </CODE>-&gt;<CODE> </CODE>unit;<CODE> </CODE>get_x<CODE> </CODE><CODE>:</CODE><CODE> </CODE>int;<CODE> </CODE>get_y<CODE> </CODE><CODE>:</CODE><CODE> </CODE>int;<BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE>moveto<CODE> </CODE><CODE>:</CODE><CODE> </CODE>int<CODE> </CODE><CODE>*</CODE><CODE> </CODE>int<CODE> </CODE>-&gt;<CODE> </CODE>unit;<CODE> </CODE>rmoveto<CODE> </CODE><CODE>:</CODE><CODE> </CODE>int<CODE> </CODE><CODE>*</CODE><CODE> </CODE>int<CODE> </CODE>-&gt;<CODE> </CODE>unit;<BR><CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE>to_string<CODE> </CODE><CODE>:</CODE><CODE> </CODE>unit<CODE> </CODE>-&gt;<CODE> </CODE>unit<CODE> </CODE><CODE>&gt;</CODE><BR>
+
+</PRE>
+
+Next, we have a constructor for instances of class <TT>point</TT>, whose type
+is <I>int*int  -&gt; oint</I>. The constructor allows us to construct
+<TT>point</TT> objects (we´ll just say ``<TT>point</TT>s'' to be brief) from the initial
+values provided as arguments. In this case, we
+construct a <TT>point</TT> from a pair of integers (meaning the initial
+position). The constructor <TT>point</TT> is used with the
+keyword <B>new</B>. <BR>
+<BR>
+It is possible to define class types:
+
+
+<PRE><BR># <B>type</B><CODE> </CODE>simple_point<CODE> </CODE><CODE>=</CODE><CODE> </CODE><CODE>&lt;</CODE><CODE> </CODE>get_x<CODE> </CODE><CODE>:</CODE><CODE> </CODE>int;<CODE> </CODE>get_y<CODE> </CODE><CODE>:</CODE><CODE> </CODE>int;<CODE> </CODE>to_string<CODE> </CODE><CODE>:</CODE><CODE> </CODE>unit<CODE> </CODE>-&gt;<CODE> </CODE>unit<CODE> </CODE><CODE>&gt;</CODE><CODE> </CODE>;;<BR><CODE>type simple_point = &lt; get_x : int; get_y : int; to_string : unit -&gt; unit &gt;</CODE><BR>
+
+</PRE>
+<BR>
+<BR>
+
+
+<H3> Note </H3> <HR>
+
+Type <I>point</I> does not repeat all the informations shown after a class
+declaration. Instance variables are not shown in the type. Only
+methods have access to these instance variables.
+
+
+<HR>
+
+<BR>
+<BR>
+
+
+<H3> Warning </H3> <HR>
+
+A class declaration is a type declaration. As a consequence, it
+cannot contain a free type variable. 
+
+
+<HR>
+
+<BR>
+<BR>
+We will come back to this point later when we deal with type constraints
+(page <A HREF="book-ora143.html#sec-coercion-type">??</A>) and parameterized classes
+(page <A HREF="book-ora143.html#subsec-parameterized-class">??</A>).<BR>
+<BR>
+
+<H4> A Graphical Notation for Classes</H4>
+<A NAME="@concepts300"></A>
+We adapt the UML notation for the syntax of Objective CAML types.
+Classes are denoted by a rectangle with three parts:
+<UL>
+<LI>
+ the top part shows the name of the class, 
+
+<LI> the middle part lists the attributes (data fields) of a class instance,
+
+<LI> the bottom part shows the methods of an instance of the class. 
+</UL>Figure <A HREF="#fig-rep-classe">15.1</A> gives an example of the graphical representation
+for the class <TT>caml</TT>.<BR>
+<BR>
+<BLOCKQUOTE><DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV>
+<DIV ALIGN=center>
+<IMG SRC="book-ora058.gif">
+</DIV>
+<BR>
+<DIV ALIGN=center>Figure 15.1: Graphical representation of a class.</DIV><BR>
+
+<A NAME="fig-rep-classe"></A>
+<DIV ALIGN=center><HR WIDTH="80%" SIZE=2></DIV></BLOCKQUOTE>Type information for the fields and methods of a class may be added.<BR>
+<BR>
+<A NAME="toc198"></A>
+<H3> Instance Creation</H3>
+<A NAME="@fonctions388"></A>
+<A NAME="@concepts301"></A>
+<A NAME="@concepts302"></A>
+<A NAME="@concepts303"></A>
+<A NAME="@concepts304"></A>
+An object is a value of a class, called an instance of the class. 
+Instances are created with the generic construction primitive <TT>new</TT>,
+which takes the class and initialization values as arguments.
+
+
+<H3> Syntax </H3> <HR>
+
+
+<B>new</B> <I>name</I> <I>expr</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB> ...<I>expr</I><SUB><I><FONT SIZE=2><I>n</I></FONT></I></SUB>
+
+
+
+<HR>
+
+
+The following example creates several instances of class <I>point</I>, from
+various initial values.
+
+
+<PRE><BR># <B>let</B><CODE> </CODE>p1<CODE> </CODE><CODE>=</CODE><CODE> </CODE><B>new</B><CODE> </CODE>point<CODE> </CODE><TT>(</TT><CODE>0</CODE><CODE>,</CODE><CODE>0</CODE><TT>)</TT>;;<BR><CODE>val p1 : point = &lt;obj&gt;</CODE><BR># <B>let</B><CODE> </CODE>p2<CODE> </CODE><CODE>=</CODE><CODE> </CODE><B>new</B><CODE> </CODE>point<CODE> </CODE><TT>(</TT><CODE>3</CODE><CODE>,</CODE><CODE>4</CODE><TT>)</TT>;;<BR><CODE>val p2 : point = &lt;obj&gt;</CODE><BR># <B>let</B><CODE> </CODE>coord<CODE> </CODE><CODE>=</CODE><CODE> </CODE><TT>(</TT><CODE>3</CODE><CODE>,</CODE><CODE>0</CODE><TT>)</TT>;;<BR><CODE>val coord : int * int = 3, 0</CODE><BR># <B>let</B><CODE> </CODE>p3<CODE> </CODE><CODE>=</CODE><CODE> </CODE><B>new</B><CODE> </CODE>point<CODE> </CODE>coord;;<BR><CODE>val p3 : point = &lt;obj&gt;</CODE><BR>
+
+</PRE>
+<BR>
+<BR>
+In Objective CAML, the constructor of a class is unique, but you may define your own
+specific function <TT>make_point</TT> for point creation: 
+
+
+<PRE><BR># <B>let</B><CODE> </CODE>make_point<CODE> </CODE>x<CODE> </CODE><CODE>=</CODE><CODE> </CODE><B>new</B><CODE> </CODE>point<CODE> </CODE><TT>(</TT>x<CODE>,</CODE>x<TT>)</TT><CODE> </CODE>;;<BR><CODE>val make_point : int -&gt; point = &lt;fun&gt;</CODE><BR># make_point<CODE> </CODE><CODE>1</CODE><CODE> </CODE>;;<BR><CODE>- : point = &lt;obj&gt;</CODE><BR>
+
+</PRE>
+<BR>
+<BR>
+<A NAME="toc199"></A>
+<H3> Sending a Message</H3>
+<A NAME="@fonctions389"></A>
+The notation <TT>#</TT> is used to send a message to an object.
+<A NAME="text38" HREF="book-ora150.html#note38"><SUP><FONT SIZE=2>2</FONT></SUP></A>
+
+
+<H3> Syntax </H3> <HR>
+
+
+ <I>obj</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB><B>#</B><I>name</I> <I>p</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB> ...<I>p</I><SUB><I><FONT SIZE=2><I>n</I></FONT></I></SUB>
+
+
+
+<HR>
+
+
+The message with method name ``<I>name</I>'' is sent to the object
+<I>obj</I>. The arguments <I>p</I><SUB><I><FONT SIZE=2>1</FONT></I></SUB>, ..., <I>p</I><SUB><I><FONT SIZE=2><I>n</I></FONT></I></SUB> are as
+expected by the method <I>name</I>. The method must be defined by the class of the
+object, i.e. visible in the type. The types of arguments must conform to the types
+of the formal parameters. The following example shows several queries performed on
+objects from the class <TT>point</TT>.
+
+
+<PRE><BR># p1#get_x;;<BR><CODE>- : int = 0</CODE><BR># p2#get_y;;<BR><CODE>- : int = 4</CODE><BR># p1#to_string();;<BR><CODE>- : string = "( 0, 0)"</CODE><BR># p2#to_string();;<BR><CODE>- : string = "( 3, 4)"</CODE><BR># <B>if</B><CODE> </CODE><TT>(</TT>p1#distance()<TT>)</TT><CODE> </CODE><CODE>=</CODE><CODE> </CODE><TT>(</TT>p2#distance()<TT>)</TT><BR><CODE> </CODE><B>then</B><CODE> </CODE>print_string<CODE> </CODE><TT>(</TT><CODE>"That's just chance\n"</CODE><TT>)</TT><BR><CODE> </CODE><B>else</B><CODE> </CODE>print_string<CODE> </CODE><TT>(</TT><CODE>"We could bet on it\n"</CODE><TT>)</TT>;;<CODE> </CODE><CODE> </CODE><CODE> </CODE><CODE> </CODE><BR><CODE>We could bet on it</CODE><BR><CODE>- : unit = ()</CODE><BR>
+
+</PRE>
+<BR>
+<BR>
+From the type point of view, objects of type <I>point</I> can be used
+by polymorphic functions of Objective CAML, just as any other value in the language: 
+
+
+<PRE><BR># p1<CODE> </CODE><CODE>=</CODE><CODE> </CODE>p1<CODE> </CODE>;;<BR><CODE>- : bool = true</CODE><BR># p1<CODE> </CODE><CODE>=</CODE><CODE> </CODE>p2;;<BR><CODE>- : bool = false</CODE><BR># <B>let</B><CODE> </CODE>l<CODE> </CODE><CODE>=</CODE><CODE> </CODE>p1<CODE>::[]</CODE>;;<BR><CODE>val l : point list = [&lt;obj&gt;]</CODE><BR># List.hd<CODE> </CODE>l;;<BR><CODE>- : point = &lt;obj&gt;</CODE><BR>
+
+</PRE>
+<BR>
+<BR>
+
+
+<H3> Warning </H3> <HR>
+
+Object equality is defined as physical equality.
+
+
+<HR>
+
+
+<A NAME="war-egalite-objet"></A><BR>
+<BR>
+We shall clarify this point when we study the subtyping relation (page <A HREF="book-ora144.html#sec-eq-object">??</A>).<BR>
+<BR>
+<HR>
+<A HREF="book-ora139.html"><IMG SRC ="previous_motif.gif" ALT="Previous"></A>
+<A HREF="index.html"><IMG SRC ="contents_motif.gif" ALT="Contents"></A>
+<A HREF="book-ora141.html"><IMG SRC ="next_motif.gif" ALT="Next"></A>
+</BODY>
+</HTML>

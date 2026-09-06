@@ -1,0 +1,2094 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "android-camera-architecture",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_07c1d86d0513",
+  "input_hash": "sha256:40cb827b03330fec22e549fbd23e5bee4537c9863c5a8db1c935abd3cd1a5177",
+  "provider_duration_ms": 66767,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580326.783069,
+  "wiki_content_sha256": "sha256:d26f182ddab2f7cda761a57d7249890163ea8772835e5557de0d930fab61d8c0",
+  "wiki_evidence_sha256": "sha256:7d9e35787166d279993008d5eb22d4c7b99dd023e0577ad393d3e6e8f6f91b25",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-hal3"
+      },
+      "source_id": "aosp-camera-hal3",
+      "evidence_id": "evidence-fe448cb00526",
+      "snapshot_sha256": "sha256:0af89a0d88a8cc96e421a6df8a86ce222b8c0b83312547a9eb747c04c3eadd2e",
+      "selector_sha256": "sha256:b4c058c5fe7e5b2883fcb7dbdea30909809d4967d74407796eed417db7efa6b5",
+      "quote_sha256": "sha256:6d17c52bf99af4cb1b6895209119ed6966b5c0e4512f5cb80b7d9ad3216d74ac"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-hal3"
+      },
+      "source_id": "aosp-camera-hal3",
+      "evidence_id": "evidence-cf017f340ff1",
+      "snapshot_sha256": "sha256:0af89a0d88a8cc96e421a6df8a86ce222b8c0b83312547a9eb747c04c3eadd2e",
+      "selector_sha256": "sha256:7798b42ef635cb223001ec8551e3746eb42062d6d97a145bd0477b9cbf1b28ef",
+      "quote_sha256": "sha256:275b32dccc703ff483be8860ab7f6ed7972c4a47826074e446f07bdc343ea4aa"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-architecture"
+      },
+      "source_id": "aosp-camera-architecture",
+      "evidence_id": "evidence-d937f440c251",
+      "snapshot_sha256": "sha256:1de539a835d27fd8a30a86ca5187cfe596452baa8fe000a38817e0a237b5f359",
+      "selector_sha256": "sha256:406b1e6d57dd2e77f1189c203d3929d82a6d640a580fb8b5e4bad10710f2986e",
+      "quote_sha256": "sha256:d72970201858a35ab1f6891c98470dfe6cbe3b5f590476622a01cbca899badd6"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-architecture"
+      },
+      "source_id": "aosp-camera-architecture",
+      "evidence_id": "evidence-8a33cfacf842",
+      "snapshot_sha256": "sha256:1de539a835d27fd8a30a86ca5187cfe596452baa8fe000a38817e0a237b5f359",
+      "selector_sha256": "sha256:a26e5b84e2ad6be26e214cffd4611cb98bccb33a2d4b55b5348c33ebf1b8c750",
+      "quote_sha256": "sha256:a8220121c4dbeb220ac4133dbe912ea366406ff9f6474734fbdd4dece08bff84"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-multi-camera"
+      },
+      "source_id": "aosp-camera-multi-camera",
+      "evidence_id": "evidence-260cce4b839f",
+      "snapshot_sha256": "sha256:0e586bcdd84f6ddc992c2d753009dd41ceb57dd69a0bd22bb4dc72537cac6f10",
+      "selector_sha256": "sha256:33cca5f3ce4b45c4c538f918d82b0360f4f120718ef829b6184ec57448ed7224",
+      "quote_sha256": "sha256:171198795476c478d05b64fc8255b155db2de8e8bb0d3e707522a8e706ac83a4"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-metadata"
+      },
+      "source_id": "aosp-camera-metadata",
+      "evidence_id": "evidence-ec5493ad2bf0",
+      "snapshot_sha256": "sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a",
+      "selector_sha256": "sha256:4dd428b8f20ceebd47fc8bf4491090ea1c75cd0d3c2a2a9137f9c099e4b2872d",
+      "quote_sha256": "sha256:54ab4ca3ab9e0c7b7daf98d18573a1fb76feeda70dab1ee97ec52bfb9108e672"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-metadata"
+      },
+      "source_id": "aosp-camera-metadata",
+      "evidence_id": "evidence-ccd5ac3651b7",
+      "snapshot_sha256": "sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a",
+      "selector_sha256": "sha256:5bf435efc9292c9ce5dac5ba7fcb08c3194da9b2ae266f6f434dd44198eb7508",
+      "quote_sha256": "sha256:b0ea99e1d013e49f40c54b5370273fd57ba13eedf2eda94572990999672ca677"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-metadata"
+      },
+      "source_id": "aosp-camera-metadata",
+      "evidence_id": "evidence-5fc4b7551293",
+      "snapshot_sha256": "sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a",
+      "selector_sha256": "sha256:053506ed4373aeaae3c43361b1e4fb3b17201ea2dab38eaa8320d01ce5ee1543",
+      "quote_sha256": "sha256:2b7ae9b08681db8d13405d07923735e4f8ef8ce7ca5e9d6407b3203336b24411"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-hal-architecture"
+      },
+      "source_id": "aosp-hal-architecture",
+      "evidence_id": "evidence-d8e44be806f4",
+      "snapshot_sha256": "sha256:854c19736c36a644ee60e5fcb93eb2a644eb6a597ac6d8c03d9690e73a6b8fc0",
+      "selector_sha256": "sha256:5b7aff61072d6a006e912e6c72c8846c784e642cfb33ad55565cb62024c5838b",
+      "quote_sha256": "sha256:08121667048439993c3385b89a77dd629f5ea19d4cb361a8537f56a63abad83a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-hal-architecture"
+      },
+      "source_id": "aosp-hal-architecture",
+      "evidence_id": "evidence-ffb3b59c768e",
+      "snapshot_sha256": "sha256:854c19736c36a644ee60e5fcb93eb2a644eb6a597ac6d8c03d9690e73a6b8fc0",
+      "selector_sha256": "sha256:285fc3ae35a78f97e20955349a549663986b233698bb0ae6f44ef83c86cb4acc",
+      "quote_sha256": "sha256:ba65795afdb6183b5286c9e553ee08f2e553cf40e3e4c58a331fbeee754eb665"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-vts"
+      },
+      "source_id": "aosp-vts",
+      "evidence_id": "evidence-21f66837f09c",
+      "snapshot_sha256": "sha256:baf5fc8575c835a6cb12f631e0934ec3d1e6545928915481af5145ba38dbda81",
+      "selector_sha256": "sha256:a4f423777b2072a4de9874407e4970972c78abc43eacba4a0714ff8c7e1556a7",
+      "quote_sha256": "sha256:f970509b3e17802874a6d84ed316d749e2ae04c532c0f85b4086c98de6597af5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "kernel-v4l2-mc"
+      },
+      "source_id": "kernel-v4l2-mc",
+      "evidence_id": "evidence-d3551866bc58",
+      "snapshot_sha256": "sha256:2d76c8af4d05637a2678f0ebdc5b5383ebf7876930efd12f5da0a9cfd37cc6dd",
+      "selector_sha256": "sha256:fb72a6e5ba8c388222726d6385aabbcd9f2bab4413b59c93e893511ad9f38b5c",
+      "quote_sha256": "sha256:b3a5c74b1d2140153fe6afb172c6e8801d0b68808a8c4961c503a853199ec795"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "kernel-v4l2-mc"
+      },
+      "source_id": "kernel-v4l2-mc",
+      "evidence_id": "evidence-0267a563245f",
+      "snapshot_sha256": "sha256:2d76c8af4d05637a2678f0ebdc5b5383ebf7876930efd12f5da0a9cfd37cc6dd",
+      "selector_sha256": "sha256:9a23069b089e76a185f15d6c2940c30146239bc64dd408a84dc1ad994b9b14e6",
+      "quote_sha256": "sha256:3256e5593070c6a650c56d7a16663f8311166ee5a22ee72ec3929307506e7722"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "hal3-pipeline",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fe448cb00526",
+          "exact": "The API models the camera subsystem as a pipeline that converts incoming requests for frame captures into frames, on a 1:1 basis."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fe448cb00526",
+          "subject": "camera subsystem",
+          "predicate": "is modeled as",
+          "object": "pipeline converting capture requests into frames on a 1:1 basis"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,129)直接说明 camera subsystem 被建模为 pipeline，并将 frame capture requests 按 1:1 转换为 frames，覆盖 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "start": 0,
+          "end": 129
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "hal-interface-evolution",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cf017f340ff1",
+          "exact": "Starting with Android 13, camera HAL interface development uses AIDL. Android 8.0 introduced Treble, switching the Camera HAL API to a stable interface defined by the HAL interface description language (HIDL)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-cf017f340ff1",
+          "subject": "Camera HAL interface",
+          "predicate": "evolved through",
+          "object": "Android 8.0 Treble/HIDL and Android 13 AIDL"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,209)同时支持 Android 13 起使用 AIDL，以及 Android 8.0 引入 Treble 并将 Camera HAL API 切换到 HIDL 定义的稳定接口。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "start": 0,
+          "end": 209
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "hal-layer",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251"
+        },
+        {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d937f440c251",
+          "exact": "The HAL sits between the camera driver and the higher-level Android framework and defines an interface that you must implement so apps can correctly operate the camera hardware."
+        },
+        {
+          "evidence_id": "evidence-8a33cfacf842",
+          "exact": "Android's camera hardware abstraction layer (HAL) connects the higher-level camera framework APIs in Camera 2 to your underlying camera driver and hardware."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d937f440c251",
+          "subject": "HAL",
+          "predicate": "sits between and defines",
+          "object": "camera driver, higher-level Android framework, and implementable interface"
+        },
+        {
+          "evidence_id": "evidence-8a33cfacf842",
+          "subject": "Camera HAL",
+          "predicate": "connects",
+          "object": "Camera 2 framework APIs to underlying camera driver and hardware"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文1[0,177)支持 HAL 位于 driver 与 framework 之间并定义需实现的接口；引文2[0,156)补充其连接 Camera 2 framework APIs 与底层 driver/hardware。两者一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "start": 0,
+          "end": 177
+        },
+        {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "start": 0,
+          "end": 156
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "multi-camera",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-260cce4b839f",
+          "exact": "Android 9 introduced API support for multi-camera devices through a new logical camera device composed of two or more physical camera devices pointing in the same direction. The logical camera device is exposed as a single CameraDevice/CaptureSession to an app allowing for interaction with HAL-integrated multi-camera features."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-260cce4b839f",
+          "subject": "Android 9",
+          "predicate": "introduced API support for",
+          "object": "multi-camera logical device exposed as single CameraDevice/CaptureSession"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,328)直接给出 Android 9、多摄像头 API、同方向两个或多个物理摄像头组成 logical camera device、并向 app 暴露为单个 CameraDevice/CaptureSession。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "start": 0,
+          "end": 328
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "metadata-types",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0"
+        },
+        {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7"
+        },
+        {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "exact": "Most of this information is a static property of the camera subsystem and can therefore be queried before configuring any output pipelines or submitting any requests."
+        },
+        {
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "exact": "the new camera API adds a substantial amount of dynamic metadata to each captured frame. This includes the requested and actual parameters used for the capture, as well as additional per-frame metadata such as timestamps and statistics generator output."
+        },
+        {
+          "evidence_id": "evidence-5fc4b7551293",
+          "exact": "For most settings, the expectation is that they can be changed every frame, without introducing significant stutter or delay to the output frame stream."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "subject": "static metadata",
+          "predicate": "is",
+          "object": "static property queryable before output pipeline configuration or requests"
+        },
+        {
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "subject": "dynamic metadata",
+          "predicate": "is added to",
+          "object": "each captured frame with requested/actual parameters and timestamps/statistics"
+        },
+        {
+          "evidence_id": "evidence-5fc4b7551293",
+          "subject": "most settings",
+          "predicate": "can be changed",
+          "object": "every frame without significant stutter or delay"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,166)、[0,253)、[0,152)分别支持 static、dynamic、control/settings 三部分描述，内容互补且不冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "start": 0,
+          "end": 166
+        },
+        {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "start": 0,
+          "end": 253
+        },
+        {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "start": 0,
+          "end": 152
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "hal-and-hidl",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4"
+        },
+        {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d8e44be806f4",
+          "exact": "A hardware abstraction layer (HAL) is type of abstraction layer with a standard interface for hardware vendors to implement. A HAL allows hardware vendors to implement lower-level, device-specific features without affecting or modifying code in higher-level layers."
+        },
+        {
+          "evidence_id": "evidence-ffb3b59c768e",
+          "exact": "HIDL enables communication between HAL clients and HAL services."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d8e44be806f4",
+          "subject": "HAL",
+          "predicate": "is and allows",
+          "object": "standard interface for vendors and lower-level implementation without higher-layer code changes"
+        },
+        {
+          "evidence_id": "evidence-ffb3b59c768e",
+          "subject": "HIDL",
+          "predicate": "enables communication between",
+          "object": "HAL clients and HAL services"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文1[0,265)支持 HAL 的标准接口抽象层与厂商实现底层设备特定功能且不影响高层代码；引文2[0,64)支持 HIDL 的通信用途。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "start": 0,
+          "end": 265
+        },
+        {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "start": 0,
+          "end": 64
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "vts-tests-hal",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-21f66837f09c",
+          "exact": "Most tests in VTS are GTest-style tests that check the HAL implementation."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-21f66837f09c",
+          "subject": "Most tests in VTS",
+          "predicate": "are",
+          "object": "GTest-style tests checking HAL implementation"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,74)逐字支持 VTS 中大多数测试是检查 HAL implementation 的 GTest-style tests。",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "start": 0,
+          "end": 74
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "v4l2-media-controller",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58"
+        },
+        {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d3551866bc58",
+          "exact": "hardware devices are modelled as an oriented graph of building blocks called entities connected through pads."
+        },
+        {
+          "evidence_id": "evidence-0267a563245f",
+          "exact": "An entity is a basic media hardware building block. It can correspond to a large variety of logical blocks such as physical hardware devices (CMOS sensor for instance), logical hardware devices (a building block in a System-on-Chip image processing pipeline), DMA channels or physical connectors."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d3551866bc58",
+          "subject": "hardware devices",
+          "predicate": "are modelled as",
+          "object": "oriented graph of entities connected through pads"
+        },
+        {
+          "evidence_id": "evidence-0267a563245f",
+          "subject": "entity",
+          "predicate": "is and can correspond to",
+          "object": "basic media hardware building block including CMOS sensor, SoC pipeline block, DMA channels, connectors"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文1[0,109)支持 entity/pad 图模型；引文2[0,295)支持 entity 是基本媒体硬件构建块，并列举 CMOS sensor、SoC image processing pipeline building block、DMA channels 等。",
+      "rationale_offsets": [
+        {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "start": 0,
+          "end": 109
+        },
+        {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "start": 0,
+          "end": 295
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:2115e94fcf7380cc2255d1b5480aa199b412904e36e3042fd0249f5d09c7d435"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-cf017f340ff1",
+          "independence_group": "source:aosp-camera-hal3",
+          "observation_sha256": "sha256:a113974ed03e198b5aa433a6476970dcc3ba7b98dea442aa7c78610188fead6c"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-d937f440c251",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:12a58b94e076ec3cd80d3820389af7add37f6df154268ca91df4fabec28f980d"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-architecture",
+          "evidence_id": "evidence-8a33cfacf842",
+          "independence_group": "source:aosp-camera-architecture",
+          "observation_sha256": "sha256:8c99c0a499d6067b2bfd1dfd76d107b84761bcf8261fd2adbea05cff56ffc7fb"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-multi-camera",
+          "evidence_id": "evidence-260cce4b839f",
+          "independence_group": "source:aosp-camera-multi-camera",
+          "observation_sha256": "sha256:ad9e12ea69f914f16964c246924ead92a7228eeed9c85ec86b1ea15fd0395f93"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ec5493ad2bf0",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:0d20b36a4362e3abb8fbc9c7684bdc071978446593834f5f2a6a0906a7f296a6"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "target_b": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-ccd5ac3651b7",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:dc0777984cacc1129c5291916fa66950a535dfbf711509f326e1014d2398bc51"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-camera-metadata",
+          "evidence_id": "evidence-5fc4b7551293",
+          "independence_group": "source:aosp-camera-metadata",
+          "observation_sha256": "sha256:a33ec94785c2b7fb90bccef56e1afacca42083d5b414ccf7b71ef00855b8e8ab"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "target_b": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-d8e44be806f4",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:11faa5ac19f171dbdda22ba4ee0af5f02722e998138899b80133af08e859a666"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "target_b": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-hal-architecture",
+          "evidence_id": "evidence-ffb3b59c768e",
+          "independence_group": "source:aosp-hal-architecture",
+          "observation_sha256": "sha256:8c30c105202a02f45f9ea7682df160c3c89089fecf0cd6fcd0d50fbefb36fdec"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "aosp-vts",
+          "evidence_id": "evidence-21f66837f09c",
+          "independence_group": "source:aosp-vts",
+          "observation_sha256": "sha256:c8361c5920b74d3c7d38314faebec6fea83aa1ee4ce2541b76c46409c8726450"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-d3551866bc58",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:3e6686ed0652b8382197dd24addea021a4c234e7c66bcf31878b3aabe9069b6d"
+        },
+        "target_b": {
+          "source_id": "kernel-v4l2-mc",
+          "evidence_id": "evidence-0267a563245f",
+          "independence_group": "source:kernel-v4l2-mc",
+          "observation_sha256": "sha256:7ce3e1db3f9997d7403f47416cd6c3d25ec557693eba1bde2cdbe18b96b1ae54"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-hal3",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-hal3",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-architecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-architecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-multi-camera",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-metadata",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-metadata",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-metadata",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-hal-architecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-hal-architecture",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-vts",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "kernel-v4l2-mc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "kernel-v4l2-mc",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "hal3-pipeline",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hal-interface-evolution",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hal-layer",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "multi-camera",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "metadata-types",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hal-and-hidl",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "vts-tests-hal",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "v4l2-media-controller",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

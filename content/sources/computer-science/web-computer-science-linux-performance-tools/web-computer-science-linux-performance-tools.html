@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" media="screen" href="/assets/wechat-3a0b246ba3d29d54fb4d253234f60c3230cf7bd52782e9fabc1dd937bbfa2dd9.css" />
+  
+</head>
+<body>
+  <style type="text/css">
+li {font-size: 16px;}
+body {font-size: 16px;}
+h1,h2,h3,h4,h5 {font-size: 20px;}
+</style>
+
+<h1>
+性能答疑 QQ 群：697244251
+</h1>
+<h3 id="概述">概述</h3>
+<p>linux 自身有很多性能分析工具。并且提供了详细的输出格式。熟练掌握这些工具可以帮助我们更快的发现性能瓶颈，为性能调优提供思路。</p>
+<h3 id="工具一览">工具一览</h3> <table class="table-responsive table table-bordered table-striped">
+<tbody><tr>
+<th>常用工具</th>
+<th>功能</th>
+</tr>
+<tr>
+<td>top</td>
+<td>展示所有进程信息</td>
+</tr>
+<tr>
+<td>vmstat</td>
+<td>展示详细的系统，硬件，信息</td>
+</tr>
+<tr>
+<td>lscpu</td>
+<td>cpu 信息查看</td>
+</tr>
+<tr>
+<td>sysstat</td>
+<td>工具集，包括 sar，mpstat，iostat，pidstat</td>
+</tr>
+<tr>
+<td>ps</td>
+<td>显示进程信息</td>
+</tr>
+<tr>
+<td>free</td>
+<td>显示内存使用情况</td>
+</tr>
+<tr>
+<td>strace</td>
+<td>拦截进程的系统调用</td>
+</tr>
+<tr>
+<td>netstat</td>
+<td>统计网络信息</td>
+</tr>
+<tr>
+<td>sysbench</td>
+<td>进程模拟工具</td>
+</tr>
+<tr>
+<td>Stress-ng</td>
+<td>模拟 cpu 压力</td>
+</tr>
+<tr>
+<td>iozone</td>
+<td>IO 测试工具</td>
+</tr>
+</tbody></table> <h4 id="top命令详解">top 命令详解</h4>
+<p><img src="/uploads/photo/2019/eac72869-5da1-4e87-a59d-275b4341f0bb.png!large" title="" alt=""></p>
+
+<p><strong>load average：</strong>平均负载<br>
+<strong>PID：</strong>进程号<br>
+<strong>USER：</strong>进程所有者的名字。<br>
+<strong>PRI：</strong>进程优先级<br>
+<strong>NI nice：</strong>级别<br>
+<strong>SIZE：</strong>进程使用的内存（代码、数据和栈），kb 单位<br>
+<strong>RSS：</strong>物理 RAM 使用量，kb 单位<br>
+<strong>SHARE：</strong>和其它进程共享的内存，kb 单位<br>
+<strong>STAT</strong> 进程状态 S 睡眠，R=运行，T=停止或跟踪，D=不可中断的睡眠，Z=僵尸。<br>
+<strong>%CPU</strong> CPU 使用量。<br>
+<strong>%MEM</strong> 物理内存用量<br>
+<strong>TIME</strong>进程使用的总 CPU 时间（从启动开始算）<br>
+<strong>COMMAND</strong> 进程的命令行启动命令（包括参数）</p>
+<h4 id="vmstat命令详解">vmstat 命令详解</h4>
+<p><img src="/uploads/photo/2019/c048ef28-e824-4c94-bf4e-997ebeada16f.png!large" title="" alt=""><br>
+<strong>各列含义如下</strong><br>
+进程<br>
+r:等待执行时间的进程数<br>
+b:在不可中断睡眠中的进程数</p>
+
+<p>内存<br>
+swpd：已使用的虚拟内存量<br>
+free：空闲内存量<br>
+buff：作为缓冲的内存<br>
+cache：作缓存的内存</p>
+
+<p>Swap<br>
+si：从交换分区写到内存的量<br>
+so：从内存写到交换分区的大小</p>
+
+<p>IO<br>
+bi：磁盘读速率 (blocks/s)<br>
+bo：磁盘写速率 (blocks/s)</p>
+
+<p>System<br>
+in：每秒钟的中断次数<br>
+cs：每秒的上下文切换次数</p>
+
+<p>CPU（总 CPU 时间的百分比）：<br>
+us：用户空间运行的时间百分比<br>
+sy：系统空间运行的时间百分比<br>
+id：空闲时间<br>
+wa：等待 IO 的时间</p>
+
+<p>vmstat -a  显示活跃和非活跃内存<br>
+    vmstat -f 显示从系统启动至今的 fork(系统调用)<br>
+    vmstat -s 显示内存相关统计信息及多种系统活动数量<br>
+    vmstat -d【查看磁盘的读写】<br>
+    vmstat -p /dev/sda1<br>
+    vmstat -m 查看系统的 slab 信息</p>
+<h4 id="lscpu">lscpu</h4>
+<p><img src="/uploads/photo/2019/c4617169-cc18-4101-b200-b855bc8e5213.png!large" title="" alt=""><br>
+1.Cpu64 位<br>
+2.Cpu 6 核<br>
+3.NUMA 点个节点<br>
+4.Cpu 的核心频率<br>
+5.说明此服务器为虚拟机</p>
+<h4 id="sar命令">sar 命令</h4>
+<p><img src="/uploads/photo/2019/2b5761c4-5ed6-4efb-be75-155411d061e5.png!large" title="" alt=""><br>
+<img src="/uploads/photo/2019/98d8b459-7218-431e-8416-923a024cd658.png!large" title="" alt=""><br>
+        sar -p（查看全天 cpu 数据）<br>
+        sar -u 1 10（1：每隔一秒，10：写入 10 次）<br>
+        sar -r（查看全天内存数据）<br>
+        sar -r 1 10<br>
+        sar -d 查看全天磁盘数据<br>
+        sar -d 1 2（1：每隔一秒，2：写入 2 次）<br>
+        sar -n DEV（查看全天网络流量数据）<br>
+        sar -n DEV 1 2<br>
+        sar -b 5 10 内存及交换空间 I/O 和传送速率监控<br>
+        sar -q 1 12 监控进程队列长度和平均负载状态<br>
+        sar -W 5 10 内存交换监控<br>
+        sar -d 1 2 -p 磁盘监控<br>
+        sar -B</p>
+<h4 id="mpstat命令">mpstat 命令</h4>
+<p>mpstat -P ALL 1 每秒中采集一次 cpu  各个核心的使用资源情况<br>
+        mpstat -P 0 1 5 采集第一颗 cpu 的信息<br>
+<img src="/uploads/photo/2019/b23ed06a-6ec2-4242-9d32-0ca32118f88a.png!large" title="" alt=""></p>
+ <table class="table-responsive table table-bordered table-striped">
+<tbody><tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+<tr>
+<td>%usr</td>
+<td>在用户空间消耗的 cpu 时间百分比</td>
+</tr>
+<tr>
+<td>%sys</td>
+<td>在系统空间消耗的 cpu 时间百分比</td>
+</tr>
+<tr>
+<td>%iowait</td>
+<td>等待 IO 的 cpu 时间百分比</td>
+</tr>
+<tr>
+<td>%irq</td>
+<td>硬中断的 cpu 时间百分比</td>
+</tr>
+<tr>
+<td>%soft</td>
+<td>软中断的 cpu 时间百分比</td>
+</tr>
+<tr>
+<td>%idle</td>
+<td>空闲的 cpu 时间百分比</td>
+</tr>
+</tbody></table> <h4 id="iostat命令">iostat 命令</h4>
+<p>iostat -x -k -d 1 采集 IO 数据<br>
+        iotop -botq -p【pid】输出进程的 io 信息<br>
+        iotop  -d 2 -n 5 间隔 2 秒，输出 5 次 监控时间段内的 IO<br>
+        iotop  -o  显示产生 IO 的进程 <br>
+        iostat -dxm 3<br>
+<img src="/uploads/photo/2019/cbbcdad9-0f36-4546-835e-1b6e29f2b3d4.png!large" title="" alt=""></p>
+ <table class="table-responsive table table-bordered table-striped">
+<tbody><tr>
+<th>参数</th>
+<th>解释</th>
+</tr>
+<tr>
+<td>rrqm/s</td>
+<td>每秒对该设备的读请求被合并次数</td>
+</tr>
+<tr>
+<td>wrqm/s</td>
+<td>每秒对该设备的写请求被合并次数</td>
+</tr>
+<tr>
+<td>r/s</td>
+<td>每秒完成的读次数</td>
+</tr>
+<tr>
+<td>w/s</td>
+<td>每秒完成的写次数</td>
+</tr>
+<tr>
+<td>rkB/s</td>
+<td>每秒读数据量 (kB 为单位)</td>
+</tr>
+<tr>
+<td>wkB/s</td>
+<td>每秒写数据量 (kB 为单位)</td>
+</tr>
+<tr>
+<td>avgrq-sz</td>
+<td>平均每次 IO 操作的数据量 (扇区数为单位)</td>
+</tr>
+<tr>
+<td>avgqu-sz</td>
+<td>在平均等待处理的 IO 请求队列长度，该参数表示了设备的繁忙程度</td>
+</tr>
+<tr>
+<td>await</td>
+<td>平均每次 IO 请求等待时间 (包括等待时间和处理时间，毫秒为单位)</td>
+</tr>
+<tr>
+<td>svctm</td>
+<td>平均每次 IO 请求的处理时间 (毫秒为单位)</td>
+</tr>
+<tr>
+<td>rkB/s</td>
+<td>软中断的 cpu 时间百分比</td>
+</tr>
+<tr>
+<td>%util</td>
+<td>1 秒中有百分之多少的时间用于 I/O 操作，该参数表示了设备的繁忙程度</td>
+</tr>
+</tbody></table> <h4 id="pidstat命令">pidstat 命令</h4>
+<p>pidstat -u -p ALL 查看所有进程的 cpu 使用<br>
+        pidstat -r 查看进程的内存使用<br>
+        pidstat -d 查看进程 IO<br>
+        pidstat -w -p【pid】统计进程的上下文切换<br>
+<img src="/uploads/photo/2019/f5984b96-c9c8-43a9-8cf5-f9417e585e36.png!large" title="" alt=""><br>
+ cswch/s：进程每秒主动切换次数<br>
+nvcswch/s：进程每秒被动切换次数</p>
+<h4 id="ps命令">ps 命令</h4>
+<p>ps aux | sort -k3nr |head -n 10 按照按照消耗 CPU 前 10 排序的进程<br>
+    ps aux | sort -k4nr |head -n 10 按照按照消耗内存前 10 排序的进程<br>
+    ps -A -o stat,ppid,pid,cmd |grep -e '<sup>[Zz]'</sup> 定位僵尸进程<br>
+          kill -HUP 僵尸进程父 ID 杀死僵尸进程<br>
+    ps -eLo pid,stat | grep 3598 | grep running | wc -l  根据进程状态筛选线程<br>
+    pstree -p | wc -l  查询当前整个系统已用的线程或进程数<br>
+    pstree -p pid | wc -l 统计进程的线程数<br>
+    ps -o nlwp pid 查看进程下的线程数</p>
+<h4 id="netstat命令">netstat 命令</h4>
+<p>1：netstat -nat|grep ESTABLISHED|wc -l  查看系统的总连接数<br>
+    2：netstat  -anp|grep pid|wc -l  统计进程的总连接数<br>
+    1 和 2 组合使用<br>
+    netstat -n | awk '/<sup>tcp/</sup> {++S[$NF]} END {for(a in S) print a, S[a]}'   查看连接状态</p>
+<h4 id="sysbench">sysbench</h4>
+<p>进程模拟工具<br>
+    apt install sysbench sysstat 安装 sysbench<br>
+    sysbench --threads=10 --max-time=300 threads run  10 个线程运行 5 分钟的基准测试，模拟多线程切换</p>
+<h4 id="Stress-ng">Stress-ng</h4>
+<p>stress-ng -c 2 -t 30 -c 指定进程数 -t 指定时间<br>
+    stress-ng -c 2 --cpu-method pi 产生 2 个进程做圆周率算法压力<br>
+    stress-ng -c 16 --cpu-method all 生成 16 个进程使用多种不同的算法竞争 cpu<br>
+    stress-ng --sock 2 产生 2 个进程调用 socket 相关函数产生压力<br>
+    taskset -c 16 stress-ng --timeout 30 --cpu 1  生成 16 个进程对索引为 0 的逻辑 cpu 施加压力, 持续 30 秒<br>
+    stress-ng -c 0 -l 40 stress-ng -c 0 -l 40<br>
+    stress-ng -c 16 --timeout 300 模拟 16 个进程争夺 cpu 持续 300 秒</p>
+<h4 id="iozone">iozone</h4>
+<p><strong>iozone 安装：</strong><br>
+wget <a href="http://www.iozone.org/src/current/iozone3_482.tar" rel="nofollow" target="_blank">http://www.iozone.org/src/current/iozone3_482.tar</a><br>
+tar -xvf iozone3_429.tar<br>
+cd iozone3_429/src/current<br>
+apt-get install gcc<br>
+make<br>
+make linux-ia64</p>
+
+<p><strong>iozone 使用：</strong><br>
+iozone -a -n 512k -g 4m -i 0 -i 1 -i 5 -f /mnt/iozone -Rb ./iozone.xls   从 512k 写到 4 兆的文件</p>
+<h4 id="其它的IO测试">其它的 IO 测试</h4>
+<p>time dd if=/dev/zero of=test bs=1M count=4096 测试 IO 读写速度<br>
+    sync;time -p bash -c "(dd if=/dev/zero of=test bs=1M count=200)" 当前目录下创建一个 test 文件，写入 200 个 1M 的数据。测试写瓶颈<br>
+    hdparm -tT --direct /dev/sda 测试读瓶颈</p>
+<h4 id="上下文和中断的查看命令">上下文和中断的查看命令</h4>
+<p>dstat -y  查看系统中断和上下文切换<br>
+    grep ctxt /proc/$pid/status 统计上下文切换数<br>
+    watch -d cat /proc/interrupts 统计进程中断的方式<br>
+    watch -d -n 1 'cat /proc/softirqs'查看中断种类。NET_TX 或 NET _RX 如果变化很快就是网络中断引起，否则 s1 系统其他原因造成的中断 </p>
+
+<p style="color: rgb(62, 62, 62); font-family: -webkit-standard; font-size: 14px; white-space: normal;">
+    <!--<img data-s="300,640" data-type="png" src="http://image2.135editor.com/cache/remote/aHR0cHM6Ly9tbWJpei5xbG9nby5jbi9tbWJpei9FS3MzYnZ0MHcwS0hWUFZ1dzhGZUhhS1B2aWFadzFQNEY3djl3TGRza1E3STFsZnNDbjhoekQ3NHV5b0llRVNuZkZCaWFHb3Y5Nm45d3piaG5NY204RDRRLzA/d3hfZm10PXBuZw==" class="" data-ratio="0.5367132867132867" data-w="572"/>-->
+     <img data-type="png" src="https://testerhome.com/uploads/photo/2021/b31d6f82-7c30-4ad3-b2d4-34cda12bec3f.png" />
+
+</p>
+<p>
+    <br/>
+</p>
+
+↙↙↙阅读原文可查看相关链接，并与作者交流
+
+
+</body>
+</html>

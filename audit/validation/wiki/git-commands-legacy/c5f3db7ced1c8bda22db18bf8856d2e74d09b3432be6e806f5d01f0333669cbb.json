@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "git-commands-legacy",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_07c85db39162",
+  "input_hash": "sha256:05fdc76e30a9542b3210eba7dbc5559236bff35ba73fa5ab1eab386f04fe38d3",
+  "provider_duration_ms": 32353,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579878.945438,
+  "wiki_content_sha256": "sha256:21d20ce3311c1560e9b5af9ccf1e943552f458f9348b3a7186b89d8c3d6a9e3c",
+  "wiki_evidence_sha256": "sha256:bd06c188bfb5f3d730cbae34e6313650b3c44478b0689dc782955133a0eae76c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-git-commands"
+      },
+      "source_id": "web-computer-science-git-commands",
+      "evidence_id": "evidence-7c5186650823",
+      "snapshot_sha256": "sha256:bf975cc2f502b976f516a76dd029e93db373899c03c19a0b0a07e67527a30875",
+      "selector_sha256": "sha256:13bc97ebf281e58510c5ebd845629ad43b88c640cf105d3b9eb95fbb99118ea4",
+      "quote_sha256": "sha256:6540db3aec84e188dd7cc8a0f2325e0565c7182e4b2e53d61bc0959401f14c34"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "git-commands-legacy-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7c5186650823",
+          "exact": "Book\nThe entire Pro Git book, written by Scott Chacon and Ben Straub and published by Apress, is available here. All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license. Print versions of the book are available on Amazon.com.\nThe version found here has been updated with corrections and additions from hundreds of contributors. If you see an error or have a suggestion, patches and issues are welcome in its GitHub repository.\n-"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7c5186650823",
+          "subject": "Pro Git book",
+          "predicate": "is_described_by",
+          "object": "The target quote states the Pro Git book authors, publisher, license, print availability, update history, and GitHub contribution path."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文[0,474)与 claim 文本逐字一致，覆盖作者、出版社、许可、Amazon 印刷版、贡献者更新及 GitHub repository 等全部断言，因此按 direct support 判为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823",
+          "start": 0,
+          "end": 474
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-git-commands",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "git-commands-legacy-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

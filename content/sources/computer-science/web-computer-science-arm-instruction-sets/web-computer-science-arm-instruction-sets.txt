@@ -1,0 +1,7 @@
+ARM (stylised in lowercase as arm) is a family of RISC instruction set architectures for computer processors. Arm Holdings develops the instruction set architecture and licenses them to other companies, who build the physical devices that use the instruction set. It also designs and licenses cores that implement these instruction set architectures.
+
+The ARM architecture is a load–store architecture. Uniform 16 × 32-bit register file (including the program counter, stack pointer and the link register). Fixed instruction width of 32 bits to ease decoding and pipelining, at the cost of decreased code density. Later, the Thumb instruction set added 16-bit instructions and increased code density. Mostly single clock-cycle execution.
+
+To improve compiled code density, processors since the ARM7TDMI (released in 1994) have featured the Thumb compressed instruction set, which have their own state. When in this state, the processor executes the Thumb instruction set, a compact 16-bit encoding for a subset of the ARM instruction set. Most of the Thumb instructions are directly mapped to normal ARM instructions. The space saving comes from making some of the instruction operands implicit and limiting the number of possibilities compared to the ARM instructions executed in the ARM instruction set state.
+
+Branching in the ARM architecture uses condition code, compare and branch instructions.

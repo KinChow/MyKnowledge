@@ -1,0 +1,556 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ifconfig(8) - Linux manual page</title>
+    <link rel="stylesheet" type="text/css" href="../../../style.css" title="style" />
+    <link rel="stylesheet" type="text/css" href="../style.css" title="style" />
+</head>
+
+<body>
+
+<div class="page-top"><a id="top_of_page"></a></div>
+<!--%%%TOP_BAR%%%-->
+    <div class="nav-bar">
+        <table class="nav-table">
+            <tr>
+                <td class="nav-cell">
+                    <p class="nav-text">
+                        <a href="../../../index.html">man7.org</a> &gt; Linux &gt; <a href="../index.html">man-pages</a>
+                    </p>
+                </td>
+                <td class="training-cell">
+                    <p class="training-text"><a class="training-link" href="http://man7.org/training/">Linux/UNIX system programming training</a></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<hr class="nav-end" />
+
+<!--%%%PAGE_START%%%-->
+<h1>ifconfig(8) &mdash; Linux manual page</h1>
+
+
+<table class="sec-table">
+<tr>
+    <td>
+        <p class="section-dir">
+<a href="#NAME">NAME</a> | <a href="#SYNOPSIS">SYNOPSIS</a> | <a href="#DESCRIPTION">DESCRIPTION</a> | <a href="#OPTIONS">OPTIONS</a> | <a href="#OUTPUT">OUTPUT</a> | <a href="#NOTES">NOTES</a> | <a href="#FILES">FILES</a> | <a href="#BUGS">BUGS</a> | <a href="#SEE_ALSO">SEE&nbsp;ALSO</a> | <a href="#AUTHORS">AUTHORS</a> | <a href="#COLOPHON">COLOPHON</a>
+        </p>
+    </td>
+</tr>
+<tr>
+    <td class="search-box">
+        <div class="man-search-box">
+
+            <form method="get" action="https://www.google.com/search">
+                <fieldset class="man-search">
+                    <input type="text" name="q" size="10" maxlength="255" value="" />
+                    <input type="hidden" name="sitesearch" value="man7.org/linux/man-pages" />
+                    <input type="submit" name="sa" value="Search online pages" />
+                </fieldset>
+            </form>
+
+        </div>
+    </td>
+    <td> </td>
+</tr>
+</table>
+
+<!--%%%TEXT_START%%%-->
+<pre>
+<span class="headline"><i>IFCONFIG</i>(8)        Linux System Administrator's Manual        <i>IFCONFIG</i>(8)</span>
+</pre>
+<h2><a id="NAME" href="#NAME"></a>NAME  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       ifconfig - configure a network interface
+</pre>
+<h2><a id="SYNOPSIS" href="#SYNOPSIS"></a>SYNOPSIS  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       <b>ifconfig </b>[<b>-v</b>] [<b>-a</b>] [<b>-s</b>] [<i>interface</i>]
+
+       <b>ifconfig </b>[<b>-v</b>] <i>interface</i> [<i>aftype</i>] <i>options</i> | <i>address</i> ...
+</pre>
+<h2><a id="DESCRIPTION" href="#DESCRIPTION"></a>DESCRIPTION  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       <b>Ifconfig </b>is used to configure the kernel-resident network
+       interfaces.  It is used at boot time to set up interfaces as
+       necessary.  After that, it is usually only needed when debugging
+       or when system tuning is needed.
+
+       If no arguments are given, <b>ifconfig </b>displays the status of the
+       currently active interfaces.  If a single <i>interface</i> argument is
+       given, it displays the status of the given interface only; if a
+       single <b>-a </b>argument is given, it displays the status of all
+       interfaces, even those that are down.  Otherwise, it configures an
+       interface.
+
+   <b>Address Families</b>
+       If the first argument <i>aftype</i> after the <i>interface</i> name is
+       recognized as the name of a supported address family, that address
+       family is used for decoding and displaying all protocol addresses.
+       Currently supported address families include <b>inet </b>(TCP/IP,
+       default), <b>inet6 </b>(IPv6), <b>ax25 </b>(AMPR Packet Radio), <b>ddp </b>(Appletalk
+       Phase 2), <b>ipx </b>(Novell IPX) and <b>netrom </b>(AMPR Packet radio).
+
+       All numbers supplied as parts in IPv4 dotted decimal notation may
+       be decimal, octal, or hexadecimal, as specified in the ISO C
+       standard (that is, a leading '<b>0x</b>' or '<b>0X</b>' implies hexadecimal;
+       otherwise, a leading '<b>0</b>' implies octal; otherwise, the number is
+       interpreted as decimal).  Use of hexadecimal and octal numbers is
+       not RFC-compliant and therefore its use is discouraged.
+</pre>
+<h2><a id="OPTIONS" href="#OPTIONS"></a>OPTIONS  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       <b>-a     </b>display all interfaces which are currently available, even
+              if down
+
+       <b>-s     </b>display a short list (like <b>netstat -i</b>)
+
+       <b>-v     </b>be more verbose for some error conditions
+
+       <i>interface</i>
+              The name of the interface.  This is usually a driver name
+              followed by a unit number, for example <b>eth0 </b>for the first
+              Ethernet interface. If your kernel supports alias
+              interfaces, you can specify them with syntax like <b>eth0:0</b>
+              for the first alias of eth0. You can use them to assign
+              more addresses. To delete an alias interface use <b>ifconfig</b>
+              <b>eth0:0 down</b>.  Note: for every scope (i.e. same net with
+              address/netmask combination) all aliases are deleted, if
+              you delete the first (primary).
+
+       <b>up     </b>This flag causes the interface to be activated.  It is
+              implicitly specified if an address is assigned to the
+              interface; you can suppress this behavior when using an
+              alias interface by appending an <b>- </b>to the alias (e.g.
+              <b>eth0:0-</b>).  It is also suppressed when using the IPv4
+              0.0.0.0 address as the kernel will use this to implicitly
+              delete alias interfaces.
+
+       <b>down   </b>This flag causes the driver for this interface to be shut
+              down.
+
+       <b>[-]arp </b>Enable or disable the use of the ARP protocol on this
+              interface.
+
+       <b>[-]promisc</b>
+              Enable or disable the <b>promiscuous </b>mode of the interface.
+              If selected, all packets on the network will be received by
+              the interface.
+
+       <b>[-]allmulti</b>
+              Enable or disable <b>all-multicast </b>mode.  If selected, all
+              multicast packets on the network will be received by the
+              interface.
+
+       <b>mtu </b><i>M</i>  This parameter sets the Maximum Transfer Unit (MTU) of an
+              interface to <i>M</i> bytes.
+
+       <b>dstaddr </b><i>addr</i>
+              Set the remote IP address for a point-to-point link (such
+              as PPP).  This keyword is now obsolete; use the <b>pointopoint</b>
+              keyword instead.
+
+       <b>netmask </b><i>addr</i>
+              Set the IP network mask for this interface.  This value
+              defaults to the usual class A, B or C network mask (as
+              derived from the interface IP address), but it can be set
+              to any value.
+
+       <b>add </b><i>addr</i><b>/</b><i>prefixlen</i>
+              Add an address to an interface.
+
+       <b>del </b><i>addr</i><b>/</b><i>prefixlen</i>
+              Remove an address from an interface.
+
+       <b>tunnel </b><i>::aa.bb.cc.dd</i>
+              Create a new SIT (IPv6-in-IPv4) device, tunnelling to the
+              given destination.
+
+       <b>irq </b><i>I</i>  Set the interrupt line used by this device.  Not all
+              devices can dynamically change their IRQ setting.
+
+       <b>io_addr </b><i>Mem</i>
+              Set the start address in I/O space for this device.  Only a
+              few old devices need this.
+
+       <b>mem_start </b><i>Mem</i>
+              Set the start address for shared memory used by this
+              device.  Only a few old devices need this.
+
+       <b>media </b><i>type</i>
+              Set the physical port or medium type to be used by the
+              device.  Not all devices can change this setting, and those
+              that can vary in what values they support.  Typical values
+              for <i>type</i> are <b>10base2 </b>(thin Ethernet), <b>10baseT </b>(twisted-pair
+              10Mbps Ethernet), <b>AUI </b>(external transceiver) and so on.
+              The special medium type of <b>auto </b>can be used to tell the
+              driver to auto-sense the media.  Again, not all drivers can
+              do this.
+
+       <b>[-]broadcast </b>[<i>addr</i>]
+              If the address argument is given, set the protocol
+              broadcast address for this interface.  Otherwise, set (or
+              clear) the <b>IFF_BROADCAST </b>flag for the interface.
+
+       <b>[-]pointopoint </b>[<i>addr</i>]
+              This keyword enables the <b>point-to-point </b>mode of an
+              interface, meaning that it is a direct link between two
+              machines with nobody else listening on it.
+              If the address argument is also given, set the protocol
+              address of the other side of the link, just like the
+              obsolete <b>dstaddr </b>keyword does.  Otherwise, set or clear the
+              <b>IFF_POINTOPOINT </b>flag for the interface.
+
+       <b>hw </b><i>hwclass hwaddr</i>
+              Set the hardware address of this interface, if the device
+              driver supports this operation.  The keyword must be
+              followed by the name of the hardware class <i>hwclass</i>  and the
+              printable ASCII equivalent of the hardware address.
+              Hardware classes currently supported include <b>ether</b>
+              (Ethernet), <b>ax25 </b>(AMPR AX.25), <b>ARCnet </b>and <b>netrom </b>(AMPR
+              NET/ROM).
+
+       <b>multicast</b>
+              Set the multicast flag on the interface. This should not
+              normally be needed as the drivers set the flag correctly
+              themselves.
+
+       <b>txqueuelen </b><i>length</i>
+              Set the length of the transmit queue of the device. It is
+              useful to set this to small values for slower devices with
+              a high latency (modem links, ISDN) to prevent fast bulk
+              transfers from disturbing interactive traffic like telnet
+              too much.
+
+       <b>name </b><i>newname</i>
+              Change the name of this interface to <i>newname</i>.  The
+              interface must be shut down first.
+
+       <i>address</i>
+              The IP address to be assigned to this interface.
+</pre>
+<h2><a id="OUTPUT" href="#OUTPUT"></a>OUTPUT  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+   <b>Interface Statistics Table (-s)</b>
+       The table lists active (default) or all known (<b>-a</b>) kernel
+       interfaces.  With the <b>-s </b>option it is the same output as <b>netstat</b>
+       <b>-i</b>.
+
+       &gt; ifconfig -s enp2s0f0
+       Iface     MTU    RX-OK RX-ERR RX-DRP RX-OVR  TX-OK TX-ERR TX-DRP TX-OVR Flg
+       enp2s0f0 1500 18668761      0   1318 0    26038367      0      0      0 BMRU
+
+       The result table shows the following columns:
+
+       <b>Iface  </b>Name and alias prefix of the network interface.
+
+       <b>MTU    </b>The maximum transfer unit in bytes of this interface.
+
+       <b>RX-OK  </b>Number of successfully received packets since interface
+              statistic was reset.
+
+       <b>RX-ERR </b>Total count of receive errors since statistic reset.  This
+              includes: <i>rx_errors</i> (general receive errors), <i>rx_crc_errors</i>
+              (packets received with a CRC checksum failure),
+              <i>rx_frame_errors</i> (frame alignment errors, corrupted).
+
+       <b>RX-DRP </b>Number of incoming packets that were dropped before
+              reaching the protocol stack.  Common causes: no buffer
+              space in the driver, congestion, or resource limitations.
+
+       <b>RX-OVR </b>Number of packets dropped due to FIFO buffer overflows in
+              the NIC or driver.  Common causes: the hardware could not
+              push frames fast enough to the system.
+
+       <b>TX-OK  </b>Number of packets  successfully transmitted since interface
+              statistic was reset.
+
+       <b>TX-ERR </b>Number of transmit errors.  Includes collisions, carrier
+              loss, and other transmission failures.
+
+       <b>TX-DRP </b>Number of packets dropped by the driver before being sent
+              (e.g., due to congestion or lack of buffer space).
+
+       <b>TX-OVR </b>Number of packets lost due to transmit FIFO overflows in
+              the hardware.
+
+       <b>Flg    </b>The flags for this interface, as listed below.
+
+   <b>Interface Flags</b>
+       The list of interface flags used in the short and detailed
+       interface output.  The names of the bit flag constants of the
+       <b>SIOCGIFFLAGS </b>control are listed in <a href="../man7/netdevice.7.html">netdevice(7)</a>.
+
+       <b>A</b>, <b>ALLMULTI</b>
+              Accepts all multicast packets (<i>IFF_ALLMULTI</i>).
+
+       <b>B</b>, <b>BROADCAST</b>
+              Interface supports broadcast communication (<i>IFF_BROADCAST</i>).
+
+       <b>D</b>, <b>DEBUG</b>
+              Internal debugging for the interface enabled (<i>IFF_DEBUG</i>).
+
+       <b>L</b>, <b>LOOPBACK</b>
+              Interface is a loopback device (<i>IFF_LOOPBACK</i>).
+
+       <b>M</b>, <b>MULTICAST</b>
+              Interface supports multicast communication (<i>IFF_MULTICAST</i>).
+
+       <b>d</b>, <b>DYNAMIC</b>
+              Address is dynamically set (e.g. by DHCP) (<i>IFF_DYNAMIC</i>).
+
+       <b>P</b>, <b>PROMISC</b>
+              Interface is in promiscuous mode (captures all packets)
+              (<i>IFF_PROMISC</i>).  This flag might not reliably show promisc
+              mode.
+
+       <b>N</b>, <b>NOTRAILERS</b>
+              Avoid use of trailers in packets (<i>IFF_NOTRAILERS</i>).
+
+       <b>O</b>, <b>NOARP</b>
+              Interface does not use ARP (<i>IFF_NOARP</i>).
+
+       <b>p</b>, <b>POINTOPOINT</b>
+              Interface is point-to-point (has a peer instead of
+              broadcast) (<i>IFF_POINTOPOINT</i>).
+
+       <b>s</b>, <b>SLAVE</b>
+              Interface is part of a bonded device (<i>IFF_SLAVE</i>).
+
+       <b>m</b>, <b>MASTER</b>
+              Interface controls a bonded device (<i>IFF_MASTER</i>).
+
+       <b>R</b>, <b>RUNNING</b>
+              Interface is operational and resources are allocated
+              (<i>IFF_RUNNING</i>).
+
+       <b>U</b>, <b>UP  </b>Interface is administratively up (<i>IFF_UP</i>).
+
+       <b>[NO FLAGS]</b>, <b>&lt;&gt;</b>
+              If the bitmask for the interface status is 0.
+
+   <b>Interface Details</b>
+       Sample output for the details of a single interface:
+
+       &gt; ifconfig enp2s0f0
+       enp2s0f0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+               inet 203.0.113.9  netmask 255.255.255.0  broadcast 203.0.113.255
+               inet6 fe80::a8bb:ccff:fedd:eeff  prefixlen 64  scopeid 0x20&lt;link&gt;
+               inet6 2001:db8::a8bb:ccff:fedd:eeff  prefixlen 64  scopeid 0x0&lt;global&gt;
+               ether aa:bb:cc:dd:ee:ff  txqueuelen 1000  (Ethernet)
+               RX packets 18668507  bytes 9459465501 (8.8 GiB)
+               RX compressed 0
+               RX errors 0  dropped 1318  overruns 0  frame 0
+               TX packets 26038199  bytes 16983080620 (15.8 GiB)
+               TX compressed 0
+               TX errors 0  dropped 0  overruns 0  carrier 0  collisions 0
+               device interrupt 30
+
+       The output of the interface list is the same as <b>netstat -i -e</b>.
+
+       For each interface there is a block starting with the interface
+       name the <b>flags </b>and the <b>mtu</b>, optional <b>outfil </b>and <b>keepalive</b>.
+
+       Then one line for each address, prefixed with the address type and
+       its type specifc details.
+
+              In the example is one IPv4 (<b>inet</b>) address.  it specifies
+              <b>netmask</b>, optional <b>broadcast</b>.  If the point-to-point flag is
+              set if will show <b>destination </b>address.
+
+              The example follows with two IPv6 (<b>inet6</b>) addresses.  Such
+              a line specifies addresss, <b>prefixlen</b>, and <b>scopeid</b>:
+
+              <b>compat </b>IPv4 compatibility address.
+
+              <b>global </b>A Global Unicast Address (UGA).
+
+              <b>site   </b>A site-unique address.
+
+              <b>link   </b>A link-local address.
+
+              <b>host   </b>A loopback address.
+
+       This is followed with a line for the hardware address family
+       (<b>ether </b>in this case).  This line contains <b>txqueuelen </b>if available.
+
+       If the device is configured for port selection, it has a <b>media</b>
+       line.
+
+       After that the <b>packets </b>statistics for transmit (<b>TX</b>) and receive
+       (<b>RX</b>) are shown (same as in the short format above, but the
+       different error counters are shown seperate).  Additionally the
+       total number of <b>bytes </b>(frame sizes total) are shown (with a human
+       friendly formatting as comment).  The <b>compressed </b>packet counter
+       lines are optional.
+
+       The final <b>device </b>line lists optional driver details, with some of
+       the following keywords: <b>interrupt</b>, <b>base</b>, <b>memory</b>, and <b>dma</b>.
+</pre>
+<h2><a id="NOTES" href="#NOTES"></a>NOTES  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       Since kernel release 2.2 there are no explicit interface
+       statistics for alias interfaces anymore. The statistics printed
+       for the original address are shared with all alias addresses on
+       the same device. If you want per-address statistics you should add
+       explicit accounting rules for the address using the <a href="../man8/iptables.8.html">iptables(8)</a>
+       command.
+
+       Since net-tools 1.60-4 ifconfig is printing byte counters and
+       human readable counters with IEC 60027-2 units. So 1 KiB are 2^10
+       byte. Note, the numbers are truncated to one decimal (which can by
+       quite a large error if you consider 0.1 PiB is 112.589.990.684.262
+       bytes :)
+
+       Interrupt problems with Ethernet device drivers fail with EAGAIN
+       <i>(SIOCSIIFLAGS: Resource temporarily unavailable)</i> it is most likely
+       a interrupt conflict.
+</pre>
+<h2><a id="FILES" href="#FILES"></a>FILES  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       <i>/proc/net/dev /proc/net/if_inet6</i>
+</pre>
+<h2><a id="BUGS" href="#BUGS"></a>BUGS  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       Ifconfig uses the ioctl access method to get the full address
+       information, which limits hardware addresses to 8 bytes.  Because
+       Infiniband hardware address has 20 bytes, only the first 8 bytes
+       are displayed correctly.  Please use <b>ip link </b>command from <b>iproute2</b>
+       package to display link layer informations including the hardware
+       address.
+
+       While appletalk DDP and IPX addresses will be displayed they
+       cannot be altered by this command.
+</pre>
+<h2><a id="SEE_ALSO" href="#SEE_ALSO"></a>SEE ALSO  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       Homepage of the <i>net-tools</i> project: 
+       ⟨<a href="https://net-tools.sourceforge.io">https://net-tools.sourceforge.io</a>⟩
+
+       Prefixes for binary multiples (NIST): 
+       ⟨<a href="https://physics.nist.gov/cuu/Units/binary.html">https://physics.nist.gov/cuu/Units/binary.html</a>⟩
+
+       <a href="../man8/route.8.html">route(8)</a>, <a href="../man8/netstat.8.html">netstat(8)</a>, <a href="../man8/arp.8.html">arp(8)</a>, <a href="../man8/ip-link.8.html">ip-link(8)</a>, <a href="../man8/iptables.8.html">iptables(8)</a>
+       <b>interfaces</b>(5), <a href="../man7/ip.7.html">ip(7)</a>, <a href="../man7/netdevice.7.html">netdevice(7)</a>
+</pre>
+<h2><a id="AUTHORS" href="#AUTHORS"></a>AUTHORS  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       Fred N. van Kempen &lt;waltje@uwalt.nl.mugnet.org&gt;,
+       Alan Cox &lt;Alan.Cox@linux.org&gt;, Andi Kleen,
+       Phil Blundell &lt;Philip.Blundell@pobox.com&gt;,
+       Bernd Eckenfels &lt;net-tools@lina.inka.de&gt;.
+</pre>
+<h2><a id="COLOPHON" href="#COLOPHON"></a>COLOPHON  &nbsp; &nbsp; &nbsp; &nbsp; <a href="#top_of_page"><span class="top-link">top</span></a></h2><pre>
+       This page is part of the <i>net-tools</i> (networking utilities) project.
+       Information about the project can be found at 
+       ⟨<a href="http://net-tools.sourceforge.net/">http://net-tools.sourceforge.net/</a>⟩.  If you have a bug report for
+       this manual page, see ⟨<a href="http://net-tools.sourceforge.net/">http://net-tools.sourceforge.net/</a>⟩.  This
+       page was obtained from the project's upstream Git repository
+       ⟨git://git.code.sf.net/p/net-tools/code⟩ on 2026-05-24.  (At that
+       time, the date of the most recent commit that was found in the
+       repository was 2026-05-12.)  If you discover any rendering
+       problems in this HTML version of the page, or you believe there is
+       a better or more up-to-date source for the page, or you have
+       corrections or improvements to the information in this COLOPHON
+       (which is <i>not</i> part of the original manual page), send a mail to
+       man-pages@man7.org
+
+<span class="footline">net-tools                       2025-09-10                    <i>IFCONFIG</i>(8)</span>
+</pre>
+
+<hr class="end-man-text" />
+<p>Pages that refer to this page:
+    <a href="../man3/getifaddrs.3.html">getifaddrs(3)</a>,&nbsp;
+    <a href="../man3/if_nameindex.3.html">if_nameindex(3)</a>,&nbsp;
+    <a href="../man3/if_nametoindex.3.html">if_nametoindex(3)</a>,&nbsp;
+    <a href="../man4/sk98lin.4.html">sk98lin(4)</a>,&nbsp;
+    <a href="../man4/wavelan.4.html">wavelan(4)</a>,&nbsp;
+    <a href="../man5/proc.5.html">proc(5)</a>,&nbsp;
+    <a href="../man5/proc_pid_net.5.html">proc_pid_net(5)</a>,&nbsp;
+    <a href="../man8/arp.8.html">arp(8)</a>,&nbsp;
+    <a href="../man8/nameif.8.html">nameif(8)</a>,&nbsp;
+    <a href="../man8/netstat.8.html">netstat(8)</a>,&nbsp;
+    <a href="../man8/plipconfig.8.html">plipconfig(8)</a>,&nbsp;
+    <a href="../man8/rarp.8.html">rarp(8)</a>,&nbsp;
+    <a href="../man8/route.8.html">route(8)</a>
+</p>
+<hr/>
+
+ 
+<hr class="start-footer" />
+
+<div class="footer">
+
+<table class="colophon-table">
+    <tr>
+    <td class="pub-info">
+        <p>
+            HTML rendering created 2026-05-30
+            by <a href="https://man7.org/mtk/index.html">Michael Kerrisk</a>,
+            author of
+            <a href="https://man7.org/tlpi/"><em>The Linux Programming Interface</em></a>.
+        </p>
+        <p>
+            For details of in-depth
+            <strong>Linux/UNIX system programming training courses</strong>
+            that I teach, look <a href="https://man7.org/training/">here</a>.
+        </p>
+        <p>
+            Hosting by <a href="https://www.jambit.com/index_en.html">jambit GmbH</a>.
+        </p>
+    </td>
+    <td class="colophon-divider">
+    </td>
+    <td class="tlpi-cover">
+        <a href="https://man7.org/tlpi/"><img src="https://man7.org/tlpi/cover/TLPI-front-cover-vsmall.png" alt="Cover of TLPI" /></a>
+    </td>
+    </tr>
+</table>
+
+</div>
+
+<hr class="end-footer" />
+
+
+
+<!--BEGIN-SITETRACKING-->
+<!-- SITETRACKING.man7.org_linux_man-pages -->
+
+<!-- Default Statcounter code for man7.org/linux/man-pages
+http://www.man7.org/linux/man-pages -->
+<script type="text/javascript">
+var sc_project=7422636;
+var sc_invisible=1;
+var sc_security="9b6714ff";
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js"
+async></script>
+<noscript><div class="statcounter"><a title="Web Analytics
+Made Easy - StatCounter" href="https://statcounter.com/"
+target="_blank"><img class="statcounter"
+src="https://c.statcounter.com/7422636/0/9b6714ff/1/"
+alt="Web Analytics Made Easy -
+StatCounter"></a></div></noscript>
+<!-- End of Statcounter Code -->
+
+
+
+<!-- Start of Google Analytics Code -->
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-9830363-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+<!-- End of Google Analytics Code -->
+
+<!--END-SITETRACKING-->
+
+</body>
+</html>

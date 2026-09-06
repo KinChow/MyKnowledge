@@ -1,0 +1,9 @@
+In computer programming, a string is traditionally a sequence of characters, either as a literal constant or as some kind of variable. The latter may allow its elements to be mutated and the length changed, or it may be fixed (after creation). A string is often implemented as an array data structure of bytes (or words) that stores a sequence of elements, typically characters, using some character encoding.
+
+Strings are typically made up of characters, and are often used to store human-readable data, such as words or sentences.
+
+Strings are typically implemented as arrays of bytes, characters, or code units, to allow fast access to individual units or substrings, including characters when they have a fixed length. A few languages such as Haskell implement them as linked lists instead.
+
+Many high-level languages provide strings as a primitive data type, such as JavaScript and PHP, while most others provide them as a composite data type, some with special language support in writing literals, for example, Java and C#.
+
+The core data structure in a text editor is the one that manages the string (sequence of characters) that represents the current state of the file being edited. While that state could be stored in a single long consecutive array of characters, a typical text editor instead uses an alternative representation as its sequence data structure—a gap buffer, a linked list of lines, a piece table, or a rope—which makes certain string operations, such as insertions, deletions, and undoing previous edits, more efficient.

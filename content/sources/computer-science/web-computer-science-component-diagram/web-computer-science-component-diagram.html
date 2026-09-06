@@ -1,0 +1,2657 @@
+<html lang="zh"><head><script>var __ezHttpConsent={setByCat:function(src,tagType,attributes,category,force,customSetScriptFn=null){var setScript=function(){if(force||window.ezTcfConsent[category]){if(typeof customSetScriptFn==='function'){customSetScriptFn();}else{var scriptElement=document.createElement(tagType);scriptElement.src=src;attributes.forEach(function(attr){for(var key in attr){if(attr.hasOwnProperty(key)){scriptElement.setAttribute(key,attr[key]);}}});var firstScript=document.getElementsByTagName(tagType)[0];firstScript.parentNode.insertBefore(scriptElement,firstScript);}}};if(force||(window.ezTcfConsent&&window.ezTcfConsent.loaded)){setScript();}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){setScript();}else{console.error("cannot get ez consent data");force=true;setScript();}});}else{force=true;setScript();console.error("getEzConsentData is not a function");}},};</script>
+<script>var ezTcfConsent=window.ezTcfConsent?window.ezTcfConsent:{loaded:false,store_info:false,develop_and_improve_services:false,measure_ad_performance:false,measure_content_performance:false,select_basic_ads:false,create_ad_profile:false,select_personalized_ads:false,create_content_profile:false,select_personalized_content:false,understand_audiences:false,use_limited_data_to_select_content:false,};function getEzConsentData(){return new Promise(function(resolve){document.addEventListener("ezConsentEvent",function(event){var ezTcfConsent=event.detail.ezTcfConsent;resolve(ezTcfConsent);});});}</script>
+<script>if(typeof _setEzCookies!=='function'){function _setEzCookies(ezConsentData){var cookies=window.ezCookieQueue;for(var i=0;i<cookies.length;i++){var cookie=cookies[i];if(ezConsentData&&ezConsentData.loaded&&ezConsentData[cookie.tcfCategory]){document.cookie=cookie.name+"="+cookie.value;}}}}
+window.ezCookieQueue=window.ezCookieQueue||[];if(typeof addEzCookies!=='function'){function addEzCookies(arr){window.ezCookieQueue=[...window.ezCookieQueue,...arr];}}
+addEzCookies([{name:"ezoab_173770",value:"mod1; Path=/; Domain=plantuml.com; Expires=Fri, 04 Sep 2026 17:43:20 UTC",tcfCategory:"store_info",isEzoic:"true",},{name:"ezopvc_173770",value:"1; Path=/; Domain=plantuml.com; Expires=Fri, 04 Sep 2026 16:13:20 UTC",tcfCategory:"understand_audiences",isEzoic:"true",},{name:"ezoab_173770",value:"mod1; Path=/; Domain=plantuml.com; Max-Age=7200",tcfCategory:"store_info",isEzoic:"true",},{name:"active_template::173770",value:"pub_site.1788536600; Path=/; Domain=plantuml.com; Expires=Sun, 06 Sep 2026 15:43:20 UTC",tcfCategory:"store_info",isEzoic:"true",},{name:"ezoadgid_173770",value:"-1; Path=/; Domain=plantuml.com; Max-Age=1800",tcfCategory:"understand_audiences",isEzoic:"true",},{name:"ezoid",value:"ee9a4295-9402-472e-abb5-0c259ab1646f; Path=/; Domain=ezoic.net; Max-Age=31536000; SameSite=None; Secure; HttpOnly",tcfCategory:"store_info",isEzoic:"true",},{name:"ezoid",value:"ee9a4295-9402-472e-abb5-0c259ab1646f; Path=/; Max-Age=31536000; SameSite=None; Secure; HttpOnly",tcfCategory:"store_info",isEzoic:"true",}]);if(window.ezTcfConsent&&window.ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else{console.error("cannot get ez consent data");_setEzCookies(window.ezTcfConsent);}});}else{console.error("getEzConsentData is not a function");_setEzCookies(window.ezTcfConsent);}</script><script type="text/javascript" data-ezscrex='false' data-cfasync='false'>window._ezaq = Object.assign({"edge_cache_status":13,"edge_response_time":28,"url":"https://plantuml.com/zh/component-diagram"}, typeof window._ezaq !== "undefined" ? window._ezaq : {});</script><script type="text/javascript" data-ezscrex='false' data-cfasync='false'>window._ezaq = Object.assign({"ab_test_id":"mod1"}, typeof window._ezaq !== "undefined" ? window._ezaq : {});window.__ez=window.__ez||{};window.__ez.tf={"lcpm":"false"};window.__ez=window.__ez||{};window.__ez.fs={"ACFloorTSV2Split":"off","ACFloorTSV3Split":"off","ACTSZoneSplit":"false","ADXHardFloorsSplit":"true","AdaptiveExclusion":"true","AffiliateWidgets":"false","AllowMultipleBigAdsAboveFold":"false","AnchorExpansionBanditSplit":"true","CenteredAds":"false","DirectRenderBanditSplit":"false","DirectRenderDoseSplit":"off","DirectRenderFloormultHoldoutSplit":"off","DirectRenderPt4ThresholdSplit":"off","EscalationDownround":"false","EscalationEarlyGam":"true","EscalationHighFloorDownround":"true","EscalationMidFloorDownround":"true","EscalationS2sLowFloor":"false","EscalationS2sMidFloor":"true","EscalationUpwalkMap2":"false","FloatingInterstitialBanditSplit":"true","FloorBanditSplit":"true","FloorEscalation":"true","FlyingCarpet":"false","HbFloorBanditSplit":"false","LazyloadArm27Probe":"false","LazyloadBanditSplit":"true","MonopolyReserveFloorSplit":"false","OutstreamAspectBanditV3Split":"control","OutstreamBidderInclusionCurve":"standard","OutstreamBidderInclusionSplit":"true","OutstreamReserveBanditSplit":"true","OutstreamTSZoneSplit":"true","PoolAuctionLockDomain":"false","RefreshFloorBanditSplit":"true","SizeBanditSplit":"true","TimeoutBanditSplit":"true","VideoBidderPolicyHoldbackSplit":"off"};window.__ez.fss='3601482853';</script><script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=false;window.__ezScriptHost="//www.ezojs.com";__ez.queue=__ez.queue||function(){var e=0,i=0,t=[],n=!1,o=[],r=[],s=!0,a=function(e,i,n,o,r,s,a){var l=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,d=this;this.name=e,this.funcName=i,this.parameters=null===n?null:w(n)?n:[n],this.isBlock=o,this.blockedBy=r,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.fWindow=l,this.isTimeDelay=!1,this.process=function(){f("... func = "+e),d.isInitialized=!0,d.isComplete=!0,f("... func.apply: "+e);var i=d.funcName.split("."),n=null,o=this.fWindow||window;i.length>3||(n=3===i.length?o[i[0]][i[1]][i[2]]:2===i.length?o[i[0]][i[1]]:o[d.funcName]),null!=n&&n.apply(null,this.parameters),!0===d.deleteWhenComplete&&delete t[e],!0===d.isBlock&&(f("----- F'D: "+d.name),p())}},l=function(e,i,t,n,o,r,s){var a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,l=this;this.name=e,this.path=i,this.async=o,this.defer=r,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.fWindow=a,this.isTimeDelay=!1,this.isPath=function(e){return"/"===e[0]&&"/"!==e[1]},this.getSrc=function(e){return void 0!==window.__ezScriptHost&&this.isPath(e)?window.__ezScriptHost+e:e},this.process=function(){l.isInitialized=!0,f("... file = "+e);var i=this.fWindow?this.fWindow.document:document,t=i.createElement("script");t.src=this.getSrc(this.path),!0===o?t.async=!0:!0===r&&(t.defer=!0),t.onerror=function(){var e={url:window.location.href,name:l.name,path:l.path,user_agent:window.navigator.userAgent};"undefined"!=typeof _ezaq&&(e.pageview_id=_ezaq.page_view_id);var i=encodeURIComponent(JSON.stringify(e)),t=new XMLHttpRequest;t.open("GET","//g.ezoic.net/ezqlog?d="+i,!0),t.send(),f("----- ERR'D: "+l.name),l.isError=!0,!0===l.isBlock&&p()},t.onreadystatechange=t.onload=function(){var e=t.readyState;f("----- F'D: "+l.name),e&&!/loaded|complete/.test(e)||(l.isComplete=!0,!0===l.isBlock&&p())},i.getElementsByTagName("head")[0].appendChild(t)}},d=function(e,i){this.name=e,this.path="",this.async=!1,this.defer=!1,this.isBlock=!1,this.blockedBy=[],this.isInitialized=!0,this.isError=!1,this.isComplete=i,this.proceedIfError=!1,this.isTimeDelay=!1,this.process=function(){}};function c(e,i,n,s,a,d,c,u,f){var p=new l(e,i,n,s,a,d,c,f);!0===u?o[e]=p:r[e]=p,t[e]=p,h(p)}function h(e){!0!==u(e)&&0!=s&&e.process()}function u(e){if(!0===e.isTimeDelay&&!1===n)return f(e.name+" blocked = TIME DELAY!"),!0;if(w(e.blockedBy))for(var i=0;i<e.blockedBy.length;i++){var o=e.blockedBy[i];if(!1===t.hasOwnProperty(o))return f(e.name+" blocked = "+o),!0;if(!0===e.proceedIfError&&!0===t[o].isError)return!1;if(!1===t[o].isComplete)return f(e.name+" blocked = "+o),!0}return!1}function f(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function p(){++e>200||(f("let's go"),m(o),m(r))}function m(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||u(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?f(t.name+": error"):!0===t.isComplete?f(t.name+": complete already"):!0===t.isInitialized&&f(t.name+": initialized already"):t.process()}}function w(e){return"[object Array]"==Object.prototype.toString.call(e)}return window.addEventListener("load",(function(){setTimeout((function(){n=!0,f("TDELAY -----"),p()}),5e3)}),!1),{addFile:c,addFileOnce:function(e,i,n,o,r,s,a,l,d){t[e]||c(e,i,n,o,r,s,a,l,d)},addDelayFile:function(e,i){var n=new l(e,i,!1,[],!1,!1,!0);n.isTimeDelay=!0,f(e+" ...  FILE! TDELAY"),r[e]=n,t[e]=n,h(n)},addFunc:function(e,n,s,l,d,c,u,f,p,m){!0===c&&(e=e+"_"+i++);var w=new a(e,n,s,l,d,u,f,m);!0===p?o[e]=w:r[e]=w,t[e]=w,h(w)},addDelayFunc:function(e,i,n){var o=new a(e,i,n,!1,[],!0,!0);o.isTimeDelay=!0,f(e+" ...  FUNCTION! TDELAY"),r[e]=o,t[e]=o,h(o)},items:t,processAll:p,setallowLoad:function(e){s=e},markLoaded:function(e){if(e&&0!==e.length){if(e in t){var i=t[e];!0===i.isComplete?f(i.name+" "+e+": error loaded duplicate"):(i.isComplete=!0,i.isInitialized=!0)}else t[e]=new d(e,!0);f("markLoaded dummyfile: "+t[e].name)}},logWhatsBlocked:function(){for(var e in t)!1!==t.hasOwnProperty(e)&&u(t[e])}}}();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot=__ez.dot||{};__ez.queue.addFileOnce('/detroitchicago/boise.js', '/detroitchicago/boise.js?gcb=195-5&cb=5', true, [], true, false, true, false);__ez.queue.addFileOnce('/parsonsmaize/abilene.js', '/parsonsmaize/abilene.js?gcb=195-5&cb=e2f76748f4', true, [], true, false, true, false);__ez.queue.addFileOnce('/parsonsmaize/mulvane.js', '/parsonsmaize/mulvane.js?gcb=195-5&cb=e75e48eec0', true, ['/parsonsmaize/abilene.js'], true, false, true, false);__ez.queue.addFileOnce('/detroitchicago/birmingham.js', '/detroitchicago/birmingham.js?gcb=195-5&cb=c4ed651ab8', true, ['/parsonsmaize/abilene.js'], true, false, true, false);</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">window._ezaq = Object.assign({"ad_cache_level":1,"adpicker_placement_cnt":0,"ai_placeholder_cache_level":1,"ai_placeholder_placement_cnt":-1,"domain":"plantuml.com","domain_id":173770,"ezcache_level":2,"ezcache_skip_code":0,"has_bad_image":0,"has_bad_words":0,"is_sitespeed":0,"lt_cache_level":0,"response_size":80337,"response_size_orig":69397,"response_time_orig":1,"template_id":134,"url":"https://plantuml.com/zh/component-diagram","word_count":1316,"worst_bad_word_level":0}, typeof window._ezaq !== "undefined" ? window._ezaq : {});__ez.queue.markLoaded('ezaqBaseReady');if(window._ezaq&&window._ezaq.page_view_id==="b1044797-87d5-4c49-961d-2c5fae56641b"){window.__ezPvSig=window.__ezPvSig||"tkujo8.59be4926040f650f5a9367fb7d74cc1c";}</script>
+<link rel='preload' as='script' href='//securepubads.g.doubleclick.net/tag/js/gpt.js'>
+<link rel='preload' as='script' href='//go.ezodn.com/hb/dall.js?cb=195-5-200'>
+<script>(function(){var l=document.createElement('link');l.rel='preload';l.as='script';l.href=(('noModule' in document.createElement('script'))?'//www.ezojs.com/ezoic/ezorca.es6.min.js':'//www.ezojs.com/ezoic/ezorca.min.js');document.head.appendChild(l);})();</script>
+<link rel='preload' as='script' href='/edmontonalberta/calgary.js?cb=938a09ce43'>
+<script type="text/javascript">(function(){function storageAvailable(type){var storage;try{storage=window[type];var x='__storage_test__';storage.setItem(x,x);storage.removeItem(x);return true;}
+catch(e){return e instanceof DOMException&&(e.code===22||e.code===1014||e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED')&&(storage&&storage.length!==0);}}
+function remove_ama_config(){if(storageAvailable('localStorage')){localStorage.removeItem("google_ama_config");}}
+remove_ama_config()})()</script>
+<script type="text/javascript">var ezoicTestActive = true</script>
+<script type='text/javascript' data-ezscrex='false' data-cfasync='false'>
+window.ezAnalyticsStatic = true;
+
+function analyticsAddScript(script) {
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+}
+function getCookiesWithPrefix() {
+    var allCookies = document.cookie.split(';');
+    var cookiesWithPrefix = {};
+
+    for (var i = 0; i < allCookies.length; i++) {
+        var cookie = allCookies[i].trim();
+
+        for (var j = 0; j < arguments.length; j++) {
+            var prefix = arguments[j];
+            if (cookie.indexOf(prefix) === 0) {
+                var cookieParts = cookie.split('=');
+                var cookieName = cookieParts[0];
+                var cookieValue = cookieParts.slice(1).join('=');
+                cookiesWithPrefix[cookieName] = decodeURIComponent(cookieValue);
+                break; // Once matched, no need to check other prefixes
+            }
+        }
+    }
+
+    return cookiesWithPrefix;
+}
+function getOrMintFss() {
+	var UINT32_MAX = 4294967295;
+	var UINT32_DECIMAL = /^\d{1,10}$/;
+	function ensureEz() {
+		if (!window.__ez || typeof window.__ez !== 'object') {
+			window.__ez = {};
+		}
+		return window.__ez;
+	}
+	function isValidUint32String(value) {
+		if (typeof value !== 'string' || !value) {
+			return false;
+		}
+		if (!UINT32_DECIMAL.test(value)) {
+			return false;
+		}
+		return Number(value) <= UINT32_MAX;
+	}
+	if (window.__ez && isValidUint32String(window.__ez.fss)) {
+		return window.__ez.fss;
+	}
+	var cookieStr = '';
+	try {
+		cookieStr = document.cookie;
+	} catch (err) {
+		cookieStr = '';
+	}
+	if (cookieStr && typeof cookieStr === 'string') {
+		var parts = cookieStr.split(';');
+		for (var i = 0; i < parts.length; i++) {
+			var part = parts[i];
+			var eq = part.indexOf('=');
+			if (eq === -1) {
+				continue;
+			}
+			var name = part.slice(0, eq).trim();
+			if (name.indexOf('ezfs_') !== 0) {
+				continue;
+			}
+			var raw = part.slice(eq + 1).trim();
+			var value;
+			try {
+				value = decodeURIComponent(raw);
+			} catch (err) {
+				continue;
+			}
+			if (!isValidUint32String(value)) {
+				continue;
+			}
+			ensureEz().fss = value;
+			return value;
+		}
+	}
+	var seed;
+	if (
+		typeof crypto !== 'undefined' &&
+		typeof crypto.getRandomValues === 'function' &&
+		typeof Uint32Array === 'function'
+	) {
+		seed = crypto.getRandomValues(new Uint32Array(1))[0];
+	} else {
+		seed = Math.floor(Math.random() * 4294967296);
+	}
+	var minted = String(seed >>> 0);
+	ensureEz().fss = minted;
+	return minted;
+}
+function productAnalytics() {
+	var d = {"pr":[6,3,1],"aop":{"14":0,"26":0,"4":134,"7":0},"omd5":"bb7cc47bbc7414adb7b229a29254118c","fs_seed":"3601482853"};
+	d.u = _ezaq.url;
+	d.p = _ezaq.page_view_id;
+	d.v = _ezaq.visit_uuid;
+	d.ab = _ezaq.ab_test_id;
+	d.e = JSON.stringify(_ezaq);
+	d.ref = document.referrer;
+	d.dw = document.documentElement.clientWidth || window.innerWidth || 0;
+	d.dh = window.screen.height || 0;
+	d.vpw = window.innerWidth || document.documentElement.clientWidth || 0;
+	d.vph = window.innerHeight || document.documentElement.clientHeight || 0;
+	d.doch = Math.max((document.body && document.body.scrollHeight) || 0, (document.documentElement && document.documentElement.scrollHeight) || 0, (document.body && document.body.offsetHeight) || 0, (document.documentElement && document.documentElement.offsetHeight) || 0, (document.body && document.body.clientHeight) || 0, (document.documentElement && document.documentElement.clientHeight) || 0);
+	d.c = getCookiesWithPrefix('active_template', 'ez', 'lp_');
+	if(typeof ez_utmParams !== 'undefined') {
+		d.utm = ez_utmParams;
+	}
+	d.qs = window.location.search;
+	if (typeof d.fs_seed === 'string' && d.fs_seed && (!window.__ez || !window.__ez.fss)) {
+		if (!window.__ez || typeof window.__ez !== 'object') {
+			window.__ez = {};
+		}
+		window.__ez.fss = d.fs_seed;
+	}
+	d.fs_seed = getOrMintFss();
+
+	var dataText = JSON.stringify(d);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST','/ezais/analytics?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            analyticsAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            analyticsAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+__ez.queue.addFunc("productAnalytics", "productAnalytics", null, true, ['ezaqBaseReady'], false, false, false, true);
+</script><script type="text/javascript" data-ezscrex="false" data-cfasync="false" async="">
+// Mirror of getOrMintFss in analytics/analyticsstatic.go (canonical). Only used
+// when the analytics script is absent from the page; keep the contract in sync:
+// prefer window.__ez.fss, else the first valid ezfs_* cookie, else mint — and
+// store the result back into window.__ez.fss so whichever of the analytics and
+// applier scripts runs first establishes the pageview seed for the other.
+function ezApplierGetOrMintFss() {
+	function isValidUint32String(value) {
+		return typeof value === 'string' && !!value && /^\d{1,10}$/.test(value) && Number(value) <= 4294967295;
+	}
+	if (window.__ez && isValidUint32String(window.__ez.fss)) {
+		return window.__ez.fss;
+	}
+	var cookieStr = '';
+	try {
+		cookieStr = document.cookie;
+	} catch (err) {
+		cookieStr = '';
+	}
+	if (cookieStr && typeof cookieStr === 'string') {
+		var parts = cookieStr.split(';');
+		for (var i = 0; i < parts.length; i++) {
+			var part = parts[i];
+			var eq = part.indexOf('=');
+			if (eq === -1) {
+				continue;
+			}
+			if (part.slice(0, eq).trim().indexOf('ezfs_') !== 0) {
+				continue;
+			}
+			var value;
+			try {
+				value = decodeURIComponent(part.slice(eq + 1).trim());
+			} catch (err) {
+				continue;
+			}
+			if (!isValidUint32String(value)) {
+				continue;
+			}
+			if (!window.__ez || typeof window.__ez !== 'object') {
+				window.__ez = {};
+			}
+			window.__ez.fss = value;
+			return value;
+		}
+	}
+	var seed;
+	if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function' && typeof Uint32Array === 'function') {
+		seed = crypto.getRandomValues(new Uint32Array(1))[0];
+	} else {
+		seed = Math.floor(Math.random() * 4294967296);
+	}
+	var minted = String(seed >>> 0);
+	if (!window.__ez || typeof window.__ez !== 'object') {
+		window.__ez = {};
+	}
+	window.__ez.fss = minted;
+	return minted;
+}
+function productEzoicAds() {
+if(window.ezDisableAds === true) {
+	return;
+}
+window.google_reactive_ads_global_state = {
+                adCount: {},
+                floatingAdsStacking: { maxZIndexListeners: [], maxZIndexRestrictions: {}, nextRestrictionId: 0 },
+                messageValidationEnabled: false,
+                reactiveTypeDisabledByPublisher: {},
+                reactiveTypeEnabledInAsfe: {},
+                sideRailAvailableSpace: [],
+                sideRailOverlappableElements: [],
+                stateForType: {},
+                tagSpecificState: {},
+                wasPlaTagProcessed: true,
+                wasReactiveAdConfigReceived: { 1: true, 2: true, 8: true },
+                wasReactiveAdVisible: {},
+                wasReactiveTagRequestSent: true,
+                description: "Can't disable auto ads programmatically on the page, so here we are!"
+            };
+var d = {"ab":"","km":{},"pv":"","vu":"01a06d16-b87a-761d-9c90-6824ac33b8bc","r":{"r":[{"p":" ezoic_pub_ad_placeholder-678-top_of_page-300x250-678-nonexxxnonexxxxxxezmaxscaleval100 ","s":678,"h":250,"w":300,"r":true},{"p":" ezoic_pub_ad_placeholder-647-under_page_title-728x90-647-nonexxxnonexxxxxxezmaxscaleval100 ","s":647,"h":90,"w":728,"r":true},{"p":" ezoic_pub_ad_placeholder-100-bottom_floating-970x90-100-nonexxxnonexxxxxxezmaxscaleval100 ","s":100,"h":90,"w":970,"r":true}],"a":{"100":true,"12":true,"6":true,"647":true,"678":true,"679":true,"680":true,"681":true,"682":true,"683":true},"g":-1,"l":{"0":7,"1":3,"2":2,"3":1,"4":-1,"5":-1},"m":{"0":7,"1":3,"2":2,"3":1,"4":-1,"5":-1},"v":0,"ve":false,"hr":false,"sa":false},"cr":"","tid":134,"tn":"pub_site","url":"","wc":1316,"ff":1,"dhh":"","dw":0,"dh":0,"vpw":0,"vph":0,"doch":0};
+d.ab = _ezaq.ab_test_id;
+d.pv = _ezaq.page_view_id;
+d.vu = _ezaq.visit_uuid;
+d.url = window.location.href;
+d.dw = document.documentElement.clientWidth || window.innerWidth || 0;
+d.dh = window.screen.height || 0;
+d.vpw = window.innerWidth || document.documentElement.clientWidth || 0;
+d.vph = window.innerHeight || document.documentElement.clientHeight || 0;
+d.doch = Math.max((document.body && document.body.scrollHeight) || 0, (document.documentElement && document.documentElement.scrollHeight) || 0, (document.body && document.body.offsetHeight) || 0, (document.documentElement && document.documentElement.offsetHeight) || 0, (document.body && document.body.clientHeight) || 0, (document.documentElement && document.documentElement.clientHeight) || 0);
+// Prefer the analytics script's getOrMintFss when present so both POST paths
+// share one seed implementation; fall back to the mirror above otherwise.
+d.fs_seed = (typeof getOrMintFss === 'function') ? getOrMintFss() : ezApplierGetOrMintFss();
+var dynamicAddScript = function(script) {
+	if(window.ezFinishedStatic === true) {
+		console.error("attempted to load dynamic script again");
+		return;
+	}
+	var errorMessages = [];
+	function errorHandler(event) {
+	  var errorObj = event.error;
+	  if (errorObj && errorObj.stack && errorObj.stack.indexOf('dynamicAddScript') !== -1) {
+		var errorMessage = {
+		  Message: event.message,
+		  LineNo: event.lineno,
+		  ColumnNo: event.colno,
+		  Stack: errorObj.stack
+		};
+		errorMessages.push(errorMessage);
+	  }
+
+	  if (typeof window.onerror === 'function') {
+		window.onerror.apply(this, arguments);
+	  }
+	}
+ 	window.addEventListener('error', errorHandler);
+
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+
+	window.removeEventListener('error', errorHandler);
+	if (window.ezFinishedStatic !== true || typeof window.ezstaticerrors !== 'undefined') {
+		d.Script = script;
+		d.ErrorMessages = JSON.stringify(errorMessages);
+		d.ErrorStaticMessages = window.ezstaticerrors || '';
+		var dataTxt = JSON.stringify(d);
+		if (dataTxt.length > 0) {
+			var logXHR = new XMLHttpRequest();
+			logXHR.open('POST','/ezais/log?cb=1', true);
+			logXHR.setRequestHeader('Content-Type','application/json');
+			logXHR.send(dataTxt);
+		}
+	}
+};
+function collectFP(cb) {
+	var lib = (typeof ce !== "undefined") ? ce : (typeof FingerprintJS !== "undefined" ? FingerprintJS : null);
+	if (!lib) { cb(); return; }
+	try {
+		lib.load().then(function(agent) { return agent.get(); }).then(function(res) {
+			try {
+				var c = res.components || {};
+				d.fp = {
+					pr: window.devicePixelRatio || 0,
+					hc: (c.hardwareConcurrency && c.hardwareConcurrency.value) ? c.hardwareConcurrency.value : (navigator.hardwareConcurrency || 0),
+					dm: navigator.deviceMemory || 0,
+					ch: c.canvas && c.canvas.value && c.canvas.value.text ? c.canvas.value.text : '',
+					wr: c.webGlBasics && c.webGlBasics.value ? (c.webGlBasics.value.rendererUnmasked || c.webGlBasics.value.renderer || '') : '',
+					wv: c.webGlBasics && c.webGlBasics.value ? (c.webGlBasics.value.vendorUnmasked || c.webGlBasics.value.vendor || '') : '',
+					af: c.audio && c.audio.value !== undefined ? String(c.audio.value) : '',
+					ft: c.fonts && c.fonts.value ? c.fonts.value.join(',') : ''
+				};
+			} catch(e) {}
+			cb();
+		}).catch(function() { cb(); });
+	} catch(e) { cb(); }
+}
+function persistAdDemoCookie() {
+	try {
+		var params = new URLSearchParams(window.location.search);
+		var cookieName = "ez_ad_demo_173770";
+		var state = {};
+		var current = document.cookie.match(new RegExp('(?:^|; )' + cookieName.replace(/([.$?*|{}()\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+		if (current && current[1]) {
+			current[1].split(',').forEach(function(part) {
+				var idx = part.indexOf('=');
+				if (idx > 0) {
+					state[part.slice(0, idx)] = part.slice(idx + 1);
+				}
+			});
+		}
+		var changed = false;
+		var maxAds = params.get('ez_ad_demo');
+		if (maxAds !== null && /^[0-9]+$/.test(maxAds)) {
+			state.m = maxAds;
+			state.q = '0';
+			state.s = '0';
+			state.i = '0';
+			changed = true;
+		}
+		var anchor = params.get('ez_ad_demo_anchor');
+		if (anchor === '0' || anchor === '1') {
+			state.a = anchor;
+			changed = true;
+		}
+		var outstream = params.get('ez_ad_demo_outstream');
+		if (outstream === '0' || outstream === '1') {
+			state.o = outstream;
+			changed = true;
+		}
+		var qubit = params.get('ez_ad_demo_qubit');
+		if (qubit === '0' || qubit === '1') {
+			state.q = qubit;
+			changed = true;
+		}
+		if (!changed) {
+			return;
+		}
+		var parts = [];
+		if (state.m !== undefined) { parts.push('m=' + state.m); }
+		if (state.a !== undefined) { parts.push('a=' + state.a); }
+		if (state.o !== undefined) { parts.push('o=' + state.o); }
+		if (state.s !== undefined) { parts.push('s=' + state.s); }
+		if (state.i !== undefined) { parts.push('i=' + state.i); }
+		if (state.q !== undefined) { parts.push('q=' + state.q); }
+		document.cookie = cookieName + '=' + parts.join(',') + '; path=/; max-age=86400; SameSite=Lax';
+	} catch(e) {}
+}
+persistAdDemoCookie();
+collectFP(function() {
+var dataText = JSON.stringify(d);
+if (dataText.length > 0) {
+	var startTime = Date.now() - __ez.stms;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST','/ezais/dynamic?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            dynamicAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            dynamicAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+});
+}
+
+function callDynamicAfterConsent() {
+	if (window.__tcfapi) {
+		window.__tcfapi("addEventListener", 2, function (tcdata, success) {
+			if (success) {
+				if(tcdata.gdprApplies == true) {
+					if(tcdata.eventStatus === "useractioncomplete" || tcdata.eventStatus === "tcloaded") {
+						__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+					}
+				} else {
+					__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+				}
+			}
+		});
+	} else {
+		__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+	}
+}
+
+
+if (window.__tcfapi) {
+	callDynamicAfterConsent();
+} else {
+	if (typeof window.ezCMPQueue !== "undefined") {
+		window.ezCMPQueue.push(callDynamicAfterConsent);
+	} else {
+		__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+	}
+}
+</script><base href="https://plantuml.com/zh/component-diagram"/>
+<meta name="flattr:id" content="1ew3x0"/>
+
+
+
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "https://plantuml.com",
+  "name": "PlantUML",
+  "sameAs" : ["https://twitter.com/plantuml","https://en.wikipedia.org/wiki/PlantUML","https://www.wikidata.org/wiki/Q18346546"],
+  "logo": "https://cdn-0.plantuml.com/logo3.png",
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "email": "plantuml@gmail.com",
+    "url": "https://plantuml.com",
+    "contactType": "customer service"
+  }]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "https://plantuml.com",
+      "name": "Home"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "https://plantuml.com/sitemap-language-specification",
+      "name": "Language specification"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "item": {
+      "@id": "https://plantuml.com/component-diagram",
+      "name": "Component Diagram"
+  }
+  }]
+}
+</script>
+<link rel="canonical" href="https://plantuml.com/zh/component-diagram"/>
+<link rel="alternate" hreflang="x-default" href="https://plantuml.com/component-diagram"/>
+<link rel="alternate" hreflang="de" href="https://plantuml.com/de/component-diagram"/>
+<link rel="alternate" hreflang="en" href="https://plantuml.com/component-diagram"/>
+<link rel="alternate" hreflang="es" href="https://plantuml.com/es/component-diagram"/>
+<link rel="alternate" hreflang="fr" href="https://plantuml.com/fr/component-diagram"/>
+<link rel="alternate" hreflang="ja" href="https://plantuml.com/ja/component-diagram"/>
+<link rel="alternate" hreflang="ko" href="https://plantuml.com/ko/component-diagram"/>
+<link rel="alternate" hreflang="zh" href="https://plantuml.com/zh/component-diagram"/>
+
+<link rel="shortcut icon" href="/favicon.ico"/>
+
+<link rel="preload" as="image" href="/svgrepo-house.svg"/>
+<link rel="preload" as="image" href="/svgrepo-text-news.svg"/>
+<link rel="preload" as="image" href="/svgrepo-rocket-3-start.svg"/>
+<link rel="preload" as="image" href="/svgrepo-server.svg"/>
+<link rel="preload" as="image" href="/svgrepo-play.svg"/>
+<link rel="preload" as="image" href="/svgrepo-forum.svg"/>
+<link rel="preload" as="image" href="/svgrepo-add-to-online-cart.svg"/>
+<link rel="preload" as="image" href="/svgrepo-forum-message.svg"/>
+<link rel="preload" as="image" href="/svgrepo-palette-fill.svg"/>
+<link rel="preload" as="image" href="/svgrepo-cpu.svg"/>
+<link rel="preload" as="image" href="/svgrepo-books-library.svg"/>
+<link rel="preload" as="image" href="/svgrepo-signpost-fill.svg"/>
+<link rel="preload" as="image" href="/svgrepo-library.svg"/>
+
+<link rel="preload" as="image" href="/flags22.png"/>
+
+<link rel="preload" as="image" href="/svgrepo-uxwing-light-mode-toggle.svg"/>
+
+
+<!-- link rel="preload" as="image" href="https://img.shields.io/liberapay/patrons/plantuml.svg?logo=liberapay" -->
+
+
+<title>组件图的语法和功能</title>
+<meta name="description" content="PlantUML组件图语法：您可以定义界面、组件、关系、分组、备注...也可以改变字体和颜色。"/>
+
+<meta property="og:type" content="article"/>
+<!-- volt:dokuwiki titleog: -->
+<!-- volt:dokuwiki descriptionog: -->
+
+<meta property="og:url" content="https://plantuml.com/zh/component-diagram"/>
+<meta property="og:site_name" content="PlantUML.com"/>
+
+<!-- meta property="og:image" content="https://plantuml.com/og-component-diagram" -->
+<meta name="twitter:image" content="https://plantuml.com/og-component-diagram"/>
+<meta property="og:locale" content="zh"/>
+
+<meta name="twitter:card" content="summary"/>
+<!-- volt:dokuwiki titletwitter: -->
+<!-- volt:dokuwiki descriptiontwitter: -->
+<meta name="twitter:site" content="@PlantUML"/>
+<meta name="twitter:creator" content="@PlantUML"/>
+
+
+
+
+
+
+
+<!-- https://www.w3schools.com/colors/colors_picker.asp -->
+<!-- filter css https://codepen.io/sosuke/pen/Pjoqqp -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.scale {
+}
+
+li {
+	margin: 2px;
+}
+#external li {
+	margin: 13px;
+}
+
+
+.pezoic {
+margin:0;
+padding:0;
+max-width: calc(100vw - 420px);
+overflow-x: hidden;
+}
+@media screen and (max-width: 1190px) {
+.pezoic {
+max-width: calc(100vw - 250px);
+}
+}
+
+
+.coptable {
+	max-width: 90%;
+}
+
+.mytab {
+	display:inline-block;
+	border-radius: 3px;
+	border: 1px solid #e1e4e8;
+}
+
+.mytab:hover {
+	border: 1px dashed #0366d6;
+	cursor: pointer;
+	color: #0366d6;
+	background: #f6f8fa;
+}
+
+.cop {
+	margin: 25px 10px 0 10px;
+}
+.cop:hover {
+	cursor: pointer; 
+	filter: invert(30%) sepia(75%) saturate(4001%) hue-rotate(201deg) brightness(88%) contrast(98%);
+}
+.cop2 {
+	margin: 25px 10px 0 10px;
+}
+.cop2:hover {
+	cursor: pointer; 
+}
+.msg {
+	position: absolute;
+	color:#339966;
+	background-color: #FFF;
+	margin-top: 55px;
+	display:none;
+	border-radius: 3px;
+	border: 1px solid #4dff00;
+}
+
+.mycell0 {
+	float: left;
+	vertical-align : top;
+	padding:10px;
+}
+.mycell0 code:hover {
+	cursor: default; 
+	color: #000;
+}
+
+.mycell {
+	float: right;
+	vertical-align : top;
+	padding:10px;
+	max-width: 55vw;
+	overflow-x: auto;
+}
+
+.mycell0 pre {
+	max-width: 55vw;
+	overflow-x: auto;
+}
+
+.cod {
+	background: #edeff3;
+	padding: 2px 5px;
+	border-radius: 3px;
+}
+.colo {
+	display: inline-block;
+	background: #edeff3;
+	padding: 7px 12px;
+	border-radius: 3px;
+}
+.tag,.tagg,.tago,.tagr {
+	text-rendering: optimizeLegibility;
+	display: inline-block;
+	padding: 3px 5px 2px 4px;
+	text-decoration: none;
+	white-space: nowrap;
+	border: 1px solid #999;
+	text-transform: uppercase;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 90%;
+}
+.tag {
+	background-color: #EEEEEE;
+}
+.tagg {
+	background-color: #98FB98;
+}
+.tago {
+	background-color: #fafa00;
+}
+.tagr {
+	background-color: #FF4500;
+}
+
+
+a {
+    text-decoration:none;
+    color:#0366d6;
+}
+a:hover {
+    text-decoration:underline;
+}
+
+.menu1 {
+    display: flex;
+    flex-direction: row;
+    border: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+	white-space: nowrap;
+}
+.menu1 a {
+	white-space: nowrap;
+    padding: 0 8px;
+    text-decoration: none;
+    color:#5e6d7d;
+    line-height: 30px;
+    height: 30px;
+}
+.menu1 a:hover{
+    background: #fefefe;
+    color:#0366d6;
+}
+
+.menuside2 {
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+	justify-content: center;
+}
+
+.menuside2 img {
+vertical-align: top;
+padding: 0 8px;
+filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+}
+
+.menuside2 a {
+    padding: 6px 0;
+    text-decoration: none;
+    color:#5e6d7d;
+}
+
+.menuside2 a:hover {
+	color:#0366d6;
+	background: #fefefe;
+}
+
+.menuside2 a:hover img {
+filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+}
+
+.breadcrumb {
+    z-index:1;
+	font-size:14px;
+	text-align: center;
+	display: inline-block;
+	overflow: hidden;
+	border-radius: 5px;
+}
+
+
+.breadcrumb a {
+	text-decoration: none;
+	outline: none;
+	display: block;
+	float: left;
+	font-size: 12px;
+	line-height: 24px;
+	color: #373f49;
+	padding: 0 10px 0 35px;
+	background: #f0f1f1;
+	background: linear-gradient(#f0f1f1, #c6d2d2);
+	position: relative;
+}
+.breadcrumb a:first-child {
+	padding-left: 21px;
+	border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+}
+.breadcrumb a:first-child:before {
+	left: 14px;
+}
+.breadcrumb a:last-child {
+	visibility: hidden;
+}
+
+.breadcrumb a.active, .breadcrumb a:hover{
+	color: #0366d6;
+	background: #c6d2d2;
+	background: linear-gradient(#e3e4e4, #b8c7c7);
+}
+.breadcrumb a.active:after, .breadcrumb a:hover:after {
+	background: #c6d2d2;
+	background: linear-gradient(135deg, #e3e4e4, #b8c7c7);
+}
+
+.breadcrumb a:after {
+	content: '';
+	position: absolute;
+	top: 0; 
+	right: -12px; /*half of square's length*/
+	/*same dimension as the line-height of .breadcrumb a */
+	width: 24px; 
+	height: 24px;
+	transform: scale(0.707) rotate(45deg);
+	/*we need to prevent the arrows from getting buried under the next link*/
+	z-index: 1;
+	/*background same as links but the gradient will be rotated to compensate with the transform applied*/
+	background: #f0f1f1;
+	background: linear-gradient(135deg, #f0f1f1, #c6d2d2);
+	/*stylish arrow design using box shadow*/
+	box-shadow: 
+		2px -2px 0 2px rgba(0,0,0,0.1), 
+		3px -3px 0 2px rgba(255,255,255,0.1);
+	/*
+		5px - for rounded arrows and 
+		50px - to prevent hover glitches on the border created using shadows*/
+	border-radius: 0 5px 0 50px;
+}
+
+/*we dont need an arrow after the last link*/
+.breadcrumb a:last-child:after {
+	content: none;
+	visibility: hidden;
+}
+
+
+.lga,.lga a,.lgi,.lgi a {
+	font-size:13px;
+	text-align: center;
+    color: #fff;
+    padding: 0 5px;
+    margin: 0;
+}
+.lga,.lga a {
+    background-color: #008;
+}
+.lgi,.lgi a {
+    background-color: #888;
+}
+.lga:hover,.lga:hover a {
+    text-decoration: none;
+    color: #BBB;
+}
+.lgi:hover,.lgi:hover a {
+    text-decoration: none;
+    color: #CCC;
+}
+
+</style>
+
+<style>
+.backtop {
+	margin:0px 10px;
+}
+.backtop:hover {
+	cursor: pointer;
+	filter: invert(30%) sepia(75%) saturate(4001%) hue-rotate(201deg) brightness(88%) contrast(98%);
+}
+</style>
+
+
+
+
+<style>
+/* Dropdown Button */
+.dropbtn {
+  padding: 0px;
+  border: none;
+  background: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content img {
+vertical-align:middle;
+margin: 0 8px 0 1px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  font-size: small;
+  font-weight: normal;
+  color: black;
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+  color: #0366d6;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
+<style>
+
+
+body {
+	font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 14px;
+	line-height: 1.5;
+	margin: auto;
+	overflow-x: hidden;
+    background: #fefefe;
+}
+
+h1.chap { font-size: 1.8em; }
+h2.chap { font-size: 1.35em; }
+h3, h3.chap { font-size: 1.15em; }
+h4 { font-size: 1.05em; }
+table { font-size: inherit; }
+
+</style>
+
+
+  <style>
+    .dyn {
+      display: flex;
+      flex-direction: row;
+      gap: 3em;
+      align-items: stretch;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+    .dyn textarea {
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      min-width: 30ch;
+      max-width: 90ch;
+      box-sizing: border-box;
+      resize: both;
+      white-space: pre;
+      overflow: auto;
+      field-sizing: content;
+      align-self: stretch;
+      border: 1px solid #888;
+      border-radius: 3px;
+      margin: 0;
+      padding: 4px 8px;
+      background: #fefefe;
+    }
+    .dyn > div {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+    }
+    .dyn > div > div {
+      margin: 0;
+      padding: 0;
+    }
+    .dyn img {
+      margin: 0;
+      padding: 0;
+    }
+    .scale {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #dde;
+      border-radius: 4px;
+    }
+  </style>
+
+
+
+
+<script>window.pushMST_config={"vapidPK":"BBodn2vLFoDO5AdCfmOOzNmcUsn52kTA6JNZNYVFymzEdWHonz_bkUcsaTkPXHvNGRkRUSAxMbup-H0l2sb1h_Q","enableOverlay":true,"swPath":"/sw.js","i18n":{}};
+  var pushmasterTag = document.createElement('script');
+  pushmasterTag.src = "https://cdn.pushmaster-cdn.xyz/scripts/publishers/629f5e297baecc00098a271b/SDK.js";
+  pushmasterTag.setAttribute('defer','');
+
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(pushmasterTag, firstScriptTag);
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TKZNNQT9CZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TKZNNQT9CZ');
+</script>
+
+
+
+<script>
+var llg = "zh";
+var az=0;
+var amdark=0;
+function ljs(n) {
+	if (az) return false;
+    var sc = document.createElement("script");
+    sc.type = "text/javascript";
+    sc.src = "/btn-"+n+".js";
+	document.body.innerHTML = "<i style='position:absolute;top:30%;width:100%;'><center>Loading in progress...";
+    document.body.appendChild(sc);
+}
+function ctc(id) {
+document.getElementById('img'+id).classList.remove('cop'); document.getElementById('img'+id).classList.add('cop2');
+document.getElementById('pre'+id).style.backgroundColor = '#4dff00';
+document.getElementById('msg'+id).style.display = 'inline';
+
+setTimeout(function() { document.getElementById('img'+id).classList.remove('cop2'); document.getElementById('img'+id).classList.add('cop'); document.getElementById('pre'+id).style.backgroundColor = ''; document.getElementById('msg'+id).style.display = 'none';}, 800);      
+
+
+	text = document.getElementById('pre'+id).innerText;
+    if (window.clipboardData && window.clipboardData.setData)
+        return window.clipboardData.setData("Text", text);
+    else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var ta = document.createElement("textarea");
+        ta.textContent = text;
+        ta.style.position = "fixed";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            return document.execCommand("copy");
+        }
+        catch (ex) {
+            return false;
+        }
+        finally {
+            document.body.removeChild(ta);
+        }
+    }
+}
+</script>
+
+
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<script src="https://cmp.gatekeeperconsent.com/min.js" data-cfasync="false"></script>
+<script src="https://the.gatekeeperconsent.com/cmp.min.js" data-cfasync="false"></script>
+<script type='text/javascript'>
+var ezoTemplate = 'pub_site';
+var ezouid = '1';
+var ezoFormfactor = '1';
+</script><script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 173770;
+var ezdomain = 'plantuml.com';
+var ezoicSearchable = 1;
+</script>
+<script type='text/javascript' style='display:none;' async>window.__ezOptableApproved=true;if (typeof window.__ez !== 'undefined' && window.__ez?.queue?.addFileOnce) {window.__ez.queue.addFileOnce('identity', ('noModule' in document.createElement('script'))?'https://go.ezodn.com/detroitchicago/indy.es6.js?cb=7&gcb=0':'https://go.ezodn.com/detroitchicago/indy.js?cb=165&gcb=0', true, [], true, false, false, true);} </script>
+<script>window.__ezSocialLoginConfig = {"providers":{"google":{"enabled":true,"clientId":"626901221629-15ss1s412okbv1qg834f6e3h8chm6ubk.apps.googleusercontent.com"},"facebook":{"enabled":false},"apple":{"enabled":false}},"routes":{"facebookStart":"https://identity.ezoic.com/social-login/facebook/start","facebookCallback":"https://identity.ezoic.com/social-login/facebook/callback","facebookResult":"https://identity.ezoic.com/social-login/facebook/result","appleStart":"https://identity.ezoic.com/social-login/apple/start","appleCallback":"https://identity.ezoic.com/social-login/apple/callback","appleResult":"https://identity.ezoic.com/social-login/apple/result"},"domainId":173770,"copy":{"titleText":"","bodyHtml":""},"newsletter":{"enabled":false,"label":""}};window.__ezOneTapClientId = "626901221629-15ss1s412okbv1qg834f6e3h8chm6ubk.apps.googleusercontent.com";</script></head>
+
+<body>
+    <style>
+body, .container, #A1, #B3, #C5, #C6, #C7, #D7, #D8 {
+    margin: 0;
+    padding: 0;
+}
+        body {
+            overflow-y: scroll;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+        }
+
+        #A1 {
+            grid-column: 1;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 0 10px;
+            overflow: hidden;
+            background: #edeff3;
+            color: white;
+        }
+
+        #A1::after {
+            content: "";
+            position: absolute;
+            top: 30px;
+            right: 0;
+            width: 1px;
+            height: calc(100vh - 30px);
+            background: #d4d8de;
+        }
+
+        #B3 {
+            grid-column: 2 / 6;
+            grid-row: 1;
+            position: sticky;
+            top: 0;
+            height: 30px;
+            padding: 0;
+            z-index: 10;
+            overflow: hidden;
+            background: #edeff3;
+            border-bottom: 1px solid #d4d8de;
+        }
+
+        #D7 {
+            grid-column: 2;
+            grid-row: 2;
+            margin: 0;
+            padding: 0;
+            padding-left: 30px;
+            line-height: 1.6;
+        }
+
+        #D8 {
+            grid-column: 2;
+            grid-row: 3;
+            position: sticky;
+            bottom: 0;
+            z-index: 5;
+            background: #fefefe;
+        }
+
+        #C5 {
+            grid-column: 3;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 40px;
+            align-self: start;
+            height: calc(98vh - 60px);
+            overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+        }
+        
+        #C6 {
+            grid-column: 4;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 40px;
+            align-self: start;
+            height: calc(98vh - 60px);
+            max-width: 200px;
+            overflow: hidden;
+            margin: 0 10px;
+            padding: 8px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+        }
+        
+        #C7 {
+            grid-column: 5;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 40px;
+            align-self: start;
+            height: calc(98vh - 60px);
+            margin: 0 20px 0 0;
+            overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+        }
+        
+ #toc {
+ z-index:15;
+ overflow-x: hidden;
+ overflow-y: auto;
+ background: #f6f8fa;
+ border-width: 2px;
+ border-style: groove;
+ border-radius: 3px;
+ border-color: #e1e4e8;
+ margin: 0 5px;
+ padding: 0;
+ max-height: 100%;
+}
+
+#toc ul {
+margin: 0;
+list-style-type: none;
+padding: 0;
+}
+
+#toc li {
+    padding:0 10px;
+    margin: 0;
+}
+
+#toc li a {
+    padding:5px 0;
+display: inline-block;
+text-decoration:none;
+width:100%;
+color: #5e6d7d;
+}
+
+#toc li a:hover {
+color: #0366d6;
+}
+
+#toc li:hover {
+background: #fefefe;
+}
+
+        #magic {
+            position: absolute;
+            top: 0;
+            right: 50px;
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+            background: #edeff3;
+            z-index: 14;
+        }
+
+        #magic:hover {
+            width: calc(100% - 50px);
+        }
+
+        #magic .menu1 {
+            position: absolute;
+            top: 0;
+            right: 30px;
+            height: 30px;
+            padding-left: 10px;
+            background: #edeff3;
+            border-left: 1px solid #d4d8de;
+            border-bottom: 1px solid #d4d8de;
+        }
+
+        #magic > img {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+        }
+
+        #magic:hover > img {
+            filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+        }
+
+        #magic2 {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 30px;
+            overflow: hidden;
+            background: #edeff3;
+            z-index: 16;
+        }
+
+        #magic2 img {
+            margin: 5px 0 0 5px;
+filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+        }
+
+        #magic2:hover img {
+filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+        }
+
+        .menu1-tail {
+            flex-grow: 1;
+            flex-shrink: 0;
+            height: 30px;
+            position: relative;
+            z-index: 15;
+            background: #edeff3;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-auto-rows: auto;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .merged {
+            grid-column: 1 / -1;
+        }
+        
+        .ezoic-wrap {
+            display: block;
+            overflow: hidden;
+        }
+
+#C6 {
+    display: none;
+}
+
+@media (min-width: 1401px) {
+    #C6:has(#toc li) {
+        display: flex;
+    }
+}
+
+@media (max-width: 1100px) {
+	.ezoic-wrap, #C5, #C7 {
+		display: none;
+	}
+}
+
+@media (max-width: 1200px) {
+	.merged {
+		display: none;
+	}
+}
+
+        
+    </style>
+
+<div class="container">
+
+
+<aside id="C5">
+<!-- Ezoic - side3 - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-681"></span>
+<!-- End Ezoic - side3 - top_of_page -->
+</aside>
+
+<aside id="C7">
+<!-- Ezoic - side4 - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-682"></span>
+<!-- End Ezoic - side4 - top_of_page -->
+</aside>
+
+<footer id="D8">
+
+<div style="display: flex; justify-content: center; min-height: 100px;">
+<p>
+</p></div>
+
+</footer>
+
+    <aside id="A1">
+        <div class="grid">
+            <div class="merged">
+<!-- Ezoic - alpha-bloc - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-678"></span><span data-ez-ph-id="678" style="float:none !important;margin-top:0px !important;display:inline-block;max-width:100% !important;padding:0;box-sizing:content-box;margin-right:0px !important;margin-bottom:0px !important;margin-left:0px !important;min-width:300px;min-height:250px;line-height:0px;"></span>
+<!-- End Ezoic - alpha-bloc - top_of_page -->
+            </div>
+            
+            <div>
+<!-- Ezoic - side1 - top_of_page -->
+<div class="ezoic-wrap">
+  <span id="ezoic-pub-ad-placeholder-679"></span>
+</div>
+<!-- End Ezoic - side1 - top_of_page -->
+            </div>
+            
+            <div>
+
+<!--menu 10-->
+
+<!-- https://stackoverflow.com/questions/22252472/how-to-change-the-color-of-an-svg-element -->
+<!-- https://codepen.io/sosuke/pen/Pjoqqp -->
+
+
+<div class="menuside2">
+<a id="mitem10" href="index"><img src="/svgrepo-house.svg" width="16" height="16"/>主页</a>
+<a id="mitem20" href="news"><img src="/svgrepo-text-news.svg" width="16" height="16"/>新鲜</a>
+<a id="mitem30" href="starting"><img src="/svgrepo-rocket-3-start.svg" width="16" height="16"/>入门指南</a>
+<a href="https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000"><img src="/svgrepo-server.svg" width="16" height="16"/>Online Server</a>
+<a id="mitem40" href="running"><img src="/svgrepo-play.svg" width="16" height="16"/>使用</a>
+<a id="mitem50" href="faq"><img src="/svgrepo-forum.svg" width="16" height="16"/>常见问题</a>
+<a id="mitem60" href="download"><img src="/svgrepo-add-to-online-cart.svg" width="16" height="16"/>下载</a>
+<a id="mitem70" href="https://forum.plantuml.net"><img src="/svgrepo-forum-message.svg" width="16" height="16"/>论坛 </a>
+<a id="mitem80" href="https://the-lum.github.io/puml-themes-gallery/themes/index.html"><img src="/svgrepo-palette-fill.svg" width="16" height="16"/>Theme</a>
+<a id="mitem90" href="preprocessing"><img src="/svgrepo-cpu.svg" width="16" height="16"/>预处理</a>
+<a id="mitem100" href="stdlib"><img src="/svgrepo-books-library.svg" width="16" height="16"/>标准库</a>
+<a href="guide"><img src="/svgrepo-library.svg" width="16" height="16"/>用户指南(PDF)</a>
+<a href="https://crashedmind.github.io/PlantUMLHitchhikersGuide"><img src="/svgrepo-signpost-fill.svg" width="16" height="16"/>Hitchhiker&#39;s Guide</a>
+</div>
+
+            </div>
+            
+            <div>
+<!-- Ezoic - side2 - top_of_page -->
+<div class="ezoic-wrap">
+<span id="ezoic-pub-ad-placeholder-680"></span>
+</div>
+<!-- End Ezoic - side2 - top_of_page -->
+            </div>
+
+
+            <div class="merged">
+<!-- Ezoic - alpha-bloc2 - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-683"></span>
+<!-- End Ezoic - alpha-bloc2 - top_of_page -->
+            </div>
+
+            
+        </div><!-- grid -->
+    </aside>
+
+    <header id="B3">
+<div class="menu1">
+<a id="titem10" href="sequence-diagram">时序图</a>
+<a id="titem20" href="use-case-diagram">用例图</a>
+<a id="titem30" href="class-diagram">类图</a>
+<a id="titem40" href="activity-diagram-beta">活动图</a>
+<a id="titem50" href="component-diagram">组件图</a>
+<a id="titem60" href="state-diagram">状态图</a>
+<a id="titem70" href="object-diagram">对象图</a>
+<a id="titem80" href="deployment-diagram">部署图</a>
+<a id="titem90" href="timing-diagram">定时图</a>
+
+<a id="titem99" href="regex">Regex</a>
+<a id="titem100" href="nwdiag">Network</a>
+<a id="titem110" href="salt">Wireframe</a>
+<a id="titem120" href="archimate-diagram">Archimate</a>
+<a id="titem130" href="gantt-diagram">Gantt</a>
+<a id="titem140" href="mindmap-diagram">MindMap</a>
+<a id="titem150" href="wbs-diagram">WBS</a>
+<a id="titem151" href="ebnf">EBNF</a>
+<a id="titem160" href="json">JSON</a>
+<a id="titem170" href="yaml">YAML</a>
+
+<div class="menu1-tail"></div>
+</div>
+        <div id="magic">
+<div class="menu1">
+<a id="titem10" href="sequence-diagram">时序图</a>
+<a id="titem20" href="use-case-diagram">用例图</a>
+<a id="titem30" href="class-diagram">类图</a>
+<a id="titem40" href="activity-diagram-beta">活动图</a>
+<a id="titem50" href="component-diagram">组件图</a>
+<a id="titem60" href="state-diagram">状态图</a>
+<a id="titem70" href="object-diagram">对象图</a>
+<a id="titem80" href="deployment-diagram">部署图</a>
+<a id="titem90" href="timing-diagram">定时图</a>
+
+<a id="titem99" href="regex">Regex</a>
+<a id="titem100" href="nwdiag">Network</a>
+<a id="titem110" href="salt">Wireframe</a>
+<a id="titem120" href="archimate-diagram">Archimate</a>
+<a id="titem130" href="gantt-diagram">Gantt</a>
+<a id="titem140" href="mindmap-diagram">MindMap</a>
+<a id="titem150" href="wbs-diagram">WBS</a>
+<a id="titem151" href="ebnf">EBNF</a>
+<a id="titem160" href="json">JSON</a>
+<a id="titem170" href="yaml">YAML</a>
+
+<div class="menu1-tail"></div>
+</div>
+            <img src="/svgrepo-left.svg" alt="" style="width:30px;height:30px"/>
+        </div><!-- magic -->
+        <div id="magic2">
+<a href="/zh-dark/component-diagram">
+<img src="/svgrepo-uxwing-light-mode-toggle.svg" width="40" height="20"/>
+</a>
+        </div><!-- magic2 -->
+    </header>
+
+    <main id="D7">
+
+<style>
+    #haut1 {
+        margin: 15px 0 10px;
+        padding: 0;
+        min-height: 50px;
+    }
+
+    #donate {
+        padding-top: 10px;
+        min-height: 30px;
+    }
+</style>
+
+<div id="haut1">
+
+<!-- c --><div style="float:left;">
+<!-- a simple div with some links -->
+<div class="breadcrumb">
+<a href="sitemap">PlantUML</a>
+<a href="sitemap-language-specification">Language specification</a>
+<a href="component-diagram">Component Diagram</a>
+<a href="#"></a>
+</div>
+
+
+    <div id="donate">
+
+ 
+
+<a href="https://github.com/sponsors/plantuml/" style="text-decoration: none;">
+<img src="https://img.shields.io/github/sponsors/plantuml?logo=github"/>
+</a>
+
+ 
+
+<a href="https://www.patreon.com/bePatron?patAmt=1&amp;u=527450&amp;rid=152970" style="text-decoration: none;">
+<img src="https://img.shields.io/badge/patreon-122-chocolate?logo=patreon"/>
+</a>
+
+ 
+
+<a href="https://liberapay.com/plantuml/donate" style="text-decoration: none;">
+<img src="https://img.shields.io/liberapay/patrons/plantuml?color=gold&amp;logo=liberapay&amp;label=liberapay"/>
+</a>
+
+ 
+
+<a href="https://plantuml.com/en/paypal" style="text-decoration: none;">
+<img src="https://img.shields.io/badge/paypal-297-skyblue?logo=paypal&amp;logoColor=red"/>
+</a>
+
+<!--
+ 
+
+<a href="https://github.com/sponsors/plantuml" style="text-decoration: none;">
+<img src="https://img.shields.io/github/sponsors/plantuml?label=github">
+</a>
+
+-->
+    </div><!-- donate -->
+</div><!-- c -->
+
+<!-- e --><div style="float:right; margin:3px 0;">
+
+<!-- https://github.com/joielechong/iso-country-flags-svg-collection -->
+
+<!-- https://www.flaticon.com/packs/international-flags -->
+<!-- https://flagicons.lipis.dev/?continent=Europe -->
+<!-- https://flagpedia.net/download/icons -->
+
+<!-- https://www.countryflags.io/ -->
+
+<style>
+#langlist {
+display: flex;
+justify-content: space-between;
+width: 317px;
+height: 16px;
+margin: 3px 10px 3px 0;
+}
+
+.sel2 {
+  border: 2px solid #fefefe;
+}
+.nosel2 {
+  border: 2px solid #fefefe;
+  filter: grayscale(100%) opacity(75%);
+}
+.sel2:hover, .nosel2:hover {
+  cursor: pointer;
+  border: 2px solid #0366d6;
+  border-spacing: 0;
+  filter: grayscale(0%);
+  filter: contrast(200%);
+  filter: brightness(150%);
+}
+#flag1,#flag2,#flag3,#flag4,#flag5,#flag6,#flag7,#flag8 {
+background: url(/flags22.png);
+background-repeat: no-repeat;
+background-clip: content-box;
+width: 22px;
+height: 16px;
+}
+#flag2 {
+background-position: -22px 0px;
+}
+#flag3 {
+background-position: -44px 0px;
+}
+#flag4 {
+background-position: -66px 0px;
+}
+#flag5 {
+background-position: -88px 0px;
+}
+#flag6 {
+background-position: -110px 0px;
+}
+#flag8 {
+background-position: -132px 0px;
+}
+</style>
+
+<div id="langlist">
+
+
+
+<div id="flag1" onclick="location.href=&#39;/en/component-diagram&#39;" class="nosel2"></div>
+
+<div id="flag2" onclick="location.href=&#39;/de/component-diagram&#39;" class="nosel2"></div>
+
+
+<div id="flag3" onclick="location.href=&#39;/es/component-diagram&#39;" class="nosel2"></div>
+
+
+<div id="flag4" onclick="location.href=&#39;/fr/component-diagram&#39;" class="nosel2"></div>
+
+
+<div id="flag5" onclick="location.href=&#39;/ja/component-diagram&#39;" class="nosel2"></div>
+
+
+<div id="flag6" onclick="location.href=&#39;/ko/component-diagram&#39;" class="nosel2"></div>
+
+
+<div id="flag8" onclick="location.href=&#39;/zh/component-diagram&#39;" class="sel2"></div>
+
+
+
+
+
+</div><!-- langlist -->
+</div><!-- e -->
+
+</div><!-- haut1 -->
+
+<!-- =================== Browser extension promo banner =================== -->
+<style>
+#ext-promo {
+    clear: both;
+    margin: 12px 0 18px;
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+#ext-promo .ext-promo-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+#ext-promo .ext-promo-text {
+    flex: 1;
+    min-width: 240px;
+}
+#ext-promo .ext-promo-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+#ext-promo .ext-promo-links a {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+#ext-promo .ext-promo-links a.firefox:hover {
+    background: #a64200;
+}
+#ext-promo .ext-promo-links a.chrome:hover {
+    background: #0250a8;
+}
+</style>
+<style>
+#ext-promo {
+    border: 1px solid #c9e0f7;
+    border-left: 4px solid #0366d6;
+    background: linear-gradient(90deg, #f0f7ff 0%, #f8fbff 100%);
+    color: #24292e;
+}
+#ext-promo .ext-promo-text strong { color: #0366d6; }
+#ext-promo .ext-promo-links a.chrome { background: #0366d6; }
+#ext-promo .ext-promo-links a.firefox { background: #d75500; }
+</style>
+
+<div id="ext-promo">
+    <span class="ext-promo-icon">🧩</span>
+    <div class="ext-promo-text">
+        <strong>New!</strong> Render PlantUML diagrams directly inside GitHub
+        with <a href="https://github.com/plantuml/plantuml-for-github">our official browser extension</a> —
+        No server. No tokens. No tracking. Zero permissions but clipboard. —
+        Try it out and let us know what you think!
+    </div>
+    <div class="ext-promo-links">
+        <a class="chrome" href="https://chromewebstore.google.com/detail/plantuml-for-github/lbokhidfopkdehkmlmpaabacljoediic" target="_blank" rel="noopener">Add to Chrome</a>
+        <a class="firefox" href="https://addons.mozilla.org/en-US/firefox/addon/plantuml-for-github/" target="_blank" rel="noopener">Add to Firefox</a>
+    </div>
+</div>
+<!-- =================== End extension promo banner =================== -->
+
+<p style="clear:both;">
+
+
+<style>
+#titem50 {
+ color:#0366d6;
+ background-color: #fefefe;
+}
+#titem50 img {
+filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+}
+.menu1:hover #titem50 {
+	color:#5e6d7d;
+}
+.menu1:hover #titem50:hover {
+	color:#0366d6;
+}
+.menu1:hover #titem50 img {
+filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+}
+</style>
+
+
+<a style="position:relative;top:-38px;" name="b17b94e5873c5faf"></a>
+<!--heading--></p><h1 class="chap"><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#0"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#0"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#0"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>组件图</h1>
+<style>
+#sticky-647-wrap {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 30px;
+    z-index: 9;
+    background: #fefefe;
+}
+</style>
+<!-- Ezoic - under_first_paragraph - under_first_paragraph -->
+<div id="sticky-647-wrap">
+<span id="ezoic-pub-ad-placeholder-647"></span><span data-ez-ph-id="647" style="padding-bottom:0px !important;min-width:728px;min-height:90px;line-height:0px;float:none !important;margin-top:0px !important;margin-right:auto !important;margin-bottom:0px !important;margin-left:auto !important;display:block !important;max-width:100% !important;box-sizing:content-box;text-align:center !important;padding-top:0px !important;"></span>
+</div>
+<!-- End Ezoic - under_first_paragraph - under_first_paragraph -->
+<p></p>
+<strong>组件图</strong>：组件图是 UML（统一建模语言）中的一种结构图，用于可视化系统组件的组织和关系。这些图有助于将复杂的系统分解成易于管理的组件，展示它们之间的相互依存关系，确保高效的系统设计和架构。
+<p></p>
+<strong>PlantUML 的优势</strong>：
+<ul>
+<li><strong>简单</strong>：使用 PlantUML，您可以使用简单直观的文本描述来创建组件图，无需使用复杂的绘图工具。</li>
+<li><strong>集成</strong>：PlantUML 可* 与各种工具和平台无缝集成，是开发人员和建筑师的多功能选择。</li>
+<li><strong>协作</strong>：<a href="https://forum.plantuml.net/">PlantUML 论坛</a>为用户提供了一个讨论、分享和寻求图表帮助的平台，从而培养了一个协作社区。</li>
+</ul>
+<a style="position:relative;top:-38px;" name="05bbb43b3d923283"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#1"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#1"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#1"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>组件</h2>
+组件必须用中括号括起来。
+<p></p>
+还可以使用关键字<code class="cod">component</code>定义一个组件。
+并且可以用关键字<code class="cod">as</code>给组件定义一个别名。
+这个别名可以在稍后定义关系的时候使用。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+[First component]
+[Another component] as Comp2
+component Comp3
+component [Last\ncomponent] as Comp4
+
+@enduml
+</textarea>
+<div id="outda8f20ad5d64ecd83601180ad8576c03">
+<div class="mycell">
+<img loading="lazy" width="357" height="193" class="scale" src="/imgw/img-da8f20ad5d64ecd83601180ad8576c03.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>命名例外</h3>
+注意，以<code class="cod">$</code> 开头的组件名以后不能隐藏或删除，因为<code class="cod">hide</code> 和<code class="cod">remove</code> 命令会将该名称视为<code class="cod">$tag</code> ，而不是组件名。要删除此类组件，必须为其添加别名或标记。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component [$C1]
+component [$C2] $C2
+component [$C2] as dollarC2
+remove $C1
+remove $C2
+remove dollarC2
+@enduml
+</textarea>
+<div id="out7f606dfa6554a7f6b0fb8bf743c2a7c5">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="85" height="67" class="scale" src="/imgw/img-7f606dfa6554a7f6b0fb8bf743c2a7c5.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="756640f0aea5f5be"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#2"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#2"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#2"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>接口</h2>
+<p></p>
+接口可以使用<code class="cod">()</code>来定义(因为这个看起来像个圆)。
+<p></p>
+还可以使用关键字<code class="cod">interface</code>关键字来定义接口。
+并且还可以使用关键字<code class="cod">as</code>定义一个别名。
+这个别名可以在稍后定义关系的时候使用。
+<p></p>
+我们稍后可以看到，接口的定义是可选的。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+() &#34;First Interface&#34;
+() &#34;Another interface&#34; as Interf2
+interface Interf3
+interface &#34;Last\ninterface&#34; as Interf4
+
+@enduml
+</textarea>
+<div id="out959a1ab7b8985d2d35d50cc728489dd9">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="262" height="179" class="scale" src="/imgw/img-959a1ab7b8985d2d35d50cc728489dd9.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<a style="position:relative;top:-38px;" name="c96ad883675e26af"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#3"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#3"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#3"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>基础示例</h2>
+<p></p>
+<p></p>
+各元素之间可以使用虚线(<code class="cod">..</code>)、直线(<code class="cod">--</code>)、箭头(<code class="cod">--&gt;</code>)的组合进行连接。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+DataAccess - [First Component]
+[First Component] ..&gt; HTTP : use
+
+@enduml
+</textarea>
+<div id="out6a0ddd79a4f783aa3813918df6cad93c">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="244" height="210" class="scale" src="/imgw/img-6a0ddd79a4f783aa3813918df6cad93c.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="d50d8f9219a41435"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#4"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#4"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#4"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>使用注释</h2>
+<p></p>
+你可以使用
+<code class="cod">note left of</code> , <code class="cod">note right of</code> ,
+<code class="cod">note top of</code> , <code class="cod">note bottom of</code>
+等关键字定义相对于对象位置的注释。
+<p></p>
+<p></p>
+也可以使用关键字<code class="cod">note</code>单独定义注释，然后使用虚线(<code class="cod">..</code>)将其连接到其他对象。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+interface &#34;Data Access&#34; as DA
+
+DA - [First Component]
+[First Component] ..&gt; HTTP : use
+
+note left of HTTP : Web Service only
+
+note right of [First Component]
+  A note can also
+  be on several lines
+end note
+
+@enduml
+</textarea>
+<div id="out3a9d9648bc83b5f7fb2a575e0da2308d">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="421" height="193" class="scale" src="/imgw/img-3a9d9648bc83b5f7fb2a575e0da2308d.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="58bb821cf05c48a2"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#5"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#5"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#5"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>组合组件</h2>
+<p></p>
+你可以使用多个关键字将组件和接口组合在一起。
+<ul>
+<li><code class="cod">package</code></li>
+<li><code class="cod">node</code></li>
+<li><code class="cod">folder</code></li>
+<li><code class="cod">frame</code></li>
+<li><code class="cod">cloud</code></li>
+<li><code class="cod">database</code></li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+package &#34;Some Group&#34; {
+  HTTP - [First Component]
+  [Another Component]
+}
+
+node &#34;Other Groups&#34; {
+  FTP - [Second Component]
+  [First Component] --&gt; FTP
+}
+
+cloud {
+  [Example 1]
+}
+
+
+database &#34;MySql&#34; {
+  folder &#34;This is my folder&#34; {
+    [Folder 3]
+  }
+  frame &#34;Foo&#34; {
+    [Frame 4]
+  }
+}
+
+
+[Another Component] --&gt; [Example 1]
+[Example 1] --&gt; [Folder 3]
+[Folder 3] --&gt; [Frame 4]
+
+@enduml
+</textarea>
+<div id="outf169b69534d5ea1c9132179c9919ec68">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="491" height="590" class="scale" src="/imgw/img-f169b69534d5ea1c9132179c9919ec68.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="9a49d5ae2dd333a4"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#6"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#6"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#6"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>改变箭头方向</h2>
+<p></p>
+<p></p>
+默认情况下，对象之间用<code class="cod">--</code>连接，并且连接是竖直的。不过可以使用一个横线或者点设置水平方向的连接，就行这样：
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+[Component] --&gt; Interface1
+[Component] -&gt; Interface2
+@enduml
+</textarea>
+<div id="out8ba4a403527cfb4feac4aa5a25587d4b">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="208" height="192" class="scale" src="/imgw/img-8ba4a403527cfb4feac4aa5a25587d4b.png"/>
+</div>
+</div>
+</div>
+<p></p>
+也可以使用反向连接：
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+Interface1 &lt;-- [Component]
+Interface2 &lt;- [Component]
+@enduml
+</textarea>
+<div id="out8d9203b52b5eb34f9710f60d44ee3177">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="206" height="175" class="scale" src="/imgw/img-8d9203b52b5eb34f9710f60d44ee3177.png"/>
+</div>
+</div>
+</div>
+<p></p>
+还可以使用关键字<code class="cod">left</code>, <code class="cod">right</code>, <code class="cod">up</code>
+or <code class="cod">down</code>改变箭头方向。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+[Component] -left-&gt; left
+[Component] -right-&gt; right
+[Component] -up-&gt; up
+[Component] -down-&gt; down
+@enduml
+</textarea>
+<div id="outf5a69d59d00a4e3819e5635abb561516">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="242" height="289" class="scale" src="/imgw/img-f5a69d59d00a4e3819e5635abb561516.png"/>
+</div>
+</div>
+</div>
+<p></p>
+允许使用方向单词的首字母或者前两个字母表示方向(例如<code class="cod">-d-</code>, <code class="cod">-do-</code>, <code class="cod">-down-</code>都是等价的)。
+<p></p>
+请不要乱用这些功能：<em>Graphviz</em>(PlantUML的后端引擎)不喜欢这个样子。
+<p></p>
+<p></p>
+_See also &#39;Change diagram orientation&#39; on [Deployment diagram](deployment-diagram) page._
+<a style="position:relative;top:-38px;" name="7709bf1c8595d539"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#7"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#7"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#7"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>使用 UML2 标记</h2>
+<p></p>
+By default <em>(from v1.2020.13-14)</em>, UML2 notation is used.
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+interface &#34;Data Access&#34; as DA
+
+DA - [First Component]
+[First Component] ..&gt; HTTP : use
+
+@enduml
+</textarea>
+<div id="outbe908ea3251243946495e4081bff4665">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="246" height="210" class="scale" src="/imgw/img-be908ea3251243946495e4081bff4665.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="ad4599d2cea99367"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#8"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#8"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#8"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>使用UML1标记符</h2>
+<p></p>
+命令<code class="cod">skinparam componentStyle uml1</code> 可以切换到UML1标记符。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam componentStyle uml1
+
+interface &#34;Data Access&#34; as DA
+
+DA - [First Component]
+[First Component] ..&gt; HTTP : use
+
+@enduml
+</textarea>
+<div id="out6acece2732ff0fef8fc2b4845eb54e98">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="226" height="200" class="scale" src="/imgw/img-6acece2732ff0fef8fc2b4845eb54e98.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="209c2b6d887c7fde"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#9"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#9"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#9"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>使用矩形符号（去除 UML 符号）</h2>
+<p></p>
+<code class="cod">skinparam componentStyle rectangle</code> 命令用来切换到矩形符号 <em>(没有任何 UML 符号)</em>.
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam componentStyle rectangle
+
+interface &#34;Data Access&#34; as DA
+
+DA - [First Component]
+[First Component] ..&gt; HTTP : use
+
+@enduml
+</textarea>
+<div id="out142b62c04eac6d38af8275af6c6739bd">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="226" height="200" class="scale" src="/imgw/img-142b62c04eac6d38af8275af6c6739bd.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="a52ab216dd03c499"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#10"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#10"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#10"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>长描述</h2>
+可以用方括号&#34;[ ]&#34;在多行添加描述。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component comp1 [
+This component
+has a long comment
+on several lines
+]
+@enduml
+</textarea>
+<div id="out09abe1f8723c835764614c6038f12251">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="185" height="101" class="scale" src="/imgw/img-09abe1f8723c835764614c6038f12251.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="ea805db4a048a1b7"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#11"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#11"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#11"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>不同的颜色表示</h2>
+<p></p>
+<p></p>
+你可以在声明一个组件的后面加上颜色的声明。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component  [Web Server] #Yellow
+@enduml
+</textarea>
+<div id="out954d7284e0a8140b16264745f0b4cb38">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="132" height="66" class="scale" src="/imgw/img-954d7284e0a8140b16264745f0b4cb38.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="1f0a05cc7e120849"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#12"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#12"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#12"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>在定型组件中使用精灵图</h2>
+你可以在定型组件中使用精灵图（sprite）。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+sprite $businessProcess [16x16/16] {
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFF0FFFFF
+FFFFFFFFFF00FFFF
+FF00000000000FFF
+FF000000000000FF
+FF00000000000FFF
+FFFFFFFFFF00FFFF
+FFFFFFFFFF0FFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+FFFFFFFFFFFFFFFF
+}
+
+
+rectangle &#34; End to End\nbusiness process&#34; &lt;&lt;$businessProcess&gt;&gt; {
+ rectangle &#34;inner process 1&#34; &lt;&lt;$businessProcess&gt;&gt; as src
+ rectangle &#34;inner process 2&#34; &lt;&lt;$businessProcess&gt;&gt; as tgt
+ src -&gt; tgt
+}
+@enduml
+</textarea>
+<div id="outb98e8016f3f335f6fa509735426c7fba">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="319" height="160" class="scale" src="/imgw/img-b98e8016f3f335f6fa509735426c7fba.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<a style="position:relative;top:-38px;" name="7aa53dbdfc2137bf"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#13"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#13"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#13"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>显示参数</h2>
+<p></p>
+你可以使用<a href="skinparam">skinparam</a>命令来改变绘图的字体和颜色。
+<p></p>
+你可以在下列场景中使用该命令：
+<ul>
+<li>在图表的定义中；</li>
+<li>在<a href="preprocessing">引用的文件</a>中；</li>
+<li>在<a href="command-line">命令行</a>或者<a href="ant-task">Ant 任务</a>提供的配置文件中。</li>
+</ul>
+<p></p>
+你可以为构造型组件和接口定义特定的颜色和字体。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+skinparam interface {
+  backgroundColor RosyBrown
+  borderColor orange
+}
+
+skinparam component {
+  FontSize 13
+  BackgroundColor&lt;&lt;Apache&gt;&gt; Pink
+  BorderColor&lt;&lt;Apache&gt;&gt; #FF6655
+  FontName Courier
+  BorderColor black
+  BackgroundColor gold
+  ArrowFontName Impact
+  ArrowColor #FF6655
+  ArrowFontColor #777777
+}
+
+() &#34;Data Access&#34; as DA
+Component &#34;Web Server&#34; as WS &lt;&lt; Apache &gt;&gt;
+
+DA - [First Component]
+[First Component] ..&gt; () HTTP : use
+HTTP - WS
+
+@enduml
+</textarea>
+<div id="out014d97254f9a8b14997d8c1fe66e6c90">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="323" height="208" class="scale" src="/imgw/img-014d97254f9a8b14997d8c1fe66e6c90.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+skinparam component {
+    backgroundColor&lt;&lt;static_lib&gt;&gt; DarkKhaki
+    backgroundColor&lt;&lt;shared_lib&gt;&gt; Green
+}
+
+skinparam node {
+borderColor Green
+backgroundColor Yellow
+backgroundColor&lt;&lt;shared_node&gt;&gt; Magenta
+}
+skinparam databaseBackgroundColor Aqua
+
+[AA] &lt;&lt;static_lib&gt;&gt;
+[BB] &lt;&lt;shared_lib&gt;&gt;
+[CC] &lt;&lt;static_lib&gt;&gt;
+
+node node1
+node node2 &lt;&lt;shared node&gt;&gt;
+database Production
+
+@enduml
+</textarea>
+<div id="out97622d481c64157f1c6603f8840bb921">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="436" height="221" class="scale" src="/imgw/img-97622d481c64157f1c6603f8840bb921.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="75b4984abd04b14f"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#14"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#14"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#14"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>特定皮肤参数</h2>
+<p></p>
+<h3>组件样式 </h3>
+<p></p>
+<ul>
+<li>默认情况下（或使用<code class="cod">skinparam componentStyle uml2</code> ），组件有一个图标。</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam BackgroundColor transparent
+skinparam componentStyle uml2
+component A {
+   component &#34;A.1&#34; {
+}
+   component A.44 {
+      [A4.1]
+}
+   component &#34;A.2&#34;
+   [A.3]
+   component A.5 [
+A.5] 
+   component A.6 [
+]
+}
+[a]-&gt;[b]
+@enduml
+</textarea>
+<div id="outd34c4aa6b12e883d2604cde4b7ae9c8e">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="584" height="272" class="scale" src="/imgw/img-d34c4aa6b12e883d2604cde4b7ae9c8e.png"/>
+</div>
+</div>
+</div>
+<ul>
+<li>如果您想取消它，只使用矩形图标，可以使用<code class="cod">skinparam componentStyle rectangle</code></li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam BackgroundColor transparent
+skinparam componentStyle rectangle
+component A {
+   component &#34;A.1&#34; {
+}
+   component A.44 {
+      [A4.1]
+}
+   component &#34;A.2&#34;
+   [A.3]
+   component A.5 [
+A.5] 
+   component A.6 [
+]
+}
+[a]-&gt;[b]
+@enduml
+</textarea>
+<div id="out79c6668ed3db581c98cd44d77138bd0f">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="464" height="252" class="scale" src="/imgw/img-79c6668ed3db581c98cd44d77138bd0f.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考文献<a href="https://forum.plantuml.net/10798">10798］</a></em>
+<a style="position:relative;top:-38px;" name="0a05899a20325958"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#15"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#15"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#15"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>隐藏或删除未链接的组件</h2>
+<p></p>
+默认情况下，所有的组件都显示出来：
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1
+component C2
+component C3
+C1 -- C2
+@enduml
+</textarea>
+<div id="oute8fd3295147fb381f435054715916c64">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="170" height="175" class="scale" src="/imgw/img-e8fd3295147fb381f435054715916c64.png"/>
+</div>
+</div>
+</div>
+<p></p>
+但你可以：
+<ul>
+<li><code class="cod">hide @unlinked</code> 组件：</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1
+component C2
+component C3
+C1 -- C2
+
+hide @unlinked
+@enduml
+</textarea>
+<div id="outb40bac5cf7ec07d5496f96f5aa70a074">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="170" height="175" class="scale" src="/imgw/img-b40bac5cf7ec07d5496f96f5aa70a074.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li>或<code class="cod">remove @unlinked</code> 组件：</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1
+component C2
+component C3
+C1 -- C2
+
+remove @unlinked
+@enduml
+</textarea>
+<div id="out1764c4ffe826d53d7453eae079e95e9f">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="77" height="175" class="scale" src="/imgw/img-1764c4ffe826d53d7453eae079e95e9f.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<em>[参考<a href="https://forum.plantuml.net/11052">QA-11052</a>]</em>
+<a style="position:relative;top:-38px;" name="e966f55ffa507384"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#16"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#16"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#16"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>隐藏、删除或恢复被标记的组件或通配符</h2>
+<p></p>
+你可以在组件中添加 <code class="cod">$tags</code> (使用 <code class="cod">$</code> 符号) , 然后单独或者按照标记删除、隐藏或者还原组件.
+<p></p>
+默认情况下，所有的组件都会显示:
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1 $tag13
+component C2
+component C3 $tag13
+C1 -- C2
+@enduml
+</textarea>
+<div id="out3680fd6458fad38ead7c0ca84a4e7614">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="170" height="175" class="scale" src="/imgw/img-3680fd6458fad38ead7c0ca84a4e7614.png"/>
+</div>
+</div>
+</div>
+<p></p>
+但是你可以:
+<ul>
+<li><code class="cod">hide $tag13</code> 以隐藏组件组件:</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1 $tag13
+component C2
+component C3 $tag13
+C1 -- C2
+
+hide $tag13
+@enduml
+</textarea>
+<div id="oute6607cc149214b746dc34c4a7ae8e10d">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="170" height="175" class="scale" src="/imgw/img-e6607cc149214b746dc34c4a7ae8e10d.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li>或者 <code class="cod">remove $tag13</code> 以移除组件:</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1 $tag13
+component C2
+component C3 $tag13
+C1 -- C2
+
+remove $tag13
+@enduml
+</textarea>
+<div id="out12c3bb2a7203fbb90643487cef6a8d57">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="77" height="67" class="scale" src="/imgw/img-12c3bb2a7203fbb90643487cef6a8d57.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li>或者 <code class="cod">remove $tag13 and restore $tag1</code> 以移除一个标记下的组件并还原另一个标记下的组件:</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1 $tag13 $tag1
+component C2
+component C3 $tag13
+C1 -- C2
+
+remove $tag13
+restore $tag1
+@enduml
+</textarea>
+<div id="outf180f6ae71622b21036438d20fab4fa7">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="77" height="175" class="scale" src="/imgw/img-f180f6ae71622b21036438d20fab4fa7.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li>或者 <code class="cod">remove * and restore $tag1</code> 以移除全部组件并且还原一个被标记的组件:</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C1 $tag13 $tag1
+component C2
+component C3 $tag13
+C1 -- C2
+
+remove *
+restore $tag1
+@enduml
+</textarea>
+<div id="out1f8c654143a9bc623a8056af803a36ee">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="77" height="67" class="scale" src="/imgw/img-1f8c654143a9bc623a8056af803a36ee.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref. <a href="https://forum.plantuml.net/7337">QA-7337</a> and <a href="https://forum.plantuml.net/11052">QA-11052</a>]</em>
+<a style="position:relative;top:-38px;" name="82248f3257b14836"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#17"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#17"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#17"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>在组件图上显示JSON数据</h2>
+<p></p>
+<h3>简单的例子</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+allowmixing
+
+component Component
+()        Interface
+
+json JSON {
+   &#34;fruit&#34;:&#34;Apple&#34;,
+   &#34;size&#34;:&#34;Large&#34;,
+   &#34;color&#34;: [&#34;Red&#34;, &#34;Green&#34;]
+}
+@enduml
+</textarea>
+<div id="oute40d4888ead8963e162f380612f23f7b">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="230" height="247" class="scale" src="/imgw/img-e40d4888ead8963e162f380612f23f7b.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref.<a href="https://forum.plantuml.net/15481/possible-link-elements-from-two-jsons-with-both-jsons-embeded?show=15567#c15567">QA-15481</a>]</em>
+<p></p>
+关于另一个例子，请看[JSON页面](json#2fyxla9p9ob6l3t3tjre)。
+<a style="position:relative;top:-38px;" name="76402ab93d6541bf"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/component-diagram#18"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/component-diagram#18"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/component-diagram#18"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>端口 [port, portIn, portOut]</h2>
+<p></p>
+您可以用<code class="cod">port</code>,<code class="cod">portin</code>和<code class="cod">portout</code> 关键词添加<strong>端口</strong>。
+<p></p>
+<h3>端口</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+[c]
+component C {
+  port p1
+  port p2
+  port p3
+  component c1
+}
+
+c --&gt; p1
+c --&gt; p2
+c --&gt; p3
+p1 --&gt; c1
+p2 --&gt; c1
+@enduml
+</textarea>
+<div id="outb0631ccaeb14407db3da8ec49153f73c">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="158" height="264" class="scale" src="/imgw/img-b0631ccaeb14407db3da8ec49153f73c.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>端口输入</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+[c]
+component C {
+  portin p1
+  portin p2
+  portin p3
+  component c1
+}
+
+c --&gt; p1
+c --&gt; p2
+c --&gt; p3
+p1 --&gt; c1
+p2 --&gt; c1
+@enduml
+</textarea>
+<div id="outc4226b34e78fd0d03327b4997ac923e5">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="158" height="264" class="scale" src="/imgw/img-c4226b34e78fd0d03327b4997ac923e5.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>端口输出</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+component C {
+  portout p1
+  portout p2
+  portout p3
+  component c1
+}
+[o]
+p1 --&gt; o
+p2 --&gt; o
+p3 --&gt; o
+c1 --&gt; p1
+@enduml
+</textarea>
+<div id="outb29241fec5d220ac26975062bb6bb2b7">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="165" height="263" class="scale" src="/imgw/img-b29241fec5d220ac26975062bb6bb2b7.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>混合使用 PortIn 和 PortOut</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+[i]
+component C {
+  portin p1
+  portin p2
+  portin p3
+  portout po1
+  portout po2
+  portout po3
+  component c1
+}
+[o]
+
+i --&gt; p1
+i --&gt; p2
+i --&gt; p3
+p1 --&gt; c1
+p2 --&gt; c1
+po1 --&gt; o
+po2 --&gt; o
+po3 --&gt; o
+c1 --&gt; po1
+@enduml
+</textarea>
+<div id="out0c6cb56c4c99df0f71858c63849223bf">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="165" height="427" class="scale" src="/imgw/img-0c6cb56c4c99df0f71858c63849223bf.png"/>
+</div>
+</div>
+</div>
+
+
+</main>
+
+    
+<aside id="C6">
+<!--toc-->
+<div id="toc">
+<ul>
+<li><a href="#05bbb43b3d923283">组件</a>
+</li><li><a href="#756640f0aea5f5be">接口</a>
+</li><li><a href="#c96ad883675e26af">基础示例</a>
+</li><li><a href="#d50d8f9219a41435">使用注释</a>
+</li><li><a href="#58bb821cf05c48a2">组合组件</a>
+</li><li><a href="#9a49d5ae2dd333a4">改变箭头方向</a>
+</li><li><a href="#7709bf1c8595d539">使用 UML2 标记</a>
+</li><li><a href="#ad4599d2cea99367">使用UML1标记符</a>
+</li><li><a href="#209c2b6d887c7fde">使用矩形符号（去除 UML 符号）</a>
+</li><li><a href="#a52ab216dd03c499">长描述</a>
+</li><li><a href="#ea805db4a048a1b7">不同的颜色表示</a>
+</li><li><a href="#1f0a05cc7e120849">在定型组件中使用精灵图</a>
+</li><li><a href="#7aa53dbdfc2137bf">显示参数</a>
+</li><li><a href="#75b4984abd04b14f">特定皮肤参数</a>
+</li><li><a href="#0a05899a20325958">隐藏或删除未链接的组件</a>
+</li><li><a href="#e966f55ffa507384">隐藏、删除或恢复被标记的组件或通配符</a>
+</li><li><a href="#82248f3257b14836">在组件图上显示JSON数据</a>
+</li><li><a href="#76402ab93d6541bf">端口 [port, portIn, portOut]</a>
+</li></ul>
+</div>
+</aside>
+
+</div>
+
+
+
+
+<!-- Start of StatCounter Code --><script type="text/javascript">
+var sc_project=11129481; var sc_invisible=1; var sc_security="bd89fcfd";
+</script>
+<script async="" type="text/javascript" src="//www.statcounter.com/counter/counter.js"></script> <!-- End of StatCounter Code -->
+
+  <script src="https://plantuml.github.io/plantuml/js-plantuml/viz-global.js"></script>
+  <script type="module">
+    import { render } from "https://plantuml.github.io/plantuml/js-plantuml/plantuml.js";
+    const renderOptions = {};
+    document.querySelectorAll('.dyn').forEach(dynDiv => {
+      const textarea = dynDiv.querySelector('textarea');
+      const outDiv = dynDiv.querySelector('div');
+      textarea.addEventListener('input', () => {
+        render(textarea.value.split(/\r\n|\r|\n/), outDiv.id, renderOptions);
+      });
+    });
+  </script>
+
+
+
+
+<!--[selectrongo:done]--><span id="ezoic-pub-ad-placeholder-100"></span><span data-ez-ph-id="100" style="float:none !important;box-sizing:content-box;display:inline-block;min-width:0px;max-width:100% !important;line-height:0px;min-height:0px;padding:0;"></span><script>!function(){function t(t,r){var n="undefined"!=typeof Symbol&&t[Symbol.iterator]||t["@@iterator"];if(!n){if(Array.isArray(t)||(n=function(t,r){if(t){if("string"==typeof t)return e(t,r);var n=Object.prototype.toString.call(t).slice(8,-1);return"Object"===n&&t.constructor&&(n=t.constructor.name),"Map"===n||"Set"===n?Array.from(t):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?e(t,r):void 0}}(t))||r&&t&&"number"==typeof t.length){n&&(t=n);var a=0,o=function(){};return{s:o,n:function(){return a>=t.length?{done:!0}:{done:!1,value:t[a++]}},e:function(t){throw t},f:o}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var i,u=!0,s=!1;return{s:function(){n=n.call(t)},n:function(){var t=n.next();return u=t.done,t},e:function(t){s=!0,i=t},f:function(){try{u||null==n.return||n.return()}finally{if(s)throw i}}}}function e(t,e){(null==e||e>t.length)&&(e=t.length);for(var r=0,n=new Array(e);r<e;r++)n[r]=t[r];return n}!function(){var e=function(t){var e=getComputedStyle(t);if(-1===parseInt(e.bottom,10)){var r=t.offsetHeight||300;t.style.bottom=-r+"px"}};function r(){return document.querySelector('ins[data-anchor-shown="true"][data-anchor-status="displayed"]')}function n(t){var e=t.querySelector("iframe");e&&requestAnimationFrame((function(){var r=parseFloat(getComputedStyle(e).height);isNaN(r)||t.style.setProperty("height","".concat(r+5,"px"),"important")}))}function a(t){t.style.setProperty("width","100%","important"),t.style.maxWidth="none"}function o(t){var e=t.querySelector("iframe");e&&(e.style.setProperty("display","block","important"),e.style.setProperty("margin","0 auto","important"));var r=t.querySelector("[id$='__container__']");r&&r.style.setProperty("display","contents","important")}new MutationObserver((function(r){var n,a=t(r);try{for(a.s();!(n=a.n()).done;){var o=n.value;if("attributes"===o.type){var i=o.target;i.matches("[data-anchor-status]")&&("data-anchor-status"===o.attributeName&&"dismissed"===i.getAttribute("data-anchor-status")&&e(i),"style"===o.attributeName&&"dismissed"===i.getAttribute("data-anchor-status")&&e(i))}}}catch(t){a.e(t)}finally{a.f()}})).observe(document.documentElement,{subtree:!0,attributes:!0,attributeFilter:["style","data-anchor-status"]});var i=new WeakSet;function u(e){e&&(i.has(e)||(i.add(e),new MutationObserver((function(r){var i,u=t(r);try{for(u.s();!(i=u.n()).done;){var s=i.value;"style"===s.attributeName?(n(e),a(e),o(e)):"attributes"===s.type&&"data-google-query-id"===s.attributeName&&o(e)}}catch(t){u.e(t)}finally{u.f()}})).observe(e,{attributes:!0,attributeFilter:["style","data-google-query-id"]})))}!function(){var t=r();if(t)return n(t),a(t),o(t),void u(t);var e=new MutationObserver((function(){var t=r();t&&(n(t),a(t),o(t),u(t),e.disconnect())}));e.observe(document.body,{attributes:!0,subtree:!0,childList:!0})}()}()}();</script>
+<script>window.ezAnchorBodyMargin=true;!function(){if(!document.getElementById("ez-grippy-dim")){var t=document.createElement("style");t.id="ez-grippy-dim",t.textContent=".grippy-host{opacity:.5;}body{padding-bottom:0 !important;padding-top:0 !important;}",(document.head||document.documentElement).appendChild(t)}window.__ezGabmEpoch=1+(0|window.__ezGabmEpoch);var e=window.__ezGabmEpoch,o=null,n=null,r=!1;function d(t){return"margin-top"===t?"padding-top":"padding-bottom"}function a(t,e){document.body.style.getPropertyValue(t)===e&&"important"===document.body.style.getPropertyPriority(t)||document.body.style.setProperty(t,e,"important")}function u(t,e,d){a(t,d+"px"),a(e,"0px"),o=t,n=null,r=!1}function i(){if(document&&e===window.__ezGabmEpoch){var t=function(){for(var t=document.querySelectorAll('ins[data-anchor-shown="true"][data-anchor-status="displayed"]:not(#ez-anchor-comp-trigger)'),e=t.length-1;e>=0;e--)if(t[e].offsetHeight>0)return t[e];return null}();if(!t)return document.querySelector('ins[data-anchor-status="displayed"]:not(#ez-anchor-comp-trigger)')?void function(){for(var t=["padding-bottom","padding-top"],e=0;e<t.length;e++){var o=t[e];parseFloat(document.body.style.getPropertyValue(o))>0&&(a(o,"0px"),r=!0)}}():(function(){if(null!==o){var t=d(o);""!==document.body.style.getPropertyValue(o)&&document.body.style.removeProperty(o),a(t,"0px"),o=null}}(),n=null,void(r=!1));var i="0px"===getComputedStyle(t).top?"margin-top":"margin-bottom",l=d(i),p=t.offsetHeight;if(null!==o&&o!==i&&(""!==document.body.style.getPropertyValue(o)&&document.body.style.removeProperty(o),o=null),o===i)return a(i,p+"px"),void a(l,"0px");var m=function(t){var e,o=document.body.style.getPropertyValue(t);if(""===o){var n=getComputedStyle(document.body);e=parseFloat("padding-top"===t?n.paddingTop:n.paddingBottom)}else e=parseFloat(o);return isNaN(e)||e<=0?0:e}(l);m>0||r?u(i,l,p):(null===n&&(n=Date.now()),Date.now()-n>=1500&&u(i,l,p))}}new MutationObserver(i).observe(document.documentElement,{subtree:!0,attributes:!0,attributeFilter:["style","data-anchor-status","data-anchor-shown"]}),new MutationObserver(i).observe(document.documentElement,{childList:!0,subtree:!0}),i(),setInterval(i,500)}();</script>
+<script src="/detroitchicago/leavenworth.js?gcb=195-5&cb=15"></script>
+<script src="/detroitchicago/socialproviders.js?gcb=195-5&cb=8"></script>
+<script src="/detroitchicago/ezonetap.js?gcb=195-5&cb=22"></script><script data-cfasync="false">function _emitEzConsentEvent(){var customEvent=new CustomEvent("ezConsentEvent",{detail:{ezTcfConsent:window.ezTcfConsent},bubbles:true,cancelable:true,});document.dispatchEvent(customEvent);}
+(function(window,document){function _setAllEzConsentTrue(){window.ezTcfConsent.loaded=true;window.ezTcfConsent.store_info=true;window.ezTcfConsent.develop_and_improve_services=true;window.ezTcfConsent.measure_ad_performance=true;window.ezTcfConsent.measure_content_performance=true;window.ezTcfConsent.select_basic_ads=true;window.ezTcfConsent.create_ad_profile=true;window.ezTcfConsent.select_personalized_ads=true;window.ezTcfConsent.create_content_profile=true;window.ezTcfConsent.select_personalized_content=true;window.ezTcfConsent.understand_audiences=true;window.ezTcfConsent.use_limited_data_to_select_content=true;window.ezTcfConsent.select_personalized_content=true;}
+function _clearEzConsentCookie(){document.cookie="ezCMPCookieConsent=tcf2;Domain=.plantuml.com;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";}
+_clearEzConsentCookie();if(typeof window.__tcfapi!=="undefined"){window.ezgconsent=false;var amazonHasRun=false;function _ezAllowed(tcdata,purpose){return(tcdata.purpose.consents[purpose]||tcdata.purpose.legitimateInterests[purpose]);}
+function _handleConsentDecision(tcdata){window.ezTcfConsent.loaded=true;if(!tcdata.vendor.consents["347"]&&!tcdata.vendor.legitimateInterests["347"]){window._emitEzConsentEvent();return;}
+window.ezTcfConsent.store_info=_ezAllowed(tcdata,"1");window.ezTcfConsent.develop_and_improve_services=_ezAllowed(tcdata,"10");window.ezTcfConsent.measure_content_performance=_ezAllowed(tcdata,"8");window.ezTcfConsent.select_basic_ads=_ezAllowed(tcdata,"2");window.ezTcfConsent.create_ad_profile=_ezAllowed(tcdata,"3");window.ezTcfConsent.select_personalized_ads=_ezAllowed(tcdata,"4");window.ezTcfConsent.create_content_profile=_ezAllowed(tcdata,"5");window.ezTcfConsent.measure_ad_performance=_ezAllowed(tcdata,"7");window.ezTcfConsent.use_limited_data_to_select_content=_ezAllowed(tcdata,"11");window.ezTcfConsent.select_personalized_content=_ezAllowed(tcdata,"6");window.ezTcfConsent.understand_audiences=_ezAllowed(tcdata,"9");window._emitEzConsentEvent();}
+function _handleGoogleConsentV2(tcdata){if(!tcdata||!tcdata.purpose||!tcdata.purpose.consents){return;}
+var consents=tcdata.purpose.consents;var googConsentV2={ad_storage:consents[1]?'granted':'denied',analytics_storage:consents[1]?'granted':'denied',ad_personalization:(consents[3]&&consents[4])?'granted':'denied',ad_user_data:(consents[1]&&consents[7])?'granted':'denied'};if(googConsentV2.analytics_storage==='denied'){gtag('set','url_passthrough',true);}
+gtag('consent','update',googConsentV2);}
+__tcfapi("addEventListener",2,function(tcdata,success){if(!success||!tcdata){window._emitEzConsentEvent();return;}
+if(!tcdata.gdprApplies){_setAllEzConsentTrue();window._emitEzConsentEvent();return;}
+if(tcdata.eventStatus==="useractioncomplete"||tcdata.eventStatus==="tcloaded"){if(typeof gtag!='undefined'){_handleGoogleConsentV2(tcdata);}
+_handleConsentDecision(tcdata);if(tcdata.purpose.consents["1"]===true&&tcdata.vendor.consents["755"]!==false){window.ezgconsent=true;(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=0;}
+if(window.__ezconsent){__ezconsent.setEzoicConsentSettings(ezConsentCategories);}
+__tcfapi("removeEventListener",2,function(success){return null;},tcdata.listenerId);if(!(tcdata.purpose.consents["1"]===true&&_ezAllowed(tcdata,"2")&&_ezAllowed(tcdata,"3")&&_ezAllowed(tcdata,"4"))){if(typeof __ez=="object"&&typeof __ez.bit=="object"&&typeof window["_ezaq"]=="object"&&typeof window["_ezaq"]["page_view_id"]=="string"){__ez.bit.Add(window["_ezaq"]["page_view_id"],[new __ezDotData("non_personalized_ads",true),]);}}}});}else{_setAllEzConsentTrue();window._emitEzConsentEvent();}})(window,document);</script></body></html>

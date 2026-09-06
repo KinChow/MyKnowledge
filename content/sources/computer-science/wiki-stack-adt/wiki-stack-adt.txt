@@ -1,0 +1,14 @@
+The order in which elements are added to or removed from a stack is described as last in, first out, referred to by the acronym LIFO.
+As with a stack of physical objects, this structure makes it easy to take an item off the top of the stack, but accessing a datum deeper in the stack may require removing multiple other items first.
+Additionally, a peek operation can, without modifying the stack, return the value of the last element added (the item at the top of the stack).
+The name stack is an analogy to a set of physical items stacked one atop another, such as a stack of plates.
+Considered a sequential collection, a stack has one end which is the only position at which the push and pop operations may occur, the top of the stack, and is fixed at the other end, the bottom.
+A stack may be implemented as, for example, a singly linked list with a pointer to the top element.
+A stack may be implemented to have a bounded capacity. If the stack is full and does not contain enough space to accept another element, the stack is in a state of stack overflow.
+A stack can be easily implemented either through an array or a linked list, as it is merely a special case of a list. In either case, what identifies the data structure as a stack is not the implementation but the interface: the user is only allowed to pop or push items onto the array or linked list, with few other helper operations.
+The push operation adds an element and increments the top index, after checking for overflow:
+Similarly, pop decrements the top index after checking for underflow, and returns the item that was previously the top one:
+Calculators that employ reverse Polish notation use a stack structure to hold values. Expressions can be represented in prefix, postfix or infix notations and conversion from one form to another may be accomplished using a stack. Many compilers use a stack to parse syntax before translation into low-level code.
+Another important application of stacks is backtracking.
+This can be achieved through the use of stacks, as a last correct point can be pushed onto the stack, and popped from the stack in case of an incorrect path.
+There is also a number of small microprocessors that implement a stack directly in hardware, and some microcontrollers have a fixed-depth stack that is not directly accessible.

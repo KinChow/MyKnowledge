@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "keywords-legacy",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_21ef5a1b1138",
+  "input_hash": "sha256:c407da39111e51ca5ae06233730541fe75993c55be475752a9494c242d5892ea",
+  "provider_duration_ms": 25926,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579867.769332,
+  "wiki_content_sha256": "sha256:5c433bff6a9ce0c5924931a7520e417714bbd0b77edcb96694629f68512fa03a",
+  "wiki_evidence_sha256": "sha256:b7b6f035694603622aea234a198001cd0795f7c2248cffe7444c45af6366619d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cppreference-cpp-keywords-v2"
+      },
+      "source_id": "cppreference-cpp-keywords-v2",
+      "evidence_id": "evidence-281234d66ee1",
+      "snapshot_sha256": "sha256:437bd2ca5d9ec849f3a9fbf3b5930f1951215b1eea897a98b387e7029cc8e241",
+      "selector_sha256": "sha256:b1ba234d4765b7783dd21116d17b4bff730428c336b7ad3cf6921e2fa2365d30",
+      "quote_sha256": "sha256:1e03f811bb4f29dade8d65557a8df60d2a71ccc7d990e7248025ba4ccd96c270"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "keywords-legacy-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cppreference-cpp-keywords-v2",
+          "evidence_id": "evidence-281234d66ee1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-281234d66ee1",
+          "exact": "This is a list of reserved keywords in C++. Since they are used by the language, these keywords are not available for re-definition or overloading."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-281234d66ee1",
+          "subject": "reserved keywords in C++",
+          "predicate": "are not available for",
+          "object": "re-definition or overloading",
+          "qualifiers": {
+            "reason": "used by the language"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "The target quote exactly states the claim: it identifies the text as a list of reserved keywords in C++ and states that, because they are used by the language, the keywords are not available for re-definition or overloading. This support is contained in evidence-281234d66ee1 at character range 0-147.",
+      "rationale_offsets": [
+        {
+          "source_id": "cppreference-cpp-keywords-v2",
+          "evidence_id": "evidence-281234d66ee1",
+          "start": 0,
+          "end": 147
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "cppreference-cpp-keywords-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "keywords-legacy-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

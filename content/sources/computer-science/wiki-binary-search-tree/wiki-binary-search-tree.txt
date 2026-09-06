@@ -1,0 +1,18 @@
+Binary search tree, also called an ordered or sorted binary tree, is a rooted binary tree data structure with the key of each internal node being greater than all the keys in the respective node's left subtree and less than the ones in its right subtree. The time complexity of operations on the binary search tree is linear with respect to the height of the tree.
+Binary search trees allow binary search for fast lookup, addition, and removal of data items. Since the nodes in a BST are laid out so that each comparison skips about half of the remaining tree, the lookup performance is proportional to that of binary logarithm.
+BSTs were devised in the 1960s for the problem of efficient storage of labeled data and are attributed to Conway Berners-Lee and David Wheeler.
+The performance of a binary search tree is dependent on the order of insertion of the nodes into the tree since arbitrary insertions may lead to degeneracy; several variations of the binary search tree can be built with guaranteed worst-case performance. The basic operations include: search, traversal, insert and delete.
+Binary search trees are also a fundamental data structure used in construction of abstract data structures such as sets, multisets, and associative arrays.
+Time complexity in big O notation: Search average Θ(log n), worst case O(n); Insert average Θ(log n), worst case O(n); Delete average Θ(log n), worst case O(n); Space complexity Θ(n) average, O(n) worst case.
+In worst case, successive operations in the binary search tree may lead to degeneracy and form a singly linked list (or "unbalanced tree") like structure, thus has the same worst-case complexity as a linked list.
+If Z has only one child, the child node of Z gets elevated by modifying the parent node of Z to point to the child node, consequently taking Z's position in the tree, as shown in (b) and (c).
+If Z has both left and right children, the in-order successor of Z, say Y, displaces Z by following the two cases:
+If Y is Z's right child, Y displaces Z and Y's right child remain unchanged.
+If Y lies within Z's right subtree but is not Z's right child, Y first gets replaced by its own right child, and then it displaces Z's position in the tree.
+Alternatively, the in-order predecessor can also be used.
+Inorder tree walk: Nodes from the left subtree get visited first, followed by the root node and right subtree. Such a traversal visits all the nodes in the order of non-decreasing key sequence.
+Preorder tree walk: The root node gets visited first, followed by left and right subtrees.
+Postorder tree walk: Nodes from the left subtree get visited first, followed by the right subtree, and finally, the root.
+There are several self-balanced binary search trees, including T-tree, treap, red-black tree, B-tree, 2–3 tree, and Splay tree.
+Binary search trees are used in sorting algorithms such as tree sort, where all the elements are inserted at once and the tree is traversed at an in-order fashion. BSTs are also used in quicksort.
+Binary search trees are used in implementing priority queues, using the node's key as priorities.

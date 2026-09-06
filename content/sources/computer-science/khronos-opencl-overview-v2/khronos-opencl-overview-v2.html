@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/Article">
+  <head>
+	<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  
+  const savedConsent = localStorage.getItem('cookie_consent');
+  var gtmstate = savedConsent === 'granted' ? 'granted' : 'denied';
+  
+  gtag('consent','default',{
+    ad_storage: gtmstate,
+    analytics_storage: gtmstate,
+    ad_user_data: gtmstate,
+    ad_personalization: gtmstate,
+    wait_for_update:500
+  });
+</script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5Z9B3K9V');</script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, height=device-height, minimum-scale=1.0, initial-scale=1.0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>OpenCL - The Open Standard for Parallel Programming of Heterogeneous Systems</title>
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#cc3333">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <meta name="description" content="OpenCL™ (Open Computing Language) is an open, royalty-free standard for cross-platform, parallel
+                    programming of diverse accelerators found in supercomputers, cloud servers, personal computers,
+                    mobile devices and embedded platforms. OpenCL greatly improves the speed and responsiveness of a
+                    wide spectrum of applications in numerous market categories including professional creative tools,">
+    <meta itemprop="name" content="OpenCL - The Open Standard for Parallel Programming of Heterogeneous Systems">
+    <meta itemprop="description" content="OpenCL™ (Open Computing Language) is an open, royalty-free standard for cross-platform, parallel
+                    programming of diverse accelerators found in supercomputers, cloud servers, personal computers,
+                    mobile devices and embedded platforms. OpenCL greatly improves the speed and responsiveness of a
+                    wide spectrum of applications in numerous market categories including professional creative tools,">
+    <meta property="og:title" content="OpenCL - The Open Standard for Parallel Programming of Heterogeneous Systems">
+    <meta property="og:description" content="OpenCL™ (Open Computing Language) is an open, royalty-free standard for cross-platform, parallel
+                    programming of diverse accelerators found in supercomputers, cloud servers, personal computers,
+                    mobile devices and embedded platforms. OpenCL greatly improves the speed and responsiveness of a
+                    wide spectrum of applications in numerous market categories including professional creative tools,">
+    <meta property="og:type" content="article">
+    <meta property="article:published_time" content="2013-07-21T12:39:00-07:00">
+    <meta property="article:section" content="API">
+    <meta property="article:tag" content="api,">
+    <meta property="og:url" content="https://www.khronos.org/opencl/">
+    <meta property="og:site_name" content="The Khronos Group">
+    <meta itemprop="image" content="https://www.khronos.org/assets/uploads/apis/OpenCL-Dark-Square.png">
+    <meta property="og:image" content="https://www.khronos.org/assets/uploads/apis/OpenCL-Dark-Square.png">
+    <link rel="alternate" type="application/rss+xml" title="Khronos News RSS Feed" href="https://www.khronos.org/feeds/news_feed">
+    <link rel="alternate" type="application/atom+xml" title="Khronos News RSS Feed" href="https://www.khronos.org/feeds/news_feed">
+    <link rel="preload" href="/assets/fonts/subset-OpenSans.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/assets/fonts/subset-OpenSans-Bold.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/assets/fonts/subset-OpenSans-Semibold.woff" as="font" type="font/woff" crossorigin>
+    <link rel="preload" href="/assets/css/app.css?v173" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="/assets/css/app.css?v174"></noscript>
+
+    
+		
+			<style>
+.pageband-ocl h2 hr {width:50px;margin: 0.4em 0;border-top:7px solid #5cb85c;}
+.pageband-ocl h3 hr {width:50px;margin: 0.4em 0;border-top:3px solid #5cb85c;}
+.ocl-h2-preheading {color:#5cb85c!important;text-transform:uppercase;letter-spacing:2px;font-weight:400;}
+.ocl-news-block {background-color: #FFFFFF;border: 1px solid #CCC;border-radius: 5px;margin: 0 5px 10px 5px;padding: 15px;}
+.ocl-news-block p span {color:#666666;}
+.ocl-news-block h3 {font-size:24px;margin-top:5px;}
+.ocl-news-block-content {min-height:200px;}
+
+</style>
+		
+	
+    
+		
+	
+  </head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5Z9B3K9V"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+
+
+
+
+<form id="cookieConsentForm" method="post" action="https://www.khronos.org/api/index_2017/opencl"  >
+<div class='hiddenFields'>
+<input type="hidden" name="ACT" value="178" />
+<input type="hidden" name="RET" value="9cPJwmZ2shw65iUiA8t8fYlYmPjTss9IHWRuz4FFqNlwVQ+6tJJN+hEFEBP4zx80" />
+<input type="hidden" name="consent_names" value="XfFLt2g/o62JdTKajYQt/6/Ea43gGxvF1oEf/7ptDy0Pg18uI/nPsx0WgjVTxWRc/YZ0yMbXZu2+3KZKYNUhDkR0Mb03W80KvmFKlaOmtP0=" />
+<input type="hidden" name="site_id" value="1" />
+<input type="hidden" name="csrf_token" value="20aa00aa5562b885ddfebb0442abacbbdfb785a4" />
+</div>
+
+
+    <input type="hidden" name="ee:cookies_functionality" value="n"><input type="hidden" name="ee:cookies_performance" value="n">
+    <h4 style="margin-top:0"><strong>Cookie Policy</strong></h4>
+    <p>Clicking 'Accept All Cookies' means you agree to our cookie use and data sharing as described in our <a style="color: #ddd;" href="/legal/privacy">privacy policy</a> under 'Cookies and Tracking Technologies'.</p>
+    <input class="btn btn-sm btn-primary" type="submit" name="submit" value="Accept All Cookies">
+    <input class="btn btn-sm btn-primary" type="submit" name="submit" value="Necessary Cookies Only">
+    <small><a class="" style="color:#ddd" href="https://www.khronos.org/legal/manage-cookies">Manage cookie options</a></small>
+</form>
+
+
+
+
+
+<a href="#khronosMainContent" class="sr-only">Skip to main content</a>
+<div id="backtop"></div>
+<div class="wrapper">
+
+<nav class="navbar khr-nav navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#khronos_nav"
+                aria-expanded="false" aria-controls="khronos_nav">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar top-bar"></span>
+                <span class="icon-bar middle-bar"></span>
+                <span class="icon-bar bottom-bar"></span>
+            </button>
+            <a href="https://www.khronos.org/" class="navbar-brand" aria-label="Khronos Group homepage"><img
+                    src="/assets/css/images/khronos-logo-25.svg"
+                    alt="The Khronos Group: Connecting Software to Silicon"></a>
+        </div>
+
+        <div id="khronos_nav" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right nav-light">
+                <li class="dropdown"><a href="#" data-submenu data-toggle="dropdown">Developers <span
+                            class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-submenu"><a href="#">Active Standards</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/gltf/3dcommerce/">3D Commerce</a></li>
+                                <li><a href="/anari/">ANARI</a></li>
+                                <li><a href="/collada/">COLLADA</a></li>
+                                <li><a href="/dataformat/">Data Format</a></li>
+                                <li><a href="/egl/">EGL</a></li>
+                                <li><a href="/gltf/">glTF</a></li>
+                                <li><a href="/gltf/pbr/">glTF | PBR</a></li>
+                                <li><a href="/kamaros/">Kamaros</a></li>
+                                <li><a href="/ktx/">KTX</a></li>
+                                <li><a href="/nnef/">NNEF</a></li>
+                                <li><a href="/opencl/">OpenCL</a></li>
+                                <li><a href="/opengl/">OpenGL</a></li>
+                                <li><a href="/opengles/">OpenGL ES</a></li>
+                                <li><a href="/openglsc/">OpenGL SC</a></li>
+                                <li><a href="/openvg/">OpenVG</a></li>
+                                <li><a href="/openvx/">OpenVX</a></li>
+                                <li><a href="/openxr/">OpenXR</a></li>
+                                <li><a href="https://shader-slang.org">Slang</a></li>
+                                <li><a href="/spirv/">SPIR-V</a></li>
+                                <li><a href="/sycl/">SYCL</a></li>
+                                <li><a href="/syclsc/">SYCL SC</a></li>
+                                <li><a href="https://www.vulkan.org/">Vulkan</a></li>
+                                <li><a href="/vulkansc/">Vulkan SC</a></li>
+                                <li><a href="/webgl/">WebGL</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu"><a href="#">Groups &amp; Forums</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/exploratory/heterogeneous-communication/">Heterogeneous Communication</a>
+                                </li>
+                                <li><a href="/machine-learning/">Machine Learning Forum</a></li>
+                                <li><a href="/exploratory/new-initiative-process/">New Initiative Process</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu"><a href="#">Inactive Standards</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/openkcam/">OpenKCAM</a></li>
+                                <li><a href="/openkode/">OpenKODE</a></li>
+                                <li><a href="/openmax/">OpenMAX</a></li>
+                                <li><a href="/openml/">OpenML</a></li>
+                                <li><a href="/opensles/">OpenSL ES</a></li>
+                                <li><a href="/openwf/">OpenWF</a></li>
+                                <li><a href="/streaminput/">StreamInput</a></li>
+                                <li><a href="/webcl/">WebCL</a></li>
+                            </ul>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="https://registry.khronos.org/">Registry</a></li>
+                        <li><a href="/advisors/" rel="external">Advisors</a></li>
+                        <li><a href="https://github.khronos.org/" rel="external">Github</a></li>
+                        <li><a href="https://community.khronos.org/" rel="external">Khronos Support Forums</a></li>
+                        <li><a href="https://discord.gg/vulkan" rel="external">Vulkan Discord</a></li>
+                        <li><a href="https://khr.io/khrdiscord" rel="external">Khronos Discord</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/developers/library/">Videos &amp; Presentations</a></li>
+                        <li><a href="/developers/reference-cards/">Reference Guides</a></li>
+                        <li><a href="/developers/books/">Books</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/rfp/">Request for Proposals</a></li>
+                        <li><a href="https://store.khronos.org/">Merchandise</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="/conformance/" title="Conformance, Adopter and Implementer Information"
+                        data-toggle="dropdown">Conformance <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/conformance/adopters/">Become an Adopter</a></li>
+                        <li><a href="/conformance/adopters/conformant-companies/">API Adopters List</a></li>
+                        <li><a href="/conformance/adopters/conformant-products/">Conformant Products</a></li>
+                        <li><a href="/conformance/adopters/file-format-adopter-program/">File Format Adopter Program</a>
+                        </li>
+                        <li><a href="/conformance/adopters/file-format-adopters/">File Format Adopters</a></li>
+                        <li><a href="/legal/khronos-trademark-guidelines/">Trademark Guidelines</a></li>
+                        <li><a href="/members/ip-framework/" title="">IP Framework Briefing</a></li>
+                        <li><a href="/members/ip-framework/list" title="">IP Disclosures</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/conformance/adopters/login/"><b>Adopter Login</b></a></li>
+                        <li class="divider"></li>
+                        <li><a href="/3dcommerce/certification/">3D Commerce Certification</a></li>
+                        <li><a href="/3dcommerce/certification/certified-viewers/">Certified Viewers</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/3dcommerce/certification/login/"><b>Certificant Login</b></a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="/members/" title="Membership information" data-toggle="dropdown">Membership <b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/members/">Join the Khronos Group</a></li>
+                        <li><a href="/members/list/">Khronos Members</a></li>
+                        <li><a href="/members/liaisons/">Khronos Liaisons</a></li>
+                        <li><a href="/members/ip-framework/">IP Framework</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/members/signup/"><b>Create an account</b></a></li>
+                        <li><a href="https://members.khronos.org/"><b>Member Login</b></a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="/news/" title="Technology related news and events" data-toggle="dropdown">News &amp; Events<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/news/">Newsroom</a></li>
+                        <li><a href="/news/press/">Press Releases</a></li>
+                        <li><a href="/blog/">Khronos Blog</a></li>
+                        <li><a href="/news/subscribe/">Newsletter</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/events/">Events</a></li>
+                        <li><a href="/marketing/">Marketing with Khronos</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="/about/" title="Learn about the Khronos Group" data-toggle="dropdown">About<b
+                            class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/about/">Overview</a></li>
+                        <li><a href="/about/contact/">Contact Us</a></li>
+                        <li><a href="/logos/">Logo Packs</a></li>
+                        <li><a href="/about/directors-officers/">Directors &amp; Officers</a></li>
+                        <li><a href="/about/working-group-officers/">Working Group Officers</a></li>
+                        <li><a href="/about/deib/">Diversity at Khronos</a></li>
+                        <li><a href="/about/code-of-conduct/">Code of Conduct</a></li>
+                        <li><a href="/about/technical-support/">Technical Support</a></li>
+                        <li><a href="/about/khronie-awards/">Khronie Awards</a></li>
+                        <li><a href="/about/timeline/">Khronos Timeline</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://members.khronos.org/" 
+                       title="Account Login" 
+                       aria-label="Account Login">
+                       <i class="fa-regular fa-user hidden-xs"></i> <span class="visible-xs">Member Login</span>
+                    </a>
+                </li>
+                <li class="dropdown navbar_megamenu"><a href="#" id="search_dropdown" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" aria-label="Access search field"> <i
+                            class="fa fa-search hidden-xs" aria-hidden="true"></i> <span
+                            class="visible-xs">Search</span></a>
+                    <ul class="dropdown-menu">
+                        <li class="text-center">
+                            <form id="searchbox_017055583490642512057:_ak1bpok_no" action="/search/">
+                                <div class="input-group">
+                                    <input type="hidden" name="cx" value="017055583490642512057:_ak1bpok_no">
+                                    <input type="hidden" name="cof" value="FORID:9">
+                                    <input name="q" type="text" class="form-control" placeholder="Search"
+                                        aria-label="Search Query">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit"
+                                            aria-label="Start website search"><i class="fa fa-search"
+                                                aria-hidden="true"></i><span class="sr-only">Search</span></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="khronosMainContent" role="main">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+    
+
+    <div class="wrapper wrapper-dark" style="background-image: none;">
+    <section class="pageband pageband-openxr" style="background: url('/assets/uploads/apis/generic-khronos-page-banner.jpg');background-size: cover">
+        <div class="container">
+            <div class="row" style="padding-top:25px;padding-bottom:25px;">
+                <div class="brand" style="margin-auto;"">
+                    <img src="/assets/uploads/apis/OpenCL_RGB_Apr20.svg" class="img-responsive" alt="OpenCL Logo" style="margin:auto;max-height:175px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pageband pageband-api" style="background: #000000;padding-top:0px;padding-bottom: 25px;">
+        <div class="container">
+            <div class="row">
+                <div class="text-center">
+                    <h1 style="text-transform:none;text-align:center;color:#FFF;font-size:28px;">OpenCL for Parallel Programming of Heterogeneous Systems</h1>
+                    <p style="color:#FFFFFF;font-size:1.2em;text-align:center;">OpenCL™ (Open Computing Language) is an open, royalty-free standard for cross-platform, parallel programming of diverse accelerators found in supercomputers, cloud servers, personal computers, mobile devices and embedded platforms. OpenCL greatly improves the speed and responsiveness of a wide spectrum of applications in numerous market categories including professional creative tools, scientific and medical software, vision processing, and neural network training and inferencing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<div class="wrapper">
+
+<section class="pageband-api pageband-api-white"
+    style="margin-top:0px;padding-top:10px;padding-bottom:0px;background:#f6f6f6;border-bottom:1px solid #000000;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <nav aria-label="page-sub-nav-1"  style="text-align:center;line-height:1.5em;letter-spacing:1px;padding-top:5px;padding-bottom:0px;">
+                    <p style="text-align:center;line-height:1.5em;letter-spacing:1px;padding-top:5px;padding-bottom:5px;">
+                        <a class="scroll_to" href="#ocl-resources">Specification & Resources</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a class="scroll_to" href="#ocl-news">News</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a class="scroll_to" href="#ocl-overview">Overview</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a class="scroll_to" href="#ocl-implementations">Implementations</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a class="scroll_to" href="#ocl-industry-support">Industry Support</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a class="scroll_to" href="#ocl-community">Community</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a href="https://www.iwocl.org">IWOCL 2026</a>&nbsp;&nbsp;
+                    </p>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="vulkan-sc-intro" class="pageband-api pageband-api-white pageband-ocl"
+    style="margin-top:0px;padding-top:45px;padding-bottom:45px;background-image: url('/assets/uploads/apis/opencl-page-background-raindrop.webp');background-size: cover;">
+    <div class="container">
+        <div class="row">
+            <article class="col-sm-6" style="padding:25px;background:#fff;">
+                <p class="ocl-h2-preheading">Raising the Bar for Cross-Platform Heterogeneous Compute</p>
+                <h2 style="margin-top:0;line-height:1.3em">OpenCL 3.1
+                    <hr>
+                </h2>
+                <p style="line-height:1.5em;">OpenCL 3.1 brings widely deployed, field-proven capabilities into the core specification to expand functionality, including SPIR-V ingestion, that developers can rely on across implementations.</p>
+                <p><a class="btn btn-success" href="https://www.khronos.org/blog/opencl-3.1-is-here">Read the OpenCL 3.1 Launch Blog</a></p>
+                <p style="font-size:10px;margin-bottom:0;">OpenCL Image: FluidX3D CFD &#169; Dr. Moritz Lehmann.</p>
+            </article>
+
+            <article class="col-sm-6">
+                <p></p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="ocl-resources" class="pageband pageband-api pageband-white pageband-ocl">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="ocl-h2-preheading">The Essential Resources for OpenCL Development</p>
+                <h2>Specification & Key Resources
+                    <hr>
+                </h2>
+                <p>Thanks to the support of the Khronos membership and our passionate developer community, there is a
+                    full set of well-supported developer information and educational resources available to help you get
+                    you up and running with your OpenCL application development.</p>
+                <ul>
+                    <li><a href="https://registry.khronos.org/OpenCL/">Specification</a> - in the OpenCL registry (HTML
+                        and PDF).</li>
+                    <li><a href="https://github.com/KhronosGroup/OpenCL-SDK">Software Development Kit (SDK)</a> - all
+                        the components needed to develop OpenCL applications (headers, bindings, loader, utility
+                        libraries, samples and more).</li>
+                    <li><a href="https://github.com/KhronosGroup/OpenCL-Guide">OpenCL Guide</a> - an introductory read
+                        that covers the background and key concepts of OpenCL.</li>
+                    <li><a href="https://registry.khronos.org/OpenCL/specs/unified/html/OpenCL_API.html">OpenCL 3.1 Reference
+                            Pages</a> - indexed reference to the API. </li>
+                    <li><a href="https://www.khronos.org/files/opencl30-reference-guide.pdf" target="_blank">OpenCL 3.0
+                            Quick Reference Card</a> - handy guide to the API functions and the OpenCL C language.</li>
+                    <li><a href="https://clang.llvm.org/docs/UsersManual.html#opencl-features">Clang Support</a> - Clang
+                        can be used to compile OpenCL kernels for execution on a device.</li>
+                    <li><a href="https://github.com/intel/opencl-intercept-layer">OpenCL Intercept Layer</a> - intercept
+                        and modify OpenCL calls for debugging and performance analysis.</li>
+                    <li><a href="https://www.khronos.org/spirv/">SPIR-V</a> - OpenCL code can be compiled to run on any
+                        device supporting the Khronos SPIR-V portable intermediate representation.</li>
+                    <li><a href="https://github.com/KhronosGroup/OpenCL-CTS">OpenCL Conformance Test Suite (CTS)</a> -
+                        helps to create a reliable platform for developers.</li>
+                    <li><a href="https://opencl.gpuinfo.org/download.php">OpenCL on GPUInfo.org</a> - reads and displays
+                        OpenCL information and uploads to the database.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="ocl-news" class="pageband pageband-api pageband-white pageband-ocl"
+    style="background:#f6f6f6 url('/assets/uploads/apis/opencl-page-background-2.webp') no-repeat fixed center;background-size:cover;">
+    <div class="container">
+         <div class="row" style="margin-top:0;margin-bottom:30px;">
+            <div class="col-sm-12">
+                <h3 style="margin-top:0;">Featured Event
+                    <hr>
+                </h3>
+                <div class="text-center">
+                    <a href="https://www.iwocl.org"><img src="https://www.khronos.org/assets/uploads/apis/iwocl-2026-promo-banner2.webp"
+                            class="img-responsive" alt="IWOCL 2026 Promo Image"></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="ocl-h2-preheading">Blogs, Releases and More ...</p>
+                <h2>Featured News and Blogs
+                    <hr>
+                </h2>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="float-right"><a class="btn btn-success" href="/news/tags/tag/opencl">View All OpenCL
+                        News</a></div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-4">
+                <div class="ocl-news-block">
+                    <div class="ocl-news-block-content">
+                        <h3>OpenCL 3.1 is here</h3>
+                        <p>OpenCL  3.1 brings widely deployed, field-proven capabilities into the core specification to expand functionality, including SPIR-V ingestion, that developers will be able to rely on across conformant implementations.</p>
+                    </div>
+                    <p><a href="https://www.khronos.org/blog/opencl-3.1-is-here">Learn
+                            more</a></p>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="ocl-news-block">
+                    <div class="ocl-news-block-content">
+                        <h3>Adding Unified Shared Virtual Memory (SVM) to OpenCL</h3>
+                        <p>The OpenCL working group has been working on a follow-on to OpenCL 2.0 SVM and we would love
+                            your feedback.</p>
+                    </div>
+                    <p><a href="https://github.com/KhronosGroup/OpenCL-Docs/pull/1282">Learn more</a></p>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="ocl-news-block">
+                    <div class="ocl-news-block-content">
+                        <h3>OpenCL 3.0.19 Released</h3>
+                        <p>This maintenance update adds numerous bug fixes and clarifications and adds two new extensions: cl_khr_spirv_queries and cl_khr_external_memory_android_hardware<br>_buffer</p>
+                    </div>
+                    <p><a href="https://www.khronos.org/news/permalink/opencl-3.0.19-specification-released">Learn
+                            more</a></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="ocl-overview" class="pageband pageband-api pageband-ocl">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="ocl-h2-preheading">Low-Level Parallel Programming</p>
+                <h2>An Overview of OpenCL
+                    <hr>
+                </h2>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 25px;">
+            <div class="col-sm-6">
+                <p>OpenCL speeds applications by offloading their most computationally intensive code onto accelerator
+                    processors - or devices. OpenCL developers use C or C++-based kernel languages to code programs that
+                    are passed through a device compiler for parallel execution on accelerator devices.</p>
+                <ul>
+                    <li>Programming and Runtime Framework for Application Acceleration
+                        <ul>
+                            <li>Offload compute-intensive kernels onto parallel heterogeneous processors</li>
+                            <li>CPUs, GPUs, DSPs, FPGAs, Tensors Processors, etc.</li>
+                            <li>OpenCL or OpenCL for C++ language support</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6">
+
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item"
+                        src="https://www.youtube.com/embed/O5mk3dCq74o?si=koqQJfFbxhICj9Wa"
+                        title="YouTube OpenCL Playlist" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Other Khronos Compute Standards
+                    <hr>
+                </h3>
+                <p>OpenCL provides the industry with the lowest 'close-to-metal' processor-agile execution layer for
+                    accelerating applications, libraries and engines, and also providing a code generation target for
+                    compilers. Unlike 'GPU-only' APIs, such as Vulkan, OpenCL enables use of a diverse range of
+                    accelerators including multi-core CPUs, GPUs, DSPs, FPGAs and dedicated hardware such as inferencing
+                    engines.</p>
+            </div>
+
+            <div class="col-sm-6">
+                <h3>OpenCL Deployment Flexibility
+                    <hr>
+                </h3>
+                <p>As the industry landscape of platforms and devices grows more complex, tools are evolving the enable
+                    OpenCL applications to be deployed onto platforms that do not have available native OpenCL drivers.
+                    For example, the open source <a href="https://github.com/google/clspv">clspv compiler</a> and <a
+                        href="https://github.com/kpet/clvk">clvk API translator</a> enable OpenCL applications to be run
+                    over a Vulkan run-time. This gives OpenCL developers significant flexibility on where and how they
+                    can deploy their OpenCL applications.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>OpenCL Programming Model
+                    <hr>
+                </h3>
+                <p>An OpenCL application is split into host and device parts with host code written using a general
+                    programming language such as C or C++ and compiled by a conventional compiler for execution on a
+                    host CPU.</p>
+                <p>The device compilation phase can be done online, i.e. during execution of an application using
+                    special API calls. It can alternatively be compiled before executing the application into the
+                    machine binary or special portable intermediate representation defined by Khronos called <a
+                        href="https://www.khronos.org/spir/">SPIR-V</a>. There are also domain specific languages and
+                    frameworks that can compile to OpenCL either using source-to-source translations or generating
+                    binary/SPIR-V, for example Halide.</p>
+            </div>
+
+            <div class="col-sm-6">
+                <h3>The C++ for OpenCL Kernel Language
+                    <hr>
+                </h3>
+                <p>The OpenCL working group has transitioned from the original OpenCL C++ kernel language first defined
+                    in OpenCL 2.0 to C++ for OpenCL developed by the open source community to provide improved features
+                    and compatibility with OpenCL C. C++ for OpenCL is supported by <a
+                        href="https://clang.llvm.org/docs/UsersManual.html#c-for-opencl">Clang</a> along with <a
+                        href="https://www.khronos.org/opencl/assets/CXX_for_OpenCL.html">documentation</a>. It enables
+                    developers to use most C++17 features in OpenCL kernels. It is largely backwards compatible with
+                    OpenCL C 2.0 enabling it to be used to program accelerators with OpenCL 2.0 or above with conformant
+                    drivers that support SPIR-V. Its implementation in Clang can be tracked via the <a
+                        href="https://clang.llvm.org/docs/OpenCLSupport.html">OpenCL in Clang Support Page</a>.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ocl-implementations" class="pageband pageband-api pageband-white pageband-ocl"
+    style="background:#f6f6f6 url('/assets/uploads/apis/opencl-page-background-2.webp') no-repeat fixed center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="ocl-h2-preheading">A Consistent Platform for Developers</p>
+                <h2>OpenCL Implementations
+                    <hr>
+                </h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 style="margin-top:0;">Widespread Adoption</h3>
+                <p>OpenCL is widely adopted with the majority of vendors now offering conformant implementations of
+                    OpenCL 3.0 and 2.0. Most of these offer public access to drivers and development platforms,
+                    including:</p>
+                <ul>
+                    <li><a href="https://github.com/ROCm/clr">AMD</a> - OpenCL runtimes for AMD GPUs</li>
+                    <li><a href="https://developer.arm.com/documentation/101574/0600/Overview?lang=en">Arm</a> - OpenCL
+                        for the Immortalis and Mali GPUs</li>
+                    <li>Google - OpenCL for Google Pixel and Tensor platforms (not exposed as a public API)</li>
+                    <li><a
+                            href="https://developer.imaginationtech.com/solutions/open-source-gpu-driver/">Imagination</a>
+                        - Open source GPU driver deliverables</li>
+                    <li><a
+                            href="https://www.intel.com/content/www/us/en/developer/articles/tool/opencl-drivers.html">Intel</a>
+                        - OpenCL Runtimes for Intel Processors (CPU, GPU and FPGA)</li>
+                    <li><a href="https://www.kalrayinc.com/resource/a5-mppa-coolidge-processor-flyer/">Kalray</a> -
+                        OpenCL for MPPA Coolidge processor</li>
+                    <li><a href="https://www.mediatek.com/products/iot/genio-iot/genio-500">MediaTek</a> - OpenCL for
+                        SoC platforms</li>
+                    <li><a href="https://developer.nvidia.com/opencl">NVIDIA</a> - OpenCL 3.0 conformant in R465 and
+                        later drivers</li>
+                    <li><a href="https://portablecl.org/">POCL</a> - an open source implementation of the OpenCL
+                        standard</li>
+                    <li><a
+                            href="https://www.qualcomm.com/developer/blog/2021/05/accelerate-your-models-our-opencl-ml-sdk">Qualcomm</a>
+                        - OpenCL SDK and an OpenCL ML SDK</li>
+                    <li><a href="https://docs.mesa3d.org/rusticl.html">RustiCL</a> - an OpenCL implementation on top of
+                        Gallium drivers</li>
+                    <li>Samsung - Undisclosed product</li>
+                    <li><a href="https://downloads.ti.com/mctools/esd/docs/opencl/intro.html">TI</a> - OpenCL for a
+                        range of TI processor/DSP platforms</li>
+                    <li><a href="https://www.verisilicon.com/en/IPPortfolio/VivanteGPUIP">VeriSilicon</a> - OpenCL on
+                        Vivante GPU IP Series</li>
+                </ul>
+                <p><strong>Development Implementations</strong> (non Conformant)</p>
+                <ul>
+                    <li><a href="https://www.mobileye.com/solutions/eyeq-kit/">Mobileye</a> - an OpenCL implementation for EyeQ SoCs</li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6">
+                <h3 style="margin-top:0;">About Conformance Testing</h3>
+                <p>The OpenCL Conformance Test Suite (CTS) is <a
+                        href="https://github.com/KhronosGroup/OpenCL-CTS">available on GitHub</a> and helps to create a
+                    reliable platform for developers by ensuring that OpenCL is implemented consistently across all
+                    platforms. If your company is developing a product that implements OpenCL, and passes CTS, then you
+                    should consider becoming an official adopter to enjoy the following benefits -- and you don't need
+                    to be a Khronos member to become an Adopter.</p>
+                <ul>
+                    <li>Usage of the OpenCL name and logo in association with your product</li>
+                    <li>IP protection under the Khronos IP Framework</li>
+                    <li>Products promoted in the Khronos OpenCL Conformant Products listing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ocl-industry-support" class="pageband pageband-api pageband-ocl">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="ocl-h2-preheading">Widely Adopted & Deployed</p>
+                <h2>Industry Support for OpenCL
+                    <hr>
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+
+                <div class="cycle-slideshow" data-cycle-slides=".quote" data-cycle-prev="#cycle_prev"
+                    data-cycle-next="#cycle_next" data-cycle-timeout="7000" data-cycle-speed="1000">
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;Mandatory SPIR-V ingestion is the most consequential change in OpenCL 3.1. SPIR-V has become the natural compilation target for a growing class of higher-level languages and frameworks, including SYCL, ChipStar, and a wide range of domain-specific compilers. Making ingestion a guaranteed capability across every conformant implementation removes the last remaining barrier for these tools to fully commit to OpenCL as a runtime. Combined with the working group's extensions-first methodology, which has ensured that every feature mandated in 3.1 is already shipping in the field today, OpenCL 3.1 strengthens the dependable, portable runtime substrate that modern heterogeneous compute needs.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Neil Trevett</div>
+                                <cite><a href="http://nvidia.com/">OpenCL Working Group Chair</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;In recent years there has been an impressive adoption of OpenCL to drive
+                                    heterogeneous processing systems within many
+                                    market segments. This update to OpenCL 3.0 brings important flexibility benefits
+                                    that will allow many evolving
+                                    industries, from AI and HPC to automotive, to focus on their specific
+                                    requirements and embrace open standards. Codeplay
+                                    is excited to enable hardware vendors to support OpenCL 3.0 and to take
+                                    advantage of the flexibility provided in its
+                                    ecosystem of software products.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Andrew Richards</div>
+                                <cite><a href="http://codeplay.com/">Founder and CEO of Codeplay Software</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;With its focus on deployment flexibility, we see OpenCL 3.0 as an
+                                    excellent step forward in providing critical features
+                                    for developers, with the ability to add functionality over time. This really is
+                                    a step forward for the OpenCL ecosystem,
+                                    allowing developers to write portable applications that depend on widely
+                                    accepted functionality. Currently shipping GPUs
+                                    based on the PowerVR Rogue architecture will enjoy a significant feature uplift
+                                    including SVM, Generic Address Space and
+                                    Work-group Functions. Upon final release of the specification, Imagination will
+                                    ship a conformant OpenCL 3.0
+                                    implementation with support extending across a wide range of PowerVR GPUs,
+                                    including our latest offering with IMG
+                                    A-Series.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Mark Butler</div>
+                                <cite><a href="https://www.imgtec.com/">Vice President of Software Engineering,
+                                        Imagination Technologies</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;Intel strongly supports cross-architecture standards being driven across
+                                    the compute ecosystem such as in OpenCL 3.0 and
+                                    SYCL. Standards-based, unified programming models will enable efficiency and
+                                    unleash creativity for our developers with
+                                    the upcoming release of our new Xe GPU architecture.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Jeff McVeigh</div>
+                                <cite><a href="https://www.intel.com/content/www/us/en/developer/articles/tool/opencl-drivers.html">Vice President, Intel Architecture, Graphics
+                                        and Software</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;NVIDIA welcomes OpenCL 3.0’s focus on defining a baseline to enable
+                                    developer-critical functionality to be widely
+                                    adopted in future versions of the specification. NVIDIA will ship a conformant
+                                    OpenCL 3.0 when the specification is
+                                    finalized and we are working to define the Vulkan® interop extension that,
+                                    together with layered OpenCL implementations,
+                                    will significantly increase deployment flexibility for OpenCL developers.&rdquo;
+                                </p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Anshuman Bhat</div>
+                                <cite><a href="http://nvidia.com/">Compute product manager at NVIDIA</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;OpenCL 3.0 is an important step forward in the drive to unlock greater
+                                    performance and innovation across a broadening
+                                    range of computing platforms and applications. The flexible extension model will
+                                    help our customers and software
+                                    partners take full advantage of the tremendous potential available in both our
+                                    existing and future application
+                                    processors. We are pleased to have had the opportunity to contribute to this
+                                    specification and we look forward to
+                                    supporting the final product.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Balaji Calidas</div>
+                                <cite><a href="https://qualcomm.com/">Director of Engineering at Qualcomm</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;Many of our customers want a GPU programming language that runs on all
+                                    devices, and with growing deployment in edge
+                                    computing and mobile, this need is increasing. OpenCL is the only solution for
+                                    accessing diverse silicon acceleration
+                                    and many key software stacks use OpenCL/SPIR-V as a backend. We are very happy
+                                    that OpenCL 3.0 will drive even wider
+                                    industry adoption, as it reassures our customers that their past and future
+                                    investments in OpenCL are justified.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Vincent Hindriksen</div>
+                                <cite><a href="https://streamhpc.com/">Founder and CEO of Stream HPC</a></cite>
+                            </div>
+                        </div>
+
+                        <div class="quote clearfix">
+                            <blockquote class="quote-blockquote">
+                                <p>&ldquo;OpenCL 3.0 has opened up a new chapter for the OpenCL API which has served
+                                    as the standard GPGPU API during the past 10
+                                    years. With the streamlined OpenCL 3.0 core feature set, OpenCL 3.0 will enable
+                                    a whole new class of embedded devices to
+                                    adopt OpenCL API for GPU Compute and ML/AI processing, and it will also pave the
+                                    way forward for OpenCL to interop or
+                                    layer with the Vulkan API. VeriSilicon will deploy OpenCL 3.0 implementations
+                                    quickly on a broad range of our embedded
+                                    GPU and VIP products to enable our customers to develop new sets of GPGPU/ML/AI
+                                    applications with the OpenCL 3.0 API.&rdquo;</p>
+                            </blockquote>
+                            <div class="quote-attribution">
+                                <div class="quote-author">Weijin Dai</div>
+                                <cite><a href="http://verisilicon.com/">Executive Vice President and GM of
+                                        Intellectual Property Division at VeriSilicon</a></cite>
+                            </div>
+                        </div>
+
+                    <button class="btn btn-danger" id="cycle_prev"
+                        style="position: absolute;top: 5%;left: -10px;z-index: 1000;" aria-label="Previous Quote"><i
+                            class="fa fa-arrow-left"></i></button>
+                    <button class="btn btn-danger" id="cycle_next"
+                        style="position: absolute;top: 5%;right: -10px;z-index: 1000;" aria-label="Next Quote">
+<i class="fa fa-arrow-right"></i></button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ocl-community" class=" pageband pageband-api pageband-ocl"
+    style="background:#f6f6f6 url('/assets/uploads/apis/opencl-page-background-2.webp') no-repeat fixed center;background-size:cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="ocl-h2-preheading">Community</p>
+                <h2 style="margin-top:0px;">Join the OpenCL Community Discussions
+                    <hr>
+                </h2>
+                <p>There are several ways to follow the latest OpenCL developments, provide feedback on the
+                    specification, and get your questions answered. It's a great way to get involved and will help forge
+                    the future of OpenCL and the wider ecosystem.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6" style="border-right:1px solid #669D74;padding-right:25px;margin:auto;">
+                <h3>Community Discussions
+                    <hr>
+                </h3>
+                <ul>
+                    <li>GitHub <a href="https://github.com/KhronosGroup/OpenCL-Docs/issues">Issues</a> and <a
+                            href="https://github.com/KhronosGroup/OpenCL-Docs/pulls">Pull Requests</a></li>
+                    <li><a href="https://community.khronos.org/c/opencl/14">Khronos OpenCL Forum</a></li>
+                    <li><a href="https://khr.io/khrdiscord">Discord</a></li>
+                    <li><a href="https://stackoverflow.com/questions/tagged/opencl">Stack Overflow Questions</a></li>
+                    <li><a href="https://www.youtube.com/playlist?list=PLF495DEFD72A33B77" target="_blank">YouTube</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6">
+                <h3>Help Shape the Future of OpenCL
+                    <hr>
+                </h3>
+                <p>If you are working with OpenCL and wish to get involved in helping shape its future, please consider
+                    Joining Khronos and our Working Group. Any organization is welcome to join, and multiple levels of
+                    membership are available to enable any organization, large or small, to get involved.</p>
+                <a class="btn btn-success" href="/members">Join Khronos</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="newsletter-signup" class="pageband pageband-api pageband-white" style="margin-top:0;padding-bottom:25px;background:#f6f6f6 url('/assets/uploads/apis/opengles-section-background.webp') no-repeat fixed center;background-size:cover;">
+    <div class="container">
+        <div style="border:1px dashed #0366d6;padding:25px 25px 15px 25px;border-radius:20px;background: rgba(255, 255,255,0.6);">
+            <div class="row" >
+                <div class="col-sm-9" >
+                    <p style="color:#0366d6!important;text-transform:uppercase;letter-spacing:2px;font-weight:400;margin-bottom:0px;">Stay Informed</p>
+                    <h2>Subscribe to the Khronos Newsletter</h2>
+                    <hr style="width:50px;border-top:7px solid #0366d6;"">             
+                </div>
+                <div class="col-sm-3">
+                <a class="btn btn-primary" style="width:100%;margin:18px 0 10px 0 ;float:left;padding:10px;background-color:#0366d6;border:none;" href="http://eepurl.com/Xh4Q">Click to Subscribe</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" >
+                    <p>Stay in the loop by subscribing to our newsletter to receive updates on all our latest resources, news and events.</p>
+                    <p style="font-size:12px;margin-top:10px;line-height:1.3em;">By subscribing you are consenting to receive marketing emails about news and events relating to the Khronos Group. You can unsubscribe at any time by following the “Unsubscribe” link included in each email sent. For information on our privacy practices and commitment to protecting your privacy, please review our <a href="/legal/privacy">Privacy Policy</a>. We do not sell your contact information to third parties.</p>              
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+	
+
+	
+
+
+
+
+
+   
+
+
+
+    <section class="pageband pageband-blue">
+            <h2 class="sr-only">Khronos Standard Additional links and information</h2>
+        <div class="container">
+
+
+
+
+
+
+
+
+<div class="row">
+    <article class="col-sm-4">
+        <div>
+        <h2>Related Discussions</h2>
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <ul>
+        
+        <li><a class="read_more" href="https://community.khronos.org/" rel="external">Visit Community Forums</a></li>
+<li><a href="https://khr.io/khrdiscord">Visit Khronos Discord</a></li>
+<li><a href="https://discord.gg/vulkan">Visit Vulkan Discord</a></li>
+
+        </ul>
+        </div>
+    </article>
+
+    <article class="col-sm-4">
+        <div>
+        <h2>Related News</h2>
+        <ul>
+        
+        <li><a href="https://www.khronos.org/blog/khronos-at-siggraph-2026" itemprop="url" aria-label="Go to the full news article about Khronos at SIGGRAPH 2026: Open Standards Reach New Heights">Khronos at SIGGRAPH 2026: Open Standards Reach New Heights</a></li>
+        
+        <li><a href="https://github.com/pocl/pocl/releases/tag/v7.2-RC1" itemprop="url" aria-label="Go to the full news article about PoCL 7.2-RC1 Brings Official OpenCL 3.0 Conformance On RISC-V &amp; x86_64 CPUs">PoCL 7.2-RC1 Brings Official OpenCL 3.0 Conformance On RISC-V &amp; x86_64 CPUs</a></li>
+        
+        <li><a href="https://www.khronos.org/blog/opencl-3.1-is-here" itemprop="url" aria-label="Go to the full news article about OpenCL 3.1 is here">OpenCL 3.1 is here</a></li>
+        
+        <li><a href="https://www.khronos.org/blog/opencl-cooperative-matrix-extensions-are-here" itemprop="url" aria-label="Go to the full news article about OpenCL Cooperative Matrix Extensions Are Here">OpenCL Cooperative Matrix Extensions Are Here</a></li>
+        
+        <li><a href="https://www.morningstar.com/news/business-wire/20251126894825/verisilicons-npu-ip-vip9000nanooi-fs-has-achieved-iso-26262-asil-b-certification" itemprop="url" aria-label="Go to the full news article about VeriSilicon’s NPU IP VIP9000NanoOi-FS has Achieved ISO 26262 ASIL B Certification Using OpenVX">VeriSilicon’s NPU IP VIP9000NanoOi-FS has Achieved ISO 26262 ASIL B Certification Using OpenVX</a></li>
+        
+        </ul>
+        <ul><li><a class="read_more" href="https://www.khronos.org/news/archives">More news</a></li></ul>
+        </div>
+    </article>
+
+    <article class="col-sm-4">
+        <div>
+        <h2>Related Press</h2>
+        <ul>
+        
+        <li><a href="/news/press/autosar-automotive-open-system-architecture-and-khronos-announce-collaboration-on-acceleration-standards-for-software-defined-vehicles" itemprop="url" aria-label="Go to the full news article about AUTOSAR (AUTomotive Open System ARchitecture) and Khronos Announce Collaboration on Acceleration Standards for Software Defined Vehicles">AUTOSAR (AUTomotive Open System ARchitecture) and Khronos Announce Collaboration on Acceleration Standards for Software Defined Vehicles</a></li>
+        
+        <li><a href="/news/press/khronos-group-releases-opencl-3.0" itemprop="url" aria-label="Go to the full news article about Khronos Group Releases OpenCL 3.0">Khronos Group Releases OpenCL 3.0</a></li>
+        
+        <li><a href="/news/press/khronos-releases-conformance-test-suite-for-sycl-1.2.1" itemprop="url" aria-label="Go to the full news article about Khronos Releases Conformance Test Suite for SYCL 1.2.1">Khronos Releases Conformance Test Suite for SYCL 1.2.1</a></li>
+        
+        <li><a href="/news/press/the-khronos-group-releases-finalized-sycl-1.2.1" itemprop="url" aria-label="Go to the full news article about The Khronos Group Releases Finalized SYCL 1.2.1">The Khronos Group Releases Finalized SYCL 1.2.1</a></li>
+        
+        <li><a href="/news/press/khronos-updates-opencl-and-sycl-specifications-for-heterogeneous-parallel-p" itemprop="url" aria-label="Go to the full news article about Khronos Updates OpenCL and SYCL Specifications for Heterogeneous Parallel Programming">Khronos Updates OpenCL and SYCL Specifications for Heterogeneous Parallel Programming</a></li>
+        
+        </ul>
+        <ul><li><a class="read_more" href="https://www.khronos.org/news/press">More Press Releases</a></li></ul>
+        </div>
+    </article>
+</div>
+
+
+
+
+        </div>
+    </section>
+
+</div>
+
+</div>
+
+    <footer id="khronosFooter" class="footer">
+    <div class="container">
+		<p class="sr-only">Page footer starts here. <a href="#backtop">Return to main content</a></p>
+        <div class="row">
+            <div class="col-xs-12 col-sm-4 footer_branding">
+                <figure><a href="https://www.khronos.org/"><img src="/assets/css/images/khronos-logo-inverted-25.svg" alt="Khronos Logo"></a></figure>
+                <p> 9450 SW Gemini Drive #45043<br>
+                Beaverton, OR 97008<br>United States<br>
+                Phone: <a href="tel:+14158698627">+1 (415) 869-8627</a></p>
+            </div>
+
+<div class="col-xs-12 col-sm-8 footer_details">
+    <div class="row">
+        <div class="col-xs-12 col-md-5">
+            <a href="http://eepurl.com/Xh4Q" class="btn btn-blue-dark text-uppercase">sign up for our newsletter</a>
+        </div>
+        <div class="col-xs-12 col-md-7" style="margin-top: 0;">
+            <ul class="social_links list-unstyled social_icons">
+                            <li><a rel="me" href="https://bsky.app/profile/khronos.org" aria-label="Khronos Bluesky Account"><i
+                            class="fa-brands fa-2x fa-bluesky" aria-hidden="true"></i></a></li>
+                <li>
+                    <a rel="me" href="https://fosstodon.org/@thekhronosgroup" aria-label="Khronos Mastodon Account">
+                        <i class="fa-brands fa-2x fa-mastodon" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://khr.io/khrdiscord" aria-label="Khronos Discord Server">
+                        <i class="fa-brands fa-2x fa-discord" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.khronos.org/marketing/social-media/wechat" aria-label="Khronos WeChat">
+                        <i class="fa-brands fa-2x fa-weixin" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/user/khronosgroup" aria-label="Khronos YouTube Channel">
+                        <i class="fa-brands fa-2x fa-youtube" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.flickr.com/photos/khronos/" aria-label="Khronos Flickr page">
+                        <i class="fa-brands fa-2x fa-flickr" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/groups?gid=121429" aria-label="Khronos LinkedIn Profile">
+                        <i class="fa-brands fa-2x fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li class="hidden-xs">
+                    <a href="https://www.khronos.org/feeds/" aria-label="Khronos News Feed page">
+                        <i class="fa-solid fa-2x fa-rss" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <ul class="list-unstyled footer-policy">
+                <li>
+                    <a href="https://www.khronos.org/about/deib/" rel="nofollow">Diversity &amp; Inclusion</a>
+                </li>
+                <li>
+                    <a href="https://www.khronos.org/legal/" rel="nofollow">Legal Notices</a>
+                </li>
+                <li>
+                    <a href="https://www.khronos.org/legal/privacy/" rel="nofollow">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="https://www.khronos.org/about/code-of-conduct/" rel="nofollow">Code of Conduct</a>
+                </li>
+                <li>
+                    <a href="https://www.khronos.org/legal/trademarks/">Trademark Usage</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-12 col-md-6 language">
+            <div style="display: inline-block;">Language</div>
+            :
+
+            <a class="btn btn-sm btn-blue-dark" href="https://www.khronos.org/"
+                aria-label="Visit Khronos English Website">EN</a>
+            <a class="btn btn-sm btn-blue-dark" href="https://www.khronos.org/news/cn/"
+                aria-label="View Khronos Chinese Press Releases">CN</a>
+            <a class="btn btn-sm btn-blue-dark" href="https://www.khronos.org/news/jp/"
+                aria-label="View Khronos Japanese Press Releases">JP</a>
+            <a class="btn btn-sm btn-blue-dark" href="https://www.khronos.org/news/kr/"
+                aria-label="View Khronos Korean Press Releases">KR</a>
+        </div>
+    </div>
+</div>
+            
+        </div>
+         <div class="copyright">&copy; The Khronos<sup>®</sup> Group Inc. 2026. All rights reserved.</div>
+                <div class="trademark">Khronos® and Vulkan® are registered trademarks, and ANARI™, WebGL™, glTF™, KTX™, NNEF™, OpenVX™, SPIR™, SPIR-V™, SYCL™, OpenVG™, Karamos™ and 3D Commerce™ are trademarks of The Khronos Group Inc. OpenXR™ is a trademark owned by The Khronos Group Inc. and is registered as a trademark in China, the European Union, Japan and the United Kingdom. OpenCL™ is a trademark of Apple Inc. and OpenGL® is a registered trademark and the OpenGL ES™ and OpenGL SC™ logos are trademarks of Hewlett Packard Enterprise used under license by Khronos. All other product names, trademarks, and/or company names are used solely for identification and belong to their respective owners.</div>
+    </div>
+    </footer>
+
+</div>
+<div role="navigation" aria-label="Back to top">
+<a class="scroll_to top_button" href="#backtop" aria-label="Scroll to top of current page"><i class="khricon fa-solid fa-2x fa-arrow-up"></i></a>    
+</div>
+<script src="/assets/js/app.js?v15"></script>
+
+
+
+
+
+
+
+
+<!-- FOOTER - Complete consent button handler -->
+<script>
+function consentError(message) {
+  console.error('Error:', message);
+  const errorDiv = document.createElement('div');
+  errorDiv.textContent = message;
+  errorDiv.style.cssText = 'position:fixed;top:0;left:0;right:0;background:#f44336;color:white;padding:10px;text-align:center;z-index:9999';
+  document.body.insertBefore(errorDiv, document.body.firstChild);
+  setTimeout(() => errorDiv.remove(), 5000);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  const cookieForm = document.getElementById('cookieConsentForm');
+  if (cookieForm) {
+    cookieForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const actionUrl = new URL(this.action, window.location.origin);
+      if (actionUrl.origin !== window.location.origin) {
+        consentError('Invalid form action');
+        return;
+      }
+      const clickedButton = e.submitter.value;
+      const formData = new FormData(this);
+      
+      if (clickedButton === 'Accept All Cookies') {
+        formData.set('ee:cookies_functionality', 'y');
+        formData.set('ee:cookies_performance', 'y');
+      } else if (clickedButton === 'Necessary Cookies Only') {
+        formData.set('ee:cookies_functionality', 'n');
+        formData.set('ee:cookies_performance', 'n');
+      }
+      
+      fetch(actionUrl.href, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (typeof data !== 'object' || data === null) {
+          throw new Error('Invalid response');
+        }
+        
+        const state = clickedButton === 'Accept All Cookies' ? 'granted' : 'denied';
+        localStorage.setItem('cookie_consent', state);
+        
+        window.gtag && gtag('consent','update',{
+          ad_storage: state,
+          analytics_storage: state,
+          ad_user_data: state,
+          ad_personalization: state
+        });
+        
+        if (!data.success) {
+          const errors = Array.isArray(data.errors) ? data.errors : ['Unknown error'];
+          consentError('Failed with the following errors: ' + errors.join(', '));
+        } else {
+          this.style.transition = 'opacity 0.4s';
+          this.style.opacity = '0';
+        }
+      })
+      .catch(error => {
+        consentError('An error occurred');
+      });
+    });
+  }
+});
+</script>
+
+<div style="display: none;"  aria-hidden="true"><a style="color:white" href="https://www.khronos.org/assets/utilities/holder.php">devilish</a></div>
+</body>
+</html>

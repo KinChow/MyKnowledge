@@ -1,0 +1,4031 @@
+<html lang="zh"><head><script>var __ezHttpConsent={setByCat:function(src,tagType,attributes,category,force,customSetScriptFn=null){var setScript=function(){if(force||window.ezTcfConsent[category]){if(typeof customSetScriptFn==='function'){customSetScriptFn();}else{var scriptElement=document.createElement(tagType);scriptElement.src=src;attributes.forEach(function(attr){for(var key in attr){if(attr.hasOwnProperty(key)){scriptElement.setAttribute(key,attr[key]);}}});var firstScript=document.getElementsByTagName(tagType)[0];firstScript.parentNode.insertBefore(scriptElement,firstScript);}}};if(force||(window.ezTcfConsent&&window.ezTcfConsent.loaded)){setScript();}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){setScript();}else{console.error("cannot get ez consent data");force=true;setScript();}});}else{force=true;setScript();console.error("getEzConsentData is not a function");}},};</script>
+<script>var ezTcfConsent=window.ezTcfConsent?window.ezTcfConsent:{loaded:false,store_info:false,develop_and_improve_services:false,measure_ad_performance:false,measure_content_performance:false,select_basic_ads:false,create_ad_profile:false,select_personalized_ads:false,create_content_profile:false,select_personalized_content:false,understand_audiences:false,use_limited_data_to_select_content:false,};function getEzConsentData(){return new Promise(function(resolve){document.addEventListener("ezConsentEvent",function(event){var ezTcfConsent=event.detail.ezTcfConsent;resolve(ezTcfConsent);});});}</script>
+<script>if(typeof _setEzCookies!=='function'){function _setEzCookies(ezConsentData){var cookies=window.ezCookieQueue;for(var i=0;i<cookies.length;i++){var cookie=cookies[i];if(ezConsentData&&ezConsentData.loaded&&ezConsentData[cookie.tcfCategory]){document.cookie=cookie.name+"="+cookie.value;}}}}
+window.ezCookieQueue=window.ezCookieQueue||[];if(typeof addEzCookies!=='function'){function addEzCookies(arr){window.ezCookieQueue=[...window.ezCookieQueue,...arr];}}
+addEzCookies([{name:"ezoab_173770",value:"mod1; Path=/; Domain=plantuml.com; Expires=Fri, 04 Sep 2026 17:42:08 UTC",tcfCategory:"store_info",isEzoic:"true",},{name:"ezopvc_173770",value:"1; Path=/; Domain=plantuml.com; Expires=Fri, 04 Sep 2026 16:12:08 UTC",tcfCategory:"understand_audiences",isEzoic:"true",},{name:"ezoab_173770",value:"mod1; Path=/; Domain=plantuml.com; Max-Age=7200",tcfCategory:"store_info",isEzoic:"true",},{name:"active_template::173770",value:"pub_site.1788536528; Path=/; Domain=plantuml.com; Expires=Sun, 06 Sep 2026 15:42:08 UTC",tcfCategory:"store_info",isEzoic:"true",},{name:"ezoadgid_173770",value:"-1; Path=/; Domain=plantuml.com; Max-Age=1800",tcfCategory:"understand_audiences",isEzoic:"true",},{name:"ezoid",value:"68d66c83-9bd3-4ac8-ba83-bda99a43530b; Path=/; Domain=ezoic.net; Max-Age=31536000; SameSite=None; Secure; HttpOnly",tcfCategory:"store_info",isEzoic:"true",},{name:"ezoid",value:"68d66c83-9bd3-4ac8-ba83-bda99a43530b; Path=/; Max-Age=31536000; SameSite=None; Secure; HttpOnly",tcfCategory:"store_info",isEzoic:"true",}]);if(window.ezTcfConsent&&window.ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else if(typeof getEzConsentData==="function"){getEzConsentData().then(function(ezTcfConsent){if(ezTcfConsent&&ezTcfConsent.loaded){_setEzCookies(window.ezTcfConsent);}else{console.error("cannot get ez consent data");_setEzCookies(window.ezTcfConsent);}});}else{console.error("getEzConsentData is not a function");_setEzCookies(window.ezTcfConsent);}</script><script type="text/javascript" data-ezscrex='false' data-cfasync='false'>window._ezaq = Object.assign({"edge_cache_status":13,"edge_response_time":32,"url":"https://plantuml.com/zh/activity-diagram-beta"}, typeof window._ezaq !== "undefined" ? window._ezaq : {});</script><script type="text/javascript" data-ezscrex='false' data-cfasync='false'>window._ezaq = Object.assign({"ab_test_id":"mod1"}, typeof window._ezaq !== "undefined" ? window._ezaq : {});window.__ez=window.__ez||{};window.__ez.tf={"lcpm":"false"};window.__ez=window.__ez||{};window.__ez.fs={"ACFloorTSV2Split":"off","ACFloorTSV3Split":"off","ACTSZoneSplit":"true","ADXHardFloorsSplit":"true","AdaptiveExclusion":"true","AffiliateWidgets":"true","AllowMultipleBigAdsAboveFold":"false","AnchorExpansionBanditSplit":"true","CenteredAds":"false","DirectRenderBanditSplit":"true","DirectRenderDoseSplit":"off","DirectRenderFloormultHoldoutSplit":"off","DirectRenderPt4ThresholdSplit":"off","EscalationDownround":"false","EscalationEarlyGam":"true","EscalationHighFloorDownround":"true","EscalationMidFloorDownround":"false","EscalationS2sLowFloor":"true","EscalationS2sMidFloor":"true","EscalationUpwalkMap2":"true","FloatingInterstitialBanditSplit":"true","FloorBanditSplit":"true","FloorEscalation":"false","FlyingCarpet":"false","HbFloorBanditSplit":"true","LazyloadArm27Probe":"false","LazyloadBanditSplit":"true","MonopolyReserveFloorSplit":"true","OutstreamAspectBanditV3Split":"bandit","OutstreamBidderInclusionCurve":"standard","OutstreamBidderInclusionSplit":"true","OutstreamReserveBanditSplit":"true","OutstreamTSZoneSplit":"true","PoolAuctionLockDomain":"false","RefreshFloorBanditSplit":"true","SizeBanditSplit":"true","TimeoutBanditSplit":"true","VideoBidderPolicyHoldbackSplit":"off"};window.__ez.fss='1350610062';</script><script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez=__ez||{};__ez.stms=Date.now();__ez.evt={};__ez.script={};__ez.ck=__ez.ck||{};__ez.template={};__ez.template.isOrig=false;window.__ezScriptHost="//www.ezojs.com";__ez.queue=__ez.queue||function(){var e=0,i=0,t=[],n=!1,o=[],r=[],s=!0,a=function(e,i,n,o,r,s,a){var l=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,d=this;this.name=e,this.funcName=i,this.parameters=null===n?null:w(n)?n:[n],this.isBlock=o,this.blockedBy=r,this.deleteWhenComplete=s,this.isError=!1,this.isComplete=!1,this.isInitialized=!1,this.proceedIfError=a,this.fWindow=l,this.isTimeDelay=!1,this.process=function(){f("... func = "+e),d.isInitialized=!0,d.isComplete=!0,f("... func.apply: "+e);var i=d.funcName.split("."),n=null,o=this.fWindow||window;i.length>3||(n=3===i.length?o[i[0]][i[1]][i[2]]:2===i.length?o[i[0]][i[1]]:o[d.funcName]),null!=n&&n.apply(null,this.parameters),!0===d.deleteWhenComplete&&delete t[e],!0===d.isBlock&&(f("----- F'D: "+d.name),p())}},l=function(e,i,t,n,o,r,s){var a=arguments.length>7&&void 0!==arguments[7]?arguments[7]:window,l=this;this.name=e,this.path=i,this.async=o,this.defer=r,this.isBlock=t,this.blockedBy=n,this.isInitialized=!1,this.isError=!1,this.isComplete=!1,this.proceedIfError=s,this.fWindow=a,this.isTimeDelay=!1,this.isPath=function(e){return"/"===e[0]&&"/"!==e[1]},this.getSrc=function(e){return void 0!==window.__ezScriptHost&&this.isPath(e)?window.__ezScriptHost+e:e},this.process=function(){l.isInitialized=!0,f("... file = "+e);var i=this.fWindow?this.fWindow.document:document,t=i.createElement("script");t.src=this.getSrc(this.path),!0===o?t.async=!0:!0===r&&(t.defer=!0),t.onerror=function(){var e={url:window.location.href,name:l.name,path:l.path,user_agent:window.navigator.userAgent};"undefined"!=typeof _ezaq&&(e.pageview_id=_ezaq.page_view_id);var i=encodeURIComponent(JSON.stringify(e)),t=new XMLHttpRequest;t.open("GET","//g.ezoic.net/ezqlog?d="+i,!0),t.send(),f("----- ERR'D: "+l.name),l.isError=!0,!0===l.isBlock&&p()},t.onreadystatechange=t.onload=function(){var e=t.readyState;f("----- F'D: "+l.name),e&&!/loaded|complete/.test(e)||(l.isComplete=!0,!0===l.isBlock&&p())},i.getElementsByTagName("head")[0].appendChild(t)}},d=function(e,i){this.name=e,this.path="",this.async=!1,this.defer=!1,this.isBlock=!1,this.blockedBy=[],this.isInitialized=!0,this.isError=!1,this.isComplete=i,this.proceedIfError=!1,this.isTimeDelay=!1,this.process=function(){}};function c(e,i,n,s,a,d,c,u,f){var p=new l(e,i,n,s,a,d,c,f);!0===u?o[e]=p:r[e]=p,t[e]=p,h(p)}function h(e){!0!==u(e)&&0!=s&&e.process()}function u(e){if(!0===e.isTimeDelay&&!1===n)return f(e.name+" blocked = TIME DELAY!"),!0;if(w(e.blockedBy))for(var i=0;i<e.blockedBy.length;i++){var o=e.blockedBy[i];if(!1===t.hasOwnProperty(o))return f(e.name+" blocked = "+o),!0;if(!0===e.proceedIfError&&!0===t[o].isError)return!1;if(!1===t[o].isComplete)return f(e.name+" blocked = "+o),!0}return!1}function f(e){var i=window.location.href,t=new RegExp("[?&]ezq=([^&#]*)","i").exec(i);"1"===(t?t[1]:null)&&console.debug(e)}function p(){++e>200||(f("let's go"),m(o),m(r))}function m(e){for(var i in e)if(!1!==e.hasOwnProperty(i)){var t=e[i];!0===t.isComplete||u(t)||!0===t.isInitialized||!0===t.isError?!0===t.isError?f(t.name+": error"):!0===t.isComplete?f(t.name+": complete already"):!0===t.isInitialized&&f(t.name+": initialized already"):t.process()}}function w(e){return"[object Array]"==Object.prototype.toString.call(e)}return window.addEventListener("load",(function(){setTimeout((function(){n=!0,f("TDELAY -----"),p()}),5e3)}),!1),{addFile:c,addFileOnce:function(e,i,n,o,r,s,a,l,d){t[e]||c(e,i,n,o,r,s,a,l,d)},addDelayFile:function(e,i){var n=new l(e,i,!1,[],!1,!1,!0);n.isTimeDelay=!0,f(e+" ...  FILE! TDELAY"),r[e]=n,t[e]=n,h(n)},addFunc:function(e,n,s,l,d,c,u,f,p,m){!0===c&&(e=e+"_"+i++);var w=new a(e,n,s,l,d,u,f,m);!0===p?o[e]=w:r[e]=w,t[e]=w,h(w)},addDelayFunc:function(e,i,n){var o=new a(e,i,n,!1,[],!0,!0);o.isTimeDelay=!0,f(e+" ...  FUNCTION! TDELAY"),r[e]=o,t[e]=o,h(o)},items:t,processAll:p,setallowLoad:function(e){s=e},markLoaded:function(e){if(e&&0!==e.length){if(e in t){var i=t[e];!0===i.isComplete?f(i.name+" "+e+": error loaded duplicate"):(i.isComplete=!0,i.isInitialized=!0)}else t[e]=new d(e,!0);f("markLoaded dummyfile: "+t[e].name)}},logWhatsBlocked:function(){for(var e in t)!1!==t.hasOwnProperty(e)&&u(t[e])}}}();__ez.evt.add=function(e,t,n){e.addEventListener?e.addEventListener(t,n,!1):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n()},__ez.evt.remove=function(e,t,n){e.removeEventListener?e.removeEventListener(t,n,!1):e.detachEvent?e.detachEvent("on"+t,n):delete e["on"+t]};__ez.script.add=function(e){var t=document.createElement("script");t.src=e,t.async=!0,t.type="text/javascript",document.getElementsByTagName("head")[0].appendChild(t)};__ez.dot=__ez.dot||{};__ez.queue.addFileOnce('/detroitchicago/boise.js', '/detroitchicago/boise.js?gcb=195-5&cb=5', true, [], true, false, true, false);__ez.queue.addFileOnce('/parsonsmaize/abilene.js', '/parsonsmaize/abilene.js?gcb=195-5&cb=e2f76748f4', true, [], true, false, true, false);__ez.queue.addFileOnce('/parsonsmaize/mulvane.js', '/parsonsmaize/mulvane.js?gcb=195-5&cb=e75e48eec0', true, ['/parsonsmaize/abilene.js'], true, false, true, false);__ez.queue.addFileOnce('/detroitchicago/birmingham.js', '/detroitchicago/birmingham.js?gcb=195-5&cb=c4ed651ab8', true, ['/parsonsmaize/abilene.js'], true, false, true, false);</script>
+<script data-ezscrex="false" type="text/javascript" data-cfasync="false">window._ezaq = Object.assign({"ad_cache_level":1,"adpicker_placement_cnt":0,"ai_placeholder_cache_level":1,"ai_placeholder_placement_cnt":-1,"domain":"plantuml.com","domain_id":173770,"ezcache_level":2,"ezcache_skip_code":0,"has_bad_image":0,"has_bad_words":0,"is_sitespeed":0,"lt_cache_level":0,"response_size":121934,"response_size_orig":110994,"response_time_orig":2,"template_id":134,"url":"https://plantuml.com/zh/activity-diagram-beta","word_count":2815,"worst_bad_word_level":0}, typeof window._ezaq !== "undefined" ? window._ezaq : {});__ez.queue.markLoaded('ezaqBaseReady');if(window._ezaq&&window._ezaq.page_view_id==="61b94ff7-b6fe-40c6-9e3f-a4f2d0533641"){window.__ezPvSig=window.__ezPvSig||"tkujm8.e7b791ad8611ae5f5d6864d86806c1ef";}</script>
+<link rel='preload' as='script' href='//securepubads.g.doubleclick.net/tag/js/gpt.js'>
+<link rel='preload' as='script' href='//go.ezodn.com/hb/dall.js?cb=195-5-200'>
+<script>(function(){var l=document.createElement('link');l.rel='preload';l.as='script';l.href=(('noModule' in document.createElement('script'))?'//www.ezojs.com/ezoic/ezorca.es6.min.js':'//www.ezojs.com/ezoic/ezorca.min.js');document.head.appendChild(l);})();</script>
+<link rel='preload' as='script' href='/edmontonalberta/calgary.js?cb=938a09ce43'>
+<script type="text/javascript">(function(){function storageAvailable(type){var storage;try{storage=window[type];var x='__storage_test__';storage.setItem(x,x);storage.removeItem(x);return true;}
+catch(e){return e instanceof DOMException&&(e.code===22||e.code===1014||e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED')&&(storage&&storage.length!==0);}}
+function remove_ama_config(){if(storageAvailable('localStorage')){localStorage.removeItem("google_ama_config");}}
+remove_ama_config()})()</script>
+<script type="text/javascript">var ezoicTestActive = true</script>
+<script type='text/javascript' data-ezscrex='false' data-cfasync='false'>
+window.ezAnalyticsStatic = true;
+
+function analyticsAddScript(script) {
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+}
+function getCookiesWithPrefix() {
+    var allCookies = document.cookie.split(';');
+    var cookiesWithPrefix = {};
+
+    for (var i = 0; i < allCookies.length; i++) {
+        var cookie = allCookies[i].trim();
+
+        for (var j = 0; j < arguments.length; j++) {
+            var prefix = arguments[j];
+            if (cookie.indexOf(prefix) === 0) {
+                var cookieParts = cookie.split('=');
+                var cookieName = cookieParts[0];
+                var cookieValue = cookieParts.slice(1).join('=');
+                cookiesWithPrefix[cookieName] = decodeURIComponent(cookieValue);
+                break; // Once matched, no need to check other prefixes
+            }
+        }
+    }
+
+    return cookiesWithPrefix;
+}
+function getOrMintFss() {
+	var UINT32_MAX = 4294967295;
+	var UINT32_DECIMAL = /^\d{1,10}$/;
+	function ensureEz() {
+		if (!window.__ez || typeof window.__ez !== 'object') {
+			window.__ez = {};
+		}
+		return window.__ez;
+	}
+	function isValidUint32String(value) {
+		if (typeof value !== 'string' || !value) {
+			return false;
+		}
+		if (!UINT32_DECIMAL.test(value)) {
+			return false;
+		}
+		return Number(value) <= UINT32_MAX;
+	}
+	if (window.__ez && isValidUint32String(window.__ez.fss)) {
+		return window.__ez.fss;
+	}
+	var cookieStr = '';
+	try {
+		cookieStr = document.cookie;
+	} catch (err) {
+		cookieStr = '';
+	}
+	if (cookieStr && typeof cookieStr === 'string') {
+		var parts = cookieStr.split(';');
+		for (var i = 0; i < parts.length; i++) {
+			var part = parts[i];
+			var eq = part.indexOf('=');
+			if (eq === -1) {
+				continue;
+			}
+			var name = part.slice(0, eq).trim();
+			if (name.indexOf('ezfs_') !== 0) {
+				continue;
+			}
+			var raw = part.slice(eq + 1).trim();
+			var value;
+			try {
+				value = decodeURIComponent(raw);
+			} catch (err) {
+				continue;
+			}
+			if (!isValidUint32String(value)) {
+				continue;
+			}
+			ensureEz().fss = value;
+			return value;
+		}
+	}
+	var seed;
+	if (
+		typeof crypto !== 'undefined' &&
+		typeof crypto.getRandomValues === 'function' &&
+		typeof Uint32Array === 'function'
+	) {
+		seed = crypto.getRandomValues(new Uint32Array(1))[0];
+	} else {
+		seed = Math.floor(Math.random() * 4294967296);
+	}
+	var minted = String(seed >>> 0);
+	ensureEz().fss = minted;
+	return minted;
+}
+function productAnalytics() {
+	var d = {"pr":[6,3,1],"aop":{"14":0,"26":0,"4":134,"7":0},"omd5":"5bba6ad476f5b0be886ea9f4ee0879f7","fs_seed":"1350610062"};
+	d.u = _ezaq.url;
+	d.p = _ezaq.page_view_id;
+	d.v = _ezaq.visit_uuid;
+	d.ab = _ezaq.ab_test_id;
+	d.e = JSON.stringify(_ezaq);
+	d.ref = document.referrer;
+	d.dw = document.documentElement.clientWidth || window.innerWidth || 0;
+	d.dh = window.screen.height || 0;
+	d.vpw = window.innerWidth || document.documentElement.clientWidth || 0;
+	d.vph = window.innerHeight || document.documentElement.clientHeight || 0;
+	d.doch = Math.max((document.body && document.body.scrollHeight) || 0, (document.documentElement && document.documentElement.scrollHeight) || 0, (document.body && document.body.offsetHeight) || 0, (document.documentElement && document.documentElement.offsetHeight) || 0, (document.body && document.body.clientHeight) || 0, (document.documentElement && document.documentElement.clientHeight) || 0);
+	d.c = getCookiesWithPrefix('active_template', 'ez', 'lp_');
+	if(typeof ez_utmParams !== 'undefined') {
+		d.utm = ez_utmParams;
+	}
+	d.qs = window.location.search;
+	if (typeof d.fs_seed === 'string' && d.fs_seed && (!window.__ez || !window.__ez.fss)) {
+		if (!window.__ez || typeof window.__ez !== 'object') {
+			window.__ez = {};
+		}
+		window.__ez.fss = d.fs_seed;
+	}
+	d.fs_seed = getOrMintFss();
+
+	var dataText = JSON.stringify(d);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST','/ezais/analytics?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            analyticsAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            analyticsAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+__ez.queue.addFunc("productAnalytics", "productAnalytics", null, true, ['ezaqBaseReady'], false, false, false, true);
+</script><script type="text/javascript" data-ezscrex="false" data-cfasync="false" async="">
+// Mirror of getOrMintFss in analytics/analyticsstatic.go (canonical). Only used
+// when the analytics script is absent from the page; keep the contract in sync:
+// prefer window.__ez.fss, else the first valid ezfs_* cookie, else mint — and
+// store the result back into window.__ez.fss so whichever of the analytics and
+// applier scripts runs first establishes the pageview seed for the other.
+function ezApplierGetOrMintFss() {
+	function isValidUint32String(value) {
+		return typeof value === 'string' && !!value && /^\d{1,10}$/.test(value) && Number(value) <= 4294967295;
+	}
+	if (window.__ez && isValidUint32String(window.__ez.fss)) {
+		return window.__ez.fss;
+	}
+	var cookieStr = '';
+	try {
+		cookieStr = document.cookie;
+	} catch (err) {
+		cookieStr = '';
+	}
+	if (cookieStr && typeof cookieStr === 'string') {
+		var parts = cookieStr.split(';');
+		for (var i = 0; i < parts.length; i++) {
+			var part = parts[i];
+			var eq = part.indexOf('=');
+			if (eq === -1) {
+				continue;
+			}
+			if (part.slice(0, eq).trim().indexOf('ezfs_') !== 0) {
+				continue;
+			}
+			var value;
+			try {
+				value = decodeURIComponent(part.slice(eq + 1).trim());
+			} catch (err) {
+				continue;
+			}
+			if (!isValidUint32String(value)) {
+				continue;
+			}
+			if (!window.__ez || typeof window.__ez !== 'object') {
+				window.__ez = {};
+			}
+			window.__ez.fss = value;
+			return value;
+		}
+	}
+	var seed;
+	if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function' && typeof Uint32Array === 'function') {
+		seed = crypto.getRandomValues(new Uint32Array(1))[0];
+	} else {
+		seed = Math.floor(Math.random() * 4294967296);
+	}
+	var minted = String(seed >>> 0);
+	if (!window.__ez || typeof window.__ez !== 'object') {
+		window.__ez = {};
+	}
+	window.__ez.fss = minted;
+	return minted;
+}
+function productEzoicAds() {
+if(window.ezDisableAds === true) {
+	return;
+}
+window.google_reactive_ads_global_state = {
+                adCount: {},
+                floatingAdsStacking: { maxZIndexListeners: [], maxZIndexRestrictions: {}, nextRestrictionId: 0 },
+                messageValidationEnabled: false,
+                reactiveTypeDisabledByPublisher: {},
+                reactiveTypeEnabledInAsfe: {},
+                sideRailAvailableSpace: [],
+                sideRailOverlappableElements: [],
+                stateForType: {},
+                tagSpecificState: {},
+                wasPlaTagProcessed: true,
+                wasReactiveAdConfigReceived: { 1: true, 2: true, 8: true },
+                wasReactiveAdVisible: {},
+                wasReactiveTagRequestSent: true,
+                description: "Can't disable auto ads programmatically on the page, so here we are!"
+            };
+var d = {"ab":"","km":{},"pv":"","vu":"01a06d15-9f11-7442-bb78-f114d98c233e","r":{"r":[{"p":" ezoic_pub_ad_placeholder-678-top_of_page-300x250-678-nonexxxnonexxxxxxezmaxscaleval100 ","s":678,"h":250,"w":300,"r":true},{"p":" ezoic_pub_ad_placeholder-647-under_page_title-728x90-647-nonexxxnonexxxxxxezmaxscaleval100 ","s":647,"h":90,"w":728,"r":true},{"p":" ezoic_pub_ad_placeholder-100-bottom_floating-970x90-100-nonexxxnonexxxxxxezmaxscaleval100 ","s":100,"h":90,"w":970,"r":true}],"a":{"100":true,"12":true,"6":true,"647":true,"678":true,"679":true,"680":true,"681":true,"682":true,"683":true},"g":-1,"l":{"0":14,"1":3,"2":2,"3":1,"4":-1,"5":-1},"m":{"0":14,"1":3,"2":2,"3":1,"4":-1,"5":-1},"v":0,"ve":false,"hr":false,"sa":false},"cr":"","tid":134,"tn":"pub_site","url":"","wc":2815,"ff":1,"dhh":"","dw":0,"dh":0,"vpw":0,"vph":0,"doch":0};
+d.ab = _ezaq.ab_test_id;
+d.pv = _ezaq.page_view_id;
+d.vu = _ezaq.visit_uuid;
+d.url = window.location.href;
+d.dw = document.documentElement.clientWidth || window.innerWidth || 0;
+d.dh = window.screen.height || 0;
+d.vpw = window.innerWidth || document.documentElement.clientWidth || 0;
+d.vph = window.innerHeight || document.documentElement.clientHeight || 0;
+d.doch = Math.max((document.body && document.body.scrollHeight) || 0, (document.documentElement && document.documentElement.scrollHeight) || 0, (document.body && document.body.offsetHeight) || 0, (document.documentElement && document.documentElement.offsetHeight) || 0, (document.body && document.body.clientHeight) || 0, (document.documentElement && document.documentElement.clientHeight) || 0);
+// Prefer the analytics script's getOrMintFss when present so both POST paths
+// share one seed implementation; fall back to the mirror above otherwise.
+d.fs_seed = (typeof getOrMintFss === 'function') ? getOrMintFss() : ezApplierGetOrMintFss();
+var dynamicAddScript = function(script) {
+	if(window.ezFinishedStatic === true) {
+		console.error("attempted to load dynamic script again");
+		return;
+	}
+	var errorMessages = [];
+	function errorHandler(event) {
+	  var errorObj = event.error;
+	  if (errorObj && errorObj.stack && errorObj.stack.indexOf('dynamicAddScript') !== -1) {
+		var errorMessage = {
+		  Message: event.message,
+		  LineNo: event.lineno,
+		  ColumnNo: event.colno,
+		  Stack: errorObj.stack
+		};
+		errorMessages.push(errorMessage);
+	  }
+
+	  if (typeof window.onerror === 'function') {
+		window.onerror.apply(this, arguments);
+	  }
+	}
+ 	window.addEventListener('error', errorHandler);
+
+	var ezDynamic = document.createElement('script');
+	ezDynamic.type = 'text/javascript';
+	ezDynamic.innerHTML = script;
+	document.head.appendChild(ezDynamic);
+
+	window.removeEventListener('error', errorHandler);
+	if (window.ezFinishedStatic !== true || typeof window.ezstaticerrors !== 'undefined') {
+		d.Script = script;
+		d.ErrorMessages = JSON.stringify(errorMessages);
+		d.ErrorStaticMessages = window.ezstaticerrors || '';
+		var dataTxt = JSON.stringify(d);
+		if (dataTxt.length > 0) {
+			var logXHR = new XMLHttpRequest();
+			logXHR.open('POST','/ezais/log?cb=1', true);
+			logXHR.setRequestHeader('Content-Type','application/json');
+			logXHR.send(dataTxt);
+		}
+	}
+};
+function collectFP(cb) {
+	var lib = (typeof ce !== "undefined") ? ce : (typeof FingerprintJS !== "undefined" ? FingerprintJS : null);
+	if (!lib) { cb(); return; }
+	try {
+		lib.load().then(function(agent) { return agent.get(); }).then(function(res) {
+			try {
+				var c = res.components || {};
+				d.fp = {
+					pr: window.devicePixelRatio || 0,
+					hc: (c.hardwareConcurrency && c.hardwareConcurrency.value) ? c.hardwareConcurrency.value : (navigator.hardwareConcurrency || 0),
+					dm: navigator.deviceMemory || 0,
+					ch: c.canvas && c.canvas.value && c.canvas.value.text ? c.canvas.value.text : '',
+					wr: c.webGlBasics && c.webGlBasics.value ? (c.webGlBasics.value.rendererUnmasked || c.webGlBasics.value.renderer || '') : '',
+					wv: c.webGlBasics && c.webGlBasics.value ? (c.webGlBasics.value.vendorUnmasked || c.webGlBasics.value.vendor || '') : '',
+					af: c.audio && c.audio.value !== undefined ? String(c.audio.value) : '',
+					ft: c.fonts && c.fonts.value ? c.fonts.value.join(',') : ''
+				};
+			} catch(e) {}
+			cb();
+		}).catch(function() { cb(); });
+	} catch(e) { cb(); }
+}
+function persistAdDemoCookie() {
+	try {
+		var params = new URLSearchParams(window.location.search);
+		var cookieName = "ez_ad_demo_173770";
+		var state = {};
+		var current = document.cookie.match(new RegExp('(?:^|; )' + cookieName.replace(/([.$?*|{}()\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+		if (current && current[1]) {
+			current[1].split(',').forEach(function(part) {
+				var idx = part.indexOf('=');
+				if (idx > 0) {
+					state[part.slice(0, idx)] = part.slice(idx + 1);
+				}
+			});
+		}
+		var changed = false;
+		var maxAds = params.get('ez_ad_demo');
+		if (maxAds !== null && /^[0-9]+$/.test(maxAds)) {
+			state.m = maxAds;
+			state.q = '0';
+			state.s = '0';
+			state.i = '0';
+			changed = true;
+		}
+		var anchor = params.get('ez_ad_demo_anchor');
+		if (anchor === '0' || anchor === '1') {
+			state.a = anchor;
+			changed = true;
+		}
+		var outstream = params.get('ez_ad_demo_outstream');
+		if (outstream === '0' || outstream === '1') {
+			state.o = outstream;
+			changed = true;
+		}
+		var qubit = params.get('ez_ad_demo_qubit');
+		if (qubit === '0' || qubit === '1') {
+			state.q = qubit;
+			changed = true;
+		}
+		if (!changed) {
+			return;
+		}
+		var parts = [];
+		if (state.m !== undefined) { parts.push('m=' + state.m); }
+		if (state.a !== undefined) { parts.push('a=' + state.a); }
+		if (state.o !== undefined) { parts.push('o=' + state.o); }
+		if (state.s !== undefined) { parts.push('s=' + state.s); }
+		if (state.i !== undefined) { parts.push('i=' + state.i); }
+		if (state.q !== undefined) { parts.push('q=' + state.q); }
+		document.cookie = cookieName + '=' + parts.join(',') + '; path=/; max-age=86400; SameSite=Lax';
+	} catch(e) {}
+}
+persistAdDemoCookie();
+collectFP(function() {
+var dataText = JSON.stringify(d);
+if (dataText.length > 0) {
+	var startTime = Date.now() - __ez.stms;
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST','/ezais/dynamic?cb=1', true);
+	xhr.onload = function () {
+		if (xhr.status!=200) {
+            return;
+		}
+
+        if(document.readyState !== 'loading') {
+            dynamicAddScript(xhr.response);
+            return;
+        }
+
+        var eventFunc = function() {
+            if(document.readyState === 'loading') {
+                return;
+            }
+            document.removeEventListener('readystatechange', eventFunc, false);
+            dynamicAddScript(xhr.response);
+        };
+
+        document.addEventListener('readystatechange', eventFunc, false);
+	};
+	xhr.setRequestHeader('Content-Type','text/plain');
+	xhr.send(dataText);
+}
+});
+}
+
+function callDynamicAfterConsent() {
+	if (window.__tcfapi) {
+		window.__tcfapi("addEventListener", 2, function (tcdata, success) {
+			if (success) {
+				if(tcdata.gdprApplies == true) {
+					if(tcdata.eventStatus === "useractioncomplete" || tcdata.eventStatus === "tcloaded") {
+						__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+					}
+				} else {
+					__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+				}
+			}
+		});
+	} else {
+		__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+	}
+}
+
+
+if (window.__tcfapi) {
+	callDynamicAfterConsent();
+} else {
+	if (typeof window.ezCMPQueue !== "undefined") {
+		window.ezCMPQueue.push(callDynamicAfterConsent);
+	} else {
+		__ez.queue.addFunc("productEzoicAds", "productEzoicAds", null, true, ['ezaqReady'], false, false, false, true);
+	}
+}
+</script><base href="https://plantuml.com/zh/activity-diagram-beta"/>
+<meta name="flattr:id" content="1ew3x0"/>
+
+
+
+
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "url": "https://plantuml.com",
+  "name": "PlantUML",
+  "sameAs" : ["https://twitter.com/plantuml","https://en.wikipedia.org/wiki/PlantUML","https://www.wikidata.org/wiki/Q18346546"],
+  "logo": "https://cdn-0.plantuml.com/logo3.png",
+  "contactPoint": [{
+    "@type": "ContactPoint",
+    "email": "plantuml@gmail.com",
+    "url": "https://plantuml.com",
+    "contactType": "customer service"
+  }]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "https://plantuml.com",
+      "name": "Home"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "item": {
+      "@id": "https://plantuml.com/sitemap-language-specification",
+      "name": "Language specification"
+    }
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "item": {
+      "@id": "https://plantuml.com/activity-diagram-beta",
+      "name": "Activity Diagram (beta)"
+  }
+  }]
+}
+</script>
+<link rel="canonical" href="https://plantuml.com/zh/activity-diagram-beta"/>
+<link rel="alternate" hreflang="x-default" href="https://plantuml.com/activity-diagram-beta"/>
+<link rel="alternate" hreflang="de" href="https://plantuml.com/de/activity-diagram-beta"/>
+<link rel="alternate" hreflang="en" href="https://plantuml.com/activity-diagram-beta"/>
+<link rel="alternate" hreflang="es" href="https://plantuml.com/es/activity-diagram-beta"/>
+<link rel="alternate" hreflang="fr" href="https://plantuml.com/fr/activity-diagram-beta"/>
+<link rel="alternate" hreflang="ja" href="https://plantuml.com/ja/activity-diagram-beta"/>
+<link rel="alternate" hreflang="ko" href="https://plantuml.com/ko/activity-diagram-beta"/>
+<link rel="alternate" hreflang="zh" href="https://plantuml.com/zh/activity-diagram-beta"/>
+
+<link rel="shortcut icon" href="/favicon.ico"/>
+
+<link rel="preload" as="image" href="/svgrepo-house.svg"/>
+<link rel="preload" as="image" href="/svgrepo-text-news.svg"/>
+<link rel="preload" as="image" href="/svgrepo-rocket-3-start.svg"/>
+<link rel="preload" as="image" href="/svgrepo-server.svg"/>
+<link rel="preload" as="image" href="/svgrepo-play.svg"/>
+<link rel="preload" as="image" href="/svgrepo-forum.svg"/>
+<link rel="preload" as="image" href="/svgrepo-add-to-online-cart.svg"/>
+<link rel="preload" as="image" href="/svgrepo-forum-message.svg"/>
+<link rel="preload" as="image" href="/svgrepo-palette-fill.svg"/>
+<link rel="preload" as="image" href="/svgrepo-cpu.svg"/>
+<link rel="preload" as="image" href="/svgrepo-books-library.svg"/>
+<link rel="preload" as="image" href="/svgrepo-signpost-fill.svg"/>
+<link rel="preload" as="image" href="/svgrepo-library.svg"/>
+
+<link rel="preload" as="image" href="/flags22.png"/>
+
+<link rel="preload" as="image" href="/svgrepo-uxwing-light-mode-toggle.svg"/>
+
+
+<!-- link rel="preload" as="image" href="https://img.shields.io/liberapay/patrons/plantuml.svg?logo=liberapay" -->
+
+
+<title>新的活动图测试语法和功能</title>
+<meta name="description" content="新的语法是更一致的。您可以启动，停止，标签，条件，while循环，重复循环，票据，分区。改变字体和颜色也是可能的。"/>
+
+<meta property="og:type" content="article"/>
+<!-- volt:dokuwiki titleog: -->
+<!-- volt:dokuwiki descriptionog: -->
+
+<meta property="og:url" content="https://plantuml.com/zh/activity-diagram-beta"/>
+<meta property="og:site_name" content="PlantUML.com"/>
+
+<!-- meta property="og:image" content="https://plantuml.com/og-activity-diagram-beta" -->
+<meta name="twitter:image" content="https://plantuml.com/og-activity-diagram-beta"/>
+<meta property="og:locale" content="zh"/>
+
+<meta name="twitter:card" content="summary"/>
+<!-- volt:dokuwiki titletwitter: -->
+<!-- volt:dokuwiki descriptiontwitter: -->
+<meta name="twitter:site" content="@PlantUML"/>
+<meta name="twitter:creator" content="@PlantUML"/>
+
+
+
+
+
+
+
+<!-- https://www.w3schools.com/colors/colors_picker.asp -->
+<!-- filter css https://codepen.io/sosuke/pen/Pjoqqp -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.scale {
+}
+
+li {
+	margin: 2px;
+}
+#external li {
+	margin: 13px;
+}
+
+
+.pezoic {
+margin:0;
+padding:0;
+max-width: calc(100vw - 420px);
+overflow-x: hidden;
+}
+@media screen and (max-width: 1190px) {
+.pezoic {
+max-width: calc(100vw - 250px);
+}
+}
+
+
+.coptable {
+	max-width: 90%;
+}
+
+.mytab {
+	display:inline-block;
+	border-radius: 3px;
+	border: 1px solid #e1e4e8;
+}
+
+.mytab:hover {
+	border: 1px dashed #0366d6;
+	cursor: pointer;
+	color: #0366d6;
+	background: #f6f8fa;
+}
+
+.cop {
+	margin: 25px 10px 0 10px;
+}
+.cop:hover {
+	cursor: pointer; 
+	filter: invert(30%) sepia(75%) saturate(4001%) hue-rotate(201deg) brightness(88%) contrast(98%);
+}
+.cop2 {
+	margin: 25px 10px 0 10px;
+}
+.cop2:hover {
+	cursor: pointer; 
+}
+.msg {
+	position: absolute;
+	color:#339966;
+	background-color: #FFF;
+	margin-top: 55px;
+	display:none;
+	border-radius: 3px;
+	border: 1px solid #4dff00;
+}
+
+.mycell0 {
+	float: left;
+	vertical-align : top;
+	padding:10px;
+}
+.mycell0 code:hover {
+	cursor: default; 
+	color: #000;
+}
+
+.mycell {
+	float: right;
+	vertical-align : top;
+	padding:10px;
+	max-width: 55vw;
+	overflow-x: auto;
+}
+
+.mycell0 pre {
+	max-width: 55vw;
+	overflow-x: auto;
+}
+
+.cod {
+	background: #edeff3;
+	padding: 2px 5px;
+	border-radius: 3px;
+}
+.colo {
+	display: inline-block;
+	background: #edeff3;
+	padding: 7px 12px;
+	border-radius: 3px;
+}
+.tag,.tagg,.tago,.tagr {
+	text-rendering: optimizeLegibility;
+	display: inline-block;
+	padding: 3px 5px 2px 4px;
+	text-decoration: none;
+	white-space: nowrap;
+	border: 1px solid #999;
+	text-transform: uppercase;
+	text-align: center;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 90%;
+}
+.tag {
+	background-color: #EEEEEE;
+}
+.tagg {
+	background-color: #98FB98;
+}
+.tago {
+	background-color: #fafa00;
+}
+.tagr {
+	background-color: #FF4500;
+}
+
+
+a {
+    text-decoration:none;
+    color:#0366d6;
+}
+a:hover {
+    text-decoration:underline;
+}
+
+.menu1 {
+    display: flex;
+    flex-direction: row;
+    border: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+	white-space: nowrap;
+}
+.menu1 a {
+	white-space: nowrap;
+    padding: 0 8px;
+    text-decoration: none;
+    color:#5e6d7d;
+    line-height: 30px;
+    height: 30px;
+}
+.menu1 a:hover{
+    background: #fefefe;
+    color:#0366d6;
+}
+
+.menuside2 {
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+	justify-content: center;
+}
+
+.menuside2 img {
+vertical-align: top;
+padding: 0 8px;
+filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+}
+
+.menuside2 a {
+    padding: 6px 0;
+    text-decoration: none;
+    color:#5e6d7d;
+}
+
+.menuside2 a:hover {
+	color:#0366d6;
+	background: #fefefe;
+}
+
+.menuside2 a:hover img {
+filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+}
+
+.breadcrumb {
+    z-index:1;
+	font-size:14px;
+	text-align: center;
+	display: inline-block;
+	overflow: hidden;
+	border-radius: 5px;
+}
+
+
+.breadcrumb a {
+	text-decoration: none;
+	outline: none;
+	display: block;
+	float: left;
+	font-size: 12px;
+	line-height: 24px;
+	color: #373f49;
+	padding: 0 10px 0 35px;
+	background: #f0f1f1;
+	background: linear-gradient(#f0f1f1, #c6d2d2);
+	position: relative;
+}
+.breadcrumb a:first-child {
+	padding-left: 21px;
+	border-radius: 5px 0 0 5px; /*to match with the parent's radius*/
+}
+.breadcrumb a:first-child:before {
+	left: 14px;
+}
+.breadcrumb a:last-child {
+	visibility: hidden;
+}
+
+.breadcrumb a.active, .breadcrumb a:hover{
+	color: #0366d6;
+	background: #c6d2d2;
+	background: linear-gradient(#e3e4e4, #b8c7c7);
+}
+.breadcrumb a.active:after, .breadcrumb a:hover:after {
+	background: #c6d2d2;
+	background: linear-gradient(135deg, #e3e4e4, #b8c7c7);
+}
+
+.breadcrumb a:after {
+	content: '';
+	position: absolute;
+	top: 0; 
+	right: -12px; /*half of square's length*/
+	/*same dimension as the line-height of .breadcrumb a */
+	width: 24px; 
+	height: 24px;
+	transform: scale(0.707) rotate(45deg);
+	/*we need to prevent the arrows from getting buried under the next link*/
+	z-index: 1;
+	/*background same as links but the gradient will be rotated to compensate with the transform applied*/
+	background: #f0f1f1;
+	background: linear-gradient(135deg, #f0f1f1, #c6d2d2);
+	/*stylish arrow design using box shadow*/
+	box-shadow: 
+		2px -2px 0 2px rgba(0,0,0,0.1), 
+		3px -3px 0 2px rgba(255,255,255,0.1);
+	/*
+		5px - for rounded arrows and 
+		50px - to prevent hover glitches on the border created using shadows*/
+	border-radius: 0 5px 0 50px;
+}
+
+/*we dont need an arrow after the last link*/
+.breadcrumb a:last-child:after {
+	content: none;
+	visibility: hidden;
+}
+
+
+.lga,.lga a,.lgi,.lgi a {
+	font-size:13px;
+	text-align: center;
+    color: #fff;
+    padding: 0 5px;
+    margin: 0;
+}
+.lga,.lga a {
+    background-color: #008;
+}
+.lgi,.lgi a {
+    background-color: #888;
+}
+.lga:hover,.lga:hover a {
+    text-decoration: none;
+    color: #BBB;
+}
+.lgi:hover,.lgi:hover a {
+    text-decoration: none;
+    color: #CCC;
+}
+
+</style>
+
+<style>
+.backtop {
+	margin:0px 10px;
+}
+.backtop:hover {
+	cursor: pointer;
+	filter: invert(30%) sepia(75%) saturate(4001%) hue-rotate(201deg) brightness(88%) contrast(98%);
+}
+</style>
+
+
+
+
+<style>
+/* Dropdown Button */
+.dropbtn {
+  padding: 0px;
+  border: none;
+  background: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content img {
+vertical-align:middle;
+margin: 0 8px 0 1px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  font-size: small;
+  font-weight: normal;
+  color: black;
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd;
+  color: #0366d6;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
+<style>
+
+
+body {
+	font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 14px;
+	line-height: 1.5;
+	margin: auto;
+	overflow-x: hidden;
+    background: #fefefe;
+}
+
+h1.chap { font-size: 1.8em; }
+h2.chap { font-size: 1.35em; }
+h3, h3.chap { font-size: 1.15em; }
+h4 { font-size: 1.05em; }
+table { font-size: inherit; }
+
+</style>
+
+
+  <style>
+    .dyn {
+      display: flex;
+      flex-direction: row;
+      gap: 3em;
+      align-items: stretch;
+      flex-wrap: wrap;
+      margin: 10px 0;
+    }
+    .dyn textarea {
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      min-width: 30ch;
+      max-width: 90ch;
+      box-sizing: border-box;
+      resize: both;
+      white-space: pre;
+      overflow: auto;
+      field-sizing: content;
+      align-self: stretch;
+      border: 1px solid #888;
+      border-radius: 3px;
+      margin: 0;
+      padding: 4px 8px;
+      background: #fefefe;
+    }
+    .dyn > div {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+    }
+    .dyn > div > div {
+      margin: 0;
+      padding: 0;
+    }
+    .dyn img {
+      margin: 0;
+      padding: 0;
+    }
+    .scale {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #dde;
+      border-radius: 4px;
+    }
+  </style>
+
+
+
+
+<script>window.pushMST_config={"vapidPK":"BBodn2vLFoDO5AdCfmOOzNmcUsn52kTA6JNZNYVFymzEdWHonz_bkUcsaTkPXHvNGRkRUSAxMbup-H0l2sb1h_Q","enableOverlay":true,"swPath":"/sw.js","i18n":{}};
+  var pushmasterTag = document.createElement('script');
+  pushmasterTag.src = "https://cdn.pushmaster-cdn.xyz/scripts/publishers/629f5e297baecc00098a271b/SDK.js";
+  pushmasterTag.setAttribute('defer','');
+
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(pushmasterTag, firstScriptTag);
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-TKZNNQT9CZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TKZNNQT9CZ');
+</script>
+
+
+
+<script>
+var llg = "zh";
+var az=0;
+var amdark=0;
+function ljs(n) {
+	if (az) return false;
+    var sc = document.createElement("script");
+    sc.type = "text/javascript";
+    sc.src = "/btn-"+n+".js";
+	document.body.innerHTML = "<i style='position:absolute;top:30%;width:100%;'><center>Loading in progress...";
+    document.body.appendChild(sc);
+}
+function ctc(id) {
+document.getElementById('img'+id).classList.remove('cop'); document.getElementById('img'+id).classList.add('cop2');
+document.getElementById('pre'+id).style.backgroundColor = '#4dff00';
+document.getElementById('msg'+id).style.display = 'inline';
+
+setTimeout(function() { document.getElementById('img'+id).classList.remove('cop2'); document.getElementById('img'+id).classList.add('cop'); document.getElementById('pre'+id).style.backgroundColor = ''; document.getElementById('msg'+id).style.display = 'none';}, 800);      
+
+
+	text = document.getElementById('pre'+id).innerText;
+    if (window.clipboardData && window.clipboardData.setData)
+        return window.clipboardData.setData("Text", text);
+    else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var ta = document.createElement("textarea");
+        ta.textContent = text;
+        ta.style.position = "fixed";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            return document.execCommand("copy");
+        }
+        catch (ex) {
+            return false;
+        }
+        finally {
+            document.body.removeChild(ta);
+        }
+    }
+}
+</script>
+
+
+
+<script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+<script src="https://cmp.gatekeeperconsent.com/min.js" data-cfasync="false"></script>
+<script src="https://the.gatekeeperconsent.com/cmp.min.js" data-cfasync="false"></script>
+<script type='text/javascript'>
+var ezoTemplate = 'pub_site';
+var ezouid = '1';
+var ezoFormfactor = '1';
+</script><script data-ezscrex="false" type='text/javascript'>
+var soc_app_id = '0';
+var did = 173770;
+var ezdomain = 'plantuml.com';
+var ezoicSearchable = 1;
+</script>
+<script type='text/javascript' style='display:none;' async>window.__ezOptableApproved=true;if (typeof window.__ez !== 'undefined' && window.__ez?.queue?.addFileOnce) {window.__ez.queue.addFileOnce('identity', ('noModule' in document.createElement('script'))?'https://go.ezodn.com/detroitchicago/indy.es6.js?cb=7&gcb=0':'https://go.ezodn.com/detroitchicago/indy.js?cb=165&gcb=0', true, [], true, false, false, true);} </script>
+<script>window.__ezSocialLoginConfig = {"providers":{"google":{"enabled":true,"clientId":"626901221629-15ss1s412okbv1qg834f6e3h8chm6ubk.apps.googleusercontent.com"},"facebook":{"enabled":false},"apple":{"enabled":false}},"routes":{"facebookStart":"https://identity.ezoic.com/social-login/facebook/start","facebookCallback":"https://identity.ezoic.com/social-login/facebook/callback","facebookResult":"https://identity.ezoic.com/social-login/facebook/result","appleStart":"https://identity.ezoic.com/social-login/apple/start","appleCallback":"https://identity.ezoic.com/social-login/apple/callback","appleResult":"https://identity.ezoic.com/social-login/apple/result"},"domainId":173770,"copy":{"titleText":"","bodyHtml":""},"newsletter":{"enabled":false,"label":""}};window.__ezOneTapClientId = "626901221629-15ss1s412okbv1qg834f6e3h8chm6ubk.apps.googleusercontent.com";</script></head>
+
+<body>
+    <style>
+body, .container, #A1, #B3, #C5, #C6, #C7, #D7, #D8 {
+    margin: 0;
+    padding: 0;
+}
+        body {
+            overflow-y: scroll;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto auto;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+        }
+
+        #A1 {
+            grid-column: 1;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            padding: 0 10px;
+            overflow: hidden;
+            background: #edeff3;
+            color: white;
+        }
+
+        #A1::after {
+            content: "";
+            position: absolute;
+            top: 30px;
+            right: 0;
+            width: 1px;
+            height: calc(100vh - 30px);
+            background: #d4d8de;
+        }
+
+        #B3 {
+            grid-column: 2 / 6;
+            grid-row: 1;
+            position: sticky;
+            top: 0;
+            height: 30px;
+            padding: 0;
+            z-index: 10;
+            overflow: hidden;
+            background: #edeff3;
+            border-bottom: 1px solid #d4d8de;
+        }
+
+        #D7 {
+            grid-column: 2;
+            grid-row: 2;
+            margin: 0;
+            padding: 0;
+            padding-left: 30px;
+            line-height: 1.6;
+        }
+
+        #D8 {
+            grid-column: 2;
+            grid-row: 3;
+            position: sticky;
+            bottom: 0;
+            z-index: 5;
+            background: #fefefe;
+        }
+
+        #C5 {
+            grid-column: 3;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 40px;
+            align-self: start;
+            height: calc(98vh - 60px);
+            overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+        }
+        
+        #C6 {
+            grid-column: 4;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 40px;
+            align-self: start;
+            height: calc(98vh - 60px);
+            max-width: 200px;
+            overflow: hidden;
+            margin: 0 10px;
+            padding: 8px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+        }
+        
+        #C7 {
+            grid-column: 5;
+            grid-row: 1 / -1;
+            position: sticky;
+            top: 40px;
+            align-self: start;
+            height: calc(98vh - 60px);
+            margin: 0 20px 0 0;
+            overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+        }
+        
+ #toc {
+ z-index:15;
+ overflow-x: hidden;
+ overflow-y: auto;
+ background: #f6f8fa;
+ border-width: 2px;
+ border-style: groove;
+ border-radius: 3px;
+ border-color: #e1e4e8;
+ margin: 0 5px;
+ padding: 0;
+ max-height: 100%;
+}
+
+#toc ul {
+margin: 0;
+list-style-type: none;
+padding: 0;
+}
+
+#toc li {
+    padding:0 10px;
+    margin: 0;
+}
+
+#toc li a {
+    padding:5px 0;
+display: inline-block;
+text-decoration:none;
+width:100%;
+color: #5e6d7d;
+}
+
+#toc li a:hover {
+color: #0366d6;
+}
+
+#toc li:hover {
+background: #fefefe;
+}
+
+        #magic {
+            position: absolute;
+            top: 0;
+            right: 50px;
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+            background: #edeff3;
+            z-index: 14;
+        }
+
+        #magic:hover {
+            width: calc(100% - 50px);
+        }
+
+        #magic .menu1 {
+            position: absolute;
+            top: 0;
+            right: 30px;
+            height: 30px;
+            padding-left: 10px;
+            background: #edeff3;
+            border-left: 1px solid #d4d8de;
+            border-bottom: 1px solid #d4d8de;
+        }
+
+        #magic > img {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+        }
+
+        #magic:hover > img {
+            filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+        }
+
+        #magic2 {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50px;
+            height: 30px;
+            overflow: hidden;
+            background: #edeff3;
+            z-index: 16;
+        }
+
+        #magic2 img {
+            margin: 5px 0 0 5px;
+filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+        }
+
+        #magic2:hover img {
+filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+        }
+
+        .menu1-tail {
+            flex-grow: 1;
+            flex-shrink: 0;
+            height: 30px;
+            position: relative;
+            z-index: 15;
+            background: #edeff3;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            grid-auto-rows: auto;
+            gap: 5px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .merged {
+            grid-column: 1 / -1;
+        }
+        
+        .ezoic-wrap {
+            display: block;
+            overflow: hidden;
+        }
+
+#C6 {
+    display: none;
+}
+
+@media (min-width: 1401px) {
+    #C6:has(#toc li) {
+        display: flex;
+    }
+}
+
+@media (max-width: 1100px) {
+	.ezoic-wrap, #C5, #C7 {
+		display: none;
+	}
+}
+
+@media (max-width: 1200px) {
+	.merged {
+		display: none;
+	}
+}
+
+        
+    </style>
+
+<div class="container">
+
+
+<aside id="C5">
+<!-- Ezoic - side3 - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-681"></span>
+<!-- End Ezoic - side3 - top_of_page -->
+</aside>
+
+<aside id="C7">
+<!-- Ezoic - side4 - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-682"></span>
+<!-- End Ezoic - side4 - top_of_page -->
+</aside>
+
+<footer id="D8">
+
+<div style="display: flex; justify-content: center; min-height: 100px;">
+<p>
+</p></div>
+
+</footer>
+
+    <aside id="A1">
+        <div class="grid">
+            <div class="merged">
+<!-- Ezoic - alpha-bloc - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-678"></span><span data-ez-ph-id="678" style="max-width:100% !important;line-height:0px;box-sizing:content-box;margin-right:0px !important;display:inline-block;min-width:300px;padding:0;float:none !important;margin-top:0px !important;margin-bottom:0px !important;margin-left:0px !important;min-height:250px;"></span>
+<!-- End Ezoic - alpha-bloc - top_of_page -->
+            </div>
+            
+            <div>
+<!-- Ezoic - side1 - top_of_page -->
+<div class="ezoic-wrap">
+  <span id="ezoic-pub-ad-placeholder-679"></span>
+</div>
+<!-- End Ezoic - side1 - top_of_page -->
+            </div>
+            
+            <div>
+
+<!--menu 10-->
+
+<!-- https://stackoverflow.com/questions/22252472/how-to-change-the-color-of-an-svg-element -->
+<!-- https://codepen.io/sosuke/pen/Pjoqqp -->
+
+
+<div class="menuside2">
+<a id="mitem10" href="index"><img src="/svgrepo-house.svg" width="16" height="16"/>主页</a>
+<a id="mitem20" href="news"><img src="/svgrepo-text-news.svg" width="16" height="16"/>新鲜</a>
+<a id="mitem30" href="starting"><img src="/svgrepo-rocket-3-start.svg" width="16" height="16"/>入门指南</a>
+<a href="https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000"><img src="/svgrepo-server.svg" width="16" height="16"/>Online Server</a>
+<a id="mitem40" href="running"><img src="/svgrepo-play.svg" width="16" height="16"/>使用</a>
+<a id="mitem50" href="faq"><img src="/svgrepo-forum.svg" width="16" height="16"/>常见问题</a>
+<a id="mitem60" href="download"><img src="/svgrepo-add-to-online-cart.svg" width="16" height="16"/>下载</a>
+<a id="mitem70" href="https://forum.plantuml.net"><img src="/svgrepo-forum-message.svg" width="16" height="16"/>论坛 </a>
+<a id="mitem80" href="https://the-lum.github.io/puml-themes-gallery/themes/index.html"><img src="/svgrepo-palette-fill.svg" width="16" height="16"/>Theme</a>
+<a id="mitem90" href="preprocessing"><img src="/svgrepo-cpu.svg" width="16" height="16"/>预处理</a>
+<a id="mitem100" href="stdlib"><img src="/svgrepo-books-library.svg" width="16" height="16"/>标准库</a>
+<a href="guide"><img src="/svgrepo-library.svg" width="16" height="16"/>用户指南(PDF)</a>
+<a href="https://crashedmind.github.io/PlantUMLHitchhikersGuide"><img src="/svgrepo-signpost-fill.svg" width="16" height="16"/>Hitchhiker&#39;s Guide</a>
+</div>
+
+            </div>
+            
+            <div>
+<!-- Ezoic - side2 - top_of_page -->
+<div class="ezoic-wrap">
+<span id="ezoic-pub-ad-placeholder-680"></span>
+</div>
+<!-- End Ezoic - side2 - top_of_page -->
+            </div>
+
+
+            <div class="merged">
+<!-- Ezoic - alpha-bloc2 - top_of_page -->
+<span id="ezoic-pub-ad-placeholder-683"></span>
+<!-- End Ezoic - alpha-bloc2 - top_of_page -->
+            </div>
+
+            
+        </div><!-- grid -->
+    </aside>
+
+    <header id="B3">
+<div class="menu1">
+<a id="titem10" href="sequence-diagram">时序图</a>
+<a id="titem20" href="use-case-diagram">用例图</a>
+<a id="titem30" href="class-diagram">类图</a>
+<a id="titem40" href="activity-diagram-beta">活动图</a>
+<a id="titem50" href="component-diagram">组件图</a>
+<a id="titem60" href="state-diagram">状态图</a>
+<a id="titem70" href="object-diagram">对象图</a>
+<a id="titem80" href="deployment-diagram">部署图</a>
+<a id="titem90" href="timing-diagram">定时图</a>
+
+<a id="titem99" href="regex">Regex</a>
+<a id="titem100" href="nwdiag">Network</a>
+<a id="titem110" href="salt">Wireframe</a>
+<a id="titem120" href="archimate-diagram">Archimate</a>
+<a id="titem130" href="gantt-diagram">Gantt</a>
+<a id="titem140" href="mindmap-diagram">MindMap</a>
+<a id="titem150" href="wbs-diagram">WBS</a>
+<a id="titem151" href="ebnf">EBNF</a>
+<a id="titem160" href="json">JSON</a>
+<a id="titem170" href="yaml">YAML</a>
+
+<div class="menu1-tail"></div>
+</div>
+        <div id="magic">
+<div class="menu1">
+<a id="titem10" href="sequence-diagram">时序图</a>
+<a id="titem20" href="use-case-diagram">用例图</a>
+<a id="titem30" href="class-diagram">类图</a>
+<a id="titem40" href="activity-diagram-beta">活动图</a>
+<a id="titem50" href="component-diagram">组件图</a>
+<a id="titem60" href="state-diagram">状态图</a>
+<a id="titem70" href="object-diagram">对象图</a>
+<a id="titem80" href="deployment-diagram">部署图</a>
+<a id="titem90" href="timing-diagram">定时图</a>
+
+<a id="titem99" href="regex">Regex</a>
+<a id="titem100" href="nwdiag">Network</a>
+<a id="titem110" href="salt">Wireframe</a>
+<a id="titem120" href="archimate-diagram">Archimate</a>
+<a id="titem130" href="gantt-diagram">Gantt</a>
+<a id="titem140" href="mindmap-diagram">MindMap</a>
+<a id="titem150" href="wbs-diagram">WBS</a>
+<a id="titem151" href="ebnf">EBNF</a>
+<a id="titem160" href="json">JSON</a>
+<a id="titem170" href="yaml">YAML</a>
+
+<div class="menu1-tail"></div>
+</div>
+            <img src="/svgrepo-left.svg" alt="" style="width:30px;height:30px"/>
+        </div><!-- magic -->
+        <div id="magic2">
+<a href="/zh-dark/activity-diagram-beta">
+<img src="/svgrepo-uxwing-light-mode-toggle.svg" width="40" height="20"/>
+</a>
+        </div><!-- magic2 -->
+    </header>
+
+    <main id="D7">
+
+<style>
+    #haut1 {
+        margin: 15px 0 10px;
+        padding: 0;
+        min-height: 50px;
+    }
+
+    #donate {
+        padding-top: 10px;
+        min-height: 30px;
+    }
+</style>
+
+<div id="haut1">
+
+<!-- c --><div style="float:left;">
+<!-- a simple div with some links -->
+<div class="breadcrumb">
+<a href="sitemap">PlantUML</a>
+<a href="sitemap-language-specification">Language specification</a>
+<a href="activity-diagram-beta">Activity Diagram (beta)</a>
+<a href="#"></a>
+</div>
+
+
+    <div id="donate">
+
+ 
+
+<a href="https://github.com/sponsors/plantuml/" style="text-decoration: none;">
+<img src="https://img.shields.io/github/sponsors/plantuml?logo=github"/>
+</a>
+
+ 
+
+<a href="https://www.patreon.com/bePatron?patAmt=1&amp;u=527450&amp;rid=152970" style="text-decoration: none;">
+<img src="https://img.shields.io/badge/patreon-122-chocolate?logo=patreon"/>
+</a>
+
+ 
+
+<a href="https://liberapay.com/plantuml/donate" style="text-decoration: none;">
+<img src="https://img.shields.io/liberapay/patrons/plantuml?color=gold&amp;logo=liberapay&amp;label=liberapay"/>
+</a>
+
+ 
+
+<a href="https://plantuml.com/en/paypal" style="text-decoration: none;">
+<img src="https://img.shields.io/badge/paypal-297-skyblue?logo=paypal&amp;logoColor=red"/>
+</a>
+
+<!--
+ 
+
+<a href="https://github.com/sponsors/plantuml" style="text-decoration: none;">
+<img src="https://img.shields.io/github/sponsors/plantuml?label=github">
+</a>
+
+-->
+    </div><!-- donate -->
+</div><!-- c -->
+
+<!-- e --><div style="float:right; margin:3px 0;">
+
+<!-- https://github.com/joielechong/iso-country-flags-svg-collection -->
+
+<!-- https://www.flaticon.com/packs/international-flags -->
+<!-- https://flagicons.lipis.dev/?continent=Europe -->
+<!-- https://flagpedia.net/download/icons -->
+
+<!-- https://www.countryflags.io/ -->
+
+<style>
+#langlist {
+display: flex;
+justify-content: space-between;
+width: 317px;
+height: 16px;
+margin: 3px 10px 3px 0;
+}
+
+.sel2 {
+  border: 2px solid #fefefe;
+}
+.nosel2 {
+  border: 2px solid #fefefe;
+  filter: grayscale(100%) opacity(75%);
+}
+.sel2:hover, .nosel2:hover {
+  cursor: pointer;
+  border: 2px solid #0366d6;
+  border-spacing: 0;
+  filter: grayscale(0%);
+  filter: contrast(200%);
+  filter: brightness(150%);
+}
+#flag1,#flag2,#flag3,#flag4,#flag5,#flag6,#flag7,#flag8 {
+background: url(/flags22.png);
+background-repeat: no-repeat;
+background-clip: content-box;
+width: 22px;
+height: 16px;
+}
+#flag2 {
+background-position: -22px 0px;
+}
+#flag3 {
+background-position: -44px 0px;
+}
+#flag4 {
+background-position: -66px 0px;
+}
+#flag5 {
+background-position: -88px 0px;
+}
+#flag6 {
+background-position: -110px 0px;
+}
+#flag8 {
+background-position: -132px 0px;
+}
+</style>
+
+<div id="langlist">
+
+
+
+<div id="flag1" onclick="location.href=&#39;/en/activity-diagram-beta&#39;" class="nosel2"></div>
+
+<div id="flag2" onclick="location.href=&#39;/de/activity-diagram-beta&#39;" class="nosel2"></div>
+
+
+<div id="flag3" onclick="location.href=&#39;/es/activity-diagram-beta&#39;" class="nosel2"></div>
+
+
+<div id="flag4" onclick="location.href=&#39;/fr/activity-diagram-beta&#39;" class="nosel2"></div>
+
+
+<div id="flag5" onclick="location.href=&#39;/ja/activity-diagram-beta&#39;" class="nosel2"></div>
+
+
+<div id="flag6" onclick="location.href=&#39;/ko/activity-diagram-beta&#39;" class="nosel2"></div>
+
+
+<div id="flag8" onclick="location.href=&#39;/zh/activity-diagram-beta&#39;" class="sel2"></div>
+
+
+
+
+
+</div><!-- langlist -->
+</div><!-- e -->
+
+</div><!-- haut1 -->
+
+<!-- =================== Browser extension promo banner =================== -->
+<style>
+#ext-promo {
+    clear: both;
+    margin: 12px 0 18px;
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+#ext-promo .ext-promo-icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+#ext-promo .ext-promo-text {
+    flex: 1;
+    min-width: 240px;
+}
+#ext-promo .ext-promo-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+#ext-promo .ext-promo-links a {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: background 0.15s;
+}
+#ext-promo .ext-promo-links a.firefox:hover {
+    background: #a64200;
+}
+#ext-promo .ext-promo-links a.chrome:hover {
+    background: #0250a8;
+}
+</style>
+<style>
+#ext-promo {
+    border: 1px solid #c9e0f7;
+    border-left: 4px solid #0366d6;
+    background: linear-gradient(90deg, #f0f7ff 0%, #f8fbff 100%);
+    color: #24292e;
+}
+#ext-promo .ext-promo-text strong { color: #0366d6; }
+#ext-promo .ext-promo-links a.chrome { background: #0366d6; }
+#ext-promo .ext-promo-links a.firefox { background: #d75500; }
+</style>
+
+<div id="ext-promo">
+    <span class="ext-promo-icon">🧩</span>
+    <div class="ext-promo-text">
+        <strong>New!</strong> Render PlantUML diagrams directly inside GitHub
+        with <a href="https://github.com/plantuml/plantuml-for-github">our official browser extension</a> —
+        No server. No tokens. No tracking. Zero permissions but clipboard. —
+        Try it out and let us know what you think!
+    </div>
+    <div class="ext-promo-links">
+        <a class="chrome" href="https://chromewebstore.google.com/detail/plantuml-for-github/lbokhidfopkdehkmlmpaabacljoediic" target="_blank" rel="noopener">Add to Chrome</a>
+        <a class="firefox" href="https://addons.mozilla.org/en-US/firefox/addon/plantuml-for-github/" target="_blank" rel="noopener">Add to Firefox</a>
+    </div>
+</div>
+<!-- =================== End extension promo banner =================== -->
+
+<p style="clear:both;">
+
+
+<style>
+#titem40 {
+ color:#0366d6;
+ background-color: #fefefe;
+}
+#titem40 img {
+filter: brightness(0) saturate(100%) invert(23%) sepia(44%) saturate(7029%) hue-rotate(203deg) brightness(94%) contrast(98%);
+}
+.menu1:hover #titem40 {
+	color:#5e6d7d;
+}
+.menu1:hover #titem40:hover {
+	color:#0366d6;
+}
+.menu1:hover #titem40 img {
+filter: brightness(0) saturate(100%) invert(42%) sepia(22%) saturate(385%) hue-rotate(170deg) brightness(92%) contrast(84%);
+}
+</style>
+
+<a style="position:relative;top:-38px;" name="ad4b8d843025229d"></a>
+<!--heading--></p><h1 class="chap"><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#0"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#0"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#0"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>活动图</h1>
+<style>
+#sticky-647-wrap {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 30px;
+    z-index: 9;
+    background: #fefefe;
+}
+</style>
+<!-- Ezoic - under_first_paragraph - under_first_paragraph -->
+<div id="sticky-647-wrap">
+<span id="ezoic-pub-ad-placeholder-647"></span><span data-ez-ph-id="647" style="margin-left:auto !important;padding-top:0px !important;min-width:728px;min-height:90px;line-height:0px;box-sizing:content-box;margin-bottom:0px !important;display:block !important;text-align:center !important;padding-bottom:0px !important;max-width:100% !important;float:none !important;margin-top:0px !important;margin-right:auto !important;"></span>
+</div>
+<!-- End Ezoic - under_first_paragraph - under_first_paragraph -->
+<p></p>
+活动图描述工作流或流程：各个步骤、它们的顺序，以及分支和并行路径。它适合用于业务流程、算法，以及任何从起点流向终点的过程。
+<p></p>
+在 PlantUML 中，每个活动写成一行，使用箭头和 <code class="cod">if</code>、<code class="cod">repeat</code>、<code class="cod">fork</code> 等关键字来表达控制流。图形会自动生成。
+<p></p>
+<ul>
+<li><strong>文本输入，图形输出。</strong> 自上而下描述流程，包括分支和循环。</li>
+<li><strong>自上而下阅读。</strong> 文本中的顺序就是图中的顺序。</li>
+<li><strong>易于重组。</strong> 调整步骤顺序或添加分支，只需编辑文本，无需重画。</li>
+</ul>
+<p></p>
+如果您在维护旧图，<a href="activity-diagram-legacy">旧版语法</a>仍受支持，但不再推荐用于新图。
+<p></p>
+所有图类型通用的功能，请参阅<a href="commons">通用命令</a>。
+<a style="position:relative;top:-38px;" name="301241875e1def42"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#1"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#1"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#1"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>简单的行动</h2>
+活动标签以<code class="cod">:</code> 开始，以<code class="cod">;</code> 结束。
+<p></p>
+文本格式可以使用<a href="creole">克里奥尔语的维基语法</a>。
+<p></p>
+它们的定义顺序是隐性链接的。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:Hello world;
+:This is defined on
+several **lines**;
+@enduml
+</textarea>
+<div id="out84f212cabcc80d704bba811d9f0a5906">
+<div class="mycell">
+<img loading="lazy" width="149" height="140" class="scale" src="/imgw/img-84f212cabcc80d704bba811d9f0a5906.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="b9d5c6b286284d2d"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#2"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#2"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#2"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Other simple action <em>(defined as a list)</em></h2>
+<p></p>
+<h3>Simple action list separated by <code class="cod">-</code></h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+- Action 1
+- Action 2
+- Action 3
+@enduml
+</textarea>
+<div id="oute1ccedf48a6c6490cbaaf7dae60baf68">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="98" height="180" class="scale" src="/imgw/img-e1ccedf48a6c6490cbaaf7dae60baf68.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<h3>Simple action list separated by <code class="cod">*</code></h3>
+<p></p>
+<h4>With one level</h4>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+* Action 1
+* Action 2
+* Action 3
+@enduml
+</textarea>
+<div id="outb07aac12759147bcd3f10383fc353733">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="98" height="180" class="scale" src="/imgw/img-b07aac12759147bcd3f10383fc353733.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h4>With several levels</h4>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+&lt;style&gt;
+element {MinimumWidth 150}
+&lt;/style&gt;
+* Action 1
+** Sub-Action 1.1
+** Sub-Action 1.2
+*** Sub-Action 1.2.1
+*** Sub-Action 1.2.2
+* Action 2
+@enduml
+</textarea>
+<div id="outdd515ff6b83b2aecfba3a756af1221ce">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="185" height="345" class="scale" src="/imgw/img-dd515ff6b83b2aecfba3a756af1221ce.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref. <a href="https://github.com/plantuml/plantuml/pull/2376">GH-2376</a>]</em>
+<a style="position:relative;top:-38px;" name="45e7ad1c1b3c39e2"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#3"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#3"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#3"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>开始/停止/结束</h2>
+<p></p>
+你可以使用<code class="cod">start</code> 和<code class="cod">stop</code> 关键字来表示一个图的开始和结束
+。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+:Hello world;
+:This is defined on
+several **lines**;
+stop
+@enduml
+</textarea>
+<div id="out8924c7fd2e119e6597fd5c58c941bba3">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="149" height="221" class="scale" src="/imgw/img-8924c7fd2e119e6597fd5c58c941bba3.png"/>
+</div>
+</div>
+</div>
+<p></p>
+你也可以使用<code class="cod">end</code> 关键字。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+:Hello world;
+:This is defined on
+several **lines**;
+end
+@enduml
+</textarea>
+<div id="out4e35fd1c3f6d2bdeb9be041fe70cb8cf">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="149" height="219" class="scale" src="/imgw/img-4e35fd1c3f6d2bdeb9be041fe70cb8cf.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="306ae00197babd1f"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#4"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#4"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#4"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>条件</h2>
+<p></p>
+你可以使用<code class="cod">if</code>,<code class="cod">then</code>, <code class="cod">break</code>和<code class="cod">else</code> 关键词来在你的图表中放入测试。
+标签可以用圆括号提供。
+<p></p>
+有3种语法可供选择。
+<ul>
+<li><code class="cod">if (...) then (...)</code></li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+
+if (Graphviz installed?) then (yes)
+  :process all\ndiagrams;
+else (no)
+  :process only
+  __sequence__ and __activity__ diagrams;
+endif
+
+stop
+
+@enduml
+</textarea>
+<div id="out5d580c414413e989134064acd1138e8f">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="320" height="230" class="scale" src="/imgw/img-5d580c414413e989134064acd1138e8f.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li><code class="cod">if (...) is (...) then</code></li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+if (color?) is (&lt;color:red&gt;red) then
+:print red;
+else 
+:print not red;
+@enduml
+</textarea>
+<div id="outc9014ad4cceb1d78dc376df1f0f2d244">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="203" height="136" class="scale" src="/imgw/img-c9014ad4cceb1d78dc376df1f0f2d244.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li><code class="cod">if (...) equals (...) then</code></li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+if (counter?) equals (5) then
+:print 5;
+else 
+:print not 5;
+@enduml
+</textarea>
+<div id="outc6bcaa74141179122116dd08cd119745">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="185" height="136" class="scale" src="/imgw/img-c6bcaa74141179122116dd08cd119745.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref.<a href="https://forum.plantuml.net/301/activity-diagram-beta?show=302#a302">QA-301</a>]</em>
+<p></p>
+<h3>几个测试（水平模式）</h3>
+<p></p>
+你可以使用<code class="cod">elseif</code> 关键字来拥有几个测试<em>（默认是水平模式）</em>。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+if (condition A) then (yes)
+  :Text 1;
+elseif (condition B) then (yes)
+  :Text 2;
+  stop
+(no) elseif (condition C) then (yes)
+  :Text 3;
+(no) elseif (condition D) then (yes)
+  :Text 4;
+else (nothing)
+  :Text else;
+endif
+stop
+@enduml
+</textarea>
+<div id="out2a72a1700a0ead9386d93f24a90c8fe2">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="512" height="285" class="scale" src="/imgw/img-2a72a1700a0ead9386d93f24a90c8fe2.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>几个测试（垂直模式）</h3>
+<p></p>
+你可以使用<code class="cod">!pragma useVerticalIf on</code> 命令，让测试处于垂直模式。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+!pragma useVerticalIf on
+start
+if (condition A) then (yes)
+  :Text 1;
+elseif (condition B) then (yes)
+  :Text 2;
+  stop
+elseif (condition C) then (yes)
+  :Text 3;
+elseif (condition D) then (yes)
+  :Text 4;
+else (nothing)
+  :Text else;
+endif
+stop
+@enduml
+</textarea>
+<div id="outd02c4d8a13ec7bdea45dc668e417ad10">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="197" height="553" class="scale" src="/imgw/img-d02c4d8a13ec7bdea45dc668e417ad10.png"/>
+</div>
+</div>
+</div>
+<p></p>
+你可以使用<code class="cod">-P</code> command-line[命令行]选项来指定pragma。
+<p></p>
+<p>
+<code></code></p><pre class="colo"><code>java -jar plantuml.jar -PuseVerticalIf=on
+</code></pre>
+<p>
+</p><p></p>
+<em>[参考文献：<a href="https://forum.plantuml.net/3931/please-provide-elseif-structure-vertically-activity-diagrams">QA-3931</a>,<a href="https://github.com/plantuml/plantuml/issues/582">issue-582</a></em>] 。
+<p></p>
+<p></p>
+*[Refs. [QA-3931](https:<em>forum.plantuml.net/3931/please-provide-elseif-structure-vertically-activity-diagrams), [GH-582](https:</em>github.com/plantuml/plantuml/issues/582)]*
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="537b5a761669087b"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#5"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#5"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#5"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Switch判断 [switch, case, endswitch]</h2>
+<p></p>
+你可以使用 <code class="cod">switch</code>, <code class="cod">case</code> 和 <code class="cod">endswitch</code> 关键词在图表中绘制Switch判断.
+<p></p>
+使用括号表示标注.
+<p></p>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+switch (测试?)
+case ( 条件 A )
+  :Text 1;
+case ( 条件 B ) 
+  :Text 2;
+case ( 条件 C )
+  :Text 3;
+case ( 条件 D )
+  :Text 4;
+case ( 条件 E )
+  :Text 5;
+endswitch
+stop
+@enduml
+</textarea>
+<div id="out3e5ae20225b0e3b922d42a7d9cb2110d">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="403" height="256" class="scale" src="/imgw/img-3e5ae20225b0e3b922d42a7d9cb2110d.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="d7b1027a512b4d7b"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#6"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#6"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#6"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>条件判断和终止 [kill, detach]</h2>
+<p></p>
+你可以在if判断中终止一个行为.
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+if (条件?) then
+  :错误;
+  stop
+endif
+#palegreen:行为;
+@enduml
+</textarea>
+<div id="out9ce6a51242ec8553b7649b33a2ab2079">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="372" height="196" class="scale" src="/imgw/img-9ce6a51242ec8553b7649b33a2ab2079.png"/>
+</div>
+</div>
+</div>
+<p></p>
+但如果你想在特定行为上停止，你可以使用<code class="cod">kill</code> 或 <code class="cod">detach</code>关键字:
+<p></p>
+<ul>
+<li><code class="cod">kill</code></li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+if (条件?) then
+  #pink:错误;
+  kill
+endif
+#palegreen:行为;
+@enduml
+</textarea>
+<div id="outafa1fda52cf724eda9ebd6dc2cd543f8">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="562" height="226" class="scale" src="/imgw/img-afa1fda52cf724eda9ebd6dc2cd543f8.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考. <a href="https://forum.plantuml.net/265/new-activity-diagram-syntax-direction-of-links?show=306#a306">QA-265</a>]</em>
+<p></p>
+<ul>
+<li><code class="cod">detach</code></li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+if (条件?) then
+  #pink:错误;
+  detach
+endif
+#palegreen:行为;
+@enduml
+</textarea>
+<div id="out1824f9f8191e4305defaf3de05bc4b47">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="562" height="226" class="scale" src="/imgw/img-1824f9f8191e4305defaf3de05bc4b47.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="219cebcef334f265"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#7"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#7"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#7"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>重复循环</h2>
+<p></p>
+你可以使用关键字<code class="cod">repeat</code>和<code class="cod">repeatwhile</code>进行重复循环。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+
+repeat
+  :读取数据;
+  :生成图片;
+repeat while (更多数据?)
+
+stop
+
+@enduml
+</textarea>
+<div id="oute42b7ff6aedce11a3f60b6f8987b495a">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="145" height="301" class="scale" src="/imgw/img-e42b7ff6aedce11a3f60b6f8987b495a.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+你同样可以使用一个全局行为作为<code class="cod">repeat</code>目标， 在返回循环开始时使用<code class="cod">backward</code>关键字插入一个全局行为。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+
+repeat :foo作为开始标注;
+  :读取数据;
+  :生成图片;
+backward:这是一个后撤行为;
+repeat while (更多数据?)
+
+stop
+
+@enduml
+</textarea>
+<div id="outa733b1694974ac86da22e4262e197198">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="279" height="320" class="scale" src="/imgw/img-a733b1694974ac86da22e4262e197198.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<em>[Ref. <a href="https://forum.plantuml.net/5826/please-provide-action-repeat-loop-start-instead-condition?show=5831#a5831">QA-5826</a>]</em>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="76b6256d62540b9f"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#8"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#8"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#8"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>打断循环 [break]</h2>
+<p></p>
+你可以使用 <code class="cod">break</code> 关键字跟在循环中的某个行为后面打断循环.
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+repeat
+  :测试某事;
+    if (发生错误?) then (没有)
+      #palegreen:好的;
+      break
+    endif
+    -&gt;not ok;
+    :弹窗 &#34;文本过长错误&#34;;
+repeat while (某事发生文本过长错误?) is (是的) not (不是)
+-&gt;//合并步骤//;
+:弹窗 &#34;成功！&#34;;
+stop
+@enduml
+</textarea>
+<div id="out1fe4b49f6a0a76b6ccb2a68a7b9a7af4">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="382" height="284" class="scale" src="/imgw/img-1fe4b49f6a0a76b6ccb2a68a7b9a7af4.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<em>[参考： <a href="https://forum.plantuml.net/6105/possible-to-draw-a-line-to-another-box-via-id-or-label?show=6107#a6107">QA-6105</a>]</em>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="2f8a92e645aba14f"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#9"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#9"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#9"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Goto和标签处理 [label, goto]</h2>
+<p></p>
+⚠ 目前只是实验性的 🚧
+<p></p>
+你可以使用<code class="cod">label</code> 和<code class="cod">goto</code> 关键词来表示Goto处理，其中：
+<ul>
+<li><code class="cod">label &lt;label_name&gt;</code></li>
+<li><code class="cod">goto &lt;label_name&gt;</code></li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+title Point two queries to same activity\nwith `goto`
+start
+if (Test Question?) then (yes)
+&#39;space label only for alignment
+label sp_lab0
+label sp_lab1
+&#39;real label
+label lab
+:shared;
+else (no)
+if (Second Test Question?) then (yes)
+label sp_lab2
+goto sp_lab1
+else
+:nonShared;
+endif
+endif
+:merge;
+@enduml
+</textarea>
+<div id="outc91574303e5958dbff5fd7bbbcd1cb91">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="335" height="373" class="scale" src="/imgw/img-c91574303e5958dbff5fd7bbbcd1cb91.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref.<a href="https://forum.plantuml.net/15026/">QA-15026</a>,<a href="https://forum.plantuml.net/12526/">QA-12526</a>and initially<a href="https://forum.plantuml.net/1626">QA-1626</a>] 。</em>
+<a style="position:relative;top:-38px;" name="04a96ae1910f3c8a"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#10"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#10"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#10"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>while循环</h2>
+<p></p>
+可以使用关键字<code class="cod">while</code>和<code class="cod">end while</code>进行while循环。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+
+while (data available?)
+  :read data;
+  :generate diagrams;
+endwhile
+
+stop
+
+@enduml
+</textarea>
+<div id="out536def0e0583acc301414a1b3bfcfb00">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="216" height="246" class="scale" src="/imgw/img-536def0e0583acc301414a1b3bfcfb00.png"/>
+</div>
+</div>
+</div>
+<p></p>
+还可以在关键字<code class="cod">endwhile</code>后添加标注，还有一种方式是使用关键字<code class="cod">is</code>。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+while (check filesize ?) is (not empty)
+  :read file;
+endwhile (empty)
+:close file;
+@enduml
+</textarea>
+<div id="out808a3ce563a9e88dadb3754fad929cfd">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="189" height="205" class="scale" src="/imgw/img-808a3ce563a9e88dadb3754fad929cfd.png"/>
+</div>
+</div>
+</div>
+<p></p>
+如果你使用 <code class="cod">+detach+</code> 来形成一个无限循环, 那么你可能需要使用 <code class="cod">+-[hidden]-&gt;+</code> 来隐藏一些不完整的箭头。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:Step 1;
+if (condition1) then
+  while (loop forever)
+   :Step 2;
+  endwhile
+  -[hidden]-&gt;
+  detach
+else
+  :end normally;
+  stop
+endif
+@enduml
+</textarea>
+<div id="oute01be1da4ce468609b54e2c7f777900c">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="246" height="232" class="scale" src="/imgw/img-e01be1da4ce468609b54e2c7f777900c.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="7452578bfebedd2d"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#11"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#11"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#11"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>并行处理 [fork, fork again, end fork, end merge]</h2>
+<p></p>
+你可以使用<code class="cod">fork</code>，<code class="cod">fork again</code>和<code class="cod">end fork</code> 或者 <code class="cod">end merge</code> 等关键字表示并行处理。
+<p></p>
+<h3><code class="cod">fork</code> 示例</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+fork
+  :行为 1;
+fork again
+  :行为 2;
+end fork
+stop
+@enduml
+</textarea>
+<div id="out2613f6264231ba724f09bda512393d1e">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="195" height="203" class="scale" src="/imgw/img-2613f6264231ba724f09bda512393d1e.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3><code class="cod">fork</code> 和合并示例</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+fork
+  :行为 1;
+fork again
+  :行为 2;
+end merge
+stop
+@enduml
+</textarea>
+<div id="out2739cc3d0326176645a596169cdf7085">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="195" height="211" class="scale" src="/imgw/img-2739cc3d0326176645a596169cdf7085.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考: <a href="https://forum.plantuml.net/5320/please-provide-fork-without-join-with-merge-activity-diagrams?show=5321#a5321">QA-5320</a>]</em>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+fork
+  :行为 1;
+fork again
+  :行为 2;
+fork again
+  :行为 3;
+fork again
+  :行为 4;
+end merge
+stop
+@enduml
+</textarea>
+<div id="out2a4a00f8f67810fa690eb604871152ff">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="323" height="211" class="scale" src="/imgw/img-2a4a00f8f67810fa690eb604871152ff.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+fork
+  :行为 1;
+fork again
+  :行为 2;
+  end
+end merge
+stop
+@enduml
+</textarea>
+<div id="out489cbe303ff0b3138cdf6fd32a62a84f">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="195" height="266" class="scale" src="/imgw/img-489cbe303ff0b3138cdf6fd32a62a84f.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考: <a href="https://forum.plantuml.net/13731">QA-13731</a>]</em>
+<p></p>
+<h3><code class="cod">end fork</code> 标注 (或 UML 连接规范):</h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+fork
+  :行为 A;
+fork again
+  :行为 B;
+end fork {或}
+stop
+@enduml
+</textarea>
+<div id="out3a708644797de8e8ccbf144087fa3c36">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="222" height="203" class="scale" src="/imgw/img-3a708644797de8e8ccbf144087fa3c36.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+fork
+  :行为 A;
+fork again
+  :行为 B;
+end fork {和}
+stop
+@enduml
+</textarea>
+<div id="out4dd6ac41ec15688c1efd52125f4ad955">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="222" height="203" class="scale" src="/imgw/img-4dd6ac41ec15688c1efd52125f4ad955.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考: <a href="https://forum.plantuml.net/5346/please-inplement-joinspec-for-join-nodes?show=5348#a5348">QA-5346</a>]</em>
+<p></p>
+<h3>其他示例</h3>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+
+if (多进程处理?) then (是)
+  fork
+    :进程 1;
+  fork again
+    :进程 2;
+  end fork
+else (否)
+  :逻辑 1;
+  :逻辑 2;
+endif
+
+@enduml
+</textarea>
+<div id="out55b853d72ba1bc0185f9f82eb3b4aa91">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="271" height="244" class="scale" src="/imgw/img-55b853d72ba1bc0185f9f82eb3b4aa91.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="39d488a91ed5c8d2"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#12"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#12"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#12"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>分割处理</h2>
+<p></p>
+<h3>分割</h3>
+<p></p>
+你可以使用 <code class="cod">split</code>, <code class="cod">split again</code> 和 <code class="cod">end split</code> 关键字去表达分割处理
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+split
+   :A;
+split again
+   :B;
+split again
+   :C;
+split again
+   :a;
+   :b;
+end split
+:D;
+end
+@enduml
+</textarea>
+<div id="out648f52271245bb386733a5c8e996021e">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="196" height="314" class="scale" src="/imgw/img-648f52271245bb386733a5c8e996021e.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>输入分割 (多个入口)</h3>
+<p></p>
+你可以使用包含 <code class="cod">hidden</code> 指令的箭头去制造一个输入分割 (多入口):
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+split
+   -[hidden]-&gt;
+   :A;
+split again
+   -[hidden]-&gt;
+   :B;
+split again
+   -[hidden]-&gt;
+   :C;
+end split
+:D;
+@enduml
+</textarea>
+<div id="oute45771d2dc5dcfd117146d150af7b37c">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="141" height="165" class="scale" src="/imgw/img-e45771d2dc5dcfd117146d150af7b37c.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+split
+   -[hidden]-&gt;
+   :A;
+split again
+   -[hidden]-&gt;
+   :a;
+   :b;
+split again
+   -[hidden]-&gt;
+   (Z)
+end split
+:D;
+@enduml
+</textarea>
+<div id="out5b060c968dd2d03166ef453ec359c764">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="139" height="235" class="scale" src="/imgw/img-5b060c968dd2d03166ef453ec359c764.png"/>
+</div>
+</div>
+</div>
+<em>[参考： <a href="https://forum.plantuml.net/8662">QA-8662</a>]</em>
+<p></p>
+<h3>输出分割 (多个结束点)</h3>
+<p></p>
+你可以使用 <code class="cod">kill</code> 或 <code class="cod">detach</code> 去制造一个输出分割 (多个结束点):
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+split
+   :A;
+   kill
+split again
+   :B;
+   detach
+split again
+   :C;
+   kill
+end split
+@enduml
+</textarea>
+<div id="outaea76c18d67b9dc9611a22eae46dcce1">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="140" height="129" class="scale" src="/imgw/img-aea76c18d67b9dc9611a22eae46dcce1.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+split
+   :A;
+   kill
+split again
+   :b;
+   :c;
+   detach
+split again
+   (Z)
+   detach
+split again
+   end
+split again
+   stop
+end split
+@enduml
+</textarea>
+<div id="out343067993d18afc5d1e993314e7e6a99">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="202" height="199" class="scale" src="/imgw/img-343067993d18afc5d1e993314e7e6a99.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="f4c6f851b00d5518"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#13"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#13"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#13"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>注释</h2>
+<p></p>
+文本格式可以使用<a href="creole">克里奥尔维基语法</a>。
+<p></p>
+可以使用<code class="cod">floating</code> 关键字浮动注释。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+:foo1;
+floating note left: This is a note
+:foo2;
+note right
+  This note is on several
+  //lines// and can
+  contain &lt;b&gt;HTML&lt;/b&gt;
+  ====
+  * Calling the method &#34;&#34;foo()&#34;&#34; is prohibited
+end note
+stop
+
+@enduml
+</textarea>
+<div id="out65040d8a7429b6ff57a841d12f4d3f4b">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="464" height="247" class="scale" src="/imgw/img-65040d8a7429b6ff57a841d12f4d3f4b.png"/>
+</div>
+</div>
+</div>
+<p></p>
+您可以为后向活动添加注释：
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+repeat :Enter data;
+:Submit;
+backward :Warning;
+note right: Note
+repeat while (Valid?) is (No) not (Yes)
+stop
+@enduml
+</textarea>
+<div id="out227e732465774410f9bdb3117823764a">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="264" height="267" class="scale" src="/imgw/img-227e732465774410f9bdb3117823764a.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref.<a href="https://forum.plantuml.net/11788/is-it-possible-to-add-a-note-to-backward-activity?show=11802#a11802">QA-11788</a>]</em>
+<p></p>
+<p></p>
+可以添加分区活动注释：
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+partition &#34;**process** HelloWorld&#34; {
+    note
+        This is my note
+        ----
+        //Creole test//
+    end note
+    :Ready;
+    :HelloWorld(i)&gt;
+    :Hello-Sent;
+}
+@enduml
+</textarea>
+<div id="outcb658702cdd6a78a0b8a8a137627e477">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="279" height="233" class="scale" src="/imgw/img-cb658702cdd6a78a0b8a8a137627e477.png"/>
+</div>
+</div>
+</div>
+<em>[参考<a href="https://forum.plantuml.net/2398/is-it-possible-to-add-a-comment-on-top-of-a-activity-partition?show=2403#a2403">QA-2398］</a></em>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="5d50889672f6f860"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#14"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#14"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#14"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>改变颜色</h2>
+<p></p>
+你可以为一些活动指定<a href="color">颜色</a>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+:开始处理;
+#HotPink:读取配置文件
+这些文件应该在此处编辑;
+#AAAAAA:结束处理;
+
+@enduml
+</textarea>
+<div id="outbfbb0e48646ecec7d86621e4284a5364">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="372" height="214" class="scale" src="/imgw/img-bfbb0e48646ecec7d86621e4284a5364.png"/>
+</div>
+</div>
+</div>
+<p></p>
+你通用可以使用 <a href="color">渐变色</a>.
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+partition #red/white test分片 {
+        #blue\green:test活动;
+}
+@enduml
+</textarea>
+<div id="out57289c723fb6fe0776747e71a9aa65a7">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="372" height="161" class="scale" src="/imgw/img-57289c723fb6fe0776747e71a9aa65a7.png"/>
+</div>
+</div>
+</div>
+<em>[参考: <a href="https://forum.plantuml.net/4906/setting-ad-hoc-gradient-backgrounds-in-activity?show=4917#a4917">QA-4906</a>]</em>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="6299b1bc9965f62f"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#15"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#15"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#15"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>无箭头连接线</h2>
+<p></p>
+您可以使用 <code class="cod">skinparam ArrowHeadColor none</code> 参数来表示仅使用线条连接活动，而不带箭头。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam ArrowHeadColor none
+start
+:Hello world;
+:This is on defined on
+several **lines**;
+stop
+@enduml
+</textarea>
+<div id="outf9d95596ae94ee240cc5f765a7bfe577">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="165" height="221" class="scale" src="/imgw/img-f9d95596ae94ee240cc5f765a7bfe577.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam ArrowHeadColor none
+start
+repeat :Enter data;
+:Submit;
+backward :Warning;
+repeat while (Valid?) is (No) not (Yes)
+stop
+@enduml
+</textarea>
+<div id="out8fc78c645e667c5ec46667f9229bdde0">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="195" height="267" class="scale" src="/imgw/img-8fc78c645e667c5ec46667f9229bdde0.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="4e05974b02cc4aa9"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#16"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#16"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#16"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>箭头</h2>
+<p></p>
+使用<code class="cod">-&gt;</code>标记，你可以给箭头添加文字或者修改箭头<a href="color">颜色</a>。
+<p></p>
+同时，你也可以选择点状 (dotted)，条状(dashed)，加粗或者是隐式箭头
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:foo1;
+-&gt; You can put text on arrows;
+if (test) then
+  -[#blue]-&gt;
+  :foo2;
+  -[#green,dashed]-&gt; The text can
+  also be on several lines
+  and **very** long...;
+  :foo3;
+else
+  -[#black,dotted]-&gt;
+  :foo4;
+endif
+-[#gray,bold]-&gt;
+:foo5;
+@enduml
+</textarea>
+<div id="out3dee35c6442bdb2426cdf53eb9eb8cf3">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="272" height="371" class="scale" src="/imgw/img-3dee35c6442bdb2426cdf53eb9eb8cf3.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<a style="position:relative;top:-38px;" name="bb3756eadac20341"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#17"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#17"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#17"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Simple colored arrow [link]</h2>
+<p></p>
+You can use simple colored arrow with the <code class="cod">link</code> keyword.
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:a;
+link #blue
+:b;
+@enduml
+</textarea>
+<div id="out8eb8ac58ea7ba079aecf24fb979b5c4d">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="63" height="125" class="scale" src="/imgw/img-8eb8ac58ea7ba079aecf24fb979b5c4d.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="67fe7700c16c08bf"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#18"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#18"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#18"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Multiple colored arrow</h2>
+<p></p>
+You can use multiple colored arrow.
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam colorArrowSeparationSpace 1
+start
+-[#red;#green;#orange;#blue]-&gt;
+if(a?)then(yes)
+-[#red]-&gt;
+:activity;
+-[#red]-&gt;
+if(c?)then(yes)
+-[#maroon,dashed]-&gt;
+else(no)
+-[#red]-&gt;
+if(b?)then(yes)
+-[#maroon,dashed]-&gt;
+else(no)
+-[#blue,dashed;dotted]-&gt;
+:do a;
+-[#red]-&gt;
+:do b;
+-[#red]-&gt;
+endif
+-[#red;#maroon,dashed]-&gt;
+endif
+-[#red;#maroon,dashed]-&gt;
+elseif(e?)then(yes)
+-[#green]-&gt;
+if(c?)then(yes)
+-[#maroon,dashed]-&gt;
+else(no)
+-[#green]-&gt;
+if(d?)then(yes)
+-[#maroon,dashed]-&gt;
+else(no)
+-[#green]-&gt;
+:do something; &lt;&lt;continuous&gt;&gt;
+-[#green]-&gt;
+endif
+-[#green;#maroon,dashed]-&gt;
+partition dummy {
+:some function;
+}
+-[#green;#maroon,dashed]-&gt;
+endif
+-[#green;#maroon,dashed]-&gt;
+
+elseif(f?)then(yes)
+-[#orange]-&gt;
+:activity; &lt;&lt;continuous&gt;&gt;
+-[#orange]-&gt;
+else(no)
+-[#blue,dashed;dotted]-&gt;
+endif
+stop
+@enduml
+</textarea>
+<div id="out54088192e7f95ef6820ca4ab63641365">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="383" height="563" class="scale" src="/imgw/img-54088192e7f95ef6820ca4ab63641365.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref. <a href="https://forum.plantuml.net/4411">QA-4411</a>]</em>
+<a style="position:relative;top:-38px;" name="f058a88644c5632e"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#19"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#19"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#19"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>连接器(Connector)</h2>
+<p></p>
+你可以使用括号定义连接器。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+:Some activity;
+(A)
+detach
+(A)
+:Other activity;
+@enduml
+</textarea>
+<div id="out574b1d4e787b8c62391dc26506748037">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="126" height="234" class="scale" src="/imgw/img-574b1d4e787b8c62391dc26506748037.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="2f8c97b04c4fc1f5"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#20"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#20"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#20"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>连接器颜色</h2>
+<p></p>
+你可以在连接器上增加 <a href="color">颜色</a>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+:下面的连接器
+应该是蓝色;
+#blue:(B)
+:下一个连接器应该
+看起来应该是
+深绿色;
+#green:(G)
+stop
+@enduml
+</textarea>
+<div id="out0dc6c3840dfda6d3271e4c11ab9b1218">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="151" height="331" class="scale" src="/imgw/img-0dc6c3840dfda6d3271e4c11ab9b1218.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考. <a href="https://forum.plantuml.net/10077/assigning-color-to-connectors?show=10080#c10080">QA-10077</a>]</em>
+<p></p>
+<p></p>
+<em>[Ref. <a href="https://forum.plantuml.net/19975/please-provide-change-background-connectors-activity-diagrams?show=19976#a19976">QA-19975</a>]</em>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="772273da3919bcd1"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#21"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#21"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#21"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>组合(grouping)</h2>
+<p></p>
+通过定义分组(group)，你可以把多个活动分组。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+group 初始化分组 
+    :read config file;
+    :init internal variable;
+end group
+group 运行分组
+    :wait for user interaction;
+    :print information;
+end group
+
+stop
+@enduml
+</textarea>
+<div id="out0b01498a58ff50784ca6f6425b7db1f5">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="486" height="464" class="scale" src="/imgw/img-0b01498a58ff50784ca6f6425b7db1f5.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>分区</h3>
+<p></p>
+通过定义分区(partition)，你可以把多个活动组合(group)在一起:
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+partition 初始化分区 {
+    :read config file;
+    :init internal variable;
+}
+partition 运行分区 {
+    :wait for user interaction;
+    :print information;
+}
+
+stop
+@enduml
+</textarea>
+<div id="out236117856b9ed7f3bd9e34d4c9772327">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="199" height="395" class="scale" src="/imgw/img-236117856b9ed7f3bd9e34d4c9772327.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+这里同样可以改变分区颜色 <a href="color">color</a>:
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+partition #lightGreen &#34;Input Interface&#34; {
+    :read config file;
+    :init internal variable;
+}
+partition Running {
+    :wait for user interaction;
+    :print information;
+}
+stop
+@enduml
+</textarea>
+<div id="out0bd49988ba73b2bd3f011893d83da8ab">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="199" height="395" class="scale" src="/imgw/img-0bd49988ba73b2bd3f011893d83da8ab.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考: <a href="https://forum.plantuml.net/2793/activity-beta-partition-name-more-than-one-word-does-not-work?show=2798#a2798">QA-2793</a>]</em>
+<p></p>
+同样可以添加一个 <a href="link">链接</a> 到分区:
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+partition &#34;[[http://plantuml.com partition_name]]&#34; {
+    :read doc. on [[http://plantuml.com plantuml_website]];
+    :test diagram;
+}
+end
+@enduml
+</textarea>
+<div id="out957cd4aebb0f53170f4d45138a0377ae">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="237" height="243" class="scale" src="/imgw/img-957cd4aebb0f53170f4d45138a0377ae.png"/>
+</div>
+</div>
+</div>
+<em>[参考: <a href="https://forum.plantuml.net/542/ability-to-define-hyperlink-on-diagram-elements?show=14003#c14003">QA-542</a>]</em>
+<p></p>
+<h3>分组, 分区, 包, 矩形 或 卡片式</h3>
+<p></p>
+你可以分组活动通过定义:
+<ul>
+<li>group;</li>
+<li>partition;</li>
+<li>package;</li>
+<li>rectangle;</li>
+<li>card.</li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+group 分组
+  :Activity;
+end group
+floating note: 分组备注
+
+partition 分区 {
+  :Activity;
+}
+floating note: 分区备注
+
+package 包 {
+  :Activity;
+}
+floating note: 包备注
+
+rectangle 矩形 {
+  :Activity;
+}
+floating note: 矩形备注
+
+card 卡片式 {
+  :Activity;
+}
+floating note: 卡片式备注
+end
+@enduml
+</textarea>
+<div id="outd6ae3911a8df75b4e2872bdb8438e1a4">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="456" height="637" class="scale" src="/imgw/img-d6ae3911a8df75b4e2872bdb8438e1a4.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="dadd115c61036c7a"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#22"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#22"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#22"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>泳道(Swimlanes)</h2>
+<p></p>
+你可以使用管道符<code class="cod">|</code>来定义泳道。
+<p></p>
+还可以改变泳道的<a href="color">颜色</a>。
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+|Swimlane1|
+start
+:foo1;
+|#AntiqueWhite|Swimlane2|
+:foo2;
+:foo3;
+|Swimlane1|
+:foo4;
+|Swimlane2|
+:foo5;
+stop
+@enduml
+</textarea>
+<div id="outa61b988bc6eed755cbfa6f22b6ae1734">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="243" height="402" class="scale" src="/imgw/img-a61b988bc6eed755cbfa6f22b6ae1734.png"/>
+</div>
+</div>
+</div>
+<p></p>
+你可以在泳道中增加 <code class="cod">if</code> 判断或 <code class="cod">repeat</code> 或 <code class="cod">while</code> 循环.
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+|#pink|Actor_For_red|
+start
+if (color?) is (red) then
+#pink:**action red**;
+:foo1;
+else (not red)
+|#lightgray|Actor_For_no_red|
+#lightgray:**action not red**;
+:foo2;
+endif
+|Next_Actor|
+#lightblue:foo3;
+:foo4;
+|Final_Actor|
+#palegreen:foo5;
+stop
+@enduml
+</textarea>
+<div id="out6b69a0625c3c1752cfc1c5318d8c5a36">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="372" height="372" class="scale" src="/imgw/img-6b69a0625c3c1752cfc1c5318d8c5a36.png"/>
+</div>
+</div>
+</div>
+<p></p>
+你同样可以在泳道中增加别名，使用 <code class="cod">alias</code> 语法:
+<p></p>
+<ul>
+<li><code class="cod">|[#&lt;color&gt;|]&lt;swimlane_alias&gt;| &lt;swimlane_title&gt;</code></li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+|#palegreen|f| fisherman
+|c| cook
+|#gold|e| eater
+|f|
+start
+:go fish;
+|c|
+:fry fish;
+|e|
+:eat fish;
+stop
+@enduml
+</textarea>
+<div id="outa67a759867ee5918c3ef723a0681bd8d">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="275" height="292" class="scale" src="/imgw/img-a67a759867ee5918c3ef723a0681bd8d.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[参考: <a href="https://forum.plantuml.net/2681/possible-define-alias-swimlane-place-alias-everywhere-else?show=2685#a2685">QA-2681</a>]</em>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="d02f7ddcfafa91da"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#23"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#23"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#23"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>分离(detach)</h2>
+<p></p>
+可以使用关键字<code class="cod">detach</code> 或 <code class="cod">kill</code>移除箭头。
+<p></p>
+<ul>
+<li><code class="cod">detach</code></li>
+</ul>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+ :start;
+ fork
+   :foo1;
+   :foo2;
+ fork again
+   :foo3;
+   detach
+ endfork
+ if (foo4) then
+   :foo5;
+   detach
+ endif
+ :foo6;
+ detach
+ :foo7;
+ stop
+@enduml
+</textarea>
+<div id="out1c1894c6b6a0be0249612298d49af7f9">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="215" height="439" class="scale" src="/imgw/img-1c1894c6b6a0be0249612298d49af7f9.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li><code class="cod">kill</code></li>
+</ul>
+<p></p>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+ :start;
+ fork
+   :foo1;
+   :foo2;
+ fork again
+   :foo3;
+   kill
+ endfork
+ if (foo4) then
+   :foo5;
+   kill
+ endif
+ :foo6;
+ kill
+ :foo7;
+ stop
+@enduml
+</textarea>
+<div id="outaca32db5e0093c2b506c7ddc778aa720">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="215" height="439" class="scale" src="/imgw/img-aca32db5e0093c2b506c7ddc778aa720.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="83ee8020396e7512"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#24"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#24"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#24"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Emoji as action (with <code class="cod">icon</code> stereotype)</h2>
+<p></p>
+You can use <a href="https://plantuml.com/creole#68305e25f5788db0">emoji</a> as action, with the stereotype <code class="cod">&lt;&lt;icon&gt;&gt;</code>:
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+while (&lt;:cloud_with_rain:&gt;)
+  :&lt;:umbrella:&gt;; &lt;&lt;icon&gt;&gt;
+endwhile
+-&lt;&lt;icon&gt;&gt;&lt;:closed_umbrella:&gt;
+@enduml
+</textarea>
+<div id="out159e10f70d0a65278bcb2651d3f0f868">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="137" height="194" class="scale" src="/imgw/img-159e10f70d0a65278bcb2651d3f0f868.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref. <a href="https://github.com/plantuml/plantuml/issues/2436">GH-2436</a>]</em>
+<a style="position:relative;top:-38px;" name="bdd3477f7d5f24c6"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#25"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#25"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#25"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>SDL（规范和描述语言）</h2>
+<p></p>
+<h3>SDL 形状名称表</h3>
+<p></p>
+<table border="1" cellspacing="0" cellpadding="5">
+<tbody><tr>
+<td><b>
+名称
+</b></td>
+<td><b>
+旧语法
+</b></td>
+<td><b>
+定型语法
+</b></td>
+</tr>
+<tr>
+<td>
+输入
+</td>
+<td>
+<code class="cod">&lt;</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;input&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+输出
+</td>
+<td>
+<code class="cod">&gt;</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;output&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+程序
+</td>
+<td>
+<code class="cod">|</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;procedure&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+加载
+</td>
+<td>
+<code class="cod">\</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;load&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+保存
+</td>
+<td>
+<code class="cod">/</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;save&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+连续
+</td>
+<td>
+<code class="cod">}</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;continuous&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+任务
+</td>
+<td>
+<code class="cod">]</code>
+</td>
+<td>
+<code class="cod">&lt;&lt;task&gt;&gt;</code>
+</td>
+</tr>
+</tbody></table>
+<p></p>
+<em>[Ref.<a href="https://forum.plantuml.net/11518/issues-with-final-separator-latex-math-expression-activity?show=17268#a17268">QA-11518</a>,<a href="https://github.com/plantuml/plantuml/discussions/1270">GH-1270</a>]</em>
+<p></p>
+<h3>SDL using final separator (Deprecated form)</h3>
+通过更改最终<code class="cod">;</code> separator，可以为活动设置不同的渲染：
+<ul>
+<li><code class="cod">|</code></li>
+<li><code class="cod">&lt;</code></li>
+<li><code class="cod">&gt;</code></li>
+<li><code class="cod">/</code></li>
+<li><code class="cod">\\</code></li>
+<li><code class="cod">]</code></li>
+<li><code class="cod">}</code></li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:Ready;
+:next(o)|
+:Receiving;
+split
+ :nak(i)&lt;
+ :ack(o)&gt;
+split again
+ :ack(i)&lt;
+ :next(o)
+ on several lines|
+ :i := i + 1]
+ :ack(o)&gt;
+split again
+ :err(i)&lt;
+ :nak(o)&gt;
+split again
+ :foo/
+split again
+ :bar\\
+split again
+ :i &gt; 5}
+stop
+end split
+:finish;
+@enduml
+</textarea>
+<div id="out1bfc8c3bb38269347781990c64b4595e">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="144" height="523" class="scale" src="/imgw/img-1bfc8c3bb38269347781990c64b4595e.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>使用正态分隔符和立体原型的 SDL（当前正式形式）</h3>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+:SDL Shape;
+:input; &lt;&lt;input&gt;&gt;
+:output; &lt;&lt;output&gt;&gt;
+:procedure; &lt;&lt;procedure&gt;&gt;
+:load; &lt;&lt;load&gt;&gt;
+:save; &lt;&lt;save&gt;&gt;
+:continuous; &lt;&lt;continuous&gt;&gt;
+:task; &lt;&lt;task&gt;&gt;
+end
+@enduml
+</textarea>
+<div id="outd6e48759fc29949e620fe0df015ad5f9">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="123" height="534" class="scale" src="/imgw/img-d6e48759fc29949e620fe0df015ad5f9.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:Ready;
+:next(o); &lt;&lt;procedure&gt;&gt;
+:Receiving;
+split
+ :nak(i); &lt;&lt;input&gt;&gt;
+ :ack(o); &lt;&lt;output&gt;&gt;
+split again
+ :ack(i); &lt;&lt;input&gt;&gt;
+ :next(o)
+ on several lines; &lt;&lt;procedure&gt;&gt;
+ :i := i + 1; &lt;&lt;task&gt;&gt;
+ :ack(o); &lt;&lt;output&gt;&gt;
+split again
+ :err(i); &lt;&lt;input&gt;&gt;
+ :nak(o); &lt;&lt;output&gt;&gt;
+split again
+ :foo; &lt;&lt;save&gt;&gt;
+split again
+ :bar; &lt;&lt;load&gt;&gt;
+split again
+ :i &gt; 5; &lt;&lt;continuous&gt;&gt;
+stop
+end split
+:finish;
+@enduml
+</textarea>
+<div id="out5a3d871b233d01414945783e39e59519">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="457" height="525" class="scale" src="/imgw/img-5a3d871b233d01414945783e39e59519.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<center><div class="tago">WARNING</div> <b>This translation need to be updated.</b> <div class="tago">WARNING</div></center>
+<a style="position:relative;top:-38px;" name="72b61284e9743f76"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#26"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#26"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#26"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>UML (Unified Modeling Language) Shape (with UML stereotype)</h2>
+<p></p>
+<h3>Table of UML Shape Name</h3>
+<p></p>
+<table border="1" cellspacing="0" cellpadding="5">
+<tbody><tr>
+<td><b>
+Name
+</b></td>
+<td><b>
+Stereotype syntax
+</b></td>
+</tr>
+<tr>
+<td>
+ObjectNode
+</td>
+<td>
+<code class="cod">&lt;&lt;object&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+ObjectNode<br/>typed by signal
+</td>
+<td>
+<code class="cod">&lt;&lt;objectSignal&gt;&gt;</code> or <code class="cod">&lt;&lt;object-signal&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+AcceptEventAction<br/>without TimeEvent trigger
+</td>
+<td>
+<code class="cod">&lt;&lt;acceptEvent&gt;&gt;</code> or <code class="cod">&lt;&lt;accept-event&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+AcceptEventAction<br/>with TimeEvent trigger
+</td>
+<td>
+<code class="cod">&lt;&lt;timeEvent&gt;&gt;</code> or <code class="cod">&lt;&lt;time-event&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+SendSignalAction<br/><br/>SendObjectAction<br/>with signal type
+</td>
+<td>
+<code class="cod">&lt;&lt;sendSignal&gt;&gt;</code> or <code class="cod">&lt;&lt;send-signal&gt;&gt;</code>
+</td>
+</tr>
+<tr>
+<td>
+Trigger
+</td>
+<td>
+<code class="cod">&lt;&lt;trigger&gt;&gt;</code>
+</td>
+</tr>
+</tbody></table>
+<p></p>
+<em>[Ref. <a href="https://github.com/plantuml/plantuml/pull/2185">GH-2185</a>]</em>
+<p></p>
+<h3>UML Shape Example using Stereotype</h3>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:action;
+:object; &lt;&lt;object&gt;&gt;
+
+:ObjectNode
+typed by signal; &lt;&lt;objectSignal&gt;&gt;
+
+:AcceptEventAction
+without TimeEvent trigger; &lt;&lt;acceptEvent&gt;&gt;
+
+:SendSignalAction; &lt;&lt;sendSignal&gt;&gt;
+
+:SendObjectAction
+with signal type; &lt;&lt;sendSignal&gt;&gt;
+
+:Trigger; &lt;&lt;trigger&gt;&gt;
+
+:\t\t\t\t\t\tAcceptEventAction
+\t\t\t\t\t\twith TimeEvent trigger; &lt;&lt;timeEvent&gt;&gt;
+:an action;
+@enduml
+</textarea>
+<div id="out5bf5527fefb12b014da1d31f95f65bfd">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="272" height="571" class="scale" src="/imgw/img-5bf5527fefb12b014da1d31f95f65bfd.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<em>[Ref. <a href="https://github.com/plantuml/plantuml/pull/2185">GH-2185</a>, <a href="https://forum.plantuml.net/16558">QA-16558</a>, <a href="https://github.com/plantuml/plantuml/issues/1659">GH-1659</a>]</em>
+<a style="position:relative;top:-38px;" name="d23dee2d0707a741"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#27"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#27"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#27"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>一个完整的例子</h2>
+<p></p>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+
+start
+:ClickServlet.handleRequest();
+:new page;
+if (Page.onSecurityCheck) then (true)
+  :Page.onInit();
+  if (isForward?) then (no)
+    :Process controls;
+    if (continue processing?) then (no)
+      stop
+    endif
+
+    if (isPost?) then (yes)
+      :Page.onPost();
+    else (no)
+      :Page.onGet();
+    endif
+    :Page.onRender();
+  endif
+else (false)
+endif
+
+if (do redirect?) then (yes)
+  :redirect process;
+else
+  if (do forward?) then (yes)
+    :Forward request;
+  else (no)
+    :Render page template;
+  endif
+endif
+
+stop
+
+@enduml
+</textarea>
+<div id="outf2716023e6507fc15292892a2fe01b4f">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="436" height="927" class="scale" src="/imgw/img-f2716023e6507fc15292892a2fe01b4f.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="d6bf58f32e2a3e02"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#28"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#28"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#28"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>判断的样式</h2>
+<p></p>
+<h3>inside 样式 (默认)</h3>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam conditionStyle inside
+start
+repeat
+  :act1;
+  :act2;
+repeatwhile (&lt;b&gt;end)
+:act3;
+@enduml
+</textarea>
+<div id="out30dec4127e783fc3686e84299431dca1">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="119" height="314" class="scale" src="/imgw/img-30dec4127e783fc3686e84299431dca1.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+repeat
+  :act1;
+  :act2;
+repeatwhile (&lt;b&gt;end)
+:act3;
+@enduml
+</textarea>
+<div id="out407fc8f39492eb15719b661e5c7160bc">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="119" height="314" class="scale" src="/imgw/img-407fc8f39492eb15719b661e5c7160bc.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>Diamond 样式 </h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam conditionStyle diamond
+start
+repeat
+  :act1;
+  :act2;
+repeatwhile (&lt;b&gt;end)
+:act3;
+@enduml
+</textarea>
+<div id="out2540cbbff656c6fdbe851aae8b57cd4f">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="105" height="314" class="scale" src="/imgw/img-2540cbbff656c6fdbe851aae8b57cd4f.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<p></p>
+<h3>InsideDiamond (或 <em>Foo1</em>) 样式 </h3>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam conditionStyle InsideDiamond
+start
+repeat
+  :act1;
+  :act2;
+repeatwhile (&lt;b&gt;end)
+:act3;
+@enduml
+</textarea>
+<div id="outfce90f0b81154dd278cfff74775a4ba9">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="114" height="325" class="scale" src="/imgw/img-fce90f0b81154dd278cfff74775a4ba9.png"/>
+</div>
+</div>
+</div>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam conditionStyle foo1
+start
+repeat
+  :act1;
+  :act2;
+repeatwhile (&lt;b&gt;end)
+:act3;
+@enduml
+</textarea>
+<div id="out5a8ced2b5e0f305e20ec8de35681df00">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="114" height="325" class="scale" src="/imgw/img-5a8ced2b5e0f305e20ec8de35681df00.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<em>[参考: <a href="https://forum.plantuml.net/1290/plantuml-condition-rendering">QA-1290</a> and <a href="https://github.com/plantuml/plantuml/issues/400#issuecomment-721287124">#400</a>]</em>
+<a style="position:relative;top:-38px;" name="27fee13230d4c6de"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#29"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#29"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#29"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>判断的结束样式 </h2>
+<p></p>
+<h3>Diamond 样式 (默认)</h3>
+<p></p>
+<ul>
+<li>With one branch</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam ConditionEndStyle diamond
+:A;
+if (decision) then (yes)
+    :B1;
+else (no)
+endif
+:C;
+@enduml
+</textarea>
+<div id="outf60fad5d3a8fafabdd01f19118a6288e">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="135" height="273" class="scale" src="/imgw/img-f60fad5d3a8fafabdd01f19118a6288e.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li>两个分支 (<code class="cod">B1</code>, <code class="cod">B2</code>)</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam ConditionEndStyle diamond
+:A;
+if (decision) then (yes)
+    :B1;
+else (no)
+    :B2;
+endif
+:C;
+@enduml
+@enduml
+</textarea>
+<div id="out31bba11433b6eb21dcbe4d4eac169582">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="154" height="244" class="scale" src="/imgw/img-31bba11433b6eb21dcbe4d4eac169582.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<h3>水平线 (hline) 样式</h3>
+<ul>
+<li>一个分</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam ConditionEndStyle hline
+:A;
+if (decision) then (yes)
+    :B1;
+else (no)
+endif
+:C;
+@enduml
+</textarea>
+<div id="out6b23b33e8f8ce4166405303f58863a59">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="135" height="251" class="scale" src="/imgw/img-6b23b33e8f8ce4166405303f58863a59.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<ul>
+<li>两个分支 (<code class="cod">B1</code>, <code class="cod">B2</code>)</li>
+</ul>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+skinparam ConditionEndStyle hline
+:A;
+if (decision) then (yes)
+    :B1;
+else (no)
+    :B2;
+endif
+:C;
+@enduml
+@enduml
+</textarea>
+<div id="outf0c59e8c2640b7915c51a69231ee4504">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="154" height="232" class="scale" src="/imgw/img-f0c59e8c2640b7915c51a69231ee4504.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<em>[Ref. <a href="https://forum.plantuml.net/4015/its-possible-to-draw-if-else-endif-without-merge-symbol">QA-4015</a>]</em>
+<a style="position:relative;top:-38px;" name="bb2ede32ce6accb8"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#30"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#30"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#30"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>使用 sytle 定义 (全局) 样式</h2>
+<p></p>
+<h3>无样式 <em>(默认)</em></h3>
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+start
+:init;
+-&gt; test of color;
+if (color?) is (&lt;color:red&gt;red) then
+:print red;
+else 
+:print not red;
+note right: no color
+endif
+partition End {
+:end;
+}
+-&gt; this is the end;
+end
+@enduml
+</textarea>
+<div id="out23c83d7d311d57570ca31ba5d309005c">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="291" height="405" class="scale" src="/imgw/img-23c83d7d311d57570ca31ba5d309005c.png"/>
+</div>
+</div>
+</div>
+<p></p>
+<p></p>
+<h3>有样式</h3>
+<p></p>
+你可以使用 <a href="style-evolution">style</a> 节点去定义样式然后改变渲染。
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+&lt;style&gt;
+activityDiagram {
+  BackgroundColor #33668E
+  BorderColor #33668E
+  FontColor #888
+  FontName arial
+
+  diamond {
+    BackgroundColor #ccf
+    LineColor #00FF00
+    FontColor green
+    FontName arial
+    FontSize 15
+  }
+  arrow {
+    FontColor gold
+    FontName arial
+    FontSize 15
+  }
+  partition {
+    LineColor red
+    FontColor green
+    RoundCorner 10
+    BackgroundColor PeachPuff
+  }
+  note {
+    FontColor Blue
+    LineColor Navy
+    BackgroundColor #ccf
+  }
+}
+document {
+   BackgroundColor transparent
+}
+&lt;/style&gt;
+start
+:init;
+-&gt; test of color;
+if (color?) is (&lt;color:red&gt;red) then
+:print red;
+else 
+:print not red;
+note right: no color
+endif
+partition End {
+:end;
+}
+-&gt; this is the end;
+end
+@enduml
+</textarea>
+<div id="outb718065eefdecd89f394884e0fa3659d">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="291" height="406" class="scale" src="/imgw/img-b718065eefdecd89f394884e0fa3659d.png"/>
+</div>
+</div>
+</div>
+<a style="position:relative;top:-38px;" name="67deba136675cf58"></a>
+<!--heading--><h2 class="chap"><img onclick="window.scrollTo(0,0);" title="Back to top" src="/backtop1.svg" width="20" height="20" class="backtop"/><div class="dropdown"><button class="dropbtn"><img width="16" height="16" src="/edit1.svg"/></button><div class="dropdown-content"><a href="http://alphadoc.plantuml.com/cmp/dokuwiki/zh/activity-diagram-beta#31"><img width="20" height="20" src="/dokuwiki.png"/>Edit in Dokuwiki</a><a href="http://alphadoc.plantuml.com/cmp/asciidoc/zh/activity-diagram-beta#31"><img width="20" height="20" src="/asciidoc32.png"/>Edit in Asciidoc</a><a href="http://alphadoc.plantuml.com/cmp/markdown/zh/activity-diagram-beta#31"><img width="20" height="20" src="/markdown.png"/>Edit in Markdown</a></div></div>Creole on Activity</h2>
+<p></p>
+You can use <a href="creole">Creole or HTML Creole</a> on Activity diagram:
+<p></p>
+<div class="dyn">
+<textarea spellcheck="false" rows="20">@startuml
+:Creole:
+  wave: ~~wave~~
+  bold: **bold**
+  italics: //italics//
+  monospaced: &#34;&#34;monospaced&#34;&#34;
+  stricken-out: --stricken-out--
+  underlined: __underlined__
+  not-underlined: ~__not underlined__
+  wave-underlined: ~~wave-underlined~~;
+:HTML Creole:
+  bold: &lt;b&gt;bold
+  italics: &lt;i&gt;italics
+  monospaced: &lt;font:monospaced&gt;monospaced
+  stroked: &lt;s&gt;stroked
+  underlined: &lt;u&gt;underlined
+  waved: &lt;w&gt;waved
+  green-stroked: &lt;s:green&gt;stroked
+  red-underlined: &lt;u:red&gt;underlined
+  blue-waved: &lt;w:#0000FF&gt;waved
+  Blue: &lt;color:blue&gt;Blue
+  Orange: &lt;back:orange&gt;Orange background
+  big: &lt;size:20&gt;big;
+:Graphic:
+  OpenIconic: account-login &lt;&amp;account-login&gt; 
+  Unicode: This is &lt;U+221E&gt; long
+  Emoji: &lt;:calendar:&gt; Calendar
+  Image:
+  &lt;img:https://plantuml.com/logo3.png&gt;;
+@enduml
+</textarea>
+<div id="out1d9722ad61946b6e872f9ed0c2ef080a">
+<div class="mycell">
+<img loading="lazy" loading="lazy" width="247" height="709" class="scale" src="/imgw/img-1d9722ad61946b6e872f9ed0c2ef080a.png"/>
+</div>
+</div>
+</div>
+
+
+</main>
+
+    
+<aside id="C6">
+<!--toc-->
+<div id="toc">
+<ul>
+<li><a href="#301241875e1def42">简单的行动</a>
+</li><li><a href="#b9d5c6b286284d2d">Other simple action __(defined as a list)__</a>
+</li><li><a href="#45e7ad1c1b3c39e2">开始/停止/结束</a>
+</li><li><a href="#306ae00197babd1f">条件</a>
+</li><li><a href="#537b5a761669087b">Switch判断 [switch, case, endswitch]</a>
+</li><li><a href="#d7b1027a512b4d7b">条件判断和终止 [kill, detach]</a>
+</li><li><a href="#219cebcef334f265">重复循环</a>
+</li><li><a href="#76b6256d62540b9f">打断循环 [break]</a>
+</li><li><a href="#2f8a92e645aba14f">Goto和标签处理 [label, goto]</a>
+</li><li><a href="#04a96ae1910f3c8a">while循环</a>
+</li><li><a href="#7452578bfebedd2d">并行处理 [fork, fork again, end fork, end merge]</a>
+</li><li><a href="#39d488a91ed5c8d2">分割处理</a>
+</li><li><a href="#f4c6f851b00d5518">注释</a>
+</li><li><a href="#5d50889672f6f860">改变颜色</a>
+</li><li><a href="#6299b1bc9965f62f">无箭头连接线</a>
+</li><li><a href="#4e05974b02cc4aa9">箭头</a>
+</li><li><a href="#bb3756eadac20341">Simple colored arrow [link]</a>
+</li><li><a href="#67fe7700c16c08bf">Multiple colored arrow</a>
+</li><li><a href="#f058a88644c5632e">连接器(Connector)</a>
+</li><li><a href="#2f8c97b04c4fc1f5">连接器颜色</a>
+</li><li><a href="#772273da3919bcd1">组合(grouping)</a>
+</li><li><a href="#dadd115c61036c7a">泳道(Swimlanes)</a>
+</li><li><a href="#d02f7ddcfafa91da">分离(detach)</a>
+</li><li><a href="#83ee8020396e7512">Emoji as action (with `+icon+` stereotype)</a>
+</li><li><a href="#bdd3477f7d5f24c6">SDL（规范和描述语言）</a>
+</li><li><a href="#72b61284e9743f76">UML (Unified Modeling Language) Shape (with UML stereotype)</a>
+</li><li><a href="#d23dee2d0707a741">一个完整的例子</a>
+</li><li><a href="#d6bf58f32e2a3e02">判断的样式</a>
+</li><li><a href="#27fee13230d4c6de">判断的结束样式</a>
+</li><li><a href="#bb2ede32ce6accb8">使用 sytle 定义 (全局) 样式</a>
+</li><li><a href="#67deba136675cf58">Creole on Activity</a>
+</li></ul>
+</div>
+</aside>
+
+</div>
+
+
+
+
+<!-- Start of StatCounter Code --><script type="text/javascript">
+var sc_project=11129481; var sc_invisible=1; var sc_security="bd89fcfd";
+</script>
+<script async="" type="text/javascript" src="//www.statcounter.com/counter/counter.js"></script> <!-- End of StatCounter Code -->
+
+  <script src="https://plantuml.github.io/plantuml/js-plantuml/viz-global.js"></script>
+  <script type="module">
+    import { render } from "https://plantuml.github.io/plantuml/js-plantuml/plantuml.js";
+    const renderOptions = {};
+    document.querySelectorAll('.dyn').forEach(dynDiv => {
+      const textarea = dynDiv.querySelector('textarea');
+      const outDiv = dynDiv.querySelector('div');
+      textarea.addEventListener('input', () => {
+        render(textarea.value.split(/\r\n|\r|\n/), outDiv.id, renderOptions);
+      });
+    });
+  </script>
+
+
+
+
+<!--[selectrongo:done]--><span id="ezoic-pub-ad-placeholder-100"></span><span data-ez-ph-id="100" style="min-height:0px;padding:0;box-sizing:content-box;min-width:0px;max-width:100% !important;line-height:0px;float:none !important;display:inline-block;"></span><script>!function(){function t(t,r){var n="undefined"!=typeof Symbol&&t[Symbol.iterator]||t["@@iterator"];if(!n){if(Array.isArray(t)||(n=function(t,r){if(t){if("string"==typeof t)return e(t,r);var n=Object.prototype.toString.call(t).slice(8,-1);return"Object"===n&&t.constructor&&(n=t.constructor.name),"Map"===n||"Set"===n?Array.from(t):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?e(t,r):void 0}}(t))||r&&t&&"number"==typeof t.length){n&&(t=n);var a=0,o=function(){};return{s:o,n:function(){return a>=t.length?{done:!0}:{done:!1,value:t[a++]}},e:function(t){throw t},f:o}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var i,u=!0,s=!1;return{s:function(){n=n.call(t)},n:function(){var t=n.next();return u=t.done,t},e:function(t){s=!0,i=t},f:function(){try{u||null==n.return||n.return()}finally{if(s)throw i}}}}function e(t,e){(null==e||e>t.length)&&(e=t.length);for(var r=0,n=new Array(e);r<e;r++)n[r]=t[r];return n}!function(){var e=function(t){var e=getComputedStyle(t);if(-1===parseInt(e.bottom,10)){var r=t.offsetHeight||300;t.style.bottom=-r+"px"}};function r(){return document.querySelector('ins[data-anchor-shown="true"][data-anchor-status="displayed"]')}function n(t){var e=t.querySelector("iframe");e&&requestAnimationFrame((function(){var r=parseFloat(getComputedStyle(e).height);isNaN(r)||t.style.setProperty("height","".concat(r+5,"px"),"important")}))}function a(t){t.style.setProperty("width","100%","important"),t.style.maxWidth="none"}function o(t){var e=t.querySelector("iframe");e&&(e.style.setProperty("display","block","important"),e.style.setProperty("margin","0 auto","important"));var r=t.querySelector("[id$='__container__']");r&&r.style.setProperty("display","contents","important")}new MutationObserver((function(r){var n,a=t(r);try{for(a.s();!(n=a.n()).done;){var o=n.value;if("attributes"===o.type){var i=o.target;i.matches("[data-anchor-status]")&&("data-anchor-status"===o.attributeName&&"dismissed"===i.getAttribute("data-anchor-status")&&e(i),"style"===o.attributeName&&"dismissed"===i.getAttribute("data-anchor-status")&&e(i))}}}catch(t){a.e(t)}finally{a.f()}})).observe(document.documentElement,{subtree:!0,attributes:!0,attributeFilter:["style","data-anchor-status"]});var i=new WeakSet;function u(e){e&&(i.has(e)||(i.add(e),new MutationObserver((function(r){var i,u=t(r);try{for(u.s();!(i=u.n()).done;){var s=i.value;"style"===s.attributeName?(n(e),a(e),o(e)):"attributes"===s.type&&"data-google-query-id"===s.attributeName&&o(e)}}catch(t){u.e(t)}finally{u.f()}})).observe(e,{attributes:!0,attributeFilter:["style","data-google-query-id"]})))}!function(){var t=r();if(t)return n(t),a(t),o(t),void u(t);var e=new MutationObserver((function(){var t=r();t&&(n(t),a(t),o(t),u(t),e.disconnect())}));e.observe(document.body,{attributes:!0,subtree:!0,childList:!0})}()}()}();</script>
+<script>window.ezAnchorBodyMargin=true;!function(){if(!document.getElementById("ez-grippy-dim")){var t=document.createElement("style");t.id="ez-grippy-dim",t.textContent=".grippy-host{opacity:.5;}body{padding-bottom:0 !important;padding-top:0 !important;}",(document.head||document.documentElement).appendChild(t)}window.__ezGabmEpoch=1+(0|window.__ezGabmEpoch);var e=window.__ezGabmEpoch,o=null,n=null,r=!1;function d(t){return"margin-top"===t?"padding-top":"padding-bottom"}function a(t,e){document.body.style.getPropertyValue(t)===e&&"important"===document.body.style.getPropertyPriority(t)||document.body.style.setProperty(t,e,"important")}function u(t,e,d){a(t,d+"px"),a(e,"0px"),o=t,n=null,r=!1}function i(){if(document&&e===window.__ezGabmEpoch){var t=function(){for(var t=document.querySelectorAll('ins[data-anchor-shown="true"][data-anchor-status="displayed"]:not(#ez-anchor-comp-trigger)'),e=t.length-1;e>=0;e--)if(t[e].offsetHeight>0)return t[e];return null}();if(!t)return document.querySelector('ins[data-anchor-status="displayed"]:not(#ez-anchor-comp-trigger)')?void function(){for(var t=["padding-bottom","padding-top"],e=0;e<t.length;e++){var o=t[e];parseFloat(document.body.style.getPropertyValue(o))>0&&(a(o,"0px"),r=!0)}}():(function(){if(null!==o){var t=d(o);""!==document.body.style.getPropertyValue(o)&&document.body.style.removeProperty(o),a(t,"0px"),o=null}}(),n=null,void(r=!1));var i="0px"===getComputedStyle(t).top?"margin-top":"margin-bottom",l=d(i),p=t.offsetHeight;if(null!==o&&o!==i&&(""!==document.body.style.getPropertyValue(o)&&document.body.style.removeProperty(o),o=null),o===i)return a(i,p+"px"),void a(l,"0px");var m=function(t){var e,o=document.body.style.getPropertyValue(t);if(""===o){var n=getComputedStyle(document.body);e=parseFloat("padding-top"===t?n.paddingTop:n.paddingBottom)}else e=parseFloat(o);return isNaN(e)||e<=0?0:e}(l);m>0||r?u(i,l,p):(null===n&&(n=Date.now()),Date.now()-n>=1500&&u(i,l,p))}}new MutationObserver(i).observe(document.documentElement,{subtree:!0,attributes:!0,attributeFilter:["style","data-anchor-status","data-anchor-shown"]}),new MutationObserver(i).observe(document.documentElement,{childList:!0,subtree:!0}),i(),setInterval(i,500)}();</script>
+<script src="/detroitchicago/leavenworth.js?gcb=195-5&cb=15"></script>
+<script src="/detroitchicago/socialproviders.js?gcb=195-5&cb=8"></script>
+<script src="/detroitchicago/ezonetap.js?gcb=195-5&cb=22"></script><script data-cfasync="false">function _emitEzConsentEvent(){var customEvent=new CustomEvent("ezConsentEvent",{detail:{ezTcfConsent:window.ezTcfConsent},bubbles:true,cancelable:true,});document.dispatchEvent(customEvent);}
+(function(window,document){function _setAllEzConsentTrue(){window.ezTcfConsent.loaded=true;window.ezTcfConsent.store_info=true;window.ezTcfConsent.develop_and_improve_services=true;window.ezTcfConsent.measure_ad_performance=true;window.ezTcfConsent.measure_content_performance=true;window.ezTcfConsent.select_basic_ads=true;window.ezTcfConsent.create_ad_profile=true;window.ezTcfConsent.select_personalized_ads=true;window.ezTcfConsent.create_content_profile=true;window.ezTcfConsent.select_personalized_content=true;window.ezTcfConsent.understand_audiences=true;window.ezTcfConsent.use_limited_data_to_select_content=true;window.ezTcfConsent.select_personalized_content=true;}
+function _clearEzConsentCookie(){document.cookie="ezCMPCookieConsent=tcf2;Domain=.plantuml.com;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";}
+_clearEzConsentCookie();if(typeof window.__tcfapi!=="undefined"){window.ezgconsent=false;var amazonHasRun=false;function _ezAllowed(tcdata,purpose){return(tcdata.purpose.consents[purpose]||tcdata.purpose.legitimateInterests[purpose]);}
+function _handleConsentDecision(tcdata){window.ezTcfConsent.loaded=true;if(!tcdata.vendor.consents["347"]&&!tcdata.vendor.legitimateInterests["347"]){window._emitEzConsentEvent();return;}
+window.ezTcfConsent.store_info=_ezAllowed(tcdata,"1");window.ezTcfConsent.develop_and_improve_services=_ezAllowed(tcdata,"10");window.ezTcfConsent.measure_content_performance=_ezAllowed(tcdata,"8");window.ezTcfConsent.select_basic_ads=_ezAllowed(tcdata,"2");window.ezTcfConsent.create_ad_profile=_ezAllowed(tcdata,"3");window.ezTcfConsent.select_personalized_ads=_ezAllowed(tcdata,"4");window.ezTcfConsent.create_content_profile=_ezAllowed(tcdata,"5");window.ezTcfConsent.measure_ad_performance=_ezAllowed(tcdata,"7");window.ezTcfConsent.use_limited_data_to_select_content=_ezAllowed(tcdata,"11");window.ezTcfConsent.select_personalized_content=_ezAllowed(tcdata,"6");window.ezTcfConsent.understand_audiences=_ezAllowed(tcdata,"9");window._emitEzConsentEvent();}
+function _handleGoogleConsentV2(tcdata){if(!tcdata||!tcdata.purpose||!tcdata.purpose.consents){return;}
+var consents=tcdata.purpose.consents;var googConsentV2={ad_storage:consents[1]?'granted':'denied',analytics_storage:consents[1]?'granted':'denied',ad_personalization:(consents[3]&&consents[4])?'granted':'denied',ad_user_data:(consents[1]&&consents[7])?'granted':'denied'};if(googConsentV2.analytics_storage==='denied'){gtag('set','url_passthrough',true);}
+gtag('consent','update',googConsentV2);}
+__tcfapi("addEventListener",2,function(tcdata,success){if(!success||!tcdata){window._emitEzConsentEvent();return;}
+if(!tcdata.gdprApplies){_setAllEzConsentTrue();window._emitEzConsentEvent();return;}
+if(tcdata.eventStatus==="useractioncomplete"||tcdata.eventStatus==="tcloaded"){if(typeof gtag!='undefined'){_handleGoogleConsentV2(tcdata);}
+_handleConsentDecision(tcdata);if(tcdata.purpose.consents["1"]===true&&tcdata.vendor.consents["755"]!==false){window.ezgconsent=true;(adsbygoogle=window.adsbygoogle||[]).pauseAdRequests=0;}
+if(window.__ezconsent){__ezconsent.setEzoicConsentSettings(ezConsentCategories);}
+__tcfapi("removeEventListener",2,function(success){return null;},tcdata.listenerId);if(!(tcdata.purpose.consents["1"]===true&&_ezAllowed(tcdata,"2")&&_ezAllowed(tcdata,"3")&&_ezAllowed(tcdata,"4"))){if(typeof __ez=="object"&&typeof __ez.bit=="object"&&typeof window["_ezaq"]=="object"&&typeof window["_ezaq"]["page_view_id"]=="string"){__ez.bit.Add(window["_ezaq"]["page_view_id"],[new __ezDotData("non_personalized_ads",true),]);}}}});}else{_setAllEzConsentTrue();window._emitEzConsentEvent();}})(window,document);</script></body></html>

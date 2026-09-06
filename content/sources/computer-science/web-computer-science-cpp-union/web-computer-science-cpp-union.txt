@@ -1,0 +1,9 @@
+A union is a special class type that can hold only one of its non-static data members at a time.
+
+The class specifier for a union declaration is similar to class or struct declaration. A union can have member functions (including constructors and destructors), but not virtual functions. A union cannot have base classes and cannot be used as a base class.
+
+The union is at least as big as necessary to hold its largest data member, but is usually not larger. The other data members are intended to be allocated in the same bytes as part of that largest member. The details of that allocation are implementation-defined, except that all non-static data members have the same address. It is undefined behavior to read from the member of the union that wasn't most recently written. Many compilers implement, as a non-standard language extension, the ability to read inactive members of a union.
+
+An anonymous union is an unnamed union definition that does not simultaneously define any variables (including objects of the union type, references, or pointers to the union).
+
+The lifetime of a union member begins when the member is made active. If another member was active previously, its lifetime ends.

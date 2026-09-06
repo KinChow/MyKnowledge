@@ -1,0 +1,1744 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "compilers-on-linux",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_c2861f50f944",
+  "input_hash": "sha256:6f5486147437064e6066da6820871dd818a2de94e3a4fbfaeb1eb398eb80e5e5",
+  "provider_duration_ms": 38404,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579993.540384,
+  "wiki_content_sha256": "sha256:f5e183bdfb6c677c1547a8359c98016234e635255fdba410013347d43150f393",
+  "wiki_evidence_sha256": "sha256:7a4bb124aa9baff25fc144e75fccdf3d5102eeef852276c340ed1d90823e3205",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-install-guide"
+      },
+      "source_id": "gcc-install-guide",
+      "evidence_id": "evidence-75cbde47441e",
+      "snapshot_sha256": "sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8",
+      "selector_sha256": "sha256:a9706b73f9b92c0a8fa105c7c9ef0d89aff658acaa7a115791d198f3d86e490e",
+      "quote_sha256": "sha256:b8734386f9b2a7056c850ebd367d24d864bfc63ecf4c56958d15f39f1a4670c9"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-install-guide"
+      },
+      "source_id": "gcc-install-guide",
+      "evidence_id": "evidence-84712bc48f88",
+      "snapshot_sha256": "sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8",
+      "selector_sha256": "sha256:6443f69902827dc8eb94210a20901e090fc96aab940434102ab5c93c99686230",
+      "quote_sha256": "sha256:39d532b0fa4cc4c447201b5058fb506dc0a35a9eab719643bfa84146456a6357"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-prerequisites"
+      },
+      "source_id": "gcc-prerequisites",
+      "evidence_id": "evidence-0df0f0181d75",
+      "snapshot_sha256": "sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316",
+      "selector_sha256": "sha256:6d1d0c90525937c04262cd2a8c438a1aaf235584c86dfa59564993ac07993434",
+      "quote_sha256": "sha256:e7069697b5128d83d12fcae2a57bc7fffb36362ea42a46c7e544a6024cddfafe"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-prerequisites"
+      },
+      "source_id": "gcc-prerequisites",
+      "evidence_id": "evidence-afe64130d587",
+      "snapshot_sha256": "sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316",
+      "selector_sha256": "sha256:3f228e406c952542b2549035e6850b6697fd7dd640dc86317be43ec967c56e2d",
+      "quote_sha256": "sha256:bd517e65fcf9a2b9cfc796faf749c73ce241cfdd0905df3c989ee00cb92658d7"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-prerequisites"
+      },
+      "source_id": "gcc-prerequisites",
+      "evidence_id": "evidence-60b61915a72e",
+      "snapshot_sha256": "sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316",
+      "selector_sha256": "sha256:a764b3e0cbe1b9d7ea634abc6755fc596b01fbca4e8db0a257b41fe5427ff7de",
+      "quote_sha256": "sha256:0d8847386ef8548f5d22a06b113b14b33d5cb65388542d5d47b7b3de4ef280df"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "mpfr-official"
+      },
+      "source_id": "mpfr-official",
+      "evidence_id": "evidence-6c9248d75616",
+      "snapshot_sha256": "sha256:e213b2ccebe27e9eeedbda250699fd57a6461e19bb03c1413769d81101f2631b",
+      "selector_sha256": "sha256:0e874f16c0ff4c4d58f757cc590d0582dc09aacb7d36d33e1c796b35b39d4e52",
+      "quote_sha256": "sha256:4fc68704a993a56de8e36b6735b442b3b65f580837eb679c9a5985d268d08ee5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "mpc-official"
+      },
+      "source_id": "mpc-official",
+      "evidence_id": "evidence-949c1e14484a",
+      "snapshot_sha256": "sha256:b1e1638deedda65076f74716e40c50d622f1f0fc42df5c9f1fec0474322757c9",
+      "selector_sha256": "sha256:0346c11099763584a96126e811083c645e590b9592b80f32860c8a96a4dfc6e9",
+      "quote_sha256": "sha256:be4d56d3fbe43630baf4e10a23c140c9086e1509fb55ef0b046e50e2ac0a825c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-052a9cc37b85",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:7ca859fcdf92c290384883fcc6a1600e906f25e4c3918d1bc7f95f9bf14a826f",
+      "quote_sha256": "sha256:db3c40807ad5717641c1890b1e49df0384d8cf4b20985fd4a8a69df517307a4a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-fb605de0897a",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:41b2936c414ba0775b120d5946ae7f04db2164b64432fe3fe2a31f8cbbc704f6",
+      "quote_sha256": "sha256:3dadfae89cf55ea0a9f71264140c4fce27be5475211082b6d34f0f7c3ce166ef"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-bd395148b2f9",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:29dbd27b8f58820a95fa413ec6f12101992c501c5d4b9775d022232f0e755eaf",
+      "quote_sha256": "sha256:9fae3ca331bed7bbad075da39c856c41cb892c3b69895d17ae66cd4efd194b7e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-configure-options"
+      },
+      "source_id": "gcc-configure-options",
+      "evidence_id": "evidence-1ddd3b797392",
+      "snapshot_sha256": "sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8",
+      "selector_sha256": "sha256:238d7ea632b70a8c18627cfef5d286d3557760f076a2a136d3a51582c2ed3e70",
+      "quote_sha256": "sha256:1f692d6152b06bf60873884e94a40c6077d26ab1168b19d7422c25f9a88491a3"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "install-five-steps",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-75cbde47441e",
+          "exact": "The installation procedure itself is broken into five steps."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-75cbde47441e",
+          "subject": "GCC installation procedure",
+          "predicate": "is broken into",
+          "object": "five steps",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接表述安装过程被分为五步，对应 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "start": 0,
+          "end": 60
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "own-directory",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-84712bc48f88",
+          "exact": "Please note that GCC does not support ‘make uninstall’ and probably won’t do so in the near future as this would open a can of worms. Instead, we suggest that you install GCC into a directory of its own and simply remove that directory when you do not need that specific version of GCC any longer"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-84712bc48f88",
+          "subject": "GCC",
+          "predicate": "does not support and recommended alternative",
+          "object": "does not support make uninstall; install into its own directory and remove it when no longer needed",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文同时说明不支持 make uninstall，并建议安装到独立目录且不需要时删除该目录。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "start": 22,
+          "end": 56
+        },
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "start": 145,
+          "end": 292
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "deps-gmp",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0df0f0181d75",
+          "exact": "Necessary to build GCC. It can be downloaded from https://gmplib.org/."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0df0f0181d75",
+          "subject": "GMP",
+          "predicate": "is necessary to build GCC and downloadable from",
+          "object": "https://gmplib.org/",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明该库构建 GCC 所必需，并给出下载地址。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "start": 0,
+          "end": 68
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "deps-mpfr",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-afe64130d587",
+          "exact": "Necessary to build GCC. It can be downloaded from https://www.mpfr.org."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-afe64130d587",
+          "subject": "MPFR",
+          "predicate": "is necessary to build GCC and downloadable from",
+          "object": "https://www.mpfr.org",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明该库构建 GCC 所必需，并给出下载地址。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "start": 0,
+          "end": 68
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "deps-mpc",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-60b61915a72e",
+          "exact": "Necessary to build GCC. It can be downloaded from https://www.multiprecision.org/mpc/."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-60b61915a72e",
+          "subject": "MPC",
+          "predicate": "is necessary to build GCC and downloadable from",
+          "object": "https://www.multiprecision.org/mpc/",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明该库构建 GCC 所必需，并给出下载地址。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "start": 0,
+          "end": 84
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "mpfr-role",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6c9248d75616",
+          "exact": "The MPFR library is a C library for multiple-precision floating-point computations with correct rounding. MPFR has continuously been supported by the INRIA and the current main authors come from the Caramba and Pascaline project-teams at Loria (Nancy, France) and LIP (Lyon, France) respectively; see more on the credit page. MPFR is based on the GMP multiple-precision library"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6c9248d75616",
+          "subject": "MPFR library",
+          "predicate": "is",
+          "object": "a multiple-precision floating-point computation library based on GMP",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 MPFR 是多精度浮点计算 C 库，且基于 GMP 多精度库。",
+      "rationale_offsets": [
+        {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "start": 0,
+          "end": 100
+        },
+        {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "start": 316,
+          "end": 370
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "mpc-role",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-949c1e14484a",
+          "exact": "GNU MPC is a C library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result. It extends the principles of the IEEE-754 standard for fixed precision real floating point numbers to complex numbers, providing well-defined semantics for every operation. At the same time, speed of operation at high precision is a major design goal.\nThe library is built upon and follows the same principles as GNU MPFR"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-949c1e14484a",
+          "subject": "GNU MPC",
+          "predicate": "is and is built upon/follows principles of",
+          "object": "a high precision complex-number arithmetic library; GNU MPFR",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 MPC 用于任意高精度复数运算，并说明该库建立在 GNU MPFR 之上且遵循相同原则。",
+      "rationale_offsets": [
+        {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "start": 0,
+          "end": 124
+        },
+        {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "start": 361,
+          "end": 430
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "configure-languages",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-052a9cc37b85",
+          "exact": "--enable-languages=[^]lang1,[^]lang2,…\nSpecify that only a particular subset of compilers and\ntheir runtime libraries should be built"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-052a9cc37b85",
+          "subject": "--enable-languages",
+          "predicate": "specifies",
+          "object": "only a particular subset of compilers and their runtime libraries should be built",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文给出 --enable-languages 选项，并说明它指定只构建特定编译器及运行库子集。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "start": 0,
+          "end": 132
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "configure-multilib",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fb605de0897a",
+          "exact": "--disable-multilib\nSpecify that multiple target libraries to support different target variants, calling conventions, etc. should not be built"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fb605de0897a",
+          "subject": "--disable-multilib",
+          "predicate": "specifies",
+          "object": "multiple target libraries for different target variants/calling conventions should not be built",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 --disable-multilib 指定不构建支持不同目标变体等的多个目标库。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "start": 0,
+          "end": 137
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "configure-with-deps",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-bd395148b2f9",
+          "exact": "If you want to build GCC but do not have the GMP library, the MPFR\nlibrary and/or the MPC library installed in a standard location and\ndo not have their sources present in the GCC source tree then you\ncan explicitly specify the directory where they are installed\n(‘--with-gmp=gmpinstalldir’,\n‘--with-mpfr=mpfrinstalldir’,\n‘--with-mpc=mpcinstalldir’)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-bd395148b2f9",
+          "subject": "GMP/MPFR/MPC libraries",
+          "predicate": "can be explicitly specified with",
+          "object": "--with-gmp, --with-mpfr, --with-mpc when not in a standard location and sources are not in the GCC tree",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明在 GMP/MPFR/MPC 未装在标准位置且源码不在 GCC 源码树中时，可显式指定安装目录，并列出三个 --with 选项。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "start": 0,
+          "end": 357
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "prefix-separate",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1ddd3b797392",
+          "exact": "--prefix=dirname\nSpecify the toplevel installation directory. This is the recommended way to install the tools into a directory other than the default. The toplevel installation directory defaults to /usr/local.\nWe highly recommend against dirname being the same or a\nsubdirectory of objdir or vice versa"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1ddd3b797392",
+          "subject": "--prefix dirname",
+          "predicate": "should not be",
+          "object": "the same as or a subdirectory/superdirectory of objdir",
+          "qualifiers": {
+            "recommendation_strength": "highly recommend against"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文说明 --prefix 指定顶层安装目录，并强烈建议 dirname 不要与 objdir 相同或互为子目录。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "start": 0,
+          "end": 61
+        },
+        {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "start": 202,
+          "end": 291
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:b0d48b94e1dc04e8ea1b3a474af67157c9b2bba8f862cc16917784fb2221461e"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-84712bc48f88",
+          "independence_group": "source:gcc-install-guide",
+          "observation_sha256": "sha256:f4aaa77eb3fb27f27598e89e61cc76b6d89531f470914a0a1245ea379641d5e6"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-0df0f0181d75",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:22eea6e1bf172a6bdebab37c7601927f6f53365eccf6b212818303d66eab3245"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-afe64130d587",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:0de6579e7f2c05835802f99af48a01404e0aa88dc85f3c349c5b457749af892f"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "target_b": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "target_b": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-prerequisites",
+          "evidence_id": "evidence-60b61915a72e",
+          "independence_group": "source:gcc-prerequisites",
+          "observation_sha256": "sha256:2505aea76809ceeed3616b6c5935894eb5c1b1c38f00ded779c6b17131fcc5eb"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "target_b": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpfr-official",
+          "evidence_id": "evidence-6c9248d75616",
+          "independence_group": "source:mpfr-official",
+          "observation_sha256": "sha256:0c79fabac706eb848196c81bea1df9bd76890caf74a0d58a27b1f084e65d1f2b"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "mpc-official",
+          "evidence_id": "evidence-949c1e14484a",
+          "independence_group": "source:mpc-official",
+          "observation_sha256": "sha256:8181abc2572291a207f76967f27f0dfc5dc6585f577472caa697d9cb6dc33970"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-052a9cc37b85",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:7a2fe46d88d949900238b4ca7b54ff56b60e5b65ed35de5f851d868e93929801"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-fb605de0897a",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:e610bc54cbbb2d6b4178658f4051ca9a52119c18dbf091c01428ff173e5c02cf"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-bd395148b2f9",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:0cd31f3258e5b8adafd61f3b894a89daa9a736186f98f5e192836b4a0a617b97"
+        },
+        "target_b": {
+          "source_id": "gcc-configure-options",
+          "evidence_id": "evidence-1ddd3b797392",
+          "independence_group": "source:gcc-configure-options",
+          "observation_sha256": "sha256:41c5f5ad013d9cb2cbdb7a9a77c769bebb29ea7510d26aa10862c2262df06ec7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-install-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-install-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-prerequisites",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-prerequisites",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-prerequisites",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "mpfr-official",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "mpc-official",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-configure-options",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "install-five-steps",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "own-directory",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "deps-gmp",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "deps-mpfr",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "deps-mpc",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "mpfr-role",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "mpc-role",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "configure-languages",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "configure-multilib",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "configure-with-deps",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "prefix-separate",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

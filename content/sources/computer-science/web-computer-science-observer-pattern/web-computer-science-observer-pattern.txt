@@ -1,0 +1,12 @@
+In software design and software engineering, the observer pattern is a software design pattern in which an object, called the subject (also known as event source or event stream), maintains a list of its dependents, called observers (also known as event sinks), and automatically notifies them of any state changes, typically by calling one of their methods. The subject knows its observers through a standardized interface and manages the subscription list directly.
+
+The observer design pattern is a behavioural pattern listed among the 23 well-known Gang of Four design patterns that address recurring design challenges in order to design flexible and reusable object-oriented software, yielding objects that are easier to implement, change, test, and reuse.
+
+The observer pattern addresses the following requirements:
+- A one-to-many dependency between objects should be defined without making the objects tightly coupled.
+- When one object changes state, an open-ended number of dependent objects should be updated automatically.
+- An object can notify multiple other objects.
+
+This pattern creates a one-to-many dependency where multiple observers can listen to a single subject, but the coupling is typically synchronous and direct - the subject calls observer methods when changes occur, though asynchronous implementations using event queues are possible. Unlike the publish-subscribe pattern, there is no intermediary broker; the subject and observers have direct references to each other.
+
+It is commonly used to implement event handling systems in event-driven programming, particularly in-process systems like GUI toolkits or MVC frameworks. This makes the pattern well-suited to processing data that arrives unpredictably - such as user input, HTTP requests, GPIO signals, updates from distributed databases, or changes in a GUI model.

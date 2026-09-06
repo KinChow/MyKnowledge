@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<title>Software Requirements</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+<meta name="description" content="The software requirements are description of features and functionalities of the target system. Requirements convey the expectations of users from the software product. The requirements can be obvious or hidden, known or unknown, expected or">
+<link rel="icon" href="https://www.tutorialspoint.com/images/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+<link rel="canonical" href="https://www.tutorialspoint.com/software_engineering/software_requirements.htm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Software Requirements">
+<meta property="og:description" content="The software requirements are description of features and functionalities of the target system. Requirements convey the expectations of users from the software product. The requirements can be obvious or hidden, known or unknown, expected or">
+<meta property="og:url" content="https://www.tutorialspoint.com/software_engineering/software_requirements.htm">
+<meta property="og:image" content="https://www.tutorialspoint.com/images/tp_logo_436.png">
+
+<link rel="stylesheet" href="/jobs/styles.css?v=73.M" media="screen, print">
+
+
+
+<script>
+  window.googletag = window.googletag || {};
+  window.googletag.cmd = window.googletag.cmd || [];
+  window.googletag.cmd.push(() => {
+    window.googletag.pubads().enableAsyncRendering();
+    window.googletag.pubads().disableInitialLoad();
+  }
+  );
+  const injectPgScript = (src, isAsync, onLoadCallback) => {
+    if (!src)
+      return;
+    const script = document.createElement("script");
+    script.src = src;
+    if (isAsync)
+      script.async = isAsync;
+    if (onLoadCallback)
+      script.onload = onLoadCallback;
+    document.head.appendChild(script);
+  }
+    ;
+  const initiatePgAds = () => {
+    !!window.__tcfapi && window.__tcfapi("addEventListener", 2, (tcData, success) => {
+      if (success && (tcData.eventStatus === "useractioncomplete" || tcData.eventStatus === "tcloaded" || tcData.gdprApplies === false)) {
+        if (!window._initAds) {
+          window._initAds = true;
+          injectPgScript("https://fms.360yield.com/ow/bundles/live/pubgalaxy/publishers/tutorialspointcom.min.js", true);
+          injectPgScript("//btloader.com/tag?o=5184339635601408&upapi=true", true);
+        }
+      }
+    }
+    );
+  }
+    ;
+  injectPgScript("https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=8095840", true, () => {
+    window.googlefc = window.googlefc || {
+      callbackQueue: []
+    };
+    window.googlefc.callbackQueue.push({
+      "CONSENT_API_READY": () => initiatePgAds()
+    });
+  }
+  );
+</script>
+
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="tp-topbar">
+        <div class="tp-topbar-inner-page">
+            <div class="tp-topbar-left">
+                <a href="/" class="tp-topbar-link"><i class="fa-sharp fa-light fa-house"></i><span>Home</span></a>
+                <a href="/whiteboard.htm" class="tp-topbar-link"><i class="fa-sharp fa-light fa-chalkboard"></i><span>Whiteboard</span></a>
+                <a href="/practice/index.htm" class="tp-topbar-link"><i class="fa-sharp fa-light fa-rectangle-terminal"></i> <span>Practice Code</span></a>
+                <a href="/online_graphing_calculator.htm" class="tp-topbar-link"><i class="fa-sharp fa-light fa-calculator"></i><span>Graphing Calculator</span></a>
+                <a href="/codingground.htm" class="tp-topbar-link"><i class="fa-sharp fa-light fa-code"></i><span>Online Compilers</span></a>
+                <a href="/articles/index.php" class="tp-topbar-link"><i class="fa-sharp fa-light fa-pen-to-square"></i><span>Articles</span></a>
+                <a href="/online_dev_tools.htm" class="tp-topbar-link"><i class="fa-sharp fa-light fa-gear"></i><span>Tools</span></a>
+            </div>
+            <div class="tp-topbar-right">
+                <a href="https://www.facebook.com/tutorialspointindia" class="tp-social-link tp-social-fb" title="Facebook" rel="nofollow" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://x.com/tutorialspoint" class="tp-social-link tp-social-x" title="X" rel="nofollow" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="https://www.youtube.com/channel/UCVLbzhxVTiTLiVKeGV7WEBg" class="tp-social-link tp-social-yt" title="YouTube" rel="nofollow" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.linkedin.com/company/tutorialspoint/" class="tp-social-link tp-social-li" title="LinkedIn" rel="nofollow" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/tutorialspoint_/" class="tp-social-link tp-social-ig" title="Instagram" rel="nofollow" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- Header -->
+    <header class="tp-header">
+        <div class="tp-header-inner-page">
+            <div class="tp-header-left">
+                <a href="https://www.tutorialspoint.com" title="Tutorials point">
+                    <svg class="tp-logo-desktop" xmlns="http://www.w3.org/2000/svg" width="226" height="42" viewBox="0 0 226 42" fill="none"><path d="M76.2136 13.8408V27.7576H72.3845V26.1045C71.3229 27.3193 69.7701 27.9689 68.0642 27.9689C64.5731 27.9689 62.1172 26.0042 62.1172 21.7103V13.8461H66.1523V21.1135C66.1523 23.4426 67.1874 24.4778 68.9726 24.4778C70.7577 24.4778 72.1785 23.2895 72.1785 20.7279V13.8461H76.2136V13.8408Z" fill="#40A944"/><path d="M89.1484 20.7959C89.1484 16.6077 92.3807 13.6289 96.8066 13.6289C101.233 13.6289 104.438 16.6024 104.438 20.7959C104.438 24.9894 101.233 27.9629 96.8066 27.9629C92.3807 27.9629 89.1484 24.9894 89.1484 20.7959ZM100.351 20.7959C100.351 18.3928 98.8242 16.9404 96.8066 16.9404C94.7891 16.9404 93.2363 18.3876 93.2363 20.7959C93.2363 23.2043 94.7891 24.6514 96.8066 24.6514C98.8242 24.6514 100.351 23.2043 100.351 20.7959Z" fill="#40A944"/><path d="M115.28 13.6348V17.3582C114.942 17.3318 114.683 17.3054 114.377 17.3054C112.153 17.3054 110.68 18.5202 110.68 21.1873V27.7575H106.645V13.8407H110.5V15.6787C111.482 14.3319 113.141 13.6348 115.285 13.6348H115.28Z" fill="#40A944"/><path d="M117.695 13.8408H121.73V27.7576H117.695V13.8408Z" fill="#40A944"/><path d="M139.119 13.8402V27.757H135.263V26.1514C134.255 27.3661 132.781 27.9629 130.917 27.9629C126.987 27.9629 123.961 25.169 123.961 20.7959C123.961 16.4228 126.987 13.6289 130.917 13.6289C132.623 13.6289 134.07 14.1729 135.079 15.3084V13.8349H139.114L139.119 13.8402ZM135.163 20.7959C135.163 18.3928 133.61 16.9404 131.619 16.9404C129.628 16.9404 128.049 18.3876 128.049 20.7959C128.049 23.2043 129.602 24.6514 131.619 24.6514C133.637 24.6514 135.163 23.2043 135.163 20.7959Z" fill="#40A944"/><path d="M146.402 8.5625H142.367V27.7555H146.402V8.5625Z" fill="#40A944"/><path d="M149.141 26.4622L150.487 23.5679C151.729 24.3707 153.619 24.9147 155.325 24.9147C157.19 24.9147 157.887 24.4235 157.887 23.6471C157.887 21.3708 149.479 23.7 149.479 18.1385C149.479 15.4978 151.861 13.6387 155.917 13.6387C157.829 13.6387 159.952 14.077 161.272 14.8534L159.925 17.7266C158.552 16.9502 157.184 16.6914 155.917 16.6914C154.105 16.6914 153.329 17.2618 153.329 17.9854C153.329 20.3673 161.737 18.0646 161.737 23.5468C161.737 26.1347 159.334 27.9674 155.167 27.9674C152.811 27.9674 150.435 27.3231 149.141 26.4675V26.4622Z" fill="#40A944"/><path d="M178.226 20.9541C178.226 25.0948 175.332 27.8835 171.45 27.8835C169.279 27.8835 167.415 26.9539 166.279 25.1952V32.7742H164.441V14.1515H166.2V16.8398C167.315 15.0283 169.2 14.0459 171.45 14.0459C175.332 14.0459 178.226 16.8398 178.226 20.9541ZM176.388 20.9541C176.388 17.8011 174.191 15.6515 171.318 15.6515C168.445 15.6515 166.248 17.7958 166.248 20.9541C166.248 24.1125 168.418 26.2568 171.318 26.2568C174.218 26.2568 176.388 24.1336 176.388 20.9541Z" fill="#000"/><path d="M180.129 20.9541C180.129 16.919 183.076 14.0459 187.058 14.0459C191.041 14.0459 193.966 16.919 193.966 20.9541C193.966 24.9892 191.046 27.8835 187.058 27.8835C183.071 27.8835 180.129 24.9892 180.129 20.9541ZM192.102 20.9541C192.102 17.7747 189.953 15.6515 187.058 15.6515C184.164 15.6515 181.988 17.7747 181.988 20.9541C181.988 24.1336 184.159 26.2568 187.058 26.2568C189.958 26.2568 192.102 24.1336 192.102 20.9541Z" fill="#000"/><path d="M196.754 14.1523H198.592V27.7575H196.754V14.1523Z" fill="#000"/><path d="M215.288 19.8661V27.7567H213.45V20.051C213.45 17.1778 211.95 15.7043 209.362 15.7043C206.442 15.7043 204.604 17.5159 204.604 20.6161V27.7567H202.766V14.1515H204.524V16.6602C205.507 15.0071 207.345 14.0459 209.695 14.0459C213.006 14.0459 215.283 15.9578 215.283 19.8661H215.288Z" fill="#000"/><path d="M59.3346 24.2389C58.8699 24.5769 58.2731 24.7565 57.6815 24.7565C56.5935 24.7565 55.9756 24.1122 55.9756 22.9185V17.2568H59.4139V14.1512H55.9756V10.2852L51.9405 11.2411V14.1512H50.2188V17.2568H51.9405V22.9714C51.9405 26.2829 53.8313 27.9624 57.1375 27.9624C58.3523 27.9624 59.567 27.6772 60.3962 27.0804L59.3346 24.2336V24.2389Z" fill="#40A944"/><path d="M87.2878 24.2389C86.823 24.5769 86.2262 24.7565 85.6347 24.7565C84.5467 24.7565 83.9287 24.1122 83.9287 22.9185V17.2568H87.367V14.1512H83.9287V10.2852L79.8936 11.2411V14.1512H78.1719V17.2568H79.8936V22.9714C79.8936 26.2829 81.7844 27.9624 85.0907 27.9624C86.3054 27.9624 87.5202 27.6772 88.3494 27.0804L87.2878 24.2336V24.2389Z" fill="#40A944"/><path d="M119.713 11.8222C120.827 11.8222 121.73 10.9189 121.73 9.80465C121.73 8.69039 120.827 7.78711 119.713 7.78711C118.599 7.78711 117.695 8.69039 117.695 9.80465C117.695 10.9189 118.599 11.8222 119.713 11.8222Z" fill="#40A944"/><path d="M197.674 11.8222C198.788 11.8222 199.691 10.9189 199.691 9.80465C199.691 8.69039 198.788 7.78711 197.674 7.78711C196.56 7.78711 195.656 8.69039 195.656 9.80465C195.656 10.9189 196.56 11.8222 197.674 11.8222Z" fill="#40A944"/><path d="M225.15 25.6071C224.633 26.0719 223.909 26.3043 223.133 26.3043C221.606 26.3043 220.803 25.4223 220.803 23.822V15.699H224.918V14.1462H220.803V10.2168L218.965 11.1728V14.1462H217.043V15.699H218.965V23.9223C218.965 26.4311 220.386 27.8782 222.948 27.8782C224.009 27.8782 225.097 27.5666 225.794 26.9222L225.15 25.6019V25.6071Z" fill="#000"/><path d="M27.3002 39.5829C33.1626 39.4561 38.4072 35.87 40.8842 30.5568C42.3208 27.4829 43.0444 24.013 42.8542 20.3582C42.2785 9.30395 33.1521 0.394029 22.082 0.0718569C9.95038 -0.282005 0 9.44655 0 21.5043C0 30.7099 5.80439 38.5583 13.9485 41.6004C13.1721 40.7871 12.6017 39.7941 12.2531 38.6217C11.7091 36.8101 11.725 34.6711 12.2954 32.2046L15.2319 19.8881H9.16343L10.1564 15.5837L10.4257 14.4429H16.5259L16.6368 13.9411L18.0628 7.76175L26.9727 6.05582L25.1506 13.9411L23.8408 19.8881L20.8197 33.2609C20.3602 35.2626 20.5398 36.8101 21.3743 37.8928C21.3743 37.8928 22.6207 39.6832 27.3002 39.5829ZM29.4128 13.4605C31.8951 12.9904 34.0288 15.1242 33.5588 17.6065C33.2947 18.9902 32.1803 20.1099 30.7912 20.374C28.3089 20.8441 26.1752 18.7103 26.6453 16.228C26.9093 14.8443 28.0237 13.7246 29.4128 13.4605Z" fill="#40A944"/></svg>
+                    <svg class="tp-logo-mobile" xmlns="http://www.w3.org/2000/svg" width="43" height="42" viewBox="0 0 43 42" fill="none"><path d="M27.3002 39.5829C33.1626 39.4561 38.4072 35.87 40.8842 30.5568C42.3208 27.4829 43.0444 24.013 42.8542 20.3582C42.2785 9.30395 33.1521 0.394029 22.082 0.0718569C9.95038 -0.282005 0 9.44655 0 21.5043C0 30.7099 5.80439 38.5583 13.9485 41.6004C13.1721 40.7871 12.6017 39.7941 12.2531 38.6217C11.7091 36.8101 11.725 34.6711 12.2954 32.2046L15.2319 19.8881H9.16343L10.1564 15.5837L10.4257 14.4429H16.5259L16.6368 13.9411L18.0628 7.76175L26.9727 6.05582L25.1506 13.9411L23.8408 19.8881L20.8197 33.2609C20.3602 35.2626 20.5398 36.8101 21.3743 37.8928C21.3743 37.8928 22.6207 39.6832 27.3002 39.5829ZM29.4128 13.4605C31.8951 12.9904 34.0288 15.1242 33.5588 17.6065C33.2947 18.9902 32.1803 20.1099 30.7912 20.374C28.3089 20.8441 26.1752 18.7103 26.6453 16.228C26.9093 14.8443 28.0237 13.7246 29.4128 13.4605Z" fill="#40A944"/></svg>
+                </a>
+                <button class="al-panel-toggle" onclick="document.getElementById('alPanel').classList.toggle('open');document.getElementById('alPanelOverlay').classList.toggle('open')" title="Categories">
+                    <i class="fa-sharp fa-light fa-bars"></i>
+                </button>
+                <div class="tp-categories-wrapper">
+                    <button class="tp-categories-btn" onclick="toggleCategoriesDropdown()"><i class="fa-sharp fa-light fa-grid-2"></i><span>Categories</span><i class="fa-sharp fa-light fa-chevron-down"></i></button>
+                    <div class="tp-categories-dropdown category-menu-adjustment" id="categoriesDropdown">
+                        <button class="tp-categories-close" onclick="closeCategoriesDropdown()"><i class="fa-sharp fa-light fa-xmark"></i></button>
+                        <div class="tp-categories-header-title"><h2>Explore <span>Categories</span></h2><p>Find the perfect tutorial for your learning journey</p></div>
+                        <div class="tp-categories-grid">
+                            <a href="/python_technologies_tutorials.htm" class="tp-cat-link">Python Technologies</a><a href="/database_tutorials.htm" class="tp-cat-link">Databases</a><a href="/computer_programming_tutorials.htm" class="tp-cat-link">Computer Programming</a><a href="/web_development_tutorials.htm" class="tp-cat-link">Web Development</a><a href="/java_technology_tutorials.htm" class="tp-cat-link">Java Technologies</a><a href="/computer_science_tutorials.htm" class="tp-cat-link">Computer Science</a><a href="/mobile_development_tutorials.htm" class="tp-cat-link">Mobile Development</a><a href="/big_data_tutorials.htm" class="tp-cat-link">Big Data &amp; Analytics</a><a href="/microsoft_technologies_tutorials.htm" class="tp-cat-link">Microsoft Technologies</a><a href="/devops_tutorials.htm" class="tp-cat-link">DevOps</a><a href="/latest_technologies.htm" class="tp-cat-link">Latest Technologies</a><a href="/machine_learning_tutorials.htm" class="tp-cat-link">Machine Learning</a><a href="/digital_marketing_tutorials.htm" class="tp-cat-link">Digital Marketing</a><a href="/software_quality_tutorials.htm" class="tp-cat-link">Software Quality</a><a href="/management_tutorials.htm" class="tp-cat-link">Management Tutorials</a><a href="/top-categories.htm" class="tp-cat-link-all"><i class="fa-sharp fa-light fa-grid-2"></i> View All Categories</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tp-header-right">
+                <a class="tp-nav-link" href="/tutorialslibrary.htm"><i class="fa-sharp fa-light fa-books" style="margin-right:6px;"></i> Tutorials</a>
+                <a class="tp-nav-link" href="https://market.tutorialspoint.com/index.asp"><i class="fa-sharp fa-light fa-circle-play" style="margin-right:6px;color:#ff0000;"></i> Courses</a>
+                <a class="tp-nav-link" href="/jobs/index.htm" style="display:flex!important"><i class="fa-sharp fa-light fa-briefcase" style="margin-right:6px;"></i> Jobs</a>
+                <a class="tp-login-btn" href="https://market.tutorialspoint.com/login.jsp">Login</a>
+            </div>
+        </div>
+    </header>
+    <script>
+    function toggleCategoriesDropdown(){document.getElementById('categoriesDropdown').classList.toggle('active');}
+    function closeCategoriesDropdown(){document.getElementById('categoriesDropdown').classList.remove('active');}
+    document.addEventListener('click',function(e){var dd=document.getElementById('categoriesDropdown');var btn=document.querySelector('.tp-categories-btn');if(dd&&dd.classList.contains('active')&&!dd.contains(e.target)&&!btn.contains(e.target)){dd.classList.remove('active');}});
+    </script>
+
+<main class="al-main">
+<div class="tp-header-inner-page al-main-inner">
+<div class="articles-layout-row">
+
+<!-- LEFT PANEL: Tutorial TOC -->
+<div class="al-panel-overlay" id="alPanelOverlay" onclick="document.getElementById('alPanel').classList.remove('open');this.classList.remove('open')"></div>
+<div class="al-panel" id="alPanel">
+    <div class="al-panel-header">
+        <button class="al-panel-close" onclick="document.getElementById('alPanel').classList.remove('open');document.getElementById('alPanelOverlay').classList.remove('open')"><i class="fa-sharp fa-light fa-xmark"></i></button>
+    </div>
+    <div class="mini-logo">
+<img src="/software_engineering/images/se-mini-logo.jpg" alt="QTP Tutorial" />
+</div>
+<ul class="toc chapters">
+<li><a  href="/software_engineering/index.htm">Software Engineering Home</a></li>
+<li><a  href="/software_engineering/software_engineering_overview.htm">Software Engineering Overview</a></li>
+<li><a  href="/software_engineering/software_development_life_cycle.htm">Software Development Life Cycle</a></li>
+<li><a  href="/software_engineering/software_project_management.htm">Software Project Management</a></li>
+<li><a  href="/software_engineering/software_requirements.htm">Software Requirements</a></li>
+<li><a  href="/software_engineering/software_design_basics.htm">Software Design Basics</a></li>
+<li><a  href="/software_engineering/software_analysis_design_tools.htm">Analysis &amp; Design Tools</a></li>
+<li><a  href="/software_engineering/software_design_strategies.htm">Software Design Strategies</a></li>
+<li><a  href="/software_engineering/software_user_interface_design.htm">Software User Interface Design</a></li>
+<li><a  href="/software_engineering/software_design_complexity.htm">Software Design Complexity</a></li>
+<li><a  href="/software_engineering/software_implementation.htm">Software Implementation</a></li>
+<li><a  href="/software_engineering/software_testing_overview.htm">Software Testing Overview</a></li>
+<li><a  href="/software_engineering/software_maintenance_overview.htm">Software Maintenance</a></li>
+<li><a  href="/software_engineering/case_tools_overview.htm">CASE Tools Overview</a></li>
+</ul>
+<ul class="toc chapters">
+<li><a class="left" target="_top" href="/software_engineering/se_exams_questions_answers.htm">SE - Exams Questions with Answers</a></li>
+</ul>
+<ul class="toc chapters">
+<li class="heading">S/W Engineering Resources</li>
+<li><a  href="/software_engineering/software_engineering_interview_questions.htm">SE - Interview Questions</a></li>
+<li><a  href="/software_engineering/software_engineering_useful_resources.htm">SE - Useful Resources</a></li>
+<li><a  href="/software_engineering/software_engineering_quick_guide.htm">SE - Quick Guide</a></li>
+<li><a  href="https://play.google.com/store/apps/details?id=com.tutorialspoint.softwareengineering" target="_blank" rel="nofollow">SE - Android App</a></li>
+</ul>
+    <div class="al-reading-header"><svg class="svg-inline--fa fa-book-open-reader" style="color: #6366f1;" aria-hidden="true" focusable="false" data-prefix="fasdl" data-icon="book-open-reader" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><g class="fa-duotone-group"><path class="fa-secondary" fill="currentColor" d="M32 224.5l0 208.1c68.5 2.7 124.2 13.5 164.4 24.5c17.5 4.8 32.1 9.6 43.6 13.7L240 268l-2.9-2.2c-.2-.1-.5-.3-1.1-.7c-1.3-.8-3.7-2.2-7.4-4c-7.3-3.6-19.6-9-37.9-14.5C158.6 237 107.5 226.8 32 224.5zM192 96a64 64 0 1 0 128 0A64 64 0 1 0 192 96zm80 172l0 202.9c11.5-4.2 26.1-9 43.6-13.7c40.3-11 96-21.8 164.4-24.5l0-208.1c-75.5 2.3-126.6 12.5-158.8 22.2c-18.3 5.5-30.6 10.8-37.9 14.5c-3.7 1.8-6.1 3.2-7.4 4c-.6 .3-.9 .6-1.1 .7L272 268z"></path><path class="fa-primary" fill="currentColor" d="M256 32a64 64 0 1 1 0 128 64 64 0 1 1 0-128zm0 160A96 96 0 1 0 256 0a96 96 0 1 0 0 192zm0 48s-56.8-42.6-224-47.5c-10.2-.3-20.9-.5-32-.5l0 32L0 432l0 32c160 0 256 48 256 48s96-48 256-48l0-32 0-208 0-32c-11.1 0-21.8 .2-32 .5C312.8 197.4 256 240 256 240zm224-15.5l0 208.1c-68.5 2.7-124.2 13.5-164.4 24.5c-17.5 4.8-32.1 9.6-43.6 13.7L272 268l2.9-2.2c.2-.1 .5-.3 1.1-.7c1.3-.8 3.7-2.2 7.4-4c7.3-3.6 19.6-9 37.9-14.5c32.2-9.7 83.3-19.9 158.8-22.2zM240 470.9c-11.5-4.2-26.1-9-43.6-13.7c-40.3-11-96-21.8-164.4-24.5l0-208.1c75.5 2.3 126.6 12.5 158.8 22.2c18.3 5.5 30.6 10.8 37.9 14.5c3.7 1.8 6.1 3.2 7.4 4c.6 .3 .9 .6 1.1 .7L240 268l0 202.9z"></path></g></svg> Selected Reading</div>
+    <ul class="al-reading-list">
+        <li><a href="/upsc_ias_exams.htm">UPSC IAS Exams Notes</a></li>
+        <li><a href="/developers_best_practices/index.htm">Developer's Best Practices</a></li>
+        <li><a href="/questions_and_answers.htm">Questions and Answers</a></li>
+        <li><a href="/online-resume-builder.htm">Online Resume Builder</a></li>
+        <li><a href="/hr_interview_questions/index.htm">HR Interview Questions</a></li>
+        <li><a href="/computer_glossary.htm">Computer Glossary</a></li>
+        <li><a href="/computer_whoiswho.htm">Who is Who</a></li>
+    </ul>
+</div>
+
+<!-- MIDDLE PANEL: Tutorial Content -->
+<div class="al-content">
+    <div class="al-detail-card">
+        <nav aria-label="Breadcrumb" style="font-size:13px;color:#6b7280;margin-bottom:16px;">
+            <a href="/" style="color:#6366f1;text-decoration:none;">Home</a>
+            <i class="fa-sharp fa-light fa-angle-right" style="font-size:11px;margin:0 4px;color:#bbb;"></i>
+                        <a href="/software_engineering/index.htm" style="color:#6366f1;text-decoration:none;">Software_engineering</a>
+            <i class="fa-sharp fa-light fa-angle-right" style="font-size:11px;margin:0 4px;color:#bbb;"></i>
+            <span>Software Requirements</span>
+                    </nav>
+
+        <div class="al-detail-answer tutorial-content" id="mainContent">
+            <h1>Software Requirements</h1>
+<hr>
+   <div class="adp_top_ads" style="height:90px; overflow: hidden; display: block;width: 728px;">
+      <!-- TAGNAME: 728x90_Top -->
+      <div id='tutorialspointcom47470'></div>
+    </div>
+<hr>
+<div class="library-page-top-nav">
+   <div class="button button--neutral" id="btn_top_previous">
+   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none"><path d="M1.03117 8.48836C0.64065 8.09783 0.64065 7.46467 1.03117 7.07414L7.39514 0.710183C7.78566 0.319658 8.41883 0.319658 8.80935 0.710183C9.19987 1.10071 9.19987 1.73387 8.80935 2.1244L3.15249 7.78125L8.80935 13.4381C9.19987 13.8286 9.19987 14.4618 8.80935 14.8523C8.41882 15.2428 7.78566 15.2428 7.39513 14.8523L1.03117 8.48836ZM3.12109 8.78125L1.73828 8.78125L1.73828 6.78125L3.12109 6.78125L3.12109 8.78125Z" fill="black" /></svg>
+   <a href="/software_engineering/software_project_management.htm">
+      Previous
+   </a>
+   </div>
+   <div class="flex-group">
+      <a href="/software_engineering/quiz_on_software_requirements.htm" target="_blank" title="Practice Quiz on Software Requirements"><span class="button button--neutral">Quiz</span></a>
+      <div class="button " id="btn_top_next">
+   <a href="/software_engineering/software_design_basics.htm">
+    Next
+   </a>
+   <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none"><path
+   d="M8.87117 8.48836C9.26169 8.09783 9.26169 7.46467 8.87117 7.07414L2.50721 0.710183C2.11668 0.319658 1.48352 0.319658 1.09299 0.710183C0.70247 1.10071 0.70247 1.73387 1.09299 2.1244L6.74985 7.78125L1.093 13.4381C0.702471 13.8286 0.702471 14.4618 1.093 14.8523C1.48352 15.2428 2.11668 15.2428 2.50721 14.8523L8.87117 8.48836ZM6.78125 8.78125L8.16406 8.78125L8.16406 6.78125L6.78125 6.78125L6.78125 8.78125Z" fill="white" /></svg>
+   </div>
+   </div>
+</div>
+
+<div class="clearer"></div>
+<p>The software requirements are description of features and functionalities of the target system.  Requirements convey the expectations of users from the software product. The requirements can be obvious or hidden, known or unknown, expected or unexpected from clients point of view.</p>
+<h2>Requirement Engineering</h2>
+<p>The process to gather the software requirements from client, analyze and document them is known as requirement engineering.</p>
+<p>The goal of requirement engineering is to develop and maintain sophisticated and descriptive System Requirements Specification document.</p>
+<div class="inserted-div"><script async="true" id="PS_67ebd889ca6f1325b65a5242" type="text/javascript" src="https://player.play-stream.tech/scripts/67ebd889ca6f1325b65a5242.min.js"></script></div><h2>Requirement Engineering Process</h2>
+<p>It is a four step process, which includes  </p>
+<ul class="list">
+<li>Feasibility Study</li>
+<li>Requirement Gathering</li>
+<li>Software Requirement Specification</li>
+<li>Software Requirement Validation </li>
+</ul>
+<p>Let us see the process briefly - </p>
+<h3>Feasibility study</h3>
+<p>When  the client  approaches the organization for getting the desired product developed, it comes up with rough idea about what all functions the software must perform and which all features are expected from the software. </p>
+<p>Referencing to this information, the analysts  does a detailed study about whether the  desired system and its functionality are feasible to develop. </p>
+<p>This feasibility study is focused towards goal of the organization.  This study analyzes whether the software product can be practically materialized in terms of implementation, contribution of project to organization, cost constraints and as per values and objectives of the organization.  It explores technical aspects of the project and product such as usability, maintainability, productivity and integration ability.</p>  
+<p>The output of this phase should be a feasibility study report that should contain adequate comments and recommendations for management about whether or not the project should be undertaken.</p>
+<h3>Requirement Gathering</h3>
+<p>If the feasibility report is positive towards undertaking the project, next phase starts with gathering requirements from the user. Analysts and engineers communicate with the client and end-users to know their ideas on what the software should provide and which features they want the software to include. </p>
+<h3>Software Requirement Specification</h3>
+<p>SRS is a document created by system analyst after the requirements are collected from various stakeholders. </p>
+<p>SRS defines how the intended software will interact with hardware, external interfaces, speed of operation, response time of system, portability of software across various platforms, maintainability, speed of recovery after crashing, Security, Quality, Limitations etc. </p>
+<p>The requirements received from client are written in natural language. It is the responsibility of system analyst to document the requirements in technical language so that they can be comprehended and useful by the software development team. </p>
+<p>SRS should come up with following features: </p>
+<ul class="list">
+<li>User Requirements are expressed in natural language.</li>
+<li>Technical requirements are expressed in structured language, which is used inside the organization.</li>
+<li>Design description should be written in Pseudo code.</li>
+<li>Format of Forms and GUI screen prints.</li>
+<li>Conditional and mathematical notations for DFDs etc.</li>
+</ul>
+<h3>Software Requirement Validation</h3>
+<p>After requirement specifications are developed, the requirements mentioned in this document are validated.  User might ask for illegal, impractical solution or experts may interpret the requirements incorrectly. This results in huge increase in cost if not nipped in the bud. Requirements can be checked against following conditions -</p>
+<ul class="list">
+<li>If they can be practically implemented</li>
+<li>If they are valid and as per functionality and domain of software</li>
+<li>If there are any ambiguities</li>
+<li>If they are complete</li>
+<li>If they can be demonstrated</li>
+</ul>
+<h2>Requirement Elicitation Process</h2>
+<p>Requirement elicitation process can be depicted using the folloiwng diagram:</p>
+<img src="/software_engineering/images/requirement_elicitation_process.png" alt="Requirement elicitation process">
+<ul class="list">
+<li><b>Requirements gathering - </b>The developers discuss with the client and end users and know their expectations from the software. </li>
+<li><b>Organizing Requirements - </b>The developers prioritize and arrange the requirements in order of importance, urgency and convenience.</li>
+<li><p><b>Negotiation &amp; discussion - </b>If requirements are ambiguous or there are some conflicts in requirements of various stakeholders, if they are, it is then negotiated and discussed with stakeholders.  Requirements may then be prioritized and reasonably compromised.</p>
+<p>The requirements come from various stakeholders. To remove the ambiguity and conflicts, they are discussed for clarity and correctness. Unrealistic requirements are compromised reasonably.</p></li>
+<li><b>Documentation - </b>All formal &amp; informal, functional and non-functional requirements are documented and made available for next phase processing.</li>
+</ul>
+<h2>Requirement Elicitation Techniques</h2>
+<p>Requirements Elicitation is the process to find out the requirements for an intended software system by communicating with client, end users, system users and others who have a stake in the software system development.</p>
+<p>There are various ways to discover requirements</p>
+<h3>Interviews</h3>
+<p>Interviews are strong medium to collect requirements. Organization may conduct several types of interviews such as: </p>
+<ul class="list">
+<li>Structured (closed) interviews, where every single information to gather is decided in advance, they follow pattern and matter of discussion firmly.</li>
+<li>Non-structured (open) interviews, where information to gather is not decided in advance, more flexible and less biased.</li>
+<li>Oral interviews </li>
+<li>Written interviews</li>
+<li>One-to-one interviews which are held between two persons across the table.</li>
+<li>Group interviews which are held between groups of participants. They help to uncover any missing requirement as numerous people are involved.</li>
+</ul>
+<h3>Surveys</h3>
+<p>Organization may conduct surveys among various stakeholders by querying about their expectation and requirements from the upcoming system. </p>
+<h3>Questionnaires</h3>
+<p>A document with pre-defined set of objective questions and respective options is handed over to all stakeholders to answer, which are collected and compiled.</p>
+<p>A shortcoming of this technique is, if an option for some issue is not mentioned in the questionnaire, the issue might be left unattended.</p>
+<h3>Task analysis</h3>
+<p>Team of engineers and developers may analyze the operation for which the new system is required. If the client already has some software to perform certain operation, it is studied and requirements of proposed system are collected. </p>
+<h3>Domain Analysis</h3>
+<p>Every software falls into some domain category. The expert people in the domain can be a great help to analyze general and specific requirements.  </p>
+<h3>Brainstorming</h3>
+<p>An informal debate is held among various stakeholders and all their inputs are recorded for further requirements analysis.</p>
+<h3>Prototyping</h3>
+<p>Prototyping is building user interface without adding detail functionality for user to interpret the features of intended software product. It helps giving better idea of requirements. If there is no software installed at clients end for developers reference and the client is not aware of its own requirements, the developer  creates a prototype based on initially mentioned requirements. The prototype is shown to the client and the feedback is noted. The client feedback serves as an  input for requirement gathering.</p>
+<h3>Observation</h3>
+<p>Team of experts visit the clients organization or workplace. They observe the actual working of the existing installed systems. They observe the workflow at clients end and how execution problems are dealt. The team itself draws some conclusions which aid to form requirements expected from the software.</p>
+<h2>Software Requirements Characteristics</h2>
+<p>Gathering software requirements is the foundation of the entire software development project. Hence they must be clear, correct and well-defined.</p>
+<p>A complete Software Requirement Specifications must be: </p>
+<ul class="list">
+<li>Clear</li>
+<li>Correct</li>
+<li>Consistent</li>
+<li>Coherent</li>
+<li>Comprehensible</li>
+<li>Modifiable</li>
+<li>Verifiable</li>
+<li>Prioritized</li>
+<li>Unambiguous</li>
+<li>Traceable</li>
+<li>Credible source</li>
+</ul>
+<h2>Software Requirements</h2>
+<p>We should try to understand what sort of requirements may arise in the requirement elicitation phase and what kinds of requirements are expected from the software system. </p>
+<p>Broadly software requirements should be categorized in two categories:</p>
+<h3>Functional Requirements</h3>
+<p>Requirements, which are related to functional aspect of software fall into this category.</p>
+ <p>They define functions and functionality within and from the software system.</p>
+<h4>Examples -</h4>
+<ul class="list">
+<li>Search option given to user to search from various invoices.</li>
+<li>	User should be able to mail any report to management.</li>
+<li>Users can be divided into groups and groups can be given separate rights.</li>
+<li>Should comply business rules and administrative functions.</li>
+<li> Software is developed keeping downward compatibility intact.</li>
+</ul>
+<h3>Non-Functional Requirements</h3>
+<p>Requirements, which are not related to functional aspect of software, fall into this category.  They are implicit or expected characteristics of software, which users make assumption of.</p>
+<p> Non-functional requirements include -</p>
+<ul class="list">
+<li>Security</li>
+<li>Logging</li>
+<li>Storage</li>
+<li>Configuration</li>
+<li>Performance</li>
+<li>Cost</li>
+<li>Interoperability</li>
+<li>Flexibility</li>
+<li>Disaster recovery</li>
+<li>Accessibility</li>
+</ul>
+<p>Requirements are categorized logically as </p>
+<ul class="list">
+<li><b>Must Have</b> : Software cannot be said operational without them.</li>
+<li><b>Should have</b> : Enhancing the functionality of software.</li>
+<li><b>Could have</b> : Software can still properly function with these requirements.</li>
+<li><b>Wish list</b> : These requirements do not map to any objectives of software.</li>
+</ul>
+<p>While developing software, Must have must be implemented, Should have is a matter of debate with stakeholders and negation, whereas could have and wish list can be kept for software updates.</p>
+<h2>User Interface requirements</h2>
+<p>UI is an important part of any software or hardware or hybrid system.  A software is widely accepted if it is -</p>
+<ul class="list">
+<li>easy to operate </li>
+<li>quick in response </li>
+<li>effectively handling operational errors </li>
+<li>providing simple yet consistent user interface </li>
+</ul>
+<p>User acceptance majorly depends upon how user can use the software.  UI is the only way for users to perceive the system. A well performing software system must also be equipped with attractive, clear, consistent and responsive user interface. Otherwise the functionalities of software system can not be used in convenient way.  A system is said be good if it provides means to use it efficiently.  User interface requirements are briefly mentioned below -</p>
+<ul class="list">
+<li>Content presentation</li>
+<li>Easy Navigation</li>
+<li>Simple interface</li>
+<li>Responsive</li>
+<li>Consistent UI elements</li>
+<li>Feedback mechanism</li>
+<li>Default settings</li>
+<li>Purposeful layout</li>
+<li>Strategical use of color and texture.</li>
+<li>Provide help information </li>
+<li>User centric approach</li>
+<li>Group based view settings.</li>
+</ul>
+<h2>Software System Analyst</h2>
+<p>System analyst in an IT organization is a person, who analyzes the requirement of proposed system and ensures that requirements are conceived and documented properly &amp; correctly. Role of an analyst starts during Software Analysis Phase of SDLC. It is the responsibility of analyst to make sure that the developed software meets the requirements of the client.</p>
+<p>System Analysts have the following responsibilities:</p>
+<ul class="list">
+<li>Analyzing and understanding requirements of intended software</li>
+<li>Understanding how the project will contribute in the organization objectives</li>
+<li>Identify sources of requirement</li>
+<li>Validation of requirement</li>
+<li>Develop and implement requirement management plan</li>
+<li>Documentation of business, technical, process and product requirements</li>
+<li>Coordination with clients to prioritize requirements and remove and ambiguity</li>
+<li>Finalizing acceptance criteria with client and other stakeholders</li>
+</ul>
+<h2>Software Metrics and Measures</h2>
+<p>Software Measures can be understood as a process of quantifying and symbolizing various attributes and aspects of software.</p>
+<p>Software Metrics provide measures for various aspects of software process and software product.</p>
+<p>Software measures are fundamental requirement of software engineering. They not only help to control the software development process but also aid to keep quality of ultimate product excellent.</p>
+<p>According to Tom DeMarco, a (Software Engineer), You cannot control what you cannot measure. By his saying, it is very clear how important software measures are.</p>
+<p>Let us see some software metrics:</p>
+<ul class="list">
+<li><p><b>Size Metrics - </b>LOC (Lines of Code), mostly calculated in thousands of delivered source code lines, denoted as KLOC.</p>
+<p>Function Point Count is measure of the functionality provided by the software.  Function Point count defines the size of functional aspect of software.</p></li>
+<li><b>Complexity Metrics - </b>McCabes Cyclomatic complexity quantifies the upper bound of the number of independent paths in a program, which is perceived as complexity of the program or its modules.  It is represented in terms of graph theory concepts by using control flow graph.</li>
+<li><p><b>Quality Metrics - </b>Defects, their types and causes, consequence, intensity of severity and their implications define the quality of product. </p> 
+<p>The number of defects found in development process and number of defects reported by the client after the product is installed or delivered at client-end, define quality of product.</p></li>
+<li><b>Process Metrics - </b>In various phases of SDLC, the methods and tools used, the company standards and the performance of development are software process metrics.</li>
+<li><b>Resource Metrics - </b>Effort, time and various resources used, represents metrics for resource measurement.</li>
+</ul>
+        </div>
+        <div class="clear"></div>
+	<div style="max-width: 920px; margin: 0 auto;">
+           <a href="https://ai.tutorix.com" target="_blank" rel="noopener noreferrer" style="display: block; text-decoration: none;">
+             <img src="/images/tutorix_banner_920x250_v3.png" alt="Tutorix - AI Tutor" style="width: 100%; height: auto; display: block; border-radius: 8px;" />
+           </a>
+        </div>
+
+        <!-- Bottom Navigation -->
+    <div class="al-bottom-nav">
+        <button class="al-btn al-btn-print" id="print-page">
+            <i class="fa-sharp fa-light fa-print"></i> Print Page
+        </button>
+        <div style="display:flex;gap:8px;">
+            <a href="/software_engineering/software_project_management.htm" class="al-btn al-btn-prev"><i class="fa-sharp fa-light fa-chevron-left"></i> Previous</a>
+                        <a href="/software_engineering/quiz_on_software_requirements.htm" target="_blank" title="Practice Quiz on Software Requirements" class="al-btn al-btn-prev">Quiz</a>
+                        <a href="/software_engineering/software_design_basics.htm" class="al-btn al-btn-next">Next <i class="fa-sharp fa-light fa-chevron-right"></i></a>
+        </div>
+    </div>
+    
+    <!-- Bottom Ads -->
+    <div class="bottom-library-ads" style="margin:16px auto 5px;text-align:center;">
+        <div class="google-bottom-ads" id="google-bottom-ads">
+            <div>Advertisements</div>
+	    	     <!-- TAGNAME: 750x300_Bottom_Ad -->
+             <div style="width:750px;height:400px;margin:0 auto;max-width:100%;"><div id='tutorialspointcom47468'></div></div>
+                     </div>
+    </div>
+
+    </div><!-- /.al-detail-card -->
+</div>
+
+<!-- RIGHT PANEL: ADS -->
+<div class="al-right-panel">
+    <div class="data-sticky" id="google-right-ads">
+         <!-- TAGNAME: 336x280_Right_Sidebar_1 -->
+        <div class="google-right-ad" style="margin-top:5px;min-height:280px!important"><div id='tutorialspointcom47465'></div></div>
+	<!-- TAGNAME: 336x280_Right_Sidebar_2 -->
+        <div class="google-right-ad" style="margin-top:16px;min-height:280px!important"><div id='tutorialspointcom47466'></div></div>
+	<!-- TAGNAME: 300x600_Right_Sidebar -->
+        <div class="google-right-ad" style="margin-top:16px;min-height:280px!important"><div id='tutorialspointcom47467'></div></div>
+    </div>
+</div>
+
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <ul class="footer__list container">
+        <li><a href="/about/index.htm">ABOUT US</a></li><li><a href="/about/about_team.htm">OUR TEAM</a></li><li><a href="/about/about_careers.htm">CAREERS</a></li><li><a href="/jobs/index.htm">JOBS</a></li><li><a href="/about/contact_us.htm">CONTACT US</a></li><li><a href="/about/about_terms_of_use.htm">TERMS OF USE</a></li><li><a href="/about/about_privacy.htm">PRIVACY POLICY</a></li><li><a href="/about/return_refund_policy.htm">REFUND POLICY</a></li><li><a href="/about/about_cookies.htm">COOKIES POLICY</a></li><li><a href="/about/faq.htm">FAQ'S</a></li>
+    </ul>
+    <div class="footer__socials container">
+        <img class="footer__logo" src="https://www.tutorialspoint.com/static/images/logo-footer.svg" alt="tutorials point logo">
+        <div class="footer__social-icons">
+            <a rel="nofollow" target="_blank" href="https://www.facebook.com/tutorialspointindia"><i class="fa-brands fa-facebook-f"></i></a>
+            <a target="_blank" href="https://x.com/tutorialspoint" rel="nofollow"><i class="fa-brands fa-x-twitter"></i></a>
+            <a target="_blank" href="https://www.youtube.com/channel/UCVLbzhxVTiTLiVKeGV7WEBg" rel="nofollow"><i class="fa-brands fa-youtube"></i></a>
+            <a target="_blank" href="https://www.linkedin.com/company/tutorialspoint/" rel="nofollow"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a target="_blank" href="https://www.instagram.com/tutorialspoint_/" rel="nofollow"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <div class="footer__apps">
+            <a href="https://play.google.com/store/apps/details?id=com.tutorialspoint.onlineviewer" target="_blank" rel="nofollow"><img src="https://www.tutorialspoint.com/static/images/googleplay.svg" alt="Download Android App"></a>
+            <a href="https://itunes.apple.com/us/app/tutorials-point/id914891263?ls=1&mt=8" target="_blank" rel="nofollow"><img src="https://www.tutorialspoint.com/static/images/appstore.svg" alt="Download IOS App"></a>
+        </div>
+    </div>
+    <div class="footer__legal-wrapper">
+        <div class="footer__legal container">
+            <p>Tutorials Point is a leading Ed Tech company striving to provide the best learning material on technical and non-technical subjects.</p>
+            <p class="footer__copyright">Copyright 2026. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* Print page */
+var printBtn = document.getElementById('print-page');
+if (printBtn) { printBtn.addEventListener('click', function() { window.print(); }); }
+
+/* Toggle FAQ chevron rotation */
+document.querySelectorAll('.toggle label, .toggle button, .toggle__toggle').forEach(function(el) {
+    el.addEventListener('click', function() {
+        this.classList.toggle('open');
+    });
+});
+</script>
+<!-- Change the ad setting link. We usually recomend putting them in the footer of your website -->
+<!-- Change Consent Option FundingChoices -->
+<div id="fluid-privacy-opt-out-link" onmouseover="this.style.color='rgb(25, 103, 210)'; this.style.cursor='pointer'"
+  onmouseout="this.style.color='#CCCCCC'; this.style.cursor='auto'"></div>
+<script>
+   const privacyOptOutLink = document.getElementById("fluid-privacy-opt-out-link");
+window.googlefc = window.googlefc || { callbackQueue: [] };
+window.googlefc.ccpa = window.googlefc.ccpa || {};
+window.googlefc.ccpa.overrideDnsLink = true;
+window.googlefc.callbackQueue.push(
+  {
+    "CONSENT_API_READY": () => {
+      if (!privacyOptOutLink) {
+        return;
+      }
+      !!window.__tcfapi && window.__tcfapi("addEventListener", 2, (tcData, success) => {
+        if (success && tcData.gdprApplies) {
+          privacyOptOutLink.innerText = "Change GDPR Consent";
+          privacyOptOutLink.addEventListener("click", () => googlefc.showRevocationMessage());
+          return;
+        }
+      });
+    }
+  });
+window.googlefc.callbackQueue.push(
+  {
+    "INITIAL_CCPA_DATA_READY": () => {
+      if (!privacyOptOutLink) {
+        return;
+      }
+
+      if (googlefc.ccpa.getInitialCcpaStatus() && googlefc.ccpa.getInitialCcpaStatus() === googlefc.ccpa.InitialCcpaStatusEnum.NOT_OPTED_OUT) {
+        privacyOptOutLink.innerText = "Don't sell or share my personal info";
+        privacyOptOutLink.addEventListener("click", () => googlefc.ccpa.openConfirmationDialog((optedOut) => {
+          if (optedOut) {
+            privacyOptOutLink.style.display = "none";
+          }
+        }));
+        return
+      }
+    }
+  });
+
+</script>
+<script src="/static/js/new-lib-script.js?v-11"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EX9ZP4VY84"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EX9ZP4VY84');</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','854536859149047');fbq('track','PageView');</script>
+</body>
+</html>
