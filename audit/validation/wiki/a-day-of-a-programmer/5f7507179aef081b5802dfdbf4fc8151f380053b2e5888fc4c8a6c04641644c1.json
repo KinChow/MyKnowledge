@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "a-day-of-a-programmer",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_cab8c8122399",
+  "input_hash": "sha256:7782d7da85b9650db1af8eace20e2e63b5f45489d143080850148a90072d81dc",
+  "provider_duration_ms": 29224,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788672706.5139441,
+  "wiki_content_sha256": "sha256:5051a8d8a5b0336e2760e755ea5fe82c3e26e9f84895a58a3696a56131168522",
+  "wiki_evidence_sha256": "sha256:aea1bcfa921cc5bad820cec4bf5ac4e8874143c949bb7313e66e30993eec7c31",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-a-day-of-a-programmer"
+      },
+      "source_id": "working-work-methods-a-day-of-a-programmer",
+      "evidence_id": "evidence-3a3c2b7db864",
+      "snapshot_sha256": "sha256:f72a14c819e2f621da0dcd6e55d1c37f9fa7ad3b9970206aa58b7e1af7c2bdf8",
+      "selector_sha256": "sha256:a41a84af8c6d3aad8f706a443edacd686d0c79278fabc2dbac982c70af7ba001",
+      "quote_sha256": "sha256:56edf318ad1d7164bb0c61cbfa7a16920783e99730d20718eab3f9b842d8ed91"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "a-day-of-a-programmer-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-a-day-of-a-programmer",
+          "evidence_id": "evidence-3a3c2b7db864"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3a3c2b7db864",
+          "exact": "1. 站会owner，成员轮流担任\n2. 成员轮流发言，不超过1分钟\n3. 发言：昨天做了什么，今天要做什么，有什么风险/问题\n4. 如果陷入了讨论细节，owner要站出来制止，会后继续讨论"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3a3c2b7db864",
+          "subject": "站会",
+          "predicate": "记录四项规则",
+          "object": "owner轮流担任、发言不超过1分钟、发言内容三要素、细节讨论由owner制止"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "目标引文即 claim 的逐字复述（WIKI-001 的 claim 与 evidence 一一对应；EVD-001 要求引文可核验；VAL-001/VAL-002 要求证据与声明一致才判支持）。引文含 4 项内容，分别对应 claim 的 4 点：轮值 owner、限时 1 分钟、发言三要素、owner 制止细节讨论，字面完全一致，无分歧。涉及独立性：两条以上独立来源方可判定分组，本 claim 仅一条引文，故 independence 记为 unknown；不过由于引文与 claim 完全重复，此处独立性不影响支持性判定。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-a-day-of-a-programmer",
+          "evidence_id": "evidence-3a3c2b7db864",
+          "start": 0,
+          "end": 94
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-a-day-of-a-programmer",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "a-day-of-a-programmer-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

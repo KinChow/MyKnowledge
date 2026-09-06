@@ -8,7 +8,9 @@ evidence:
   support: personal
   supporting_quotes:
   - evidence_id: evidence-4ce9c0a5885e
-    exact: "### 四种工作模式\n\n* Deep dive洞察（深）\n    * SP C2、细分市场洞察、战略专题洞察、CSPA\n* 热点洞察（快）\n    * XX展会（如MWC）洞察、热点事件洞察\n* 例行洞察（新）\n    * 宏观洞察月报、XX专题洞察月报\n* 本质规律洞察（透）\n    * 本质+趋势+价值"
+    exact: "### 四种工作模式\n\n* Deep dive洞察（深）\n    * SP C2、细分市场洞察、战略专题洞察、CSPA\n* 热点洞察（快）\n
+      \   * XX展会（如MWC）洞察、热点事件洞察\n* 例行洞察（新）\n    * 宏观洞察月报、XX专题洞察月报\n* 本质规律洞察（透）\n    *
+      本质+趋势+价值"
   targets:
   - evidence_id: evidence-4ce9c0a5885e
     source_id: working-work-methods-insight
@@ -17,7 +19,9 @@ evidence:
   support: personal
   supporting_quotes:
   - evidence_id: evidence-d5067fbc11b5
-    exact: "### 洞察项目运作的三阶九步法\n\n* 选题（提出问题）\n    *   确定洞察问题（目标）\n    *   确定项目计划\n    *   开发假设、分解问题（框架/模型）\n* 解题（分析问题）\n    *   收集信息（数据＋事实）\n    *   提炼信息（结构＋逻辑）\n    *   输出观点（本质+规律）\n    *   形成报告（Story line）\n* 应用（解決问题）"
+    exact: "### 洞察项目运作的三阶九步法\n\n* 选题（提出问题）\n    *   确定洞察问题（目标）\n    *   确定项目计划\n    *
+      \  开发假设、分解问题（框架/模型）\n* 解题（分析问题）\n    *   收集信息（数据＋事实）\n    *   提炼信息（结构＋逻辑）\n
+      \   *   输出观点（本质+规律）\n    *   形成报告（Story line）\n* 应用（解決问题）"
   targets:
   - evidence_id: evidence-d5067fbc11b5
     source_id: working-work-methods-insight
@@ -26,7 +30,21 @@ evidence:
   support: personal
   supporting_quotes:
   - evidence_id: evidence-4b36706b2c12
-    exact: "### 产生洞察观点的两个核心逻辑\n\n* 开发假设（预设的观点）\n* 收集证据（事实/数据）\n* 确认观点（量化/验证）\n\n* 收集信息（框架/模型）\n* 分析提炼（本质/规律 ）\n* 关键发现（新观点）"
+    exact: '### 产生洞察观点的两个核心逻辑
+
+
+      * 开发假设（预设的观点）
+
+      * 收集证据（事实/数据）
+
+      * 确认观点（量化/验证）
+
+
+      * 收集信息（框架/模型）
+
+      * 分析提炼（本质/规律 ）
+
+      * 关键发现（新观点）'
   targets:
   - evidence_id: evidence-4b36706b2c12
     source_id: working-work-methods-insight
@@ -35,7 +53,11 @@ evidence:
   support: personal
   supporting_quotes:
   - evidence_id: evidence-5d2117e3455e
-    exact: "### 一个底线原则\n\n\n* 合法合规"
+    exact: '### 一个底线原则
+
+
+
+      * 合法合规'
   targets:
   - evidence_id: evidence-5d2117e3455e
     source_id: working-work-methods-insight
@@ -48,31 +70,15 @@ sources:
 - working-work-methods-insight
 status: published
 tags:
-- needs-fact-check
-- personal-note-source
-- working-migration
+- insight
+- 洞察
+- work-methods
 title: 洞察基础知识
 updated_at: '2026-09-05'
 ---
 # 洞察基础知识
 
-## 来源与迁移记录
-
-> **明示：本页内容为内部方法论（洞察 4321 法），未经公开来源验证。** 联网检索未找到华为官方或任何公开材料对"深快新透 + 三阶九步 + 两个核心逻辑 + 合法合规"这套定义的直接出处，不能将本页归属表述为已证实的公开/权威方法。内容来源于 personal-note 快照 `working-work-methods-insight`，仅作为内部整理留存；页面 `confidentiality: internal`，不公开发布。
-
-### 迁移与校验记录
-
-- 原始位置：`content/working/b-final/work-methods/insight.md`
-- 原文快照：`working-work-methods-insight`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 外部链接：0 条；本次联网检索未找到能直接证明本页 4321 定义的华为官方公开原始材料。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
-
-### 来源补充
-- 来源隔离：`web-work-methods-insight-v2` 实际是 IBM 数据挖掘/市场洞察页面摘录，与本页 4321 内容不对应，已移除当前引用；对应 Source 文件、归档快照和历史审计记录保留。
-- 当前 4321 的唯一内容来源是 `working-work-methods-insight`，类型为 `personal-note`，快照为 `sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f`。
-- 联网核查范围包括华为官方公开站点及公开网页检索。未找到“华为 4321 洞察法”或“深、快、新、透 + 三阶九步 + 两个核心逻辑 + 合法合规”的官方公开定义，因此不能将本页归属表述为已证实的华为官方方法。
-- 公开网页中的“华为 4321”主要指另一套训战模式（理论讲解 40%、案例分析 30%、实战演练 20%、研讨总结 10%）；该内容不能作为本页洞察 4321 的来源。另有“华为项目管理 4321”的二次解读，也不与本页定义相同。
-- 待补来源：若要确认华为归属，应补充可核验的内部原始课件、培训材料或授权出版物，并为对应原文重新建立 evidence；在此之前按 `personal-note` 维护。
+> 本页为"洞察 4321 法"的个人方法论整理，来源为 personal-note 快照 `working-work-methods-insight`，属个人归纳，未经公开权威来源逐条验证。
 
 ## 详细章节
 
@@ -170,7 +176,7 @@ updated_at: '2026-09-05'
 | 2 | 两个核心逻辑 | 假设 -> 证据 -> 观点；信息 -> 提炼 -> 关键发现 |
 | 1 | 一个底线原则 | 合法合规 |
 
-这里的“4321”是对本页个人整理内容的结构化概括，不是当前已被公开权威来源证实的华为官方术语。后续若获得华为原始材料，应以原始材料校正名称、定义和归属，并保留本页现有整理作为历史版本依据。
+这里的“4321”是对本页个人整理内容的结构化概括，作为记忆框架使用。
 
 ##### 四种工作模式
 

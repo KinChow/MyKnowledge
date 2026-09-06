@@ -1,0 +1,161 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "git-commands",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_c745007d6e38",
+  "input_hash": "sha256:cb41988b2fff72c78582856517050402b7912a49faa751ab88ae7d2bbc8a5efe",
+  "provider_duration_ms": 66898,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788672676.690204,
+  "wiki_content_sha256": "sha256:0eb8e21e63c5c64c55d21ec3433f881e7ec830b27a58eabf52d9bece3a02d932",
+  "wiki_evidence_sha256": "sha256:1498796b72bdf1b184c296f56c949b2345fb5240c526e31ba4615b464d365bf9",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-git-commands"
+      },
+      "source_id": "web-computer-science-git-commands",
+      "evidence_id": "evidence-7c5186650823",
+      "snapshot_sha256": "sha256:bf975cc2f502b976f516a76dd029e93db373899c03c19a0b0a07e67527a30875",
+      "selector_sha256": "sha256:13bc97ebf281e58510c5ebd845629ad43b88c640cf105d3b9eb95fbb99118ea4",
+      "quote_sha256": "sha256:6540db3aec84e188dd7cc8a0f2325e0565c7182e4b2e53d61bc0959401f14c34"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "git-commands-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7c5186650823",
+          "exact": "Book\nThe entire Pro Git book, written by Scott Chacon and Ben Straub and published by Apress, is available here. All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license. Print versions of the book are available on Amazon.com.\nThe version found here has been updated with corrections and additions from hundreds of contributors. If you see an error or have a suggestion, patches and issues are welcome in its GitHub repository.\n-"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7c5186650823",
+          "subject": "Pro Git book",
+          "predicate": "isDescribedAs",
+          "object": "written by Scott Chacon and Ben Straub, published by Apress, licensed CC BY-NC-SA 3.0, updated with corrections and additions, open to patches and issues",
+          "qualifiers": {
+            "source_kind": "book page",
+            "license_full_name": "Creative Commons Attribution Non Commercial Share Alike 3.0"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 由四部分构成：来源为 Pro Git 书、作者为 Scott Chacon 与 Ben Straub、由 Apress 出版、以 CC BY-NC-SA 3.0 许可公开、持续接受社区修正与补充。目标引文逐项支持：引文 [30,92) 'written by Scott Chacon and Ben Straub and published by Apress' 支持作者与出版方；[30,92) 亦明确该书全文在此提供（is available here），支持'以该书为来源'的映射；[113,215) 'All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license.' 支持 CC BY-NC-SA 3.0 许可（引文为全称，与缩写一致，属同一许可）；[304,372) 'updated with corrections and additions from hundreds of contributors' 与 [416,471) 'patches and issues are welcome in its GitHub repository' 共同支持'持续接受社区修正与补充'（已有历史修正+持续欢迎补丁）。无任何引文内容与 claim 相矛盾；claim 未超出引文可支持范围（'权威'为评价性措辞，引文来源为官方书籍页面，该措辞不构成可证伪事实断言，无碍支持判定）。偏移为引文文本内 Unicode 码点半开区间；source 仅含单一目标，无多源一致/冲突需判定。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823",
+          "start": 30,
+          "end": 92
+        },
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823",
+          "start": 113,
+          "end": 215
+        },
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823",
+          "start": 304,
+          "end": 372
+        },
+        {
+          "source_id": "web-computer-science-git-commands",
+          "evidence_id": "evidence-7c5186650823",
+          "start": 416,
+          "end": 471
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-git-commands",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "git-commands-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -3,14 +3,14 @@ aliases: []
 confidentiality: public
 domain: work-methods
 evidence:
-- claim: |-
-    Consciously or not, the leaders who truly inspire people do so by following a naturally occurring pattern that Simon calls The Golden Circle.
+- claim: Consciously or not, the leaders who truly inspire people do so by following
+    a naturally occurring pattern that Simon calls The Golden Circle.
   claim_id: model-audit-1
   support: direct
   supporting_quotes:
   - evidence_id: evidence-4a104cdde423
-    exact: |-
-      Consciously or not, the leaders who truly inspire people do so by following a naturally occurring pattern that Simon calls The Golden Circle.
+    exact: Consciously or not, the leaders who truly inspire people do so by following
+      a naturally occurring pattern that Simon calls The Golden Circle.
   targets:
   - evidence_id: evidence-4a104cdde423
     source_id: web-work-methods-model-golden-circle-v2
@@ -19,10 +19,204 @@ evidence:
   support: direct
   supporting_quotes:
   - evidence_id: evidence-f2e0ed27b260
-    exact: In strategic planning and strategic management, SWOT analysis (also known as the SWOT matrix, TOWS, WOTS, WOTS-UP, and situational analysis)[1] is a decision-making technique that identifies the strengths, weaknesses, opportunities, and threats of an organization or project.
+    exact: In strategic planning and strategic management, SWOT analysis (also known
+      as the SWOT matrix, TOWS, WOTS, WOTS-UP, and situational analysis)[1] is a decision-making
+      technique that identifies the strengths, weaknesses, opportunities, and threats
+      of an organization or project.
   targets:
   - evidence_id: evidence-f2e0ed27b260
     source_id: web-work-methods-model-swot-v2
+- claim: 波特五力分析将竞争来源分为三类水平竞争（替代品威胁、现有竞争者威胁、潜在进入者威胁）与两类垂直竞争（供应商议价能力、购买者议价能力）。
+  claim_id: model-porter-five-forces
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-e3a103841538
+    exact: Porter's Five Forces include three sources of horizontal competition (the
+      threat of substitute products or services, the threat posed by established industry
+      rivals, and the threat of new entrants) and two sources of vertical competition
+      (the bargaining power of suppliers and the bargaining power of buyers)
+  targets:
+  - evidence_id: evidence-e3a103841538
+    source_id: web-work-methods-model-porter-five-forces
+- claim: 增长份额矩阵（BCG 矩阵）将业务单元分为四类：明星（高份额高增长）、现金牛（高份额低增长）、问题（低份额高增长）、瘦狗（低份额低增长）。
+  claim_id: model-growth-share-matrix
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-21b23926b91a
+    exact: 'It classifies business units into four categories: stars (high market
+      share in a fast-growing industry), cash cows (high market share in a slow-growing
+      industry), question marks (low market share in a high-growth market), and dogs
+      (low market share in a mature, slow-growing industry)'
+  targets:
+  - evidence_id: evidence-21b23926b91a
+    source_id: web-work-methods-model-growth-share-matrix
+- claim: 马斯洛需求层次提出五类按优势层级排列的基本需求：生理、安全、爱与归属、尊重、自我实现。
+  claim_id: model-maslow
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-fe6df501a8a4
+    exact: 'there are five sets of basic needs that are related to each other in a
+      hierarchy of prepotency (or strength): physiological needs, safety needs, love
+      and social needs, esteem needs, and self-actualization needs'
+  targets:
+  - evidence_id: evidence-fe6df501a8a4
+    source_id: web-work-methods-model-maslow
+- claim: 营销组合（4P）是企业用于影响和满足目标顾客需求的可控要素集合，分为产品、价格、渠道、促销四类。
+  claim_id: model-marketing-mix
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-9a9908bf6b55
+    exact: The marketing mix (4 Ps) is the set of controllable elements or variables
+      that a company uses to influence and meet the needs of its target customers
+      in the most effective and efficient way possible. These elements are sometimes
+      sorted into the categories of product, price, place, and promotion (also known
+      as the "4 Ps")
+  targets:
+  - evidence_id: evidence-9a9908bf6b55
+    source_id: web-work-methods-model-marketing-mix
+- claim: SMART 目标准则包括：具体（Specific）、可衡量（Measurable）、可指派（Assignable）、现实（Realistic）、有时限（Time-related）。
+  claim_id: model-smart-criteria
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-962942bde084
+    exact: Specific (targeting a particular area for improvement), Measurable (quantifying,
+      or at least suggesting, an indicator of progress), Assignable (defining responsibility
+      clearly), Realistic (outlining attainable results with available resources),
+      and Time-related (including a timeline for expected results)
+  targets:
+  - evidence_id: evidence-962942bde084
+    source_id: web-work-methods-model-smart-criteria
+- claim: 卡诺模型将顾客偏好分为五类：必备质量、一维质量、魅力质量、无差异质量、反向质量。
+  claim_id: model-kano-model
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-62d96869ca5b
+    exact: 'According to the Kano model, customer preferences are classified into
+      five distinct categories: Must-be Quality, One-dimensional Quality, Attractive
+      Quality, Indifferent Quality, and Reverse Quality'
+  targets:
+  - evidence_id: evidence-62d96869ca5b
+    source_id: web-work-methods-model-kano-model
+- claim: PEST 分析（政治、经济、社会、技术）是用于战略管理与市场研究的外部宏观环境因素框架。
+  claim_id: model-pest-analysis
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-d6aed040426f
+    exact: PEST analysis (political, economic, social and technological) is a framework
+      of external macro-environmental factors used in strategic management and market
+      research
+  targets:
+  - evidence_id: evidence-d6aed040426f
+    source_id: web-work-methods-model-pest-analysis
+- claim: 最小可行产品（MVP）是只含刚好足够功能、可供早期客户使用并反馈以驱动后续产品开发的版本。
+  claim_id: model-minimum-viable-product
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-1d9fb76c436c
+    exact: A minimum viable product (MVP) is a version of a product with just enough
+      features to be usable by early customers who can then provide feedback for future
+      product development
+  targets:
+  - evidence_id: evidence-1d9fb76c436c
+    source_id: web-work-methods-model-minimum-viable-product
+- claim: RFM 是用于分析客户价值与细分客户的方法，常用于数据库营销与直邮营销。
+  claim_id: model-rfm
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-a668b7f8e763
+    exact: RFM is a method used for analyzing customer value and segmenting customers
+      which is commonly used in database marketing and direct marketing
+  targets:
+  - evidence_id: evidence-a668b7f8e763
+    source_id: web-work-methods-model-rfm
+- claim: RACI 矩阵为每个干系人在交付物上分配四类职责之一：执行（Responsible）、负责（Accountable）、咨询（Consulted）、知情（Informed）。
+  claim_id: model-raci-matrix
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-6ea0c0ce4597
+    exact: 'The matrix assigns one of four responsibilities to each stakeholder in
+      executing a deliverable: Responsible, Accountable, Consulted, and Informed'
+  targets:
+  - evidence_id: evidence-6ea0c0ce4597
+    source_id: web-work-methods-model-raci-matrix
+- claim: 安索夫矩阵是帮助高管、高级管理者与营销人员制定未来业务增长战略的战略规划工具。
+  claim_id: model-ansoff-matrix
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-fcc4b59e97cd
+    exact: The Ansoff matrix is a strategic planning tool that provides a framework
+      to help executives, senior managers, and marketers devise strategies for future
+      business growth
+  targets:
+  - evidence_id: evidence-fcc4b59e97cd
+    source_id: web-work-methods-model-ansoff-matrix
+- claim: PDCA（计划-执行-检查-处理）是用于业务流程与产品持续改进的迭代设计与管理方法。
+  claim_id: model-pdca
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-6a80300676fd
+    exact: PDCA (plan–do–check–act), sometimes called plan–do–check–adjust, is an
+      iterative design and management method used in business for the control and
+      continual improvement of processes and products
+  targets:
+  - evidence_id: evidence-6a80300676fd
+    source_id: web-work-methods-model-pdca-wiki
+- claim: OKR（目标与关键结果）是个人、团队与组织用于定义可衡量目标并跟踪结果的目标准则框架。
+  claim_id: model-okr
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-b6545d4e9cd2
+    exact: Objectives and key results (OKR, alternatively OKRs) is a goal-setting
+      framework used by individuals, teams, and organizations to define measurable
+      goals and track their outcomes
+  targets:
+  - evidence_id: evidence-b6545d4e9cd2
+    source_id: web-work-methods-model-okr-wiki
+- claim: STP 中的定位指一种总体战略：让品牌相对于竞品在顾客心智中占据独特位置。
+  claim_id: model-positioning
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-c1fd86df4ab2
+    exact: positioning refers to an overall strategy that aims to make a brand occupy
+      a distinct position, relative to competing brands, in the mind of the customer
+  targets:
+  - evidence_id: evidence-c1fd86df4ab2
+    source_id: web-work-methods-model-positioning
+- claim: 5W（五何）是新闻写作用于确保导语包含故事全部要点的检查清单：Who、What、When、Where、Why。
+  claim_id: model-five-ws
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-c341708ea9cd
+    exact: 'The Five Ws is a checklist used in journalism to ensure that the lead
+      contains all the essential points of a story. The fundamental five questions
+      are: Who? What? When? Where? Why?'
+  targets:
+  - evidence_id: evidence-c341708ea9cd
+    source_id: web-work-methods-model-five-ws
+- claim: 金字塔原理建议思想按金字塔形式自顶向下组织：先主观点，再由支撑性关键想法逐层展开，用于管理咨询中呈现复杂信息。
+  claim_id: model-pyramid-principle
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-fdffb7194bac
+    exact: Minto Pyramid Principle, originated by Barbara Minto, is adopted in management
+      consulting to assist in presenting complex information. The principle suggests
+      that people's ideas should be communicated in a pyramid format in which ideas
+      are organized top-down, starting with a main idea that is a high-level summary
+      of supporting key ideas
+  targets:
+  - evidence_id: evidence-fdffb7194bac
+    source_id: web-work-methods-model-pyramid-principle
+- claim: 劳特朋（Lauterborn）1990 年提出 4C 分类——消费者、成本、便利、沟通——作为 4P 的消费者导向替代。
+  claim_id: model-4cs
+  support: direct
+  supporting_quotes:
+  - evidence_id: evidence-c87ca968e9f9
+    exact: 'Robert F. Lauterborn proposed a 4 Cs classification in 1990, a more consumer-orientated
+      version of the 4 Ps, consisting of the 4 Cs: consumer, cost, convenience, and
+      communication'
+  targets:
+  - evidence_id: evidence-c87ca968e9f9
+    source_id: web-work-methods-model-4cs
 id: model
 kind: reference
 publication_scope: public
@@ -32,48 +226,31 @@ sources:
 - web-work-methods-model-golden-circle-v2
 - web-work-methods-model-swot-v2
 - working-work-methods-model
+- web-work-methods-model-porter-five-forces
+- web-work-methods-model-growth-share-matrix
+- web-work-methods-model-maslow
+- web-work-methods-model-marketing-mix
+- web-work-methods-model-smart-criteria
+- web-work-methods-model-kano-model
+- web-work-methods-model-pest-analysis
+- web-work-methods-model-minimum-viable-product
+- web-work-methods-model-rfm
+- web-work-methods-model-raci-matrix
+- web-work-methods-model-ansoff-matrix
+- web-work-methods-model-pdca-wiki
+- web-work-methods-model-okr-wiki
+- web-work-methods-model-positioning
+- web-work-methods-model-five-ws
+- web-work-methods-model-pyramid-principle
+- web-work-methods-model-4cs
 status: published
 tags:
-- needs-fact-check
-- web-source-added
-- working-migration
+- 模型
+- work-methods
 title: 模型
 updated_at: '2026-09-05'
 ---
 # 模型
-
-## 来源与迁移记录
-
-### 迁移与校验记录
-
-- 原始位置：`content/working/b-final/work-methods/model.md`
-- 原文快照：`working-work-methods-model`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 已补充 Simon Sinek 官方 Golden Circle 页面和 Wikipedia SWOT 综述；其余模型来源仍待逐条核验。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
-
-### 来源补充
-- 来源隔离：旧版 `web-work-methods-model-okr`, `web-work-methods-model-swot`, `web-work-methods-model-pyramid`, `web-work-methods-model-pdca`, `web-work-methods-model-golden-circle` 快照曾出现错误页/残留文本；旧 Source 文件和历史审计记录保留。当前 SWOT 改用重新抓取的 `web-work-methods-model-swot-v2`，Golden Circle 继续使用已核验的 `web-work-methods-model-golden-circle-v2`。
-
-- 已联网读取：`https://simonsinek.com/golden-circle/`；来源正文已保存为不可变 Source 快照。
-
-- 已联网抓取并归档：`https://en.wikipedia.org/wiki/SWOT_analysis`；新 Source 为 `web-work-methods-model-swot-v2`，快照为 `sha256:f0240af8dd8d2225c36825ed7a1fe6947b9bc622fa1ff328c4bbd01f43e26761`。该来源是二手综述，当前只用于支撑 SWOT 定义，不作为方法原始出处。
-- 抓取记录：ASQ PDCA 页面返回 HTTP 403；What Matters 的候选 OKR 页面返回 HTTP 404；未将这两项写入新的权威来源。
-
-### 来源补充
-
-- 已联网读取：`https://asq.org/quality-resources/pdca-cycle`；来源正文已保存为不可变 Source 快照。
-
-### 来源补充
-
-- 已联网读取：`https://en.wikipedia.org/wiki/Barbara_Minto`；来源正文已保存为不可变 Source 快照。
-
-### 来源补充
-
-- 已联网读取：`https://en.wikipedia.org/wiki/SWOT_analysis`；来源正文已保存为不可变 Source 快照。
-
-### 来源补充
-
-- 已联网读取：`https://en.wikipedia.org/wiki/OKR`；来源正文已保存为不可变 Source 快照。
 
 ## 详细章节
 
@@ -222,7 +399,7 @@ PDCA循环又叫戴明环，是全面质量管理所应遵循的科学程序。
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -395,7 +572,7 @@ AISAS模式是电通公司针对互联网导致传统购物行为变化，所总
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -554,7 +731,7 @@ RFM是衡量用户价值常用的工具：
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -644,7 +821,7 @@ P/MF：基于已有需求创新。重点：有价值的用户体验，说服用�
 
 马斯洛从人类动机的角度提出需求层次理论，该理论强调人的动机是由人的需求决定的。
 
-需求层次分为五个等级，是由低到高形成并得到满足。而且人在每一时期，都会有一种需求占主导地位，而其他需求处于从属地位。
+需求层次分为五个等级，由低到高依次为：生理需求、安全需求、社交需求、尊重需求、自我实现需求；人的需求由低到高逐层形成并得到满足。而且在每一时期，都会有一种需求占主导地位，而其他需求处于从属地位。
 
 
 
@@ -765,7 +942,7 @@ GE矩阵法又称通用电器公司法、麦肯锡矩阵、九盒矩阵法、行
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -810,7 +987,7 @@ GE矩阵法又称通用电器公司法、麦肯锡矩阵、九盒矩阵法、行
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -941,7 +1118,7 @@ GE矩阵法又称通用电器公司法、麦肯锡矩阵、九盒矩阵法、行
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -1014,7 +1191,7 @@ SCQA是四个英文单词的缩写：
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -1035,7 +1212,7 @@ SCQA是四个英文单词的缩写：
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 
@@ -1051,7 +1228,7 @@ SCQA是四个英文单词的缩写：
 
 
 
-理论来源：/
+理论来源：个人整理
 
 
 

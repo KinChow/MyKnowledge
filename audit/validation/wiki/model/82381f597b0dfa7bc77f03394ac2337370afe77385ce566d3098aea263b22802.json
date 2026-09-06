@@ -1,0 +1,227 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "model",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_174d0a3c54d2",
+  "input_hash": "sha256:988c877078b3bc233a0964eb94f6722997629e19d6574d5c8989ce60035a7b9d",
+  "provider_duration_ms": 29397,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788672892.8645499,
+  "wiki_content_sha256": "sha256:c38906a9cca9b443db58ed01bdd27d10858f74e34a51a869d648adeac7ed6bb0",
+  "wiki_evidence_sha256": "sha256:a9675fb2f748b93a6b9d51815b494563dbac906cf3a7e9763a5e63ea61e7f0d2",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-golden-circle-v2"
+      },
+      "source_id": "web-work-methods-model-golden-circle-v2",
+      "evidence_id": "evidence-4a104cdde423",
+      "snapshot_sha256": "sha256:f94f88fac0ba5712bed3ee3ced35f0be1b397c2ab1a8ffaff6bcd37946822e02",
+      "selector_sha256": "sha256:c0007934c8f303efa3b8917f0386852ceb680aa68bc96529d94e35f9796b8a40",
+      "quote_sha256": "sha256:44d6b62ecb90d4b2fd33b39adbb691b846a8c68b616d7b8af1d07a291e557bda"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-swot-v2"
+      },
+      "source_id": "web-work-methods-model-swot-v2",
+      "evidence_id": "evidence-f2e0ed27b260",
+      "snapshot_sha256": "sha256:f0240af8dd8d2225c36825ed7a1fe6947b9bc622fa1ff328c4bbd01f43e26761",
+      "selector_sha256": "sha256:6ba74a2e14728e3299824dd6fdec00e5df42da2a8a935950e94cdd23d9a0eee1",
+      "quote_sha256": "sha256:1684850b55921bdc1874c76b788a1e22b68e05e4a056a7b93851992ae3a204de"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "model-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4a104cdde423",
+          "exact": "Consciously or not, the leaders who truly inspire people do so by following a naturally occurring pattern that Simon calls The Golden Circle."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4a104cdde423",
+          "subject": "the leaders who truly inspire people",
+          "predicate": "do so by following",
+          "object": "a naturally occurring pattern that Simon calls The Golden Circle",
+          "qualifiers": {
+            "manner": "Consciously or not"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 与引文逐字一致：引文 [0,141) 完整陈述「the leaders who truly inspire people do so by following a naturally occurring pattern that Simon calls The Golden Circle」，与 claim 完全同义，且 claim 无任何超出引文范围的断言，故 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "start": 0,
+          "end": 141
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "model-swot-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f2e0ed27b260",
+          "exact": "In strategic planning and strategic management, SWOT analysis (also known as the SWOT matrix, TOWS, WOTS, WOTS-UP, and situational analysis)[1] is a decision-making technique that identifies the strengths, weaknesses, opportunities, and threats of an organization or project."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f2e0ed27b260",
+          "subject": "SWOT analysis",
+          "predicate": "identifies",
+          "object": "the strengths, weaknesses, opportunities, and threats of an organization or project",
+          "qualifiers": {
+            "context": "in strategic planning and strategic management",
+            "nature": "decision-making technique"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,274) 陈述 SWOT analysis「identifies the strengths, weaknesses, opportunities, and threats of an organization or project」，与 claim「用于识别组织或项目的优势、劣势、机会和威胁」逐项语义对应（忠实中文转述），claim 未超出引文内容，故 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "start": 0,
+          "end": 274
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5454992b1f82cb33c1f0db837357100aebbc8d35ef7246e8f00397d19c15068b"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:bbac2a2e5b78186b07677312fa4336a819e821a3be28e93bc5729da4f8b65cd2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-golden-circle-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-swot-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-swot-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

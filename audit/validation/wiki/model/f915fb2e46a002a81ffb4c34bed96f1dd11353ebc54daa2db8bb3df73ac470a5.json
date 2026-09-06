@@ -1,0 +1,1026 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "model",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_b1b20a073c2b",
+  "input_hash": "sha256:6a4bb04d3454ff383f4c3d2c1b687ee02964087dcc9d9d12432ae8ed4e1cfdb8",
+  "provider_duration_ms": 31892,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788674683.80545,
+  "wiki_content_sha256": "sha256:c38906a9cca9b443db58ed01bdd27d10858f74e34a51a869d648adeac7ed6bb0",
+  "wiki_evidence_sha256": "sha256:07485cf1653f64d719cbc110e3e86077a16e52658fe8ba4a64494e7ca1ff7669",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-golden-circle-v2"
+      },
+      "source_id": "web-work-methods-model-golden-circle-v2",
+      "evidence_id": "evidence-4a104cdde423",
+      "snapshot_sha256": "sha256:f94f88fac0ba5712bed3ee3ced35f0be1b397c2ab1a8ffaff6bcd37946822e02",
+      "selector_sha256": "sha256:c0007934c8f303efa3b8917f0386852ceb680aa68bc96529d94e35f9796b8a40",
+      "quote_sha256": "sha256:44d6b62ecb90d4b2fd33b39adbb691b846a8c68b616d7b8af1d07a291e557bda"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-swot-v2"
+      },
+      "source_id": "web-work-methods-model-swot-v2",
+      "evidence_id": "evidence-f2e0ed27b260",
+      "snapshot_sha256": "sha256:f0240af8dd8d2225c36825ed7a1fe6947b9bc622fa1ff328c4bbd01f43e26761",
+      "selector_sha256": "sha256:6ba74a2e14728e3299824dd6fdec00e5df42da2a8a935950e94cdd23d9a0eee1",
+      "quote_sha256": "sha256:1684850b55921bdc1874c76b788a1e22b68e05e4a056a7b93851992ae3a204de"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-porter-five-forces"
+      },
+      "source_id": "web-work-methods-model-porter-five-forces",
+      "evidence_id": "evidence-e3a103841538",
+      "snapshot_sha256": "sha256:382ac21e95413de93f408210127256e7797e84c80dbe35c36d500a8b5020b692",
+      "selector_sha256": "sha256:01d182d8a985a87072aa969c08e82d3732a5c69cb2207ff5d63cb055bd5e038a",
+      "quote_sha256": "sha256:f4f975b279fc27d3eaf19b9b5ee89bfdae6816662fac4cea0b907a972c21839a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-growth-share-matrix"
+      },
+      "source_id": "web-work-methods-model-growth-share-matrix",
+      "evidence_id": "evidence-03a7bf683739",
+      "snapshot_sha256": "sha256:af8b34a59514d2054e4354b6988ef61ea3ec7a6844bd536cb315f9f81356ab9d",
+      "selector_sha256": "sha256:962deda0afec62bf5265b30333563f48775c32687f0c70e70710ff8f7c6001f7",
+      "quote_sha256": "sha256:bb065876e2ade01bae16fdcef8c8ffc811da07a619853071b14032547b55bbd5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-maslow"
+      },
+      "source_id": "web-work-methods-model-maslow",
+      "evidence_id": "evidence-fe6df501a8a4",
+      "snapshot_sha256": "sha256:215084c6031d5da45bb48dc42352f8fc8a1aeb51eed7488d653467890481ceec",
+      "selector_sha256": "sha256:a7b04789d8053b2145beffd54c6082af4f89abee73189dbe9484412c5c3d96c0",
+      "quote_sha256": "sha256:c9d9f65279d0fe12a7cc123517ff7bb7e536862e06881910d82964aca63532a8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-marketing-mix"
+      },
+      "source_id": "web-work-methods-model-marketing-mix",
+      "evidence_id": "evidence-9a9908bf6b55",
+      "snapshot_sha256": "sha256:66ac82c028670eb70ef92f0eb94deeb2186f092f6fae226072510a1def5dacf9",
+      "selector_sha256": "sha256:8221214e2a97107bedef6ce5b5382e551bff5eee49f87b32051db7b6838310c8",
+      "quote_sha256": "sha256:6e22d97c3bffb8dca2ed698621ceb480c68a7b8c57833281a47805656ca62cf0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-smart-criteria"
+      },
+      "source_id": "web-work-methods-model-smart-criteria",
+      "evidence_id": "evidence-962942bde084",
+      "snapshot_sha256": "sha256:8d96396b666a49be4bf8e4365b320ff5cb61d577a5cf6610dbe95fd2d04ab21a",
+      "selector_sha256": "sha256:c11104a3e1e1fbef4a57c21ad7ea398a892662c574b575e538f6b01d6d3656c4",
+      "quote_sha256": "sha256:dcd4fe9fe638f9bba50a43b7ea151eef61e9ae3b65015aa7402658d57d657c6f"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-work-methods-model-kano-model"
+      },
+      "source_id": "web-work-methods-model-kano-model",
+      "evidence_id": "evidence-62d96869ca5b",
+      "snapshot_sha256": "sha256:642a3dd044e1920677df415d2bc5b6283cd0c2fc09a99708b56ebbdbf45f73ba",
+      "selector_sha256": "sha256:b9b228ce6d06f51bb3f8072bba039ea3b760782626102d250acd4619f0dba6fb",
+      "quote_sha256": "sha256:9c22b81cf1a2aeb89064b2bcb0ce5f93658e0daf583c4a16d09e0f603375216f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "model-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4a104cdde423",
+          "exact": "Consciously or not, the leaders who truly inspire people do so by following a naturally occurring pattern that Simon calls The Golden Circle."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4a104cdde423",
+          "subject": "web-work-methods-model-golden-circle-v2",
+          "predicate": "states",
+          "object": "leaders who truly inspire people do so by following a naturally occurring pattern that Simon calls The Golden Circle"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "start": 0,
+          "end": 134
+        }
+      ],
+      "rationale": "各 claim 与 target 引文逐字等价（quote 与 claim 措辞完全一致），引文自身明确陈述领导者的激励行为遵循 Golden Circle 这一自然模式，claim 未超出引文断言范围；故判定为 supported。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-swot-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f2e0ed27b260",
+          "exact": "In strategic planning and strategic management, SWOT analysis (also known as the SWOT matrix, TOWS, WOTS, WOTS-UP, and situational analysis)[1] is a decision-making technique that identifies the strengths, weaknesses, opportunities, and threats of an organization or project."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f2e0ed27b260",
+          "subject": "web-work-methods-model-swot-v2",
+          "predicate": "states",
+          "object": "SWOT analysis identifies the strengths, weaknesses, opportunities, and threats of an organization or project"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "start": 0,
+          "end": 233
+        }
+      ],
+      "rationale": "引文明确说明 SWOT 分析用于识别组织或项目的优势（strengths）、劣势（weaknesses）、机会（opportunities）、威胁（threats），与 claim 的四要素表述完全对应；claim 为引文的忠实转述。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-porter-five-forces",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e3a103841538",
+          "exact": "Porter's Five Forces include three sources of horizontal competition (the threat of substitute products or services, the threat posed by established industry rivals, and the threat of new entrants) and two sources of vertical competition (the bargaining power of suppliers and the bargaining power of buyers)"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e3a103841538",
+          "subject": "web-work-methods-model-porter-five-forces",
+          "predicate": "states",
+          "object": "Porter's Five Forces include three horizontal competition sources and two vertical competition sources, with the enumerated categories matching the claim"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "start": 0,
+          "end": 359
+        }
+      ],
+      "rationale": "引文逐一列出三源水平竞争（替代品/现有竞争者/潜在进入者）与两源垂直竞争（供应商/购买者议价能力），与 claim 的 3+2 分类完全一致，且 claim 只剩述未添加新断言。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-growth-share-matrix",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-03a7bf683739",
+          "exact": "It classifies business units into four categories: stars (high market share in a fast-growing industry), cash cows (high market share in a slow-growing industry), question marks (low market share in a high-growth market), and dogs"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-03a7bf683739",
+          "subject": "web-work-methods-model-growth-share-matrix",
+          "predicate": "states",
+          "object": "classifies business units into four categories: stars, cash cows, question marks, and dogs, with the alternative naming for question marks given as 'problems' in the source"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "start": 0,
+          "end": 226
+        }
+      ],
+      "rationale": "引文给出四类划分：stars（高份额高增长）、cash cows（高份额低增长）、question marks（低份额高增长）、dogs（低份额低增长），与 claim 的明星/现金牛/问题/瘦狗四类一一对应（question marks 即中文通译'问题'业务）。claim 为引文的忠实转述。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-maslow",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fe6df501a8a4",
+          "exact": "there are five sets of basic needs that are related to each other in a hierarchy of prepotency (or strength): physiological needs, safety needs, love and social needs, esteem needs, and self-actualization needs"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fe6df501a8a4",
+          "subject": "web-work-methods-model-maslow",
+          "predicate": "states",
+          "object": "five sets of basic needs in a hierarchy of prepotency: physiological, safety, love and social, esteem, and self-actualization needs"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "start": 0,
+          "end": 204
+        }
+      ],
+      "rationale": "引文明确列出五类基本需求（生理、安全、爱与归属/社交、尊重、自我实现）并说明其按优势层级（hierarchy of prepotency）排列，与 claim 完全一致。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-marketing-mix",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9a9908bf6b55",
+          "exact": "The marketing mix (4 Ps) is the set of controllable elements or variables that a company uses to influence and meet the needs of its target customers in the most effective and efficient way possible. These elements are sometimes sorted into the categories of product, price, place, and promotion (also known as the \"4 Ps\")"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-9a9908bf6b55",
+          "subject": "web-work-methods-model-marketing-mix",
+          "predicate": "states",
+          "object": "marketing mix is the set of controllable elements a company uses to influence and meet target customer needs, sorted into product, price, place, and promotion (4 Ps)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "start": 0,
+          "end": 314
+        }
+      ],
+      "rationale": "引文说明营销组合（4 Ps）是用于影响并满足目标顾客需求的可控要素集合（controllable elements），并列出 product/price/place/promotion 四类（place 即中文'渠道'），与 claim 完全对应。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-smart-criteria",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-962942bde084",
+          "exact": "Specific (targeting a particular area for improvement), Measurable (quantifying, or at least suggesting, an indicator of progress), Assignable (defining responsibility clearly), Realistic (outlining attainable results with available resources), and Time-related (including a timeline for expected results)"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-962942bde084",
+          "subject": "web-work-methods-model-smart-criteria",
+          "predicate": "states",
+          "object": "SMART criteria: Specific, Measurable, Assignable, Realistic, and Time-related, with parenthetical definitions for each"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "start": 0,
+          "end": 289
+        }
+      ],
+      "rationale": "引文列出 Specific/Measurable/Assignable/Realistic/Time-related 五项，与 claim 的中文对应（具体/可衡量/可指派/现实/有时限）一一吻合；'Time-related'（含时间线）即 claim 的'有时限'，无语义偏差。偏移以引文为基准（0 至引文长度）。"
+    },
+    {
+      "claim_id": "model-kano-model",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-62d96869ca5b",
+          "exact": "According to the Kano model, customer preferences are classified into five distinct categories: Must-be Quality, One-dimensional Quality, Attractive Quality, Indifferent Quality, and Reverse Quality"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-62d96869ca5b",
+          "subject": "web-work-methods-model-kano-model",
+          "predicate": "states",
+          "object": "customer preferences classified into five categories: Must-be, One-dimensional, Attractive, Indifferent, and Reverse Quality"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale_offsets": [
+        {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "start": 0,
+          "end": 192
+        }
+      ],
+      "rationale": "引文明确将顾客偏好分为五类，与 claim 的必备/一维/魅力/无差异/反向质量一一对应（Must-be/One-dimensional/Attractive/Indifferent/Reverse 的标准中文译名）。偏移以引文为基准（0 至引文长度）。"
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "全部 8 条 target 的 evidence.provenance 均为空对象，未提供 publisher / derived_from / independence_group 字段，且引文文本内无转载声明可供举证；故本批 claim 无法建立多源独立佐证（independence）的 provenance 依据，按协议要求输出为无法举证（未填 independence 字段）。",
+    "rationale_offsets 以各引文自身为基准（0..len(quote)）标注，请求中未提供源文件全文的绝对字符位置，故无法给出源文件级绝对偏移。"
+  ],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-golden-circle-v2",
+          "evidence_id": "evidence-4a104cdde423",
+          "independence_group": "source:web-work-methods-model-golden-circle-v2",
+          "observation_sha256": "sha256:5e8f973a5b6df6f2eb330dba33183a8c9f89bb5bd95b48ee87d9c20dabc6e8b9"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-swot-v2",
+          "evidence_id": "evidence-f2e0ed27b260",
+          "independence_group": "source:web-work-methods-model-swot-v2",
+          "observation_sha256": "sha256:e6e62ea1021ff0c88e0ff76015133454c42310b320bac963e7c8823ef16bc0bd"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-porter-five-forces",
+          "evidence_id": "evidence-e3a103841538",
+          "independence_group": "source:web-work-methods-model-porter-five-forces",
+          "observation_sha256": "sha256:199d3d34fcfc1a296d8de9a30f4e37f4df0bc7e0adb5b7af840dc7705933175b"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-growth-share-matrix",
+          "evidence_id": "evidence-03a7bf683739",
+          "independence_group": "source:web-work-methods-model-growth-share-matrix",
+          "observation_sha256": "sha256:3ef3a87544c3b2e86077d32c5c9c55d9f36cb48b6f697b1618300767593f21bf"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-maslow",
+          "evidence_id": "evidence-fe6df501a8a4",
+          "independence_group": "source:web-work-methods-model-maslow",
+          "observation_sha256": "sha256:3be7ab81c2169245aa2a15e0bfe648822a3c6c57378ccb22d08098d6b07edbe7"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-marketing-mix",
+          "evidence_id": "evidence-9a9908bf6b55",
+          "independence_group": "source:web-work-methods-model-marketing-mix",
+          "observation_sha256": "sha256:a7a88b8ddaa94d16bed186494da06ef952cadea6337817ea4579fc3bc88149c5"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-work-methods-model-smart-criteria",
+          "evidence_id": "evidence-962942bde084",
+          "independence_group": "source:web-work-methods-model-smart-criteria",
+          "observation_sha256": "sha256:b99a4c5a236d99b7516cba428170792603fa99061075a510976bad5f8776ee38"
+        },
+        "target_b": {
+          "source_id": "web-work-methods-model-kano-model",
+          "evidence_id": "evidence-62d96869ca5b",
+          "independence_group": "source:web-work-methods-model-kano-model",
+          "observation_sha256": "sha256:0259c5e9f8896136331c9c98231d2792e7c606ed2cbaa570ffec8b84e476e402"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-golden-circle-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-swot-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-porter-five-forces",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-growth-share-matrix",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-maslow",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-marketing-mix",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-smart-criteria",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-work-methods-model-kano-model",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-swot-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-porter-five-forces",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-growth-share-matrix",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-maslow",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-marketing-mix",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-smart-criteria",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "model-kano-model",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

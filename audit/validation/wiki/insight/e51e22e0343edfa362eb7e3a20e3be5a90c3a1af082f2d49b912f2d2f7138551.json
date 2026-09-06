@@ -1,0 +1,446 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "insight",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_20f1ed4a66f5",
+  "input_hash": "sha256:3639d724c538dd6d1872b57f85598340226e2e0b6d92f07b262e366e27a8e047",
+  "provider_duration_ms": 122851,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788672829.961162,
+  "wiki_content_sha256": "sha256:a585e39c5ddaf7564ae9f1a7d9545c94e7d53de901c9975e867f001f2e8ad259",
+  "wiki_evidence_sha256": "sha256:38d8045c59868b445adc6a25d981e1b4a5f20f8a02807447e6981716d71b35ab",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-insight"
+      },
+      "source_id": "working-work-methods-insight",
+      "evidence_id": "evidence-4ce9c0a5885e",
+      "snapshot_sha256": "sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f",
+      "selector_sha256": "sha256:7b5bb6f9b47c883c36739752228523ed78f1e299e9206ffe23054636e6efa954",
+      "quote_sha256": "sha256:a5550729b00e0c31ed4bd501b9f97c151e5a2b9cdbbd44b39a3d131c30bb6ae1"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-insight"
+      },
+      "source_id": "working-work-methods-insight",
+      "evidence_id": "evidence-d5067fbc11b5",
+      "snapshot_sha256": "sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f",
+      "selector_sha256": "sha256:2fb0183de58b615c59ef20c55850c3da1ed807a163b43465078f0469ac3f94e7",
+      "quote_sha256": "sha256:a11120c9b505b674efa3594ab390d246dc18fc4d631247d82b9231f3893471dc"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-insight"
+      },
+      "source_id": "working-work-methods-insight",
+      "evidence_id": "evidence-4b36706b2c12",
+      "snapshot_sha256": "sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f",
+      "selector_sha256": "sha256:6660f189537afbb3e3d8b7f27a1e00f921acd8b2ba299b2d188dad10a6f5d89f",
+      "quote_sha256": "sha256:03591ef89568663e7397392f9e25678617a9454ab905c11aa96cf5468cbffc61"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-insight"
+      },
+      "source_id": "working-work-methods-insight",
+      "evidence_id": "evidence-5d2117e3455e",
+      "snapshot_sha256": "sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f",
+      "selector_sha256": "sha256:a99d2380c1771713aa845dfadea510f6a8790d111a1026e6bebc3920e7ff1fe8",
+      "quote_sha256": "sha256:f41f0f94bff835b9b87bfe86f0f75238ee3d8c4ee9b7ed367bd6bf2886944f02"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "insight-4321-4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4ce9c0a5885e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4ce9c0a5885e",
+          "exact": "### 四种工作模式\n\n* Deep dive洞察（深）\n    * SP C2、细分市场洞察、战略专题洞察、CSPA\n* 热点洞察（快）\n    * XX展会（如MWC）洞察、热点事件洞察\n* 例行洞察（新）\n    * 宏观洞察月报、XX专题洞察月报\n* 本质规律洞察（透）\n    * 本质+趋势+价值"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4ce9c0a5885e",
+          "subject": "洞察工作模式",
+          "predicate": "列举为四种",
+          "object": "深、快、新、透（Deep dive洞察/热点洞察/例行洞察/本质规律洞察）",
+          "qualifiers": {
+            "mode_labels": [
+              "Deep dive洞察（深）",
+              "热点洞察（快）",
+              "例行洞察（新）",
+              "本质规律洞察（透）"
+            ],
+            "sub_bullets_are_examples": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文标题「### 四种工作模式」位于 [919,929)，其下四条一级列表项依次为 Deep dive洞察（深）[931,947)、热点洞察（快）[979,988)、例行洞察（新）[1015,1024)、本质规律洞察（透）[1047,1058)，与 claim 所述「深、快、新、透」四模式在名称、次序上一一对应；各条下缩进子项为各模式的具体示例，不影响该核心断言。claim 为引文内容的忠实复述，故 supported。注：证据 origin=personal、provenance 为空，属个人笔记陈述（source 自身标注 origin: personal），本审计只判断引文与 claim 的对应关系，不判断事实真伪。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4ce9c0a5885e",
+          "start": 919,
+          "end": 1073
+        }
+      ]
+    },
+    {
+      "claim_id": "insight-4321-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-d5067fbc11b5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d5067fbc11b5",
+          "exact": "### 洞察项目运作的三阶九步法\n\n* 选题（提出问题）\n    *   确定洞察问题（目标）\n    *   确定项目计划\n    *   开发假设、分解问题（框架/模型）\n* 解题（分析问题）\n    *   收集信息（数据＋事实）\n    *   提炼信息（结构＋逻辑）\n    *   输出观点（本质+规律）\n    *   形成报告（Story line）\n* 应用（解決问题）"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d5067fbc11b5",
+          "subject": "洞察项目运作",
+          "predicate": "分为三阶",
+          "object": "选题（提出问题）、解题（分析问题）、应用（解決问题）",
+          "qualifiers": {
+            "title_asserts": "三阶九步法",
+            "steps_enumerated_visible": 7,
+            "quote_truncated_at_application_stage": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文标题「### 洞察项目运作的三阶九步法」位于 [1077,1093)，直接断言「三阶九步」；正文按序列出三阶：选题（提出问题）[1095,1105)、解题（分析问题）[1165,1175)、应用（解決问题）[1261,1271)，与 claim 三阶名称一致（原文「解決」为繁体异体，与 claim「解决」同义）。选题阶已枚举 3 步 [1106,1164)、解题阶已枚举 4 步 [1176,1260)，共 7 步，与标题「九步」断言不冲突（引文在应用阶段处截断，未列出其 2 个子步骤）。claim 中「三阶」由三阶名列表直接支撑、「九步」由标题级「三阶九步法」断言直接支撑，且已列步骤与九步相容，故 supported。注：origin=personal、provenance 为空（source 标注 origin: personal），本审计仅判断引文支持关系。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-d5067fbc11b5",
+          "start": 1077,
+          "end": 1271
+        }
+      ]
+    },
+    {
+      "claim_id": "insight-4321-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4b36706b2c12"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4b36706b2c12",
+          "exact": "### 产生洞察观点的两个核心逻辑\n\n* 开发假设（预设的观点）\n* 收集证据（事实/数据）\n* 确认观点（量化/验证）\n\n* 收集信息（框架/模型）\n* 分析提炼（本质/规律 ）\n* 关键发现（新观点）"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4b36706b2c12",
+          "subject": "产生洞察观点",
+          "predicate": "包含两个核心逻辑",
+          "object": "假设-证据-观点；信息-提炼-关键发现",
+          "qualifiers": {
+            "chain1": [
+              "开发假设",
+              "收集证据",
+              "确认观点"
+            ],
+            "chain2": [
+              "收集信息",
+              "分析提炼",
+              "关键发现"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文标题「### 产生洞察观点的两个核心逻辑」位于 [1443,1460)，明示「两个核心逻辑」；正文两条逻辑链与标题一一对应：第一条为 开发假设 [1462,1469) → 收集证据 [1476,1483) → 确认观点 [1490,1497)（即 claim 的「假设-证据-观点」，主体名词对应，含括号内注记），第二条为 收集信息 [1505,1513) → 分析提炼 [1519,1527) → 关键发现 [1534,1541)（即 claim 的「信息-提炼-关键发现」）。claim 采用链式名词概括，与引文两条链完全对应，故 supported。注：origin=personal、provenance 为空（source 标注 origin: personal），仅判断引文支持关系。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4b36706b2c12",
+          "start": 1443,
+          "end": 1545
+        }
+      ]
+    },
+    {
+      "claim_id": "insight-4321-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-5d2117e3455e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5d2117e3455e",
+          "exact": "### 一个底线原则\n\n* 合法合规"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5d2117e3455e",
+          "subject": "洞察工作的底线原则",
+          "predicate": "为",
+          "object": "合法合规",
+          "qualifiers": {
+            "count": 1
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文标题「### 一个底线原则」位于 [1549,1559)，其下唯一一条为「* 合法合规」[1561,1567)，与 claim「一条底线原则是合法合规」完全一致；claim 的主语「洞察工作的」系该 source（work-methods 领域、如何做洞察4321法 上下文中，见 [1077,1093) 所在章节）的语境补全，未添加与引文冲突的信息。引文为唯一一条底线原则，故 supported。注：origin=personal、provenance 为空（source 标注 origin: personal），本审计仅判断引文支持关系，不判断该原则的客观效度。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-5d2117e3455e",
+          "start": 1549,
+          "end": 1567
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4ce9c0a5885e",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:94f080385bce1a39b06d026c3755dab6caee2362df5146790644a08c36fde9dc"
+        },
+        "target_b": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-d5067fbc11b5",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:da2291c6e6e6cf78c0ea4cec9b267cbbd661c67dc67c58ad6ca750711b021e21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4ce9c0a5885e",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:94f080385bce1a39b06d026c3755dab6caee2362df5146790644a08c36fde9dc"
+        },
+        "target_b": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4b36706b2c12",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:8d8bcfe5d5c00204d36a5a5d5fd7d8dadb0fbeb90aab0aa3286a8cac8a6cdc15"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4ce9c0a5885e",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:94f080385bce1a39b06d026c3755dab6caee2362df5146790644a08c36fde9dc"
+        },
+        "target_b": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-5d2117e3455e",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:be0af2914a02fa72ab34ad7ed8e2c176b7b796369a938b119e9c92cc977c4743"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-d5067fbc11b5",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:da2291c6e6e6cf78c0ea4cec9b267cbbd661c67dc67c58ad6ca750711b021e21"
+        },
+        "target_b": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4b36706b2c12",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:8d8bcfe5d5c00204d36a5a5d5fd7d8dadb0fbeb90aab0aa3286a8cac8a6cdc15"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-d5067fbc11b5",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:da2291c6e6e6cf78c0ea4cec9b267cbbd661c67dc67c58ad6ca750711b021e21"
+        },
+        "target_b": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-5d2117e3455e",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:be0af2914a02fa72ab34ad7ed8e2c176b7b796369a938b119e9c92cc977c4743"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-4b36706b2c12",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:8d8bcfe5d5c00204d36a5a5d5fd7d8dadb0fbeb90aab0aa3286a8cac8a6cdc15"
+        },
+        "target_b": {
+          "source_id": "working-work-methods-insight",
+          "evidence_id": "evidence-5d2117e3455e",
+          "independence_group": "source:working-work-methods-insight",
+          "observation_sha256": "sha256:be0af2914a02fa72ab34ad7ed8e2c176b7b796369a938b119e9c92cc977c4743"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-insight",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-insight",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-insight",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-insight",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "insight-4321-4",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "insight-4321-3",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "insight-4321-2",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "insight-4321-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

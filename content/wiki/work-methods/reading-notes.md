@@ -3,24 +3,32 @@ aliases: []
 confidentiality: public
 domain: work-methods
 evidence:
-- claim: |-
-    - **书名**：
+- claim: '- **书名**：
+
     - **作者**：
+
     - **类型**：□ 理论型 □ 实用型 □ 文学 □ 其他____
+
     - **阅读目的**：□ 提升技能 □ 拓展认知 □ 解决问题 □ 兴趣探索
+
     - **阅读日期**：____年____月____日 - ____年____月____日
-    - **阅读层次**：□ 检视阅读 □ 分析阅读 □ 主题阅读
+
+    - **阅读层次**：□ 检视阅读 □ 分析阅读 □ 主题阅读'
   claim_id: reading-notes-audit-1
   support: personal
   supporting_quotes:
   - evidence_id: evidence-613f13259053
-    exact: |-
-      - **书名**：
+    exact: '- **书名**：
+
       - **作者**：
+
       - **类型**：□ 理论型 □ 实用型 □ 文学 □ 其他____
+
       - **阅读目的**：□ 提升技能 □ 拓展认知 □ 解决问题 □ 兴趣探索
+
       - **阅读日期**：____年____月____日 - ____年____月____日
-      - **阅读层次**：□ 检视阅读 □ 分析阅读 □ 主题阅读
+
+      - **阅读层次**：□ 检视阅读 □ 分析阅读 □ 主题阅读'
   targets:
   - evidence_id: evidence-613f13259053
     source_id: working-work-methods-reading-notes
@@ -33,21 +41,13 @@ sources:
 - working-work-methods-reading-notes
 status: published
 tags:
-- working-migration
-- needs-fact-check
+- 读书笔记
+- 模板
+- work-methods
 title: 读书笔记模版
 updated_at: '2026-09-05'
 ---
 # 读书笔记模版
-
-## 来源与迁移记录
-
-### 迁移与校验记录
-
-- 原始位置：`content/working/c-intermediate/work-methods/reading-notes.md`
-- 原文快照：`working-work-methods-reading-notes`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 外部链接：0 条；链接仅作为待补来源线索，尚未自动认定为事实依据。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
 
 ## 详细章节
 

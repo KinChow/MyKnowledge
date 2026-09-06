@@ -3,20 +3,23 @@ aliases: []
 confidentiality: public
 domain: tools
 evidence:
-- claim: |-
-    Book
-    The entire Pro Git book, written by Scott Chacon and Ben Straub and published by Apress, is available here. All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license. Print versions of the book are available on Amazon.com.
-    The version found here has been updated with corrections and additions from hundreds of contributors. If you see an error or have a suggestion, patches and issues are welcome in its GitHub repository.
-    -
+- claim: Git 命令参考以权威书籍 Pro Git 为来源：该书由 Scott Chacon 与 Ben Straub 编写、Apress 出版，内容以 CC BY-NC-SA 3.0 许可公开提供，并持续接受社区修正与补充。
   claim_id: git-commands-audit-1
   support: direct
   supporting_quotes:
   - evidence_id: evidence-7c5186650823
-    exact: |-
-      Book
-      The entire Pro Git book, written by Scott Chacon and Ben Straub and published by Apress, is available here. All content is licensed under the Creative Commons Attribution Non Commercial Share Alike 3.0 license. Print versions of the book are available on Amazon.com.
-      The version found here has been updated with corrections and additions from hundreds of contributors. If you see an error or have a suggestion, patches and issues are welcome in its GitHub repository.
-      -
+    exact: 'Book
+
+      The entire Pro Git book, written by Scott Chacon and Ben Straub and published
+      by Apress, is available here. All content is licensed under the Creative Commons
+      Attribution Non Commercial Share Alike 3.0 license. Print versions of the book
+      are available on Amazon.com.
+
+      The version found here has been updated with corrections and additions from
+      hundreds of contributors. If you see an error or have a suggestion, patches
+      and issues are welcome in its GitHub repository.
+
+      -'
   targets:
   - evidence_id: evidence-7c5186650823
     source_id: web-computer-science-git-commands
@@ -30,27 +33,13 @@ sources:
 - working-tools-git-commands
 status: published
 tags:
-- needs-fact-check
-- source-reused
-- web-source-added
-- working-migration
+- git
+- version-control
+- tools
 title: Git命令
 updated_at: '2026-09-05'
 ---
 # Git命令
-
-## 来源与迁移记录
-
-### 迁移与校验记录
-
-- 原始位置：`content/working/b-final/tools/git-commands.md`
-- 原文快照：`working-tools-git-commands`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 外部链接：0 条；链接仅作为待补来源线索，尚未自动认定为事实依据。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
-
-### 来源补充
-
-- 复用已保存的外部 Source：`web-computer-science-git-commands`；来源快照已存在，后续继续做 claim/evidence 对应。
 
 ## 详细章节
 

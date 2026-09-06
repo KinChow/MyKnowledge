@@ -3,14 +3,12 @@ aliases: []
 confidentiality: public
 domain: work-methods
 evidence:
-- claim: |-
-    IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的端到端管理过程，它以市场需求为驱动，将产品开发作为一项投资来管理，及时交付有竞争力的、高质量的产品包和解决方案。IPD流程是分阶段的、各阶段间用门槛分开的结构化流程，从商业角度保证产品投资和产品开发取得成功，Charter和DCP是IPD的最基本管理手段，能够保证减少产品投资的浪费，有效地保证产品投资收益的最大化。
+- claim: IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的端到端管理过程，它以市场需求为驱动，将产品开发作为一项投资来管理，及时交付有竞争力的、高质量的产品包和解决方案。IPD流程是分阶段的、各阶段间用门槛分开的结构化流程，从商业角度保证产品投资和产品开发取得成功，Charter和DCP是IPD的最基本管理手段，能够保证减少产品投资的浪费，有效地保证产品投资收益的最大化。
   claim_id: ipd-audit-1
   support: personal
   supporting_quotes:
   - evidence_id: evidence-9830e57adc1d
-    exact: |-
-      IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的端到端管理过程，它以市场需求为驱动，将产品开发作为一项投资来管理，及时交付有竞争力的、高质量的产品包和解决方案。IPD流程是分阶段的、各阶段间用门槛分开的结构化流程，从商业角度保证产品投资和产品开发取得成功，Charter和DCP是IPD的最基本管理手段，能够保证减少产品投资的浪费，有效地保证产品投资收益的最大化。
+    exact: IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的端到端管理过程，它以市场需求为驱动，将产品开发作为一项投资来管理，及时交付有竞争力的、高质量的产品包和解决方案。IPD流程是分阶段的、各阶段间用门槛分开的结构化流程，从商业角度保证产品投资和产品开发取得成功，Charter和DCP是IPD的最基本管理手段，能够保证减少产品投资的浪费，有效地保证产品投资收益的最大化。
   targets:
   - evidence_id: evidence-9830e57adc1d
     source_id: working-work-methods-ipd
@@ -23,27 +21,13 @@ sources:
 - working-work-methods-ipd
 status: published
 tags:
-- needs-fact-check
-- web-source-added
-- working-migration
+- ipd
+- 集成产品开发
+- work-methods
 title: IPD
 updated_at: '2026-09-05'
 ---
 # IPD
-
-## 来源与迁移记录
-
-### 迁移与校验记录
-
-- 原始位置：`content/working/b-final/work-methods/ipd.md`
-- 原文快照：`working-work-methods-ipd`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 外部链接：0 条；链接仅作为待补来源线索，尚未自动认定为事实依据。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
-
-### 来源补充
-- 来源隔离：当前绑定中的 `web-work-methods-ipd` 经正文检查确认是错误页/残留文本，已移除当前引用；Source 文件和历史审计记录保留。
-
-- 已联网读取：`https://support.huaweicloud.com/intl/en-us/productdesc-projectman/projectman_07_3001.html`；来源正文已保存为不可变 Source 快照。
 
 ## 详细章节
 
@@ -84,7 +68,7 @@ IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的�
 *  How Much：是否能赚钱，需要什么样的投入？
 *  How：如何做才能达成商业目标？
 *  Who：谁承担项目开发任务？
-*  目标：通过市场机会分析、客户需求分析、竞争分析、技术可行性分析和投入产出分析，评估产品和解决方案商业投资机会，开发出踏准市场节奏、满足客户需求、可盈利和有克争力的初始产品和解决方案包并制定项目任务书Charter启动产品和解决方案的版本开发。
+*  目标：通过市场机会分析、客户需求分析、竞争分析、技术可行性分析和投入产出分析，评估产品和解决方案商业投资机会，开发出踏准市场节奏、满足客户需求、可盈利和有竞争力的初始产品和解决方案包并制定项目任务书Charter启动产品和解决方案的版本开发。
 
 
 

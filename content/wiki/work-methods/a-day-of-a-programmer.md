@@ -3,20 +3,24 @@ aliases: []
 confidentiality: public
 domain: work-methods
 evidence:
-- claim: |-
-    1. 站会owner，成员轮流担任
+- claim: '1. 站会owner，成员轮流担任
+
     2. 成员轮流发言，不超过1分钟
+
     3. 发言：昨天做了什么，今天要做什么，有什么风险/问题
-    4. 如果陷入了讨论细节，owner要站出来制止，会后继续讨论
+
+    4. 如果陷入了讨论细节，owner要站出来制止，会后继续讨论'
   claim_id: a-day-of-a-programmer-audit-1
   support: personal
   supporting_quotes:
   - evidence_id: evidence-3a3c2b7db864
-    exact: |-
-      1. 站会owner，成员轮流担任
+    exact: '1. 站会owner，成员轮流担任
+
       2. 成员轮流发言，不超过1分钟
+
       3. 发言：昨天做了什么，今天要做什么，有什么风险/问题
-      4. 如果陷入了讨论细节，owner要站出来制止，会后继续讨论
+
+      4. 如果陷入了讨论细节，owner要站出来制止，会后继续讨论'
   targets:
   - evidence_id: evidence-3a3c2b7db864
     source_id: working-work-methods-a-day-of-a-programmer
@@ -26,33 +30,15 @@ publication_scope: public
 related: []
 schema_version: wiki/v1
 sources:
-- web-computer-science-software-design
-- web-computer-science-git-commands
 - working-work-methods-a-day-of-a-programmer
 status: published
 tags:
-- needs-fact-check
-- source-reused
-- web-source-added
-- working-migration
+- work-methods
+- 开发流程
 title: 程序员的一天
 updated_at: '2026-09-05'
 ---
 # 程序员的一天
-
-## 来源与迁移记录
-
-### 迁移与校验记录
-
-- 原始位置：`content/working/b-final/work-methods/a-day-of-a-programmer.md`
-- 原文快照：`working-work-methods-a-day-of-a-programmer`（personal-note；用于保留作者原始整理，不等同于外部权威来源）
-- 外部链接：0 条；链接仅作为待补来源线索，尚未自动认定为事实依据。
-- 当前状态：`draft`；事实正确性、来源逐条对应和必要的权威来源补齐待人工审查。
-
-### 来源补充
-- 来源隔离：当前绑定中的 `web-computer-science-c-concurrent-programming-and-cuda` 经正文检查确认是错误页/残留文本，已移除当前引用；Source 文件和历史审计记录保留。
-
-- 复用已联网读取的相关 Source：`web-computer-science-software-design`, `web-computer-science-git-commands`, `web-computer-science-c-concurrent-programming-and-cuda`；该来源只支撑对应主题，个人流程与总结仍需按个人材料理解。
 
 ## 详细章节
 
