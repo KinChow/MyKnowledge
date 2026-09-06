@@ -2,6 +2,27 @@
 archive_policy: text-only
 confidentiality: public
 domain: computer-science
+evidence_items:
+- evidence_id: evidence-bcb48c688385
+  position:
+    end: 460
+    start: 0
+    type: TextPositionSelector
+  quote_sha256: sha256:f47bf2442ae642e8f5c4f35faed6f52a1615e27d84efae31e0e220e3a1d8b009
+  selector:
+    exact: 'Despite that bandwidth is a more complicated concept, it is much easier
+      to observe and measure than latency: you can simply execute a long series of
+      independent read or write queries, and the scheduler, having access to them
+      in advance, reorders and overlaps them, hiding their latency and maximizing
+      the total throughput.
+
+      To measure latency, we need to design an experiment where the CPU can’t cheat
+      by knowing the memory locations we will request in advance.'
+    prefix: ''
+    suffix: ' One way to ensure this is to ge'
+    type: TextQuoteSelector
+  selector_sha256: sha256:8a29b42d64100bc73aad415421332aaa04747bb44bb7a2756eae81021af15f11
+  snapshot_sha256: sha256:53180ca9ffb5ef77173fac05afc451e8871cd884e6e2c4dae5d3a34fef70dc96
 extractor: trafilatura/2.2.0
 id: algorithmica-cache-latency
 media_type: text/html

@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "sequence-diagram",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_4b1a63013c49",
+  "input_hash": "sha256:a396fa6a0bb7ab6aa415923c3ed599fe91eb6b6b8bef52343e78973a32c0e87c",
+  "provider_duration_ms": 82997,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554996.010432,
+  "wiki_content_sha256": "sha256:b74c81ef70a339b15711cb1261d42818deb36b880d96dbe3ed49a9921514898f",
+  "wiki_evidence_sha256": "sha256:633e05f5bc9f31c50ac03bec4318e3c583dca887525d5b4bb081d12943aed82d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-sequence-diagram"
+      },
+      "source_id": "web-computer-science-sequence-diagram",
+      "evidence_id": "evidence-4bba26bbf390",
+      "snapshot_sha256": "sha256:cead797292ae920190eccc0d829ff3b0ab5f5be4c67b9cca5145bd49993d5615",
+      "selector_sha256": "sha256:97e467e76dc39265fb01719d6c7c4cd01fa29735abef3f9dacf1bf5b5c6fb6f0",
+      "quote_sha256": "sha256:c0ba93011d4ba95f82251d97d3d56129b65fc9dffafeb7df265bed1f2fdd3a94"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "sequence-diagram-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-sequence-diagram",
+          "evidence_id": "evidence-4bba26bbf390"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4bba26bbf390",
+          "exact": "Easy to use\nEasily create diagrams and charts with the Mermaid Live Editor.\nOne home for the open-source library and the platform built around it. More resources for the project, a clearer path for contributors, and a team committed to keeping Mermaid open, always."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4bba26bbf390",
+          "subject": "target_quote",
+          "predicate": "matches_verbatim",
+          "object": "claimed_excerpt"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Target quote verbatim matches the claimed excerpt; the full cited span is supported without alteration.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-sequence-diagram",
+          "evidence_id": "evidence-4bba26bbf390",
+          "start": 0,
+          "end": 264
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-sequence-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "sequence-diagram-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

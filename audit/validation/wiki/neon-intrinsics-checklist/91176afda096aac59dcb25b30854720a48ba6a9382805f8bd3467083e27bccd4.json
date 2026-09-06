@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "neon-intrinsics-checklist",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_71dd5049d08e",
+  "input_hash": "sha256:ef7201f47dc11f5cfb4831a6ca37890195928e353a6d4dd812a40d6549d90415",
+  "provider_duration_ms": 26574,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689930.558109,
+  "wiki_content_sha256": "sha256:181d849101a8f17817dfdf93ee80453c72ee3c5f6a4433d044d515aa1986fee3",
+  "wiki_evidence_sha256": "sha256:08faa2932f9e699f9c434d3a92530532ba04c99fc69e747abd7d0c348d5b4612",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-neon-conventions"
+      },
+      "source_id": "arm-neon-conventions",
+      "evidence_id": "evidence-a49ec0ff171a",
+      "snapshot_sha256": "sha256:1bcc9b9ae1f357e0a69a33499eb547ce025902b487872248b83f0d3009f5e7e7",
+      "selector_sha256": "sha256:35ef06ca27c56e85631def42615d030a563e4f4beab8fbcc68231d26795d3a1d",
+      "quote_sha256": "sha256:0f8e3927a56c936b621778806ad1d2fd2845778bf905f9231ed363c6d6c9c0e9"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "neon-intrinsics-checklist-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-a49ec0ff171a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a49ec0ff171a",
+          "exact": "data types \n      baseWxL_t vector data types \n      baseWxLxN_t vector array"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a49ec0ff171a",
+          "subject": "arm-neon-conventions",
+          "predicate": "enumerates",
+          "object": "data types: baseWxL_t (vector data types) 与 baseWxLxN_t (vector array)"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Claim 文本与 target 引文逐字一致（引文区间 [0,76) 完整覆盖 claim 全部内容），引文本身自洽：在 data types 分类下分别列出 baseWxL_t（vector data types）与 baseWxLxN_t（vector array）两类，无超出引文或与引文冲突之处。来源为单一引用（arm-neon-conventions / evidence-a49ec0ff171a），无多源证据一致性问题；来源对等性无法从 provenance（空对象）或转载声明举证，故独立性判定为 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-neon-conventions",
+          "evidence_id": "evidence-a49ec0ff171a",
+          "start": 0,
+          "end": 76
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-neon-conventions",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "neon-intrinsics-checklist-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

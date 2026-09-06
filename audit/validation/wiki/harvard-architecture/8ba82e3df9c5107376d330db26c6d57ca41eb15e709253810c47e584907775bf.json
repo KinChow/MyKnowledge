@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "harvard-architecture",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_5cb82dae159a",
+  "input_hash": "sha256:4bdb45db8c7b494aeae66d066f68b6b04eb0b4ef237f7216334253993646285c",
+  "provider_duration_ms": 18602,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788688271.4548311,
+  "wiki_content_sha256": "sha256:4949f89e0125e236e6dab5e2dfb66e96bd8614f03fe4ad9d163c3eb7817c94a5",
+  "wiki_evidence_sha256": "sha256:037e1327846b569765012e29d4896e2cefe505e1b7eb8e9c026919877df5e664",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "geeksforgeeks-harvard-architecture-v2"
+      },
+      "source_id": "geeksforgeeks-harvard-architecture-v2",
+      "evidence_id": "evidence-714c76f0e212",
+      "snapshot_sha256": "sha256:d3e824b788d7572bdf12e205dfeb67b027e4e40e571b7157bb1c6999a7dcc79f",
+      "selector_sha256": "sha256:4308a64e2815792871d5c422a8b7b2883064a189ad3d9d9935354f40c9c417bf",
+      "quote_sha256": "sha256:21e936887782ad902a3be64d1ac259db9e9df7968d7794072cae818adcca4f95"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "harvard-architecture-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "geeksforgeeks-harvard-architecture-v2",
+          "evidence_id": "evidence-714c76f0e212"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-714c76f0e212",
+          "exact": "Harvard architecture is a computer design model where program instructions and data are stored in separate memory units that are accessed through independent buses."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-714c76f0e212",
+          "subject": "Harvard architecture",
+          "predicate": "stores program instructions and data in",
+          "object": "separate memory units accessed through independent buses"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 是引文的忠实中文翻译：引文（[0,164)）声明程序指令与数据存储于独立内存单元（separate memory units）并通过独立总线（independent buses）访问；claim 的\"独立的存储单元\"与\"独立总线访问\"与引文各成分一一对应，无附加、无遗漏、无夸大。支持关系为直接对应（claim.support=direct），未声称引文未覆盖的范围，故判 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "geeksforgeeks-harvard-architecture-v2",
+          "evidence_id": "evidence-714c76f0e212",
+          "start": 0,
+          "end": 164
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "geeksforgeeks-harvard-architecture-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "harvard-architecture-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

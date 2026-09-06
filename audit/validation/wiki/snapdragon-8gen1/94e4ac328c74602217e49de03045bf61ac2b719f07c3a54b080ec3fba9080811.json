@@ -1,0 +1,144 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "snapdragon-8gen1",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_dddd880fac39",
+  "input_hash": "sha256:3c1d9aa13c9896f143f57b47129cb619f0ede7c84e8968d57aae1993fc643af2",
+  "provider_duration_ms": 24365,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582174.7232242,
+  "wiki_content_sha256": "sha256:33f03f5b232aa203e528e8cdcc7a61833df9172012b1100c220716ad48de9224",
+  "wiki_evidence_sha256": "sha256:a737ca5950b31dd5ae2415919f42f4732a34b3de9736f50fb71a5fc749ea509a",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-computer-science-snapdragon-8gen1"
+      },
+      "source_id": "working-computer-science-snapdragon-8gen1",
+      "evidence_id": "evidence-908501db7bb5",
+      "snapshot_sha256": "sha256:8f9f24cb12362cb17df95e4f7fd28100f4c5e64ba24de14b251edc0adf86a382",
+      "selector_sha256": "sha256:abbbc9eaae524211ed40e5593f89f3bc69db087d9877c792f6468906740666c7",
+      "quote_sha256": "sha256:3f42cba0b46163f42470bbd14beba2c9b89848e3f1783f1448ed5bd7f318f606"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "snapdragon-8gen1-local-measurement",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "working-computer-science-snapdragon-8gen1",
+          "evidence_id": "evidence-908501db7bb5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-908501db7bb5",
+          "exact": "CL_DEVICE_NAME: QUALCOMM Adreno(TM)"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-908501db7bb5",
+          "subject": "OpenCL查询",
+          "predicate": "显示设备名",
+          "object": "QUALCOMM Adreno(TM)",
+          "qualifiers": {
+            "field": "CL_DEVICE_NAME"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-35 明确给出“CL_DEVICE_NAME: QUALCOMM Adreno(TM)”，支持设备名为 QUALCOMM Adreno(TM)；但该引文自身未说明这是作者实测，也未说明需在相同设备和驱动条件下复现，因此 claim 仅部分成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-computer-science-snapdragon-8gen1",
+          "evidence_id": "evidence-908501db7bb5",
+          "start": 0,
+          "end": 35
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "snapdragon-8gen1-local-measurement"
+  ],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-computer-science-snapdragon-8gen1",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "snapdragon-8gen1-local-measurement",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

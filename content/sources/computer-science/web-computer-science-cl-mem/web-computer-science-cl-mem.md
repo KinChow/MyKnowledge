@@ -1,0 +1,528 @@
+---
+archive_policy: text-only
+attachments:
+- filename: web-computer-science-cl-mem.txt
+  kind: document
+  media_type: text/plain
+  role: original
+  sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
+confidentiality: public
+domain: computer-science
+evidence_items:
+- evidence_id: evidence-e481cd1b0c45
+  position:
+    end: 1080
+    start: 957
+    type: TextPositionSelector
+  quote_sha256: sha256:ac3a669d2e6badd444a400391870f1dd07b167ae7ae4a90e50b1f98cf41b8d02
+  selector:
+    exact: "This extension adds a new function that allows for direct memory import
+      into\n    OpenCL via the clImportMemoryARM function."
+    prefix: "d in OpenCL 1.2.\n\nOverview\n\n    "
+    suffix: "\n\n    Memory imported through th"
+    type: TextQuoteSelector
+  selector_sha256: sha256:7379ef15f6ac511e87d56e45ec53c173850f283fe4595a4f03d422678162a38d
+  snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
+- evidence_id: evidence-19828ea5873f
+  position:
+    end: 8564
+    start: 8394
+    type: TextPositionSelector
+  quote_sha256: sha256:de5c267617c99b915de7a2954589668f068d69e3141e59114d5a0229782f412a
+  selector:
+    exact: "If the extension string cl_arm_import_memory_host is exposed then importing\n
+      \     from normal userspace allocations (such as those created via malloc) is\n
+      \     supported."
+    prefix: " CL_IMPORT_TYPE_HOST_ARM\n\n      "
+    suffix: "\n\n      If the host OS is linux "
+    type: TextQuoteSelector
+  selector_sha256: sha256:b2e9a5ebb7509c97079bce59d486a19242f61e6bcc66151085daff2f2b19cf5d
+  snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
+- evidence_id: evidence-bab64f7cf6c5
+  position:
+    end: 10546
+    start: 10389
+    type: TextPositionSelector
+  quote_sha256: sha256:2464f88c84983d68052b1a08fdf8cefafcef3a919f63cb492f24d6c8c6926488
+  selector:
+    exact: "If the extension string cl_arm_import_memory_protected is exposed then\n
+      \     using CL_IMPORT_TYPE_PROTECTED_ARM in the list of <properties> is\n      allowed."
+    prefix: "w.\n\n    Protected memory\n\n      "
+    suffix: ' If the property''s value is set '
+    type: TextQuoteSelector
+  selector_sha256: sha256:aec1d6e74b0524ae68edb73eebce4967a684fefaadc02003a996230b43daf9d4
+  snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
+extractor: utf8/1
+id: web-computer-science-cl-mem
+media_type: text/plain
+origin: external
+raw_ref:
+  path: archive/raw/214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4.txt
+  sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
+read_status: retrieved
+retrieval:
+  acquisition: fetch
+  resolved_url: https://registry.khronos.org/OpenCL/extensions/arm/cl_arm_import_memory.txt
+  url: https://www.khronos.org/registry/cl/extensions/arm/cl_arm_import_memory.txt
+schema_version: source/v1
+snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
+source_type: doc
+vault_id: public
+---
+Name
+
+    ARM_import_memory
+
+Name Strings
+
+    cl_arm_import_memory
+    cl_arm_import_memory_host
+    cl_arm_import_memory_dma_buf
+    cl_arm_import_memory_protected
+    cl_arm_import_memory_android_hardware_buffer
+
+    cl_arm_import_memory will be reported if at least one of the other extension
+    strings is also reported.
+
+Contributors
+
+    Robert Elliott, Arm Ltd.
+    Vatsalya Prasad, Arm Ltd.
+    Kévin Petit, Arm Ltd.
+    Sam Laynton, Arm Ltd.
+    James Morrissey, Arm Ltd.
+    Einar Hov, Arm Ltd.
+
+Contact
+
+    Kévin Petit, ARM (kevin.petit 'at' ARM.com)
+
+IP Status
+
+    No claims or disclosures are known to exist.
+
+Version
+
+    Revision: #12, Sep 29th, 2022
+
+Number
+
+    OpenCL Extension #38
+
+Status
+
+    Complete.
+
+Extension Type
+
+    OpenCL device extension
+
+Dependencies
+
+    Requires OpenCL version 1.0 or later. Requires OpenCL 1.2 for host access
+    cl_mem_flags use when importing, as these were introduced in OpenCL 1.2.
+
+Overview
+
+    This extension adds a new function that allows for direct memory import into
+    OpenCL via the clImportMemoryARM function.
+
+    Memory imported through this interface will be mapped into the device's page
+    tables directly, providing zero copy access. It will never fall back to copy
+    operations and aliased buffers, instead producing an error when mapping is
+    not possible.
+
+    Types of memory supported for import are specified as additional extension
+    strings.
+
+Header File
+
+    cl_ext.h
+
+Glossary
+
+    Protected memory: a zone of memory that is protected using TrustZone Media
+                      Protection.
+
+New Types
+
+    None
+
+New Procedures and Functions
+
+    The new function
+
+      cl_mem clImportMemoryARM( cl_context context,
+                                cl_mem_flags flags,
+                                const cl_import_properties_arm *properties,
+                                void *memory,
+                                size_t size,
+                                cl_int *errorcode_ret );
+
+    Description
+
+      Given a suitable pointer to an external memory allocation <memory> this
+      function will map the memory into the device page tables.
+
+      The flags argument provides standard OpenCL memory object flags.
+
+      Valid <flags> are:
+
+        * CL_MEM_READ_WRITE, CL_MEM_WRITE_ONLY, CL_MEM_READ_ONLY
+        * CL_MEM_HOST_WRITE_ONLY, CL_MEM_HOST_READ_ONLY, CL_MEM_HOST_NO_ACCESS -
+          where the host flags are only hints and only apply from OpenCL 1.2
+          onwards.
+        * CL_MEM_USE_HOST_PTR - this flag has no effect, it is ignored.
+
+      The properties argument provides a list of key value pairs, with a zero
+      terminator. properties can be NULL or point to a single zero value if the
+      default behaviour is desired.
+
+      Valid <properties> are:
+
+        * CL_IMPORT_TYPE_ARM
+        * CL_IMPORT_TYPE_PROTECTED_ARM
+        * CL_IMPORT_DMA_BUF_DATA_CONSISTENCY_WITH_HOST_ARM
+        * CL_IMPORT_ANDROID_HARDWARE_BUFFER_PLANE_INDEX_ARM
+        * CL_IMPORT_ANDROID_HARDWARE_BUFFER_LAYER_INDEX_ARM
+
+      Valid values for CL_IMPORT_TYPE_ARM are:
+
+        * CL_IMPORT_TYPE_HOST_ARM - this is the default
+        * CL_IMPORT_TYPE_DMA_BUF_ARM
+        * CL_IMPORT_TYPE_ANDROID_HARDWARE_BUFFER_ARM
+
+      Valid values for CL_IMPORT_TYPE_PROTECTED_ARM are:
+
+        * CL_FALSE - the memory is imported with no special behaviour, this is
+                     the default.
+        * CL_TRUE - the memory is imported as protected memory.
+
+      When CL_IMPORT_TYPE_PROTECTED_ARM is set to CL_TRUE, the following
+      restrictions apply:
+
+        * CL_MEM_HOST_NO_ACCESS is the only accepted host access flag, all others
+          are rejected. If host access flags are omitted, then this is assumed.
+        * CL_IMPORT_TYPE_DMA_BUF_ARM is the only valid value for
+          CL_IMPORT_TYPE_ARM.
+
+      Valid values for CL_IMPORT_DMA_BUF_DATA_CONSISTENCY_WITH_HOST_ARM are:
+
+        * CL_FALSE - maintaining data consistency between memory and the host's
+                     view of it is the application's responsibility (default).
+        * CL_TRUE - data consistency between memory and the host's view is
+                    managed by the OpenCL runtime.
+
+      Valid values for CL_IMPORT_ANDROID_HARDWARE_BUFFER_PLANE_INDEX_ARM and
+      CL_IMPORT_ANDROID_HARDWARE_BUFFER_LAYER_INDEX_ARM are integers in the
+      range [0; num_{planes,layers}).
+
+      If <properties> is NULL, default values are taken.
+
+      Valid <memory> pointer is dependent on the TYPE passed in properties.
+
+      <size> must be greater than 0 and represents the size of the memory
+      object to be created.
+
+    Errors
+
+      CL_INVALID_CONTEXT on invalid context.
+
+      CL_INVALID_VALUE on invalid flag input.
+
+      CL_INVALID_BUFFER_SIZE when size is 0.
+
+      CL_INVALID_BUFFER_SIZE when size is greater than the size of the
+      allocation being imported.
+
+      CL_INVALID_PROPERTY when invalid properties or combination of properties
+      are passed.
+
+      CL_INVALID_VALUE if memory is NULL.
+
+      CL_INVALID_VALUE if an out-of-range plane or layer index is passed via
+      CL_IMPORT_ANDROID_HARDWARE_BUFFER_PLANE_INDEX_ARM or
+      CL_IMPORT_ANDROID_HARDWARE_BUFFER_LAYER_INDEX_ARM.
+
+      CL_INVALID_OPERATION when host virtual pages in the range of <memory> to
+      <memory>+<size> are not mapped in the userspace address space. This does
+      _not_ include cases where physical pages are not allocated. For specific
+      behaviour see documentation for those memory types.
+
+      Prior to version 1.1.0, CL_INVALID_OPERATION when an imported memory
+      object has been passed to one of the following API functions (they can't
+      be used with imported memory objects):
+
+             * clEnqueueMapBuffer
+             * clEnqueueMapImage
+             * clEnqueueUnmapMemObject
+             * clEnqueueReadImage
+             * clEnqueueWriteImage
+             * clEnqueueReadBuffer
+             * clEnqueueReadBufferRect
+             * clEnqueueWriteBuffer
+             * clEnqueueWriteBufferRect
+             * clEnqueueCopyBuffer
+             * clEnqueueCopyBufferRect
+             * clEnqueueCopyBufferToImage
+             * clEnqueueCopyImageToBuffer
+             * clEnqueueCopyImage
+             * clEnqueueFillBuffer
+             * clEnqueueFillImage
+
+      CL_INVALID_OPERATION if a host memory flag other than CL_MEM_HOST_NO_ACCESS
+      is used when CL_IMPORT_TYPE_PROTECTED_ARM is set to CL_TRUE.
+
+      CL_INVALID_OPERATION if a command that makes use of a protected memory
+      object is enqueued to a command queue that has CL_QUEUE_PROFILING_ENABLE
+      set.
+
+      Futher error information may be reported via the cl_context callback
+      function.
+
+New memory import types
+
+    Linux dma_buf memory type - CL_IMPORT_TYPE_DMA_BUF_ARM
+
+      If the extension string cl_arm_import_memory_dma_buf is exposed then
+      importing from dma_buf file handles is supported.
+
+      When CL_IMPORT_DMA_BUF_DATA_CONSISTENCY_WITH_HOST_ARM is set to CL_TRUE,
+      the OpenCL runtime manages data consistency between the host CPU and the
+      memory backing the dma_buf allocation. The application is still responsible
+      for ensuring that changes to the memory done outside of the coherency domain
+      in which the host CPU and the OpenCL device reside are made visibible to
+      that coherency domain before using that memory from an OpenCL command. This
+      can be achieved either by not enqueueing the workload until the data is
+      visible, or by using a user event to prevent the command from being executed
+      until the expected data has reached memory.
+
+      Prior to the introduction of CL_IMPORT_DMA_BUF_DATA_CONSISTENCY_WITH_HOST_ARM
+      drivers always managed data consistency between the host CPU and memory.
+
+      Flags attached to a dma_buf file handle take precedence over memory flags
+      supplied to clImportMemoryARM. For example, if a dma_buf allocation
+      originally created with a read-only flag is passed to clImportMemoryARM
+      with the READ_WRITE flag, the more restrictive READ_ONLY will take
+      precedence.
+
+      dma_buf allocations are page-aligned and their size is a whole number of
+      pages.
+
+      <size> must be less than or equal to the size of the imported dma_buf
+      allocation.
+
+      See also, the code example below.
+
+    Host process memory type - CL_IMPORT_TYPE_HOST_ARM
+
+      If the extension string cl_arm_import_memory_host is exposed then importing
+      from normal userspace allocations (such as those created via malloc) is
+      supported.
+
+      If the host OS is linux and overcommit of VA is allowed, then this
+      function will commit and pin physical pages for the VA range. This may
+      cause larger physical allocations than the application typically provokes
+      if memory is sparsely used. In this case sub-ranges of the host allocation
+      should be passed to the import function individually.
+
+      It is the application's responsibility to align for the datatype being
+      accessed. Though the application is free to provide allocations without
+      any specific alignment on coherent systems, there is a requirement to
+      provide pointers aligned to a cache line on systems where there is no
+      HW-managed coherency between CPU and GPU. When alignment is less than a
+      page size then whole pages touched by addresses in the range of <memory>
+      to <memory>+<size> will be mapped into the device. If the page is already
+      mapped by another unaligned import, an error will occur.
+
+      Cache coherency will be HW-managed on systems where it is supported.
+      Otherwise, cache maintenance operations will be added by the CL runtime
+      where needed.
+
+      Importing host memory that is otherwise being used by a device outside
+      of the CPU/GPU coherency domain isn't guaranteed to work and the GPU
+      caches may contain stale data.
+
+      Importing dma_buf pages through a CPU mapping is undefined.
+
+      Importing two allocations that aren't page-aligned and that request
+      different memory flags is unsupported; an error will be returned.
+
+      This method is recommended to be used when interoperating with an existing
+      host library which performs its own allocation and cannot be passed
+      handles to mapped OpenCL buffers.
+
+      See also, the code example below.
+
+    Protected memory
+
+      If the extension string cl_arm_import_memory_protected is exposed then
+      using CL_IMPORT_TYPE_PROTECTED_ARM in the list of <properties> is
+      allowed. If the property's value is set to CL_TRUE, then the memory
+      is imported as protected memory.
+
+    Android hardware buffer
+
+      This allows to directly import a AHardwareBuffer. This will acquire
+      a reference on the AHardwareBuffer object that will not be released until
+      the cl_mem is destroyed.
+
+      In version 1.0.0:
+
+      Multiplanar buffers are only supported when backed by a single dma_buf.
+
+      In version 1.1.0:
+
+      It is possible to select the specific plane or layer to import via
+      CL_IMPORT_ANDROID_HARDWARE_BUFFER_PLANE_INDEX_ARM and/or
+      CL_IMPORT_ANDROID_HARDWARE_BUFFER_LAYER_INDEX_ARM. The imported memory
+      will start at the first pixel for the imported plane/layer.
+
+      <size> may be set to CL_IMPORT_MEMORY_WHOLE_ALLOCATION_ARM to require
+      that the memory object have the same size as the imported
+      AHardwareBuffer.
+
+New Tokens
+
+    None
+
+Interactions with other extensions
+
+    This extension produces cl_mem memory objects which are compatible with all
+    other uses of cl_mem in the standard API, including creating images from
+    the resulting cl_mem and subject to the restrictions listed in this
+    document.
+
+    In order to guarantee data consistency, applications must ensure that neither
+    the host nor any device attempt to perform simultaneous read and write
+    operations on any part of the memory backing an imported buffer or sub-buffers
+    created therefrom, even if these accesses do not overlap. For example, this
+    implies that it is not possible to write part of the memory backing an imported
+    buffer on the host while reading a sub-buffer created from that buffer on a
+    device, even if the memory written by the host is not visible through the
+    sub-buffer.
+
+    This extension also provides an alternative to image import via EGL.
+
+Sample Code
+
+    CL_IMPORT_TYPE_DMA_BUF_ARM
+
+      #define WIDTH  1024
+      #define HEIGHT 512
+
+      // Create buffer to be used as a hardware texture with graphics APIs (can also
+      // include video/camera use flags here)
+      int dma_buf_handle = get_dma_buf_handle_from_exporter_kernel_module( ..., WIDTH * HEIGHT * 2 );
+
+      cl_int error = CL_SUCCESS;
+      cl_mem buffer = clImportMemoryARM( ctx,
+                                         CL_MEM_READ_WRITE,
+                                         { CL_IMPORT_TYPE_ARM, CL_IMPORT_TYPE_DMA_BUF_ARM, 0 },
+                                         &dma_buf_handle
+                                         WIDTH * HEIGHT * 2,
+                                         &error );
+
+      if( error == CL_SUCCESS )
+      {
+          // Use <buffer> as you would any other cl_mem buffer
+      }
+
+
+    CL_IMPORT_TYPE_HOST_ARM
+
+      #define WIDTH  1024
+      #define HEIGHT 512
+
+      // tightly packed buffer we will treat as RGB565
+      char *allocptr = malloc( WIDTH * HEIGHT * 2 );
+
+      // The type CL_IMPORT_TYPE_HOST_ARM can be omitted as it is the default
+      cl_int error = CL_SUCCESS;
+      cl_mem buffer = clImportMemoryARM( ctx,
+                                         CL_MEM_READ_WRITE,
+                                         NULL,
+                                         allocptr,
+                                         WIDTH * HEIGHT * 2,
+                                         &error );
+
+      if( error == CL_SUCCESS )
+      {
+          // Use <buffer> as you would any other cl_mem buffer
+      }
+
+    CL_IMPORT_TYPE_PROTECTED_ARM
+
+      #define BUFFER_SIZE 4096
+
+      // Platform specific method of allocating protected memory and obtaining
+      // a handle. For example, from a protected dma_buf or ION region.
+      int protected_fd = protected_alloc( BUFFER_SIZE );
+
+      cl_int error = CL_SUCCESS;
+      // Import memory of type dma_buf and identify it as protected
+      const cl_import_properties_arm properties = {
+          CL_IMPORT_TYPE_ARM, CL_IMPORT_TYPE_DMA_BUF_ARM,
+          CL_IMPORT_TYPE_PROTECTED_ARM, CL_TRUE,
+          0
+      };
+      cl_mem buffer = clImportMemoryARM( context,
+                                         CL_MEM_READ_WRITE,
+                                         properties,
+                                         &protected_fd,
+                                         BUFFER_SIZE,
+                                         &error );
+
+      if( error == CL_SUCCESS )
+      {
+          // Use <buffer> as cl_mem buffer, observing the usage restrictions above.
+      }
+
+    CL_IMPORT_TYPE_ANDROID_HARDWARE_BUFFER_ARM
+
+      AHardwareBuffer *ahb = ...
+
+      cl_int error = CL_SUCCESS;
+
+      const cl_import_properties_arm properties = {
+          CL_IMPORT_TYPE_ARM, CL_IMPORT_TYPE_ANDROID_HARDWARE_BUFFER_ARM,
+          0
+      };
+      cl_mem buffer = clImportMemoryARM( context,
+                                         CL_MEM_READ_WRITE,
+                                         properties,
+                                         ahb,
+                                         CL_IMPORT_MEMORY_WHOLE_ALLOCATION_ARM,
+                                         &error );
+
+      if( error == CL_SUCCESS )
+      {
+          // Use <buffer> as cl_mem buffer, observing the usage restrictions above.
+      }
+
+Conformance Tests
+
+    None
+
+Revision History
+
+    Revision: #1, Apr 27th, 2015 - Initial revision
+    Revision: #2, Apr 28th, 2015 - Added properties field to avoid type
+                                   inferrence. Added Issues section.
+    Revision: #3, May 5th, 2015  - Added image support info in Issues.
+    Revision: #4, Aug 4th, 2015  - Revised based on implementation and design
+                                   changes made during review.
+    Revision: #5, May 3rd, 2017  - Additional restrictions on host operations
+                                   and general cleanup / clarification.
+    Revision: #6, Jan 5th, 2018  - Support creating a sub-buffer from an imported
+                                   buffer.
+    Revision: #7, Jun 19th, 2018 - Add support for protected memory imports.
+    Revision: #8, Aug 21st, 2019 - Clarified requirements on the size
+                                   parameter to clImportMemoryARM.
+    Revision: #9, Jan 10th, 2020 - Add support for Android harware buffers.
+    Revision: #10, Feb 13th, 2020 - Make dma_buf <-> host data consistency optional.
+    Revision: #11, Feb 15th, 2021 - Add support for Android hardware buffer
+                                    plane/layer selection.
+    Revision: #12, Sep 29th, 2022 - Version 1.1.0 of cl_arm_import_memory adds
+                                    support for host access to imported
+                                    memory for all memory types.

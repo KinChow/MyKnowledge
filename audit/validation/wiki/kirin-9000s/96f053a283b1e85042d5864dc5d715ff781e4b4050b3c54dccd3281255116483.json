@@ -1,0 +1,27 @@
+{
+  "schema_version": "operation-confirmation/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "kirin-9000s"
+  },
+  "scope": "publish",
+  "decision": "approve",
+  "actor_id": "zhouzijian01",
+  "confirmed_at": 1788690210.3875232,
+  "content_sha256": "sha256:e6761395c8342280d762d6a31a9fdda915963708772c5b8a2374a2ca1ac01a14",
+  "evidence_sha256": "sha256:aa8d608675fe20bc5fe2516e0285dab4dcb5776f6a786a43972a450e86503dac",
+  "deterministic_report_sha256": "sha256:5c7a52d8dd94af7f54351695a6daaf8fc830c1fc8591ee164a378d319009ea53",
+  "llm_state": "pass",
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  },
+  "confirmation_sha256": "sha256:96f053a283b1e85042d5864dc5d715ff781e4b4050b3c54dccd3281255116483"
+}

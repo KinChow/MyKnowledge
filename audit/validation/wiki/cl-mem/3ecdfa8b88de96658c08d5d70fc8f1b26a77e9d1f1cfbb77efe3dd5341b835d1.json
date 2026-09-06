@@ -1,0 +1,230 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cl-mem",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e69099eba9d7",
+  "input_hash": "sha256:cb46cc0384075b8da77d619dd8497c775e5e1f21f2ecacff67951b1fef69b9bd",
+  "provider_duration_ms": 82389,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580127.666315,
+  "wiki_content_sha256": "sha256:acf828fc5b372a1eb589774197df88f84df335b9a2e78395a8abe1e165113f77",
+  "wiki_evidence_sha256": "sha256:defeeae55ddd260572866b7c1cef32977352ba8c348f519869092530bddc9310",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cl-mem"
+      },
+      "source_id": "web-computer-science-cl-mem",
+      "evidence_id": "evidence-e481cd1b0c45",
+      "snapshot_sha256": "sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4",
+      "selector_sha256": "sha256:7379ef15f6ac511e87d56e45ec53c173850f283fe4595a4f03d422678162a38d",
+      "quote_sha256": "sha256:ac3a669d2e6badd444a400391870f1dd07b167ae7ae4a90e50b1f98cf41b8d02"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cl-mem"
+      },
+      "source_id": "web-computer-science-cl-mem",
+      "evidence_id": "evidence-19828ea5873f",
+      "snapshot_sha256": "sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4",
+      "selector_sha256": "sha256:b2e9a5ebb7509c97079bce59d486a19242f61e6bcc66151085daff2f2b19cf5d",
+      "quote_sha256": "sha256:de5c267617c99b915de7a2954589668f068d69e3141e59114d5a0229782f412a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cl-mem"
+      },
+      "source_id": "web-computer-science-cl-mem",
+      "evidence_id": "evidence-bab64f7cf6c5",
+      "snapshot_sha256": "sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4",
+      "selector_sha256": "sha256:aec1d6e74b0524ae68edb73eebce4967a684fefaadc02003a996230b43daf9d4",
+      "quote_sha256": "sha256:2464f88c84983d68052b1a08fdf8cefafcef3a919f63cb492f24d6c8c6926488"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cl-mem-claim-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-e481cd1b0c45"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e481cd1b0c45",
+          "exact": "This extension adds a new function that allows for direct memory import into\n    OpenCL via the clImportMemoryARM function."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target quote explicitly says the extension provides direct memory import into OpenCL via `clImportMemoryARM`.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-e481cd1b0c45",
+          "start": 0,
+          "end": 123
+        }
+      ]
+    },
+    {
+      "claim_id": "cl-mem-claim-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-19828ea5873f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-19828ea5873f",
+          "exact": "If the extension string cl_arm_import_memory_host is exposed then importing\n      from normal userspace allocations (such as those created via malloc) is\n      supported."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target quote states that when `cl_arm_import_memory_host` is exposed, importing from normal userspace allocations such as `malloc` is supported.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-19828ea5873f",
+          "start": 0,
+          "end": 170
+        }
+      ]
+    },
+    {
+      "claim_id": "cl-mem-claim-4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-bab64f7cf6c5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-bab64f7cf6c5",
+          "exact": "If the extension string cl_arm_import_memory_protected is exposed then\n      using CL_IMPORT_TYPE_PROTECTED_ARM in the list of <properties> is\n      allowed."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Target quote states that when `cl_arm_import_memory_protected` is exposed, using `CL_IMPORT_TYPE_PROTECTED_ARM` in the property list is allowed.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-bab64f7cf6c5",
+          "start": 0,
+          "end": 157
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cl-mem",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cl-mem",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cl-mem",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cl-mem-claim-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cl-mem-claim-3",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cl-mem-claim-4",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

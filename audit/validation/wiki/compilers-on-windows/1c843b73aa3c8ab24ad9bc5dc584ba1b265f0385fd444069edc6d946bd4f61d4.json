@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "compilers-on-windows",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_378a7a9cd415",
+  "input_hash": "sha256:5a61a273b4203d5a7b196841359330f07952eb0a74a50e0932fef1a1dfd83142",
+  "provider_duration_ms": 21724,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554231.9780438,
+  "wiki_content_sha256": "sha256:86ced0385e5cc70efaf067dd2065c21d6af94bc7a8814b6c206038e06cfae555",
+  "wiki_evidence_sha256": "sha256:54c309c036acd241e7c29650a1bf11b4201e8eeac85f7529c81cb6e1d8bb39cc",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "gcc-install-guide"
+      },
+      "source_id": "gcc-install-guide",
+      "evidence_id": "evidence-75cbde47441e",
+      "snapshot_sha256": "sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8",
+      "selector_sha256": "sha256:a9706b73f9b92c0a8fa105c7c9ef0d89aff658acaa7a115791d198f3d86e490e",
+      "quote_sha256": "sha256:b8734386f9b2a7056c850ebd367d24d864bfc63ecf4c56958d15f39f1a4670c9"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "compilers-on-windows-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-75cbde47441e",
+          "exact": "The installation procedure itself is broken into five steps."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-75cbde47441e",
+          "subject": "The installation procedure itself",
+          "predicate": "is broken into",
+          "object": "five steps"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文从字符区间 0-60 逐字给出 claim 中声明的英文摘录，因此该 claim 的摘录声明被其 target 支持。source provenance 为空，且引文原文未提供 publisher、derived_from 或 independence_group 信息，独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "gcc-install-guide",
+          "evidence_id": "evidence-75cbde47441e",
+          "start": 0,
+          "end": 60
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "gcc-install-guide",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "compilers-on-windows-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

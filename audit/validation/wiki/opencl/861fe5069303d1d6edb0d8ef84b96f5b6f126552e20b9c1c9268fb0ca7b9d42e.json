@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "opencl",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_83a034c30a54",
+  "input_hash": "sha256:6561cf3e0eed7661d58eff47206ff1bd9fc99c1ef62bc239cc8c81d769a75696",
+  "provider_duration_ms": 66555,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554768.399861,
+  "wiki_content_sha256": "sha256:d8c560f20c0bca8f687c10055b0277e19f9f4cff5ec9fb96b43bf3deb67946b3",
+  "wiki_evidence_sha256": "sha256:2256c23e669a45cf83b9708091566438f87dbaf15ea3bcbc8e2a9fa62df009cc",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cl-mem"
+      },
+      "source_id": "web-computer-science-cl-mem",
+      "evidence_id": "evidence-e481cd1b0c45",
+      "snapshot_sha256": "sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4",
+      "selector_sha256": "sha256:7379ef15f6ac511e87d56e45ec53c173850f283fe4595a4f03d422678162a38d",
+      "quote_sha256": "sha256:ac3a669d2e6badd444a400391870f1dd07b167ae7ae4a90e50b1f98cf41b8d02"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "opencl-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-e481cd1b0c45"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e481cd1b0c45",
+          "exact": "This extension adds a new function that allows for direct memory import into\n    OpenCL via the clImportMemoryARM function."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e481cd1b0c45",
+          "subject": "This extension",
+          "predicate": "adds",
+          "object": "a new function that allows for direct memory import into OpenCL via the clImportMemoryARM function"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The quoted evidence explicitly says the extension adds a new function that enables direct memory import into OpenCL via clImportMemoryARM, which matches the claim exactly. The supporting span is the full quoted sentence.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-e481cd1b0c45",
+          "start": 0,
+          "end": 123
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cl-mem",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "opencl-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

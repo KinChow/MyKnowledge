@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "software-modeling",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_6d33581639f3",
+  "input_hash": "sha256:553ef875682956650e311697814c45a66562530d968a7c5c38e3a03e7a422c46",
+  "provider_duration_ms": 60512,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689405.239407,
+  "wiki_content_sha256": "sha256:22ba423a9e42c21a5b1d75fd54204c538a7c5d88c6f449340a97f923269ff45e",
+  "wiki_evidence_sha256": "sha256:fbb623e1d1c8be3b9f855257d80f3adc3f30412f071adb28f418e93c71df16f9",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-software-modeling"
+      },
+      "source_id": "web-computer-science-software-modeling",
+      "evidence_id": "evidence-68991efb07fc",
+      "snapshot_sha256": "sha256:cd0b9ab1bc04e08733ef2f457c72cf3c3a3748d3392a6bf696482ca2aaabda9b",
+      "selector_sha256": "sha256:a98ed24a0ac2b4ce015f1dc3314ee33000a61d5f702e970371580c4b11f7d8f4",
+      "quote_sha256": "sha256:f7ae0c4f15ff319f14728c8f14cd90c40c07f9c9c7dd9c425fed366d97db2852"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "software-modeling-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-software-modeling",
+          "evidence_id": "evidence-68991efb07fc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-68991efb07fc",
+          "exact": "UML® — Unified Modeling Language\nA specification defining a graphical language for visualizing, specifying, constructing, and documenting the artifacts of distributed object systems.\n- Title:\n- Unified Modeling Language\n- Acronym:\n- UML®\n- Version:\n- \n                            2.5."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-68991efb07fc",
+          "subject": "UML® — Unified Modeling Language",
+          "predicate": "is defined as",
+          "object": "a specification defining a graphical language for visualizing, specifying, constructing, and documenting the artifacts of distributed object systems",
+          "qualifiers": {
+            "version": "2.5",
+            "title": "Unified Modeling Language",
+            "acronym": "UML®"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 文本与 target 引文逐字一致：claim 即为引文 'UML® — Unified Modeling Language ... Version: 2.5.' 的完整复现（[0,283) 半开区间覆盖全文），涵盖描述性定义、Title/Acronym/Version 结构化字段，无任何超集或改写成分。单一外部来源、无补充引用，引文自身即完整支撑 claim 全部断言。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-software-modeling",
+          "evidence_id": "evidence-68991efb07fc",
+          "start": 0,
+          "end": 283
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-software-modeling",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "software-modeling-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

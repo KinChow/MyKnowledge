@@ -1,0 +1,27 @@
+{
+  "schema_version": "operation-confirmation/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "gcc"
+  },
+  "scope": "publish",
+  "decision": "approve",
+  "actor_id": "zhouzijian01",
+  "confirmed_at": 1788690236.398186,
+  "content_sha256": "sha256:fe8e2ec1bef6096069f450406692d92e32a0d7ceb69869920d1804daf8e5af91",
+  "evidence_sha256": "sha256:94e17af81be6b2da960d45083cb138d1266193f42c278ddcfed70f398ace6c3c",
+  "deterministic_report_sha256": "sha256:a15805fe908ac3efd5df290114eed3eb62a0704940b7a310c6806600f0379c69",
+  "llm_state": "pass",
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  },
+  "confirmation_sha256": "sha256:66c58258a8f560bb31eee4963590e829be75d28346285f16c47e605c2e2fcec5"
+}

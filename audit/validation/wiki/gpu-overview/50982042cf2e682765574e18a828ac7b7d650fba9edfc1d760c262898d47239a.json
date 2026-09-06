@@ -1,0 +1,155 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "gpu-overview",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_0ed4cb60416d",
+  "input_hash": "sha256:d7170d5747f63ed840f548f49c31e561f52c8e2a73fd82c0ef4cbc708ab498bd",
+  "provider_duration_ms": 80891,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554567.08042,
+  "wiki_content_sha256": "sha256:bb75df9ae045fd11949d27e6ed7ad2664c57faebb0558ba7e1699a7ce1cc7d62",
+  "wiki_evidence_sha256": "sha256:db30c8a94772c8764b2a785362061c68b5c5ddc2f7e7704ac105ac8c30d418c6",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "nvidia-ptx-isa"
+      },
+      "source_id": "nvidia-ptx-isa",
+      "evidence_id": "evidence-57912b49617c",
+      "snapshot_sha256": "sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f",
+      "selector_sha256": "sha256:defa81596034f0caae66ff8450a2720d651fdee0e02ff914643cc36e6a6421c7",
+      "quote_sha256": "sha256:75f08bd198d845aa262d19272a7fa3077c036a348891937e9b3ccabb5e0fe252"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "gpu-overview-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-57912b49617c",
+          "exact": "This document describes PTX, a low-level parallel thread execution virtual machine and instruction set architecture (ISA). PTX exposes the GPU as a data-parallel computing device."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-57912b49617c",
+          "subject": "PTX",
+          "predicate": "is described as",
+          "object": "a low-level parallel thread execution virtual machine and instruction set architecture",
+          "qualifiers": {
+            "source_clause": "document describes"
+          }
+        },
+        {
+          "evidence_id": "evidence-57912b49617c",
+          "subject": "PTX",
+          "predicate": "exposes",
+          "object": "the GPU as a data-parallel computing device",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文明确包含两部分信息：PTX 被描述为低层次的并行线程执行虚拟机和指令集架构，并且 PTX 将 GPU 暴露为数据并行计算设备；与 claim 完全一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c",
+          "start": 0,
+          "end": 122
+        },
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c",
+          "start": 123,
+          "end": 179
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "nvidia-ptx-isa",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "gpu-overview-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

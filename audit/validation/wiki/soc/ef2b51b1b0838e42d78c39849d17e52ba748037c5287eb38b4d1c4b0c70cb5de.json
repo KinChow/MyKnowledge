@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "soc",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_1cfa88ca8fb9",
+  "input_hash": "sha256:88a73c236bae449eb2619efcc731efdb1a5ae4d10731b955001e0d195d36a218",
+  "provider_duration_ms": 21446,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554983.4344919,
+  "wiki_content_sha256": "sha256:22edabc3ff7861b6274c641676c0a87e9961f243065ead5ad93fa30b9b5ad1f9",
+  "wiki_evidence_sha256": "sha256:d9962239eb5454aad9c0b706cf214aee48b352c5dd1c2e5776b8b5ff73c9abdb",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-a-profile-architectures"
+      },
+      "source_id": "arm-a-profile-architectures",
+      "evidence_id": "evidence-802fb55860c5",
+      "snapshot_sha256": "sha256:21c2545aafe0b249647c49343242cb9251dd2bbc49bcfb0b582acbb2c78106f5",
+      "selector_sha256": "sha256:281cb08579361bd19a52d338e4088a901d92a88170e1f390e81320cc7fe92738",
+      "quote_sha256": "sha256:fd0c0134ffbe49ca39a343a58bfb2b16feea85a5ed41d1f305e7e9bb3f954a6a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "soc-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-802fb55860c5",
+          "exact": "Nine major versions of the architecture have been defined to date, denoted by the version numbers 1 to 9. Of these, the first three versions are now obsolete"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-802fb55860c5",
+          "subject": "architecture",
+          "predicate": "has major versions defined to date and obsolete early versions",
+          "object": "versions 1 to 9; first three obsolete",
+          "qualifiers": {
+            "scope": "external source excerpt"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 中声明的摘录与 target quote 完全一致，target 原文区间 0-157 直接支持该摘录文本；该 claim 仅声称外部来源中可回放的原文摘录如下，未声称摘录覆盖正文全部内容。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-a-profile-architectures",
+          "evidence_id": "evidence-802fb55860c5",
+          "start": 0,
+          "end": 157
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-a-profile-architectures",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "soc-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,437 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "activity-diagram",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_1f56a3aae927",
+  "input_hash": "sha256:1a9a7e300820f843a257f0ccd5f48f95ae55ef3f4bba96544a774c7e2cdfe580",
+  "provider_duration_ms": 37814,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788549228.1689558,
+  "wiki_content_sha256": "sha256:d3152aaf5817b8cdcc1f86da14a3865ba7457e18f22568f9005b87f704404fa6",
+  "wiki_evidence_sha256": "sha256:3bdae9d48d898c8ad0b9c54aca3bd2615d12d31fbcf1b5f82a94cd80e834b6a8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-activity-diagram"
+      },
+      "source_id": "web-computer-science-activity-diagram",
+      "evidence_id": "evidence-5b62633807b6",
+      "snapshot_sha256": "sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3",
+      "selector_sha256": "sha256:25eba3ec338595faf586709eb87e4949ba8cc8c8affcab214b966f89b55fb25a",
+      "quote_sha256": "sha256:a385459208871cf2f8dc8dd6c302bb5341970b7d02be9b5d69d6ec930cfea1e1"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-activity-diagram"
+      },
+      "source_id": "web-computer-science-activity-diagram",
+      "evidence_id": "evidence-04b2f317c9df",
+      "snapshot_sha256": "sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3",
+      "selector_sha256": "sha256:8f3dc5839b62ba72f5b40caf5630997af8110dc70592e6f9aa695731f606bfe0",
+      "quote_sha256": "sha256:c02212577b56a1410c823c74ff1563b54c418dcf7ef78b5289baf9d754d5de1c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-activity-diagram"
+      },
+      "source_id": "web-computer-science-activity-diagram",
+      "evidence_id": "evidence-8fbad3b3ad66",
+      "snapshot_sha256": "sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3",
+      "selector_sha256": "sha256:de7ca27e85f8b5ebcf528f37c53f9a6efc0979ee2b5ff31095629af8e7be448f",
+      "quote_sha256": "sha256:070985ec8cd24c24e55aedc6905862d236c149b2d25042b4b7eb4fc3debaac79"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-activity-diagram"
+      },
+      "source_id": "web-computer-science-activity-diagram",
+      "evidence_id": "evidence-5c3c8af9f968",
+      "snapshot_sha256": "sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3",
+      "selector_sha256": "sha256:8e0d14df720f6f0f394643f22c56f061cbfe65b4a67c0f9b8d0962926d5895eb",
+      "quote_sha256": "sha256:9c7e458a26f39428ade2cfc4a51aee2394abb2a95d57594a283448ae9d52c80b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "c1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5b62633807b6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5b62633807b6",
+          "exact": "if、repeat、fork 等关键字来表达控制流。图形会自动生成。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5b62633807b6",
+          "subject": "活动图",
+          "predicate": "可以用关键字表达控制流且图形自动生成",
+          "object": "if、repeat、fork 等关键字；图形会自动生成"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文完整陈述“if、repeat、fork 等关键字来表达控制流。图形会自动生成。”，覆盖 claim 的关键字控制流与自动生成图形两部分。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5b62633807b6",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-04b2f317c9df"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-04b2f317c9df",
+          "exact": "文本输入，图形输出。 自上而下描述流程，包括分支和循环。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-04b2f317c9df",
+          "subject": "活动图",
+          "predicate": "描述方式",
+          "object": "文本输入、图形输出；自上而下描述流程，包括分支和循环"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文说明“文本输入，图形输出”并说明“自上而下描述流程，包括分支和循环”，与 claim 各要素一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-04b2f317c9df",
+          "start": 0,
+          "end": 28
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-8fbad3b3ad66"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8fbad3b3ad66",
+          "exact": "自上而下阅读。 文本中的顺序就是图中的顺序。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8fbad3b3ad66",
+          "subject": "活动图",
+          "predicate": "阅读和顺序规则",
+          "object": "自上而下阅读；文本中的顺序就是图中的顺序"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文直接给出“自上而下阅读”及“文本中的顺序就是图中的顺序”，完全支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-8fbad3b3ad66",
+          "start": 0,
+          "end": 22
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5c3c8af9f968"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5c3c8af9f968",
+          "exact": "活动标签以: 开始，以; 结束。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5c3c8af9f968",
+          "subject": "简单活动的标签",
+          "predicate": "起止符号",
+          "object": "以 : 开始、以 ; 结束"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文称“活动标签以: 开始，以; 结束”，支持 claim 关于标签起止符号的表述。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5c3c8af9f968",
+          "start": 0,
+          "end": 16
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5b62633807b6",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:5b096c42d305cc9e7cdbf6208025275bd079b09f65bc8e3d6e6f6e8c96ed2eea"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-04b2f317c9df",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:a83eb07ce18a57c6bfba5dc55bae099aa24c2f8370f157320b981d172a6474a7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5b62633807b6",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:5b096c42d305cc9e7cdbf6208025275bd079b09f65bc8e3d6e6f6e8c96ed2eea"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-8fbad3b3ad66",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:6f90eb6028a0f2bfcff31ad364a6c1b9be99a0795a666403702e8c4a52fbb8f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5b62633807b6",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:5b096c42d305cc9e7cdbf6208025275bd079b09f65bc8e3d6e6f6e8c96ed2eea"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5c3c8af9f968",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:a8d7712b9c104852e75a2ffb7b2f8b87cfad0c48905c9521adfa62ba14d8a348"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-04b2f317c9df",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:a83eb07ce18a57c6bfba5dc55bae099aa24c2f8370f157320b981d172a6474a7"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-8fbad3b3ad66",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:6f90eb6028a0f2bfcff31ad364a6c1b9be99a0795a666403702e8c4a52fbb8f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-04b2f317c9df",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:a83eb07ce18a57c6bfba5dc55bae099aa24c2f8370f157320b981d172a6474a7"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5c3c8af9f968",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:a8d7712b9c104852e75a2ffb7b2f8b87cfad0c48905c9521adfa62ba14d8a348"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-8fbad3b3ad66",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:6f90eb6028a0f2bfcff31ad364a6c1b9be99a0795a666403702e8c4a52fbb8f8"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-activity-diagram",
+          "evidence_id": "evidence-5c3c8af9f968",
+          "independence_group": "source:web-computer-science-activity-diagram",
+          "observation_sha256": "sha256:a8d7712b9c104852e75a2ffb7b2f8b87cfad0c48905c9521adfa62ba14d8a348"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-activity-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-activity-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-activity-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-activity-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "c1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c4",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

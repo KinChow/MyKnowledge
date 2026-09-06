@@ -1,0 +1,306 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "class-diagram",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_a15748f34f00",
+  "input_hash": "sha256:1a155bfaaba396eb7b1f110c29edfc26d0edaa612a760410b3ba7e85b611ddd8",
+  "provider_duration_ms": 29066,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689109.7265291,
+  "wiki_content_sha256": "sha256:8f9c8aae63e7c58c27b39d0843dddda7f3c6ef962f7d039e11ace5095c00e757",
+  "wiki_evidence_sha256": "sha256:f40af4d6172a2b4caf0b56047bae4db6d10ac4b1cc1ae21a9b889a8fadfe4800",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-class-diagram"
+      },
+      "source_id": "web-computer-science-class-diagram",
+      "evidence_id": "evidence-7fe8b29d2c63",
+      "snapshot_sha256": "sha256:cead797292ae920190eccc0d829ff3b0ab5f5be4c67b9cca5145bd49993d5615",
+      "selector_sha256": "sha256:b0616e5db9b18ed7367ec0b33d72773f4777ce2721da474dc6add3f4010242fe",
+      "quote_sha256": "sha256:8aec2a77efa8ba93c7032b0360eb60e68e31cc00a4c5ad39cdbb0d458fd13606"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-class-diagram"
+      },
+      "source_id": "web-computer-science-class-diagram",
+      "evidence_id": "evidence-280ff24aee8e",
+      "snapshot_sha256": "sha256:cead797292ae920190eccc0d829ff3b0ab5f5be4c67b9cca5145bd49993d5615",
+      "selector_sha256": "sha256:3d0befd5d39fb1db3bf74c9a9466408410ea690b8970ba696c96e04696325618",
+      "quote_sha256": "sha256:88fa2ae81e8c43b82e595e48f6582c42fe0c6609d0125d2a182cd513c328026d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-class-diagram"
+      },
+      "source_id": "web-computer-science-class-diagram",
+      "evidence_id": "evidence-15b5f9be2657",
+      "snapshot_sha256": "sha256:cead797292ae920190eccc0d829ff3b0ab5f5be4c67b9cca5145bd49993d5615",
+      "selector_sha256": "sha256:ca6a3f16b2725a3adef9839b4cc6dc6f310993ba14b24c9752d420476a37f096",
+      "quote_sha256": "sha256:c7d4c2c3194f25b8403d5585808f2399178e553812b073cfcd1d5f9d180820ff"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "class-diagram-claim-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-7fe8b29d2c63"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7fe8b29d2c63",
+          "exact": "Easy to use\nEasily create diagrams and charts with the Mermaid Live Editor."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7fe8b29d2c63",
+          "subject": "Mermaid Live Editor",
+          "predicate": "is presented as",
+          "object": "an easy-to-use way to create diagrams and charts"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文在 [0,75) 范围内直接叙述 \"Easy to use\" 与 \"Easily create diagrams and charts with the Mermaid Live Editor.\"，即把 Mermaid Live Editor 描述为一种易用的创建图表（diagrams and charts）的方式；claim 的 \"easy-to-use\"（easy to use）与 \"create diagrams and charts\" 两要素均逐字对应，无任何未支持的引申，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-7fe8b29d2c63",
+          "start": 0,
+          "end": 75
+        }
+      ]
+    },
+    {
+      "claim_id": "class-diagram-claim-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-280ff24aee8e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-280ff24aee8e",
+          "exact": "One home for the open-source library and the platform built around it."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-280ff24aee8e",
+          "subject": "Mermaid",
+          "predicate": "is described as",
+          "object": "an open-source library with a platform built around it"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文在 [0,70) 范围内陈述 \"One home for the open-source library and the platform built around it\"，其中 \"the open-source library\"（[17,28)）与 \"the platform built around it\"（[44,69)）分别对应 claim 的 \"open-source library\" 与 \"a platform built around it\"；Mermaid 为被描述主体，属同一直接引语内的表述，无额外推断，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-280ff24aee8e",
+          "start": 0,
+          "end": 70
+        }
+      ]
+    },
+    {
+      "claim_id": "class-diagram-claim-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-15b5f9be2657"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-15b5f9be2657",
+          "exact": "More resources for the project, a clearer path for contributors, and a team committed to keeping Mermaid open, always."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-15b5f9be2657",
+          "subject": "Mermaid project",
+          "predicate": "is described as having",
+          "object": "more resources and a clearer path for contributors"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文在 [0,118) 范围内陈述 \"More resources for the project, a clearer path for contributors\"（[0,64)），对应 claim 的 \"more resources\" 与 \"clearer path for contributors\"；\"Mermaid open\"（[97,109)）确认主体为 Mermaid 项目。claim 两要素均被引文直接支持，无超出引文的断言，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-15b5f9be2657",
+          "start": 0,
+          "end": 118
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-7fe8b29d2c63",
+          "independence_group": "source:web-computer-science-class-diagram",
+          "observation_sha256": "sha256:4cc3d86564d74064d1ee3e01f4a54286914a7ba178e13918a87e345bc512395c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-280ff24aee8e",
+          "independence_group": "source:web-computer-science-class-diagram",
+          "observation_sha256": "sha256:88738cdae7d024132fdd699323669df86bd3707c8f6d6f17619aea6c68514eda"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-7fe8b29d2c63",
+          "independence_group": "source:web-computer-science-class-diagram",
+          "observation_sha256": "sha256:4cc3d86564d74064d1ee3e01f4a54286914a7ba178e13918a87e345bc512395c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-15b5f9be2657",
+          "independence_group": "source:web-computer-science-class-diagram",
+          "observation_sha256": "sha256:4588549b8359bd0ec9ed939346d5e6b881082f0906caf45101e5a303e9bcc0f5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-280ff24aee8e",
+          "independence_group": "source:web-computer-science-class-diagram",
+          "observation_sha256": "sha256:88738cdae7d024132fdd699323669df86bd3707c8f6d6f17619aea6c68514eda"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-class-diagram",
+          "evidence_id": "evidence-15b5f9be2657",
+          "independence_group": "source:web-computer-science-class-diagram",
+          "observation_sha256": "sha256:4588549b8359bd0ec9ed939346d5e6b881082f0906caf45101e5a303e9bcc0f5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-class-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-class-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-class-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "class-diagram-claim-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "class-diagram-claim-2",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "class-diagram-claim-3",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "opencl-optimizations-list",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_8914d671474b",
+  "input_hash": "sha256:860ea1743ba7e537a6651f97fc016b635f660de8250c52b6e3f0210fedacc1f6",
+  "provider_duration_ms": 8832,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689694.955211,
+  "wiki_content_sha256": "sha256:65528fad242b218fe8e20df2b5021b8094ec4297fddbc42b03c9f1a4bf1c5e41",
+  "wiki_evidence_sha256": "sha256:cf7d5d85500fb37006c016a213d2c9500b109352358f44b23fa6999f49b63b93",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "khronos-opencl-overview-v2"
+      },
+      "source_id": "khronos-opencl-overview-v2",
+      "evidence_id": "evidence-4eadd0c0e1f0",
+      "snapshot_sha256": "sha256:c34dee75e7ef3502f8ebdcd6ecfcfabe6c251fa1ab87ba0cc0a91a13343a6beb",
+      "selector_sha256": "sha256:37dab010edb3aee947a53b7d818a6caf7f995cbcf05949751834aaba34aa9462",
+      "quote_sha256": "sha256:27eb8e18ca115b69a18360b738e9f37a1e7a143628ca96a6a43b421335ed02ed"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "opencl-optimizations-cross-platform",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "khronos-opencl-overview-v2",
+          "evidence_id": "evidence-4eadd0c0e1f0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4eadd0c0e1f0",
+          "exact": "OpenCL 3.1 brings widely deployed, field-proven capabilities into the core specification to expand functionality, including SPIR-V ingestion, that developers can rely on across implementations."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4eadd0c0e1f0",
+          "subject": "OpenCL 3.1",
+          "predicate": "brings into the core specification",
+          "object": "widely deployed, field-proven capabilities (including SPIR-V ingestion) that developers can rely on across implementations",
+          "qualifiers": {
+            "source": "khronos-opencl-overview-v2"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001"
+      ],
+      "rationale": "引文 evidence-4eadd0c0e1f0 直接陈述 \"OpenCL 3.1 brings widely deployed, field-proven capabilities into the core specification … that developers can rely on across implementations\"（区间 0–146），与 claim 完全对应：来源为 Khronos 的 OpenCL 概览页，属直接引用；\"across implementations\" 与 claim 中\"跨实现\"对应。claim 未超出引文信息量，引文完整覆盖 claim 全部分。",
+      "rationale_offsets": [
+        {
+          "source_id": "khronos-opencl-overview-v2",
+          "evidence_id": "evidence-4eadd0c0e1f0",
+          "start": 0,
+          "end": 146
+        }
+      ],
+      "independence": {
+        "group_id": "single-source-single-evidence",
+        "basis": [
+          {
+            "source_id": "khronos-opencl-overview-v2",
+            "evidence_id": "evidence-4eadd0c0e1f0"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "khronos-opencl-overview-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "opencl-optimizations-cross-platform",
+      "source_id": "khronos-opencl-overview-v2",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

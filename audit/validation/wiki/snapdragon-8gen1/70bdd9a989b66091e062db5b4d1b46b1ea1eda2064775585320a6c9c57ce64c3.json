@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "snapdragon-8gen1",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_0a2d6bdb84aa",
+  "input_hash": "sha256:6e536e3e69878f23b534393fbbefabd82ab5c170d50ec099efc9703553418763",
+  "provider_duration_ms": 24114,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554978.589378,
+  "wiki_content_sha256": "sha256:cad692cb366583840fc1bab6cd9decaa2f772bb8f5237488be33a310eb8a2258",
+  "wiki_evidence_sha256": "sha256:b82b92e6d937ff24c3e4750ce0949533464b0c941c9b8520c671976a9a87c646",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cortex-a76-deep-dive"
+      },
+      "source_id": "cortex-a76-deep-dive",
+      "evidence_id": "evidence-0b9e4d4f5b0c",
+      "snapshot_sha256": "sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9",
+      "selector_sha256": "sha256:e77851deaef25b484228b32c79abc2cc62394b679a39e9547aff6cfd3e2acda6",
+      "quote_sha256": "sha256:428a35c161ea43a694f971c6e7187aa3be78b113d14271d3e87e8540f056828b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "snapdragon-8gen1-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "exact": "moves over to a 4-instruction/cycle decode path rising to eight 16-bit instructions, up from three with the A75"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "subject": "external source cortex-a76-deep-dive excerpt",
+          "predicate": "contains reproducible original excerpt",
+          "object": "moves over to a 4-instruction/cycle decode path rising to eight 16-bit instructions, up from three with the A75"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文原文完整等同于 claim 声明的可回放摘录，因此该 claim 被 target 支持；引文区间覆盖完整摘录。独立性方面，target 的 provenance 为空，且引文原文未提供 publisher、derived_from、independence_group 或转载声明证据，故为 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "cortex-a76-deep-dive",
+          "evidence_id": "evidence-0b9e4d4f5b0c",
+          "start": 0,
+          "end": 105
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "cortex-a76-deep-dive",
+            "evidence_id": "evidence-0b9e4d4f5b0c"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "cortex-a76-deep-dive",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "snapdragon-8gen1-audit-1",
+      "source_id": "cortex-a76-deep-dive",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

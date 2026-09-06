@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "use-case-diagram",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_6ca4296c7c40",
+  "input_hash": "sha256:247605fc40579f0751ffdf1c170ec482d467d6318fe5a0a353e336c86e3d38a0",
+  "provider_duration_ms": 15846,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689343.9130292,
+  "wiki_content_sha256": "sha256:81d3c8662870ca7df18ad16ab00f2397289d905404b3ba1bbfd1576c5fee4e07",
+  "wiki_evidence_sha256": "sha256:a1e38ef30016273afa9807fdc96f693eb728996b59b841a91eca80a6e58b21a5",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-use-case-diagram"
+      },
+      "source_id": "web-computer-science-use-case-diagram",
+      "evidence_id": "evidence-e446160d9a06",
+      "snapshot_sha256": "sha256:5d4caaee9ff531777b6b95a971e9d43f687eb63ff46bba978e3779bfc6df8738",
+      "selector_sha256": "sha256:acd85497d87faafb015dc9eb50793862765d8b9a1f00778bf5c3a631812f9da9",
+      "quote_sha256": "sha256:fe005f3b52795844f887ac25ae514fb1aece4d1ad06ce5f27830a72ba440632d"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "use-case-diagram-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-use-case-diagram",
+          "evidence_id": "evidence-e446160d9a06"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e446160d9a06",
+          "exact": "New! Render PlantUML diagrams directly inside GitHub\n        with our official browser extension —\n        No server. No tokens. No tracking. Zero permissions but clipboard. —\n        Try it out and let us know what you think!"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e446160d9a06",
+          "subject": "browser extension",
+          "predicate": "renders",
+          "object": "PlantUML diagrams directly inside GitHub",
+          "qualifiers": {
+            "context": "official promo banner text"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002",
+        "ARC-002"
+      ],
+      "rationale": "claim 与 target quote 逐字符完全一致（含换行与缩进），claim 为对 quote 的逐字转述，无增删改、无歧义，引文完整覆盖 claim 全部内容（字符区间 0-168），按引用—转述对应关系判定为 supported；evidence_status 为 source-reported 且 provenance 为 {}，无法举证独立性，独立性判定为 independence_unknown",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-use-case-diagram",
+          "evidence_id": "evidence-e446160d9a06",
+          "start": 0,
+          "end": 168
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "source-reported-single-source",
+        "basis": [
+          {
+            "source_id": "web-computer-science-use-case-diagram",
+            "evidence_id": "evidence-e446160d9a06",
+            "provenance_field": "publisher",
+            "offset": {
+              "start": 0,
+              "end": 168
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-use-case-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

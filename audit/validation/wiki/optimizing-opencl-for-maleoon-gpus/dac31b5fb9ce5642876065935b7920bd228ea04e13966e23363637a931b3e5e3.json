@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "optimizing-opencl-for-maleoon-gpus",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_2c2cabbfb54a",
+  "input_hash": "sha256:9e6d3d81524165b85678510e5c817d9371e9961ce667c7797a081428b22b9480",
+  "provider_duration_ms": 21131,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579842.929933,
+  "wiki_content_sha256": "sha256:b695af6294fca92147bc432b49f1019463be92ea0b8524be0d7f00a25ddfe604",
+  "wiki_evidence_sha256": "sha256:548b0232c21a1fdc7cbf93f7e35428e58f786c4e96f8c5fbbbf3a56052a023a7",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cl-mem"
+      },
+      "source_id": "web-computer-science-cl-mem",
+      "evidence_id": "evidence-e481cd1b0c45",
+      "snapshot_sha256": "sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4",
+      "selector_sha256": "sha256:7379ef15f6ac511e87d56e45ec53c173850f283fe4595a4f03d422678162a38d",
+      "quote_sha256": "sha256:ac3a669d2e6badd444a400391870f1dd07b167ae7ae4a90e50b1f98cf41b8d02"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "optimizing-opencl-for-maleoon-gpus-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-e481cd1b0c45"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e481cd1b0c45",
+          "exact": "This extension adds a new function that allows for direct memory import into\n    OpenCL via the clImportMemoryARM function."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e481cd1b0c45",
+          "subject": "This extension",
+          "predicate": "adds a new function allowing direct memory import into OpenCL via",
+          "object": "clImportMemoryARM",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "The target quote at code point range [0,123) exactly states the full claim: it says the extension adds a new function for direct memory import into OpenCL via clImportMemoryARM.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cl-mem",
+          "evidence_id": "evidence-e481cd1b0c45",
+          "start": 0,
+          "end": 123
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cl-mem",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "optimizing-opencl-for-maleoon-gpus-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

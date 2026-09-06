@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "instructions",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_8f345aad4c48",
+  "input_hash": "sha256:36808ed34166878ceae633ace9f30226d3dbc66ac7cba0f2a33ca0851646a524",
+  "provider_duration_ms": 24830,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554561.0417678,
+  "wiki_content_sha256": "sha256:a97e196cf2f08d72a4e6d4e756035d3a463249b6f24ffd61d33c99cc0e5371b5",
+  "wiki_evidence_sha256": "sha256:cd0a9ae356b1c7e54a082227c43e9568e4a49959c27a4f342cfda3b2f2d89c92",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-ddi0487-instruction-sets"
+      },
+      "source_id": "arm-ddi0487-instruction-sets",
+      "evidence_id": "evidence-1bf0681f2918",
+      "snapshot_sha256": "sha256:ccf816fe505c04568f1a42673f567e9003ac679a45fa433e5432c6ed63c39578",
+      "selector_sha256": "sha256:2732216738e216838d25d5c2dc4c2bb8421a80b2aa4a6ef032a630b40c4496a8",
+      "quote_sha256": "sha256:1206468cce4ef05897518afd0897c568a0667a36d84a9909e409d5f4e08f464a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "instructions-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-1bf0681f2918"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1bf0681f2918",
+          "exact": "AArch64 state supports a single instruction set, called A64. This is a fixed-length instruction set that uses 32-bit instruction encodings."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1bf0681f2918",
+          "subject": "AArch64 state",
+          "predicate": "supports instruction set and encoding length",
+          "object": "a single instruction set called A64 with fixed-length 32-bit instruction encodings",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文完整陈述：AArch64 state supports a single instruction set, called A64；并继续陈述该指令集为 fixed-length，uses 32-bit instruction encodings。claim 中的摘录与 target quote 完全一致，因此按给定引文可支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-1bf0681f2918",
+          "start": 0,
+          "end": 59
+        },
+        {
+          "source_id": "arm-ddi0487-instruction-sets",
+          "evidence_id": "evidence-1bf0681f2918",
+          "start": 61,
+          "end": 139
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-ddi0487-instruction-sets",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "instructions-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

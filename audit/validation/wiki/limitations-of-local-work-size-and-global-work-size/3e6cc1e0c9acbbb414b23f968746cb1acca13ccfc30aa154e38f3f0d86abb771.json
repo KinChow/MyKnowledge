@@ -1,0 +1,126 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "limitations-of-local-work-size-and-global-work-size",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_bf13b17dae6a",
+  "input_hash": "sha256:18d26d4af591f1d2535220beda6c9c8f6cbf37f430afba1d0df4aaf6ec90892a",
+  "provider_duration_ms": 55395,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579781.155029,
+  "wiki_content_sha256": "sha256:4ce67b457a0b2b59a6c555742a4a2aae50a838de6fcbff190b506fe85e67d345",
+  "wiki_evidence_sha256": "sha256:5e75902c99d89c801c3652a8ef67f0d67f2071730fadd4fa0f3616d7c3b68866",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "khronos-opencl-api-v2"
+      },
+      "source_id": "khronos-opencl-api-v2",
+      "evidence_id": "evidence-dd2feaa2ad18",
+      "snapshot_sha256": "sha256:26ac1b0470f965a447193bb64c3638af5028a815a237becd09cd5b2634b7b64e",
+      "selector_sha256": "sha256:8023af35e511152e3904c9dcc68083aa2493e9cadffebd4554645e95f09945a0",
+      "quote_sha256": "sha256:6cf8c6cadb7138b7a98ea900b96b596fe12df1c7990a723be3b4df4875627934"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "limitations-of-local-work-size-and-global-work-size-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "khronos-opencl-api-v2",
+          "evidence_id": "evidence-dd2feaa2ad18"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "exact": "<enum value=\"0x1005\"        name=\"CL_DEVICE_MAX_WORK_ITEM_SIZES\"/>"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The target quote exactly matches the claim text, so the claim is directly supported by the cited evidence.",
+      "rationale_offsets": [
+        {
+          "source_id": "khronos-opencl-api-v2",
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "start": 0,
+          "end": 66
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "khronos-opencl-api-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "limitations-of-local-work-size-and-global-work-size-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

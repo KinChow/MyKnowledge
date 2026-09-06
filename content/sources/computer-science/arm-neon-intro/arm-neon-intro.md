@@ -47,6 +47,21 @@ evidence_items:
     type: TextQuoteSelector
   selector_sha256: sha256:d3767b88ade81289253d1061bf8a547ab19b102fe3802ee7c82741a1cb7e5c6e
   snapshot_sha256: sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c
+- evidence_id: evidence-27de5474a249
+  position:
+    end: 583
+    start: 374
+    type: TextPositionSelector
+  quote_sha256: sha256:4f9b019e32ecad8f927599dd916c0442944b2f8416962fbca0f47a93de202a88
+  selector:
+    exact: Applications that can benefit from Neon technology include multimedia and
+      signal processing, 3D graphics, speech, image processing, or other applications
+      where fixed and floating-point performance is critical.
+    prefix: "ple lanes of data. \n      \n     "
+    suffix: " \n     As a programmer, there ar"
+    type: TextQuoteSelector
+  selector_sha256: sha256:cffa86c4175ede7ec1c40cea9349aeca72507f1e871f9054cc78446a303a9b69
+  snapshot_sha256: sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c
 extractor: utf8/1
 id: arm-neon-intro
 local:

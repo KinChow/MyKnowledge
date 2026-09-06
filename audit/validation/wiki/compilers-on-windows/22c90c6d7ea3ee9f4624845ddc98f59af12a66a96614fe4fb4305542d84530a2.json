@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "compilers-on-windows",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_b266c17c3c4b",
+  "input_hash": "sha256:ce798256a8da017a8b6e760ca679958ee77bf2d1a8400696d90f9986ec39f362",
+  "provider_duration_ms": 60459,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788557448.4481559,
+  "wiki_content_sha256": "sha256:daf13017068e531ec90a223b7bc2785057838634ffb576ad228c01ce4bf27e11",
+  "wiki_evidence_sha256": "sha256:de31db1f181d79a202466f905c60ad523e212c5dd25056297fffd5a2d55805fa",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "microsoft-vs-cpp-install-v2"
+      },
+      "source_id": "microsoft-vs-cpp-install-v2",
+      "evidence_id": "evidence-c9056513fd73",
+      "snapshot_sha256": "sha256:0d240c94368e51e61feb1cd2b694ee6bee39d8688663c13b5ae2abc6d84f74c7",
+      "selector_sha256": "sha256:69a4a2066d97ac0dd80d05571196b9aec515a61077fa3808e07fc0488cc89040",
+      "quote_sha256": "sha256:e7d8c87bb9229ad07c2a98021d9e2f59cf456c8add9409011140a8ddae4ac77f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "compilers-on-windows-audit-1",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "microsoft-vs-cpp-install-v2",
+          "evidence_id": "evidence-c9056513fd73"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c9056513fd73",
+          "exact": "installed Visual Studio and the Microsoft C and C++ tools yet"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c9056513fd73",
+          "subject": "guide",
+          "predicate": "mentions installing",
+          "object": "Visual Studio and Microsoft C/C++ tools",
+          "qualifiers": {
+            "platform": "unspecified"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确支持“安装 Visual Studio 以及 Microsoft C/C++ 工具”这一部分，因为原文说“haven't installed Visual Studio and the Microsoft C and C++ tools yet”。但引文没有出现 Windows，因此不能支持“在 Windows 上”这个限定，所以只能判为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "microsoft-vs-cpp-install-v2",
+          "evidence_id": "evidence-c9056513fd73",
+          "start": 15,
+          "end": 76
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "microsoft-vs-cpp-install-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "compilers-on-windows-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

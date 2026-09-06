@@ -1,0 +1,134 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "compilation-and-runtime-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_c811ec253a44",
+  "input_hash": "sha256:50b87c51b4207a91ffe281fe4ad1b22dc11761ed78e7f08e1e3bbafb86b6422a",
+  "provider_duration_ms": 12977,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788688840.228705,
+  "wiki_content_sha256": "sha256:b80d3bb8d6870aa090c4fd1fc5f0edddc8587c85755e2232355e1dd61dff3874",
+  "wiki_evidence_sha256": "sha256:dd8983ed5e88a0c4c41ddc0746b1c5c26421eee08a8b16643a44dcd5c8a11b5b",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-compilation-and-runtime-optimization"
+      },
+      "source_id": "web-computer-science-compilation-and-runtime-optimization",
+      "evidence_id": "evidence-e5a7dc42e0a0",
+      "snapshot_sha256": "sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad",
+      "selector_sha256": "sha256:eefec438b85be40f75985cc3038c25f15f3fa3f501d9815f764b410864d0fb3d",
+      "quote_sha256": "sha256:c0aeef93334f8beac644b5b218b789fed9bd59ffae976a604d68ffdde38db359"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "compilation-and-runtime-optimization-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-compilation-and-runtime-optimization",
+          "evidence_id": "evidence-e5a7dc42e0a0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e5a7dc42e0a0",
+          "exact": "Optimizations are implemented as Passes that traverse some portion of a program to either collect information or transform the program."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e5a7dc42e0a0",
+          "subject": "Optimizations",
+          "predicate": "are implemented as",
+          "object": "Passes that traverse some portion of a program to either collect information or transform the program"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Claim 文本与 target 引文逐字一致（verbatim 匹配）：引文区间 [0,135) 完整呈现 claim 的全部表述，无添加、无删减、无改写。引文来源于外部 web 源且 evidence_status 为 source-reported，属于对来源陈述的直接引证，按当前证据集合判断 claim 成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-compilation-and-runtime-optimization",
+          "evidence_id": "evidence-e5a7dc42e0a0",
+          "start": 0,
+          "end": 135
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-compilation-and-runtime-optimization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "compilation-and-runtime-optimization-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_a6961791e650",
+  "input_hash": "sha256:1f6a929d166630c3ef3693e03864a138ae6068154ff3f8b27af63cd4300f01ae",
+  "provider_duration_ms": 22507,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555020.101535,
+  "wiki_content_sha256": "sha256:d608deac531cfbbd804fb6ff54bdf575feb01a2870ede026591ea16248ea4d53",
+  "wiki_evidence_sha256": "sha256:6beb42999d99a68f4abdf19d5e0a9182fcf7b421d4769cc65552f05025363bba",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "nvidia-ptx-isa"
+      },
+      "source_id": "nvidia-ptx-isa",
+      "evidence_id": "evidence-57912b49617c",
+      "snapshot_sha256": "sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f",
+      "selector_sha256": "sha256:defa81596034f0caae66ff8450a2720d651fdee0e02ff914643cc36e6a6421c7",
+      "quote_sha256": "sha256:75f08bd198d845aa262d19272a7fa3077c036a348891937e9b3ccabb5e0fe252"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-57912b49617c",
+          "exact": "This document describes PTX, a low-level parallel thread execution virtual machine and instruction set architecture (ISA). PTX exposes the GPU as a data-parallel computing device."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-57912b49617c",
+          "subject": "PTX",
+          "predicate": "described_as_and_exposes",
+          "object": "a low-level parallel thread execution virtual machine and instruction set architecture; exposes the GPU as a data-parallel computing device",
+          "qualifiers": {
+            "quote_span": "0-167"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-167 与 claim 中声称的原文摘录逐字一致，因此该 claim 被其声明 target 支持。provenance 为空，且引文 0-167 未包含 publisher、derived_from、independence_group 或转载声明，独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "nvidia-ptx-isa",
+          "evidence_id": "evidence-57912b49617c",
+          "start": 0,
+          "end": 167
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "nvidia-ptx-isa",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

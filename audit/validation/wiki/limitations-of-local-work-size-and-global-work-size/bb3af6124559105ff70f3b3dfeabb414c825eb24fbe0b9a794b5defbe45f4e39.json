@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "limitations-of-local-work-size-and-global-work-size",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_abbd7c1a976c",
+  "input_hash": "sha256:847556a656505f12dd06270daf7e6c43b45c5be7afb74bc3a56c7f9601b17631",
+  "provider_duration_ms": 20129,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788690134.910728,
+  "wiki_content_sha256": "sha256:116f26eb80ef3ccefce883676422b12698e423096443e2405dcb4128a7b67613",
+  "wiki_evidence_sha256": "sha256:6da866fc13e63bf5ff2b89e3ebffc18b41b156c819afd6aa818de6393025d075",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "khronos-opencl-api-v2"
+      },
+      "source_id": "khronos-opencl-api-v2",
+      "evidence_id": "evidence-dd2feaa2ad18",
+      "snapshot_sha256": "sha256:26ac1b0470f965a447193bb64c3638af5028a815a237becd09cd5b2634b7b64e",
+      "selector_sha256": "sha256:8023af35e511152e3904c9dcc68083aa2493e9cadffebd4554645e95f09945a0",
+      "quote_sha256": "sha256:6cf8c6cadb7138b7a98ea900b96b596fe12df1c7990a723be3b4df4875627934"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "limitations-of-local-work-size-and-global-work-size-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "khronos-opencl-api-v2",
+          "evidence_id": "evidence-dd2feaa2ad18"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "exact": "<enum value=\"0x1005\"        name=\"CL_DEVICE_MAX_WORK_ITEM_SIZES\"/>"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "subject": "CL_DEVICE_MAX_WORK_ITEM_SIZES",
+          "predicate": "has_value",
+          "object": "0x1005"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文为 Khronos OpenCL API 规范中的 <enum> 元素声明（offset [0,64)）：同一元素内 value=\"0x1005\" 与 name=\"CL_DEVICE_MAX_WORK_ITEM_SIZES\" 并列，直接定义该标识符的枚举值为 0x1005，与 claim 完全吻合；属 direct 单源支持，引文自足、无相互矛盾或缺失证据。",
+      "rationale_offsets": [
+        {
+          "source_id": "khronos-opencl-api-v2",
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "start": 0,
+          "end": 64
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "khronos-opencl-api-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "limitations-of-local-work-size-and-global-work-size-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "mali-gpu-overview",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_3961845940da",
+  "input_hash": "sha256:9b3ac1590d047c086e05191a8f96e5673da614cd52ed75321ad48d8a2985f76e",
+  "provider_duration_ms": 34868,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689878.533061,
+  "wiki_content_sha256": "sha256:f27e38d1183e7f684d4f726b902f85d50d39e1e9a0d6be9d20bb14223eaa6dc0",
+  "wiki_evidence_sha256": "sha256:bb64c68c1818c6633ac76ae71c30fb94ceaf3e71028c7cf34e4719a62db5b6ee",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-mali-processor-v2"
+      },
+      "source_id": "wikipedia-mali-processor-v2",
+      "evidence_id": "evidence-8c0bde510fac",
+      "snapshot_sha256": "sha256:221c5c599215371983f9b985ffb4ecc9c1f5c0230caf675c94470fdd43e8bedd",
+      "selector_sha256": "sha256:0b16eedb7ba950e84c412fd2f03077e79c39fcb00e998680be0581bd9f106594",
+      "quote_sha256": "sha256:f7bf95d04509fef5df5919b3c0f984cdaf989d1e6aeecab231c7af8bc15036c3"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "mali-gpu-ip",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-mali-processor-v2",
+          "evidence_id": "evidence-8c0bde510fac"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8c0bde510fac",
+          "exact": "The Mali and Immortalis series of graphics processing units (GPUs) and multimedia processors are semiconductor intellectual property cores produced by Arm Holdings for licensing in various ASIC designs by Arm partners."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8c0bde510fac",
+          "subject": "The Mali and Immortalis series",
+          "predicate": "are",
+          "object": "semiconductor intellectual property cores produced by Arm Holdings for licensing in various ASIC designs by Arm partners"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,30) 'The Mali and Immortalis series' 对应 claim 的 'Mali 和 Immortalis 系列'；[31,92) 'of graphics processing units (GPUs) and multimedia processors' 对应 'GPU 与多媒体处理器'；[93,138) 'are semiconductor intellectual property cores' 对应 'IP'（claim 以 IP 概括 semiconductor intellectual property cores，属忠实缩写）；[139,163) 'produced by Arm Holdings' 对应 '是 Arm Holdings 生产'；[164,218) 'for licensing in various ASIC designs by Arm partners' 对应 '并授权给合作伙伴集成到 ASIC 设计中'（licensing by Arm partners 即授权给 Arm 合作伙伴用于其 ASIC 设计）。claim 每一元素均在引文中有直接对应区间，且全部为引文字面信息的转述，无超出引文的断言，故 supported。偏移以引文字符串（共 218 个 Unicode code point，[0,218)）为坐标系。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-mali-processor-v2",
+          "evidence_id": "evidence-8c0bde510fac",
+          "start": 0,
+          "end": 30
+        },
+        {
+          "source_id": "wikipedia-mali-processor-v2",
+          "evidence_id": "evidence-8c0bde510fac",
+          "start": 31,
+          "end": 92
+        },
+        {
+          "source_id": "wikipedia-mali-processor-v2",
+          "evidence_id": "evidence-8c0bde510fac",
+          "start": 93,
+          "end": 138
+        },
+        {
+          "source_id": "wikipedia-mali-processor-v2",
+          "evidence_id": "evidence-8c0bde510fac",
+          "start": 139,
+          "end": 163
+        },
+        {
+          "source_id": "wikipedia-mali-processor-v2",
+          "evidence_id": "evidence-8c0bde510fac",
+          "start": 164,
+          "end": 218
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-mali-processor-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "mali-gpu-ip",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

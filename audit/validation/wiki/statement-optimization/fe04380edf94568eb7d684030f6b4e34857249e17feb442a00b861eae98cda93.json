@@ -1,0 +1,131 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "statement-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e1bb14ed3a83",
+  "input_hash": "sha256:a526ed662fb3adcda8a97923a5197b2ea205448a929de8b7e4bed824f6828c7b",
+  "provider_duration_ms": 111671,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579954.842699,
+  "wiki_content_sha256": "sha256:78f96a28c74a36427accaaf0d86f45fbfac76cff0a2e1c680e3aec3e71e7ccc5",
+  "wiki_evidence_sha256": "sha256:4955fb4471492e6077fb69575918c6ce1055b1a345f4b0afb2f3e087db65fae3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-statement-optimization"
+      },
+      "source_id": "web-computer-science-statement-optimization",
+      "evidence_id": "evidence-135cb2b83265",
+      "snapshot_sha256": "sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad",
+      "selector_sha256": "sha256:c45608c022224ebb064e5da3a19a4270f32a7760e0d2221651a12648fe2402d0",
+      "quote_sha256": "sha256:4cbca84699a691d23fa9a5e6566843feca26233523c3489d0f4cce4c07df53a2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "statement-optimization-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-statement-optimization",
+          "evidence_id": "evidence-135cb2b83265"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-135cb2b83265",
+          "exact": "LLVM’s Analysis and Transform Passes#\nIntroduction#\nWarning\nThis document is not updated frequently, and the list of passes\nis most likely incomplete. It is possible to list passes known by the opt\ntool using opt -print-passes.\nThis document serves as a high-level summary of the optimization features that LLVM provides. Optimizations are implemented as Passes that traverse some portion of a program to either collect information or transform the program."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Target [0,457) directly states the document is a high-level summary and that optimizations are implemented as Passes that collect information or transform the program, which matches the claim text.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-statement-optimization",
+          "evidence_id": "evidence-135cb2b83265",
+          "start": 0,
+          "end": 457
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-statement-optimization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "statement-optimization-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

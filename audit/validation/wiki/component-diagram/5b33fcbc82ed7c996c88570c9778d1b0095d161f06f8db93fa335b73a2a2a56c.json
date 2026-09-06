@@ -1,0 +1,286 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "component-diagram",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e7bbbd234629",
+  "input_hash": "sha256:760d1a5f08b8461ad5528b761bbd07b7fea4148994ddbdf28e5a35c9812a9e7c",
+  "provider_duration_ms": 63896,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788550004.87997,
+  "wiki_content_sha256": "sha256:67bedd74967969611bfe95be3fd964e769f49590eba791fcdedf64547e79b871",
+  "wiki_evidence_sha256": "sha256:e7bdb835b494ca17ed60b3830c4b4adb3556931011bcb059362467db57c4f10c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-component-diagram"
+      },
+      "source_id": "web-computer-science-component-diagram",
+      "evidence_id": "evidence-6f35d0c7a293",
+      "snapshot_sha256": "sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9",
+      "selector_sha256": "sha256:0954e7afb74cf58a107bce8f4ee881ebe6968ae31bc8d3a6db5bdf3af11a2073",
+      "quote_sha256": "sha256:99164e16aa1d740170ba6adc6d29ddd37bf11ab6dcb39720e2082c98d742cb0e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-component-diagram"
+      },
+      "source_id": "web-computer-science-component-diagram",
+      "evidence_id": "evidence-0d168b7dd5c5",
+      "snapshot_sha256": "sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9",
+      "selector_sha256": "sha256:3f7f80c1366a303b84470d917cc6d24112fe5705e6483b99d3ce021cf5905345",
+      "quote_sha256": "sha256:f63763bbc4b2a5b9c74c09b0ffaca79cf3f8930c50f95d19c26b67bb00637401"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-component-diagram"
+      },
+      "source_id": "web-computer-science-component-diagram",
+      "evidence_id": "evidence-b66f23103eae",
+      "snapshot_sha256": "sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9",
+      "selector_sha256": "sha256:3b8c054672af985bc1244c4b700680bf256ae7a41efb76ff95196d0eb6eaf163",
+      "quote_sha256": "sha256:f7ef5e57de46d2ae236f520310c19bb62dc24f45ba32d29d012119ceeed45e79"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-component-diagram"
+      },
+      "source_id": "web-computer-science-component-diagram",
+      "evidence_id": "evidence-3c6199ce1cd9",
+      "snapshot_sha256": "sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9",
+      "selector_sha256": "sha256:e2d55236ca1a664f5f135e7f784f4031f1587058a76fc6f86b50ac19c2cb5789",
+      "quote_sha256": "sha256:abcf7667067e362a0f28b1ce4531e391ef8bceac9b2115b42ab28fce5b20a878"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "component-diagram-claim-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-6f35d0c7a293"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6f35d0c7a293",
+          "exact": "使用 PlantUML，您可以使用简单直观的文本描述来创建组件图"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文明确说 PlantUML 可用“简单直观的文本描述”创建“组件图”，与 claim 完全一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-6f35d0c7a293",
+          "start": 0,
+          "end": 32
+        }
+      ]
+    },
+    {
+      "claim_id": "component-diagram-claim-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-0d168b7dd5c5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0d168b7dd5c5",
+          "exact": "组件必须用中括号括起来。component定义一个组件。"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文直接包含“组件必须用中括号括起来”以及“component定义一个组件”，支持 claim 的两部分。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-0d168b7dd5c5",
+          "start": 0,
+          "end": 27
+        }
+      ]
+    },
+    {
+      "claim_id": "component-diagram-claim-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-b66f23103eae"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b66f23103eae",
+          "exact": "并且可以用关键字as给组件定义一个别名。\n这个别名可以在稍后定义关系的时候使用。"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文明确说可用关键字 as 为组件定义别名，且该别名可在后续定义关系时使用，和 claim 一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-b66f23103eae",
+          "start": 0,
+          "end": 40
+        }
+      ]
+    },
+    {
+      "claim_id": "component-diagram-claim-4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-3c6199ce1cd9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3c6199ce1cd9",
+          "exact": "interface关键字来定义接口。\n并且还可以使用关键字as定义一个别名。"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文明确指出可用 interface 关键字定义接口，并且可用 as 定义别名，支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-component-diagram",
+          "evidence_id": "evidence-3c6199ce1cd9",
+          "start": 0,
+          "end": 38
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-component-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-component-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-component-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-component-diagram",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "component-diagram-claim-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "component-diagram-claim-2",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "component-diagram-claim-3",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "component-diagram-claim-4",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_0bed72d1573d",
+  "input_hash": "sha256:a089327ed7357dfad59b9e309b2b23e8cc58cb860384a1e78c40a935eebded89",
+  "provider_duration_ms": 26939,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788689789.4163048,
+  "wiki_content_sha256": "sha256:c8cd68da0067f45e22a8107959c686ec764a199bc6a70eaa9ceefed2086f1ec8",
+  "wiki_evidence_sha256": "sha256:23e7172581551da40f9e7e975ad1151ef9c3f17c727b72b8b0d6c76ee5a905ed",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "khronos-opencl-api-v2"
+      },
+      "source_id": "khronos-opencl-api-v2",
+      "evidence_id": "evidence-dd2feaa2ad18",
+      "snapshot_sha256": "sha256:26ac1b0470f965a447193bb64c3638af5028a815a237becd09cd5b2634b7b64e",
+      "selector_sha256": "sha256:8023af35e511152e3904c9dcc68083aa2493e9cadffebd4554645e95f09945a0",
+      "quote_sha256": "sha256:6cf8c6cadb7138b7a98ea900b96b596fe12df1c7990a723be3b4df4875627934"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "khronos-opencl-api-v2",
+          "evidence_id": "evidence-dd2feaa2ad18"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "exact": "<enum value=\"0x1005\"        name=\"CL_DEVICE_MAX_WORK_ITEM_SIZES\"/>"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "subject": "OpenCL API 规范 XML 枚举定义",
+          "predicate": "包含枚举值",
+          "object": "CL_DEVICE_MAX_WORK_ITEM_SIZES (value=0x1005)"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001"
+      ],
+      "rationale": "目标引文 khronos-opencl-api-v2 / evidence-dd2feaa2ad18 在区间 [0,67) 给出片段 `<enum value=\"0x1005\"        name=\"CL_DEVICE_MAX_WORK_ITEM_SIZES\"/>`，其中 [34,64) 明确包含属性名 CL_DEVICE_MAX_WORK_ITEM_SIZES 及其枚举值 0x1005；该名称处于 CL_DEVICE_* 设备信息枚举命名空间，与 claim 所述“设备信息定义包含该属性”一致，引文直接、完整地支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "khronos-opencl-api-v2",
+          "evidence_id": "evidence-dd2feaa2ad18",
+          "start": 0,
+          "end": 67
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "khronos-opencl-api-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
