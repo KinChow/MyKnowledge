@@ -1,0 +1,154 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "significance",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e114df2895ec",
+  "input_hash": "sha256:0cc2c8cf4ee78cb522c42d3e82eb68e80c09da6355b3dda11676539e3e5853e5",
+  "provider_duration_ms": 30897,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788583108.654098,
+  "wiki_content_sha256": "sha256:239e7cd49f57da22aac5cb710f82a8cc0cbf577a9e5b0ce587904fa867e0092e",
+  "wiki_evidence_sha256": "sha256:bd996ccb64bf28ba3a98a3ae46f139c9ff8c12623b5115eacd16ea6f79aec5c4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-algorithmic-efficiency-power-v2"
+      },
+      "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+      "evidence_id": "evidence-8ee402064328",
+      "snapshot_sha256": "sha256:5844f66885ad4f4886df67f9fd9c76d2b39bb2a9ba1e936477220571b398adf5",
+      "selector_sha256": "sha256:03ea4f847300bd4bf87b1488c5494eed228bdc57ec7218a625f46c28962a735d",
+      "quote_sha256": "sha256:bab3f91a1863bb8077f8d1d89a9bb5f195d53097e7581eb93aab8bc4fe869c97"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "performance-significance-power",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8ee402064328",
+          "exact": "For computers whose power is supplied by a battery (e.g. laptops and smartphones), or for very long/large calculations (e.g. supercomputers), other measures of interest are:\n\nDirect power consumption: power needed directly to operate the computer.\nIndirect power consumption: power needed for cooling, lighting, etc."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8ee402064328",
+          "subject": "battery-powered computers and very long/large calculations",
+          "predicate": "have measures of interest",
+          "object": "direct power consumption and indirect power consumption",
+          "qualifiers": {
+            "direct_power_consumption": "power needed directly to operate the computer",
+            "indirect_power_consumption": "power needed for cooling, lighting, etc."
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文明确限定电池供电计算机和很长/很大的计算为适用场景，并称其他关注指标包括直接功耗与间接功耗；直接功耗和间接功耗的定义分别在后续两句给出，因此 claim 成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 0,
+          "end": 173
+        },
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 175,
+          "end": 247
+        },
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 248,
+          "end": 316
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "performance-significance-power",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

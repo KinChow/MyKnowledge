@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "simpleperf",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_39268ca71bf7",
+  "input_hash": "sha256:4aff53878bf185c739cbf5114a1ea876fccd68f672f07a257abc987b4e942c86",
+  "provider_duration_ms": 46513,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554997.336212,
+  "wiki_content_sha256": "sha256:b05fdd4fa4da3dc55ecf3e12737b983ce4f41eac37c567b2aa9a4b60f0357a43",
+  "wiki_evidence_sha256": "sha256:4ee4f44f7722f8bba86b55f63e9af1a04bc2a22a7a049c940e2c905ee7ca2cb4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-linux-performance-tools"
+      },
+      "source_id": "web-computer-science-linux-performance-tools",
+      "evidence_id": "evidence-15ffe98b6e3c",
+      "snapshot_sha256": "sha256:c9d8d88e9b01c2576a70cf7146220cec02627023c153451c587b5748de5d767d",
+      "selector_sha256": "sha256:6f6abb6d9107fcc8a0334b9d51a7b6659dfb3d973a7b3f3d15a4c28710ed35d3",
+      "quote_sha256": "sha256:221d180c612011b787d21bdf48d64750a146f46261f33aa676c157ddc84741fe"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "simpleperf-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-linux-performance-tools",
+          "evidence_id": "evidence-15ffe98b6e3c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-15ffe98b6e3c",
+          "exact": "linux 自身有很多性能分析工具。并且提供了详细的输出格式。熟练掌握这些工具可以帮助我们更快的发现性能瓶颈，为性能调优提供思路。\nload average：平均负载\nPID：进程号\nUSER：进程所有者的名字。\nPRI：进程优先级\nNI nice：级别\nSIZE：进程使用的内存（代码、数据和栈），kb 单位\nRSS：物理 RAM 使用量，kb 单位\nSHARE：和其它进程共享的内存，kb 单位\nSTAT 进程状态 S 睡眠，R=运行，T=停止或跟踪，D=不可中断的睡眠，Z=僵尸。\n%CPU CPU 使用量。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-15ffe98b6e3c",
+          "subject": "web-computer-science-linux-performance-tools 原文摘录",
+          "predicate": "包含",
+          "object": "Linux 性能分析工具说明及 load average、PID、USER、PRI、NI nice、SIZE、RSS、SHARE、STAT、%CPU 等字段解释",
+          "qualifiers": {
+            "support": "direct"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-257 完整给出了 claim 中声明的同一段可回放原文摘录，包括开头的 Linux 性能分析工具说明以及后续 load average、PID、USER、PRI、NI nice、SIZE、RSS、SHARE、STAT、%CPU 各项字段说明；claim 未超出该引文内容。provenance 为空且引文原文未提供转载或来源独立性声明，因此独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-linux-performance-tools",
+          "evidence_id": "evidence-15ffe98b6e3c",
+          "start": 0,
+          "end": 257
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-linux-performance-tools",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "simpleperf-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

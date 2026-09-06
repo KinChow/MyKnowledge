@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "systrace",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_85916d081ac7",
+  "input_hash": "sha256:b391054fbbcb525e0c31caeee427578d6004b880f60738bab9e1c9f08e0ccde6",
+  "provider_duration_ms": 26706,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788558179.7163022,
+  "wiki_content_sha256": "sha256:4408a9ee0874b9a583c8c9ab12ee15027ebf67abc35b182b2f6025ec9d92ff2a",
+  "wiki_evidence_sha256": "sha256:f724eddf7cab4a5bfebad60f50562ca1fe24b751d6a72b8382bf5f5cc7416dc1",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "perfetto-docs-v2"
+      },
+      "source_id": "perfetto-docs-v2",
+      "evidence_id": "evidence-60ecf92087e2",
+      "snapshot_sha256": "sha256:6440a0be1072b1946edd42d8bb65c06e863ef3823c18b5ae08c81b69af22d932",
+      "selector_sha256": "sha256:45947461995bfae99022814ee7168abb58e5cdf7e72afa0983bef6487c4498ea",
+      "quote_sha256": "sha256:03d51d9ebb6598eb03293cd98168bfe07139fdebafb075ce07277f75e09ed673"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "systrace-audit-1",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "perfetto-docs-v2",
+          "evidence_id": "evidence-60ecf92087e2"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-60ecf92087e2",
+          "exact": "Perfetto is an open-source suite of SDKs, daemons and tools which use\n**tracing**"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-60ecf92087e2",
+          "subject": "Perfetto",
+          "predicate": "is/use",
+          "object": "an open-source suite of SDKs, daemons and tools which use tracing",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文仅支持 Perfetto 是 open-source suite 且 use tracing；字符区间 0-81 覆盖该表述。claim 中“帮助开发者理解复杂系统并定位功能和性能问题”未在该 target 引文中出现或被明确蕴含，因此只能部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "perfetto-docs-v2",
+          "evidence_id": "evidence-60ecf92087e2",
+          "start": 0,
+          "end": 81
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "perfetto-docs-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "systrace-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

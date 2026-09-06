@@ -1,0 +1,204 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "configuration",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_379cc77fadda",
+  "input_hash": "sha256:fa65fe3f7e5a50b5dc93b9aeabb8b172b7ad93384ca774a064e0af1642777604",
+  "provider_duration_ms": 56155,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692712.197319,
+  "wiki_content_sha256": "sha256:bfa069ee36235f57665ccf6ad8d3057622d28c8e8f93d25cb10182ffac75e5bb",
+  "wiki_evidence_sha256": "sha256:075a3e3bfc1a7eb0c8c83fe52d9f4276b38ac8f2143aefa2fff59afe8ae3ff40",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-configuration"
+      },
+      "source_id": "web-computer-science-configuration",
+      "evidence_id": "evidence-df7f846923e5",
+      "snapshot_sha256": "sha256:5a329593954d0948560fe8ade2be47e98ac4ffa3abb5abb6d3bab9cf818b78e9",
+      "selector_sha256": "sha256:c366cc0788f53822acb5fecf8e71083ff30ed6bef21c3b4007ec0bdb032a137c",
+      "quote_sha256": "sha256:1cec253704ce6c7a5129a4de9afe528564b8d88c2b42a93c31f49603d8351be9"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "configuration-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-df7f846923e5",
+          "exact": "- 1.1 About Version Control\n  - 1.2 A Short History of Git\n  - 1.3 What is Git?\n  - 1.4 The Command Line\n  - 1.5 Installing Git\n  - 1.6 First-Time Git Setup\n  - 1.7 Getting Help\n  - 1.8 Summary\n- \n  2. Git Basics\n  - 2.1 Getting a Git Repository\n  - 2.2 Recording Changes to the Repository\n  - 2.3 Viewing the Commit History\n  - 2.4 Undoing Things\n  - 2.5 Working with Remotes\n  - 2.6 Tagging\n  - 2.7 Git Aliases\n  - 2.8 Summary\n-"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-df7f846923e5",
+          "subject": "引文（Pro Git 目录节选）",
+          "predicate": "covers",
+          "object": "版本控制概念（1.1-1.3）与 Git 基础操作：获取仓库(2.1)/记录变更(2.2)/查看提交历史(2.3)/撤销操作(2.4)/远程协作(2.5)/标签(2.6)/别名(2.7)",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported",
+            "chapter1_first_entry": "About Version Control [0,27)",
+            "chapter2_heading": "2. Git Basics [198,214)"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 各要素与引文逐一对应：『版本控制概念』由第一章条目 '1.1 About Version Control'（[0,27)）及 '1.2 A Short History of Git'（[28,58)）、'1.3 What is Git?'（[59,79)）支持；『Git 基础』由 '2. Git Basics'（[198,214)）支持；『获取仓库』对应 '2.1 Getting a Git Repository'（[215,247)）；『记录变更』对应 '2.2 Recording Changes to the Repository'（[248,291)）；『查看提交历史』对应 '2.3 Viewing the Commit History'（[292,326)）；『撤销操作』对应 '2.4 Undoing Things'（[327,349)）；『远程协作』对应 '2.5 Working with Remotes'（[350,378)）；『标签』对应 '2.6 Tagging'（[379,394)）；『别名』对应 '2.7 Git Aliases'（[395,414)）。claim 提及的每个主题均在引文中有确切对应条目，无超出引文范围的主张（'等'为列举省略，未引入引文外内容）；引文为目录类证据，对'覆盖'类陈述按章节条目存在性判定。单 target，无多源佐证冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 0,
+          "end": 27
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 28,
+          "end": 58
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 59,
+          "end": 79
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 198,
+          "end": 214
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 215,
+          "end": 247
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 248,
+          "end": 291
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 292,
+          "end": 326
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 327,
+          "end": 349
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 350,
+          "end": 378
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 379,
+          "end": 394
+        },
+        {
+          "source_id": "web-computer-science-configuration",
+          "evidence_id": "evidence-df7f846923e5",
+          "start": 395,
+          "end": 414
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-configuration",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "configuration-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

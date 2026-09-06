@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "simpleperf",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_be1a0e237038",
+  "input_hash": "sha256:16022a7e5efa993f0b07c9dd1a0c40918cff195bf5de92a660467c921cd33f77",
+  "provider_duration_ms": 25655,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580012.049834,
+  "wiki_content_sha256": "sha256:b05fdd4fa4da3dc55ecf3e12737b983ce4f41eac37c567b2aa9a4b60f0357a43",
+  "wiki_evidence_sha256": "sha256:3463b5904e74dbc40c94c0a020cfb4b5dbefc0c2ae58fe25e403a9b86224bbd3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "android-simpleperf-v2"
+      },
+      "source_id": "android-simpleperf-v2",
+      "evidence_id": "evidence-5962807915ae",
+      "snapshot_sha256": "sha256:6540368820500846673bc1968dc8a6aeccab0948337e6327f6d29b115a4a637a",
+      "selector_sha256": "sha256:3f1723389a00fd3c7710d4561223e61c6705c7cc571146ae769bbf7ae1beb31d",
+      "quote_sha256": "sha256:f9770332d5bc8e1cf20c9c6e2619fb255377c6479947bfeb2908cff0a75310cd"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "simpleperf-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "android-simpleperf-v2",
+          "evidence_id": "evidence-5962807915ae"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5962807915ae",
+          "exact": "If you prefer to use the command line, Simpleperf is a versatile command-line CPU profiling tool included in the NDK for Mac, Linux, and Windows."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5962807915ae",
+          "subject": "Simpleperf",
+          "predicate": "is included in",
+          "object": "the NDK",
+          "qualifiers": {
+            "tool_type": "command-line CPU profiling tool"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文字符区间[39,116)明确表述“Simpleperf is a versatile command-line CPU profiling tool included in the NDK”，支持 claim 中“Simpleperf 是 NDK 中提供的命令行 CPU 分析工具”。",
+      "rationale_offsets": [
+        {
+          "source_id": "android-simpleperf-v2",
+          "evidence_id": "evidence-5962807915ae",
+          "start": 39,
+          "end": 116
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "android-simpleperf-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "simpleperf-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

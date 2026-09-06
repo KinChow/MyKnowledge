@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "random",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_99b9f56a2c6d",
+  "input_hash": "sha256:920a0ceed98434afdb663bdd632bae3eaccac71e7596fa02253e02d939525f29",
+  "provider_duration_ms": 24751,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788693119.635051,
+  "wiki_content_sha256": "sha256:4f068e5b3d35d253078b368289d3d7c999eebafcf3320d32de956a71b67d84f0",
+  "wiki_evidence_sha256": "sha256:407feaa9171b2ef3fdd90ce624d32971921ef601e4855ef11aa029788667dbde",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-random"
+      },
+      "source_id": "web-computer-science-random",
+      "evidence_id": "evidence-324908828b55",
+      "snapshot_sha256": "sha256:3510cf0f907b24232e1161f2de85f639b3f5702434c21b32fed6c709ba236c84",
+      "selector_sha256": "sha256:529f324d9486abfbe1afcc388aad52f5b82750365f7e40c789a123c3826b934f",
+      "quote_sha256": "sha256:93003a89f4d43ddc173c7e521f3d7755aaae9855b7bee44bf9f56739c79cb232"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "random-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-random",
+          "evidence_id": "evidence-324908828b55"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-324908828b55",
+          "exact": "Pseudo-random number generation\nThe random number library provides classes that generate random and pseudo-random numbers. These classes include:\n- Uniform random bit generators (URBGs), which include both random number engines, which are pseudo-random number generators that generate integer sequences with a uniform distribution, and true random number generators (if available).\n- Random number distributions (e.g."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-324908828b55",
+          "subject": "the random number library",
+          "predicate": "provides classes that generate random and pseudo-random numbers, including uniform random bit generators (random number engines and true random number generators) and random number distributions",
+          "object": "pseudo-random number generation",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported",
+            "confidentiality": "public"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "claim 文本与所引用的 evidence-324908828b55 的 quote 逐字一致（含换行与未完成的尾缀 \"(e.g.\"），无任何改写或补充，属于对源文本的 verbatim 提取；引文覆盖源文本全区间 [0,416)，来源 origin=external、评估状态为 source-reported，未发现与引文冲突之处，故 claim 直接且完整地由该 target 引文支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-random",
+          "evidence_id": "evidence-324908828b55",
+          "start": 0,
+          "end": 416
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-random",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "random-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "reference",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_af3a97177618",
+  "input_hash": "sha256:7915ae8d9380567c9ee6b2950911e3549fa9274082f059d8f322314bb7580ac0",
+  "provider_duration_ms": 37385,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788693094.358751,
+  "wiki_content_sha256": "sha256:fcba690eaccaf8e52f871681c8f3f74972488576ff245531e1766e04bcdba3a1",
+  "wiki_evidence_sha256": "sha256:3cdd252fd9e70ee14a3805a0e6bc2c9f0f9dd27edb2b9da014ff50ae0483beb1",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-computer-science-reference"
+      },
+      "source_id": "working-computer-science-reference",
+      "evidence_id": "evidence-2743908423de",
+      "snapshot_sha256": "sha256:a82c40373baec0e73e2e2a4ce705f1f06fdb66d92a43e7b2de5405d9654cef0e",
+      "selector_sha256": "sha256:8bf6d9d158439556b8a4bf5f7d1b6049ef444d556f4be64ad1052397b20d6381",
+      "quote_sha256": "sha256:feb7e9fb337f3674673b2f58bee4383d6861e607e7d8be1b05190cbe3fe4a959"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "reference-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-computer-science-reference",
+          "evidence_id": "evidence-2743908423de"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2743908423de",
+          "exact": "中文字幕版，2017年度课程"
+        },
+        {
+          "evidence_id": "evidence-2743908423de",
+          "exact": "英文版，2016年度课程，讲师：Andrej Karpathy"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2743908423de",
+          "subject": "课程资料列表",
+          "predicate": "包含",
+          "object": "2017 年中文字幕版课程",
+          "qualifiers": {
+            "year": "2017",
+            "language": "中文"
+          }
+        },
+        {
+          "evidence_id": "evidence-2743908423de",
+          "subject": "课程资料列表",
+          "predicate": "包含",
+          "object": "2016 年英文版课程（讲师 Andrej Karpathy）",
+          "qualifiers": {
+            "year": "2016",
+            "language": "英文",
+            "instructor": "Andrej Karpathy"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 的两个成分均被同一引文（evidence-2743908423de）直接支持：引文第一处明确记载「中文字幕版，2017年度课程」并附 bilibili 链接（对应 offset [2,16)），第二处明确记载「英文版，2016年度课程，讲师：Andrej Karpathy」并附 YouTube 链接（对应 offset [70,101)），两处文本一致、无冲突，故判定 supported。限定说明：source_data 仅提供 evidence quote 文本而未提供宿主源文件全文，rationale_offsets 为基于该 quote 文本按 Unicode code point 计算的半开区间，而非相对完整源文件的偏移；对源文件绝对位置的核验在本次输入下不可行。附注：引文中「Tesla Al」疑为「Tesla AI」的转录误差，但 claim 未就该内容作出断言，不影响本判定。仅单一 evidence，无多源独立性可判，故省略 independence 字段。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-computer-science-reference",
+          "evidence_id": "evidence-2743908423de",
+          "start": 2,
+          "end": 16
+        },
+        {
+          "source_id": "working-computer-science-reference",
+          "evidence_id": "evidence-2743908423de",
+          "start": 70,
+          "end": 101
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-computer-science-reference",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "reference-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "linux-commands",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_44daf75793a9",
+  "input_hash": "sha256:6d2233da91e940c5e728c076d872f882bd36703c96813d6b9e70c691cbc60907",
+  "provider_duration_ms": 50095,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692636.594317,
+  "wiki_content_sha256": "sha256:74bddcf41bfa41d48b64cb76c469343cfde3d6402c8efe8589b1d0881d124aed",
+  "wiki_evidence_sha256": "sha256:32c71e0506068c8f3d716585bb7b9abc909965f40008b86547a951d968bdebe4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-ifconfig"
+      },
+      "source_id": "web-computer-science-ifconfig",
+      "evidence_id": "evidence-5f0b8d621c23",
+      "snapshot_sha256": "sha256:ad6fa4ac495fec0ee1ed0fa58ef35013f442db3c4cb4e91cbf27aff251c62f5a",
+      "selector_sha256": "sha256:48b4c712414791146c9bd954b7277dda346a73503b714f6b9bd8f7c0f738b70c",
+      "quote_sha256": "sha256:598ef0e973c196fa4cf6d84fb10b6ff41835fd6890bb946fe07454f1fb175c87"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "linux-commands-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-ifconfig",
+          "evidence_id": "evidence-5f0b8d621c23"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5f0b8d621c23",
+          "exact": "IFCONFIG(8)        Linux System Administrator's Manual        IFCONFIG(8)\n       ifconfig - configure a network interface\n       ifconfig [-v] [-a] [-s] [interface]\n       ifconfig [-v] interface [aftype] options | address ...\n       Ifconfig is used to configure the kernel-resident network\n       interfaces.  It is used at boot time to set up interfaces as\n       necessary.  After that, it is usually only needed when debugging\n       or when system tuning is needed."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5f0b8d621c23",
+          "subject": "ifconfig(8) man page excerpt (header, synopsis, description)",
+          "predicate": "states",
+          "object": "ifconfig 用于配置内核驻留的网络接口：开机时设置接口，之后仅在调试或系统调优时需要；其用法为 ifconfig [-v] [-a] [-s] [interface] / ifconfig [-v] interface [aftype] options | address ...",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported",
+            "confidentiality": "public"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Claim linux-commands-audit-1 是 ifconfig(8) 手册页开头（头部行、synopsis 与描述段）的逐字转写，与 target 引文 evidence-5f0b8d621c23（源 web-computer-science-ifconfig）完全一致：引文跨度 [0,471) 覆盖 claim 的全部 8 行内容，包括首行 'IFCONFIG(8) ... IFCONFIG(8)'、三行 synopsis（ifconfig [-v] [-a] [-s] [interface] 等）、'Ifconfig is used to configure the kernel-resident network interfaces' 及 'usually only needed when debugging or when system tuning' 等描述，逐字符比对无任何增删、改序或错配，claim 未超出引文所载内容，故为 supported（direct 支持）。独立性观察：证据 provenance 为空且引文中无转载声明，无法举证多源独立性，按规则输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-ifconfig",
+          "evidence_id": "evidence-5f0b8d621c23",
+          "start": 0,
+          "end": 471
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-ifconfig",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "linux-commands-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

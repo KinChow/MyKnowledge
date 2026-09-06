@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "lod",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_4756f0e0d778",
+  "input_hash": "sha256:d3b15c4911b501b80169be7e44ad8afcc20ef2c79fb4e2e2dd1ea560bd793eea",
+  "provider_duration_ms": 22508,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692961.027058,
+  "wiki_content_sha256": "sha256:546182138b7b6f14c7877ac1d120f5eba5d8c4c07c45b7b3f3817a6734026148",
+  "wiki_evidence_sha256": "sha256:446a05b648346e9c76777b793495b8720639d8863887b5bf6f5f3cfa2cc8cbee",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-law-of-demeter-v2"
+      },
+      "source_id": "wikipedia-law-of-demeter-v2",
+      "evidence_id": "evidence-c36922581edd",
+      "snapshot_sha256": "sha256:bfe866415d2995ecf00203f639af2a3eafe0130e315e8e6ab1886d63738573f4",
+      "selector_sha256": "sha256:cb6735d608ac35a4bf8bb1685c0c0f0f0901ceb472d002e280f5de7f88918a40",
+      "quote_sha256": "sha256:d8464edaf162f8578c9df79fe38b80796f5a4e059214e97da67d9268d0de975a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "law-of-demeter-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-law-of-demeter-v2",
+          "evidence_id": "evidence-c36922581edd"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c36922581edd",
+          "exact": "The Law of Demeter (LoD) or principle of least knowledge is a design guideline for developing software, particularly object-oriented programs."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c36922581edd",
+          "subject": "The Law of Demeter (LoD) or principle of least knowledge",
+          "predicate": "is",
+          "object": "a design guideline for developing software, particularly object-oriented programs",
+          "qualifiers": {
+            "scope": "software development, particularly object-oriented programs"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 与目标引文对照：引文原句（[0,142)）明确将 Law of Demeter（LoD）/最少知识原则界定为\"a design guideline for developing software, particularly object-oriented programs\"；claim 将其转述为\"面向对象软件开发中的一种设计准则\"，是引文断言的忠实改写，属于引文语义的子集，未新增、未弱化证据未提供的断言。引文使用 \"particularly\" 仅表明面向对象是重点适用场景，claim 未否认其更广适用性，两者无矛盾。该 claim 为单一来源、direct 支持，无多个 source 的一致性交叉验证需求，故无 contradictions 与 missing_evidence。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-law-of-demeter-v2",
+          "evidence_id": "evidence-c36922581edd",
+          "start": 0,
+          "end": 142
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-law-of-demeter-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "law-of-demeter-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

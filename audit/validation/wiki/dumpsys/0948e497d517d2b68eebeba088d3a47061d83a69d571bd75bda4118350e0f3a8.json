@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "dumpsys",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_2c0b9ea78c5b",
+  "input_hash": "sha256:04f0db87d465c20a93468ffe9f91124623a9865844a337d06cadc7bd616a3a66",
+  "provider_duration_ms": 23725,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692526.335131,
+  "wiki_content_sha256": "sha256:d1202eb77748220606b0f8372b9b5f425aa30522c0ded59c9c8111a967f929e1",
+  "wiki_evidence_sha256": "sha256:888ae1b2d4e4b0efe033b24fbdbc25f582d756611fd68f6c37dd3bfae4ca25b8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "android-dumpsys-v2"
+      },
+      "source_id": "android-dumpsys-v2",
+      "evidence_id": "evidence-e9bbe59eef86",
+      "snapshot_sha256": "sha256:e86ac672adbf214253697c26e7e424508ffa3c00ee059c228b46e1ffb8345f93",
+      "selector_sha256": "sha256:74ee00e1ea503cd051b10ffc1d3da5bddd731324f88b03f8d42d90f9964e398c",
+      "quote_sha256": "sha256:b98b5cbccbf4150febc799842cecfe0805a28720786717060f52b6d15b4ee634"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "dumpsys-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "android-dumpsys-v2",
+          "evidence_id": "evidence-e9bbe59eef86"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e9bbe59eef86",
+          "exact": "dumpsys is a tool that runs on Android devices and provides information about system services."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e9bbe59eef86",
+          "subject": "dumpsys",
+          "predicate": "provides",
+          "object": "information about system services",
+          "qualifiers": {
+            "runs_on": "Android devices",
+            "is_a": "tool"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "claim dumpsys-audit-1 为全称陈述：dumpsys 是运行在 Android 设备上的工具，用于提供系统服务信息。唯一 target 引文为 \"dumpsys is a tool that runs on Android devices and provides information about system services.\"（字符区间 [0,94)）。该引文的主谓结构与 claim 完全同构：a tool（工具）+ runs on Android devices（运行在 Android 设备上）+ provides information about system services（提供系统服务信息），claim 系该引文的忠实中文翻译，无语义增删、无弱化、无矛盾。按 EVD-001 / VAL-001 规则，引文对 claim 构成直接支持。注：引文 origin=external、evidence_status=source-reported，本次审计仅判定 claim 与给定引文的符合性，不作事实真伪判断；source 的 provenance 为空对象且引文原文无转载声明，无法证明独立性，故不输出 independence 字段。",
+      "rationale_offsets": [
+        {
+          "source_id": "android-dumpsys-v2",
+          "evidence_id": "evidence-e9bbe59eef86",
+          "start": 0,
+          "end": 94
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "android-dumpsys-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "dumpsys-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

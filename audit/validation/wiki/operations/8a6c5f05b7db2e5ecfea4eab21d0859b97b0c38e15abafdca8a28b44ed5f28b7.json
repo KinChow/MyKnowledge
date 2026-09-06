@@ -1,0 +1,130 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "operations",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_6cc5413fdedb",
+  "input_hash": "sha256:474a9c2436072ba72431989edfd734130b9901bc5ba94aa3f5d17f1e5b81b701",
+  "provider_duration_ms": 61732,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554776.261318,
+  "wiki_content_sha256": "sha256:9eb85957deeae03773f9d5a84eb315d57d9ffca78cdcb112ee850ae0d3ce6a50",
+  "wiki_evidence_sha256": "sha256:5f0b66e5270ec085321e44fd723d54a01788d1df49c0e7b5138e17b028a79d2d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp"
+      },
+      "source_id": "web-computer-science-cpp",
+      "evidence_id": "evidence-0d1426a4027e",
+      "snapshot_sha256": "sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d",
+      "selector_sha256": "sha256:793e249e683f013286deaf4d5636c8c3c6bfef14cb81793859c13e383e99bc5b",
+      "quote_sha256": "sha256:c5bbf92540c946a8ff16593c59cc8885a6505139e58b0cb46a4212a49182b10f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "operations-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-0d1426a4027e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0d1426a4027e",
+          "exact": "1. Pointers\n1. Pointers and arrays\n1. Allocate memory in C style\n1. Allocate memory in C++ style"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The target quote exactly matches the claim’s quoted excerpt, line for line. The supporting span is the full quoted text from code point 0 to 96.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-0d1426a4027e",
+          "start": 0,
+          "end": 96
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "operations-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

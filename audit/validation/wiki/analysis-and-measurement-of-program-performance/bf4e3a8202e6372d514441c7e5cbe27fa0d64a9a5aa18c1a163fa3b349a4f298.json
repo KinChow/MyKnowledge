@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "analysis-and-measurement-of-program-performance",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_6d5ff6371ef1",
+  "input_hash": "sha256:d2f8bbdeec1ebc564c4d057099f35e6b2e43b518a324caddc8ca90e21e67afbe",
+  "provider_duration_ms": 23809,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692299.453685,
+  "wiki_content_sha256": "sha256:7067099bb3d9623067515a2ad7a61b3f4498615cbbfa7339a68513f51ce601e5",
+  "wiki_evidence_sha256": "sha256:5f1cc8c9fd5b2b8577869d7bfa64e7205058f6a158fb890175db6b39bc36781c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "osti-profiling-tracing"
+      },
+      "source_id": "osti-profiling-tracing",
+      "evidence_id": "evidence-f6c8afdf6614",
+      "snapshot_sha256": "sha256:06cd5ce56031d25b57b1fe30c994f37a75d7e9865024cc49fec0342109d3bb02",
+      "selector_sha256": "sha256:baa598f5e1057fdf9bc2ce80c2868995cbb452de48f15aeb86c15b77126450e7",
+      "quote_sha256": "sha256:dc4976bd209c8bfdcbb0114be87a414f7a57e7428207a22bb4b3aff23c89df58"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "analysis-and-measurement-of-program-performance-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f6c8afdf6614",
+          "exact": "Profilers provide a summary of execution statistics and/or events. They give an overview of the overall performance of the program, often broken down to the functions, loops or even user-specified sections."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f6c8afdf6614",
+          "subject": "Profilers",
+          "predicate": "provide",
+          "object": "a summary of execution statistics and/or events, and an overview of the overall performance of the program, often broken down to the functions, loops or even user-specified sections"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Claim text is verbatim identical to the target quote of external source osti-profiling-tracing (evidence-f6c8afdf6614, full span [0,206)), so the claim is directly supported by the cited evidence. The claim's full content is covered by the quote with no addition, omission or paraphrase. Provenance is empty (no publisher/derived_from/independence_group) and the one-source target provides no basis for grouping, so independence is recorded as unknown; verification is limited to the claim-quote correspondence as the source document text was not included in the input (evidence_status is source-reported).",
+      "rationale_offsets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "start": 0,
+          "end": 206
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "osti-profiling-tracing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "analysis-and-measurement-of-program-performance-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

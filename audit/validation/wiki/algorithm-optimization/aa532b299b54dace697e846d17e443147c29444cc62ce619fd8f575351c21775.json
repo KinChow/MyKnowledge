@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "algorithm-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_6ea610c3f7cd",
+  "input_hash": "sha256:24107e9c3074638a20cec9287c086ed13a53a6006be20112539efe769a696665",
+  "provider_duration_ms": 81956,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582098.790658,
+  "wiki_content_sha256": "sha256:50a963427273d890215f3b0dcc7130b0d7cd946b53e7dab89796e50871f84f64",
+  "wiki_evidence_sha256": "sha256:7d54c41411301a300b3ae3f571824cae25fa56c22d5cb8c2203ae94cb402d2b3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-algorithmic-efficiency-v2"
+      },
+      "source_id": "wikipedia-algorithmic-efficiency-v2",
+      "evidence_id": "evidence-50e682cdaa18",
+      "snapshot_sha256": "sha256:6eecb0a1ad8c88902c550ce296cf0bd6fa7ae1c57db52924f55bb01f00da1265",
+      "selector_sha256": "sha256:1b3c5f2c5405c4b29a75627d8ad39df80f53cbc55eb6d65e340317ac5454e7ce",
+      "quote_sha256": "sha256:354d48435772554bf88d090b2c57b8b931238751408726660d8f300c757ad6fc"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "algorithm-optimization-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-v2",
+          "evidence_id": "evidence-50e682cdaa18"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-50e682cdaa18",
+          "exact": "In computer science, algorithmic efficiency is a property of an algorithm which relates to the amount of computational resources used by the algorithm."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-50e682cdaa18",
+          "subject": "algorithmic efficiency",
+          "predicate": "relates to",
+          "object": "the amount of computational resources used by the algorithm",
+          "qualifiers": {
+            "scope": "computer science"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "The target quote directly supports the first part of the claim: algorithmic efficiency relates to computational resources used by an algorithm. The added statement that it is a core attribute in algorithm optimization is not stated in the quote, so the claim is only partially supported.",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-v2",
+          "evidence_id": "evidence-50e682cdaa18",
+          "start": 0,
+          "end": 151
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-algorithmic-efficiency-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "algorithm-optimization-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

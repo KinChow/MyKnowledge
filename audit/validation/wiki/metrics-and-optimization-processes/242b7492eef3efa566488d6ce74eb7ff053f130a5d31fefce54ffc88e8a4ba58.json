@@ -1,0 +1,136 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "metrics-and-optimization-processes",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_3fabcb12e294",
+  "input_hash": "sha256:5a4de7dcd641bb893140aa0423381208772de7a1db69e71d69f74aee00446ee9",
+  "provider_duration_ms": 7347,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692391.480103,
+  "wiki_content_sha256": "sha256:5791683a5867a2a699c3a2cf2814a8f60622521c3bb690062e135ebb633fc35b",
+  "wiki_evidence_sha256": "sha256:2fcd9d10c5d7655ed6e4214bf6e2d4018bb3a7abbf388affbb72a7cc6ba202e6",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "osti-profiling-tracing"
+      },
+      "source_id": "osti-profiling-tracing",
+      "evidence_id": "evidence-f6c8afdf6614",
+      "snapshot_sha256": "sha256:06cd5ce56031d25b57b1fe30c994f37a75d7e9865024cc49fec0342109d3bb02",
+      "selector_sha256": "sha256:baa598f5e1057fdf9bc2ce80c2868995cbb452de48f15aeb86c15b77126450e7",
+      "quote_sha256": "sha256:dc4976bd209c8bfdcbb0114be87a414f7a57e7428207a22bb4b3aff23c89df58"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "metrics-and-optimization-processes-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f6c8afdf6614",
+          "exact": "Profilers provide a summary of execution statistics and/or events. They give an overview of the overall performance of the program, often broken down to the functions, loops or even user-specified sections."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f6c8afdf6614",
+          "subject": "Profilers",
+          "predicate": "provide",
+          "object": "a summary of execution statistics and/or events; an overview of the overall performance of the program, often broken down to the functions, loops or even user-specified sections"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001"
+      ],
+      "rationale": "该 claim 为对 target 引文的直接引用（direct support），claim 全文与引文逐字一致并被精确覆盖，无超出引文范围的推断。证据来源为单一外部来源（provenance 为空，且无多个来源可构成相互独立佐证），故对单一 claim 的验证以引文逐字匹配充分成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "osti-profiling-tracing",
+          "evidence_id": "evidence-f6c8afdf6614",
+          "start": 0,
+          "end": 184
+        }
+      ],
+      "independence": {
+        "group_id": "metrics-and-optimization-processes-audit-1",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "osti-profiling-tracing",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "metrics-and-optimization-processes-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

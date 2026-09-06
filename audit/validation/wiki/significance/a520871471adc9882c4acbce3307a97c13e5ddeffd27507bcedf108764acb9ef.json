@@ -1,0 +1,166 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "significance",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_1c4bbd400dab",
+  "input_hash": "sha256:7de76d90f460c37a637c7424a2716f29c6f1f0cfd327502d2957b39e87c0c5b5",
+  "provider_duration_ms": 31960,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692889.953464,
+  "wiki_content_sha256": "sha256:98da09179c84a9bba39cbcb05e02424dab76e98a78b715a61e51974eee0564e5",
+  "wiki_evidence_sha256": "sha256:bd996ccb64bf28ba3a98a3ae46f139c9ff8c12623b5115eacd16ea6f79aec5c4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-algorithmic-efficiency-power-v2"
+      },
+      "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+      "evidence_id": "evidence-8ee402064328",
+      "snapshot_sha256": "sha256:5844f66885ad4f4886df67f9fd9c76d2b39bb2a9ba1e936477220571b398adf5",
+      "selector_sha256": "sha256:03ea4f847300bd4bf87b1488c5494eed228bdc57ec7218a625f46c28962a735d",
+      "quote_sha256": "sha256:bab3f91a1863bb8077f8d1d89a9bb5f195d53097e7581eb93aab8bc4fe869c97"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "performance-significance-power",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8ee402064328",
+          "exact": "For computers whose power is supplied by a battery (e.g. laptops and smartphones), or for very long/large calculations (e.g. supercomputers), other measures of interest are:\n\nDirect power consumption: power needed directly to operate the computer.\nIndirect power consumption: power needed for cooling, lighting, etc."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8ee402064328",
+          "subject": "battery-powered computers and very long/large calculations (e.g. supercomputers)",
+          "predicate": "have as other measures of interest",
+          "object": "direct power consumption and indirect power consumption"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,81) 区（For computers whose power is supplied by a battery (e.g. laptops and smartphones)）对应 claim 的「电池供电计算机」；[86,140) 区（for very long/large calculations (e.g. supercomputers)）对应「大型长时间计算」；第一句（[0,173)）以 other measures of interest are: 引出关注指标；随后 [175,200) 定义 Direct power consumption、[248,275) 定义 Indirect power consumption，对应 claim 的「直接功耗」与「间接功耗」。四项要素均在引文区间内逐词对应，claim 是对引文的忠实转述，无超出引文信息的推断，故判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 0,
+          "end": 81
+        },
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 86,
+          "end": 140
+        },
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 0,
+          "end": 173
+        },
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 175,
+          "end": 200
+        },
+        {
+          "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+          "evidence_id": "evidence-8ee402064328",
+          "start": 248,
+          "end": 275
+        }
+      ],
+      "observation": {
+        "subject": "battery-powered computers and very long/large calculations.",
+        "predicate": "have as other measures of interest",
+        "object": "direct power consumption and indirect power consumption"
+      },
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-algorithmic-efficiency-power-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "performance-significance-power",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

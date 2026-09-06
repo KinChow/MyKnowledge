@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "dumpsys",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_ddc76d299848",
+  "input_hash": "sha256:eb7b6d30fca065efe0dba283a3aa3b6d00b56862b70a40bb50215c33040cafec",
+  "provider_duration_ms": 24122,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554425.5847511,
+  "wiki_content_sha256": "sha256:431f7a03f5e01c6d2ac29084ab53b4c5d3a04e7505e5c1be0dfd2d8272162cb9",
+  "wiki_evidence_sha256": "sha256:f99a4ee820941cac397396aa8de3502326a9d9526883500cdabadb025fb02e52",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "adb-man-page"
+      },
+      "source_id": "adb-man-page",
+      "evidence_id": "evidence-13340361505e",
+      "snapshot_sha256": "sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d",
+      "selector_sha256": "sha256:1517f55c839e9f442ff0e3ea2f6837a01230e36be35ebb2d5e1bffa591915679",
+      "quote_sha256": "sha256:ea04468846430ecbeb619e37d502e5f299d464bf6f9eea6d55146942705dbff2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "dumpsys-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-13340361505e",
+          "exact": "Connects to the ADB Server via its smart socket interface. Allows sending requests, receives responses and manages lifecycle of the adb server"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-13340361505e",
+          "subject": "ADB client/interface",
+          "predicate": "connects and manages",
+          "object": "ADB Server via smart socket interface; sending requests, receiving responses, and managing adb server lifecycle",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文字符区间 [0,142) 与 claim 中声明的可回放原文摘录完全一致，因此该 claim 被该 target 直接支持。独立性方面，target 的 provenance 为空，且引文 [0,142) 未包含 publisher、derived_from、independence_group 或转载声明，故只能判定为 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "adb-man-page",
+          "evidence_id": "evidence-13340361505e",
+          "start": 0,
+          "end": 142
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "adb-man-page",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "dumpsys-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "data-structure-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_437533acd3ad",
+  "input_hash": "sha256:8e29b79862185c1dd69b3d46546fd4a76344b36bc28f3095c38a38aee9ecc41a",
+  "provider_duration_ms": 33371,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554343.818808,
+  "wiki_content_sha256": "sha256:8c2c3d47f4f0897989d2b4e0844c05a45f88c4469ab85d48d9b64cae126a7a40",
+  "wiki_evidence_sha256": "sha256:88cb860e4252c8958702efba6afb0a5a65f69e06a0a87c898cd2d2dd05b7d03a",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-arrays"
+      },
+      "source_id": "web-computer-science-arrays",
+      "evidence_id": "evidence-b59e7612c5bd",
+      "snapshot_sha256": "sha256:2f4d9e38975156387979cdacae8c1e22ef4eae427dea58c9e8ba02fec61796cc",
+      "selector_sha256": "sha256:b62852cd040fdb55e47a297413c5d4e2035504c82033e70a92c941da50379fd5",
+      "quote_sha256": "sha256:a2e5d4b6f4357e9346cbefb65c5ce60769f91ed94c54ac068cfae16ce6c0db95"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "data-structure-optimization-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b59e7612c5bd",
+          "exact": "An array is a fundamental and linear data structure that stores items at contiguous locations."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b59e7612c5bd",
+          "subject": "array",
+          "predicate": "is",
+          "object": "a fundamental and linear data structure that stores items at contiguous locations"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-94 与 claim 中声明的可回放原文摘录完全一致，直接支持该 claim；未见多引文冲突。provenance 为空且引文文本未提供转载或独立来源声明，因此独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd",
+          "start": 0,
+          "end": 94
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-arrays",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "data-structure-optimization-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "device-frequency",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_193a102e107b",
+  "input_hash": "sha256:fa98508f6c815750d8482cdf651dd021d040cf30bf3d1318eab7a840583002f1",
+  "provider_duration_ms": 43519,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692436.0257778,
+  "wiki_content_sha256": "sha256:aa98daab31808a9cf1d63201aba043620f162c4f56b856fa731b456025c74014",
+  "wiki_evidence_sha256": "sha256:b47a780cd048ff32392058d21e8bedf1897a11d91f493682ae769c1ee4189dd1",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "linux-cpufreq-v2"
+      },
+      "source_id": "linux-cpufreq-v2",
+      "evidence_id": "evidence-c613c087b5a0",
+      "snapshot_sha256": "sha256:92b91791b119fb35111fe37c96ac253af1c3e1a8caadd4452769ced214e67f58",
+      "selector_sha256": "sha256:7b678969a7910268de4b8bbd681e208804f3de43361dfdcb5c8dbad289092e16",
+      "quote_sha256": "sha256:7f7daa9dc5f61e905879c1efecd2d6dde71ef017d57bd1154853d5179dd23b10"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "device-frequency-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "linux-cpufreq-v2",
+          "evidence_id": "evidence-c613c087b5a0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c613c087b5a0",
+          "exact": "The majority of modern processors are capable of operating in a number of different clock frequency and voltage configurations, often referred to as Operating Performance Points or P-states (in ACPI terminology)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c613c087b5a0",
+          "subject": "modern processors",
+          "predicate": "are capable of operating in",
+          "object": "a number of different clock frequency and voltage configurations (P-states)",
+          "qualifiers": {
+            "scope": "majority"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文在字符区间 [0,187) 直接陈述 \"The majority of modern processors are capable of operating in a number of different clock frequency and voltage configurations ... Operating Performance Points or P-states\"，与 claim 逐项对应：modern processors↔现代处理器；capable of operating in a number of different clock frequency and voltage configurations↔可以在多种时钟频率和电压配置下运行；P-states↔P-state。引文中的 \"majority\" 仅为量化范围限定，claim 未断言 all/全部，故不构成超出引文或与其矛盾；该引文为对 claim 的直接、专门支撑。",
+      "rationale_offsets": [
+        {
+          "source_id": "linux-cpufreq-v2",
+          "evidence_id": "evidence-c613c087b5a0",
+          "start": 0,
+          "end": 187
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "linux-cpufreq-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "device-frequency-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

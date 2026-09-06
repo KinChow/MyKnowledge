@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "general-principles",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_66f1f524fdf4",
+  "input_hash": "sha256:5e04c1075ed99934ed990d9041235e3bf4dcdde506189e728e92727399eca222",
+  "provider_duration_ms": 85891,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692857.380374,
+  "wiki_content_sha256": "sha256:870a66a12e0872a202dea5cf24dbce8354a000fb3be2423d62922bc1828aae32",
+  "wiki_evidence_sha256": "sha256:0692f6a759e25ee02c83ef102d0ba4c467536bb409e730f723275c6a0abb12e0",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-compilation-and-runtime-optimization"
+      },
+      "source_id": "web-computer-science-compilation-and-runtime-optimization",
+      "evidence_id": "evidence-e5a7dc42e0a0",
+      "snapshot_sha256": "sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad",
+      "selector_sha256": "sha256:eefec438b85be40f75985cc3038c25f15f3fa3f501d9815f764b410864d0fb3d",
+      "quote_sha256": "sha256:c0aeef93334f8beac644b5b218b789fed9bd59ffae976a604d68ffdde38db359"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "general-principles-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-compilation-and-runtime-optimization",
+          "evidence_id": "evidence-e5a7dc42e0a0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e5a7dc42e0a0",
+          "exact": "Optimizations are implemented as Passes that traverse some portion of a program to either collect information or transform the program."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e5a7dc42e0a0",
+          "subject": "Optimizations",
+          "predicate": "are implemented as",
+          "object": "Passes",
+          "qualifiers": {
+            "pass_behavior": "traverse some portion of a program to either collect information or transform the program"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文与 claim 逐字一致（claim 全文即引文原文，无增删改），完整覆盖 claim 的全部语义成分。该引文在源文档中可定位：源页面正文明确写道“Optimizations are implemented as Passes that traverse some portion of a program to either collect information or transform the program”，且其前文“on features that LLVM provides.”与后文“ The table below divides the pas”均与源文件 evidence_items（evidence-e5a7dc42e0a0）记录的 TextQuoteSelector 前缀/后缀逐字吻合（见源 markdown 第 106 行全文及第 19-22 行证据记录），说明引文在源文本中真实存在、提取无失真。引文位置以源文件 evidence_items 记录的 TextPositionSelector [322, 457) 为据；经本地复核，该引文散落在源 HTML 的换行处（“Passes that”换行“traverse some portion…”，连续子串检索需按空白归一化），而源 markdown 第 106 行为规整后的逐字完整句。单条 claim 单条证据，无 evidence 缺失、无引文错误（source/evidence 均在本仓库 content/sources 下可查），判定为 supported；该 claim 为源文档直接引述，未做任何引申（WIKI-001/EVD-001 仅做保真核验，VAL-001/VAL-002 仅做一致性判定，无事实性评价）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-compilation-and-runtime-optimization",
+          "evidence_id": "evidence-e5a7dc42e0a0",
+          "start": 322,
+          "end": 457
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-compilation-and-runtime-optimization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "general-principles-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

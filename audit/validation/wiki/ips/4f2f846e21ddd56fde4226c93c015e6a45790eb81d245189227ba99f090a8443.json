@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "ips",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_ecbf62c16a86",
+  "input_hash": "sha256:d8e512295f7613b49022bf39c68e0f1ea5a3a09d6d466581dc70484f12d8843b",
+  "provider_duration_ms": 26038,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788583103.79374,
+  "wiki_content_sha256": "sha256:3c572874c896f6de2fe392ce7dcf1b5d3c9546bc3509f0a9b9d5cf21441bc643",
+  "wiki_evidence_sha256": "sha256:4f6a0b36d0dec47a9918c8398c6e8ac71bcd0b6b38fb80a00b610d40d565456d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-computer-science-ips"
+      },
+      "source_id": "working-computer-science-ips",
+      "evidence_id": "evidence-62605ca2a77d",
+      "snapshot_sha256": "sha256:ef3cf03ee3d7dcabcf97f8577e09abc6feec226d1f99656863ce7b736e482fe0",
+      "selector_sha256": "sha256:3e6408870575f34243f97500e861f91dc0c9f5bc48a5504654653fabc23ec6aa",
+      "quote_sha256": "sha256:3a5737723f3d3979b72f59f70b1b35dc28daaef3343b1f6cb8f7e5953c79d07a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "ips-camera3-hal",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "working-computer-science-ips",
+          "evidence_id": "evidence-62605ca2a77d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-62605ca2a77d",
+          "exact": "camera3内的pipeline由HAL控制"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-62605ca2a77d",
+          "subject": "camera3内的pipeline",
+          "predicate": "由...控制",
+          "object": "HAL",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文[0,23)直接支持“camera3 内的 pipeline 由 HAL 控制”；但引文未直接出现“本页记录”或“IPS 架构要求”等限定，因此 claim 仅部分成立。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-computer-science-ips",
+          "evidence_id": "evidence-62605ca2a77d",
+          "start": 0,
+          "end": 23
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-computer-science-ips",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "ips-camera3-hal",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

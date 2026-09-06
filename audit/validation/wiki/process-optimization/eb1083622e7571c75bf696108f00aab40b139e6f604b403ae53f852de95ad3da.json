@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "process-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_179d87d354bc",
+  "input_hash": "sha256:9957108ae58b1d799aab9a16fb8480e148a1ded175c152593c89b6d93215679f",
+  "provider_duration_ms": 41259,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692383.4636211,
+  "wiki_content_sha256": "sha256:81f6acf0562c7fb8604ee321f0a099007ec4cd2e86b1f8141f2fad502ba1552e",
+  "wiki_evidence_sha256": "sha256:a62702e7984552bc3f36f50122489839273135c6df9d57fb3c1e1cc843356e6c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-process-optimization"
+      },
+      "source_id": "web-computer-science-process-optimization",
+      "evidence_id": "evidence-b28e1a4e44dc",
+      "snapshot_sha256": "sha256:959d25592d98aa41cc339966359f8d1798cdab394071dc0308462f76e839f2e1",
+      "selector_sha256": "sha256:8508464abd1998e7fe628e34fedf9624d19a28c471919c1b7611995f9b5fe775",
+      "quote_sha256": "sha256:aa5facd67a58878a7740ccb84fe18ba28426de3a359bfbb29c764e469cd79976"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "process-optimization-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "exact": "These options control various sorts of optimizations.\nWithout any optimization option, the compiler’s goal is to reduce the cost of compilation and to make debugging produce the expected results. Statements are independent: if you stop the program with a breakpoint between statements, you can then assign a new value to any variable or change the program counter to any other statement in the function and get exactly the results you expect from the source code."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "subject": "These options",
+          "predicate": "control",
+          "object": "various sorts of optimizations"
+        },
+        {
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "subject": "statements",
+          "predicate": "are",
+          "object": "independent"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001"
+      ],
+      "rationale": "The claim is a character-for-character verbatim reproduction of the entire target quote (identical including the U+2019 in “compiler’s”), spanning offset [0,462) of the quoted text. Every assertion in the claim — the options control various optimizations; without any option the compiler reduces compilation cost and makes debugging produce expected results; and statements are independent such that stopping at a breakpoint permits assigning a new value to any variable or changing the program counter to any other statement in the function with exactly the expected results — is present in that span with no paraphrase, addition, or omission. Direct support is confirmed; no independence grouping is required as only a single evidence is declared.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "start": 0,
+          "end": 462
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-process-optimization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "process-optimization-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "data-structure-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_b9bcbb07a36a",
+  "input_hash": "sha256:6fc77d716a66fed0dc5d067cc6de09c95ff25c267650ae9e86cbfa36a60eb4d9",
+  "provider_duration_ms": 15591,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788692341.6805792,
+  "wiki_content_sha256": "sha256:49fdeb21fec3d1dc45eb57d2e9771683106e752d8b7c716ed1617960c02ab995",
+  "wiki_evidence_sha256": "sha256:b6acea5d21b2fe9b38185e73a0429ac1e80598e2469eaaef2cf983711418b0d4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wikipedia-data-structure-v2"
+      },
+      "source_id": "wikipedia-data-structure-v2",
+      "evidence_id": "evidence-860a76a134ac",
+      "snapshot_sha256": "sha256:0d8b0e2c3c43275b40df3205a7a756a94391ed599770a0b900e784d9f850c450",
+      "selector_sha256": "sha256:feb95b69ebbc10ad92e816832cdc9d61893f143bc2bee22ecea6f5cce3a0c4b2",
+      "quote_sha256": "sha256:68e03acc7b25393aac72e1b3610eac0c121458cd7cfe027020817d9889bcec70"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "data-structure-optimization-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wikipedia-data-structure-v2",
+          "evidence_id": "evidence-860a76a134ac"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-860a76a134ac",
+          "exact": "In computer science, a data structure is a way to organize and store data that is usually chosen for efficient access to data."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-860a76a134ac",
+          "subject": "data structure",
+          "predicate": "is defined as a way to organize and store data",
+          "object": "for efficient access to data",
+          "qualifiers": {
+            "scope": "in computer science",
+            "choice": "usually chosen"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "claim「数据结构是组织和存储数据、以便高效访问数据的方式」与 target 引文逐义对应：引文 'a data structure is a way to organize and store data that is usually chosen for efficient access to data' 中 'way to organize and store' 对应「组织和存储数据(的方式)」、'efficient access to data' 对应「高效访问数据」、'data structure is' 对应「数据结构是…的方式」，译义完整、无添加、无遗漏，语义等值，故判定 supported。rationale_offsets [0,126) 为引文在所提供的证据文本中的完整 Unicode code point 半开区间（共 126 字符）。独立性：target 的 provenance 为空对象，引文亦不含转载/衍生声明，无法举证多源独立或转载来源，故 independence 输出 independence_unknown；且本 claim 仅单一 target、无多源证据，故无 contradiction 风险。",
+      "rationale_offsets": [
+        {
+          "source_id": "wikipedia-data-structure-v2",
+          "evidence_id": "evidence-860a76a134ac",
+          "start": 0,
+          "end": 126
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wikipedia-data-structure-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "data-structure-optimization-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

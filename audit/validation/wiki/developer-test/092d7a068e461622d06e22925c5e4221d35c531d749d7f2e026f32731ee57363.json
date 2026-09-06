@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "developer-test",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_a454ab3cbf67",
+  "input_hash": "sha256:3da94bd4ec884e7a1cac951359eaeddc6641501442bc1b399429352160cf04a1",
+  "provider_duration_ms": 66236,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554413.477718,
+  "wiki_content_sha256": "sha256:e1c42459a9f42a4ba897a3138f2be0ade2306a3a536af3b60f676ba8e4b871ea",
+  "wiki_evidence_sha256": "sha256:8a3b031200925748fc9e422f340c47179f6009b1a7886556c243c725c1b80eed",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "bisect-performance-regression"
+      },
+      "source_id": "bisect-performance-regression",
+      "evidence_id": "evidence-ab11c6af1882",
+      "snapshot_sha256": "sha256:2ec07aa0984f44c73043dd3c1beb9aa73d89f211f1c47e6d7076c3e8d96c6dab",
+      "selector_sha256": "sha256:2d00942820cfd1804d5061ec291983fd076e453e0fd9b05afd452c3adfaf64ba",
+      "quote_sha256": "sha256:ed3546702827164fce6d549a3ad98a0ff00a3c76db4f8b7b71b372a4f37da106"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "developer-test-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ab11c6af1882",
+          "exact": "The crucial task of localizing such regressions can be achieved using bisection, which attempts to find the bug-introducing commit using binary search. This approach is used extensively by many development teams"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ab11c6af1882",
+          "subject": "localizing such regressions",
+          "predicate": "can be achieved using",
+          "object": "bisection",
+          "qualifiers": {
+            "method": "binary search",
+            "usage": "used extensively by many development teams"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "The target quote directly states that localizing regressions can be achieved using bisection and that the approach is used extensively by many development teams, so the claim is fully supported.",
+      "rationale_offsets": [
+        {
+          "source_id": "bisect-performance-regression",
+          "evidence_id": "evidence-ab11c6af1882",
+          "start": 0,
+          "end": 211
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "bisect-performance-regression",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "developer-test-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

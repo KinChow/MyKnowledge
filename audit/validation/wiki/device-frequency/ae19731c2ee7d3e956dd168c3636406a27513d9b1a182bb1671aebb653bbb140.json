@@ -1,0 +1,166 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "device-frequency",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_0216115329df",
+  "input_hash": "sha256:bb48e177b6eff3499c78e084cfa783c34b2ee3b48219bfc7d74e534d6a78ed7b",
+  "provider_duration_ms": 52123,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554401.0122209,
+  "wiki_content_sha256": "sha256:f3acc7b6308659fe50954df8ee12c10e052552e2fae180d394c93c6582a205f1",
+  "wiki_evidence_sha256": "sha256:5bd0f57099e943889eff979868928af2db981890d17b56a2f4ecc6a02fff2b04",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-process-optimization"
+      },
+      "source_id": "web-computer-science-process-optimization",
+      "evidence_id": "evidence-b28e1a4e44dc",
+      "snapshot_sha256": "sha256:959d25592d98aa41cc339966359f8d1798cdab394071dc0308462f76e839f2e1",
+      "selector_sha256": "sha256:8508464abd1998e7fe628e34fedf9624d19a28c471919c1b7611995f9b5fe775",
+      "quote_sha256": "sha256:aa5facd67a58878a7740ccb84fe18ba28426de3a359bfbb29c764e469cd79976"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "device-frequency-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "exact": "These options control various sorts of optimizations.\nWithout any optimization option, the compiler’s goal is to reduce the cost of compilation and to make debugging produce the expected results. Statements are independent: if you stop the program with a breakpoint between statements, you can then assign a new value to any variable or change the program counter to any other statement in the function and get exactly the results you expect from the source code."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "subject": "external excerpt web-computer-science-process-optimization",
+          "predicate": "contains",
+          "object": "the quoted optimization/debugging passage",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 0-463 与 claim 中声明的可回放原文摘录逐字一致；其中 0-53 覆盖首句，54-196 覆盖无优化选项下编译器目标，196-463 覆盖 Statements are independent 及后续调试行为描述。因此该 claim 仅作为摘录复述被引文直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "start": 0,
+          "end": 463
+        },
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "start": 0,
+          "end": 53
+        },
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "start": 54,
+          "end": 196
+        },
+        {
+          "source_id": "web-computer-science-process-optimization",
+          "evidence_id": "evidence-b28e1a4e44dc",
+          "start": 196,
+          "end": 463
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-process-optimization",
+            "evidence_id": "evidence-b28e1a4e44dc"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-process-optimization",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "device-frequency-audit-1",
+      "source_id": "web-computer-science-process-optimization",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

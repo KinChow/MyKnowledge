@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "arm-software-optimization",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_a9f136dd6252",
+  "input_hash": "sha256:d3f1487efc5e389e800eb5fd68ad0aca47b30634c3c540fcc1f11ec5da70020d",
+  "provider_duration_ms": 54454,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582071.281465,
+  "wiki_content_sha256": "sha256:d8fa3f11593973003b0b98388565949f1d0e243e731cc9cfdc0a7a71437285eb",
+  "wiki_evidence_sha256": "sha256:d4853ba2508d2420c2fe4adfd3a55de17325b315b93c5295adba5e2d8748afcd",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arm-neon-intro"
+      },
+      "source_id": "arm-neon-intro",
+      "evidence_id": "evidence-27de5474a249",
+      "snapshot_sha256": "sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c",
+      "selector_sha256": "sha256:cffa86c4175ede7ec1c40cea9349aeca72507f1e871f9054cc78446a303a9b69",
+      "quote_sha256": "sha256:4f9b019e32ecad8f927599dd916c0442944b2f8416962fbca0f47a93de202a88"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "arm-software-optimization-neon",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-27de5474a249"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-27de5474a249",
+          "exact": "Applications that can benefit from Neon technology include multimedia and signal processing, 3D graphics, speech, image processing, or other applications where fixed and floating-point performance is critical."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-27de5474a249",
+          "subject": "Applications that can benefit from Neon technology",
+          "predicate": "include",
+          "object": "multimedia, signal processing, image processing, and other applications where fixed and floating-point performance is critical"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Target quote explicitly lists multimedia, signal processing, and image processing, and also says these are applications where fixed and floating-point performance is critical. That matches the claim directly.",
+      "rationale_offsets": [
+        {
+          "source_id": "arm-neon-intro",
+          "evidence_id": "evidence-27de5474a249",
+          "start": 0,
+          "end": 209
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arm-neon-intro",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "arm-software-optimization-neon",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

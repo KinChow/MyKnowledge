@@ -1,0 +1,149 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "history",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_51760624e75f",
+  "input_hash": "sha256:04efbafe0b32a3557f6778251386d6d8ffe7d63bf8d940c7c6143181f179989b",
+  "provider_duration_ms": 81761,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579847.996935,
+  "wiki_content_sha256": "sha256:4f251f9110e277d6c60762b1102744d9d57f473e8c7b6f94f263785a0532dd80",
+  "wiki_evidence_sha256": "sha256:151988d71fdf4c9fb3b5570ff478a6c4daeda1790d679e13b60b9299c8395e0a",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-history"
+      },
+      "source_id": "web-computer-science-history",
+      "evidence_id": "evidence-55f476cdea48",
+      "snapshot_sha256": "sha256:9d3038f2063b210708a5bdb5f7b1f7be9bedb9f74e90abcc512cf13a7e702ee7",
+      "selector_sha256": "sha256:216e6f0c6d23d5b62b57abbfc78cadb26b22330e7fb1ba4edfec0ac17e830db3",
+      "quote_sha256": "sha256:5db99db62f854c47158626cb8c523a210505d1610b493b6b2f86556effaf1df7"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "history-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-history",
+          "evidence_id": "evidence-55f476cdea48"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-55f476cdea48",
+          "exact": "ENIAC (//; Electronic Numerical Integrator and Computer)[1][2] was the first programmable, electronic, general-purpose digital computer, completed in 1945.[3][4] Other computers had some of these features, but ENIAC was the first to have them all. ENIAC was Turing-complete and able to solve \"a large class of numerical problems\" through reprogramming.[5][6]\nENIAC was designed by John Mauchly and J."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "The target quote explicitly states each asserted property: first programmable/electronic/general-purpose digital computer completed in 1945 (63-154), other computers having only some features while ENIAC was first to have them all (162-246), Turing-complete and able to solve a large class of numerical problems through reprogramming (248-351), and designed by John Mauchly and J. (359-400).",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-history",
+          "evidence_id": "evidence-55f476cdea48",
+          "start": 63,
+          "end": 154
+        },
+        {
+          "source_id": "web-computer-science-history",
+          "evidence_id": "evidence-55f476cdea48",
+          "start": 162,
+          "end": 246
+        },
+        {
+          "source_id": "web-computer-science-history",
+          "evidence_id": "evidence-55f476cdea48",
+          "start": 248,
+          "end": 351
+        },
+        {
+          "source_id": "web-computer-science-history",
+          "evidence_id": "evidence-55f476cdea48",
+          "start": 359,
+          "end": 400
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-history",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "history-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

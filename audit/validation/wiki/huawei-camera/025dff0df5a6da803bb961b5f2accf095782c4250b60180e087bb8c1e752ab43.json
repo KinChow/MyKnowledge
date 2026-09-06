@@ -1,0 +1,164 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "huawei-camera",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_5bf96ff869fd",
+  "input_hash": "sha256:fcd2be927eadd7a54292fcf3d253b16950c2fed1c6efd37c5b6cbed364aec411",
+  "provider_duration_ms": 24416,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788582118.9327,
+  "wiki_content_sha256": "sha256:b7633fb24e3d0ffd6286fe87a3dbc657b34357859dd1a38b196cb033c5ec2acc",
+  "wiki_evidence_sha256": "sha256:3abe3f85d8a6251cd923f937dc06407d9bfe9d73d4926c64187f25616a10efe1",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "huawei-camera-support-v2"
+      },
+      "source_id": "huawei-camera-support-v2",
+      "evidence_id": "evidence-c2ccc9fb9c66",
+      "snapshot_sha256": "sha256:1dd146e0916b6089356f70402642e089e6121d969e85cd0b95af20117528486a",
+      "selector_sha256": "sha256:bb85735bb87afa44dc193559cd17bd246464ecc6be2f6743274ac53a1bd0f47f",
+      "quote_sha256": "sha256:cdd0add3f8458484684b4991e8954b98489aae478e55db5371eb31c0b3e9dc72"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "huawei-camera-modes",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "huawei-camera-support-v2",
+          "evidence_id": "evidence-c2ccc9fb9c66"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c2ccc9fb9c66",
+          "exact": "Portrait mode lets you apply beauty, lighting, and blur effects to your photos to shoot stunning portraits.\n\nNight mode resolves the limitations of low light and night shooting to give your photos sharper details and brighter colors.\n\nWide aperture mode allows you to shoot photos and videos where the background is blurred while your subject remains in sharp focus."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c2ccc9fb9c66",
+          "subject": "华为官方相机支持页",
+          "predicate": "描述相机模式能力",
+          "object": "人像模式提供美颜、灯光和虚化效果；夜景模式改善低光和夜间拍摄；大光圈模式使背景虚化且主体清晰",
+          "qualifiers": {
+            "modes": [
+              "Portrait mode",
+              "Night mode",
+              "Wide aperture mode"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文分别说明 Portrait mode 可应用 beauty、lighting、blur effects，Night mode 解决 low light/night shooting 限制并提供 sharper details/brighter colors，Wide aperture mode 可让 background is blurred 且 subject remains in sharp focus，因此 claim 所述三种模式及其能力均被支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "huawei-camera-support-v2",
+          "evidence_id": "evidence-c2ccc9fb9c66",
+          "start": 0,
+          "end": 107
+        },
+        {
+          "source_id": "huawei-camera-support-v2",
+          "evidence_id": "evidence-c2ccc9fb9c66",
+          "start": 109,
+          "end": 220
+        },
+        {
+          "source_id": "huawei-camera-support-v2",
+          "evidence_id": "evidence-c2ccc9fb9c66",
+          "start": 222,
+          "end": 341
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "huawei-camera-support-v2",
+            "evidence_id": "evidence-c2ccc9fb9c66"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "huawei-camera-support-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "huawei-camera-modes",
+      "source_id": "huawei-camera-support-v2",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

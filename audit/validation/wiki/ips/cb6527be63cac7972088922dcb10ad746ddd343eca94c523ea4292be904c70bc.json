@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "ips",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_0f9a49fd6e8f",
+  "input_hash": "sha256:54306991e6659f551b3b23e51a23e392a46f2fd15b1088d57990b46ab25e5645",
+  "provider_duration_ms": 20539,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579973.0116942,
+  "wiki_content_sha256": "sha256:3c572874c896f6de2fe392ce7dcf1b5d3c9546bc3509f0a9b9d5cf21441bc643",
+  "wiki_evidence_sha256": "sha256:6275539f9c4058c68928619cbbe6cd8179fd12a9cb0a65a2d68343185ed4f20f",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "aosp-camera-hal3"
+      },
+      "source_id": "aosp-camera-hal3",
+      "evidence_id": "evidence-fe448cb00526",
+      "snapshot_sha256": "sha256:0af89a0d88a8cc96e421a6df8a86ce222b8c0b83312547a9eb747c04c3eadd2e",
+      "selector_sha256": "sha256:b4c058c5fe7e5b2883fcb7dbdea30909809d4967d74407796eed417db7efa6b5",
+      "quote_sha256": "sha256:6d17c52bf99af4cb1b6895209119ed6966b5c0e4512f5cb80b7d9ad3216d74ac"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "ips-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fe448cb00526",
+          "exact": "The API models the camera subsystem as a pipeline that converts incoming requests for frame captures into frames, on a 1:1 basis."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fe448cb00526",
+          "subject": "camera subsystem API",
+          "predicate": "models as pipeline converting capture requests into frames",
+          "object": "1:1 request-to-frame basis",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "Target evidence exactly states the claim text, including that the API models the camera subsystem as a pipeline and that it converts incoming frame-capture requests into frames on a 1:1 basis.",
+      "rationale_offsets": [
+        {
+          "source_id": "aosp-camera-hal3",
+          "evidence_id": "evidence-fe448cb00526",
+          "start": 0,
+          "end": 129
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "aosp-camera-hal3",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "ips-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

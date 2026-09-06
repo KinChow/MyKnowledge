@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "transformer",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_fb022bf28365",
+  "input_hash": "sha256:ba25f0d615fc826880a67b49d62d672b6c4a0512f1146ddc3e99c35050cb8089",
+  "provider_duration_ms": 81367,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788557469.360424,
+  "wiki_content_sha256": "sha256:8c40732b4b28dc590b325f8529db3ece23dc3c103001bd24fceccc686ef566bd",
+  "wiki_evidence_sha256": "sha256:3ad4029d8cb09583cfcfbbb5d54a3d083150d944fdf036594fda38b8bfdf8673",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "arxiv-transformer-v2"
+      },
+      "source_id": "arxiv-transformer-v2",
+      "evidence_id": "evidence-edeba6920028",
+      "snapshot_sha256": "sha256:4d129544139195919bb231863be8978995e85901cb246675d79b23acd9e493a1",
+      "selector_sha256": "sha256:b4d978d4936334db299e1abcd70aaa26b051f58c37982211eeca83431a7912ce",
+      "quote_sha256": "sha256:ed7631200a18f20fc81a069dbaec1e4780737fd416877c9496ab815a38eb1fd7"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "transformer-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "arxiv-transformer-v2",
+          "evidence_id": "evidence-edeba6920028"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-edeba6920028",
+          "exact": "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-edeba6920028",
+          "subject": "Transformer",
+          "predicate": "is based solely on attention mechanisms and dispenses with recurrence and convolutions",
+          "object": "true"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文在[0,154)明确写出 Transformer “based solely on attention mechanisms” 且“dispensing with recurrence and convolutions entirely”，与 claim 完全一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "arxiv-transformer-v2",
+          "evidence_id": "evidence-edeba6920028",
+          "start": 0,
+          "end": 154
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "arxiv-transformer-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "transformer-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
