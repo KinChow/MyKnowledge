@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-vs-c",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_7820b91a27c5",
+  "input_hash": "sha256:57b24297227b1f3a7ee327530df9765f776d17edc1eb1985a0679eda8f14369a",
+  "provider_duration_ms": 47385,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579725.3344588,
+  "wiki_content_sha256": "sha256:4f2408e806250facd71f5c943b8270f1405074013d973544f63891f465ed43b0",
+  "wiki_evidence_sha256": "sha256:b83fb84c68bfc12fde2ef0f096baa004806b3046a9b1429324da6d3a4a2c1f22",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-c-vs-c"
+      },
+      "source_id": "web-computer-science-c-vs-c",
+      "evidence_id": "evidence-cb5fe00c391e",
+      "snapshot_sha256": "sha256:f0957d8631ef315b4eeaf81ba11c719c3cac2dc6ae52e219de20ebeebfb57555",
+      "selector_sha256": "sha256:511d3df1806c3c4601e9c233cd2c30e15e66c15f582831d471721eb9b7902906",
+      "quote_sha256": "sha256:8675d861e5e749e1ec5a2fc4d502e42070b4cefb15d295661b72c536921cf7cc"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-vs-c-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-c-vs-c",
+          "evidence_id": "evidence-cb5fe00c391e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cb5fe00c391e",
+          "exact": "C++ language\nFrom cppreference.com"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The target quote exactly matches the claim text, so the claim is directly supported by the cited evidence.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-c-vs-c",
+          "evidence_id": "evidence-cb5fe00c391e",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "observation": {
+        "subject": "quote",
+        "predicate": "matches",
+        "object": "C++ language\\nFrom cppreference.com"
+      },
+      "independence": {
+        "group_id": "cppreference.com",
+        "basis": [
+          {
+            "source_id": "web-computer-science-c-vs-c",
+            "evidence_id": "evidence-cb5fe00c391e",
+            "offset": {
+              "start": 13,
+              "end": 34
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-c-vs-c",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

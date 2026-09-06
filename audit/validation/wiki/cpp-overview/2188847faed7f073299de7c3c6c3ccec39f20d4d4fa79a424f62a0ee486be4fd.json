@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-overview",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_315f33650255",
+  "input_hash": "sha256:4df99c10d63023fd050f88437a17f3cfdddb15af1407ebd67569f74ac0da0868",
+  "provider_duration_ms": 23682,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788682843.892958,
+  "wiki_content_sha256": "sha256:30c84de72cc706905b892c6e13b65a9ce46a657d45c09deacddaa339d8587f52",
+  "wiki_evidence_sha256": "sha256:905632b2a4a616f068afc77afcd2fcb5988ff502491bad6eb8252bfcb1e7e269",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-overview"
+      },
+      "source_id": "web-computer-science-cpp-overview",
+      "evidence_id": "evidence-99fe8a7b299c",
+      "snapshot_sha256": "sha256:d1eaca22d657ace42c65806d0cf4d711d60b911292c9533c7eff097ef1cfbc78",
+      "selector_sha256": "sha256:49379b3e74b42b71dd5861295df591aa7ddd19c77e3c17921ffd71815b73021d",
+      "quote_sha256": "sha256:138cf4ab34e76b63dc2de4fcc45054ccfdf423e61d3adce52b134d24de1ea4ca"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-overview-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-overview",
+          "evidence_id": "evidence-99fe8a7b299c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-99fe8a7b299c",
+          "exact": "Jun 14, 2026\nEditors:\nThis is a living document under continuous improvement. Had it been an open-source (code) project, this would have been release 0.8. Copying, use, modification, and creation of derivative works from this project is licensed under an MIT-style license. Contributing to this project requires agreeing to a Contributor License. See the accompanying LICENSE file for details."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-99fe8a7b299c",
+          "subject": "cpp-overview 文档",
+          "predicate": "声明为持续改进的 living document，若为开源项目则属 release 0.8，并以 MIT-style 许可授权，贡献需同意贡献者许可协议",
+          "object": "MIT-style license; release 0.8; Contributor License"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "claim 为逐字引文，与引文 evidence-99fe8a7b299c 的 quote 完全一致（逐字符比对，含两处换行与全部标点）。引文 [0,393) 区间完整覆盖 claim 全部内容：该文档为持续改进版本（release 0.8）、按 MIT-style 许可授权复制/使用/修改/衍生作品、贡献需同意 Contributor License、详见 LICENSE 文件。claim 的全部断言均直接由该引文表述，无额外未支持内容，故判定 supported。注意：该证据仅 source-reported（provenance 为空，无独立来源佐证），但本审计仅判定引文与 claim 的一致性，不判定事实真伪，故不影响结果。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-overview",
+          "evidence_id": "evidence-99fe8a7b299c",
+          "start": 0,
+          "end": 393
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-overview",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-overview-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-vs-java",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_1dfd9520e7b1",
+  "input_hash": "sha256:c0eff36c8ba7e20c699041ad3319a5945f576dfd4558da98184f31bfd2ea3bbc",
+  "provider_duration_ms": 35815,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554309.039368,
+  "wiki_content_sha256": "sha256:7b5b1cbbf7f95eaff70d5fba5b1bd14c4308ad2387f68e3311eb4e3a935a884e",
+  "wiki_evidence_sha256": "sha256:002e070a7b970ceeff51a01aa1830632e6b1d143cbef90b4d91d411c7efccd31",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-c-vs-java"
+      },
+      "source_id": "web-computer-science-c-vs-java",
+      "evidence_id": "evidence-edbba986455b",
+      "snapshot_sha256": "sha256:d7a545a0f16d7bea1809e28c561a8de74103b651cde5578d8014d78005e00d8a",
+      "selector_sha256": "sha256:4ca902bae2970134d5b289b11cce2f9c54d4825a4bc3ef6c9b9f4dbdeeb847bc",
+      "quote_sha256": "sha256:efa584493613a29724b40830c3204dc294aa484de7672c093a2aae06f556b3cd"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-vs-java-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-c-vs-java",
+          "evidence_id": "evidence-edbba986455b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-edbba986455b",
+          "exact": "List of Examples\nStringpublic Fields, Methods, and Constructorsprivate Fields, Methods, and Constructorsprotected Fields, Methods, and Constructorsrequires transitive directivesstatic Fieldstransient Fieldsvolatile Fieldssynchronized Monitorsthrowsfor Loopabstract Method DeclarationArrayStoreExceptionClass Object Of Arrayfinalvarswitch Statementdo Statementbreak Statementcontinue Statementfinallyyield Statementthis ExpressionOutOfMemoryError and Dimension Expression Evaluationnull Array Referenc"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-edbba986455b",
+          "subject": "web-computer-science-c-vs-java excerpt",
+          "predicate": "has replayable original excerpt",
+          "object": "List of Examples...null Array Referenc"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文 [0,500) 与 claim 中“可回放的原文摘录如下”后的摘录文本逐字一致；该 target 可直接支持该 claim 的摘录呈现。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-c-vs-java",
+          "evidence_id": "evidence-edbba986455b",
+          "start": 0,
+          "end": 500
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-c-vs-java",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-vs-java-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

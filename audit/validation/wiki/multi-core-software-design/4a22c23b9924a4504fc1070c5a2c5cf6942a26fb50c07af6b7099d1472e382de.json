@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "multi-core-software-design",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_8127f3e81009",
+  "input_hash": "sha256:7804b13e75566e0893d06260eeb0211cb84617a81809e6d01020842df92b2bae",
+  "provider_duration_ms": 20783,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579976.056258,
+  "wiki_content_sha256": "sha256:c7ab43b76d49445a371e0a6db6d08cf09afe507d8ec60d012a5175838cc45682",
+  "wiki_evidence_sha256": "sha256:f70532e6b14f562ee64216203e46d8f599b2ff18bbd3d931e49c2eca57ae84f0",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "cornell-superscalar-execution"
+      },
+      "source_id": "cornell-superscalar-execution",
+      "evidence_id": "evidence-098639dc3686",
+      "snapshot_sha256": "sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c",
+      "selector_sha256": "sha256:e1f0dbdf871822995a12c6c18aa629621d2c37eaeb03b42332107ae8b62d8b0e",
+      "quote_sha256": "sha256:e22e4e64897bb147d313330d22eab43b5cfd58ba8fd9519e3dabb045b3a40675"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "multi-core-software-design-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-098639dc3686"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-098639dc3686",
+          "exact": "- Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple instructions in parallel"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-098639dc3686",
+          "subject": "Superscalar processors",
+          "predicate": "enable",
+          "object": "CPI < 1 / IPC > 1 by executing multiple instructions in parallel"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文字符区间[0,102)与 claim 文本完全一致，直接陈述超标量处理器通过并行执行多条指令实现 CPI < 1 / IPC > 1，因此支持该 claim。provenance 为空且引文未提供转载或独立来源声明，独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "cornell-superscalar-execution",
+          "evidence_id": "evidence-098639dc3686",
+          "start": 0,
+          "end": 102
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "cornell-superscalar-execution",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "multi-core-software-design-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

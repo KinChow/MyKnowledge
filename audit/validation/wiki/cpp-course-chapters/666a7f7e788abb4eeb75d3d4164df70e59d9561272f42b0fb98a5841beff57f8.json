@@ -1,0 +1,147 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-course-chapters",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_aa32c331de2d",
+  "input_hash": "sha256:fbb3a76b95c179e9fd92bfd911480ed896d095bc169390a685ce3143cc80c031",
+  "provider_duration_ms": 33499,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788683206.8353522,
+  "wiki_content_sha256": "sha256:d57562ad750afa10b8d6c5eb54f860d93710f2e1659d51388202ac52d1620938",
+  "wiki_evidence_sha256": "sha256:d2d5d88da1f602b82b1c4318a6c856a2a6871af92592563bf21caa14254e6225",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp"
+      },
+      "source_id": "web-computer-science-cpp",
+      "evidence_id": "evidence-0d1426a4027e",
+      "snapshot_sha256": "sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d",
+      "selector_sha256": "sha256:793e249e683f013286deaf4d5636c8c3c6bfef14cb81793859c13e383e99bc5b",
+      "quote_sha256": "sha256:c5bbf92540c946a8ff16593c59cc8885a6505139e58b0cb46a4212a49182b10f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-course-chapters-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-0d1426a4027e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0d1426a4027e",
+          "exact": "1. Pointers\n1. Pointers and arrays\n1. Allocate memory in C style\n1. Allocate memory in C++ style"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0d1426a4027e",
+          "subject": "CS205 C/C++ Program Design 课程第 5 章 Memory and Pointer",
+          "predicate": "涵盖",
+          "object": "指针、指针与数组、C 风格内存分配等主题"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文逐项列出章节提纲：\"Pointers\"（对应\"指针\"，[0,11)）、\"Pointers and arrays\"（对应\"指针与数组\"，[12,34)）、\"Allocate memory in C style\"（对应\"C 风格内存分配\"，[35,64)），与 claim 明示的全部主题一一对应；另有\"Allocate memory in C++ style\"（[65,96)）支撑 claim 中\"等主题\"的兼指，无冲突项。claim 中课程名/章节号（CS205、第 5 章、Memory and Pointer）为证据级元数据（evidence_status=source-reported，引文正文未直接出现），但主题覆盖这一实质断言由引文逐项证实，故判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-0d1426a4027e",
+          "start": 0,
+          "end": 11
+        },
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-0d1426a4027e",
+          "start": 12,
+          "end": 34
+        },
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-0d1426a4027e",
+          "start": 35,
+          "end": 64
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-course-chapters-audit-1",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001"
+    ]
+  }
+}

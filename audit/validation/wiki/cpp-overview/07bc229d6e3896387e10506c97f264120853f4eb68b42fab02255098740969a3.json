@@ -1,0 +1,130 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-overview",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_a2b6542b3780",
+  "input_hash": "sha256:ba2b6f37628d052436c1907352c9c49b867ae0893b65f75faef94d5d46e74b80",
+  "provider_duration_ms": 147009,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554406.769852,
+  "wiki_content_sha256": "sha256:4391832e0042f9f1f87af9d5ef6b8dfd9bb7f0c26027528fc80d556cd3d0a47f",
+  "wiki_evidence_sha256": "sha256:534764581f45cc986c22c5a8168f880cc356a70113dca0960828a4d10d323280",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-overview"
+      },
+      "source_id": "web-computer-science-cpp-overview",
+      "evidence_id": "evidence-99fe8a7b299c",
+      "snapshot_sha256": "sha256:d1eaca22d657ace42c65806d0cf4d711d60b911292c9533c7eff097ef1cfbc78",
+      "selector_sha256": "sha256:49379b3e74b42b71dd5861295df591aa7ddd19c77e3c17921ffd71815b73021d",
+      "quote_sha256": "sha256:138cf4ab34e76b63dc2de4fcc45054ccfdf423e61d3adce52b134d24de1ea4ca"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-overview-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-overview",
+          "evidence_id": "evidence-99fe8a7b299c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-99fe8a7b299c",
+          "exact": "Jun 14, 2026\nEditors:\nThis is a living document under continuous improvement. Had it been an open-source (code) project, this would have been release 0.8. Copying, use, modification, and creation of derivative works from this project is licensed under an MIT-style license. Contributing to this project requires agreeing to a Contributor License. See the accompanying LICENSE file for details."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The target quote verbatim matches the claimed excerpt. The full evidence span [0,393) contains the same date line, editor tag, and the same four sentences, so the claim is supported by direct textual correspondence.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-overview",
+          "evidence_id": "evidence-99fe8a7b299c",
+          "start": 0,
+          "end": 393
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-overview",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-overview-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

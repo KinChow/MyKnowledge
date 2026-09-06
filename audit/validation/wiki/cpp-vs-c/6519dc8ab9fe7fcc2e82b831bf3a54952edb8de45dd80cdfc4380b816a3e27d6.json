@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-vs-c",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_4bf6790a4089",
+  "input_hash": "sha256:3c6ca342572ea2393fb41d7504aaad375323c1de254835c57879ec38dd4b70cd",
+  "provider_duration_ms": 24909,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554287.079326,
+  "wiki_content_sha256": "sha256:4f2408e806250facd71f5c943b8270f1405074013d973544f63891f465ed43b0",
+  "wiki_evidence_sha256": "sha256:f6b5b32d0b8ca1a4738bc424c3e6404fdbd90a2a1cbbbc099823df2fafbc4568",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-c-vs-c"
+      },
+      "source_id": "web-computer-science-c-vs-c",
+      "evidence_id": "evidence-cb5fe00c391e",
+      "snapshot_sha256": "sha256:f0957d8631ef315b4eeaf81ba11c719c3cac2dc6ae52e219de20ebeebfb57555",
+      "selector_sha256": "sha256:511d3df1806c3c4601e9c233cd2c30e15e66c15f582831d471721eb9b7902906",
+      "quote_sha256": "sha256:8675d861e5e749e1ec5a2fc4d502e42070b4cefb15d295661b72c536921cf7cc"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-vs-c-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-c-vs-c",
+          "evidence_id": "evidence-cb5fe00c391e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cb5fe00c391e",
+          "exact": "C++ language\nFrom cppreference.com"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-cb5fe00c391e",
+          "subject": "web-computer-science-c-vs-c",
+          "predicate": "has_replayable_excerpt",
+          "object": "C++ language\nFrom cppreference.com",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文字符区间 [0,34) 的原文为“C++ language\\nFrom cppreference.com”，与 claim 中声称的可回放原文摘录完全一致，因此该 claim 被声明 target 支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-c-vs-c",
+          "evidence_id": "evidence-cb5fe00c391e",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-c-vs-c",
+            "evidence_id": "evidence-cb5fe00c391e"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-c-vs-c",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-vs-c-audit-1",
+      "source_id": "web-computer-science-c-vs-c",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

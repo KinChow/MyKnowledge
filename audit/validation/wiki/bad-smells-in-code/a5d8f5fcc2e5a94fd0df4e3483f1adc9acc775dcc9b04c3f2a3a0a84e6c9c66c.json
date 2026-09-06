@@ -1,0 +1,345 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "bad-smells-in-code",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_38da34e37477",
+  "input_hash": "sha256:951ebedcb3f8105f7b64056af268797ecf4c234c968b3c7efc06c2ba84b59f31",
+  "provider_duration_ms": 26981,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580000.452671,
+  "wiki_content_sha256": "sha256:b8ed1badf3d39aa7769937e2bba2b521869a5b4ddd50d3c3f3c161083a608045",
+  "wiki_evidence_sha256": "sha256:8a29e374825639935c0930a5ad21d338c2fb45c5c8db4d2b13cd4d3be28a6d4f",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-bad-smells-in-code-v4"
+      },
+      "source_id": "web-computer-science-bad-smells-in-code-v4",
+      "evidence_id": "evidence-0bc9a75dcfcc",
+      "snapshot_sha256": "sha256:3bed460e271b097081a4b3b3d3118d605de57cdd0b9deb56c52410f6cacf65d0",
+      "selector_sha256": "sha256:b45c35e8d904dd68f9edffdc4c6577c8721aad50d4739ae0e974cbae8d3c1732",
+      "quote_sha256": "sha256:c43f0aa8fc3bfe75d22fcc0a2c39e0adb8aa5dee0283e5cf1bfe6eb1fa0d1eb7"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-bad-smells-in-code-v4"
+      },
+      "source_id": "web-computer-science-bad-smells-in-code-v4",
+      "evidence_id": "evidence-4a8c47171768",
+      "snapshot_sha256": "sha256:3bed460e271b097081a4b3b3d3118d605de57cdd0b9deb56c52410f6cacf65d0",
+      "selector_sha256": "sha256:e64f8a4c7ad2901eb860b1c68e1f869065b26468b42ce4b83b5ba3eb4a664836",
+      "quote_sha256": "sha256:2ee3b378b8d26e847f01abbce067935d29a01ee2aad804104d4b2df66cbd1fbd"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-bad-smells-in-code-v4"
+      },
+      "source_id": "web-computer-science-bad-smells-in-code-v4",
+      "evidence_id": "evidence-adb3001ed39a",
+      "snapshot_sha256": "sha256:3bed460e271b097081a4b3b3d3118d605de57cdd0b9deb56c52410f6cacf65d0",
+      "selector_sha256": "sha256:a76452c534bf6c4714734ac6fe1fd5067efb4f33c2618793b066ab7179dc6bff",
+      "quote_sha256": "sha256:629dc0a62240f3639c5b768f0211736773dae9d78f685505a4ea52459ec247ee"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-0bc9a75dcfcc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0bc9a75dcfcc",
+          "exact": "In computer programming, a code smell is any characteristic of source code that hints at a deeper problem."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0bc9a75dcfcc",
+          "subject": "code smell",
+          "predicate": "is",
+          "object": "any characteristic of source code that hints at a deeper problem"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文直接说明 code smell 是源代码中暗示更深层问题的任何特征，覆盖 claim 的定义表述。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-0bc9a75dcfcc",
+          "start": 0,
+          "end": 99
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-bad-smells-in-code-v4",
+            "evidence_id": "evidence-0bc9a75dcfcc"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "subjective",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-4a8c47171768"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4a8c47171768",
+          "exact": "Determining what a code smell is and is not is subjective, and varies by language, developer, and development methodology."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4a8c47171768",
+          "subject": "determining what a code smell is and is not",
+          "predicate": "is subjective and varies by",
+          "object": "language, developer, and development methodology"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文明确称代码坏味道判定具有主观性，并会因语言、开发者和开发方法而异。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-4a8c47171768",
+          "start": 0,
+          "end": 119
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-bad-smells-in-code-v4",
+            "evidence_id": "evidence-4a8c47171768"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "not-bug",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-adb3001ed39a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-adb3001ed39a",
+          "exact": "Code smells are usually not bugs; they are not technically incorrect and do not prevent the program from functioning. Instead, they indicate weaknesses in design that may slow down development or increase the risk of bugs or failures in the future."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-adb3001ed39a",
+          "subject": "code smells",
+          "predicate": "are usually not bugs and indicate",
+          "object": "weaknesses in design that may slow down development or increase future risk of bugs or failures"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文说明代码坏味道通常不是 bug，并指出它们代表设计弱点，可能拖慢开发或增加未来 bug/失败风险。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-adb3001ed39a",
+          "start": 0,
+          "end": 30
+        },
+        {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-adb3001ed39a",
+          "start": 112,
+          "end": 239
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-bad-smells-in-code-v4",
+            "evidence_id": "evidence-adb3001ed39a"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-0bc9a75dcfcc",
+          "independence_group": "source:web-computer-science-bad-smells-in-code-v4",
+          "observation_sha256": "sha256:438868956f04a6ecf372538f4b3ad73788d0b95addca978653a1aec9903f12a5"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-4a8c47171768",
+          "independence_group": "source:web-computer-science-bad-smells-in-code-v4",
+          "observation_sha256": "sha256:0b2d6718a9033de6e0dee9acecc45cda116081d14d8c8c3f695130c1141d3acd"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-0bc9a75dcfcc",
+          "independence_group": "source:web-computer-science-bad-smells-in-code-v4",
+          "observation_sha256": "sha256:438868956f04a6ecf372538f4b3ad73788d0b95addca978653a1aec9903f12a5"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-adb3001ed39a",
+          "independence_group": "source:web-computer-science-bad-smells-in-code-v4",
+          "observation_sha256": "sha256:f9d864ea8702d18a04cd6ae1ded98263bb947d67298bf4378cd9f97c5cd8ce51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-4a8c47171768",
+          "independence_group": "source:web-computer-science-bad-smells-in-code-v4",
+          "observation_sha256": "sha256:0b2d6718a9033de6e0dee9acecc45cda116081d14d8c8c3f695130c1141d3acd"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-bad-smells-in-code-v4",
+          "evidence_id": "evidence-adb3001ed39a",
+          "independence_group": "source:web-computer-science-bad-smells-in-code-v4",
+          "observation_sha256": "sha256:f9d864ea8702d18a04cd6ae1ded98263bb947d67298bf4378cd9f97c5cd8ce51"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-bad-smells-in-code-v4",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-bad-smells-in-code-v4",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-bad-smells-in-code-v4",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "definition",
+      "source_id": "web-computer-science-bad-smells-in-code-v4",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "subjective",
+      "source_id": "web-computer-science-bad-smells-in-code-v4",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "not-bug",
+      "source_id": "web-computer-science-bad-smells-in-code-v4",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

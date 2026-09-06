@@ -1,0 +1,453 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_c0f224cdda7c",
+  "input_hash": "sha256:b5d66f12ef94f9544a6e9b0d629b999195e034d1b3bb20b8ac150fc124d4f689",
+  "provider_duration_ms": 256650,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788682674.098575,
+  "wiki_content_sha256": "sha256:013d1850e1f237880c677c2f0aeb368e987b38b4fc308d217be110ddd55432e1",
+  "wiki_evidence_sha256": "sha256:f236ef033e894e90dd9833b147ad117aa1385755c2b31452643d8d8d1dabee9d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp"
+      },
+      "source_id": "web-computer-science-cpp",
+      "evidence_id": "evidence-837090c8d766",
+      "snapshot_sha256": "sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d",
+      "selector_sha256": "sha256:46e61cef6f55aad09b11db157d5fb62fbab00436798d94c88b1b59dba0a14a52",
+      "quote_sha256": "sha256:46ec9541fc88a12e0d9af304b6c383bf2262f56ef2844e7d79935a7e9a72828b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp"
+      },
+      "source_id": "web-computer-science-cpp",
+      "evidence_id": "evidence-7b102c6d4c89",
+      "snapshot_sha256": "sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d",
+      "selector_sha256": "sha256:abd3eee65b96ba71752e5361f4bc78fa2410cb855dafcda864956dd8f12da79d",
+      "quote_sha256": "sha256:bf2972b0d7cf88e609db45efaee4b0b789474b6e009ea255ae647526f5ad472c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp"
+      },
+      "source_id": "web-computer-science-cpp",
+      "evidence_id": "evidence-a570371fba3c",
+      "snapshot_sha256": "sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d",
+      "selector_sha256": "sha256:6b66e0796cc330d18cd676ddf96fdd5b2a1f473246bf1703b075453e94f334c0",
+      "quote_sha256": "sha256:9fff99dfed383523f59bcbef4fa42a493d46096f85790cd01b0678f62c00d166"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp"
+      },
+      "source_id": "web-computer-science-cpp",
+      "evidence_id": "evidence-efb5df69e163",
+      "snapshot_sha256": "sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d",
+      "selector_sha256": "sha256:d44237f3adfdb8618fe15033def88b5c83023202d2eb4eeda73792128e4f0206",
+      "quote_sha256": "sha256:8e7ea2eae8e648ec111653240e122467fb2f286d7cbba74e251fe87b30f2f51a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-claim-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-837090c8d766"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-837090c8d766",
+          "exact": "## [Chapter 5: Memory and Pointer](week05/README.md)\n\n1. Pointers\n1. Pointers and arrays\n1. Allocate memory in C style\n1. Allocate memory in C++ style"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-837090c8d766",
+          "subject": "Chapter 5 'Memory and Pointer' course outline",
+          "predicate": "lists",
+          "object": "Pointers; Pointers and arrays; Allocate memory in C style; Allocate memory in C++ style",
+          "qualifiers": {
+            "chapter": 5,
+            "week": "week05"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,150) 为 Chapter 5（Memory and Pointer）课程条目列表：'1. Pointers'（[54,65)）、'1. Pointers and arrays'（[66,88)）、'1. Allocate memory in C style'（[89,118)）、'1. Allocate memory in C++ style'（[119,150)）。claim 所述'指针、指针与数组、C/C++ 风格内存分配'与引文 4 个条目逐项对应且无缺漏，其中'C/C++ 风格'对应引文第 3、4 条，判定为直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-837090c8d766",
+          "start": 0,
+          "end": 150
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-claim-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-7b102c6d4c89"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7b102c6d4c89",
+          "exact": "## [Chapter 6: Basics of Functions](week06/README.md)\n\n1. Functions\n1. Function parameters\n1. References\n1. `return` statement\n1. `inline` function"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7b102c6d4c89",
+          "subject": "Chapter 6 'Basics of Functions' course outline",
+          "predicate": "lists",
+          "object": "Functions; Function parameters; References; return statement; inline function",
+          "qualifiers": {
+            "chapter": 6,
+            "week": "week06"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,147) 为 Chapter 6（Basics of Functions）课程条目列表：'1. Functions'（[55,67)）、'1. Function parameters'（[68,90)）、'1. References'（[91,104)）、'1. `return` statement'（[105,126)）、'1. `inline` function'（[127,147)）。claim 所述'函数、函数参数、引用、return 语句、inline 函数'与引文 5 个条目一一对应，全部可验证，判定为直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-7b102c6d4c89",
+          "start": 0,
+          "end": 147
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-claim-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-a570371fba3c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a570371fba3c",
+          "exact": "## [Chapter 11: Dynamic Memory Management in Classes](week11/README.md)\n\n1. Some default operations\n1. An example with dynamic memory\n1. Solution1: Hard copy\n1. Solution2: Soft copy\n1. Smart pointers"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a570371fba3c",
+          "subject": "Chapter 11 'Dynamic Memory Management in Classes' course outline",
+          "predicate": "lists",
+          "object": "Some default operations; An example with dynamic memory; Solution1: Hard copy; Solution2: Soft copy; Smart pointers",
+          "qualifiers": {
+            "chapter": 11,
+            "week": "week11"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,199) 为 Chapter 11（Dynamic Memory Management in Classes）课程条目列表：'1. An example with dynamic memory'（[100,133)）对应'动态内存示例'；'1. Solution1: Hard copy'（[134,157)）对应 Hard copy；'1. Solution2: Soft copy'（[158,181)）对应 Soft copy；'1. Smart pointers'（[182,199)）对应 Smart pointers。claim 断言元素均可在引文中定位；首条 '1. Some default operations'（[73,99)）为 claim 未断言内容（claim 表述为'包含'，为子集断言），不与 claim 冲突，判定为直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-a570371fba3c",
+          "start": 0,
+          "end": 199
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-claim-4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-efb5df69e163"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-efb5df69e163",
+          "exact": "## [Chapter 13: Class Templates and std Library](week13/README.md)\n\n1. Class template\n1. Template non-type parameters\n1. Class template specialization\n1. `std` classes"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-efb5df69e163",
+          "subject": "Chapter 13 'Class Templates and std Library' course outline",
+          "predicate": "lists",
+          "object": "Class template; Template non-type parameters; Class template specialization; std classes",
+          "qualifiers": {
+            "chapter": 13,
+            "week": "week13"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,165) 为 Chapter 13（Class Templates and std Library）课程条目列表：'1. Class template'（[68,85)）、'1. Template non-type parameters'（[86,117)）、'1. Class template specialization'（[118,149)）、'1. `std` classes'（[150,165)）。claim 所述'类模板、非类型模板参数、类模板特化、std 类'与引文 4 个条目完全对应，无缺漏无超额，判定为直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-efb5df69e163",
+          "start": 0,
+          "end": 165
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-837090c8d766",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:f1c8609292ad20874f06be49972cec520509908bd55d845dce591232f8376c4a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-7b102c6d4c89",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:7e1298886544ad052e065c05b79bea17b6f9020f0ed26247ea5999033ec746de"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-837090c8d766",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:f1c8609292ad20874f06be49972cec520509908bd55d845dce591232f8376c4a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-a570371fba3c",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:7f5c7728a786dd532b2ae8c6b0bb36329af10a237650f6ca7edb831f97a67bee"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-837090c8d766",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:f1c8609292ad20874f06be49972cec520509908bd55d845dce591232f8376c4a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-efb5df69e163",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:0d75b885c7b2571b47d1d0258aa737b26c8a1b8ac2090a6de064086dfa8597ce"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-7b102c6d4c89",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:7e1298886544ad052e065c05b79bea17b6f9020f0ed26247ea5999033ec746de"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-a570371fba3c",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:7f5c7728a786dd532b2ae8c6b0bb36329af10a237650f6ca7edb831f97a67bee"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-7b102c6d4c89",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:7e1298886544ad052e065c05b79bea17b6f9020f0ed26247ea5999033ec746de"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-efb5df69e163",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:0d75b885c7b2571b47d1d0258aa737b26c8a1b8ac2090a6de064086dfa8597ce"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-a570371fba3c",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:7f5c7728a786dd532b2ae8c6b0bb36329af10a237650f6ca7edb831f97a67bee"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp",
+          "evidence_id": "evidence-efb5df69e163",
+          "independence_group": "source:web-computer-science-cpp",
+          "observation_sha256": "sha256:0d75b885c7b2571b47d1d0258aa737b26c8a1b8ac2090a6de064086dfa8597ce"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-claim-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-claim-2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-claim-3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-claim-4",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001"
+    ]
+  }
+}

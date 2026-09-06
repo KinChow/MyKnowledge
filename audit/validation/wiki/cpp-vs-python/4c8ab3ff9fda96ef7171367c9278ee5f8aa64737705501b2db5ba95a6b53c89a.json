@@ -1,0 +1,155 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-vs-python",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_06a553a2b98d",
+  "input_hash": "sha256:c57936c061c381e26aa76c7312781dd9c67b0ded2d5ada3a31928ec9fd0c5769",
+  "provider_duration_ms": 27466,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579675.084408,
+  "wiki_content_sha256": "sha256:2d353967542b46ce4a020e92538ed87ba1cf4d0df05f29fed69083265bae7fbd",
+  "wiki_evidence_sha256": "sha256:0f65875a757f396377949a78d99a2b90c6c910e43e8d090bbd574dbd596f5225",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-c-vs-python"
+      },
+      "source_id": "web-computer-science-c-vs-python",
+      "evidence_id": "evidence-2234ef972c4c",
+      "snapshot_sha256": "sha256:f5d45b53c3afd182fa15a1ad355969bc85a7cf1d1bd741e29fdf022789fa540e",
+      "selector_sha256": "sha256:d95e95a655879a13d639d44428b040287632209294397c58d1da22e242a6eb70",
+      "quote_sha256": "sha256:c78c40696eb8d86e27187f92adb097886546cf5bcbf71a1f2f42facf6e04f9dc"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-vs-python-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-c-vs-python",
+          "evidence_id": "evidence-2234ef972c4c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2234ef972c4c",
+          "exact": "The Python Tutorial¶\nTip\nThis tutorial is designed for programmers that are new to the Python language, not beginners who are new to programming.\nPython is an easy to learn, powerful programming language. It has efficient high-level data structures and a simple but effective approach to object-oriented programming."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2234ef972c4c",
+          "subject": "The Python Tutorial",
+          "predicate": "is designed for and describes",
+          "object": "programmers new to Python, and Python as easy to learn and powerful",
+          "qualifiers": {
+            "audience": "not beginners who are new to programming",
+            "features": "efficient high-level data structures; simple but effective object-oriented programming"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "The target quote exactly contains the full claim text: title at 0-20, audience statement at 25-145, and Python description at 146-316. No conflicting target is provided. Independence cannot be established because the target provenance object has no publisher, derived_from, or independence_group field, and the quote text contains no reposting/derivation statement.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-c-vs-python",
+          "evidence_id": "evidence-2234ef972c4c",
+          "start": 0,
+          "end": 20
+        },
+        {
+          "source_id": "web-computer-science-c-vs-python",
+          "evidence_id": "evidence-2234ef972c4c",
+          "start": 25,
+          "end": 145
+        },
+        {
+          "source_id": "web-computer-science-c-vs-python",
+          "evidence_id": "evidence-2234ef972c4c",
+          "start": 146,
+          "end": 316
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-c-vs-python",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-vs-python-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

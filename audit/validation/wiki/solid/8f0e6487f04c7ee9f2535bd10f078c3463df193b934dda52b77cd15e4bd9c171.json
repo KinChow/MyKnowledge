@@ -1,0 +1,144 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "solid",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_373ec2b391d4",
+  "input_hash": "sha256:e889069fac2af1a89dffbf57cd909dfab9e347f698ad26917d8cc57d36fa5093",
+  "provider_duration_ms": 33077,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788682277.4730399,
+  "wiki_content_sha256": "sha256:5060703471e9f082737de3e15a75d28f97f3717f960deb0cf08df345496018f8",
+  "wiki_evidence_sha256": "sha256:e97393bdc3654e8a648d2b84782c88728aac07f2a2f3427b984c298f5233c873",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-software-design"
+      },
+      "source_id": "web-computer-science-software-design",
+      "evidence_id": "evidence-26c0d56f8f5a",
+      "snapshot_sha256": "sha256:86b8da23b999382b48fd9147fa575b57c29f406344d7c901f6fa5fedfdf75e4b",
+      "selector_sha256": "sha256:a822072cf117b842e502dcbd1c318fefae00c824b0670d4144cc3c603e20a8bf",
+      "quote_sha256": "sha256:ebf8b9457fea92e9398405b180a324d7b27bc3f1a224bccc6a2e762ff6b58d97"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "solid-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-software-design",
+          "evidence_id": "evidence-26c0d56f8f5a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-26c0d56f8f5a",
+          "exact": "设计模式\n设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。设计模式是软件开发人员在软件开发过程中面临的一般问题的解决方案。这些解决方案是众多软件开发人员经过相当长的一段时间的试验和错误总结出来的。\n本教程将通过 Java 实例，一步一步向您讲解设计模式的概念。\n谁适合阅读本教程？\n无论您是新手，还是老手，本教程都值得一读。对于那些具有丰富的开发经验的开发人员，学习设计模式有助于了解在软件开发过程中所面临的问题的最佳解决方案；对于那些经验不足的开发人员，学习设计模式有助于通过一种简单快捷的方式来学习软件设计。\n阅读本教程前，您需要了解的知识：\n在您开始阅读本教程之前，您必须具备基本的 Java 编程的概念。如果您还不了解这些概念，那么建议您先阅读我们的 Java 教程。"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-26c0d56f8f5a",
+          "subject": "web-computer-science-software-design 原文",
+          "predicate": "内容为",
+          "object": "设计模式（Design pattern）为有经验的面向对象软件开发人员的最佳实践与一般问题解决方案；教程以 Java 实例讲解；对新手与老手均适用；阅读前提为基本 Java 编程概念",
+          "qualifiers": {
+            "support": "direct",
+            "origin": "external",
+            "evidence_status": "source-reported",
+            "confidentiality": "public",
+            "provenance": "empty"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "claim（solid-audit-1）与其唯一 target 引文（evidence-26c0d56f8f5a）逐字符一致：两者均为相同 8 行文本（设计模式定义、Java 教程说明、适用人群、前置知识要求），共 365 个 Unicode code point，无增删改或转义差异；support=direct 表明 claim 为引文的逐字复述，故 claim 被其声明的 target 引文完整支持。注：source_data 仅提供引文而未提供网站原文全文，rationale_offsets 指向该引文文本自身区间 [0,365)。该 source 的 provenance 为空对象（{}），引文中亦无转载声明，无法从 publisher/derived_from/independence_group 或转载声明举证独立性，故独立性别定为 independence_unknown，不构成多源相互印证。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-software-design",
+          "evidence_id": "evidence-26c0d56f8f5a",
+          "start": 0,
+          "end": 365
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-software-design",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "solid-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
