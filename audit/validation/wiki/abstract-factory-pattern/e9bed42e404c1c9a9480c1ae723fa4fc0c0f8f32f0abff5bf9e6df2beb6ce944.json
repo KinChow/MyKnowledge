@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "abstract-factory-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_539d1a459b7c",
+  "input_hash": "sha256:45ca3c1282dff3047b6d1fc46b895cbe7b6d09f95ce872a2e360f6ff535d7029",
+  "provider_duration_ms": 33535,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695089.536266,
+  "wiki_content_sha256": "sha256:5e5cc408e5d8d24c3b1965f9aaf121a28d2bee67affcc6bf66d48018659dfab0",
+  "wiki_evidence_sha256": "sha256:c8fbabe6a7aa80ef3ed133f439f2fd9792ce40ee79359f5a76cfa7f524d28722",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-abstract-factory-pattern"
+      },
+      "source_id": "web-computer-science-abstract-factory-pattern",
+      "evidence_id": "evidence-a5bf12e5cae1",
+      "snapshot_sha256": "sha256:15e1ca9ac948543e2a173aa6bc7f32902f6fe5c046b66d12753aacd652a09710",
+      "selector_sha256": "sha256:1b49599c9d95eb922fa358b79f08eac0630fcab5ab948d9629ef9d9b38822e81",
+      "quote_sha256": "sha256:3f07dc51062c8dd9f2782bc5e010789e74e7cf9c022a1a9c1c15de6260feca8d"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "abstract-factory-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-abstract-factory-pattern",
+          "evidence_id": "evidence-a5bf12e5cae1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a5bf12e5cae1",
+          "exact": "The abstract factory pattern in software engineering is a design pattern that provides a way to create families of related objects without imposing their concrete classes"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a5bf12e5cae1",
+          "subject": "The abstract factory pattern",
+          "predicate": "provides a way to create",
+          "object": "families of related objects without imposing their concrete classes"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文（evidence-a5bf12e5cae1）为单条英文句，共 170 个字符。其中 [0,72) 即 'The abstract factory pattern in software engineering is a design pattern'，支持 claim 前半句'抽象工厂模式是一种软件工程设计模式'；[78,170) 即 'provides a way to create families of related objects without imposing their concrete classes'，支持'提供了一种创建相关对象族而不强制其具体类的方式'。但 claim 其余两个命题无对应文本：（1）'通过封装一组具有共同主题、且不指定具体类的单个工厂'——引文未提及任何工厂封装或共同主题，且引文中 'without imposing their concrete classes' 的限定对象是 objects（对象族），并非工厂，与'不指定具体类的单个工厂'含义不同；（2）'客户端组件创建抽象工厂的具体实现，然后使用工厂的通用接口创建属于该对象族的具体对象'——引文完全未涉及客户端与工厂接口机制。因此 claim 仅部分被引文支持（partially_supported）；因包含未被证据支持的实质命题，整体审计判定 fail。注：source_data 未提供源文档全文，字符区间按所提供的引文原文计算。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-abstract-factory-pattern",
+          "evidence_id": "evidence-a5bf12e5cae1",
+          "start": 0,
+          "end": 72
+        },
+        {
+          "source_id": "web-computer-science-abstract-factory-pattern",
+          "evidence_id": "evidence-a5bf12e5cae1",
+          "start": 78,
+          "end": 170
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-abstract-factory-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "abstract-factory-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

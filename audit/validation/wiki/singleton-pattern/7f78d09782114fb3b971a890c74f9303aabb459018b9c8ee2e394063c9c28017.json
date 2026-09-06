@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "singleton-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_a3fbb6e34537",
+  "input_hash": "sha256:d0c5c9a3778e914d3abf204983f8f84e578b0cb4309cc00ce7a529b1cedeb0b2",
+  "provider_duration_ms": 22765,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696599.649207,
+  "wiki_content_sha256": "sha256:cfa43d57bfc8c3f9bde429b74080f04d10c334e8b28dbc3754e0f5d350cdbefd",
+  "wiki_evidence_sha256": "sha256:e9d02aaf8d4e069b70371e8ab7a08e8045189396a18fbbf9b5f6402648786f8e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-singleton-pattern"
+      },
+      "source_id": "web-computer-science-singleton-pattern",
+      "evidence_id": "evidence-325ec7d0f256",
+      "snapshot_sha256": "sha256:fa1fba9176ed21232eeedd6b2717026b473d0ce065e60aa6fd7a992549a16332",
+      "selector_sha256": "sha256:996aa64a4333970a878d21907faa6df38d83de368dbe7f30c26ecf33ce167cd4",
+      "quote_sha256": "sha256:bd20a657d58cf0d66db7dc34b38908c0669cea4fc50c556448073697d4a66e46"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "singleton-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-singleton-pattern",
+          "evidence_id": "evidence-325ec7d0f256"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-325ec7d0f256",
+          "exact": "the singleton pattern is a software design pattern that restricts the instantiation of a class to a singular instance"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-325ec7d0f256",
+          "subject": "the singleton pattern",
+          "predicate": "is a software design pattern that restricts the instantiation of a class to",
+          "object": "a singular instance"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,117) 完整对应 claim 断言：'the singleton pattern is a software design pattern' 对应'单例模式是一种软件设计模式'；'restricts the instantiation of a class to a singular instance' 对应'将一个类的实例化限制为唯一的单个实例'（'singular' 在语境中指唯一、单个实例，claim 的'唯一的单个'是其自然译法，未添加引文之外的事实）。claim 与引文逐段同构、无相悖内容、未超出引文信息，故为 supported。独立性：target provenance 为空对象（无 publisher / derived_from / independence_group），引文原文亦无转载声明，无法举证独立性，按规则输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-singleton-pattern",
+          "evidence_id": "evidence-325ec7d0f256",
+          "start": 0,
+          "end": 117
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-singleton-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "singleton-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002"
+    ]
+  }
+}

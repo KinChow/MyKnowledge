@@ -1,0 +1,170 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "proxy-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_cb5f75c99112",
+  "input_hash": "sha256:1f36a98a30f4bd8314c87ce15d7f1b8acb6e6c09ca8b31a2887e821cc4e7eaeb",
+  "provider_duration_ms": 45314,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696840.542876,
+  "wiki_content_sha256": "sha256:999dff52ac0c38d9e7acb6908afe5efd781bf7f56b8aef41c7281f426a18387b",
+  "wiki_evidence_sha256": "sha256:df6211c35c8f37efee8669c613e5d8a36047bede364beefc6c4b037b7fde99c4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-proxy-pattern"
+      },
+      "source_id": "web-computer-science-proxy-pattern",
+      "evidence_id": "evidence-5596c3d426d5",
+      "snapshot_sha256": "sha256:08b9a33f69952eba1e2ee096f5950da973b6f839cf546dcb77826d649605ce2d",
+      "selector_sha256": "sha256:7a3fdf539cf4a9c41672b5a54338778205e476665c2ca3810063f700f858c373",
+      "quote_sha256": "sha256:11eda962120991eedc4ad5ce4852104aa7cf903122d5f5a961ca0209423b17f2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "proxy-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-5596c3d426d5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5596c3d426d5",
+          "exact": "the proxy pattern is a software design pattern which is a class functioning as an interface to something else. The proxy could interface to anything: a network connection, a large object in memory, a file, or some other resource that is expensive or impossible to duplicate."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5596c3d426d5",
+          "subject": "proxy pattern",
+          "predicate": "is defined as",
+          "object": "a software design pattern which is a class functioning as an interface to something else, applicable to a network connection, a large object in memory, a file, or some other resource",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported",
+            "confidentiality": "public",
+            "support": "direct"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文（原文 [0,274)）与 claim 逐成分对应：\"a software design pattern\"（[0,46)）对应\"一种软件设计模式\"；\"a class functioning as an interface to something else\"（[56,104)）对应\"代理类是作为某事物接口的类\"；\"a network connection, a large object in memory, a file, or some other resource\"（[152,228)）对应\"网络连接、内存大对象、文件等\"，其中\"or some other resource\"（[209,228)）支撑 claim 的\"等\"字概括。claim 为引文的中文忠实转述，未引入引文之外或超出引文语义的断言，支持方式为 direct，故 supported。该 claim 仅引用单一来源，无多源一致/冲突问题；该证据 provenance 为空对象，无从引用 publisher/derived_from/independence_group 或转载声明，故未做独立性分组（对单一证据不适用）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-5596c3d426d5",
+          "start": 0,
+          "end": 274
+        },
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-5596c3d426d5",
+          "start": 0,
+          "end": 46
+        },
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-5596c3d426d5",
+          "start": 56,
+          "end": 104
+        },
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-5596c3d426d5",
+          "start": 152,
+          "end": 228
+        },
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-5596c3d426d5",
+          "start": 209,
+          "end": 228
+        }
+      ],
+      "advisory": false
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-proxy-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "proxy-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

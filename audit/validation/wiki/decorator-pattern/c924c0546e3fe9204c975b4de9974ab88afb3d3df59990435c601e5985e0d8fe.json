@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "decorator-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_a43098cc1253",
+  "input_hash": "sha256:715f159423ccd5072e73c8f89d8cdaf958b717f0a228305e7990e42e6931e2b6",
+  "provider_duration_ms": 37661,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696742.7088609,
+  "wiki_content_sha256": "sha256:cdc120bcf97b70d5340ad5de29ef029e0408a4cae29bdf0f0ea259ec3b6a5931",
+  "wiki_evidence_sha256": "sha256:465fdaaf72d2321137ec83d220853dafa0c050f7edf452a57e56f13a3c61895e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-decorator-pattern"
+      },
+      "source_id": "web-computer-science-decorator-pattern",
+      "evidence_id": "evidence-44f254bb1d1a",
+      "snapshot_sha256": "sha256:9ec064b0449bf98740c7725a4cd0e050c00896169fc1c7ae5138166664681a7f",
+      "selector_sha256": "sha256:55e2ba6bed723fb5961f49100c3ae1a5fb74a42eae2aa2e9f4229e8a4b0c0630",
+      "quote_sha256": "sha256:e318929e2968f7053e27c791a1c6f378fa75a496bbcd09aa248e972ca7fe0a79"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "decorator-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-decorator-pattern",
+          "evidence_id": "evidence-44f254bb1d1a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-44f254bb1d1a",
+          "exact": "the decorator pattern is a design pattern that allows behavior to be added to an individual object dynamically, without affecting the behavior of other instances of the same class. The decorator pattern provides a flexible alternative to subclassing for extending functionality."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-44f254bb1d1a",
+          "subject": "the decorator pattern",
+          "predicate": "is a design pattern that allows behavior to be added to an individual object dynamically",
+          "object": "without affecting the behavior of other instances of the same class",
+          "qualifiers": {
+            "further": "provides a flexible alternative to subclassing for extending functionality"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 的三个组成要素在引文 [0,277) 中逐一有对应表达：'is a design pattern' 对应'是一种设计模式'；'allows behavior to be added to an individual object dynamically' 对应'允许把行为动态地添加到单个对象上'；'without affecting the behavior of other instances of the same class' 对应'而不影响同一类其他实例的行为'。claim 是引文的忠实中文转述，无新增、无夸大、无遗漏，属直接支持。证据状态为 source-reported 且仅单一外源，无多源一致性/冲突可判定，亦无独立性评估对象；请求未提供源文档全文，故字符区间以请求中引文文本自身为基准（长度 277，[0,277) 为半开区间）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-decorator-pattern",
+          "evidence_id": "evidence-44f254bb1d1a",
+          "start": 0,
+          "end": 277
+        }
+      ],
+      "advisory": false
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-decorator-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "decorator-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002"
+    ]
+  }
+}

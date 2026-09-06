@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "adapter-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_92cb92f2a745",
+  "input_hash": "sha256:a20d08b9a6731c640e7677812f95881d6c67e0b515efbf8c75cbb30663860564",
+  "provider_duration_ms": 23754,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695161.350375,
+  "wiki_content_sha256": "sha256:ca349134d8d6c2fe75b7bc34c75bffa6dd53069e3ba8a48a46ad58e61326951b",
+  "wiki_evidence_sha256": "sha256:28761443773e4876ec05810d03f2a7c1de3a4b9bd0dc6f791e12a4a5c97c2e21",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-adapter-pattern"
+      },
+      "source_id": "web-computer-science-adapter-pattern",
+      "evidence_id": "evidence-e000b9109e6b",
+      "snapshot_sha256": "sha256:a3149f7a6fed7663440f17e2e5588da1138c03646a23065491c9a9502e0addfb",
+      "selector_sha256": "sha256:fcb9e21a8582eb326bf98bacf14015b4830d9b3f80e21c4869369dae496fb626",
+      "quote_sha256": "sha256:3ba503b7282abde6f6efdc3953601f91e4e29406b7541ba10f7463421abbe761"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "adapter-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-e000b9109e6b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e000b9109e6b",
+          "exact": "the adapter pattern is a software design pattern (also known as wrapper, an alternative naming shared with the decorator pattern) that allows the interface of an existing class to be used as another i"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e000b9109e6b",
+          "subject": "adapter pattern",
+          "predicate": "allows the interface of an existing class to be used as another interface",
+          "object": "a software design pattern (wrapper)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,200) 中「allows the interface of an existing class to be used as another i」[135,200) 支持 claim 前半句（已存在类的接口用作另一接口），但引文在「another i」处被截断，且全文未包含「接口不兼容的类」「无需修改源码」「协同工作」等表述，claim 后半句无证据支撑。引文仅部分支持 claim，故判定为 partially_supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-e000b9109e6b",
+          "start": 0,
+          "end": 200
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-adapter-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "adapter-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

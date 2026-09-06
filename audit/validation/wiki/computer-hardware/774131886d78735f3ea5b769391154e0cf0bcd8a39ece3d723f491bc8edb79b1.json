@@ -1,0 +1,28 @@
+{
+  "schema_version": "operation-confirmation/v1",
+  "object_ref": {
+    "vault_id": "public",
+    "object_type": "wiki",
+    "object_id": "computer-hardware"
+  },
+  "scope": "publish",
+  "decision": "approve",
+  "actor_id": "zhouzijian01",
+  "confirmed_at": 1788698490.788924,
+  "content_sha256": "sha256:ee534adc0a1e0cc8b50eae35e935e0d4447e9260c0b27b90c210b5f119324523",
+  "evidence_sha256": "sha256:f64f15a2545adce44c7e6bdeb74516dd7b19b3186483cd2ee6ae7a7106fbbfaa",
+  "deterministic_report_sha256": "sha256:d0c3a07ec8a3773812d2db9753e1d2d82002555ec2596d5152d1b4636046f6f4",
+  "llm_state": "pass",
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  },
+  "confirmation_sha256": "sha256:774131886d78735f3ea5b769391154e0cf0bcd8a39ece3d723f491bc8edb79b1"
+}

@@ -1,0 +1,171 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "adapter-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_02f1db830a98",
+  "input_hash": "sha256:475029dabdcc71f85e542deda59ad2210855c69c331c05ef7ac536dee0223d5b",
+  "provider_duration_ms": 26346,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696704.441334,
+  "wiki_content_sha256": "sha256:ca349134d8d6c2fe75b7bc34c75bffa6dd53069e3ba8a48a46ad58e61326951b",
+  "wiki_evidence_sha256": "sha256:12b94e3527bf377d2519dda8802aa9544caa22fcfc71d35aa93199496cacc059",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-adapter-pattern"
+      },
+      "source_id": "web-computer-science-adapter-pattern",
+      "evidence_id": "evidence-15fc29d8064d",
+      "snapshot_sha256": "sha256:a3149f7a6fed7663440f17e2e5588da1138c03646a23065491c9a9502e0addfb",
+      "selector_sha256": "sha256:eac91ded9a9d46bd54d71de30638dc4cc7224f3f0302fcaf21016d66bd39b0de",
+      "quote_sha256": "sha256:13d39d693ad34aea6c7c8aa569eeddd6a2af82647e68e81c5fd8d14e6cfb4a8a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "adapter-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-15fc29d8064d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-15fc29d8064d",
+          "exact": "the adapter pattern is a software design pattern (also known as wrapper, an alternative naming shared with the decorator pattern) that allows the interface of an existing class to be used as another interface."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-15fc29d8064d",
+          "subject": "Adapter Pattern",
+          "predicate": "is-a",
+          "object": "software design pattern",
+          "qualifiers": {
+            "alternate_name": "wrapper",
+            "name_shared_with": "decorator pattern",
+            "purpose": "allow the interface of an existing class to be used as another interface"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文（evidence-15fc29d8064d）为定义性陈述，与 claim 逐项对应：[25,48) \"software design pattern\" 对应\"软件设计模式\"；[64,71) \"wrapper\" 对应\"包装器\"，[111,128) \"decorator pattern\" 对应\"装饰器模式\"，且 (also known as ... shared with) 结构对应\"又称...与...共享此别名\"；[4,11) \"adapter\" 对应\"适配器模式\"；[135,209) \"allows the interface of an existing class to be used as another interface\" 完整对应\"允许将已存在类的接口用作另一个接口\"。claim 是引文的忠实中文转述，无添加、无夸大、无遗漏，判定 supported。引文内多段关键区间均逐一命中，无一处与 claim 冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-15fc29d8064d",
+          "start": 4,
+          "end": 11
+        },
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-15fc29d8064d",
+          "start": 25,
+          "end": 48
+        },
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-15fc29d8064d",
+          "start": 64,
+          "end": 71
+        },
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-15fc29d8064d",
+          "start": 111,
+          "end": 128
+        },
+        {
+          "source_id": "web-computer-science-adapter-pattern",
+          "evidence_id": "evidence-15fc29d8064d",
+          "start": 135,
+          "end": 209
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-adapter-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "adapter-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

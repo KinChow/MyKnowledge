@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "jpeg",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_9cb824421473",
+  "input_hash": "sha256:951651d44428eb104568217b8d35c411d002fac0d182a040459b438c53945c72",
+  "provider_duration_ms": 16646,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697172.9122539,
+  "wiki_content_sha256": "sha256:b14b64dde98fbf835345f25f8bf649dca8a082f8f8fcc53097feeb647a5ed27e",
+  "wiki_evidence_sha256": "sha256:37b6afb05504f75820392f3e23d1e8f8be80f1f4e6da5d7259972236b8b196c8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-jpeg"
+      },
+      "source_id": "web-multimedia-jpeg",
+      "evidence_id": "evidence-2dd7ed235a1a",
+      "snapshot_sha256": "sha256:b6aa4903d8798a06af0650aaa39f265482699e89e4b79d6fb89905e45ae20f13",
+      "selector_sha256": "sha256:776e5adf2479dc6a006ca0b471c243ff458b3885a22293f79ae9672f67015ca5",
+      "quote_sha256": "sha256:83455c897901bb225d6670eee765894e89b0ea2f37d16637062510b2317e9175"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "jpeg-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-jpeg",
+          "evidence_id": "evidence-2dd7ed235a1a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2dd7ed235a1a",
+          "exact": "commonly used method of lossy compression"
+        },
+        {
+          "evidence_id": "evidence-2dd7ed235a1a",
+          "exact": "particularly for those images produced by digital photography"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2dd7ed235a1a",
+          "subject": "JPEG",
+          "predicate": "is",
+          "object": "a commonly used method of lossy compression for digital images, particularly for those produced by digital photography"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001"
+      ],
+      "rationale": "引文 [10,23) 支持 JPEG 是图像'有损压缩的常用方法'（commonly used method of lossy compression），且 [72,133) 支持'尤其适用于数码摄影产生的图像'；但 claim 使用最高级'最常用'（most commonly used），而引文仅给出无比较级限定的'commonly used'，未断言'最'这一最高级，故 claim 在程度上拔高，只能判定为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-jpeg",
+          "evidence_id": "evidence-2dd7ed235a1a",
+          "start": 10,
+          "end": 23
+        },
+        {
+          "source_id": "web-multimedia-jpeg",
+          "evidence_id": "evidence-2dd7ed235a1a",
+          "start": 72,
+          "end": 133
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-jpeg",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "jpeg-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "WIKI-001"
+    ]
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-fundamental-types",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_74564149059d",
+  "input_hash": "sha256:c070cd8359593735b0506b13992c8551e6f25cc8f8cae2371a466222b0db08ac",
+  "provider_duration_ms": 32368,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695989.219498,
+  "wiki_content_sha256": "sha256:53747097a03299a484c2da09f74790dd1b00a5a07d5c7363a54b1fcda3946f11",
+  "wiki_evidence_sha256": "sha256:49e84b9110a88523fe8e47bba385383f19cdca73d60e2cfc42c4a46ed280fc16",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-fundamental-types"
+      },
+      "source_id": "web-computer-science-cpp-fundamental-types",
+      "evidence_id": "evidence-d2dd17001b46",
+      "snapshot_sha256": "sha256:5ec71696d60af3df617c396e4f1eb5f256188a5267f04d3930f9f7fc3f29b55b",
+      "selector_sha256": "sha256:84a5273bd094370ce39512029e5ee7e14611feb58aa5f8d9a0f2b4417a1ad022",
+      "quote_sha256": "sha256:e3dc1b4b46a6badcd6f4f5327ae15dcc5163f5de5412c17e107f5a89be56b504"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-fundamental-types"
+      },
+      "source_id": "web-computer-science-cpp-fundamental-types",
+      "evidence_id": "evidence-760eedda3335",
+      "snapshot_sha256": "sha256:5ec71696d60af3df617c396e4f1eb5f256188a5267f04d3930f9f7fc3f29b55b",
+      "selector_sha256": "sha256:c37414ad63b5d8f7a5095b5e33cd4e51b6f0a216bf703c43260398653f3a1f29",
+      "quote_sha256": "sha256:855927ea2183db112c79b4b9292adcea380e9f7666432a25500e9224fe819d87"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-fundamental-types-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-fundamental-types",
+          "evidence_id": "evidence-d2dd17001b46"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d2dd17001b46",
+          "exact": "The following types are collectively called fundamental types: (possibly cv-qualified) void; std::nullptr_t (since C++11); integral types; floating-point types."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d2dd17001b46",
+          "subject": "the following types",
+          "predicate": "collectively called",
+          "object": "fundamental types: (possibly cv-qualified) void; std::nullptr_t (since C++11); integral types; floating-point types"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文（evidence-d2dd17001b46）在区间 [0,160) 内逐字给出定义：'The following types are collectively called fundamental types: (possibly cv-qualified) void; std::nullptr_t (since C++11); integral types; floating-point types.'，与 claim 的四项成分（可有 cv 限定的 void、std::nullptr_t（C++11）、整型类型、浮点类型）逐项吻合，无缺失、无超出，属直接支持。目标 provenance 为空对象、引文内亦无转载/派生声明，无法举证多源独立性，判定 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-fundamental-types",
+          "evidence_id": "evidence-d2dd17001b46",
+          "start": 0,
+          "end": 160
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-fundamental-types-size-guarantee",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-fundamental-types",
+          "evidence_id": "evidence-760eedda3335"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-760eedda3335",
+          "exact": "Besides the minimal bit counts, the C++ Standard guarantees that 1 == sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-760eedda3335",
+          "subject": "the C++ Standard",
+          "predicate": "guarantees",
+          "object": "1 == sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long) (besides the minimal bit counts)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文（evidence-760eedda3335）在区间 [0,152) 内逐字陈述：'Besides the minimal bit counts, the C++ Standard guarantees that 1 == sizeof(char) <= sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long).'，与 claim 完全一致：'除最小位宽外'对应 'Besides the minimal bit counts'，且 size 关系链逐项吻合，属直接支持。目标 provenance 为空对象、引文内亦无转载/派生声明，无法举证多源独立性，判定 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-fundamental-types",
+          "evidence_id": "evidence-760eedda3335",
+          "start": 0,
+          "end": 152
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-fundamental-types",
+          "evidence_id": "evidence-d2dd17001b46",
+          "independence_group": "source:web-computer-science-cpp-fundamental-types",
+          "observation_sha256": "sha256:31099c17e69d066227f5636f634fb8773975cb358cc8a62195eb1e5304485819"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-fundamental-types",
+          "evidence_id": "evidence-760eedda3335",
+          "independence_group": "source:web-computer-science-cpp-fundamental-types",
+          "observation_sha256": "sha256:fe500b8c5e0b1380f8100a558473c7986c62300cb89719f2408b37beb381391e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-fundamental-types",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-fundamental-types",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-fundamental-types-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-fundamental-types-size-guarantee",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "interpreter-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_9904286a9cde",
+  "input_hash": "sha256:d0ac99d345d12f832fc2d26bcd2584616744f9b67be19dae15293e447e88a394",
+  "provider_duration_ms": 26130,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695643.078593,
+  "wiki_content_sha256": "sha256:8646a89256005a7f57b313ff5febfaffac94260edc06c410136cf80e666cf9fe",
+  "wiki_evidence_sha256": "sha256:d2e5df3bb556a67b5887d0c798448db2d4c33947d9e71ee1804de176f1a59565",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-interpreter-pattern"
+      },
+      "source_id": "web-computer-science-interpreter-pattern",
+      "evidence_id": "evidence-5d69d4a730fc",
+      "snapshot_sha256": "sha256:c347edd8da7bd990f93e44a73d7073b07cc24abf4c37dcce065dab628c7c2d92",
+      "selector_sha256": "sha256:94ac5c488f54a18c2afc097dd8926d788993d38f5f18b5d66261ad16fec27b1a",
+      "quote_sha256": "sha256:9fe66dc8deeebeeee302c38cb61733d66b47de415a689279f7f807757616169f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "interpreter-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-interpreter-pattern",
+          "evidence_id": "evidence-5d69d4a730fc"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5d69d4a730fc",
+          "exact": "the interpreter pattern is a design pattern that specifies how to evaluate sentences in a language"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5d69d4a730fc",
+          "subject": "the interpreter pattern",
+          "predicate": "is",
+          "object": "a design pattern that specifies how to evaluate sentences in a language"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 evidence-5d69d4a730fc 文本长度为 98 个码点，内容为 the interpreter pattern is a design pattern that specifies how to evaluate sentences in a language。该引文仅直接对应 claim 第一句解释器模式是一种设计模式，它规定了如何对一种语言中的句子进行求值（证据区间 [0,98] 即为该完整引文）。而 claim 第二句基本思想是：为一种专用计算机语言中的每个符号（终结符或非终结符）都建一个类；语言中一个句子的语法树是组合模式的一个实例，用于为客户端求值（解释）该句子 在引文中无任何对应表述——引文未提及按符号建类、组合模式、语法树或客户端求值等任何细节，该部分完全未被证据覆盖。依据 EVD-001（证据与 claim 的对应）及 VAL-001/VAL-002（验证与结论判定），引文只能支持 claim 前半部分，故判定为 partially_supported；因存在未获证据支持的具体内容，整页审计结论为 fail。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-interpreter-pattern",
+          "evidence_id": "evidence-5d69d4a730fc",
+          "start": 0,
+          "end": 98
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-interpreter-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "interpreter-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

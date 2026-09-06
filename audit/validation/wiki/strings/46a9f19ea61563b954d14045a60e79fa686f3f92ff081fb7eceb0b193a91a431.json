@@ -1,0 +1,429 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "strings",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_ee588c4676a5",
+  "input_hash": "sha256:adec1fbf89ac0aa4fc97cbc7001c9cdd9969d91756f648250f305f712a4d1cbb",
+  "provider_duration_ms": 95469,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696508.296789,
+  "wiki_content_sha256": "sha256:8ddfe0b6ba718ad41cc01f1cf7e7b44206208fa8ae1c97a2031620873742a41b",
+  "wiki_evidence_sha256": "sha256:d50cc1ed8890cd47d13979d79d7233c55dbafe1f9acb76e86f721d9bb7b9c09d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-strings"
+      },
+      "source_id": "web-computer-science-strings",
+      "evidence_id": "evidence-1447528d9989",
+      "snapshot_sha256": "sha256:80e9e666a4018865c467f95ec88825ac0f897305db397dd81778ec26edbda820",
+      "selector_sha256": "sha256:192d0c34de75866f624cec72669ade0724614183c1cd267aac5e6e6d02625553",
+      "quote_sha256": "sha256:d3734b0feadaaf243a185d4b808f3c2914f5646f0cf3ed2ec80c996cc3620386"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-strings"
+      },
+      "source_id": "web-computer-science-strings",
+      "evidence_id": "evidence-812fbabfc66a",
+      "snapshot_sha256": "sha256:80e9e666a4018865c467f95ec88825ac0f897305db397dd81778ec26edbda820",
+      "selector_sha256": "sha256:bdf0665692b6c8663bec49d82f9d1229120203d2ca8b45d8bfe48a797d3967d7",
+      "quote_sha256": "sha256:51b551b504cfe1df3a98138f7529df291369b6291d2f6dc9ac019bfb1e696747"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-strings"
+      },
+      "source_id": "web-computer-science-strings",
+      "evidence_id": "evidence-18083865b0a7",
+      "snapshot_sha256": "sha256:80e9e666a4018865c467f95ec88825ac0f897305db397dd81778ec26edbda820",
+      "selector_sha256": "sha256:19b0976a9e8c68f9110c45cab58926c8189b954df58151baa8f7a3dfdd897873",
+      "quote_sha256": "sha256:6678901d1b8c71d694763c2eb28160205489f3ff6eac322ad176f8690f30e817"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-strings"
+      },
+      "source_id": "web-computer-science-strings",
+      "evidence_id": "evidence-0ba90d1d9d6c",
+      "snapshot_sha256": "sha256:80e9e666a4018865c467f95ec88825ac0f897305db397dd81778ec26edbda820",
+      "selector_sha256": "sha256:33082ab2e831954ba580a32d4c8ae656b3a846003d5efb0317584eeb44364be0",
+      "quote_sha256": "sha256:94b33ed5632e2eb1d1dc605d1d355acf18cf10fa7fe09977b76fd1541963ecb7"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "string-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-1447528d9989"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1447528d9989",
+          "exact": "In computer programming, a string is traditionally a sequence of characters, either as a literal constant or as some kind of variable. The latter may allow its elements to be mutated and the length changed, or it may be fixed (after creation). A string is often implemented as an array data structure of bytes (or words) that stores a sequence of elements, typically characters, using some character encoding."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1447528d9989",
+          "subject": "string",
+          "predicate": "is_defined_as",
+          "object": "sequence of characters, either literal constant or variable (elements mutable, length changeable, or fixed after creation), often implemented as array data structure of bytes (or words) storing character-encoded elements"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 是引文 [0,409) 的完整忠实转述：'a string is traditionally a sequence of characters, either as a literal constant or as some kind of variable' 对应『字符串传统上是字符序列，可作为字面量常量或某种变量』；'The latter may allow its elements to be mutated and the length changed, or it may be fixed (after creation)' 对应『后者允许元素被修改与长度改变，也可能在创建后固定』；'often implemented as an array data structure of bytes (or words) ... using some character encoding' 对应『常实现为字节（或字）的数组数据结构，用某种字符编码存储字符元素序列』。分句一一对应，无添加无曲解，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-1447528d9989",
+          "start": 0,
+          "end": 409
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "string-representation",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-812fbabfc66a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-812fbabfc66a",
+          "exact": "Strings are typically implemented as arrays of bytes, characters, or code units, to allow fast access to individual units or substrings, including characters when they have a fixed length. A few languages such as Haskell implement them as linked lists instead."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-812fbabfc66a",
+          "subject": "string",
+          "predicate": "typically_implemented_as",
+          "object": "arrays of bytes, characters, or code units (fast access to individual units or substrings); a few languages such as Haskell implement them as linked lists"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,260) 与 claim 逐句对应：'arrays of bytes, characters, or code units' 对应『字节、字符或码元（code unit）数组』；'to allow fast access to individual units or substrings' 对应『以便快速访问单个单元或子串』；'A few languages such as Haskell implement them as linked lists instead' 对应『少数语言（如 Haskell）用链表实现』。claim 未复述引文关于定长字符的补充从句，属信息裁剪而非出入，所陈述内容均被引文直接支撑，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-812fbabfc66a",
+          "start": 0,
+          "end": 260
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "string-types",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-18083865b0a7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-18083865b0a7",
+          "exact": "Many high-level languages provide strings as a primitive data type, such as JavaScript and PHP, while most others provide them as a composite data type, some with special language support in writing literals, for example, Java and C#."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-18083865b0a7",
+          "subject": "strings (in high-level languages)",
+          "predicate": "are_provided_as",
+          "object": "primitive data type (e.g., JavaScript, PHP) in many languages; composite data type in most others; some with special literal-writing support (e.g., Java, C#)"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,234) 完整对应 claim：'Many high-level languages provide strings as a primitive data type, such as JavaScript and PHP' 对应『许多高级语言把字符串作为原始数据类型（如 JavaScript、PHP）』；'while most others provide them as a composite data type' 对应『多数其他语言则作为复合数据类型』；'some with special language support in writing literals, for example, Java and C#' 对应『部分语言在书写字面量时提供专门支持（如 Java 与 C#）』。三段式逐一吻合，无出入，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-18083865b0a7",
+          "start": 0,
+          "end": 234
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "string-editor-repr",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-0ba90d1d9d6c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0ba90d1d9d6c",
+          "exact": "The core data structure in a text editor is the one that manages the string (sequence of characters) that represents the current state of the file being edited. While that state could be stored in a single long consecutive array of characters, a typical text editor instead uses an alternative representation as its sequence data structure—a gap buffer, a linked list of lines, a piece table, or a rope—which makes certain string operations, such as insertions, deletions, and undoing previous edits, more efficient."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0ba90d1d9d6c",
+          "subject": "text editor core data structure",
+          "predicate": "is",
+          "object": "string managing current file state, typically stored via alternative representations (gap buffer, linked list of lines, piece table, or rope) making insertions, deletions, and undoing previous edits more efficient than a single long consecutive character array"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,518) 完整覆盖 claim：'The core data structure in a text editor is the one that manages the string ... that represents the current state of the file being edited' 对应『文本编辑器的核心数据结构是管理代表当前文件状态的字符串』；'a single long consecutive array of characters' 对应『单个连续字符数组』；'a gap buffer, a linked list of lines, a piece table, or a rope' 对应『gap buffer、行链表、piece table 或 rope』；'makes certain string operations, such as insertions, deletions, and undoing previous edits, more efficient' 对应『使插入、删除与撤销等操作更高效』。全部对应，无添加无曲解，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-0ba90d1d9d6c",
+          "start": 0,
+          "end": 518
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-1447528d9989",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:fe382d9169be73d7690130e37397e39c42ef59c2a708f5282765482298ae90df"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-812fbabfc66a",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:c7bb252e69012ee235637c32ffebeabaf855eee08f5990efa2b876a7122bef16"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-1447528d9989",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:fe382d9169be73d7690130e37397e39c42ef59c2a708f5282765482298ae90df"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-18083865b0a7",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:84160e4ab7c629e6013ebd6f671518221e2a1fd170b3afd5969fa33fac386a6e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-1447528d9989",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:fe382d9169be73d7690130e37397e39c42ef59c2a708f5282765482298ae90df"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-0ba90d1d9d6c",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:049d02402f9f26d4a29ac0b8a64ea61021814578a3b971ba2c0403acc74726e3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-812fbabfc66a",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:c7bb252e69012ee235637c32ffebeabaf855eee08f5990efa2b876a7122bef16"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-18083865b0a7",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:84160e4ab7c629e6013ebd6f671518221e2a1fd170b3afd5969fa33fac386a6e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-812fbabfc66a",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:c7bb252e69012ee235637c32ffebeabaf855eee08f5990efa2b876a7122bef16"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-0ba90d1d9d6c",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:049d02402f9f26d4a29ac0b8a64ea61021814578a3b971ba2c0403acc74726e3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-18083865b0a7",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:84160e4ab7c629e6013ebd6f671518221e2a1fd170b3afd5969fa33fac386a6e"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-strings",
+          "evidence_id": "evidence-0ba90d1d9d6c",
+          "independence_group": "source:web-computer-science-strings",
+          "observation_sha256": "sha256:049d02402f9f26d4a29ac0b8a64ea61021814578a3b971ba2c0403acc74726e3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-strings",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-strings",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-strings",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-strings",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "string-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "string-representation",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "string-types",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "string-editor-repr",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

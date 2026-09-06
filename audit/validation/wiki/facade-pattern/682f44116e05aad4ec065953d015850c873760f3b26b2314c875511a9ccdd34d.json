@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "facade-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_494a2dcca26c",
+  "input_hash": "sha256:89c93ba8ab6cd6fbcf1b8161d51e8338ca168d34ca7b181e438f7639d56e2e15",
+  "provider_duration_ms": 40262,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695287.2930071,
+  "wiki_content_sha256": "sha256:b8aa2d81e9a622a3b6f7e5f0f2b11e068c6744986ca2c1ab1e63e1e7a20dfba1",
+  "wiki_evidence_sha256": "sha256:ab945b333228d02845ebf76deaa3bbc0d887170f78b59f594c208a3f8c2221b4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-facade-pattern"
+      },
+      "source_id": "web-computer-science-facade-pattern",
+      "evidence_id": "evidence-b410664f922a",
+      "snapshot_sha256": "sha256:ade8bb6bd1dc996f9a8159a0f77737f7795760d8b4216346e51ab374357c9f52",
+      "selector_sha256": "sha256:a4c9834ff1d7e3232153aaa34e1c79293bb53e0dee405fada0915dd0830348ef",
+      "quote_sha256": "sha256:cbfb051d82da8a9f23cb4c51f88c77375ae9b0aece3faa997a8e796658309b8f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "facade-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-facade-pattern",
+          "evidence_id": "evidence-b410664f922a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b410664f922a",
+          "exact": "front-facing interface masking more complex underlying or structural code. This pattern hides the complexities of the larger system and provides a simpler interface to the client. It typically involve"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b410664f922a",
+          "subject": "the facade pattern",
+          "predicate": "provides",
+          "object": "a front-facing interface masking more complex underlying or structural code, and a simpler interface to the client",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "claim 系对目标引文的忠实转述，三个组成部分均可定位：引文 [0,74) 给出 'front-facing interface' 与 'masking more complex underlying or structural code'，对应 claim 的'作为前端接口'与'遮蔽更复杂的底层或结构性代码'；[75,179) 给出 'provides a simpler interface to the client'，对应'为客户端提供更简单的接口'。claim 中的'对象'是对 'front-facing interface' 提供者的转述，引文未明示'对象'一词但语义一致，不构成矛盾或超出证据范围。注意引文以 'It typically involve' 在 [180,200) 处截断（原句应为 involves），属摘录截断，不影响已引述部分对定义性陈述的支持（EVD-001 引文-声明对应规则；VAL-001 支持度判定规则）。offset 以请求内提供的引文文本为基准（源全文不在本请求范围内），半开区间。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-facade-pattern",
+          "evidence_id": "evidence-b410664f922a",
+          "start": 0,
+          "end": 74
+        },
+        {
+          "source_id": "web-computer-science-facade-pattern",
+          "evidence_id": "evidence-b410664f922a",
+          "start": 75,
+          "end": 179
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-facade-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "facade-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,459 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "computer-hardware",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_e453737e29b4",
+  "input_hash": "sha256:e3cf3b609e8fd3c392f88e3d87ab94bf96b673eafd7c04d6223026ab969b3810",
+  "provider_duration_ms": 73194,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697322.5791612,
+  "wiki_content_sha256": "sha256:ee534adc0a1e0cc8b50eae35e935e0d4447e9260c0b27b90c210b5f119324523",
+  "wiki_evidence_sha256": "sha256:f64f15a2545adce44c7e6bdeb74516dd7b19b3186483cd2ee6ae7a7106fbbfaa",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-computer-hardware"
+      },
+      "source_id": "web-computer-science-computer-hardware",
+      "evidence_id": "evidence-2754e1ca4120",
+      "snapshot_sha256": "sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7",
+      "selector_sha256": "sha256:587cbdac31be9653d6f193cf55e956bca315e58f6cede84b5fc984f7dff9b3f8",
+      "quote_sha256": "sha256:0a33d86607387c60078b14befb92f952a1b062658ce6ffdac92d09e4dfabe193"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-computer-hardware"
+      },
+      "source_id": "web-computer-science-computer-hardware",
+      "evidence_id": "evidence-84a42a7dca80",
+      "snapshot_sha256": "sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7",
+      "selector_sha256": "sha256:b14f3ea02a6330639f2c5ea0dcc5ee7b85c0044d369e7169cbe4e395cc151b63",
+      "quote_sha256": "sha256:83a64b154b9b7d7fe1771abe1c7838cc0a1daca28c56eb2c4dc2de8b7c86a678"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-computer-hardware"
+      },
+      "source_id": "web-computer-science-computer-hardware",
+      "evidence_id": "evidence-9da6093a732a",
+      "snapshot_sha256": "sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7",
+      "selector_sha256": "sha256:9b205ceb62d49547708ffdb3a284523bc15dbc8006fcfa8b6a8727acc76627d2",
+      "quote_sha256": "sha256:7a61dd6b098f3d8938f744df6880f3b94cf88bd30f165260bac58517c0dd814c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-computer-hardware"
+      },
+      "source_id": "web-computer-science-computer-hardware",
+      "evidence_id": "evidence-06bce453287a",
+      "snapshot_sha256": "sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7",
+      "selector_sha256": "sha256:357d4e1d7ca76cd0bb92727a92c8ca9299f638e5e098b7c9eed4c7789355ac1f",
+      "quote_sha256": "sha256:7498d353e636c00737402c0e9cdefd55dae53e62f66e0b9835578f17afa16031"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "hardware-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-2754e1ca4120"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2754e1ca4120",
+          "exact": "Computer hardware includes the physical parts of a computer, such as the central processing unit (CPU), random access memory (RAM), motherboard, computer data storage, graphics card, sound card, and computer case. It includes external devices such as a monitor, mouse, keyboard, and speakers."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2754e1ca4120",
+          "subject": "computer hardware",
+          "predicate": "includes",
+          "object": "physical parts (CPU, RAM, motherboard, computer data storage, graphics card, sound card, computer case) and external devices (monitor, mouse, keyboard, speakers)",
+          "qualifiers": {
+            "origin": "external",
+            "confidentiality": "public",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [0,292)（Unicode code point，半开）逐句覆盖 claim：第一句 'physical parts ... sound card, and computer case' 与 claim 的 '物理部件：CPU、RAM、主板、数据存储、显卡、声卡、机箱' 一一对应；第二句 'It includes external devices such as a monitor, mouse, keyboard, and speakers' 与 claim 的 '显示器、鼠标、键盘、音箱等外部设备' 对应。claim 为引文的忠实转述，信息无增删、无重组歪曲，符合 EVD-001 直接支持判定，判 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-2754e1ca4120",
+          "start": 0,
+          "end": 292
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "hardware-cpu",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-84a42a7dca80"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-84a42a7dca80",
+          "exact": "At least one CPU (central processing unit), which performs the majority of computational tasks required for a computer to operate. Often described informally as the brain of the computer, the CPU fetches program instructions from random-access memory (RAM), decodes and executes them, then returns results for further processing by other components. This process is known as the instruction cycle."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-84a42a7dca80",
+          "subject": "CPU",
+          "predicate": "executes the instruction cycle (fetch from RAM, decode, execute, return results for further processing) and performs the majority of computational tasks",
+          "object": "computer operation",
+          "qualifiers": {
+            "origin": "external",
+            "confidentiality": "public",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [0,395) 三段与 claim 逐段对应：'performs the majority of computational tasks required for a computer to operate' 对应 '执行计算机所需的大部分计算任务'；'the CPU fetches program instructions from random-access memory (RAM), decodes and executes them, then returns results for further processing by other components' 对应 '从 RAM 取指令、译码并执行，然后返回结果供其他部件进一步处理'；'This process is known as the instruction cycle' 对应 '（即指令周期）'。语义完整一致，无矛盾或缺漏，判 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-84a42a7dca80",
+          "start": 0,
+          "end": 395
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "hardware-power",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-9da6093a732a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9da6093a732a",
+          "exact": "Most personal computer power supply units meet the ATX standard and convert from alternating current (AC) at between 120 and 277 volts provided from a power outlet to direct current (DC) at a much lower voltage: typically 12, 5, or 3.3 volts."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-9da6093a732a",
+          "subject": "most personal computer power supply units",
+          "predicate": "meet the ATX standard and convert",
+          "object": "AC 120-277V from a power outlet to DC at a much lower voltage (typically 12, 5, or 3.3 volts)",
+          "qualifiers": {
+            "origin": "external",
+            "confidentiality": "public",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [0,242) 完整覆盖 claim 全部要素：'Most personal computer power supply units meet the ATX standard' 对应 '大多数个人电脑电源单元符合 ATX 标准'；'alternating current (AC) at between 120 and 277 volts provided from a power outlet' 对应 '电源插座提供的 120–277V 交流电'；'direct current (DC) at a much lower voltage: typically 12, 5, or 3.3 volts' 对应 '更低电压（典型 12V、5V 或 3.3V）的直流电'。数值（120–277、12/5/3.3）与语义映射精确，无冲突，判 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-9da6093a732a",
+          "start": 0,
+          "end": 242
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "hardware-bus-chipset",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-06bce453287a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-06bce453287a",
+          "exact": "The internal bus connects the CPU to main memory via multiple communication lines—typically 50 to 100—divided into address, data, and control buses, each handling specific types of signals. Historically, parallel buses were dominant, but in the twenty-first century, high-speed serial buses (often using serializer/deserializer (SerDes) technology) have largely replaced them, enabling greater data throughput over fewer physical connections. Examples include PCI Express and USB. In systems with multiple processors, an interconnect bus is used, traditionally coordinated by a northbridge chip, which links the CPU, memory, and high-speed peripherals such as PCI. The southbridge handles communication with slower I/O devices such as storage."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-06bce453287a",
+          "subject": "internal bus (divided into address, data, and control buses; superseded by high-speed serial buses such as PCI Express and USB; multi-processor systems coordinated by northbridge/southbridge)",
+          "predicate": "connects",
+          "object": "CPU to main memory; northbridge links CPU, memory and high-speed peripherals (e.g., PCI), southbridge handles slower I/O devices (e.g., storage)",
+          "qualifiers": {
+            "origin": "external",
+            "confidentiality": "public",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [0,743) 三部分与 claim 逐一对应：'connects the CPU to main memory via multiple communication lines ... divided into address, data, and control buses' 对应 '内部总线用地址、数据、控制等多条通信线连接 CPU 与主存'；'in the twenty-first century, high-speed serial buses ... Examples include PCI Express and USB' 对应 '21 世纪高速串行总线（如 PCI Express、USB）取代了并行总线'；'traditionally coordinated by a northbridge chip, which links the CPU, memory, and high-speed peripherals such as PCI. The southbridge handles communication with slower I/O devices such as storage' 对应 '北桥协调 CPU、内存与高速外设，南桥负责较慢的 I/O 设备'。映射完整（含 '历史上并行总线占主导' 与 '取代' 语义），无增删与冲突，判 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-06bce453287a",
+          "start": 0,
+          "end": 743
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-2754e1ca4120",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:5923ccebf5e39efa2c5c450f02de6047e20db3e2a9fb7d6efee48bfa054afdfa"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-84a42a7dca80",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:68ccb51af09dc411dfd78ce853cbed702d24757a9f7f847b7d2c64c314875776"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-2754e1ca4120",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:5923ccebf5e39efa2c5c450f02de6047e20db3e2a9fb7d6efee48bfa054afdfa"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-9da6093a732a",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:12bd5a0d2d27577ffa3712b2988848b6f859cb82884d6b421a625bad106615b4"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-2754e1ca4120",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:5923ccebf5e39efa2c5c450f02de6047e20db3e2a9fb7d6efee48bfa054afdfa"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-06bce453287a",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:d84cd473a9be6a9a87bfbb0a890e6f4dedfbcf5c3cc25654887f39ee582deca7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-84a42a7dca80",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:68ccb51af09dc411dfd78ce853cbed702d24757a9f7f847b7d2c64c314875776"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-9da6093a732a",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:12bd5a0d2d27577ffa3712b2988848b6f859cb82884d6b421a625bad106615b4"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-84a42a7dca80",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:68ccb51af09dc411dfd78ce853cbed702d24757a9f7f847b7d2c64c314875776"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-06bce453287a",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:d84cd473a9be6a9a87bfbb0a890e6f4dedfbcf5c3cc25654887f39ee582deca7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-9da6093a732a",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:12bd5a0d2d27577ffa3712b2988848b6f859cb82884d6b421a625bad106615b4"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-computer-hardware",
+          "evidence_id": "evidence-06bce453287a",
+          "independence_group": "source:web-computer-science-computer-hardware",
+          "observation_sha256": "sha256:d84cd473a9be6a9a87bfbb0a890e6f4dedfbcf5c3cc25654887f39ee582deca7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-computer-hardware",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-computer-hardware",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-computer-hardware",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-computer-hardware",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "hardware-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hardware-cpu",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hardware-power",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "hardware-bus-chipset",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "ARC-002",
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

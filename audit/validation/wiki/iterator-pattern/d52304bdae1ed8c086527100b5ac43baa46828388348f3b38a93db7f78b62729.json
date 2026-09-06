@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "iterator-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_23bc2dd75c99",
+  "input_hash": "sha256:83623c9c64a5bd24a4b56dd4a574982b3914cdb3727009299c4b244b70c48a82",
+  "provider_duration_ms": 14580,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695511.597373,
+  "wiki_content_sha256": "sha256:0cb139f8eb8a4ac52b422d1c4e627d9a85f1fa5ce1d176549ec2e38864250765",
+  "wiki_evidence_sha256": "sha256:71a87ba3b2b3f9bbd620377ea7dadd4e939fd4203313e8514a516e5216d1b4ba",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-iterator-pattern"
+      },
+      "source_id": "web-computer-science-iterator-pattern",
+      "evidence_id": "evidence-05b5c0c26a06",
+      "snapshot_sha256": "sha256:9f88098e2da58e286aa113ea3b41d6065d92f3416a87c38fe6fbe8f95a03288b",
+      "selector_sha256": "sha256:c272a0e23da40639a5e1efa07a9b02631667041441f5ccf849db6e5fd74a47df",
+      "quote_sha256": "sha256:11618b4cdea65ebe78f55d291b4e4a473ac10e5901b32634813b18f730afd570"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "iterator-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-iterator-pattern",
+          "evidence_id": "evidence-05b5c0c26a06"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-05b5c0c26a06",
+          "exact": "the iterator pattern is a design pattern in which an iterator is used to traverse a container and access the container's elements"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-05b5c0c26a06",
+          "subject": "iterator pattern",
+          "predicate": "is",
+          "object": "a design pattern in which an iterator is used to traverse a container and access the container's elements"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,128] 逐字支持 claim 第一句：迭代器模式是一种设计模式，用迭代器遍历容器并访问其元素（traverse a container and access the container's elements）。但 claim 第二句（把算法与容器解耦、算法可在不暴露容器底层表示的情况下顺序访问聚合对象元素）在引文中完全不存在——引文仅描述遍历访问行为，未提及算法/容器解耦、底层表示隐藏或聚合对象概念，该部分无证据支撑。单一引用来源且 provenance 为空，无法判断与其他证据的独立性。故 partially_supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-iterator-pattern",
+          "evidence_id": "evidence-05b5c0c26a06",
+          "start": 0,
+          "end": 128
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-iterator-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "iterator-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

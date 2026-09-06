@@ -1,0 +1,149 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "flyweight-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_6556739e3802",
+  "input_hash": "sha256:9baf1b8125222e8ec8758b5dbc64b9523aeeb450b72766358b8f6a47c4d5b902",
+  "provider_duration_ms": 22376,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695310.432014,
+  "wiki_content_sha256": "sha256:efeb1e90f3fd15d225057663c7e0a24b41af3ccfd7f34e347e37534c5fea175f",
+  "wiki_evidence_sha256": "sha256:7f71605b2d8db4319f1b658e0101f0a4ba2cc24bc898046ab3dd5aabfc990c56",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-flyweight-pattern"
+      },
+      "source_id": "web-computer-science-flyweight-pattern",
+      "evidence_id": "evidence-cf5b706ff406",
+      "snapshot_sha256": "sha256:31c16b4fbb2f23903830a9265b7f32e7d892d9654682c8362c9a0ed6b5d33b68",
+      "selector_sha256": "sha256:70ca86c05271527289e0d97fd207d71f294b85535d774c3d3dad5a3bb92a3a68",
+      "quote_sha256": "sha256:c78618f4b75b363589036c325d459c7166d7fdabaa8ee21979f08319899bb4ad"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "flyweight-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-flyweight-pattern",
+          "evidence_id": "evidence-cf5b706ff406"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-cf5b706ff406",
+          "exact": "flyweight software design pattern refers to an object that minimizes memory usage by sharing some of its data with other similar objects. The flyweight pattern is one of twenty-three GoF design patter"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-cf5b706ff406",
+          "subject": "flyweight software design pattern",
+          "predicate": "refers to an object that minimizes memory usage by sharing some of its data with other similar objects",
+          "object": "object design",
+          "qualifiers": {
+            "quote_language": "en",
+            "claim_language": "zh"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [59,137) 直接陈述 'minimizes memory usage by sharing some of its data with other similar objects'，与 claim 前半部分'通过与其他相似对象共享部分数据来最小化内存占用'逐要素对应（共享数据/相似对象/最小化内存），该部分被引文直接支持。但 claim 后半部分'适合大量共享重复元素的场景'在引文中没有任何对应表述：引文 [138,199) 仅说明该模式是二十三个 GoF 设计模式之一（且文本截断于 'design patter'），既未提及适用条件（大量对象、共享重复元素），也未给出任何适用场景判断；'共享数据'与'共享重复元素的适用场景'是两个不同断言，前者不能推出后者。故 claim 仅前半部分有证据支持，后半部分缺少引文证据，判定为 partially_supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-flyweight-pattern",
+          "evidence_id": "evidence-cf5b706ff406",
+          "start": 59,
+          "end": 137
+        },
+        {
+          "source_id": "web-computer-science-flyweight-pattern",
+          "evidence_id": "evidence-cf5b706ff406",
+          "start": 138,
+          "end": 199
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-flyweight-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "flyweight-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

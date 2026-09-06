@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "bridge-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_65543d33780a",
+  "input_hash": "sha256:5fce394f34227805e7e5357d5513f968d82930f72b60c3a3b687139aeef8d1b1",
+  "provider_duration_ms": 21588,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695220.605196,
+  "wiki_content_sha256": "sha256:2cd2f0ec42fc0fce974ac22d5262dfc2dbcb4306cc38bb4f750515f3f70625b5",
+  "wiki_evidence_sha256": "sha256:7f97c0c44303a4ea74f32ee02e9e12d351d7e8e6801d20fdc45a69e0519213bd",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-bridge-pattern"
+      },
+      "source_id": "web-computer-science-bridge-pattern",
+      "evidence_id": "evidence-b14e9e7ce7de",
+      "snapshot_sha256": "sha256:d0ab773a50af90f11a491569985a6374d1fae4e9c4bf8279315c4e3871732bca",
+      "selector_sha256": "sha256:212fc3611c7a3baf6de7d5077cc7e05d38e46b1544e70fa5877d15af34f8cbf8",
+      "quote_sha256": "sha256:d46a74f87b94419e2f9b17a001f696a2dfc8cfec7bf8b954fd94e00a70bad92f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "bridge-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-bridge-pattern",
+          "evidence_id": "evidence-b14e9e7ce7de"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b14e9e7ce7de",
+          "exact": "The bridge pattern is a design pattern used in software engineering that is meant to \"decouple an abstraction from its implementation so that the two can vary independently\", introduced by the Gang of"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b14e9e7ce7de",
+          "subject": "The bridge pattern",
+          "predicate": "decouples abstraction from implementation",
+          "object": "the two can vary independently",
+          "qualifiers": {
+            "introduced_by": "the Gang of (GoF)"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文区间 [86,172) 直接给出定义 \"decouple an abstraction from its implementation so that the two can vary independently\"，完整覆盖 claim 前半句（抽象与实现解耦、两者可独立变化）；区间 [175,200) \"introduced by the Gang of\" 表明该模式由 Gang of Four（GoF）提出，覆盖 claim 后半句。两段引文共同支撑 claim 的全部语义成分，语义一致、无冲突，故 supported。注意：证据仅来自单一 source（web-computer-science-bridge-pattern），support=direct、evidence_status=source-reported，且该源 provenance 字段为空对象、引文无转载声明，无法举证独立性（independence_unknown），其强弱仅由该单一来源决定；引文在被截断处（\"Gang of\" 后无 \"Four\"）不影响 GoF 指称的确定性。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-bridge-pattern",
+          "evidence_id": "evidence-b14e9e7ce7de",
+          "start": 86,
+          "end": 172
+        },
+        {
+          "source_id": "web-computer-science-bridge-pattern",
+          "evidence_id": "evidence-b14e9e7ce7de",
+          "start": 175,
+          "end": 200
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-bridge-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "bridge-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

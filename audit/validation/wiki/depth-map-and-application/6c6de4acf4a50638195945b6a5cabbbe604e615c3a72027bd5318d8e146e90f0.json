@@ -1,0 +1,150 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "depth-map-and-application",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_93ddbc2c21ca",
+  "input_hash": "sha256:48af38d101bb9298b7c0ff61708a4cca3adc3b897126ecf5ced11d7da134eb7b",
+  "provider_duration_ms": 30575,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696089.390505,
+  "wiki_content_sha256": "sha256:95bb5eb30e8821b1126c384087af82984c74a010de7c7bcddcaf68864dcfb572",
+  "wiki_evidence_sha256": "sha256:408cc100cdbd675d2414eebd7d82d22361f25ba6bc5ec413c5ab98d1cf091448",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-depth-map-and-application"
+      },
+      "source_id": "web-multimedia-depth-map-and-application",
+      "evidence_id": "evidence-16a3dfa68192",
+      "snapshot_sha256": "sha256:f990cd39a591739b91630315b8d50064dca682ee0fcbdb81a2c6eba2d241cd88",
+      "selector_sha256": "sha256:e198c22373bf3e4bdff6f0c7b6ecaca5241c5529ebc6fc6189899877c59fb314",
+      "quote_sha256": "sha256:a724db3220da9919bc9103efa44f8c117ee2073e80488a12642ce374d4226b59"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "depth-map-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-depth-map-and-application",
+          "evidence_id": "evidence-16a3dfa68192"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-16a3dfa68192",
+          "exact": "a depth map is an image or image channel that contains information relating to the distance of the surfaces of scene objects from a viewpoint"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-16a3dfa68192",
+          "subject": "a depth map",
+          "predicate": "is",
+          "object": "an image or image channel that contains information relating to the distance of the surfaces of scene objects from a viewpoint"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文（evidence-16a3dfa68192，[0,141)）给出深度图的普遍定义句，与 claim 的定义核心逐项对应：'image or image channel'（[18,40)）对应'图像或图像通道'；'information relating to the distance of the surfaces of scene objects from a viewpoint'（[55,141)）对应'包含场景物体表面到某视点距离信息'，其中 'from a viewpoint' 与'到某视点'语义等价，均为'某视点到物体表面的距离'。claim 中的领域限定'在 3D 计算机图形与计算机视觉中'是将通用定义限定到特定应用领域，属普遍命题对受限命题的蕴含关系，不与引文冲突，亦未增加引文无法支撑的断言内容。注：仅提供引文片段、无源完整原文，offset 以该引文片段自身为参照系。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-depth-map-and-application",
+          "evidence_id": "evidence-16a3dfa68192",
+          "start": 0,
+          "end": 141
+        },
+        {
+          "source_id": "web-multimedia-depth-map-and-application",
+          "evidence_id": "evidence-16a3dfa68192",
+          "start": 18,
+          "end": 40
+        },
+        {
+          "source_id": "web-multimedia-depth-map-and-application",
+          "evidence_id": "evidence-16a3dfa68192",
+          "start": 55,
+          "end": 141
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-depth-map-and-application",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "depth-map-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

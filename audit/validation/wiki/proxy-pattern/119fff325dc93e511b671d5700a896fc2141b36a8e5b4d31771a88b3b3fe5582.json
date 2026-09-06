@@ -1,0 +1,161 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "proxy-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_8151adbe8320",
+  "input_hash": "sha256:7cde38b501c63696db134c9d06e74925eb7b5cf481204ad875682e35cef008bc",
+  "provider_duration_ms": 32949,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695344.086774,
+  "wiki_content_sha256": "sha256:999dff52ac0c38d9e7acb6908afe5efd781bf7f56b8aef41c7281f426a18387b",
+  "wiki_evidence_sha256": "sha256:7853dc302152086c60df39bbf4fdf461e507f59e2b0341648535efeb5889198c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-proxy-pattern"
+      },
+      "source_id": "web-computer-science-proxy-pattern",
+      "evidence_id": "evidence-f233a88bd2b7",
+      "snapshot_sha256": "sha256:08b9a33f69952eba1e2ee096f5950da973b6f839cf546dcb77826d649605ce2d",
+      "selector_sha256": "sha256:28b3eb8b033a3f0e0b8f4290c484ada27321e35f5b8309a14aca7f24bb7572eb",
+      "quote_sha256": "sha256:d7dbfacd1cb0af8425678adcd5451ae049683bc1860117ed370a1ac467266fe2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "proxy-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-f233a88bd2b7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f233a88bd2b7",
+          "exact": "the proxy pattern is a software design pattern which is a class functioning as an interface to something else."
+        },
+        {
+          "evidence_id": "evidence-f233a88bd2b7",
+          "exact": "The proxy could interface to anything: a network connection, a large object in memory, a "
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f233a88bd2b7",
+          "subject": "the proxy pattern",
+          "predicate": "is (defined as)",
+          "object": "a class functioning as an interface to something else",
+          "qualifiers": {
+            "text_range": "0-110"
+          }
+        },
+        {
+          "evidence_id": "evidence-f233a88bd2b7",
+          "subject": "the proxy",
+          "predicate": "could interface to",
+          "object": "a network connection, a large object in memory",
+          "qualifiers": {
+            "text_range": "111-199",
+            "truncated": "引文在 'a ' 处截断，未列出文件等其他示例，亦未提及'替身''昂贵或难以复制'或客户端调用语义"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,110) 逐字支持 claim 第一分句：'the proxy pattern is a software design pattern which is a class functioning as an interface to something else'，即代理模式是作为某事物接口的类。引文 [111,199) 仅给出 proxy 可 interface 的对象示例（'a network connection, a large object in memory'），且在 'a ' 处截断：claim 中的'文件'、'昂贵或难以复制的资源'、'替身'等表述以及'由客户端调用以访问背后的真实对象'均未出现在给定引文中。因此核心定义受支持，其余附加属性与调用语义缺乏引文依据，判定为部分受支持。来源 provenance 为空对象且仅单一 source，无法证明存在独立佐证来源，故 independence 输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-f233a88bd2b7",
+          "start": 0,
+          "end": 110
+        },
+        {
+          "source_id": "web-computer-science-proxy-pattern",
+          "evidence_id": "evidence-f233a88bd2b7",
+          "start": 111,
+          "end": 199
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-proxy-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "proxy-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

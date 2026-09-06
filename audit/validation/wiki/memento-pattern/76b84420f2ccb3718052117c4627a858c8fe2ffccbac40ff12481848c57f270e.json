@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "memento-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_fd590e442ce0",
+  "input_hash": "sha256:acf1745092a8ff4bdf79bd417fa294eab12b82fd0701f23924a6e28886b6f8aa",
+  "provider_duration_ms": 26603,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697023.167514,
+  "wiki_content_sha256": "sha256:6ab75fc0f5c82c7a3571509716ac7ce99a82e1af5f5cf91ff418563e32d52318",
+  "wiki_evidence_sha256": "sha256:6ad1af273e5074350d8221574df156ee2776027f4567ea40917e3b34a83fe8b5",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-memento-pattern"
+      },
+      "source_id": "web-computer-science-memento-pattern",
+      "evidence_id": "evidence-24fca6832d34",
+      "snapshot_sha256": "sha256:4f5b3145dcbbedeffc6637969610677581868f38591981fa36730dcabca62943",
+      "selector_sha256": "sha256:5de1ba115cee5f105828c4210dc90a8c1f513c4ac1686e0780d014f6cd9e463f",
+      "quote_sha256": "sha256:db418f75b92f251011d6ce61b13988b732aaea60f374dc807dadf5e89f07f369"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "memento-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-memento-pattern",
+          "evidence_id": "evidence-24fca6832d34"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-24fca6832d34",
+          "exact": "The memento pattern is a software design pattern in the field of object-oriented programming that allows reverting the state of an object"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-24fca6832d34",
+          "subject": "The memento pattern",
+          "predicate": "is",
+          "object": "a software design pattern in the field of object-oriented programming that allows reverting the state of an object"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "target 引文 [0,137) 完整表述 'The memento pattern is a software design pattern in the field of object-oriented programming that allows reverting the state of an object'，与 claim 逐项对应：'The memento pattern'（[0,20)）对应 '备忘录模式'；'a software design pattern in the field of object-oriented programming'（[25,93)）对应 '面向对象编程领域的一种软件设计模式'；'reverting the state of an object'（[105,137)）对应 '回滚（恢复）一个对象的状态'。'revert' 与 '回滚（恢复）' 语义一致，claim 中的 '（恢复）' 仅为 '回滚' 的括号释义，未引入引文之外的附加事实，故判定 supported。该 claim 仅有一个 target，且 source 的 provenance 为空对象，不存在多源独立性问题，无需进行独立性判定。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-memento-pattern",
+          "evidence_id": "evidence-24fca6832d34",
+          "start": 0,
+          "end": 137
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-memento-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "memento-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002"
+    ]
+  }
+}

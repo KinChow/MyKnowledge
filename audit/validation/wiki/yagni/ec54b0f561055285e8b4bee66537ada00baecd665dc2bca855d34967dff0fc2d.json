@@ -1,0 +1,153 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "yagni",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_850ea16e8a45",
+  "input_hash": "sha256:85ff910d4822ba70107ad51f4ed51c3b992b4d2c9fe1696d74594ee6b2de1c3a",
+  "provider_duration_ms": 18110,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695742.464418,
+  "wiki_content_sha256": "sha256:84d76865d0ee947881dca6abd17d4915e326785e912b8e7593c47ae55ff7686e",
+  "wiki_evidence_sha256": "sha256:93212791893f58cb79d87a17df7185e5927dfd893b6ae11c557f03c1653e2319",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-yagni"
+      },
+      "source_id": "web-computer-science-yagni",
+      "evidence_id": "evidence-ab404e6b660d",
+      "snapshot_sha256": "sha256:781568ca05d4284ca0c58b286dc0c3ea3a49eb8ce8a8528f8eaadeffdd7f2931",
+      "selector_sha256": "sha256:b27cf973c5580be6bb1683bf5b3f93ac4f16f9fef5b0f6f241a50a0bface1306",
+      "quote_sha256": "sha256:cc5ab24dd8e4af53029a95c8806c5ad6a1884b1c6bbaa4d01ecde477f6ffd4c4"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "yagni-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-yagni",
+          "evidence_id": "evidence-ab404e6b660d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ab404e6b660d",
+          "exact": "\"You aren't gonna need it\" (YAGNI) is a principle which arose from extreme programming (XP) that states a programmer should not add functionality until deemed necessary."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ab404e6b660d",
+          "subject": "YAGNI",
+          "predicate": "derivedFrom",
+          "object": "extreme programming (XP)",
+          "qualifiers": {
+            "prescription": "a programmer should not add functionality until deemed necessary"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "target 引文逐项支持 claim 的两个断言：(1) 引文 [56,92) \"arose from extreme programming (XP)\" 支持「源自极限编程（XP）」；(2) 引文 [118,169) \"should not add functionality until deemed necessary\" 支持「在确认必要之前不应添加功能」；引文 [0,34) 给出名称 \"You aren't gonna need it\" (YAGNI)，与 claim 的术语表述完全对应。中文 claim 为原文的忠实转述，无添加、无夸大、无冲突。注：因 source_data 仅提供 evidence 摘录文本，偏移基于该 quote 文本计算（半开区间）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-yagni",
+          "evidence_id": "evidence-ab404e6b660d",
+          "start": 0,
+          "end": 34
+        },
+        {
+          "source_id": "web-computer-science-yagni",
+          "evidence_id": "evidence-ab404e6b660d",
+          "start": 56,
+          "end": 92
+        },
+        {
+          "source_id": "web-computer-science-yagni",
+          "evidence_id": "evidence-ab404e6b660d",
+          "start": 118,
+          "end": 169
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-yagni",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "yagni-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

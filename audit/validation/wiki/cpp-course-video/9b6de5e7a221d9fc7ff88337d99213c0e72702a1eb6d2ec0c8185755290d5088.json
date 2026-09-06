@@ -1,0 +1,396 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-course-video",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_44f98aa8dd26",
+  "input_hash": "sha256:cb46065596aceec385a37afd1ac6b8a9a757f7242f2bec645a1ead79193ec0cb",
+  "provider_duration_ms": 74284,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696583.491585,
+  "wiki_content_sha256": "sha256:444adf8cdfd89fdfcc5fae04f0a2d04b501f874a6bf5c80e1a46a3f790ee0abe",
+  "wiki_evidence_sha256": "sha256:a8c9cfa426f3f988cd2363ccc55f7640cd520f60639d1795b6e3bade4f49d37b",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-course"
+      },
+      "source_id": "web-computer-science-cpp-course",
+      "evidence_id": "evidence-66af4c868854",
+      "snapshot_sha256": "sha256:370ef0beecf12cb5bb3548370e2581a8cfee17270e96fdbb85877b36b9d9f4a7",
+      "selector_sha256": "sha256:0c72e6c52620e226b9713c8aea69bbdd32014149ced9fe33dc3cc0c6e3ed3a24",
+      "quote_sha256": "sha256:c45f8d2c9240e6194cbf321657155ba06f412fcd6f317c7f208c437536780b3a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-course"
+      },
+      "source_id": "web-computer-science-cpp-course",
+      "evidence_id": "evidence-1f513b7ce17d",
+      "snapshot_sha256": "sha256:370ef0beecf12cb5bb3548370e2581a8cfee17270e96fdbb85877b36b9d9f4a7",
+      "selector_sha256": "sha256:0b9926725ea7a3dd6c9b386ff71ed7f74ee9b38ef396e95fcc5a2dd15b03574f",
+      "quote_sha256": "sha256:694f6d947e392f1b58d687a972559d5bbb4e9bd3c7f82cdfda9c138505afa65c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-course"
+      },
+      "source_id": "web-computer-science-cpp-course",
+      "evidence_id": "evidence-a18f9c4f3194",
+      "snapshot_sha256": "sha256:370ef0beecf12cb5bb3548370e2581a8cfee17270e96fdbb85877b36b9d9f4a7",
+      "selector_sha256": "sha256:1ad0106b01ea325ce057862956f97d48677c3a55c12657bfd4d238660d6976b1",
+      "quote_sha256": "sha256:933928891786fb085334153aad7a63dc1c8571f5191b593019bf85de4b51fba8"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-course-language",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-66af4c868854",
+          "exact": "C++ is a high-level, general-purpose programming language created by Danish computer scientist Bjarne Stroustrup. First released in 1985 as an extension of the C programming language, adding object-oriented (OOP) features, it has since expanded significantly over time adding more OOP and other features; as of 1997 standardization, C++ has added functional features, in addition to facilities for low-level memory manipulation for systems like microcomputers or to make operating systems like Linux or Windows, and even later came features like generic programming (through the use of templates)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-66af4c868854",
+          "subject": "C++",
+          "predicate": "is",
+          "object": "a high-level, general-purpose programming language, first released in 1985 as an extension of C with object-oriented features, expanded over time, and gained generic programming via templates",
+          "qualifiers": {
+            "released_year": "1985",
+            "extension_of": "C",
+            "oop": true,
+            "generic_programming_mechanism": "templates"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,57) 对应 claim 中\"C++ 是高级通用编程语言\"（high-level, general-purpose programming language）；[113,181) 对应\"1985 年作为 C 语言的扩展首次发布\"（First released in 1985 as an extension of the C programming language）；[183,220) 对应\"加入面向对象特性\"（adding object-oriented (OOP) features）；[222,266) 对应\"其后不断扩展\"（has since expanded significantly over time）；[509,559) 对应\"通过模板支持泛型编程\"（generic programming (through the use of templates)）。claim 的每个断言单元均可在引文中定位到逐字对应的片段，无遗漏、无冲突，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "start": 0,
+          "end": 57
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "start": 113,
+          "end": 181
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "start": 183,
+          "end": 220
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "start": 222,
+          "end": 266
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "start": 509,
+          "end": 559
+        }
+      ],
+      "advisory": false
+    },
+    {
+      "claim_id": "cpp-course-stl",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-1f513b7ce17d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1f513b7ce17d",
+          "exact": "The Standard Template Library (STL) was a software library originally designed by Alexander Stepanov for the C++ programming language that influenced many parts of the C++ Standard Library, though no longer is actively maintained and is now mostly integrated into the C++ standard library itself. It provides four components called algorithms, containers, functors, and iterators."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1f513b7ce17d",
+          "subject": "STL",
+          "predicate": "is",
+          "object": "a software library that influenced many parts of the C++ Standard Library, providing four components: algorithms, containers, functors, and iterators",
+          "qualifiers": {
+            "designer": "Alexander Stepanov",
+            "components": [
+              "algorithms",
+              "containers",
+              "functors",
+              "iterators"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [42,58) 与 [139,188) 对应 claim 中\"是影响 C++ 标准库的软件库\"（a software library ... that influenced many parts of the C++ Standard Library）；[300,379) 对应\"提供算法、容器、函子与迭代器四大组件\"（provides four components called algorithms, containers, functors, and iterators），四个组件逐字对应。claim 全部断言单元均可定位到引文，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-1f513b7ce17d",
+          "start": 42,
+          "end": 58
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-1f513b7ce17d",
+          "start": 139,
+          "end": 188
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-1f513b7ce17d",
+          "start": 300,
+          "end": 379
+        }
+      ],
+      "advisory": false
+    },
+    {
+      "claim_id": "cpp-course-containers",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a18f9c4f3194",
+          "exact": "The STL contains sequence containers and associative containers. The containers are objects that store data. The standard sequence containers include vector, deque, and list. The standard associative containers are set, multiset, map, multimap, hash_set, hash_map, hash_multiset and hash_multimap."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a18f9c4f3194",
+          "subject": "STL",
+          "predicate": "contains",
+          "object": "sequence containers (vector, deque, list) and associative containers (set, map, etc.); containers are objects that store data",
+          "qualifiers": {
+            "sequence": [
+              "vector",
+              "deque",
+              "list"
+            ],
+            "associative": [
+              "set",
+              "multiset",
+              "map",
+              "multimap",
+              "hash_set",
+              "hash_map",
+              "hash_multiset",
+              "hash_multimap"
+            ],
+            "container_definition": "objects that store data"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [17,63) 对应\"STL 容器分为顺序容器与关联容器\"（sequence containers and associative containers）；[150,173) 对应\"顺序容器（vector、deque、list）\"；[215,296) 对应\"关联容器（set、map 等）\"，set/map 均在列举中，\"等\"涵盖其余列举项；[65,108) 对应\"容器是存储数据的对象\"（The containers are objects that store data）。claim 全部断言单元均可定位，判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194",
+          "start": 17,
+          "end": 63
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194",
+          "start": 65,
+          "end": 108
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194",
+          "start": 150,
+          "end": 173
+        },
+        {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194",
+          "start": 215,
+          "end": 296
+        }
+      ],
+      "advisory": false
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "independence_group": "source:web-computer-science-cpp-course",
+          "observation_sha256": "sha256:fe58a274938faad868e439e08738f1821494e4b00aafdf60a4198df1364819e9"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-1f513b7ce17d",
+          "independence_group": "source:web-computer-science-cpp-course",
+          "observation_sha256": "sha256:2424cce228b8b34011e573ab12ff2813fd22cfec69d6bf36e2ca9e261f06a74f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-66af4c868854",
+          "independence_group": "source:web-computer-science-cpp-course",
+          "observation_sha256": "sha256:fe58a274938faad868e439e08738f1821494e4b00aafdf60a4198df1364819e9"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194",
+          "independence_group": "source:web-computer-science-cpp-course",
+          "observation_sha256": "sha256:74d12afc69b520a0122dc4e08e3a991a6fb709d9a1cf4c022a9c5bf80c647044"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-1f513b7ce17d",
+          "independence_group": "source:web-computer-science-cpp-course",
+          "observation_sha256": "sha256:2424cce228b8b34011e573ab12ff2813fd22cfec69d6bf36e2ca9e261f06a74f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-course",
+          "evidence_id": "evidence-a18f9c4f3194",
+          "independence_group": "source:web-computer-science-cpp-course",
+          "observation_sha256": "sha256:74d12afc69b520a0122dc4e08e3a991a6fb709d9a1cf4c022a9c5bf80c647044"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-course",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-course",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-course",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-course-language",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-course-stl",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-course-containers",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

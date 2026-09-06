@@ -1,0 +1,134 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "observer-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_ce0ec22098ab",
+  "input_hash": "sha256:a7c5648f163289c392fb3d0d8b86d851df91ecd47e9663d55e55d7dfa4cd726b",
+  "provider_duration_ms": 26068,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695421.1639838,
+  "wiki_content_sha256": "sha256:ec42aea7386f1c998eec72ffac2a9354258dfd8fca39f8692d9729fa5ad6390a",
+  "wiki_evidence_sha256": "sha256:7ff046c8e0e618af79a2fc0ce07004435af2b2ccc44ba246f76dd59dc705b9e6",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-observer-pattern"
+      },
+      "source_id": "web-computer-science-observer-pattern",
+      "evidence_id": "evidence-334b0ce05d11",
+      "snapshot_sha256": "sha256:dd2323c1caac5dace33f47a6cf5c8242931812b65fb0ca502da8a0435b29e05f",
+      "selector_sha256": "sha256:de3afadb7931493f7ac8a5855f6050ea994b8bddeb191f87d048d2a1ebf26334",
+      "quote_sha256": "sha256:2b1cbac77c34283ee38c2b1399e7538bfded2cd5a9b5968e005b51f447d6ade9"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "observer-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-observer-pattern",
+          "evidence_id": "evidence-334b0ce05d11"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-334b0ce05d11",
+          "exact": "the observer pattern is a software design pattern in which an object, called the subject"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-334b0ce05d11",
+          "subject": "observer pattern",
+          "predicate": "is_a",
+          "object": "software design pattern"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,88) 仅覆盖 claim 的起始部分：确认“observer pattern 是一种软件设计模式，其中有一个对象被称为 subject”。但 claim 的其余要素——subject 维护观察者列表、状态变化时自动通知、典型做法是调用观察者方法、通过标准化接口认识观察者、直接管理订阅列表——在引文中均无对应文本。引文是原定义的截断片段，故该 claim 仅部分被支持，判定为 partially_supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-observer-pattern",
+          "evidence_id": "evidence-334b0ce05d11",
+          "start": 0,
+          "end": 88
+        }
+      ],
+      "advisory": false
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-observer-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "observer-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

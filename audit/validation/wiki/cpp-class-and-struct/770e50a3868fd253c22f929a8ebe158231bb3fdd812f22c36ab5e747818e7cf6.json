@@ -1,0 +1,228 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-class-and-struct",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_d3193b80d607",
+  "input_hash": "sha256:a8b7f8424fab1d13e1c16e71bfe0a813df55c538a19bb7d3ddebaa3f40c01559",
+  "provider_duration_ms": 36739,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695904.29155,
+  "wiki_content_sha256": "sha256:305611be115142d191a0e8af48132c17641c6da53771bdeafbce3f4282895934",
+  "wiki_evidence_sha256": "sha256:68c74cf48be84604c860ed401660d61bc450707c1b6764d05b8baa7850a75e5e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-class-and-struct"
+      },
+      "source_id": "web-computer-science-cpp-class-and-struct",
+      "evidence_id": "evidence-c1d493a5d1a7",
+      "snapshot_sha256": "sha256:36e90a879b087577270dfd55bc4a9867898e1c59f428677428253422a87a53bc",
+      "selector_sha256": "sha256:67885d623ca5e8977b166ccc03469c3f3e9413978f09a8ed75b4cb116e62a47e",
+      "quote_sha256": "sha256:809aeacd4b9aebb3a702cfff9232ed92c472152d393fe4fe939a81c3d767960d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-class-and-struct"
+      },
+      "source_id": "web-computer-science-cpp-class-and-struct",
+      "evidence_id": "evidence-0d439ba9d56a",
+      "snapshot_sha256": "sha256:36e90a879b087577270dfd55bc4a9867898e1c59f428677428253422a87a53bc",
+      "selector_sha256": "sha256:3e37432c1f707664b746255e7c9fe213037667c60969d5267291d3b285043e81",
+      "quote_sha256": "sha256:717f1557da1bf712192e914e33f9981a0e950f97c21049b59cca07dd8b5b0fd4"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-class-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-c1d493a5d1a7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c1d493a5d1a7",
+          "exact": "Classes are user-defined types, defined by class-specifier, which appears in decl-specifier-seq of the declaration syntax."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c1d493a5d1a7",
+          "subject": "class",
+          "predicate": "is a",
+          "object": "user-defined type defined by class-specifier (appears in decl-specifier-seq)"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,122) 直接给出断言：\"Classes are user-defined types, defined by class-specifier, which appears in decl-specifier-seq of the declaration syntax.\"，与 claim「类（class）是用户自定义类型（user-defined type），由类说明符（class-specifier）定义」逐句对应，无超出引文的附加断言（class-specifier 出现于 decl-specifier-seq 为引文额外信息，不构成 claim 的未引证部分）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-c1d493a5d1a7",
+          "start": 0,
+          "end": 122
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-class-vs-struct",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-0d439ba9d56a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0d439ba9d56a",
+          "exact": "class-key is one of class, struct and union. The keywords class and struct are identical except for the default member access and the default base class access."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0d439ba9d56a",
+          "subject": "class and struct",
+          "predicate": "are identical except for",
+          "object": "default member access and default base class access; union is listed as a class-key"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文分句一 [0,44)（\"class-key is one of class, struct and union.\"）只说明 union 是 class-key 之一；分句二 [45,160)（\"The keywords class and struct are identical except for the default member access and the default base class access.\"）直接支持 claim 前半「class 与 struct 除默认成员访问与默认基类访问外完全相同」。但 claim 后半「union 声明引入联合体类型」在引文中无显式表述：引文未说明以 union 为 class-key 的声明引入联合体类型，该部分依赖引文外知识（class-specifier 定义类、class-key 为 union 时定义联合体），故判 partially_supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-0d439ba9d56a",
+          "start": 0,
+          "end": 44
+        },
+        {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-0d439ba9d56a",
+          "start": 45,
+          "end": 160
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [
+    "claim cpp-class-vs-struct 后半「union 声明引入联合体类型」缺少显式引文：现有引文仅列出 union 为 class-key 之一，未陈述 union 声明引入联合体类型"
+  ],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-c1d493a5d1a7",
+          "independence_group": "source:web-computer-science-cpp-class-and-struct",
+          "observation_sha256": "sha256:feb79eebd0d3651c79937deb8d2abdb056a0ae9029c383278dbb8a44b1cd9061"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-class-and-struct",
+          "evidence_id": "evidence-0d439ba9d56a",
+          "independence_group": "source:web-computer-science-cpp-class-and-struct",
+          "observation_sha256": "sha256:b27391f4a531f8ecab5428404b47c4512b20c640f2ca7f5cf9415e14c7e1705a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-class-and-struct",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-class-and-struct",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-class-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-class-vs-struct",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

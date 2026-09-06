@@ -1,0 +1,144 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "builder-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_3a5926bfe2a1",
+  "input_hash": "sha256:83d92ec1384eba5bb3520c25e22ae9d966778045f09b6aefbd53a72e6e5e6222",
+  "provider_duration_ms": 18090,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695108.1620421,
+  "wiki_content_sha256": "sha256:601fac12f71b792e504734fcfad365ccd08afd73c439c28d5f7aa8355b55288f",
+  "wiki_evidence_sha256": "sha256:4fdf1ba2fcdf0d699eb66fdf3dc7c9e2610289137b357de0bb3cb0c015689404",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-builder-pattern"
+      },
+      "source_id": "web-computer-science-builder-pattern",
+      "evidence_id": "evidence-d8f8bf13741f",
+      "snapshot_sha256": "sha256:dab1bcc21bdd3b493f250c8bed5c858a9d61d850053f3007740bec4c75333bcc",
+      "selector_sha256": "sha256:ec41ff349ea485bee38a9be3ded54c104d09a6aeef62085c7bddfc448f820987",
+      "quote_sha256": "sha256:0c1ad5f0f090ab1c9bc13a644df6faddef19cccac3bba0d52710dce594583a0e"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "builder-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-builder-pattern",
+          "evidence_id": "evidence-d8f8bf13741f"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d8f8bf13741f",
+          "exact": "The builder pattern separates the construction of a complex object from its representation"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d8f8bf13741f",
+          "subject": "builder pattern",
+          "predicate": "separates the construction of a complex object from its representation",
+          "object": "construction vs representation separation"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "给定引文（evidence-d8f8bf13741f，引文原文区间 [0,90]）仅直接支持 claim 中\"它将复杂对象的构建与其表示分离\"这一断言；claim 其余断言——它是一种设计模式且为面向对象编程中的对象创建问题提供灵活解决方案、是《设计模式》中 23 个经典设计模式之一、被归类为创建型模式——在给定引文中均无对应文本，故判定为部分支持。目标仅一条外部来源且 provenance 字段为空（{}），引文中亦无转载声明，无法举证多源独立性，按规则输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-builder-pattern",
+          "evidence_id": "evidence-d8f8bf13741f",
+          "start": 0,
+          "end": 90
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-builder-pattern",
+            "evidence_id": "evidence-d8f8bf13741f"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-builder-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "builder-pattern-definition",
+      "source_id": "web-computer-science-builder-pattern",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

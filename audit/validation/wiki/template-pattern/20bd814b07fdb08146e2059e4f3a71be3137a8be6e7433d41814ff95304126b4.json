@@ -1,0 +1,137 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "template-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_8a803c0b6e7d",
+  "input_hash": "sha256:da8e18f2d7b00a2e40aedca862aea46324ffb6257460742ff382859cd39cf2cf",
+  "provider_duration_ms": 16691,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695496.46608,
+  "wiki_content_sha256": "sha256:51acf5abf3901bb1379b9255a9cb00d4350e5ce303e4395b89a4aa248427006b",
+  "wiki_evidence_sha256": "sha256:283ba5a96f84c31d561e29b23f727cf6e050feed6be385cb4538ab8a28f9d8ba",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-template-pattern"
+      },
+      "source_id": "web-computer-science-template-pattern",
+      "evidence_id": "evidence-ad89a183fb52",
+      "snapshot_sha256": "sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062",
+      "selector_sha256": "sha256:aee796a3a822f503e800554a9bfd67913d6f81426865b8309af32302a9bc2f71",
+      "quote_sha256": "sha256:34645dc8932dba3593653f9327598c1d5ece668b29c4ecd45b35e5d1e3cf9013"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "template-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-template-pattern",
+          "evidence_id": "evidence-ad89a183fb52"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ad89a183fb52",
+          "exact": "The template method is a method in a superclass, usually an abstract superclass, and defines the skeleton of an operation in terms of a number of high-level steps"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ad89a183fb52",
+          "subject": "template method",
+          "predicate": "is",
+          "object": "a method in a superclass, usually an abstract superclass, that defines the skeleton of an operation in terms of a number of high-level steps",
+          "qualifiers": {
+            "pattern_type": "behavioral design pattern",
+            "direct_support": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文 evidence-ad89a183fb52（字符区间 0-164）直接陈述模板方法是超类（通常为抽象超类）中的方法，以若干高层步骤定义操作骨架，与 claim 第一分句完全吻合，故该部分 supported。但 claim 的\"行为型设计模式\"定位、步骤\"由同一类中的辅助方法实现\"以及\"子类填充可变部分但不重写模板方法本身\"三个分句，在给定引文中均无对应文本，且 source_data 未提供源原文、引用来源或转载声明可供核验，故整体判定 partially_supported。注：本裁决仅基于所提供的引文，不为引文之外的内容背书。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-template-pattern",
+          "evidence_id": "evidence-ad89a183fb52",
+          "start": 0,
+          "end": 164
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-template-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "template-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

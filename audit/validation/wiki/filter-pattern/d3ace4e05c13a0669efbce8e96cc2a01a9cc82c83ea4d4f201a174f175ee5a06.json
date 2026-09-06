@@ -1,0 +1,153 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "filter-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_01600073637a",
+  "input_hash": "sha256:ef0385e231b2cb5b0f8beb2e7a1ece0491e98892cda443bf34d0237e85c44c35",
+  "provider_duration_ms": 31308,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695376.386936,
+  "wiki_content_sha256": "sha256:348bbbe9dafe42e890c51d6cce54f8d57e261583556a2ca74caffd81d02ca679",
+  "wiki_evidence_sha256": "sha256:fbe1eeac3d04e7023cd93bcc882847f1ef937e6a6cae8a16aa58b398d0609ef7",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-filter-pattern"
+      },
+      "source_id": "web-computer-science-filter-pattern",
+      "evidence_id": "evidence-9f2f33b8f144",
+      "snapshot_sha256": "sha256:5e2bd87ff80cb9f3edad644214aabdda7e50bd0ac0147fdfff5ff568a8ebaf1b",
+      "selector_sha256": "sha256:7555152ee8e3406f6afdcc5d3f999ff29a0bb8989e1b8df0dbb92e07b5980f7b",
+      "quote_sha256": "sha256:cb5a1c501547fd7dfce531e5e786a6dd715ffe42a8d2598150e06d609a231660"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "filter-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-filter-pattern",
+          "evidence_id": "evidence-9f2f33b8f144"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-9f2f33b8f144",
+          "exact": "这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-9f2f33b8f144",
+          "subject": "过滤器模式（Filter Pattern / 标准模式）",
+          "predicate": "允许使用不同标准过滤对象并通过逻辑运算以解耦方式连接，属于",
+          "object": "结构型模式"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "claim 三项断言在引文中均有逐字对应：引文区间[50,70)为\"允许开发人员使用不同的标准来过滤一组对象\"，[71,90)为\"通过逻辑运算以解耦的方式把它们连接起来\"，[100,107)为\"属于结构型模式\"。引文原文为\"这种模式允许开发人员使用不同的标准来过滤一组对象，通过逻辑运算以解耦的方式把它们连接起来。这种类型的设计模式属于结构型模式\"（起始\"这\"位于索引46，\"结构型模式\"位于索引100-106）。claim 未超出引文范围，无遗漏无冲突。该证据为单来源（source_id=web-computer-science-filter-pattern），origin=external、evidence_status=source-reported、confidentiality=public，仅有一条引文，不存在多来源独立性交叉验证场景。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-filter-pattern",
+          "evidence_id": "evidence-9f2f33b8f144",
+          "start": 50,
+          "end": 70
+        },
+        {
+          "source_id": "web-computer-science-filter-pattern",
+          "evidence_id": "evidence-9f2f33b8f144",
+          "start": 71,
+          "end": 90
+        },
+        {
+          "source_id": "web-computer-science-filter-pattern",
+          "evidence_id": "evidence-9f2f33b8f144",
+          "start": 100,
+          "end": 107
+        }
+      ],
+      "independence": {
+        "group_id": "filter-pattern-single-source",
+        "basis": [
+          {
+            "source_id": "web-computer-science-filter-pattern",
+            "evidence_id": "evidence-9f2f33b8f144",
+            "provenance_field": "publisher",
+            "offset": {
+              "start": 0,
+              "end": 158
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-filter-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "visitor-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_a81096f14e28",
+  "input_hash": "sha256:0fe23ac096d6387af9de85c1ddfe644247bf2eb0ff20faac629017bd8ed181a5",
+  "provider_duration_ms": 17796,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695616.28197,
+  "wiki_content_sha256": "sha256:687bb318f777fce4ed940bf6cdc1f6e9670dccd167995f558059d36f45babc62",
+  "wiki_evidence_sha256": "sha256:e8c16b5bf06aa187329b848f7cf06f8592ef180093316191d98c979006c92844",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-visitor-pattern"
+      },
+      "source_id": "web-computer-science-visitor-pattern",
+      "evidence_id": "evidence-d6bf0661e3cf",
+      "snapshot_sha256": "sha256:73ebdc3edcb780bc89cc94ba9cdee5e59aa46908598487de749348f87ed6a87e",
+      "selector_sha256": "sha256:de97a3cd29063d41249f93082f620b519ec25dfab89a568c2e3e0360f542f2b4",
+      "quote_sha256": "sha256:85c5072071f47f221659fc6b34b0c81f164dba240e1fec2140bd2d5cb6f3a49c"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "visitor-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-visitor-pattern",
+          "evidence_id": "evidence-d6bf0661e3cf"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-d6bf0661e3cf",
+          "exact": "A visitor pattern is a software design pattern that separates the algorithm from the object structure"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-d6bf0661e3cf",
+          "subject": "visitor pattern",
+          "predicate": "is a software design pattern that separates the algorithm from the object structure",
+          "object": "a software design pattern"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文【evidence-d6bf0661e3cf】明确界定访问者模式为一种软件设计模式（[0,101)），其作用是“把算法与对象结构分离”——claim 第一分句即对该引文的忠实复述；“可添加新操作而无需修改对象结构”是“分离算法与对象结构”的结构性后果（ADD 而非 MODIFY），属合理推理，故判 supported。整体未验证原因：目标引文的 provenance 字段为空（无 publisher / derived_from / independence_group），且引文中无转载声明可资举证，无法判断独立来源，按规则输出 independence_unknown（basis 为空集），故全卷 verdict 为 fail。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-visitor-pattern",
+          "evidence_id": "evidence-d6bf0661e3cf",
+          "start": 0,
+          "end": 101
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-visitor-pattern",
+            "evidence_id": "evidence-d6bf0661e3cf",
+            "provenance_field": "independence_group",
+            "offset": {
+              "start": 0,
+              "end": 101
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-visitor-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-enum",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_b859547af26d",
+  "input_hash": "sha256:ee20b8003590a64f50f19df6b10467c1669d1c9f301d90cb1146e66118f1d941",
+  "provider_duration_ms": 33838,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695866.498265,
+  "wiki_content_sha256": "sha256:e616c46c9431de490e1e79703c22a8404bc5a7c3a2ec15d1824f39bde5220286",
+  "wiki_evidence_sha256": "sha256:01170edaeda832aefdbcd85e7a09c8c363c9ec4b76f63f25211ecf7581f6f9ce",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-enum"
+      },
+      "source_id": "web-computer-science-cpp-enum",
+      "evidence_id": "evidence-a9c5a0247695",
+      "snapshot_sha256": "sha256:276e3dac80a27128d56a9a60575dd942795e27f51b4ee416ca44a9b99c28b103",
+      "selector_sha256": "sha256:b5a524ad66d0a87ff14e5d9acf60366a0362b7b627deaa05432fafdb3b2bb666",
+      "quote_sha256": "sha256:230942ade56cd1b86c8b2670d7f3f3689f4e14a9649e27cded954725508922f1"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-enum"
+      },
+      "source_id": "web-computer-science-cpp-enum",
+      "evidence_id": "evidence-19853330e477",
+      "snapshot_sha256": "sha256:276e3dac80a27128d56a9a60575dd942795e27f51b4ee416ca44a9b99c28b103",
+      "selector_sha256": "sha256:fcd5c4e5d1860fdb4ed904c656f28f69073bff14e27efdef3d63c77177393436",
+      "quote_sha256": "sha256:eb16f4ca11e726f4158185c7621b26900edf14a89417d03e168ec74ea82c183b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-enum-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-a9c5a0247695"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a9c5a0247695",
+          "exact": "An enumeration is a distinct type whose value is restricted to a range of values (see below for details), which may include several explicitly named constants (\"enumerators\")."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a9c5a0247695",
+          "subject": "enumeration",
+          "predicate": "is_defined_as",
+          "object": "a distinct type whose value is restricted to a range of values, possibly including several explicitly named constants (enumerators)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文逐项陈述 claim 的三要素：\"a distinct type\"（独立类型，[18,33)）、\"whose value is restricted to a range of values\"（值限制在取值范围内，[34,80)）、\"several explicitly named constants (\\\"enumerators\\\")\"（若干显式命名的常量/枚举项，[124,174)）。claim 与引文逐项对应，无超出或缺失，属直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-a9c5a0247695",
+          "start": 18,
+          "end": 33
+        },
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-a9c5a0247695",
+          "start": 34,
+          "end": 80
+        },
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-a9c5a0247695",
+          "start": 124,
+          "end": 174
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-enum-kinds",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-19853330e477"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-19853330e477",
+          "exact": "There are two distinct kinds of enumerations: unscoped enumeration (declared with the enum-key enum) and scoped enumeration (declared with the enum-key enum class or enum struct)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-19853330e477",
+          "subject": "enumerations",
+          "predicate": "has_two_kinds",
+          "object": "unscoped enumeration (declared with the enum-key enum) and scoped enumeration (declared with the enum-key enum class or enum struct)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文直接陈述：\"two distinct kinds of enumerations\"（枚举分两类，[10,44)），即 \"unscoped enumeration (declared with the enum-key enum)\"（无作用域枚举，enum，[46,100)）与 \"scoped enumeration (declared with the enum-key enum class or enum struct)\"（有作用域枚举，enum class 或 enum struct，[105,178)）。claim 的两类划分及 enum-key 对应关系与引文完全一致，属直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-19853330e477",
+          "start": 10,
+          "end": 44
+        },
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-19853330e477",
+          "start": 46,
+          "end": 100
+        },
+        {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-19853330e477",
+          "start": 105,
+          "end": 178
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-a9c5a0247695",
+          "independence_group": "source:web-computer-science-cpp-enum",
+          "observation_sha256": "sha256:6324b88b7666c362f491684b97eeede40a2976d47d1f36d67bd0fc3628455a57"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-enum",
+          "evidence_id": "evidence-19853330e477",
+          "independence_group": "source:web-computer-science-cpp-enum",
+          "observation_sha256": "sha256:4f8363cb52ac230571514a8f41144dffcbf9c17f7b270600c8897f4d7c03521b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-enum",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-enum",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-enum-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-enum-kinds",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-union",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_bece2cb1776b",
+  "input_hash": "sha256:b739b78f72f323fe02cd23a115d06f96206e76ebf9664e442f2e5585778f49b5",
+  "provider_duration_ms": 20223,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697086.90718,
+  "wiki_content_sha256": "sha256:1b390232a4c84c80b6e76599648d3bb6ad6bb2e8cbf2ad0fd900971dfde81146",
+  "wiki_evidence_sha256": "sha256:901cc86c1beb7f373166a2ef3976a7c30bc62ad54f2edd01d54f34935f10a45c",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-union"
+      },
+      "source_id": "web-computer-science-cpp-union",
+      "evidence_id": "evidence-299f8a4a797c",
+      "snapshot_sha256": "sha256:40a0fce62cf1f8956ecbc54f56618c3445bc65d200ca913bf3dc73daf467994c",
+      "selector_sha256": "sha256:e062106f09d74ecc30b98abfcca4bccf6bf88cb62bddff8f3f6af1f9fbead155",
+      "quote_sha256": "sha256:a3a6b782c2922a57783a449667baaeae1a3359c7b103b07144830e500fd283de"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-union"
+      },
+      "source_id": "web-computer-science-cpp-union",
+      "evidence_id": "evidence-33493e72bb98",
+      "snapshot_sha256": "sha256:40a0fce62cf1f8956ecbc54f56618c3445bc65d200ca913bf3dc73daf467994c",
+      "selector_sha256": "sha256:a0369c37ddd93fce95ec59d6be6beb61993d1f4c076af76b744a399bdc798365",
+      "quote_sha256": "sha256:68cd953243fe3ed50a42658c82db37dc1da2cf85c2696271383d9e40cc0db872"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-union-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-union",
+          "evidence_id": "evidence-299f8a4a797c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-299f8a4a797c",
+          "exact": "A union is a special class type that can hold only one of its non-static data members at a time."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-299f8a4a797c",
+          "subject": "union",
+          "predicate": "is",
+          "object": "a special class type that can hold only one of its non-static data members at a time",
+          "qualifiers": {
+            "quote_lang": "en",
+            "claim_lang": "zh",
+            "support_type": "direct"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文（evidence-299f8a4a797c，字符区间 [0,96)）\"A union is a special class type that can hold only one of its non-static data members at a time.\" 完整表述了 claim 的全部成分：union 是一种特殊类类型（special class type）、任一时刻只能持有其一个非静态数据成员（can hold only one of its non-static data members at a time）。claim 的中文表述与引文语义一一对应，无增删或弱化。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-union",
+          "evidence_id": "evidence-299f8a4a797c",
+          "start": 0,
+          "end": 96
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-union-layout-ub",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-union",
+          "evidence_id": "evidence-33493e72bb98"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-33493e72bb98",
+          "exact": "It is undefined behavior to read from the member of the union that wasn't most recently written."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-33493e72bb98",
+          "subject": "reading from the member of the union that wasn't most recently written",
+          "predicate": "is",
+          "object": "undefined behavior",
+          "qualifiers": {
+            "quote_lang": "en",
+            "claim_lang": "zh",
+            "support_type": "direct"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "VAL-001"
+      ],
+      "rationale": "引文（evidence-33493e72bb98，字符区间 [0,96)）\"It is undefined behavior to read from the member of the union that wasn't most recently written.\" 逐字覆盖 claim 全部断言：读取最近未被写入（wasn't most recently written）的联合体成员构成未定义行为（undefined behavior）。claim 为引文的准确转述，未引入额外限定。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-union",
+          "evidence_id": "evidence-33493e72bb98",
+          "start": 0,
+          "end": 96
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-cpp-union",
+          "evidence_id": "evidence-299f8a4a797c",
+          "independence_group": "source:web-computer-science-cpp-union",
+          "observation_sha256": "sha256:fede99e352c56d6d6e050ad77cd2194baa25a65dbb30140b666d639b14239da6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-cpp-union",
+          "evidence_id": "evidence-33493e72bb98",
+          "independence_group": "source:web-computer-science-cpp-union",
+          "observation_sha256": "sha256:8810d80ad38eb672cb395de903967fa1bb99c5a1ecc4986caa9be4708676958d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-union",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-union",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-union-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-union-layout-ub",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002",
+      "WIKI-001"
+    ]
+  }
+}

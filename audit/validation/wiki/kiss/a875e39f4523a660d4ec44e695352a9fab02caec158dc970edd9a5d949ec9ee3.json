@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "kiss",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_c87b7b456f0b",
+  "input_hash": "sha256:dee6ebfdfe6e66b23cbaf89fe88eea8d2609e8bf676f149f55c58d2eef09e292",
+  "provider_duration_ms": 25658,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695723.762333,
+  "wiki_content_sha256": "sha256:47500bce83780a855fb18f86483192438cf810a8dfb0dbc0cc7f03cd95d035a7",
+  "wiki_evidence_sha256": "sha256:12419661ce4f74e53202f329dfb939a4a34fda998f263055b14ddf099b0014b1",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-kiss"
+      },
+      "source_id": "web-computer-science-kiss",
+      "evidence_id": "evidence-38397a5e1e8d",
+      "snapshot_sha256": "sha256:142193c8b60c26d7c0012e402ede666f81dab2263ecf811e06b6535689f6bec0",
+      "selector_sha256": "sha256:4fab84bdb2fd49f08e4294b7830f68202d5a09b2b0048b9984ae145c803fa284",
+      "quote_sha256": "sha256:314fa3f12d8efa9040946fc9ca475a05de1e592941a881b8abd1fd1755fc04b0"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "kiss-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-kiss",
+          "evidence_id": "evidence-38397a5e1e8d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-38397a5e1e8d",
+          "exact": "KISS (\"Keep it simple, stupid\") is a design principle first noted by the U.S. Navy in 1960. First seen partly in American English by at least 1938, KISS implies that simplicity should be a design goal."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-38397a5e1e8d",
+          "subject": "KISS (\"Keep it simple, stupid\")",
+          "predicate": "is a design principle first noted by the U.S. Navy in 1960",
+          "object": "stating that simplicity should be a design goal; the phrase was also seen in American English by at least 1938"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "claim 三要素在引文中均有对应。第一句 [0,91) 明示 \"KISS ... is a design principle first noted by the U.S. Navy in 1960\"，支持 claim 的\"设计原则\"与\"1960 年由美国海军首次提出\"（\"noted\"与\"提出\"在语境中等价，均为\"首次被美国海军记录/提及\"）；末句 [148,201) \"KISS implies that simplicity should be a design goal\" 直接支持\"简单性应当成为设计目标\"。引文中 [92,146) 的 1938 年英文先例（\"First seen partly in American English by at least 1938\"）补充说明该短语更早出现于美式英语，但所指的是短语本身被使用的时间，与\"美国海军 1960 年首次注意到\"并非同一命题，不构成对 claim 的否定或冲突，故判定为完全支持。注：本请求未提供完整源文本，start/end 以所附引文字符串为参照系计算（引文全长 201 个 Unicode code points，恰为 [0,201) 整段；偏移在源文本中的绝对位置无法进一步核实）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-kiss",
+          "evidence_id": "evidence-38397a5e1e8d",
+          "start": 0,
+          "end": 91
+        },
+        {
+          "source_id": "web-computer-science-kiss",
+          "evidence_id": "evidence-38397a5e1e8d",
+          "start": 92,
+          "end": 146
+        },
+        {
+          "source_id": "web-computer-science-kiss",
+          "evidence_id": "evidence-38397a5e1e8d",
+          "start": 148,
+          "end": 201
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-kiss",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "kiss-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

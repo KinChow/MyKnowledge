@@ -1,0 +1,145 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "image-compression",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_110ae8593b20",
+  "input_hash": "sha256:ce7f881b9cf4581a44f477ca0d016b618fe82c867f696f07a5005b64e1709ca8",
+  "provider_duration_ms": 19014,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697155.366422,
+  "wiki_content_sha256": "sha256:3ca85e7e55e0a70115c04b74834dddf81d13195fbbf41cfc242aa2bfd3d08e79",
+  "wiki_evidence_sha256": "sha256:5bd0df4d13cc2f8b18a495e9667d9c6a0a23f61957aeb3b7738aa908832c7369",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-image-compression"
+      },
+      "source_id": "web-multimedia-image-compression",
+      "evidence_id": "evidence-a195894bbdb2",
+      "snapshot_sha256": "sha256:ff1127e3af5768db5ca311ee439099850dd0c74e651c6a3c3b59860fa28d66a7",
+      "selector_sha256": "sha256:d0742ece8a59b8b7c973913ef6cb19abb032ed9c9659868a4c07f120b727bfbf",
+      "quote_sha256": "sha256:dded379923463b50218e880be422e2700802a450d52eb79165f4895e502ef54b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "image-compression-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-image-compression",
+          "evidence_id": "evidence-a195894bbdb2"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a195894bbdb2",
+          "exact": "data compression, source coding, or bit-rate reduction is the process of encoding information using fewer bits than the original representation"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a195894bbdb2",
+          "subject": "data compression",
+          "predicate": "is defined as",
+          "object": "the process of encoding information using fewer bits than the original representation",
+          "qualifiers": {
+            "also_known_as": "source coding or bit-rate reduction"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-a195894bbdb2（源 web-multimedia-image-compression，字符区间 [0,143)）完整表述为 'data compression, source coding, or bit-rate reduction is the process of encoding information using fewer bits than the original representation'，与 claim 的中文表述逐项对应：[0,15] 数据压缩≡data compression；[18,54] 也称 source coding 或 bit-rate reduction≡'source coding, or bit-rate reduction'（claim 以'也称'衔接同义名称，忠实于原文并列关系）；[73,143] 'encoding information using fewer bits than the original representation' 完整对应'用比原始表示更少的比特数对信息进行编码的过程'。引文覆盖 claim 全部语义成分，无遗漏、无添加、无矛盾，属于语义等价的翻译对应，claim 被完整支持。独立性：目标 provenance 为空对象且引文不含任何转载声明，无法举证来源相互独立，按约定标记为 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-image-compression",
+          "evidence_id": "evidence-a195894bbdb2",
+          "start": 0,
+          "end": 143
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-image-compression",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "image-compression-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "WIKI-001"
+    ]
+  }
+}

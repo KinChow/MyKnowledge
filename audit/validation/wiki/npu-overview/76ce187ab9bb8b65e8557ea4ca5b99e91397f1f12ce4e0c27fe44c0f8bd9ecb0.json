@@ -1,0 +1,344 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "npu-overview",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_cb4a4577aebb",
+  "input_hash": "sha256:e0f5375d0c5302279d67d46a53496cc057a6a239bf15f58ace024f3e476dc847",
+  "provider_duration_ms": 45087,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696296.910601,
+  "wiki_content_sha256": "sha256:c93c1f13be0991498413d4334ba0cc7f6608c949ae4dd252a22582d54593defe",
+  "wiki_evidence_sha256": "sha256:7138e429b680b21a4a6172480e3368e5668bdba665d95c388ddc2ed2de18fb96",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-npu"
+      },
+      "source_id": "web-computer-science-npu",
+      "evidence_id": "evidence-1954a2deedbb",
+      "snapshot_sha256": "sha256:be20178b6fa0b3dcfe94063b454866388c10058280e69fb495308f9c119e73fe",
+      "selector_sha256": "sha256:d3bfa709ba358bda17c03a0265ccbb033c86856669a85f0b194db32d17893052",
+      "quote_sha256": "sha256:3ff6b64a3cc166394e2560677b772fe54df3a755ea3e6edfd0ba4e11094899a5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-npu"
+      },
+      "source_id": "web-computer-science-npu",
+      "evidence_id": "evidence-5df13bc15608",
+      "snapshot_sha256": "sha256:be20178b6fa0b3dcfe94063b454866388c10058280e69fb495308f9c119e73fe",
+      "selector_sha256": "sha256:204b4b29fc7e67879f70b2bb18d6151cd74991cfa607875b82fbc5013d8df0f3",
+      "quote_sha256": "sha256:d9f2006eda016aae0014f1680c43637dd3affb112d0f069eabee2a1e307b2103"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-npu"
+      },
+      "source_id": "web-computer-science-npu",
+      "evidence_id": "evidence-e867730dc7d6",
+      "snapshot_sha256": "sha256:be20178b6fa0b3dcfe94063b454866388c10058280e69fb495308f9c119e73fe",
+      "selector_sha256": "sha256:218c5601f2c529c2e4d5bb3385e34a2b97c5353fb7874792f0507aa7d153b1c9",
+      "quote_sha256": "sha256:9b9245a8658aca9d899aba562548a4e9d1d2ed4f72ee15bfd48ec5cbf9b9e13f"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "npu-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-1954a2deedbb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1954a2deedbb",
+          "exact": "A neural processing unit (NPU), also known as an AI accelerator or deep learning processor, is a class of specialized hardware accelerator or computer system designed to accelerate artificial intelligence and machine learning applications, including artificial neural networks and computer vision. NPU can be standalone, a part of a CPU or a part of a GPU."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1954a2deedbb",
+          "subject": "npu",
+          "predicate": "defined_as",
+          "object": "specialized hardware accelerator or computer system designed to accelerate AI and ML applications",
+          "qualifiers": {
+            "also_known_as": "AI accelerator or deep learning processor",
+            "applications_included": [
+              "artificial neural networks",
+              "computer vision"
+            ],
+            "forms": [
+              "standalone",
+              "part of a CPU",
+              "part of a GPU"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "所给引文即全部 evidence 文本（其内字符区间 [0,356)），逐句完整承载 claim 全部要素：NPU 定义与别称（AI 加速器、深度学习处理器）、应用范围（AI/ML，含人工神经网络与计算机视觉）、三种存在形态（独立、CPU 一部分、GPU 一部分）。claim 为引文的中文忠实转述，无添加、遗漏或曲解。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-1954a2deedbb",
+          "start": 0,
+          "end": 356
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "npu-purpose",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-5df13bc15608"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5df13bc15608",
+          "exact": "Their purpose is either to efficiently execute already trained AI models like LLMs (inference) or to train AI models. NPUs can be more efficient in terms of speed or power consumption."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5df13bc15608",
+          "subject": "npu",
+          "predicate": "purpose_is",
+          "object": "efficiently execute already trained AI models (inference, e.g. LLMs) or train AI models",
+          "qualifiers": {
+            "efficiency_axis": [
+              "speed",
+              "power consumption"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "所给引文即全部 evidence 文本（其内字符区间 [0,184)），完整表述 NPU 用途的两种情形（高效执行已训练好的 AI 模型如 LLM 推理 / 训练 AI 模型），以及更高效的两个维度（速度或功耗），与 claim 逐项对应，无增、删、改。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-5df13bc15608",
+          "start": 0,
+          "end": 184
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "npu-gpu-trend",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-e867730dc7d6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e867730dc7d6",
+          "exact": "Since the late 2010s, graphics processing units designed by companies such as Nvidia and AMD often include AI-specific hardware in the form of dedicated functional units for low-precision matrix-multiplication operations. These GPUs are commonly used as AI accelerators, both for training and inference."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e867730dc7d6",
+          "subject": "gpu",
+          "predicate": "includes",
+          "object": "dedicated functional units for low-precision matrix-multiplication operations",
+          "qualifiers": {
+            "since": "late 2010s",
+            "vendors": [
+              "Nvidia",
+              "AMD"
+            ],
+            "counts_as": "AI accelerators used for training and inference"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "所给引文即全部 evidence 文本（其内字符区间 [0,303)），完整涵盖时间范围（2010 年代末起）、厂商（Nvidia、AMD 等）、GPU 内 AI 专用硬件的具体形态（面向低精度矩阵乘法的专用功能单元）、以及作为 AI 加速器用于训练与推理，与 claim 一致，无增、删、改。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-e867730dc7d6",
+          "start": 0,
+          "end": 303
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-1954a2deedbb",
+          "independence_group": "source:web-computer-science-npu",
+          "observation_sha256": "sha256:98d398f07b7009a8f8109fad74d8039b5ce0f6a650f70a3c769f9eb47eb148eb"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-5df13bc15608",
+          "independence_group": "source:web-computer-science-npu",
+          "observation_sha256": "sha256:7812b749a34bbd22b040bfdd93aa7cdca49de618e2f9b499ae9f8c825d2bf8c4"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-1954a2deedbb",
+          "independence_group": "source:web-computer-science-npu",
+          "observation_sha256": "sha256:98d398f07b7009a8f8109fad74d8039b5ce0f6a650f70a3c769f9eb47eb148eb"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-e867730dc7d6",
+          "independence_group": "source:web-computer-science-npu",
+          "observation_sha256": "sha256:f65b234cae29c41877ee5718d72cc995442fcef498d5af0eee8876df6d86faed"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-5df13bc15608",
+          "independence_group": "source:web-computer-science-npu",
+          "observation_sha256": "sha256:7812b749a34bbd22b040bfdd93aa7cdca49de618e2f9b499ae9f8c825d2bf8c4"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-npu",
+          "evidence_id": "evidence-e867730dc7d6",
+          "independence_group": "source:web-computer-science-npu",
+          "observation_sha256": "sha256:f65b234cae29c41877ee5718d72cc995442fcef498d5af0eee8876df6d86faed"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-npu",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-npu",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-npu",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "npu-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "npu-purpose",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "npu-gpu-trend",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

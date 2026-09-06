@@ -1,0 +1,201 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "cpp-template",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_470d785e4a9e",
+  "input_hash": "sha256:f6a7220bfc83b17c88f0815229ff020efd2300efcc0a33e262b2379a3a3e55af",
+  "provider_duration_ms": 66724,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695809.838093,
+  "wiki_content_sha256": "sha256:ad09339d666a0a35acb64dda0270abf6cc4d722e3164e6c8b398c7d71abdf52b",
+  "wiki_evidence_sha256": "sha256:89eea9e3f02c5c1afd412991fbde1e66ebcce398c16ee7c279f585f860684e77",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-template"
+      },
+      "source_id": "web-computer-science-cpp-template",
+      "evidence_id": "evidence-39b24f86fcf1",
+      "snapshot_sha256": "sha256:0233647a3ddc9a4fbb0dc89c064267d0eaf44a9d9dec62ab4088927d43d97638",
+      "selector_sha256": "sha256:2efdeec468c66983cf62b97daf3a0f87bb974112f44d9f78997a759ab7862e5a",
+      "quote_sha256": "sha256:93aacdf83ed90a8fd83fdfeac02f10b1e1d3bf4902989a9b6b051a9e99ec7023"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-cpp-template"
+      },
+      "source_id": "web-computer-science-cpp-template",
+      "evidence_id": "evidence-a709323bd176",
+      "snapshot_sha256": "sha256:0233647a3ddc9a4fbb0dc89c064267d0eaf44a9d9dec62ab4088927d43d97638",
+      "selector_sha256": "sha256:8b1b4297832f03a3fbdcfc230c2670a50346b2022af848bf16047ff825c344d6",
+      "quote_sha256": "sha256:8f6aa372fccd9b7fccdf88748084ba895cba55db6651668c837a9602fc068331"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "cpp-template-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-template",
+          "evidence_id": "evidence-39b24f86fcf1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-39b24f86fcf1",
+          "exact": "A template is a C++ entity that defines one of the following: a family of classes (class template), which may be nested classes; a family of functions (function template), which may be member functions; an alias to a family of types (alias template) (since C++11); a family of variables (variable template) (since C++14); a concept (constraints and concepts) (since C++20)."
+        }
+      ],
+      "observation": {
+        "subject": "template",
+        "predicate": "is a C++ entity that defines",
+        "object": "family of classes (class template), family of functions (function template), alias to family of types (alias template), family of variables (variable template), or a concept",
+        "qualifiers": {
+          "since_cpp11": "alias template",
+          "since_cpp14": "variable template",
+          "since_cpp20": "concept"
+        }
+      },
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文 evidence-39b24f86fcf1（源 web-computer-science-cpp-template，所提供引文文本区间 [0,373)）逐字包含 claim 的全部构成要素：模板是 \"a C++ entity\"，且依次定义 \"a family of classes (class template)\"（[62,99) 处，类模板）、\"a family of functions (function template)\"（[129,170) 处，函数模板）、\"an alias to a family of types (alias template) (since C++11)\"（[203,263) 处，C++11 别名模板）、\"a family of variables (variable template) (since C++14)\"（[265,321) 处，C++14 变量模板）、\"a concept (constraints and concepts) (since C++20)\"（[322,373) 处，C++20 概念）。中文 claim 为引文的忠实转述，无遗漏、无添加、无冲突，故判定 supported。注意：偏移量以所提供引文文本（即证据单位全文）为基准，源文档全文未提供，无法给出相对源文档的绝对偏移。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-template",
+          "evidence_id": "evidence-39b24f86fcf1",
+          "start": 0,
+          "end": 373
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "cpp-template-parameters",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-cpp-template",
+          "evidence_id": "evidence-a709323bd176"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a709323bd176",
+          "exact": "Templates are parameterized by one or more template parameters, of three kinds: type template parameters, non-type template parameters, and template template parameters."
+        }
+      ],
+      "observation": {
+        "subject": "template",
+        "predicate": "is parameterized by",
+        "object": "one or more template parameters of three kinds: type, non-type, and template template parameters"
+      },
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文 evidence-a709323bd176（源 web-computer-science-cpp-template，所提供引文文本区间 [0,169)）与 claim 逐要素对应：\"Templates are parameterized by one or more template parameters\"（[0,52) 附近）对应\"模板由一个或多个模板参数参数化\"；\"of three kinds: type template parameters, non-type template parameters, and template template parameters\"（[64,169) 附近）对应\"三类：类型模板参数、非类型模板参数与模板模板参数\"。类型列举完整（type / non-type / template template 三种），分类表述一致，无冲突、无遗漏，故判定 supported。偏移量以所提供引文文本为基准。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-cpp-template",
+          "evidence_id": "evidence-a709323bd176",
+          "start": 0,
+          "end": 169
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-template",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-cpp-template",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-template-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "cpp-template-parameters",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

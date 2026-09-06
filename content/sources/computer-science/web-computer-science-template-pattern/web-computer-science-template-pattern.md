@@ -1,0 +1,51 @@
+---
+archive_policy: text-only
+attachments:
+- filename: web-computer-science-template-pattern.txt
+  kind: document
+  media_type: text/plain
+  role: original
+  sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
+confidentiality: public
+domain: computer-science
+evidence_items:
+- evidence_id: evidence-ad89a183fb52
+  position:
+    end: 311
+    start: 149
+    type: TextPositionSelector
+  quote_sha256: sha256:34645dc8932dba3593653f9327598c1d5ece668b29c4ecd45b35e5d1e3cf9013
+  selector:
+    exact: The template method is a method in a superclass, usually an abstract superclass,
+      and defines the skeleton of an operation in terms of a number of high-level
+      steps
+    prefix: 'l. in the book Design Patterns. '
+    suffix: . These steps are themselves imp
+    type: TextQuoteSelector
+  selector_sha256: sha256:aee796a3a822f503e800554a9bfd67913d6f81426865b8309af32302a9bc2f71
+  snapshot_sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
+extractor: utf8/1
+id: web-computer-science-template-pattern
+local:
+  file_sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
+  path_ref: local-sidecar:public/web-computer-science-template-pattern
+media_type: text/plain
+origin: external
+raw_ref:
+  path: archive/raw/20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062.txt
+  sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
+read_status: retrieved
+retrieval:
+  acquisition: local-file
+schema_version: source/v1
+snapshot_sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
+source_type: local-file
+vault_id: public
+---
+In object-oriented programming, the template method is one of the behavioral design patterns identified by Gamma et al. in the book Design Patterns. The template method is a method in a superclass, usually an abstract superclass, and defines the skeleton of an operation in terms of a number of high-level steps. These steps are themselves implemented by additional helper methods in the same class as the template method.
+
+The template method is implemented as a method in a base class (usually an abstract class). This method contains code for the parts of the overall algorithm that are invariant. The template ensures that the overarching algorithm is always followed. In the template method, portions of the algorithm that may vary are implemented by sending self messages that request the execution of additional helper methods. In the base class, these helper methods are given a default implementation, or none at all (that is, they may be abstract methods). Subclasses of the base class fill in the empty or variant parts of the template with specific algorithms that vary from one subclass to another. It is important that subclasses do not override the template method itself.
+
+The helper methods may be either abstract methods, in which case subclasses are required to provide concrete implementations, or hook methods, which have empty bodies in the superclass. Subclasses can (but are not required to) customize the operation by overriding the hook methods. The intent of the template method is to define the overall structure of the operation, while allowing subclasses to refine, or redefine, certain steps.
+
+This pattern is an example of inversion of control because the high-level code no longer determines what algorithms to run; a lower-level algorithm is instead selected at run-time.

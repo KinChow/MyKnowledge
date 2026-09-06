@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "mediator-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_2bd160cf6ab7",
+  "input_hash": "sha256:2330f0a0bae72675c15d27d62adcda037763690eb7fe7a0f124cc0815eaad3e4",
+  "provider_duration_ms": 21279,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696995.895596,
+  "wiki_content_sha256": "sha256:a3ea2d8e6c227543760eb243c8173679b2ca3d59f6a01d9e0a709c3fb83137c4",
+  "wiki_evidence_sha256": "sha256:a47e6e55ef4d30deb4d7b9cf4a1632d97417feaecab301e03648ea577139e775",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-mediator-pattern"
+      },
+      "source_id": "web-computer-science-mediator-pattern",
+      "evidence_id": "evidence-8ceb83051de3",
+      "snapshot_sha256": "sha256:52700d5734943b551e457a664348a234339c27d5debec90c856e830fac33c7f7",
+      "selector_sha256": "sha256:f8585aa305b428d2ba6a733c4a90d3e53d0d8f3468ce47249a97c39687e19b25",
+      "quote_sha256": "sha256:898d71b55b00a8c3a554b04a3408d2d9ccc2ea36358981aeb1c91de123865ec3"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "mediator-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-mediator-pattern",
+          "evidence_id": "evidence-8ceb83051de3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8ceb83051de3",
+          "exact": "the mediator pattern defines an object that encapsulates how a set of objects interact"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8ceb83051de3",
+          "subject": "the mediator pattern",
+          "predicate": "defines",
+          "object": "an object that encapsulates how a set of objects interact"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,86) 完整陈述 \"the mediator pattern defines an object that encapsulates how a set of objects interact\"，与 claim 的中文表述\"中介者模式定义了一个对象来封装一组对象之间的交互方式\"在主语、谓词与宾语上语义一一对应，属于该英文引文的直接转写，无附加、无偏离、无矛盾，故判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-mediator-pattern",
+          "evidence_id": "evidence-8ceb83051de3",
+          "start": 0,
+          "end": 86
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-mediator-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "mediator-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

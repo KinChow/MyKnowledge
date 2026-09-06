@@ -1,0 +1,233 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "dry",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_909f6f650e16",
+  "input_hash": "sha256:4c8c6a9a069852de6e57bec106544b828ffa71e7799502a079e0e162aafa6a14",
+  "provider_duration_ms": 53861,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695697.54469,
+  "wiki_content_sha256": "sha256:d81afbf8cecadf0c04c187b70198e6c9b3c873fe8bc07b306281d74fd214d086",
+  "wiki_evidence_sha256": "sha256:57159624ca03d80cb81641a52e9d7f1fa9db9d530af9d335179be5b0f7d6401e",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-dry"
+      },
+      "source_id": "web-computer-science-dry",
+      "evidence_id": "evidence-3e823b953bf6",
+      "snapshot_sha256": "sha256:bedfa360a7ea40e91575708fbef84f8fae9fff219f6c43f854ccbcf340d9a59d",
+      "selector_sha256": "sha256:e19ef985e1b30d196e405504356bfc435ffbc16e2e8dd0937cd33a2bdf1da602",
+      "quote_sha256": "sha256:9a02465ccb69a251380f7c436260834dde73572784f7d4acd88817256de800c0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-dry"
+      },
+      "source_id": "web-computer-science-dry",
+      "evidence_id": "evidence-66159e87920c",
+      "snapshot_sha256": "sha256:bedfa360a7ea40e91575708fbef84f8fae9fff219f6c43f854ccbcf340d9a59d",
+      "selector_sha256": "sha256:68c70da4f68a346dc69c1aa56cde090be98438ec241fca2ed9bd88de6c2cd4b4",
+      "quote_sha256": "sha256:0f1e5e7a7a6303b5cbac64b3e98c497661733c57798ecb5f0977c298085b1d05"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "dry-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-dry",
+          "evidence_id": "evidence-3e823b953bf6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3e823b953bf6",
+          "exact": "\"Don't repeat yourself\" (DRY) is a principle of software development aimed at reducing repetition of information which is likely to change, replacing it with abstractions that are less likely to change, or using data normalization which avoids redundancy in the first place."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3e823b953bf6",
+          "subject": "DRY (Don't Repeat Yourself)",
+          "predicate": "is described as",
+          "object": "a software development principle aimed at reducing repetition of information which is likely to change, replacing it with abstractions that are less likely to change, or using data normalization which avoids redundancy in the first place",
+          "qualifiers": {
+            "support": "direct",
+            "evidence_status": "source-reported",
+            "origin": "external",
+            "confidentiality": "public"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 evidence-3e823b953bf6（[0,274)）完整直接陈述了 claim 的四个构成部分：DRY 是软件开发原则（is a principle of software development）；旨在减少可能变化的信息的重复（reducing repetition of information which is likely to change）；用更不易变化的抽象替代（abstractions that are less likely to change）；或用数据规范化从源头避免冗余（data normalization which avoids redundancy in the first place）。claim 为引文的忠实转述（英文缩写展开首字母大写属常规排版差异，不影响语义），未超出引文断言，按 EVD-001 直接支持规则判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-dry",
+          "evidence_id": "evidence-3e823b953bf6",
+          "start": 0,
+          "end": 274
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "dry-single-authoritative",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-dry",
+          "evidence_id": "evidence-66159e87920c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-66159e87920c",
+          "exact": "The DRY principle is stated as \"Every piece of knowledge must have a single, unambiguous, authoritative representation within a system\". The principle has been formulated by Andy Hunt and Dave Thomas in their book The Pragmatic Programmer."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-66159e87920c",
+          "subject": "DRY principle",
+          "predicate": "is stated as and attributed to",
+          "object": "\"Every piece of knowledge must have a single, unambiguous, authoritative representation within a system\"",
+          "qualifiers": {
+            "support": "direct",
+            "attributed_to": "Andy Hunt and Dave Thomas, The Pragmatic Programmer",
+            "evidence_status": "source-reported",
+            "origin": "external",
+            "confidentiality": "public"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 evidence-66159e87920c（[0,239)）明示 DRY 原则的表述为 \"Every piece of knowledge must have a single, unambiguous, authoritative representation within a system\"（与 claim 中译'系统中的每一项知识都必须有单一、明确、权威的表示'逐项一致），并指出该原则由 Andy Hunt 与 Dave Thomas 在《The Pragmatic Programmer》中提出（has been formulated by Andy Hunt and Dave Thomas in their book The Pragmatic Programmer），与 claim 的'出自'表述一致。claim 未添加引文未含的断言，按 EVD-001 判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-dry",
+          "evidence_id": "evidence-66159e87920c",
+          "start": 0,
+          "end": 239
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-dry",
+          "evidence_id": "evidence-3e823b953bf6",
+          "independence_group": "source:web-computer-science-dry",
+          "observation_sha256": "sha256:e4e5c03720a59c4c54e9ae9da6b94d56d4353153cf721e73553be05cc3b3479d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-dry",
+          "evidence_id": "evidence-66159e87920c",
+          "independence_group": "source:web-computer-science-dry",
+          "observation_sha256": "sha256:219107f78cf847df3a0c2b54d72733e17314a48fa800ad003f397570f670793a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-dry",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-dry",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "dry-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "dry-single-authoritative",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "state-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_70c105ec0cbd",
+  "input_hash": "sha256:60b3ab4ab292cf9c4ba14fe71ad0371d75c2fd0e0aad40c732bc273af459255e",
+  "provider_duration_ms": 26289,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695479.157781,
+  "wiki_content_sha256": "sha256:7fe11f1b814d2c4e29424f842bddd96f6cb5287fda155924fd9f85cea206bd69",
+  "wiki_evidence_sha256": "sha256:675f49aec904d690afd20d0064eb8ffc21e43062dddbb1919c4fb13ac5a19181",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-state-pattern"
+      },
+      "source_id": "web-computer-science-state-pattern",
+      "evidence_id": "evidence-2a74aa5b6462",
+      "snapshot_sha256": "sha256:895e29c1236e9a83509576a67608661c6a2ff35ba30cb965daa1a6b81bbe5768",
+      "selector_sha256": "sha256:7038284c19ec4a4771ab11270acf82e075b4c84728d2f9c9a7eb08755eaa5ff8",
+      "quote_sha256": "sha256:e35a647a4c6a0f27a74051ce86715256226d07d1f4d1f61bc2ab5aa87eff4a08"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "state-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-state-pattern",
+          "evidence_id": "evidence-2a74aa5b6462"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2a74aa5b6462",
+          "exact": "The state pattern is a behavioral software design pattern that allows an object to alter its behavior when its internal state changes"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2a74aa5b6462",
+          "subject": "the state pattern",
+          "predicate": "is",
+          "object": "a behavioral software design pattern that allows an object to alter its behavior when its internal state changes"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001"
+      ],
+      "rationale": "引文仅覆盖 claim 前三句中的前两句：\"The state pattern is a behavioral software design pattern\"（[0,57)）支持\"状态模式是一种行为型软件设计模式\"；\"allows an object to alter its behavior when its internal state changes\"（[63,133)）支持\"它允许一个对象在内部状态改变时改变其行为\"。但 claim 第三部分\"该模式与有限状态机的概念非常接近，可被解释为……策略模式\"在引文中无任何对应文本（引文未提及 finite-state machine 或 strategy pattern），该部分无证据支持，故判定为部分支持。注：本次请求未提供源文档原文，字符区间为相对于 target 引文文本的偏移；仅单一 target，无多源独立性问题。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-state-pattern",
+          "evidence_id": "evidence-2a74aa5b6462",
+          "start": 0,
+          "end": 57
+        },
+        {
+          "source_id": "web-computer-science-state-pattern",
+          "evidence_id": "evidence-2a74aa5b6462",
+          "start": 63,
+          "end": 133
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-state-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "state-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

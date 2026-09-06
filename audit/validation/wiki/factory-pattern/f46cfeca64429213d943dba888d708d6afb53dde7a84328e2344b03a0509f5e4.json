@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "factory-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_f6075cd39c88",
+  "input_hash": "sha256:c5f01c4da5a6dab20aba1c9fd4e35429d7964fd340246498fc510bf29df4cbcc",
+  "provider_duration_ms": 9134,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695055.258042,
+  "wiki_content_sha256": "sha256:eba067b94f94e48122a97a8056ce433f21ac8c4a9c5b8df49b8a8c4a4b253427",
+  "wiki_evidence_sha256": "sha256:ec089531b996a9856199fdea7614c22918e05439fa3ef6ca92e812fd271643b2",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-factory-pattern"
+      },
+      "source_id": "web-computer-science-factory-pattern",
+      "evidence_id": "evidence-338be05a0097",
+      "snapshot_sha256": "sha256:1b628712efc62ea34bad8471993c6161900d05e828b3b3dd7e3e67890954fa35",
+      "selector_sha256": "sha256:2f9d0eb798eeed61e65672bc6cb461fe526f9dba512e3d615083275a90adc934",
+      "quote_sha256": "sha256:ac1221966dd203e48e02c57f700263b397d6d98460c56f03c8b4353cfe5163c2"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "factory-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-factory-pattern",
+          "evidence_id": "evidence-338be05a0097"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-338be05a0097",
+          "exact": "the factory method pattern is a design pattern that uses factory methods to deal with the problem of creating objects without having to specify their exact classes"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-338be05a0097",
+          "subject": "factory method pattern",
+          "predicate": "is",
+          "object": "a design pattern that uses factory methods to create objects without specifying their exact classes"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文仅直接支持 claim 前半部分：工厂方法模式使用工厂方法解决\"创建对象时不指定具体类\"的问题（与引文 'deal with the problem of creating objects without having to specify their exact classes' 逐字对应）。但 claim 其余成分——(a) '与直接调用构造函数不同' 的对照表述、(b) '工厂方法可在接口中声明并由子类实现，或在基类中实现并由子类可选地覆写' 的机制描述、(c) '23 个经典模式之一、被归类为创建型模式' 的分类陈述——均未出现在该引文文本中，亦无其他 target 引文可佐证。其中 (c) 属设计模式领域公认常识（《设计模式》goF 23 模式之一、创建型），但依 EVD-001 §6.4 证据须直接源自入链引文，单条外部来源引文无法覆盖全部成分，故判定为 partially_supported 而非 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-factory-pattern",
+          "evidence_id": "evidence-338be05a0097",
+          "start": 0,
+          "end": 133
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "single-source-group",
+        "basis": [
+          {
+            "source_id": "web-computer-science-factory-pattern",
+            "evidence_id": "evidence-338be05a0097",
+            "provenance_field": "publisher",
+            "offset": {
+              "start": 0,
+              "end": 133
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-factory-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

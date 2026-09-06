@@ -1,0 +1,146 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "command-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_01e1b3707859",
+  "input_hash": "sha256:33a51a215c6e2769e8aeb3b2b0a0cf336841d4e47fd5a33e1806c38f2b8b5082",
+  "provider_duration_ms": 49838,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788698112.9572768,
+  "wiki_content_sha256": "sha256:4e53fd55ce8e22cf885c16b108deee5ea5b59447df968ae42431be450cbc3862",
+  "wiki_evidence_sha256": "sha256:c66d71e90301ea246a50d8c66bfc133ee8080330465a145d17c79d4e600e1be3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-command-pattern"
+      },
+      "source_id": "web-computer-science-command-pattern",
+      "evidence_id": "evidence-30fa1d2cc7b2",
+      "snapshot_sha256": "sha256:b230788fadc1ccad47836514a8f4bd24c4817bd7a4110ec930f8df9dd478b68c",
+      "selector_sha256": "sha256:0b1c75fa8545788d158093ea65aed4c41a891050e88e919ab691818cec9265ff",
+      "quote_sha256": "sha256:e522222e60fa65d7bdd1ca8b2f94dac13ed35205dfafe0a4e116de2d527025f4"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "command-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-command-pattern",
+          "evidence_id": "evidence-30fa1d2cc7b2"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-30fa1d2cc7b2",
+          "exact": "the command pattern is a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-30fa1d2cc7b2",
+          "subject": "the command pattern",
+          "predicate": "is",
+          "object": "a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time",
+          "qualifiers": {
+            "origin": "external",
+            "evidence_status": "source-reported",
+            "confidentiality": "public",
+            "quote_language": "en",
+            "claim_language": "zh"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文 evidence-30fa1d2cc7b2 在证据文本中的区间为 [0,172)（引文原文 172 个 ASCII 字符）。引文 'the command pattern is a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time' 与 claim 逐成分对应：'behavioral design pattern'↔'行为型设计模式'，'an object is used to encapsulate'↔'用一个对象封装'，'all information needed to perform an action or trigger an event at a later time'↔'执行某个动作或稍后触发某事件所需的全部信息'。claim 为引文的忠实中文转述，无超出、无遗漏、无实质性偏离，判定 supported。注：证据标记为 source-reported 且 provenance 为空对象，无法回引 publisher/derived_from/independence_group 或转载声明，故独立性判定为 independence_unknown（不构成对 claim 评价的减损）。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-command-pattern",
+          "evidence_id": "evidence-30fa1d2cc7b2",
+          "start": 0,
+          "end": 172
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-command-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "command-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

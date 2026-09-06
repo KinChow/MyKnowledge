@@ -1,0 +1,142 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "android-camera-provider-performance",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_353a0f455ce7",
+  "input_hash": "sha256:846588266429691b3b9da27766645e6ea4bd1178c3ceebe5dc08b0e128fadcab",
+  "provider_duration_ms": 15710,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697229.35379,
+  "wiki_content_sha256": "sha256:2b6c3f9ac2faddb153a4145788b28717c9d145e589fe2fccc9e176c2a7a9bc80",
+  "wiki_evidence_sha256": "sha256:7468ffa0e2d3ad265bed8b6f670b2fcf7ba9a86e7a3ef5af4bbe7904e090c698",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-android-camera-provider-performance"
+      },
+      "source_id": "web-multimedia-android-camera-provider-performance",
+      "evidence_id": "evidence-3f453def4e81",
+      "snapshot_sha256": "sha256:937e8cee2830c343a31d433aa7de0af133e545e388b37fb1a19e94b3f9c1f336",
+      "selector_sha256": "sha256:7e6450f8b5b03db3605006c416e870eadd2920efb241670d33abc99460d73875",
+      "quote_sha256": "sha256:75cedf721626ac73590f3897d4ba7e34d81388c4d98e8680e2e2e1d47af8c3b5"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "android-performance-amdahl",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-android-camera-provider-performance",
+          "evidence_id": "evidence-3f453def4e81"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3f453def4e81",
+          "exact": "Amdahl's law is often used in parallel computing to predict the theoretical speedup when using multiple processors"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3f453def4e81",
+          "subject": "Amdahl's law",
+          "predicate": "is often used in parallel computing to predict",
+          "object": "the theoretical speedup when using multiple processors"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文区间 [0,114) 原文为 \"Amdahl's law is often used in parallel computing to predict the theoretical speedup when using multiple processors\"，与 claim 逐项对应：常用于（often used）、并行计算（in parallel computing）、预测（to predict）、使用多个处理器时（when using multiple processors）、理论加速比（the theoretical speedup）。claim 是引文的忠实中文转述，无添加、无删减、无引申，support=direct 成立，判为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-android-camera-provider-performance",
+          "evidence_id": "evidence-3f453def4e81",
+          "start": 0,
+          "end": 114
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-android-camera-provider-performance",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "android-performance-amdahl",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "WIKI-001"
+    ]
+  }
+}

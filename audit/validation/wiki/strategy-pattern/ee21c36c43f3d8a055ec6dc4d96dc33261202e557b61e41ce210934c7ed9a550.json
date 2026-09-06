@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "strategy-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_3188711598b4",
+  "input_hash": "sha256:d6da1da07ff71f0ea412384bf102200d0d169019352843e31fffdff0de0901bc",
+  "provider_duration_ms": 17370,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695394.489259,
+  "wiki_content_sha256": "sha256:6c1041f162d7ccb4f194dca2b3bc16724179c0634e5ee037cc9c7ad43cd830be",
+  "wiki_evidence_sha256": "sha256:29ed66d1305d5309354debb35f255d930c119385ab23290dc2a25be2e7d99345",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-strategy-pattern"
+      },
+      "source_id": "web-computer-science-strategy-pattern",
+      "evidence_id": "evidence-2b9d28717063",
+      "snapshot_sha256": "sha256:596a0973d1870e20092c67be12715b073b04ed1434b0e12b805a06877367664f",
+      "selector_sha256": "sha256:8aa632580eaa914dd516ea20ac196c87c6b764ff61d6a37875170b8844321d0a",
+      "quote_sha256": "sha256:1144c51c6f9787c33115bc0eb99306961a7d538e5d790f79abdf020977bade23"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "strategy-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-strategy-pattern",
+          "evidence_id": "evidence-2b9d28717063"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2b9d28717063",
+          "exact": "the strategy pattern (also known as the policy pattern) is a behavioral software design pattern that enables selecting an algorithm at runtime"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2b9d28717063",
+          "subject": "the strategy pattern (also known as the policy pattern)",
+          "predicate": "is a behavioral software design pattern that enables selecting an algorithm at runtime",
+          "object": "a behavioral software design pattern enabling runtime algorithm selection",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文完整覆盖 claim 前半部分：'the strategy pattern (also known as the policy pattern)' 佐证了'又称政策模式'这一别称，'is a behavioral software design pattern' 佐证其为行为型设计模式，'enables selecting an algorithm at runtime' 佐证'允许在运行时选择算法'。但 claim 后半部分——'不是直接实现单一算法，而是让代码接收运行时指令，以确定使用一族算法中的哪一个，从而使算法可以独立于使用它的客户端而变化'——在引文中不存在：引文只有一句话，未出现 'family of algorithms'、'run-time instructions' 或 'vary independently from clients' 等表述。该部分虽与常见的策略模式完整定义一致，但给定的目标引文并未包含这些内容，故 claim 超出引文覆盖范围，判定为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-strategy-pattern",
+          "evidence_id": "evidence-2b9d28717063",
+          "start": 0,
+          "end": 142
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-strategy-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "strategy-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

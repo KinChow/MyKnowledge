@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "camera-competitive-product-analysis",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_9786a654a35e",
+  "input_hash": "sha256:ffd29fd38af7a7c0e0ea067d653d3616f0c8fb84d5c3cb3a01dc9dca8196775b",
+  "provider_duration_ms": 24855,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696153.3851898,
+  "wiki_content_sha256": "sha256:959e45d0ceb8d2a30a9ac0498756ad0c7a8ce9589c087f533ce9cd5e799dbeff",
+  "wiki_evidence_sha256": "sha256:6cdd560ef7c5237a8d2812ab8051422cc09dc90786f6c38512e7c6d865bbf6bb",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-camera-competitive-product-analysis"
+      },
+      "source_id": "web-multimedia-camera-competitive-product-analysis",
+      "evidence_id": "evidence-2df1ef9f791e",
+      "snapshot_sha256": "sha256:a39343d932d1b7b6addcfac0dc670d089f5c9fda6af8373606ac9b2b11574a08",
+      "selector_sha256": "sha256:29eb976086ae9e119d3ee55168760a232066451018711c81dd322c1ca4859529",
+      "quote_sha256": "sha256:79a2947029b2f48b6e914002cd226720ccc0c0fa9c04ebe7c08c9adfbed40112"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "camera-competitive-analysis-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-camera-competitive-product-analysis",
+          "evidence_id": "evidence-2df1ef9f791e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2df1ef9f791e",
+          "exact": "Competitive analysis in marketing and strategic management is the assessment of the strengths and weaknesses of current and potential competitors"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2df1ef9f791e",
+          "subject": "competitive analysis",
+          "predicate": "is defined as",
+          "object": "the assessment of the strengths and weaknesses of current and potential competitors",
+          "qualifiers": {
+            "scope": "marketing and strategic management"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文[0,76)支持claim前半句定义：在营销与战略管理语境下，竞品分析是对当前与潜在竞争者优劣势的评估（引文[0,145)为完整证据文本）。但claim后半句“提供攻防两方面的战略背景以识别机会与威胁”在引文中无任何对应字符，属无证据支撑的增补断言，故claim整体判定为partially_supported。target的provenance为空对象、引文亦无任何转载/派生声明，独立性无法举证，按规则输出independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-camera-competitive-product-analysis",
+          "evidence_id": "evidence-2df1ef9f791e",
+          "start": 0,
+          "end": 76
+        },
+        {
+          "source_id": "web-multimedia-camera-competitive-product-analysis",
+          "evidence_id": "evidence-2df1ef9f791e",
+          "start": 0,
+          "end": 145
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-camera-competitive-product-analysis",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "camera-competitive-analysis-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

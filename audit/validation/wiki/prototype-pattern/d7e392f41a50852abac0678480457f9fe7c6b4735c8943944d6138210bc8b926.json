@@ -1,0 +1,148 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "prototype-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_ad21440b74ec",
+  "input_hash": "sha256:b1be178ae77accabdb6a9de1744fed1dc18d08fa1ed5d6af33ab56136d8a59e1",
+  "provider_duration_ms": 21332,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696677.399795,
+  "wiki_content_sha256": "sha256:bda224ea84b1cdf60b81c12985843018ca7c34e2c22cfff0ca5dea07c5cef772",
+  "wiki_evidence_sha256": "sha256:dfefffd52cbbfa9ad14d0f1d7b297724e103de54696e9eb58e35c46317aad81d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-prototype-pattern"
+      },
+      "source_id": "web-computer-science-prototype-pattern",
+      "evidence_id": "evidence-12a7d834f0c6",
+      "snapshot_sha256": "sha256:07375e6de6c5ed1522e5e7b53e98a01eb3b66fae949a4d0f29749f0515f8942a",
+      "selector_sha256": "sha256:8035c3f04c5eccfb0f4c4ce649fb3db282912c958723622cb9d580054cecf43b",
+      "quote_sha256": "sha256:950c21bdfa9c6d9ee6599e86b06cfcfa5c63fe1d0addcbc4662e4b97e7c1b533"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "prototype-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-prototype-pattern",
+          "evidence_id": "evidence-12a7d834f0c6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-12a7d834f0c6",
+          "exact": "The prototype pattern is a creational design pattern in software development. It is used when the types of objects to create is determined by a prototypical instance, which is cloned to produce new objects."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-12a7d834f0c6",
+          "subject": "prototype pattern",
+          "predicate": "is-defined-as",
+          "object": "a creational design pattern; types of objects to create determined by a prototypical instance; new objects produced by cloning it",
+          "qualifiers": {
+            "language": "en",
+            "evidence_status": "source-reported",
+            "support": "direct"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 evidence-12a7d834f0c6（[0,206)）与 claim 逐项对应：'is a creational design pattern' 支持'是一种创建型设计模式'；'when the types of objects to create is determined by a prototypical instance' 支持'当要创建的对象的类型由某个原型实例决定时'；'which is cloned to produce new objects' 支持'通过克隆该原型实例来产生新对象'。claim 中'某个'系不定冠词 a 的自然中文表达，未引入引文之外的语义，无遗漏、无夸大，判定为完整直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-prototype-pattern",
+          "evidence_id": "evidence-12a7d834f0c6",
+          "start": 0,
+          "end": 206
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-prototype-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "prototype-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

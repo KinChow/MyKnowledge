@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "algorithm-manual",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_53bffcaeffc1",
+  "input_hash": "sha256:67c88103f56ff8b6ff62ea57a117021aba063e202b65d336117e663d0afb756b",
+  "provider_duration_ms": 20064,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696191.037486,
+  "wiki_content_sha256": "sha256:deea90debaf0661f4634d2a6d584da1888d25081f5031030fb208be2497f42c3",
+  "wiki_evidence_sha256": "sha256:8dece9519a6aa11eeddf83aed360feaf0c5e729dfd6487a0b6867f7f92165ee4",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "working-work-methods-algorithm-manual"
+      },
+      "source_id": "working-work-methods-algorithm-manual",
+      "evidence_id": "evidence-f1053c0967ab",
+      "snapshot_sha256": "sha256:1849422188e7f44aebcc0b6b987212a128249100220f1cd3ddba171a6bbffefd",
+      "selector_sha256": "sha256:6bf4770b04988e4366870ac83965810ec182a7bff3facf25366dcc7a3d28dea3",
+      "quote_sha256": "sha256:e486dd5ebcd47e165b3c604732afbc392a5f00b00fdd73744db1a2861812540d"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "algorithm-manual-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "working-work-methods-algorithm-manual",
+          "evidence_id": "evidence-f1053c0967ab"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f1053c0967ab",
+          "exact": "算法说明书（Algorithm Manual）是描述软件算法模块从需求到交付全流程的设计文档模板，覆盖简介、概要设计、详细设计、测试用例、问题总结与附录"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f1053c0967ab",
+          "subject": "算法说明书",
+          "predicate": "是",
+          "object": "描述软件算法模块从需求到交付全流程的设计文档模板",
+          "qualifiers": {
+            "covers": [
+              "简介",
+              "概要设计",
+              "详细设计",
+              "测试用例",
+              "问题总结",
+              "附录"
+            ]
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文与 claim 内容逐字一致：引文在“算法说明书”后仅多出英文括注“（Algorithm Manual）”且无句末句号，属纯形式差异，不改变任何语义。引文 [0,76] 完整覆盖 claim 的全部命题成分（定义对象、全流程范围、模板性质、六个覆盖模块），故 claim 受其声明的目标引文直接支持，无证据缺失、无矛盾。",
+      "rationale_offsets": [
+        {
+          "source_id": "working-work-methods-algorithm-manual",
+          "evidence_id": "evidence-f1053c0967ab",
+          "start": 0,
+          "end": 76
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "working-work-methods-algorithm-manual",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "algorithm-manual-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

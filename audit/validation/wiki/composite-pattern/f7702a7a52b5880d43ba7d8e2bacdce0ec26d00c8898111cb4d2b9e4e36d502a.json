@@ -1,0 +1,152 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "composite-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_ba298934e5cd",
+  "input_hash": "sha256:2f95fa1fd3d2ddb4dcb7cc20024b94f2b672f6ce462c917c9326a019ce0d0f52",
+  "provider_duration_ms": 29086,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696772.483532,
+  "wiki_content_sha256": "sha256:292b32e1538f6b8c72db873d926e52f5ab467e957f988b044abf9d72dd58b71c",
+  "wiki_evidence_sha256": "sha256:97ed89af484f688fe382d118b73656f7daae2433d9eb6936351976c436b1ba17",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-composite-pattern"
+      },
+      "source_id": "web-computer-science-composite-pattern",
+      "evidence_id": "evidence-47cf0145ae18",
+      "snapshot_sha256": "sha256:1bcc8a6ae28cb34bdd54208ddfc88a115b5f6ea8da1421efe826e3c26cf437bc",
+      "selector_sha256": "sha256:a2504d4d6db6147e7b709be9b43f5abd158c35125112cceaa3dbcc528bcaa579",
+      "quote_sha256": "sha256:e1efa6a438fee6295601b4cbf1a08c432b4b3b1eab8a333e93116867d23e3931"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "composite-pattern-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-composite-pattern",
+          "evidence_id": "evidence-47cf0145ae18"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-47cf0145ae18",
+          "exact": "composite pattern describes a group of objects that are treated the same way as a single instance of the same type of object. The intent of a composite is to \"compose\" objects into tree structures to represent part-whole hierarchies."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-47cf0145ae18",
+          "subject": "composite pattern",
+          "predicate": "treats a group of objects as a single instance of the same type of object",
+          "object": "tree structures",
+          "qualifiers": {
+            "intent": "compose objects into tree structures to represent part-whole hierarchies",
+            "quote_interval": "[0,233)",
+            "evidence_status": "source-reported"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文与 claim 逐句对应、无增删曲解：区间 [0,125) 首句 \"composite pattern describes a group of objects that are treated the same way as a single instance of the same type of object.\" 直接支持 claim 前半句 \"组合模式将一组对象当作同类型的单个实例来对待\"；区间 [126,233) 第二句 \"The intent of a composite is to \\\"compose\\\" objects into tree structures to represent part-whole hierarchies.\" 直接支持 claim 后半句 \"其意图是把对象组合成树形结构以表示部分-整体层次\"。claim 为引文的忠实中文转述，故 supported。目标 provenance 为空对象、引文中亦无转载声明，无法举证独立性，按规则输出 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-composite-pattern",
+          "evidence_id": "evidence-47cf0145ae18",
+          "start": 0,
+          "end": 125
+        },
+        {
+          "source_id": "web-computer-science-composite-pattern",
+          "evidence_id": "evidence-47cf0145ae18",
+          "start": 126,
+          "end": 233
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-composite-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "composite-pattern-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "VAL-001",
+      "WIKI-001"
+    ]
+  }
+}

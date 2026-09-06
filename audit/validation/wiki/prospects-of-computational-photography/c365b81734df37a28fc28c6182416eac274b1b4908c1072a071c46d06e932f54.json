@@ -1,0 +1,140 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "prospects-of-computational-photography",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_7b3c56086e72",
+  "input_hash": "sha256:2f0df3f1e448774d5c04048eebf4135abc3682b00c924a5731efb190aae12582",
+  "provider_duration_ms": 20697,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788697194.6192908,
+  "wiki_content_sha256": "sha256:3b29b83bedad658450e1339a3e3bd7b1ab6d4ff0ca475f10d1f1ac458e0eaeed",
+  "wiki_evidence_sha256": "sha256:55f8ef1ecec8e11c05352ffc33ad1127872d4d89427c39207c6ad63d8d8a6794",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-prospects-of-computational-photography"
+      },
+      "source_id": "web-multimedia-prospects-of-computational-photography",
+      "evidence_id": "evidence-625abfc36640",
+      "snapshot_sha256": "sha256:6bd3dfef18929db4c355e79d9f90bcef8065d46bfcd8f6c223e59b6327e4806d",
+      "selector_sha256": "sha256:206e06ee99f874dd86a96cc3f13df10c3d2cc68e563e86ffcee52f246b9b2795",
+      "quote_sha256": "sha256:b961bac3f3b773d4446b63cca359250822d746e3ee2ca104b3ca33da62a69e65"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "computational-photography-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-prospects-of-computational-photography",
+          "evidence_id": "evidence-625abfc36640"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-625abfc36640",
+          "exact": "Computational photography refers to digital image capture and processing techniques that use digital computation instead of optical processes"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-625abfc36640",
+          "subject": "computational photography",
+          "predicate": "refers to",
+          "object": "digital image capture and processing techniques that use digital computation instead of optical processes"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文（evidence-625abfc36640，字符区间 [0,142)）完整表述了 claim 的全部语义单元：主语 \"computational photography\"、谓语 \"refers to\"、以及宾语 \"digital image capture and processing techniques that use digital computation instead of optical processes\"，与 claim 中文表述一一对应（数字图像采集与处理技术 = digital image capture and processing techniques；用数字计算代替光学过程 = use digital computation instead of optical processes）。引文与 claim 之间不存在语义增删或偏移，属于直接支持（support=direct），故判定为 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-prospects-of-computational-photography",
+          "evidence_id": "evidence-625abfc36640",
+          "start": 0,
+          "end": 142
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-prospects-of-computational-photography",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "computational-photography-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "VAL-002"
+    ]
+  }
+}

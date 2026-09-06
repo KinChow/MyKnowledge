@@ -1,0 +1,133 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "chain-of-responsibility-pattern",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_72e69e795fe9",
+  "input_hash": "sha256:1a5354d442e9debaae190c94798c4efd740dbcff25c424a7e9c4143a27e47435",
+  "provider_duration_ms": 33709,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788695597.926732,
+  "wiki_content_sha256": "sha256:94e2ec4feea44c489121f033f4072e03313501f25852da3d836cf294ce4faeed",
+  "wiki_evidence_sha256": "sha256:8adff01f9d1659e6ab7f43d3d3d9f5a5568cb55fcda75b6a0949afffc3dce4b8",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-chain-of-responsibility-pattern"
+      },
+      "source_id": "web-computer-science-chain-of-responsibility-pattern",
+      "evidence_id": "evidence-7da1c940faf7",
+      "snapshot_sha256": "sha256:897a8a2b41966ae13e8d1b2851baf0bee166d85e861501e8b083a67b62dbe1bb",
+      "selector_sha256": "sha256:7bbf875d724a512f043e4943e7ed1c889094624f22a42ce15f8d46372d5e9c6c",
+      "quote_sha256": "sha256:a93e04e37a4977c3b10641aaa71377e07fe9642c682c222c2f04fa0b37eaa159"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "chain-of-responsibility-pattern-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-chain-of-responsibility-pattern",
+          "evidence_id": "evidence-7da1c940faf7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-7da1c940faf7",
+          "exact": "the chain-of-responsibility pattern is a behavioral design pattern consisting of a source of command objects and a series of processing objects"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-7da1c940faf7",
+          "subject": "chain-of-responsibility-pattern",
+          "predicate": "is-described-as",
+          "object": "a behavioral design pattern consisting of a source of command objects and a series of processing objects"
+        }
+      ],
+      "applied_rule_refs": [
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,143)（evidence-7da1c940faf7）仅断言责任链模式是行为型设计模式、由命令对象源和一系列处理对象组成，与 claim 第一分句完全对应；但 claim 的其余断言——每个处理对象包含定义其可处理命令类型的逻辑、其余命令对象传递给链中下一个处理对象、链尾可添加新处理对象、该模式促进松耦合——均未出现在该引文中。证据对 claim 只构成部分支持，超出引文范围的断言缺少证据支撑，故判定为 partially_supported；因 claim 未获其目标引文的完整支持，整体审计判定为 fail。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-chain-of-responsibility-pattern",
+          "evidence_id": "evidence-7da1c940faf7",
+          "start": 0,
+          "end": 143
+        }
+      ]
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-chain-of-responsibility-pattern",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "chain-of-responsibility-pattern-definition",
+      "reason": "独立性判定缺失，按单一 source 处理（AC-F003-005）"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

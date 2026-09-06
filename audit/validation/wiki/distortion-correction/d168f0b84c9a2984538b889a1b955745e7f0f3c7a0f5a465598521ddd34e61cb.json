@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "distortion-correction",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_0b1b8c9c9159",
+  "input_hash": "sha256:512eba417d8ec98418f59c16d9e2dbaee7ed3a99ccf11a3719ac147a57b357ae",
+  "provider_duration_ms": 25366,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788696015.3255491,
+  "wiki_content_sha256": "sha256:200fcf9c57049fdd82e0277d939c780661ba7cf72a1023af5d071a2a00eab492",
+  "wiki_evidence_sha256": "sha256:2d1b005a08d86c86f48d1744eef086185cbe162fec3177671840bce917a15dfd",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-multimedia-distortion-correction"
+      },
+      "source_id": "web-multimedia-distortion-correction",
+      "evidence_id": "evidence-1614c99b9d35",
+      "snapshot_sha256": "sha256:f24ab2f6d28fe3195a7ad78fdaab687706386839aa00e521fce8e58877b2fdad",
+      "selector_sha256": "sha256:0825202f7d03e7771f4881115b8395adcdd4c5d0e916d0ce8ebfab97e3b2e4de",
+      "quote_sha256": "sha256:85b22733e1fc681e0fa57010aeb6702c16bb843a45273b1c9c8971d535a73cda"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "distortion-definition",
+      "verdict": "partially_supported",
+      "targets": [
+        {
+          "source_id": "web-multimedia-distortion-correction",
+          "evidence_id": "evidence-1614c99b9d35"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1614c99b9d35",
+          "exact": "In geometric optics, distortion is a deviation from rectilinear projection; a projection in which straight lines in a scene remain straight in an image."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1614c99b9d35",
+          "subject": "optical distortion",
+          "predicate": "is a deviation from",
+          "object": "rectilinear projection (the projection in which straight lines in a scene remain straight in an image)"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[21,74)直接声明 'distortion is a deviation from rectilinear projection'，与claim定义部分（光学畸变是偏离直线投影的偏差）一致；[76,151)说明直线投影即场景中直线在图像中保持为直线的投影，据此可推出畸变（偏离该投影）下直线不再保持为直线，定义部分成立。但claim后半句（区别于球差、彗差、色差、场曲和像散等影响清晰度的像差的几何像差）在引文中没有任何对应文本：引文未提及任何其他类型像差，且引文中的 'geometric optics'（几何光学）与claim的 '几何像差' 并非同一概念。该分类陈述缺乏此target引文支持，故整体判为部分支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-multimedia-distortion-correction",
+          "evidence_id": "evidence-1614c99b9d35",
+          "start": 21,
+          "end": 74
+        },
+        {
+          "source_id": "web-multimedia-distortion-correction",
+          "evidence_id": "evidence-1614c99b9d35",
+          "start": 76,
+          "end": 151
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "fail",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-multimedia-distortion-correction",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "distortion-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
