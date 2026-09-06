@@ -150,6 +150,9 @@ class PublicProjectionGenerator:
             "title": metadata.get("title", object_id),
             "domain": metadata.get("domain"),
             "kind": metadata.get("kind"),
+            "tags": [
+                str(tag) for tag in (metadata.get("tags") or []) if isinstance(tag, str)
+            ],
             "strength": derived.get("strength"),
             "route": "/wiki/" + object_id,
             "body_path": relative,

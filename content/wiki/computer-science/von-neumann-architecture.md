@@ -55,7 +55,6 @@ updated_at: '2026-09-06'
 
 - **五大部件归约**：计算机的任何一个部件都可以归到运算器、控制器、存储器、输入和输出设备。
 - **存储程序计算机的两个核心点**：可编程、可存储。
-- **结构示意图**：`von-neumann-architecture.assets/Von_Neumann_Architecture.jpg`（单一系统总线的体系结构演化）。
 
 ## 常见误区
 
@@ -115,7 +114,3 @@ updated_at: '2026-09-06'
 
 
 计算机程序可以抽象为从输入设备读取输入信息，通过运算器和控制器来执行存储在存储器里的程序，最终把结果输出到输出设备。
-
-
-
-<img src="von-neumann-architecture.assets/Von_Neumann_Architecture.jpg" alt="Single system bus evolutions of the architecture" style="zoom:50%;" />

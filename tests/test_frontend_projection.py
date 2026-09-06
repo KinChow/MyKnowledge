@@ -342,7 +342,10 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     assert graph.returncode == 0, graph.stderr
     graph_data = json.loads((frontend / "public/generated/graph.json").read_text())
     assert {x["id"] for x in graph_data["nodes"]} == {"one", "two"}
-    assert graph_data["edges"] == [{"source": "one", "target": "two"}]
+    # graph/v1 边契约：显式 related 边带 kind='rel'/weight；无共享标签时不派生 tag 边
+    assert graph_data["edges"] == [
+        {"source": "one", "target": "two", "kind": "rel", "weight": 1}
+    ]
 
 
 def test_leak_gate_reports_input_scope_and_rejects_practice(tmp_path: Path):

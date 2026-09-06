@@ -1,4 +1,8 @@
 ---
+// 构建时读 public/generated/graph.json（与 catalog 同一真源），内联进页面。
+// 力导向布局为简化移植自 d3-force 的经典模型（velocity Verlet：
+// O(n²) 库仑斥力 + 胡克弹簧 + 向心力，alpha 衰减），无外部依赖——
+// 208 节点规模 O(n²) 每帧约 4 万次运算，Canvas 足够。
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -8,21 +12,308 @@ const graph = fs.existsSync(graphPath)
   : { nodes: [], edges: [] };
 const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
 const edges = Array.isArray(graph.edges) ? graph.edges : [];
+
+const DOMAIN_META = [
+  { key: 'computer-science', label: '计算机科学', color: '#2563eb' },
+  { key: 'multimedia', label: '多媒体与影像', color: '#0d9488' },
+  { key: 'work-methods', label: '工作方法', color: '#d97706' },
+  { key: 'tools', label: '工具', color: '#7c3aed' },
+  { key: 'reading-notes', label: '读书笔记', color: '#db2777' },
+];
+const colorOf = (domain) =>
+  (DOMAIN_META.find((d) => d.key === domain) || { color: '#94a3b8' }).color;
+const labelOf = (domain) =>
+  (DOMAIN_META.find((d) => d.key === domain) || { label: '其他' }).label;
+
+const degree = new Map();
+for (const e of edges) {
+  degree.set(e.source, (degree.get(e.source) || 0) + 1);
+  degree.set(e.target, (degree.get(e.target) || 0) + 1);
+}
+const relCount = edges.filter((e) => e.kind === 'rel').length;
+const tagCount2 = edges.filter((e) => e.kind === 'tag').length;
+const counts = new Map();
+for (const n of nodes) {
+  const d = n.domain || 'other';
+  counts.set(d, (counts.get(d) || 0) + 1);
+}
+const legend = DOMAIN_META.filter((d) => counts.get(d.key));
+const otherCount = (counts.get('other') || 0);
+
+// 内联 JSON：转义 `<` 防止 </script> 注入
+const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="zh-CN">
-  <head><meta charset="utf-8" /><title>Knowledge Graph</title></head>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>知识图谱 · MyKnowledge</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #0f172a; color: #e2e8f0; font-family: -apple-system, "PingFang SC", sans-serif; }
+      .bar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+        padding: 14px 24px; border-bottom: 1px solid #1e293b; }
+      .bar h1 { font-size: 16px; margin: 0; font-weight: 600; }
+      .bar a { color: #93c5fd; text-decoration: none; font-size: 13px; }
+      .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: #94a3b8; }
+      .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+      .legend .swatch { display: inline-block; width: 18px; height: 0; margin: 0 4px;
+        border-top: 2px solid #64748b; vertical-align: middle; }
+      .legend .swatch.tag { border-top-style: dotted; border-color: #475569; }
+      .hint { margin-left: auto; font-size: 12px; color: #64748b; }
+      #stage { position: relative; height: calc(100vh - 54px); min-height: 420px; }
+      canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+      canvas.grabbing { cursor: grabbing; }
+      canvas.pointer { cursor: pointer; }
+      #tip { position: absolute; pointer-events: none; display: none;
+        background: #1e293bee; border: 1px solid #334155; border-radius: 8px;
+        padding: 8px 12px; font-size: 12.5px; max-width: 280px; backdrop-filter: blur(4px); }
+      #tip b { display: block; margin-bottom: 2px; font-size: 13px; }
+      #tip span { color: #94a3b8; }
+      noscript ul { columns: 3; font-size: 13px; line-height: 2; }
+      noscript a { color: #93c5fd; }
+    </style>
+  </head>
   <body>
-    <main>
-      <h1>Knowledge Graph</h1>
-      <p>{nodes.length} nodes, {edges.length} links</p>
-      <ul>
-        {nodes.map((node) => <li><a href={`/${node.id}/`}>{node.title || node.id}</a></li>)}
-      </ul>
-      <h2>Links</h2>
-      <ul>
-        {edges.map((edge) => <li><a href={`/${edge.source}/`}>{edge.source}</a> -&gt; <a href={`/${edge.target}/`}>{edge.target}</a></li>)}
-      </ul>
-    </main>
+    <div class="bar">
+      <h1>知识图谱</h1>
+      <div class="legend">
+        {legend.map((d) => <span><i style={`background:${d.color}`}></i>{d.label} {counts.get(d.key)}</span>)}
+        {otherCount > 0 && <span><i style="background:#94a3b8"></i>其他 {otherCount}</span>}
+        <span><span class="swatch"></span>显式 related {relCount}</span>
+        <span><span class="swatch tag"></span>同标签关联 {tagCount2}</span>
+      </div>
+      <span class="hint">{nodes.length} 篇 · 拖拽/滚轮缩放 · 点击进文章</span>
+      <a href="/">← 返回首页</a>
+    </div>
+    <div id="stage">
+      <canvas id="net"></canvas>
+      <div id="tip"></div>
+      <noscript>
+        <ul>{nodes.map((n) => <li><a href={`/${n.id}/`}>{n.title || n.id}</a></li>)}</ul>
+      </noscript>
+    </div>
+    <script type="application/json" id="graph-data" set:html={graphJson} />
+    <script>
+      const data = JSON.parse(document.getElementById('graph-data').textContent);
+      const canvas = document.getElementById('net');
+      const tip = document.getElementById('tip');
+      const ctx = canvas.getContext('2d');
+
+      const DOMAIN_COLOR = {
+        'computer-science': '#3b82f6',
+        'multimedia': '#14b8a6',
+        'work-methods': '#f59e0b',
+        'tools': '#a78bfa',
+        'reading-notes': '#f472b6',
+      };
+
+      const nodes = data.nodes.map((n, i) => ({
+        ...n,
+        color: DOMAIN_COLOR[n.domain] || '#94a3b8',
+        deg: 0,
+        x: 0, y: 0, vx: 0, vy: 0,
+      }));
+      const byId = new Map(nodes.map((n) => [n.id, n]));
+      const edges = [];
+      for (const e of data.edges) {
+        const s = byId.get(e.source), t = byId.get(e.target);
+        if (!s || !t) continue;
+        s.deg++; t.deg++;
+        edges.push({ s, t });
+      }
+      // 黄金角螺旋初始位（确定性布局，不依赖随机数）
+      const GA = Math.PI * (3 - Math.sqrt(5));
+      nodes.forEach((n, i) => {
+        const r = 40 * Math.sqrt(i + 1);
+        n.x = Math.cos(GA * i) * r;
+        n.y = Math.sin(GA * i) * r;
+      });
+
+      // ---- 力模型（简化自 d3-force：斥力/弹簧/向心，velocity Verlet + alpha 衰减）----
+      let alpha = 1;
+      const REPULSION = 2600, SPRING = 0.045, SPRING_LEN = 90, CENTER = 0.012;
+      function step() {
+        if (alpha < 0.005) return;
+        for (let i = 0; i < nodes.length; i++) {
+          const a = nodes[i];
+          for (let j = i + 1; j < nodes.length; j++) {
+            const b = nodes[j];
+            let dx = a.x - b.x, dy = a.y - b.y;
+            let d2 = dx * dx + dy * dy;
+            if (d2 < 1) { dx = (i - j) * 0.1; dy = (i + j) * 0.1; d2 = dx * dx + dy * dy; }
+            const f = (REPULSION * alpha) / d2;
+            const d = Math.sqrt(d2);
+            const fx = (dx / d) * f, fy = (dy / d) * f;
+            a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
+          }
+        }
+        for (const e of edges) {
+          const dx = e.t.x - e.s.x, dy = e.t.y - e.s.y;
+          const d = Math.sqrt(dx * dx + dy * dy) || 1;
+          const f = (d - SPRING_LEN) * SPRING * alpha;
+          const fx = (dx / d) * f, fy = (dy / d) * f;
+          e.s.vx += fx; e.s.vy += fy; e.t.vx -= fx; e.t.vy -= fy;
+        }
+        for (const n of nodes) {
+          n.vx += -n.x * CENTER * alpha; n.vy += -n.y * CENTER * alpha;
+          if (n !== drag.node) { n.vx *= 0.85; n.vy *= 0.85; }
+          n.x += n.vx; n.y += n.vy;
+        }
+        alpha *= 0.985;
+      }
+
+      // ---- 视口变换（滚轮缩放 + 背景拖拽平移）----
+      const view = { x: 0, y: 0, k: 1 };
+      let dpr = 1;
+      function applyView() {
+        const { width, height } = canvas;
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+        ctx.setTransform(view.k * dpr, 0, 0, view.k * dpr, view.x * dpr, view.y * dpr);
+      }
+      function toWorld(px, py) {
+        return { x: (px - view.x) / view.k, y: (py - view.y) / view.k };
+      }
+      function resize() {
+        const r = canvas.getBoundingClientRect();
+        dpr = window.devicePixelRatio || 1;
+        canvas.width = r.width * dpr; canvas.height = r.height * dpr;
+        canvas._w = r.width; canvas._h = r.height;
+      }
+      window.addEventListener('resize', () => { resize(); draw(); });
+
+      // ---- 渲染 ----
+      const radius = (n) => 3 + Math.min(10, Math.sqrt(n.deg) * 2.2);
+      function draw() {
+        applyView();
+        const hovered = hover.node;
+        const neighbors = hovered ? neighborIds(hovered) : null;
+        ctx.lineWidth = 1 / (view.k * dpr);
+        for (const e of edges) {
+          const strong = hovered && (e.s === hovered || e.t === hovered);
+          if (e.kind === 'rel') {
+            ctx.strokeStyle = hovered ? (strong ? '#facc15' : '#1e293b') : '#64748b';
+            ctx.beginPath(); ctx.moveTo(e.s.x, e.s.y); ctx.lineTo(e.t.x, e.t.y); ctx.stroke();
+          } else {
+            // 同标签软关联：透明度随共享标签数衰减，弱关联几乎不可见
+            ctx.strokeStyle = hovered ? (strong ? '#facc15aa' : '#16223a') : `rgba(100,116,139,${0.1 + 0.14 * (e.weight - 1)})`;
+            ctx.setLineDash([3 / (view.k * dpr), 4 / (view.k * dpr)]);
+            ctx.beginPath(); ctx.moveTo(e.s.x, e.s.y); ctx.lineTo(e.t.x, e.t.y); ctx.stroke();
+            ctx.setLineDash([]);
+          }
+        }
+        for (const n of nodes) {
+          const dim = hovered && n !== hovered && !neighbors.has(n.id);
+          ctx.globalAlpha = dim ? 0.15 : 1;
+          ctx.fillStyle = n.color;
+          ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 6.2832); ctx.fill();
+          if (n.deg >= 8 || n === hovered) {
+            ctx.globalAlpha = dim ? 0.1 : 0.92;
+            ctx.fillStyle = '#e2e8f0';
+            ctx.font = `${11 / Math.max(view.k, 0.7)}px sans-serif`;
+            ctx.fillText(n.title || n.id, n.x + radius(n) + 3, n.y + 3.5);
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+      function neighborIds(n) {
+        const set = new Set([n.id]);
+        for (const e of edges) {
+          if (e.s === n) set.add(e.t.id);
+          if (e.t === n) set.add(e.s.id);
+        }
+        return set;
+      }
+
+      // ---- 交互（拖拽节点 / 平移 / 缩放 / 悬停 / 点击跳转）----
+      const drag = { node: null, panning: false, moved: 0 };
+      const hover = { node: null };
+      function pick(px, py) {
+        const w = toWorld(px, py);
+        let best = null, bestD = Infinity;
+        for (const n of nodes) {
+          const dx = n.x - w.x, dy = n.y - w.y;
+          const d = dx * dx + dy * dy;
+          const rr = Math.max(radius(n) + 4, 8 / view.k);
+          if (d < rr * rr && d < bestD) { best = n; bestD = d; }
+        }
+        return best;
+      }
+      canvas.addEventListener('pointerdown', (ev) => {
+        const r = canvas.getBoundingClientRect();
+        const px = ev.clientX - r.left, py = ev.clientY - r.top;
+        const n = pick(px, py);
+        canvas.setPointerCapture(ev.pointerId);
+        drag.moved = 0;
+        if (n) { drag.node = n; alpha = Math.max(alpha, 0.4); }
+        else { drag.panning = true; canvas.classList.add('grabbing'); }
+        drag.px = px; drag.py = py;
+      });
+      canvas.addEventListener('pointermove', (ev) => {
+        const r = canvas.getBoundingClientRect();
+        const px = ev.clientX - r.left, py = ev.clientY - r.top;
+        if (drag.node) {
+          drag.node.x += (px - drag.px) / view.k;
+          drag.node.y += (py - drag.py) / view.k;
+          drag.node.vx = 0; drag.node.vy = 0;
+          drag.moved += Math.abs(px - drag.px) + Math.abs(py - drag.py);
+        } else if (drag.panning) {
+          view.x += px - drag.px; view.y += py - drag.py;
+          drag.moved += Math.abs(px - drag.px) + Math.abs(py - drag.py);
+        } else {
+          const n = pick(px, py);
+          if (n !== hover.node) {
+            hover.node = n;
+            canvas.classList.toggle('pointer', !!n);
+            if (n) {
+              tip.style.display = 'block';
+              const tags = (n.tags || []).slice(0, 8).join(' · ');
+              tip.innerHTML = `<b>${escapeHtml(n.title || n.id)}</b><span>${n.deg} 条关联${tags ? '　' + escapeHtml(tags) : ''}</span>`;
+            } else tip.style.display = 'none';
+            draw();
+          }
+        }
+        if (drag.node || drag.panning) { drag.px = px; drag.py = py; }
+        if (hover.node) {
+          tip.style.left = `${hover.node.x * view.k + view.x + 14}px`;
+          tip.style.top = `${hover.node.y * view.k + view.y + 10}px`;
+        }
+      });
+      canvas.addEventListener('pointerup', (ev) => {
+        if (drag.node && drag.moved < 6) {
+          window.location.href = `/${drag.node.id}/`;
+        }
+        drag.node = null; drag.panning = false;
+        canvas.classList.remove('grabbing');
+      });
+      canvas.addEventListener('pointerleave', () => {
+        if (hover.node) { hover.node = null; tip.style.display = 'none'; draw(); }
+      });
+      canvas.addEventListener('wheel', (ev) => {
+        ev.preventDefault();
+        const r = canvas.getBoundingClientRect();
+        const px = ev.clientX - r.left, py = ev.clientY - r.top;
+        const k = Math.min(8, Math.max(0.15, view.k * (ev.deltaY < 0 ? 1.12 : 0.89)));
+        view.x = px - ((px - view.x) * k) / view.k;
+        view.y = py - ((py - view.y) * k) / view.k;
+        view.k = k;
+        draw();
+      }, { passive: false });
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, (c) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      }
+
+      resize();
+      // 初始迭代到稳定再启动呼吸动画
+      for (let i = 0; i < 220; i++) step();
+      (function loop() {
+        if (drag.node || drag.panning) alpha = Math.max(alpha, 0.08);
+        step(); draw();
+        requestAnimationFrame(loop);
+      })();
+    </script>
   </body>
 </html>
