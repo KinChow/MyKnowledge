@@ -4,17 +4,28 @@
 - 相关规范：WEB、SEC、IDX、MIG
 - 相关 ADR：ADR-0007、ADR-0009
 - 实现设计：[静态 Wiki 发布](../technical-design/static-wiki-publishing.md)
-- 状态：Implemented（2026-08-28；工程骨架与 fail-closed 基础能力，完整静态发布验收待补）
+- 状态：Implemented（2026-09-07；public projection、静态工作台、文章关系和图谱交互已完成，完整发布门禁仍为部分验收）
 - 实现证据：`frontend/package.json`、`frontend/astro.config.mjs`、`frontend/scripts/prepare-content.mjs`、`frontend/scripts/build-release.mjs`、`frontend/scripts/leak-gate.mjs`
-- 当前边界：已加入可审计的空 `public-projection/v1` manifest 作为离线输入门；真实发布条目、Pagefind、graph browser、人工 release confirmation 和完整 leak-gate/旧 dist 演练尚未完成。
+- 当前边界：当前 checkout 已有 208 篇 public projection 条目并可生成静态站点；真实 public confirmation、发布恢复和部分安全/人工流程仍沿用下文的未闭合边界，不能把前端交互验收等同于 F007 全量 Accepted。
 
 ## 本轮成熟方案调查（2026-08-28）
 
 - Astro 7.1.3 + Starlight 0.41.4（MIT，<https://github.com/withastro/astro>、<https://github.com/withastro/starlight>）：复用静态输出、内容目录和 sidebar 结构；限制是不会替 MyKnowledge 判断 public allowlist，输入仍由 manifest adapter 控制。
-- Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）：复用构建后离线索引；限制是只索引最终 HTML，不能作为权限过滤或 canonical 数据源。
+- Pagefind 1.5.2（MIT，<https://github.com/CloudCannon/pagefind>）：复用构建后离线索引；限制是只索引最终 HTML，不能作为权限过滤或 canonical 数据源。
+- Cytoscape.js 3.34.2（MIT，<https://js.cytoscape.org/>）：复用成熟的节点/边模型、Cose 布局、缩放、拖拽、事件和 PNG 导出；限制是只接收 public graph 适配层输出，不接触 canonical/private 数据。
 - 替代方案 Quartz（MIT，<https://github.com/jackyzha0/quartz>）提供 Markdown/图谱范式，但其默认内容扫描范围过宽，本轮仅借用 graph/catalog 闭包思路，不直接扫描 `docs/`、`source/` 或 private vault。
 
-本轮落地的 `queries/public/manifest.json` 是空 allowlist，确保 projection 模式在无 public 条目时可确定性运行；条目必须由后续 projection generator 根据人工确认和当前 hash 生成，不能手写伪造发布状态。
+## 前端工作台增量实现与验收（2026-09-07）
+
+- 复用 Astro/Starlight 官方 `components` 覆盖接口：`PageTitle` 增加收藏、复制链接、图谱聚焦和公开关系摘要；`PageSidebar` 增加显式关联、反向链接和同主题文章；侧栏使用 `autogenerate` 生成 public Wiki 文章树。
+- 首页实现 projection-backed 工作台：文章列表、领域/类型/标签筛选、关联数/标题排序、URL 查询状态、列表/紧凑视图、收藏和最近阅读；localStorage 使用 `myknowledge:workbench:v1`，损坏或不可用时降级为只读浏览。
+- 全文搜索复用 Pagefind JS API，生产预览中以 `transformer` 查询返回 3 个结果；开发模式索引缺失时退回标题/标签检索并显示降级状态。
+- 图谱以 Cytoscape.js 3.34.2 替换自研力模型，支持全局/一跳局部、`?focus=`、标题/标签查找、领域/关系过滤、节点详情、文章跳转、重置和 PNG 导出；graph 节点携带 projection route，确保无脚本节点列表和详情链接闭包到 `/wiki/.../`。
+- 自动化证据：`PYTHONPATH=. .venv/bin/python -m pytest -q` 为 `478 passed, 1 skipped`；`tests/test_frontend_projection.py` 为 `15 passed`；`npm run validate:projection`、`validate:config`、`validate:docs`、`validate-build` 和 input/staging/dist 三阶段 leak gate 均通过；生产构建为 208 个 catalog 条目、208 个 graph 节点、353 条边、211 个 HTML 页面。
+- 浏览器证据：`http://127.0.0.1:4322/` 验证首页筛选从 208 篇收敛到 157 篇、收藏和最近阅读跨页面回填、Pagefind 搜索命中；`http://127.0.0.1:4322/graph/?focus=compiler-vectorization` 验证 12 个节点/25 条一跳关系、焦点详情和 `/wiki/compiler-vectorization/` 跳转；桌面截图确认全局和局部图谱非空且布局完整。
+- 未覆盖项：当前未使用自动化浏览器脚本覆盖所有 25 个 F007 AC，Mermaid SVG DOM 深度审计、发布失败恢复、warning policy 和人工 confirmation 仍不能标记 Accepted。
+
+此前落地的 `queries/public/manifest.json` 空 allowlist 用于验证无 public 条目时的 fail-closed 行为；当前 manifest 已由 projection generator 生成真实 public 条目，仍必须根据人工确认和当前 hash 派生，不能手写伪造发布状态。
 
 ## Starlight projection collection 增量证据（2026-08-27）
 
@@ -40,7 +51,7 @@
 - `tools/public_projection.py::PublicProjectionGenerator` 只扫描 public `wiki/**/*.md`，复用 WikiValidator 的 `public_publishable` 与 content/evidence hash，并校验人工 `public-release-confirmation/v1` 的 owner、批准状态和 hash。
 - `tests/test_public_projection.py::test_public_projection_generator_requires_matching_confirmation` 验证已验证但缺 confirmation 的对象不会进入 `queries/public/manifest.json`，只进入本机 skipped 结果；匹配 confirmation 的对象生成完整 public item。
 - `tests/test_public_projection.py::test_public_projection_generator_does_not_emit_private_or_unconfirmed_items` 验证 private object 不会进入 public manifest。
-- CLI 入口：`python -m tools.cli projection generate`。真实多文章 Pagefind/浏览器验收和最终发布闭包仍待完成。
+- CLI 入口：`python -m tools.cli projection generate`。本轮已完成真实多文章 Pagefind/浏览器工作台验收，最终发布闭包仍按后续未闭合场景执行。
 
 ## Active content / Mermaid callback 增量证据（2026-08-27）
 
@@ -50,7 +61,7 @@
 
 - 在 `frontend/` 执行 `npm run validate:config`、`npm run validate:docs`、`npm run validate:legacy`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 和 `npm run build` 均通过。
 - release build 生成静态 Astro 输出并完成 Pagefind 索引（2 个 HTML，包含 404 与首页）；输入树、staging 和最终 dist 的 leak gate 均返回 `findings: []`，`build_valid` 通过。
-- 该证据只证明无 public 条目时构建链离线可运行和 fail-closed；当前 projection 仍为空，真实 Wiki、多语言检索和浏览器交互验收待补。
+- 该段记录无 public 条目时构建链离线可运行和 fail-closed 的历史证据；当前 projection 已有真实 public Wiki，多语言检索基线仍未单独建立。
 
 ## Release lock 增量证据（2026-08-30）
 
@@ -60,7 +71,7 @@
 ## 本轮 sitemap 闭包增量证据（2026-08-30）
 
 - `frontend/scripts/build-release.mjs` 在 Astro 静态构建成功后按 catalog 生成确定性 `dist/sitemap.xml`，仅包含 `/`、`/graph/` 和 public catalog routes；`validate-build.mjs` 拒绝重复、缺失或额外 URL。
-- `npm run build` 在空 projection 上通过 Pagefind、sitemap、graph 和 dist leak gate；Astro 未配置外部 `site` 时仍不联网，sitemap 使用站内相对 URL。该证据不替代真实多文章浏览器验收。
+- `npm run build` 在空 projection 上通过 Pagefind、sitemap、graph 和 dist leak gate；Astro 未配置外部 `site` 时仍不联网，sitemap 使用站内相对 URL。该段是空 projection 历史证据，真实多文章验收见本轮增量章节。
 
 ## Public release confirmation 增量证据（2026-08-30）
 
@@ -71,7 +82,7 @@ release lock 增量：`build-release.mjs` 写入 `release-lock/v1` 随机 fencin
 - AC-F007-009/022/025：`tests/test_release_confirmation.py::test_public_release_event_is_hashed_and_written` 验证 public release event 的 schema、target、human actor、input-tree scope 和 canonical event hash，并以 append-only 文件写入。
 - `test_public_release_event_rejects_private_reason_or_target` 验证 private target 与 URL/private reason 均被 fail-closed 拒绝。
 
-事件校验不等于已发布页面；当前仍没有真实 Wiki 的完整 validation attestation、release-input hash 和最终多页面发布闭包。
+事件校验不等于完整发布闭包；当前真实 Wiki 已进入 public projection，但最终多页面发布、失败恢复和人工流程仍有未闭合场景。
 
 ## Prepare confirmation replay 增量证据（2026-08-30）
 
@@ -87,7 +98,7 @@ release lock 增量：`build-release.mjs` 写入 `release-lock/v1` 随机 fencin
 - 多页 projection fixture 已通过 `prepare-content.mjs`、`build-graph.mjs`，验证 catalog/graph 节点与边闭包；根目录全量测试当前通过。
 - `frontend/` 已实际运行 `npm run validate:config`、`npm run validate:docs`、`npm run validate:legacy`、`MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection` 和 `npm run build`；输出包含 `build_valid`，input-tree/staging/dist 三阶段 leak gate 均为 `findings: []`，Pagefind 成功生成索引。
 - 成熟方案复用 Astro/Starlight 内容集合、Pagefind final-HTML 索引和 Quartz graph closure；前端不扫描 source/private/practice。
-- 边界：当前 checkout 仍缺正式多文章 public manifest、真实浏览器交互和中文 Pagefind 查询质量基准，不能据此标记 F007 `Accepted`。
+- 边界：本段记录的是 2026-08-27 的阶段性边界；当前正式多文章 projection、真实浏览器交互已补齐，但中文 Pagefind 质量基准和全量 F007 AC 仍未闭合，不能据此标记 F007 `Accepted`。
 
 ## 多语言正文输入保真增量证据（2026-08-27）
 
@@ -306,7 +317,7 @@ release lock 增量：`build-release.mjs` 写入 `release-lock/v1` 随机 fencin
 
 - `tests/test_frontend_projection.py::test_validate_build_rejects_pagefind_count_mismatch` 验证 Pagefind `page_count` 与产出的 HTML 数量不一致时 `validate-build` fail-closed。
 - `frontend/scripts/validate-build.mjs` 在存在 Pagefind 时校验所有语言索引总页数与 HTML 文件数，并确保不小于 catalog；存在 sitemap 时逐条检查 catalog route 闭包。
-- 空 projection 生产构建实际通过，Pagefind 报告 2 个固定 HTML 页面，集合校验通过；真实多文章 sitemap/浏览器检索仍待环境验收。
+- 空 projection 生产构建实际通过，Pagefind 报告 2 个固定 HTML 页面的历史证据；当前真实多文章 sitemap/浏览器检索结果见“前端工作台增量实现与验收”。
 
 ## Confirmation nonce replay 增量证据（2026-08-27）
 

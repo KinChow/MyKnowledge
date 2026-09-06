@@ -52,7 +52,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 			<section class="mk-graph-stage" aria-label="交互式知识图谱">
 				<div id="cy"></div>
 				<section class="mk-node-panel" id="node-panel" aria-live="polite" aria-label="节点详情"><div class="mk-node-panel-empty">选择一个节点查看详情。</div></section>
-				<details class="mk-graph-accessible"><summary>节点列表</summary><ol id="accessible-list">{nodes.map((node) => <li><a href={routePath(base, node.id)}>{node.title || node.id}</a></li>)}</ol></details>
+				<details class="mk-graph-accessible"><summary>节点列表</summary><ol id="accessible-list">{nodes.map((node) => <li><a href={routePath(base, node.route || node.id)}>{node.title || node.id}</a></li>)}</ol></details>
 			</section>
 		</main>
 		<script type="application/json" id="graph-data" set:html={graphJson}></script>
@@ -61,6 +61,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 			const baseUrl = document.querySelector('.mk-graph-brand a')?.getAttribute('href')?.replace(/\/$/, '') || '';
 			const data = JSON.parse(document.getElementById('graph-data').textContent || '{"nodes":[],"edges":[]}');
 			const domainColors = { 'computer-science': '#3b82f6', multimedia: '#14b8a6', 'work-methods': '#f59e0b', tools: '#a78bfa', 'reading-notes': '#f472b6', other: '#94a3b8' };
+			const domainLabels = { 'computer-science': '计算机科学', multimedia: '多媒体与影像', 'work-methods': '工作方法', tools: '工具', 'reading-notes': '读书笔记', other: '其他' };
 			const nodeData = data.nodes.map((node) => ({ ...node, color: domainColors[node.domain] || domainColors.other }));
 			const nodeById = new Map(nodeData.map((node) => [node.id, node]));
 			const degree = new Map();
@@ -86,7 +87,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 			}
 			function elementsFor(ids) {
 				return [
-					...nodeData.filter((node) => ids.has(node.id)).map((node) => ({ group: 'nodes', data: { id: node.id, label: node.title || node.id, domain: node.domain || 'other', color: node.color, degree: degree.get(node.id) || 0, tags: node.tags || [] } })),
+					...nodeData.filter((node) => ids.has(node.id)).map((node) => ({ group: 'nodes', classes: (degree.get(node.id) || 0) >= 6 ? 'labelled' : '', data: { id: node.id, label: node.title || node.id, domain: node.domain || 'other', color: node.color, degree: degree.get(node.id) || 0, tags: node.tags || [] } })),
 					...data.edges.map((edge, index) => ({ ...edge, index })).filter((edge) => ids.has(edge.source) && ids.has(edge.target) && (!graphEdge.value || edge.kind === graphEdge.value)).map((edge) => ({ group: 'edges', data: { id: `edge-${edge.index}`, source: edge.source, target: edge.target, kind: edge.kind, weight: edge.weight || 1 } })),
 				];
 			}
@@ -99,7 +100,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 				nodePanel.replaceChildren();
 				if (!node) { const empty = document.createElement('div'); empty.className = 'mk-node-panel-empty'; empty.textContent = state.mode === 'local' ? '选择局部图谱中的节点查看详情。' : '选择一个节点查看详情。'; nodePanel.append(empty); return; }
 				const title = document.createElement('h2'); title.textContent = node.data('label');
-				const meta = document.createElement('p'); meta.textContent = `${node.data('domain')} · ${node.data('degree')} 条关联`;
+				const meta = document.createElement('p'); meta.textContent = `${domainLabels[node.data('domain')] || node.data('domain')} · ${node.data('degree')} 条关联`;
 				const tags = document.createElement('p'); tags.className = 'mk-node-tags'; tags.textContent = (node.data('tags') || []).slice(0, 6).join(' · ');
 				const link = document.createElement('a'); link.className = 'mk-node-open'; link.href = routeFor(node.id()); link.textContent = '打开文章';
 				nodePanel.append(title, meta, tags, link);
@@ -108,7 +109,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 				const ids = visibleIds();
 				cy.elements().remove();
 				cy.add(elementsFor(ids));
-				cy.layout({ name: 'cose', animate, fit: true, padding: 56, randomize: true, nodeRepulsion: 8500, idealEdgeLength: 90, nestingFactor: 0.9, gravity: 0.35, numIter: 500 }).run();
+				cy.layout({ name: 'cose', animate: false, fit: true, padding: 72, randomize: true, nodeRepulsion: 14000, idealEdgeLength: 130, nestingFactor: 0.9, gravity: 0.2, numIter: 800, nodeDimensionsIncludeLabels: true }).run();
 				if (state.selected && ids.has(state.selected)) { const selected = cy.getElementById(state.selected); selected.select(); renderPanel(selected); }
 				else if (!ids.has(state.selected)) { state.selected = ''; renderPanel(null); }
 				updateAccessible(ids);
@@ -116,19 +117,23 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 			}
 			function setMode(mode) { state.mode = mode; document.getElementById('global-mode').setAttribute('aria-pressed', String(mode === 'global')); document.getElementById('local-mode').setAttribute('aria-pressed', String(mode === 'local')); refresh(); }
 			cy = cytoscape({ container: document.getElementById('cy'), elements: elementsFor(visibleIds()), minZoom: 0.15, maxZoom: 3.5, wheelSensitivity: 0.18, boxSelectionEnabled: false, style: [
-				{ selector: 'node', style: { 'background-color': 'data(color)', width: 'mapData(degree, 0, 12, 12, 34)', height: 'mapData(degree, 0, 12, 12, 34)', label: 'data(label)', color: '#e5edf7', 'font-size': 10, 'text-outline-color': '#101722', 'text-outline-width': 2, 'text-wrap': 'ellipsis', 'text-max-width': 120, 'text-valign': 'bottom', 'text-margin-y': 7, 'overlay-opacity': 0 } },
+				{ selector: 'node', style: { 'background-color': 'data(color)', width: 'mapData(degree, 0, 12, 12, 34)', height: 'mapData(degree, 0, 12, 12, 34)', label: '', color: '#e5edf7', 'font-size': 10, 'text-outline-color': '#101722', 'text-outline-width': 2, 'text-wrap': 'ellipsis', 'text-max-width': 120, 'text-valign': 'bottom', 'text-margin-y': 7, 'overlay-opacity': 0 } },
+				{ selector: 'node.labelled', style: { label: 'data(label)' } },
 				{ selector: 'edge[kind = "rel"]', style: { width: 2, 'line-color': '#91a4bc', 'target-arrow-color': '#91a4bc', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
 				{ selector: 'edge[kind = "tag"]', style: { width: 1, 'line-color': '#53657a', opacity: 0.42, 'line-style': 'dotted', 'curve-style': 'bezier' } },
-				{ selector: 'node:selected', style: { 'border-width': 3, 'border-color': '#fbbf24', 'background-color': '#fbbf24', color: '#fff', 'font-weight': 'bold' } },
+				{ selector: 'node:selected', style: { 'border-width': 3, 'border-color': '#fbbf24', 'background-color': '#fbbf24', color: '#fff', 'font-weight': 'bold', label: 'data(label)' } },
+				{ selector: 'node.hovered', style: { label: 'data(label)' } },
 				{ selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#fbbf24' } },
 				{ selector: 'edge.highlighted', style: { 'line-color': '#fbbf24', 'target-arrow-color': '#fbbf24', opacity: 1, width: 3 } },
-			], layout: { name: 'cose', animate: false, fit: true, padding: 56, nodeRepulsion: 8500, idealEdgeLength: 90, gravity: 0.35, numIter: 500 } });
+			], layout: { name: 'cose', animate: false, fit: true, padding: 72, nodeRepulsion: 14000, idealEdgeLength: 130, gravity: 0.2, numIter: 800, nodeDimensionsIncludeLabels: true } });
 			cy.on('tap', 'node', (event) => { state.selected = event.target.id(); cy.nodes().unselect(); event.target.select(); renderPanel(event.target); if (state.mode === 'local') refresh(); else { cy.animate({ center: { eles: event.target }, zoom: Math.max(cy.zoom(), 1) }, { duration: 250 }); } history.replaceState(null, '', `${location.pathname}?focus=${encodeURIComponent(state.selected)}`); });
-			cy.on('mouseover', 'node', (event) => { const node = event.target; node.neighborhood().addClass('neighbor'); node.connectedEdges().addClass('highlighted'); });
-			cy.on('mouseout', 'node', (event) => { event.target.neighborhood().removeClass('neighbor'); event.target.connectedEdges().removeClass('highlighted'); });
+			cy.on('mouseover', 'node', (event) => { const node = event.target; node.addClass('hovered'); node.neighborhood().addClass('neighbor'); node.connectedEdges().addClass('highlighted'); });
+			cy.on('mouseout', 'node', (event) => { event.target.removeClass('hovered'); event.target.neighborhood().removeClass('neighbor'); event.target.connectedEdges().removeClass('highlighted'); });
 			document.getElementById('global-mode').addEventListener('click', () => setMode('global'));
 			document.getElementById('local-mode').addEventListener('click', () => { if (!state.selected) { const first = nodeData.slice().sort((a, b) => (degree.get(b.id) || 0) - (degree.get(a.id) || 0))[0]; state.selected = first?.id || ''; } setMode('local'); });
-			[graphSearch, graphDomain, graphEdge].forEach((control) => { control.addEventListener('input', () => refresh()); control.addEventListener('change', () => refresh()); });
+			let refreshTimer;
+			graphSearch.addEventListener('input', () => { clearTimeout(refreshTimer); refreshTimer = setTimeout(() => refresh(), 100); });
+			[graphDomain, graphEdge].forEach((control) => control.addEventListener('change', () => refresh()));
 			document.getElementById('graph-reset').addEventListener('click', () => { graphSearch.value = ''; graphDomain.value = ''; graphEdge.value = ''; state.selected = ''; history.replaceState(null, '', location.pathname); setMode('global'); cy.fit(undefined, 56); });
 			document.getElementById('graph-export').addEventListener('click', () => { const link = document.createElement('a'); link.download = 'myknowledge-graph.png'; link.href = cy.png({ full: true, scale: 2, bg: getComputedStyle(document.body).backgroundColor }); link.click(); });
 			window.addEventListener('resize', () => cy.resize());
