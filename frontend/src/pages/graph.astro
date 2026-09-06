@@ -1,319 +1,199 @@
 ---
-// 构建时读 public/generated/graph.json（与 catalog 同一真源），内联进页面。
-// 力导向布局为简化移植自 d3-force 的经典模型（velocity Verlet：
-// O(n²) 库仑斥力 + 胡克弹簧 + 向心力，alpha 衰减），无外部依赖——
-// 208 节点规模 O(n²) 每帧约 4 万次运算，Canvas 足够。
-import fs from 'node:fs';
-import path from 'node:path';
+import { Icon } from '@astrojs/starlight/components';
+import '../styles/workbench.css';
+import { DOMAIN_META, degreeMap, loadGraph, routePath } from '../lib/public-catalog';
 
-const graphPath = path.join(process.cwd(), 'public/generated/graph.json');
-const graph = fs.existsSync(graphPath)
-  ? JSON.parse(fs.readFileSync(graphPath, 'utf8'))
-  : { nodes: [], edges: [] };
+// public/generated/graph.json is the only graph input; loadGraph applies the generated-data boundary.
+
+const base = import.meta.env.BASE_URL;
+const graph = loadGraph();
 const nodes = Array.isArray(graph.nodes) ? graph.nodes : [];
 const edges = Array.isArray(graph.edges) ? graph.edges : [];
-
-const DOMAIN_META = [
-  { key: 'computer-science', label: '计算机科学', color: '#2563eb' },
-  { key: 'multimedia', label: '多媒体与影像', color: '#0d9488' },
-  { key: 'work-methods', label: '工作方法', color: '#d97706' },
-  { key: 'tools', label: '工具', color: '#7c3aed' },
-  { key: 'reading-notes', label: '读书笔记', color: '#db2777' },
+const degrees = degreeMap(edges);
+const domainCounts = new Map<string, number>();
+for (const node of nodes) {
+	const domain = node.domain || 'other';
+	domainCounts.set(domain, (domainCounts.get(domain) || 0) + 1);
+}
+const domainOptions = [
+	...DOMAIN_META.filter((domain) => domainCounts.has(domain.key)),
+	...(domainCounts.has('other') ? [{ key: 'other', label: '其他', color: '#64748b' }] : []),
 ];
-const colorOf = (domain) =>
-  (DOMAIN_META.find((d) => d.key === domain) || { color: '#94a3b8' }).color;
-const labelOf = (domain) =>
-  (DOMAIN_META.find((d) => d.key === domain) || { label: '其他' }).label;
-
-const degree = new Map();
-for (const e of edges) {
-  degree.set(e.source, (degree.get(e.source) || 0) + 1);
-  degree.set(e.target, (degree.get(e.target) || 0) + 1);
-}
-const relCount = edges.filter((e) => e.kind === 'rel').length;
-const tagCount2 = edges.filter((e) => e.kind === 'tag').length;
-const counts = new Map();
-for (const n of nodes) {
-  const d = n.domain || 'other';
-  counts.set(d, (counts.get(d) || 0) + 1);
-}
-const legend = DOMAIN_META.filter((d) => counts.get(d.key));
-const otherCount = (counts.get('other') || 0);
-
-// 内联 JSON：转义 `<` 防止 </script> 注入
 const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>知识图谱 · MyKnowledge</title>
-    <style>
-      * { box-sizing: border-box; }
-      body { margin: 0; background: #0f172a; color: #e2e8f0; font-family: -apple-system, "PingFang SC", sans-serif; }
-      .bar { display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-        padding: 14px 24px; border-bottom: 1px solid #1e293b; }
-      .bar h1 { font-size: 16px; margin: 0; font-weight: 600; }
-      .bar a { color: #93c5fd; text-decoration: none; font-size: 13px; }
-      .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: #94a3b8; }
-      .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-      .legend .swatch { display: inline-block; width: 18px; height: 0; margin: 0 4px;
-        border-top: 2px solid #64748b; vertical-align: middle; }
-      .legend .swatch.tag { border-top-style: dotted; border-color: #475569; }
-      .hint { margin-left: auto; font-size: 12px; color: #64748b; }
-      #stage { position: relative; height: calc(100vh - 54px); min-height: 420px; }
-      canvas { display: block; width: 100%; height: 100%; cursor: grab; }
-      canvas.grabbing { cursor: grabbing; }
-      canvas.pointer { cursor: pointer; }
-      #tip { position: absolute; pointer-events: none; display: none;
-        background: #1e293bee; border: 1px solid #334155; border-radius: 8px;
-        padding: 8px 12px; font-size: 12.5px; max-width: 280px; backdrop-filter: blur(4px); }
-      #tip b { display: block; margin-bottom: 2px; font-size: 13px; }
-      #tip span { color: #94a3b8; }
-      noscript ul { columns: 3; font-size: 13px; line-height: 2; }
-      noscript a { color: #93c5fd; }
-    </style>
-  </head>
-  <body>
-    <div class="bar">
-      <h1>知识图谱</h1>
-      <div class="legend">
-        {legend.map((d) => <span><i style={`background:${d.color}`}></i>{d.label} {counts.get(d.key)}</span>)}
-        {otherCount > 0 && <span><i style="background:#94a3b8"></i>其他 {otherCount}</span>}
-        <span><span class="swatch"></span>显式 related {relCount}</span>
-        <span><span class="swatch tag"></span>同标签关联 {tagCount2}</span>
-      </div>
-      <span class="hint">{nodes.length} 篇 · 拖拽/滚轮缩放 · 点击进文章</span>
-      <a href="/">← 返回首页</a>
-    </div>
-    <div id="stage">
-      <canvas id="net"></canvas>
-      <div id="tip"></div>
-      <noscript>
-        <ul>{nodes.map((n) => <li><a href={`/${n.id}/`}>{n.title || n.id}</a></li>)}</ul>
-      </noscript>
-    </div>
-    <script type="application/json" id="graph-data" set:html={graphJson} />
-    <script>
-      const data = JSON.parse(document.getElementById('graph-data').textContent);
-      const canvas = document.getElementById('net');
-      const tip = document.getElementById('tip');
-      const ctx = canvas.getContext('2d');
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>知识图谱 · MyKnowledge</title>
+	</head>
+	<body class="mk-graph-page">
+		<header class="mk-graph-topbar">
+			<div class="mk-graph-brand"><a href={base}>MyKnowledge</a><span>/</span><strong>知识图谱</strong></div>
+			<div class="mk-graph-top-actions">
+				<a class="mk-graph-link" href={base}><Icon name="left-arrow" />返回知识库</a>
+			</div>
+		</header>
+		<main class="mk-graph-layout">
+			<aside class="mk-graph-controls" aria-label="图谱控制">
+				<div class="mk-graph-intro"><p class="mk-kicker">RELATIONSHIP MAP</p><h1>知识图谱</h1><p>用关系浏览公开知识。显式关联和同标签关联来自同一份 public graph projection。</p></div>
+				<div class="mk-graph-mode" role="group" aria-label="图谱范围">
+					<button class="mk-graph-mode-button" id="global-mode" type="button" aria-pressed="true">全局</button>
+					<button class="mk-graph-mode-button" id="local-mode" type="button" aria-pressed="false">局部</button>
+				</div>
+				<label class="mk-graph-field" for="graph-search">查找节点<input id="graph-search" type="search" placeholder="输入标题或标签" /></label>
+				<label class="mk-graph-field" for="graph-domain">领域<select id="graph-domain"><option value="">全部领域</option>{domainOptions.map((domain) => <option value={domain.key}>{domain.label}（{domainCounts.get(domain.key)}）</option>)}</select></label>
+				<label class="mk-graph-field" for="graph-edge">关系<select id="graph-edge"><option value="">全部关系</option><option value="rel">显式关联</option><option value="tag">同标签关联</option></select></label>
+				<div class="mk-graph-actions"><button id="graph-reset" type="button"><Icon name="random" />重置视图</button><button id="graph-export" type="button"><Icon name="download" />导出图片</button></div>
+				<div class="mk-graph-legend"><div><span class="mk-legend-dot" style="background:#3b82f6"></span>计算机科学</div><div><span class="mk-legend-dot" style="background:#14b8a6"></span>多媒体与影像</div><div><span class="mk-legend-dot" style="background:#f59e0b"></span>工作方法</div><div><span class="mk-legend-dot" style="background:#a78bfa"></span>工具</div><div><span class="mk-legend-dot" style="background:#f472b6"></span>读书笔记</div><div><span class="mk-legend-line"></span>显式关联</div><div><span class="mk-legend-line dotted"></span>同标签关联</div></div>
+				<p class="mk-graph-status" id="graph-status" aria-live="polite">加载 {nodes.length} 个节点</p>
+			</aside>
+			<section class="mk-graph-stage" aria-label="交互式知识图谱">
+				<div id="cy"></div>
+				<section class="mk-node-panel" id="node-panel" aria-live="polite" aria-label="节点详情"><div class="mk-node-panel-empty">选择一个节点查看详情。</div></section>
+				<details class="mk-graph-accessible"><summary>节点列表</summary><ol id="accessible-list">{nodes.map((node) => <li><a href={routePath(base, node.id)}>{node.title || node.id}</a></li>)}</ol></details>
+			</section>
+		</main>
+		<script type="application/json" id="graph-data" set:html={graphJson}></script>
+		<script>
+			import cytoscape from 'cytoscape';
+			const baseUrl = document.querySelector('.mk-graph-brand a')?.getAttribute('href')?.replace(/\/$/, '') || '';
+			const data = JSON.parse(document.getElementById('graph-data').textContent || '{"nodes":[],"edges":[]}');
+			const domainColors = { 'computer-science': '#3b82f6', multimedia: '#14b8a6', 'work-methods': '#f59e0b', tools: '#a78bfa', 'reading-notes': '#f472b6', other: '#94a3b8' };
+			const nodeData = data.nodes.map((node) => ({ ...node, color: domainColors[node.domain] || domainColors.other }));
+			const nodeById = new Map(nodeData.map((node) => [node.id, node]));
+			const degree = new Map();
+			for (const edge of data.edges) { degree.set(edge.source, (degree.get(edge.source) || 0) + 1); degree.set(edge.target, (degree.get(edge.target) || 0) + 1); }
+			const graphSearch = document.getElementById('graph-search');
+			const graphDomain = document.getElementById('graph-domain');
+			const graphEdge = document.getElementById('graph-edge');
+			const graphStatus = document.getElementById('graph-status');
+			const nodePanel = document.getElementById('node-panel');
+			const accessibleList = document.getElementById('accessible-list');
+			const state = { mode: 'global', selected: new URLSearchParams(location.search).get('focus') || '' };
+			let cy;
 
-      const DOMAIN_COLOR = {
-        'computer-science': '#3b82f6',
-        'multimedia': '#14b8a6',
-        'work-methods': '#f59e0b',
-        'tools': '#a78bfa',
-        'reading-notes': '#f472b6',
-      };
-
-      const nodes = data.nodes.map((n, i) => ({
-        ...n,
-        color: DOMAIN_COLOR[n.domain] || '#94a3b8',
-        deg: 0,
-        x: 0, y: 0, vx: 0, vy: 0,
-      }));
-      const byId = new Map(nodes.map((n) => [n.id, n]));
-      const edges = [];
-      for (const e of data.edges) {
-        const s = byId.get(e.source), t = byId.get(e.target);
-        if (!s || !t) continue;
-        s.deg++; t.deg++;
-        edges.push({ s, t });
-      }
-      // 黄金角螺旋初始位（确定性布局，不依赖随机数）
-      const GA = Math.PI * (3 - Math.sqrt(5));
-      nodes.forEach((n, i) => {
-        const r = 40 * Math.sqrt(i + 1);
-        n.x = Math.cos(GA * i) * r;
-        n.y = Math.sin(GA * i) * r;
-      });
-
-      // ---- 力模型（简化自 d3-force：斥力/弹簧/向心，velocity Verlet + alpha 衰减）----
-      let alpha = 1;
-      const REPULSION = 2600, SPRING = 0.045, SPRING_LEN = 90, CENTER = 0.012;
-      function step() {
-        if (alpha < 0.005) return;
-        for (let i = 0; i < nodes.length; i++) {
-          const a = nodes[i];
-          for (let j = i + 1; j < nodes.length; j++) {
-            const b = nodes[j];
-            let dx = a.x - b.x, dy = a.y - b.y;
-            let d2 = dx * dx + dy * dy;
-            if (d2 < 1) { dx = (i - j) * 0.1; dy = (i + j) * 0.1; d2 = dx * dx + dy * dy; }
-            const f = (REPULSION * alpha) / d2;
-            const d = Math.sqrt(d2);
-            const fx = (dx / d) * f, fy = (dy / d) * f;
-            a.vx += fx; a.vy += fy; b.vx -= fx; b.vy -= fy;
-          }
-        }
-        for (const e of edges) {
-          const dx = e.t.x - e.s.x, dy = e.t.y - e.s.y;
-          const d = Math.sqrt(dx * dx + dy * dy) || 1;
-          const f = (d - SPRING_LEN) * SPRING * alpha;
-          const fx = (dx / d) * f, fy = (dy / d) * f;
-          e.s.vx += fx; e.s.vy += fy; e.t.vx -= fx; e.t.vy -= fy;
-        }
-        for (const n of nodes) {
-          n.vx += -n.x * CENTER * alpha; n.vy += -n.y * CENTER * alpha;
-          if (n !== drag.node) { n.vx *= 0.85; n.vy *= 0.85; }
-          n.x += n.vx; n.y += n.vy;
-        }
-        alpha *= 0.985;
-      }
-
-      // ---- 视口变换（滚轮缩放 + 背景拖拽平移）----
-      const view = { x: 0, y: 0, k: 1 };
-      let dpr = 1;
-      function applyView() {
-        const { width, height } = canvas;
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.clearRect(0, 0, width, height);
-        ctx.setTransform(view.k * dpr, 0, 0, view.k * dpr, view.x * dpr, view.y * dpr);
-      }
-      function toWorld(px, py) {
-        return { x: (px - view.x) / view.k, y: (py - view.y) / view.k };
-      }
-      function resize() {
-        const r = canvas.getBoundingClientRect();
-        dpr = window.devicePixelRatio || 1;
-        canvas.width = r.width * dpr; canvas.height = r.height * dpr;
-        canvas._w = r.width; canvas._h = r.height;
-      }
-      window.addEventListener('resize', () => { resize(); draw(); });
-
-      // ---- 渲染 ----
-      const radius = (n) => 3 + Math.min(10, Math.sqrt(n.deg) * 2.2);
-      function draw() {
-        applyView();
-        const hovered = hover.node;
-        const neighbors = hovered ? neighborIds(hovered) : null;
-        ctx.lineWidth = 1 / (view.k * dpr);
-        for (const e of edges) {
-          const strong = hovered && (e.s === hovered || e.t === hovered);
-          if (e.kind === 'rel') {
-            ctx.strokeStyle = hovered ? (strong ? '#facc15' : '#1e293b') : '#64748b';
-            ctx.beginPath(); ctx.moveTo(e.s.x, e.s.y); ctx.lineTo(e.t.x, e.t.y); ctx.stroke();
-          } else {
-            // 同标签软关联：透明度随共享标签数衰减，弱关联几乎不可见
-            ctx.strokeStyle = hovered ? (strong ? '#facc15aa' : '#16223a') : `rgba(100,116,139,${0.1 + 0.14 * (e.weight - 1)})`;
-            ctx.setLineDash([3 / (view.k * dpr), 4 / (view.k * dpr)]);
-            ctx.beginPath(); ctx.moveTo(e.s.x, e.s.y); ctx.lineTo(e.t.x, e.t.y); ctx.stroke();
-            ctx.setLineDash([]);
-          }
-        }
-        for (const n of nodes) {
-          const dim = hovered && n !== hovered && !neighbors.has(n.id);
-          ctx.globalAlpha = dim ? 0.15 : 1;
-          ctx.fillStyle = n.color;
-          ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 6.2832); ctx.fill();
-          if (n.deg >= 8 || n === hovered) {
-            ctx.globalAlpha = dim ? 0.1 : 0.92;
-            ctx.fillStyle = '#e2e8f0';
-            ctx.font = `${11 / Math.max(view.k, 0.7)}px sans-serif`;
-            ctx.fillText(n.title || n.id, n.x + radius(n) + 3, n.y + 3.5);
-          }
-        }
-        ctx.globalAlpha = 1;
-      }
-      function neighborIds(n) {
-        const set = new Set([n.id]);
-        for (const e of edges) {
-          if (e.s === n) set.add(e.t.id);
-          if (e.t === n) set.add(e.s.id);
-        }
-        return set;
-      }
-
-      // ---- 交互（拖拽节点 / 平移 / 缩放 / 悬停 / 点击跳转）----
-      const drag = { node: null, panning: false, moved: 0 };
-      const hover = { node: null };
-      function pick(px, py) {
-        const w = toWorld(px, py);
-        let best = null, bestD = Infinity;
-        for (const n of nodes) {
-          const dx = n.x - w.x, dy = n.y - w.y;
-          const d = dx * dx + dy * dy;
-          const rr = Math.max(radius(n) + 4, 8 / view.k);
-          if (d < rr * rr && d < bestD) { best = n; bestD = d; }
-        }
-        return best;
-      }
-      canvas.addEventListener('pointerdown', (ev) => {
-        const r = canvas.getBoundingClientRect();
-        const px = ev.clientX - r.left, py = ev.clientY - r.top;
-        const n = pick(px, py);
-        canvas.setPointerCapture(ev.pointerId);
-        drag.moved = 0;
-        if (n) { drag.node = n; alpha = Math.max(alpha, 0.4); }
-        else { drag.panning = true; canvas.classList.add('grabbing'); }
-        drag.px = px; drag.py = py;
-      });
-      canvas.addEventListener('pointermove', (ev) => {
-        const r = canvas.getBoundingClientRect();
-        const px = ev.clientX - r.left, py = ev.clientY - r.top;
-        if (drag.node) {
-          drag.node.x += (px - drag.px) / view.k;
-          drag.node.y += (py - drag.py) / view.k;
-          drag.node.vx = 0; drag.node.vy = 0;
-          drag.moved += Math.abs(px - drag.px) + Math.abs(py - drag.py);
-        } else if (drag.panning) {
-          view.x += px - drag.px; view.y += py - drag.py;
-          drag.moved += Math.abs(px - drag.px) + Math.abs(py - drag.py);
-        } else {
-          const n = pick(px, py);
-          if (n !== hover.node) {
-            hover.node = n;
-            canvas.classList.toggle('pointer', !!n);
-            if (n) {
-              tip.style.display = 'block';
-              const tags = (n.tags || []).slice(0, 8).join(' · ');
-              tip.innerHTML = `<b>${escapeHtml(n.title || n.id)}</b><span>${n.deg} 条关联${tags ? '　' + escapeHtml(tags) : ''}</span>`;
-            } else tip.style.display = 'none';
-            draw();
-          }
-        }
-        if (drag.node || drag.panning) { drag.px = px; drag.py = py; }
-        if (hover.node) {
-          tip.style.left = `${hover.node.x * view.k + view.x + 14}px`;
-          tip.style.top = `${hover.node.y * view.k + view.y + 10}px`;
-        }
-      });
-      canvas.addEventListener('pointerup', (ev) => {
-        if (drag.node && drag.moved < 6) {
-          window.location.href = `/${drag.node.id}/`;
-        }
-        drag.node = null; drag.panning = false;
-        canvas.classList.remove('grabbing');
-      });
-      canvas.addEventListener('pointerleave', () => {
-        if (hover.node) { hover.node = null; tip.style.display = 'none'; draw(); }
-      });
-      canvas.addEventListener('wheel', (ev) => {
-        ev.preventDefault();
-        const r = canvas.getBoundingClientRect();
-        const px = ev.clientX - r.left, py = ev.clientY - r.top;
-        const k = Math.min(8, Math.max(0.15, view.k * (ev.deltaY < 0 ? 1.12 : 0.89)));
-        view.x = px - ((px - view.x) * k) / view.k;
-        view.y = py - ((py - view.y) * k) / view.k;
-        view.k = k;
-        draw();
-      }, { passive: false });
-      function escapeHtml(s) {
-        return String(s).replace(/[&<>"']/g, (c) =>
-          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      }
-
-      resize();
-      // 初始迭代到稳定再启动呼吸动画
-      for (let i = 0; i < 220; i++) step();
-      (function loop() {
-        if (drag.node || drag.panning) alpha = Math.max(alpha, 0.08);
-        step(); draw();
-        requestAnimationFrame(loop);
-      })();
-    </script>
-  </body>
+			function neighborsOf(id) {
+				const ids = new Set([id]);
+				for (const edge of data.edges) { if (edge.source === id) ids.add(edge.target); if (edge.target === id) ids.add(edge.source); }
+				return ids;
+			}
+			function visibleIds() {
+				const query = graphSearch.value.trim().toLocaleLowerCase();
+				const focusIds = state.mode === 'local' && state.selected ? neighborsOf(state.selected) : null;
+				return new Set(nodeData.filter((node) => (!focusIds || focusIds.has(node.id)) && (!graphDomain.value || (node.domain || 'other') === graphDomain.value) && (!query || `${node.title || ''} ${node.id} ${(node.tags || []).join(' ')}`.toLocaleLowerCase().includes(query))).map((node) => node.id));
+			}
+			function elementsFor(ids) {
+				return [
+					...nodeData.filter((node) => ids.has(node.id)).map((node) => ({ group: 'nodes', data: { id: node.id, label: node.title || node.id, domain: node.domain || 'other', color: node.color, degree: degree.get(node.id) || 0, tags: node.tags || [] } })),
+					...data.edges.map((edge, index) => ({ ...edge, index })).filter((edge) => ids.has(edge.source) && ids.has(edge.target) && (!graphEdge.value || edge.kind === graphEdge.value)).map((edge) => ({ group: 'edges', data: { id: `edge-${edge.index}`, source: edge.source, target: edge.target, kind: edge.kind, weight: edge.weight || 1 } })),
+				];
+			}
+			function routeFor(id) { const node = nodeById.get(id); return `${baseUrl}/${node?.route || `wiki/${node?.id || id}`}/`; }
+			function updateAccessible(ids) {
+				accessibleList.replaceChildren();
+				for (const node of nodeData.filter((item) => ids.has(item.id))) { const li = document.createElement('li'); const link = document.createElement('a'); link.href = routeFor(node.id); link.textContent = `${node.title || node.id}（${degree.get(node.id) || 0} 条关联）`; li.append(link); accessibleList.append(li); }
+			}
+			function renderPanel(node) {
+				nodePanel.replaceChildren();
+				if (!node) { const empty = document.createElement('div'); empty.className = 'mk-node-panel-empty'; empty.textContent = state.mode === 'local' ? '选择局部图谱中的节点查看详情。' : '选择一个节点查看详情。'; nodePanel.append(empty); return; }
+				const title = document.createElement('h2'); title.textContent = node.data('label');
+				const meta = document.createElement('p'); meta.textContent = `${node.data('domain')} · ${node.data('degree')} 条关联`;
+				const tags = document.createElement('p'); tags.className = 'mk-node-tags'; tags.textContent = (node.data('tags') || []).slice(0, 6).join(' · ');
+				const link = document.createElement('a'); link.className = 'mk-node-open'; link.href = routeFor(node.id()); link.textContent = '打开文章';
+				nodePanel.append(title, meta, tags, link);
+			}
+			function refresh(animate = true) {
+				const ids = visibleIds();
+				cy.elements().remove();
+				cy.add(elementsFor(ids));
+				cy.layout({ name: 'cose', animate, fit: true, padding: 56, randomize: true, nodeRepulsion: 8500, idealEdgeLength: 90, nestingFactor: 0.9, gravity: 0.35, numIter: 500 }).run();
+				if (state.selected && ids.has(state.selected)) { const selected = cy.getElementById(state.selected); selected.select(); renderPanel(selected); }
+				else if (!ids.has(state.selected)) { state.selected = ''; renderPanel(null); }
+				updateAccessible(ids);
+				graphStatus.textContent = `${ids.size} 个节点 · ${cy.edges().length} 条关系${state.mode === 'local' ? ' · 一跳局部图谱' : ''}`;
+			}
+			function setMode(mode) { state.mode = mode; document.getElementById('global-mode').setAttribute('aria-pressed', String(mode === 'global')); document.getElementById('local-mode').setAttribute('aria-pressed', String(mode === 'local')); refresh(); }
+			cy = cytoscape({ container: document.getElementById('cy'), elements: elementsFor(visibleIds()), minZoom: 0.15, maxZoom: 3.5, wheelSensitivity: 0.18, boxSelectionEnabled: false, style: [
+				{ selector: 'node', style: { 'background-color': 'data(color)', width: 'mapData(degree, 0, 12, 12, 34)', height: 'mapData(degree, 0, 12, 12, 34)', label: 'data(label)', color: '#e5edf7', 'font-size': 10, 'text-outline-color': '#101722', 'text-outline-width': 2, 'text-wrap': 'ellipsis', 'text-max-width': 120, 'text-valign': 'bottom', 'text-margin-y': 7, 'overlay-opacity': 0 } },
+				{ selector: 'edge[kind = "rel"]', style: { width: 2, 'line-color': '#91a4bc', 'target-arrow-color': '#91a4bc', 'target-arrow-shape': 'triangle', 'curve-style': 'bezier' } },
+				{ selector: 'edge[kind = "tag"]', style: { width: 1, 'line-color': '#53657a', opacity: 0.42, 'line-style': 'dotted', 'curve-style': 'bezier' } },
+				{ selector: 'node:selected', style: { 'border-width': 3, 'border-color': '#fbbf24', 'background-color': '#fbbf24', color: '#fff', 'font-weight': 'bold' } },
+				{ selector: 'node.neighbor', style: { 'border-width': 2, 'border-color': '#fbbf24' } },
+				{ selector: 'edge.highlighted', style: { 'line-color': '#fbbf24', 'target-arrow-color': '#fbbf24', opacity: 1, width: 3 } },
+			], layout: { name: 'cose', animate: false, fit: true, padding: 56, nodeRepulsion: 8500, idealEdgeLength: 90, gravity: 0.35, numIter: 500 } });
+			cy.on('tap', 'node', (event) => { state.selected = event.target.id(); cy.nodes().unselect(); event.target.select(); renderPanel(event.target); if (state.mode === 'local') refresh(); else { cy.animate({ center: { eles: event.target }, zoom: Math.max(cy.zoom(), 1) }, { duration: 250 }); } history.replaceState(null, '', `${location.pathname}?focus=${encodeURIComponent(state.selected)}`); });
+			cy.on('mouseover', 'node', (event) => { const node = event.target; node.neighborhood().addClass('neighbor'); node.connectedEdges().addClass('highlighted'); });
+			cy.on('mouseout', 'node', (event) => { event.target.neighborhood().removeClass('neighbor'); event.target.connectedEdges().removeClass('highlighted'); });
+			document.getElementById('global-mode').addEventListener('click', () => setMode('global'));
+			document.getElementById('local-mode').addEventListener('click', () => { if (!state.selected) { const first = nodeData.slice().sort((a, b) => (degree.get(b.id) || 0) - (degree.get(a.id) || 0))[0]; state.selected = first?.id || ''; } setMode('local'); });
+			[graphSearch, graphDomain, graphEdge].forEach((control) => { control.addEventListener('input', () => refresh()); control.addEventListener('change', () => refresh()); });
+			document.getElementById('graph-reset').addEventListener('click', () => { graphSearch.value = ''; graphDomain.value = ''; graphEdge.value = ''; state.selected = ''; history.replaceState(null, '', location.pathname); setMode('global'); cy.fit(undefined, 56); });
+			document.getElementById('graph-export').addEventListener('click', () => { const link = document.createElement('a'); link.download = 'myknowledge-graph.png'; link.href = cy.png({ full: true, scale: 2, bg: getComputedStyle(document.body).backgroundColor }); link.click(); });
+			window.addEventListener('resize', () => cy.resize());
+			if (state.selected && nodeById.has(state.selected)) setMode('local'); else refresh(false);
+		</script>
+	</body>
 </html>
+
+<style>
+	.mk-graph-page { min-width: 320px; margin: 0; background: #101722; color: #e5edf7; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; }
+	.mk-graph-topbar { display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: 0 1.5rem; border-bottom: 1px solid #2b3a4e; background: #151f2d; }
+	.mk-graph-brand, .mk-graph-top-actions, .mk-graph-link { display: flex; align-items: center; gap: 0.6rem; }
+	.mk-graph-brand a, .mk-graph-link { color: #b9c8da; text-decoration: none; }
+	.mk-graph-brand strong { color: #fff; font-size: 0.92rem; }
+	.mk-graph-brand span { color: #52647a; }
+	.mk-graph-link { font-size: 0.78rem; }
+	.mk-graph-link svg, .mk-graph-icon svg, .mk-graph-actions svg { width: 1rem; height: 1rem; }
+	.mk-graph-icon { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #33455d; border-radius: 6px; background: transparent; color: #aab8c9; cursor: pointer; }
+	.mk-graph-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: calc(100vh - 60px); }
+	.mk-graph-controls { z-index: 2; padding: 1.5rem; border-right: 1px solid #2b3a4e; background: #151f2d; }
+	.mk-graph-intro h1 { margin: 0; font-size: 1.65rem; }
+	.mk-graph-intro p:not(.mk-kicker) { margin: 0.65rem 0 1.5rem; color: #94a5ba; font-size: 0.78rem; line-height: 1.65; }
+	.mk-graph-controls .mk-kicker { color: #53c4b5; }
+	.mk-graph-mode { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; margin-bottom: 1.15rem; padding: 0.25rem; border: 1px solid #33455d; border-radius: 6px; }
+	.mk-graph-mode-button { min-height: 32px; border: 0; border-radius: 4px; background: transparent; color: #9eafc3; cursor: pointer; font-size: 0.78rem; }
+	.mk-graph-mode-button[aria-pressed="true"] { background: #2c5b88; color: #fff; }
+	.mk-graph-field { display: grid; gap: 0.4rem; margin: 0.9rem 0; color: #a7b5c7; font-size: 0.72rem; font-weight: 600; }
+	.mk-graph-field input, .mk-graph-field select { min-height: 36px; padding: 0 0.6rem; border: 1px solid #354960; border-radius: 5px; outline: 0; background: #1d2a3b; color: #e5edf7; font-size: 0.78rem; }
+	.mk-graph-field input:focus, .mk-graph-field select:focus { border-color: #6fa9ff; box-shadow: 0 0 0 2px #315d91; }
+	.mk-graph-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin-top: 1.2rem; }
+	.mk-graph-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; min-height: 34px; border: 1px solid #354960; border-radius: 5px; background: transparent; color: #b4c2d3; cursor: pointer; font-size: 0.72rem; }
+	.mk-graph-actions button:hover { border-color: #6fa9ff; color: #fff; }
+	.mk-graph-legend { display: grid; gap: 0.5rem; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid #2b3a4e; color: #92a2b5; font-size: 0.7rem; }
+	.mk-legend-dot { display: inline-block; width: 8px; height: 8px; margin-right: 0.45rem; border-radius: 50%; }
+	.mk-legend-line { display: inline-block; width: 18px; margin: 0 0.45rem 0.15rem 0; border-top: 2px solid #91a4bc; }
+	.mk-legend-line.dotted { border-top-style: dotted; border-color: #53657a; }
+	.mk-graph-status { margin: 1.5rem 0 0; color: #6f8299; font-size: 0.7rem; }
+	.mk-graph-stage { position: relative; min-height: calc(100vh - 60px); overflow: hidden; background: radial-gradient(circle at center, #1a2738 0, #101722 65%); }
+	#cy { position: absolute; inset: 0; }
+	.mk-node-panel { position: absolute; right: 1.2rem; top: 1.2rem; width: min(250px, calc(100% - 2.4rem)); padding: 1rem; border: 1px solid #354960; border-radius: 7px; background: rgba(21, 31, 45, 0.92); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.24); backdrop-filter: blur(10px); }
+	.mk-node-panel h2 { margin: 0; overflow-wrap: anywhere; color: #fff; font-size: 0.95rem; }
+	.mk-node-panel p { margin: 0.5rem 0 0; color: #a2b2c5; font-size: 0.73rem; }
+	.mk-node-panel .mk-node-tags { color: #7fd1c6; line-height: 1.5; }
+	.mk-node-panel-empty { color: #8ea0b5; font-size: 0.75rem; }
+	.mk-node-open { display: inline-block; margin-top: 0.8rem; color: #8cb8ff; font-size: 0.75rem; text-decoration: none; }
+	.mk-graph-accessible { position: absolute; bottom: 1rem; left: 1rem; width: min(260px, calc(100% - 2rem)); max-height: 38px; overflow: auto; padding: 0.65rem 0.8rem; border: 1px solid #354960; border-radius: 6px; background: rgba(21, 31, 45, 0.88); color: #aab8c9; font-size: 0.72rem; }
+	.mk-graph-accessible[open] { max-height: 42vh; }
+	.mk-graph-accessible ol { margin: 0.65rem 0 0; padding-left: 1.2rem; }
+	.mk-graph-accessible li { margin: 0.35rem 0; }
+	.mk-graph-accessible a { color: #a8c7f7; }
+	@media (max-width: 760px) {
+		.mk-graph-topbar { padding: 0 1rem; }
+		.mk-graph-layout { display: block; }
+		.mk-graph-controls { border-right: 0; border-bottom: 1px solid #2b3a4e; }
+		.mk-graph-intro { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; align-items: end; }
+		.mk-graph-intro .mk-kicker { grid-column: 1 / -1; }
+		.mk-graph-intro p:not(.mk-kicker) { margin-bottom: 0; }
+		.mk-graph-mode { margin-top: 1.25rem; }
+		.mk-graph-stage { min-height: 70vh; height: 70vh; }
+	}
+	@media (max-width: 480px) {
+		.mk-graph-brand span, .mk-graph-link { display: none; }
+		.mk-graph-controls { padding: 1rem; }
+		.mk-graph-intro { display: block; }
+		.mk-graph-stage { min-height: 65vh; height: 65vh; }
+		.mk-node-panel { top: 0.75rem; right: 0.75rem; }
+	}
+</style>

@@ -6,7 +6,7 @@ import fs from 'node:fs';
 // 软关联只读已发布内容，不回写 wiki，不参与任何 hash/确认链。
 const catalog=JSON.parse(fs.readFileSync('public/generated/catalog.json','utf8'));
 const ids=new Set(catalog.items.map(x=>x.id));
-const nodes=catalog.items.map(x=>({id:x.id,title:x.title,domain:x.domain||null,tags:x.tags||[]}));
+const nodes=catalog.items.map(x=>({id:x.id,title:x.title,route:x.route||`wiki/${x.id}`,domain:x.domain||null,tags:x.tags||[]}));
 const edges=[];
 for(const item of catalog.items) for(const target of item.links||[]) if(ids.has(target)) edges.push({source:item.id,target,kind:'rel',weight:1});
 

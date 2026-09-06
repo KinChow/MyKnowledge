@@ -19,7 +19,7 @@ export interface GraphEdge {
 }
 
 export interface GraphData {
-	nodes: Array<{ id: string; title?: string; domain?: string | null; tags?: string[] }>;
+	nodes: Array<{ id: string; title?: string; route?: string; domain?: string | null; tags?: string[] }>;
 	edges: GraphEdge[];
 }
 

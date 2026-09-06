@@ -20,7 +20,7 @@ const tagPeers = current
 	? items
 			.filter((item) => item.id !== current.id)
 			.map((item) => ({ item, score: (item.tags || []).filter((tag) => (current.tags || []).includes(tag)).length }))
-			.filter(({ score }) => score >= 2 && !outgoing.some((item) => item.id === current.id))
+			.filter(({ item, score }) => score >= 2 && !outgoing.some((related) => related.id === item.id))
 			.sort((a, b) => b.score - a.score || (a.item.title || a.item.id).localeCompare(b.item.title || b.item.id, 'zh-Hans'))
 			.slice(0, 5)
 			.map(({ item }) => item)
