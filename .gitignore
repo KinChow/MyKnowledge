@@ -2,8 +2,6 @@ site
 .superpowers/
 __pycache__/
 *.py[cod]
-# frontend 暂整体屏蔽（含 node_modules/dist/.astro/staging 等全部生成物）
-frontend/
 config/vaults.local.yaml
 config/vaults.local.*.yaml
 config/providers.local.yaml
@@ -22,3 +20,11 @@ rag-index.jsonl
 
 .venv/
 var/queries/public/index.sqlite3.previous
+
+# frontend 构建产物（Astro/pagefind/dist）
+frontend/node_modules/
+frontend/dist/
+frontend/dist.previous/
+frontend/.astro/
+frontend/public/
+frontend/src/content/
