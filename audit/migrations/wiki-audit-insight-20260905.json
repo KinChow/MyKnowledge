@@ -1,0 +1,24 @@
+{
+  "schema_version": "wiki-audit/v1",
+  "generated_at": "2026-09-05",
+  "wiki_id": "insight",
+  "wiki_path": "content/wiki/work-methods/insight.md",
+  "content_sha256": "sha256:abe20d7041188397540c25ddb168bae2b519b31f27faa29e68c089124b58326e",
+  "evidence_sha256": "sha256:58f1b101d09aa3bc9fd80850b86e7c62aa3314ba8687b0f7b92e6e453b90e45b",
+  "deterministic_validation": "pass",
+  "provider": "agent-cli:ducc",
+  "model": "gpt-5.6-terra",
+  "model_config": "/Users/zhouzijian01/.baidu-cx/user.json",
+  "llm_audit": "not_run",
+  "not_run_reason": "provider_unavailable",
+  "diagnostic": "The previous audit returned HTTP 403 because the API key allowed only cursor. ducX default model has since been switched to gpt-5.6-terra; a new valid audit report is still pending.",
+  "report_path": "audit/validation/wiki/insight/6716616b68edc98a5fcdeb229a12cf5eae378d2ab583e332fc57934ac130e99e.json",
+  "confirm_executed": false,
+  "confirm_allowed": false,
+  "preservation": {
+    "working_source_modified": false,
+    "detailed_chapters_preserved": true,
+    "wrong_external_source_unbound": true,
+    "historical_audit_records_preserved": true
+  }
+}

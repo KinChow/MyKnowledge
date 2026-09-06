@@ -1,0 +1,3224 @@
+{
+  "schema_version": "wiki-audit-complete/v4",
+  "generated_at": "2026-09-05",
+  "scope": "all active Wiki entries",
+  "active_count": 162,
+  "retired_count": 3,
+  "verdict_counts": {
+    "pass": 162,
+    "fail": 0,
+    "not_run": 0
+  },
+  "evidence_origin_counts": {
+    "external": 153,
+    "personal": 9,
+    "mixed": 0,
+    "unknown": 0
+  },
+  "retired": [
+    {
+      "wiki_id": "git-commands-legacy",
+      "wiki_path": "content/wiki/computer-science/git-commands-legacy.md",
+      "title": "Git命令（重复入口）",
+      "status": "deprecated",
+      "reason_code": "pre-existing-deprecated",
+      "current_content_sha256": "sha256:21d20ce3311c1560e9b5af9ccf1e943552f458f9348b3a7186b89d8c3d6a9e3c",
+      "current_evidence_sha256": "sha256:bd06c188bfb5f3d730cbae34e6313650b3c44478b0689dc782955133a0eae76c",
+      "retire_marker": null,
+      "cdr": null,
+      "purge_state": "not_requested"
+    },
+    {
+      "wiki_id": "keywords-legacy",
+      "wiki_path": "content/wiki/computer-science/keywords-legacy.md",
+      "title": "关键字（重复入口）",
+      "status": "deprecated",
+      "reason_code": "pre-existing-deprecated",
+      "current_content_sha256": "sha256:5c433bff6a9ce0c5924931a7520e417714bbd0b77edcb96694629f68512fa03a",
+      "current_evidence_sha256": "sha256:b7b6f035694603622aea234a198001cd0795f7c2248cffe7444c45af6366619d",
+      "retire_marker": null,
+      "cdr": null,
+      "purge_state": "not_requested"
+    },
+    {
+      "wiki_id": "code-server",
+      "wiki_path": "content/wiki/tools/code-server.md",
+      "title": "code-server",
+      "status": "deprecated",
+      "reason_code": "obsolete",
+      "current_content_sha256": "sha256:67245f68ee76b806382e40d40eec4805d454a51acfb3c1290c4ec53be4ab4cb7",
+      "current_evidence_sha256": "sha256:ad6617282a7ecd1d464563b8f15ce8d0f455eaf4adeffdfe0f1cf5c7e643550e",
+      "retire_marker": "audit/retire/op_74d6158d21ab4de696a219b4331c71ae.json",
+      "cdr": "content/decisions/CDR-code-server-retire-20260905.md",
+      "purge_state": "blocked: backup_not_verified"
+    }
+  ],
+  "interface_audit": {
+    "provider": "agent-cli:ducx",
+    "provider_cli": "/Users/zhouzijian01/.baidu-cx/baidu-cx/bin/ducx",
+    "fresh_hash_matched_active_reports": 162,
+    "pass": 162,
+    "fail": 0,
+    "not_run": 0,
+    "confirm_executed": false
+  },
+  "working_content_change_check": {
+    "write_targeted_content_working": false,
+    "status_command_lines": 0
+  },
+  "supersedes": [
+    "audit/migrations/wiki-audit-complete-20260905-r3.json",
+    "audit/migrations/wiki-confirm-commands-20260905-r3.md"
+  ],
+  "items": [
+    {
+      "wiki_id": "activity-diagram",
+      "wiki_path": "content/wiki/computer-science/activity-diagram.md",
+      "kind": "reference",
+      "title": "活动图",
+      "sources": [
+        "web-computer-science-activity-diagram",
+        "working-computer-science-activity-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-activity-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d3152aaf5817b8cdcc1f86da14a3865ba7457e18f22568f9005b87f704404fa6",
+      "evidence_sha256": "sha256:728b935542bd896d2516134fcad41860584d651e96522a34d2690da4c1b525c7",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/activity-diagram/c67250f42e88071c342258ce092d46eae723d0cecbc85d531782d738d7ba9193.json",
+      "audited_at": 1788579989.7502248
+    },
+    {
+      "wiki_id": "adb",
+      "wiki_path": "content/wiki/computer-science/adb.md",
+      "kind": "knowledge",
+      "title": "ADB：Android 调试桥命令参考",
+      "sources": [
+        "adb-man-page",
+        "adb-juejin-guide"
+      ],
+      "evidence_source_ids": [
+        "adb-man-page",
+        "adb-juejin-guide"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:79f0ca590fc07510afc7006e2e4874052a51785b0f5c911e9e4a0d8145ef9737",
+      "evidence_sha256": "sha256:3130b4bb22b6e94613fc9a1291aeaa2a718fc2defaeb1bbefc5ec0a7a571d19c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/adb/fb11aac0a77496b92b9a3e1b2fc005c2529646e5cca4f871ea5f86fb1c9dc111.json",
+      "audited_at": 1788579808.6477141
+    },
+    {
+      "wiki_id": "algorithm-optimization",
+      "wiki_path": "content/wiki/computer-science/algorithm-optimization.md",
+      "kind": "reference",
+      "title": "算法优化",
+      "sources": [
+        "wikipedia-algorithmic-efficiency-v2",
+        "working-computer-science-algorithm-optimization"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-algorithmic-efficiency-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:50a963427273d890215f3b0dcc7130b0d7cd946b53e7dab89796e50871f84f64",
+      "evidence_sha256": "sha256:7b5e40a107ac253b5a3fac9072fd6183337b63f9c2c93a9ad7dad57b3389d9f3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/algorithm-optimization/ff05658feead32e61648d882e1365762afb9b02f149491f727aba9979ade854f.json",
+      "audited_at": 1788582381.380793
+    },
+    {
+      "wiki_id": "analysis-and-measurement-of-program-performance",
+      "wiki_path": "content/wiki/computer-science/analysis-and-measurement-of-program-performance.md",
+      "kind": "reference",
+      "title": "程序性能的分析和测量",
+      "sources": [
+        "osti-profiling-tracing",
+        "little-law-columbia",
+        "lumi-profiling-strategies",
+        "working-computer-science-analysis-and-measurement-of-program-performance"
+      ],
+      "evidence_source_ids": [
+        "osti-profiling-tracing"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:dc1d18c070558d03caab75ed4e995524fb24779b82520c3597216f9c8bb033e3",
+      "evidence_sha256": "sha256:5f1cc8c9fd5b2b8577869d7bfa64e7205058f6a158fb890175db6b39bc36781c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/analysis-and-measurement-of-program-performance/9c88f4773f0177d429d4fffb809b77a563c01bdfcf357994e819ed51758a22e6.json",
+      "audited_at": 1788580330.205905
+    },
+    {
+      "wiki_id": "android-camera-architecture",
+      "wiki_path": "content/wiki/computer-science/android-camera-architecture.md",
+      "kind": "knowledge",
+      "title": "Android Camera 架构：分层、接口与数据流",
+      "sources": [
+        "aosp-camera-architecture",
+        "aosp-camera-hal3",
+        "aosp-camera-metadata",
+        "aosp-camera-multi-camera",
+        "aosp-hal-architecture",
+        "aosp-vts",
+        "kernel-v4l2-mc"
+      ],
+      "evidence_source_ids": [
+        "aosp-camera-hal3",
+        "aosp-camera-architecture",
+        "aosp-camera-multi-camera",
+        "aosp-camera-metadata",
+        "aosp-hal-architecture",
+        "aosp-vts",
+        "kernel-v4l2-mc"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d26f182ddab2f7cda761a57d7249890163ea8772835e5557de0d930fab61d8c0",
+      "evidence_sha256": "sha256:7d9e35787166d279993008d5eb22d4c7b99dd023e0577ad393d3e6e8f6f91b25",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/android-camera-architecture/430f3e98ab9a2b950f84f329940bb79a00f2e6ca9c4ef22295b36f191e0edaa3.json",
+      "audited_at": 1788580326.783069
+    },
+    {
+      "wiki_id": "architecture-and-organization",
+      "wiki_path": "content/wiki/computer-science/architecture-and-organization.md",
+      "kind": "knowledge",
+      "title": "ARM 体系结构与现代处理器设计",
+      "sources": [
+        "arm-a-profile-architectures",
+        "arm-d1-exception-levels",
+        "arm-ddi0487-aarch64-registers",
+        "arm-ddi0487-memory-model",
+        "arm-b27-caches",
+        "cortex-a76-deep-dive"
+      ],
+      "evidence_source_ids": [
+        "arm-a-profile-architectures",
+        "arm-d1-exception-levels",
+        "arm-ddi0487-aarch64-registers",
+        "cortex-a76-deep-dive",
+        "arm-ddi0487-memory-model",
+        "arm-b27-caches"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:436c7d505ff175f8ba654504cfda5ec36a3d468f92747a04296ba10edde00d8a",
+      "evidence_sha256": "sha256:1e86a2f36814bc03c0251c4c0424a2b59ce06472c5ee572c01a4219e033078c3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/architecture-and-organization/40636bcaf491651a8872686d1c58871f00871adb32322b93f81b52c45bb4b97d.json",
+      "audited_at": 1788580158.013597
+    },
+    {
+      "wiki_id": "arm-neon",
+      "wiki_path": "content/wiki/computer-science/arm-neon.md",
+      "kind": "knowledge",
+      "title": "ARM NEON：SIMD 扩展与 intrinsics",
+      "sources": [
+        "arm-neon-intro",
+        "arm-neon-why-intrinsics",
+        "arm-neon-conventions"
+      ],
+      "evidence_source_ids": [
+        "arm-neon-intro",
+        "arm-neon-why-intrinsics",
+        "arm-neon-conventions"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:343f82ff9b14e6c3ce6d6361a534ea10674d004ba5d93e2235e6b97f1666541f",
+      "evidence_sha256": "sha256:a7262d1732ddd47ed04a840c7887eda02fb61169a28e60a5f888544b6e1b7e4b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/arm-neon/ca195b2ce8c5fe03f5717670057555b7701218fb9ba3b558d63d6d2bf15776f7.json",
+      "audited_at": 1788579821.591125
+    },
+    {
+      "wiki_id": "arm-software-optimization",
+      "wiki_path": "content/wiki/computer-science/arm-software-optimization.md",
+      "kind": "reference",
+      "title": "arm软件性能优化",
+      "sources": [
+        "arm-neon-intro",
+        "working-computer-science-arm-software-optimization"
+      ],
+      "evidence_source_ids": [
+        "arm-neon-intro"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d8fa3f11593973003b0b98388565949f1d0e243e731cc9cfdc0a7a71437285eb",
+      "evidence_sha256": "sha256:d4853ba2508d2420c2fe4adfd3a55de17325b315b93c5295adba5e2d8748afcd",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/arm-software-optimization/aa40683a87e948e79c9cf107f702c70bbc2de81e608224da71158be58a89ef97.json",
+      "audited_at": 1788582071.281465
+    },
+    {
+      "wiki_id": "arrays",
+      "wiki_path": "content/wiki/computer-science/arrays.md",
+      "kind": "reference",
+      "title": "数组",
+      "sources": [
+        "web-computer-science-arrays",
+        "working-computer-science-arrays"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-arrays"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a448b66f21be5bd0d3916dc98b256ab02f583bfcb4ea6e44897aad50694bfe92",
+      "evidence_sha256": "sha256:c47b9804e3b1edebb7a56d304f33c5df7217f96bcbad44742d51db02142d25b3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/arrays/b5ed76dc02440d524fcfd1ba8d6d03c268fbca17f97584d48c4988e477b96844.json",
+      "audited_at": 1788580110.718842
+    },
+    {
+      "wiki_id": "avl-tree",
+      "wiki_path": "content/wiki/computer-science/avl-tree.md",
+      "kind": "reference",
+      "title": "AVL 树",
+      "sources": [
+        "programiz-avl-tree-v2",
+        "working-computer-science-avl-tree"
+      ],
+      "evidence_source_ids": [
+        "programiz-avl-tree-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:1dea8871cd7f73f32c362d2679fde7f53e227d857543267434562a8dada9189e",
+      "evidence_sha256": "sha256:ebf18f2267376493a037e96140403e080b4f94936c443f773fbe7591cade983b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/avl-tree/2653662e2239e2a61593e2dc01b2b741dcc962f6ea51873a6d872fa611fc132b.json",
+      "audited_at": 1788580345.557705
+    },
+    {
+      "wiki_id": "b-tree",
+      "wiki_path": "content/wiki/computer-science/b-tree.md",
+      "kind": "reference",
+      "title": "B 树",
+      "sources": [
+        "web-computer-science-b-tree",
+        "working-computer-science-b-tree"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-b-tree"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:70151cda61548ba2bf241baf1f5fb40a326026aa555897b7d429e38505102b3a",
+      "evidence_sha256": "sha256:0788d9d039fbf70f5dbd9b5be87dcd65ee71a6d27af21e0a36e4cbe1c406aa18",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/b-tree/cd144b8aa0cdaf958595e6cf9f30c3790e6a0eec4cd795b90129814d2f038cab.json",
+      "audited_at": 1788580087.6600199
+    },
+    {
+      "wiki_id": "bad-smells-in-code",
+      "wiki_path": "content/wiki/computer-science/bad-smells-in-code.md",
+      "kind": "reference",
+      "title": "代码坏味道",
+      "sources": [
+        "web-computer-science-bad-smells-in-code-v4",
+        "working-computer-science-bad-smells-in-code"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-bad-smells-in-code-v4"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b8ed1badf3d39aa7769937e2bba2b521869a5b4ddd50d3c3f3c161083a608045",
+      "evidence_sha256": "sha256:8a29e374825639935c0930a5ad21d338c2fb45c5c8db4d2b13cd4d3be28a6d4f",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/bad-smells-in-code/a5d8f5fcc2e5a94fd0df4e3483f1adc9acc775dcc9b04c3f2a3a0a84e6c9c66c.json",
+      "audited_at": 1788580000.452671
+    },
+    {
+      "wiki_id": "binary-search-tree",
+      "wiki_path": "content/wiki/computer-science/binary-search-tree.md",
+      "kind": "reference",
+      "title": "二叉搜索树",
+      "sources": [
+        "web-computer-science-binary-search-tree",
+        "working-computer-science-binary-search-tree"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-binary-search-tree"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:3bc8301fae9e3cc1c29bf2bb0c66879eb321fe3c2f46c6b0820b6462eba47382",
+      "evidence_sha256": "sha256:3e6029eaded02b82a651f5cbf0a19b7575ea2d1bc9cc89b80994ec42a1cf9b90",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/binary-search-tree/6517b9f1508e79530b8b331b4d976aea7832d5d95156f1dc09a99bd43263a0ff.json",
+      "audited_at": 1788579627.5585961
+    },
+    {
+      "wiki_id": "binary-tree",
+      "wiki_path": "content/wiki/computer-science/binary-tree.md",
+      "kind": "reference",
+      "title": "二叉树",
+      "sources": [
+        "programiz-binary-tree-v2",
+        "working-computer-science-binary-tree"
+      ],
+      "evidence_source_ids": [
+        "programiz-binary-tree-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:dafb02ebb461201b5099fdb3062e001411cce471662f23f14492994de16776c5",
+      "evidence_sha256": "sha256:27f2ddca830eb1abaa0bab276ed4a13045996ca99e7d7fd22ae3419e11dee747",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/binary-tree/8a845c283a3b30fe78daa0718e54db4f08c70a62b95e427bf0051489c54d7e39.json",
+      "audited_at": 1788580279.208928
+    },
+    {
+      "wiki_id": "calculate-mode",
+      "wiki_path": "content/wiki/computer-science/calculate-mode.md",
+      "kind": "reference",
+      "title": "计算模式",
+      "sources": [
+        "working-computer-science-calculate-mode"
+      ],
+      "evidence_source_ids": [
+        "working-computer-science-calculate-mode"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:bec0ae816a1d950c6dad092e1f95b606a69757e99176a8b884c6688256e2ffb7",
+      "evidence_sha256": "sha256:a18ac9c17f555c067decabd2a6e4aea315ace295697b45f64a6b9ad14b7fbf66",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/calculate-mode/8ba4dd3b9fe42e5da5b160557bcea2862e20e412c42323b194d075490c818897.json",
+      "audited_at": 1788580188.415753
+    },
+    {
+      "wiki_id": "circular-linked-list",
+      "wiki_path": "content/wiki/computer-science/circular-linked-list.md",
+      "kind": "reference",
+      "title": "循环链表",
+      "sources": [
+        "web-computer-science-circular-linked-list",
+        "working-computer-science-circular-linked-list"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-circular-linked-list"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:98b3cd12c1cb609ee0925aa9bbe07527edb3481237c6a0ec6a5bbadd1ac5093f",
+      "evidence_sha256": "sha256:f086f3d8bdeb1dec82cba722b86a020c90ca36d524556659afd90778768c0e48",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/circular-linked-list/422d2090a10d768b716cf5d20c7237abfb380b94e8b00c808aafa026a6dca14f.json",
+      "audited_at": 1788580258.722513
+    },
+    {
+      "wiki_id": "cl-mem",
+      "wiki_path": "content/wiki/computer-science/cl-mem.md",
+      "kind": "reference",
+      "title": "cl_mem",
+      "sources": [
+        "web-computer-science-cl-mem",
+        "working-computer-science-cl-mem"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-cl-mem"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:acf828fc5b372a1eb589774197df88f84df335b9a2e78395a8abe1e165113f77",
+      "evidence_sha256": "sha256:defeeae55ddd260572866b7c1cef32977352ba8c348f519869092530bddc9310",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cl-mem/3ecdfa8b88de96658c08d5d70fc8f1b26a77e9d1f1cfbb77efe3dd5341b835d1.json",
+      "audited_at": 1788580127.666315
+    },
+    {
+      "wiki_id": "class-and-structure",
+      "wiki_path": "content/wiki/computer-science/class-and-structure.md",
+      "kind": "reference",
+      "title": "类和结构",
+      "sources": [
+        "web-computer-science-class-and-structure",
+        "working-computer-science-class-and-structure"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-class-and-structure"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a756972ed86893d936d838daa0f5e8d1268a457a227494497937d04fce85cc71",
+      "evidence_sha256": "sha256:fec1db54184ff02f9a2250bdf1f73b71fdc27c067aee2b5efb8f700b6f36ac7c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/class-and-structure/167399cbaab358a198959716cce6e6e720be8317eda0aebc46e789f10f78743d.json",
+      "audited_at": 1788580374.880291
+    },
+    {
+      "wiki_id": "class-diagram",
+      "wiki_path": "content/wiki/computer-science/class-diagram.md",
+      "kind": "reference",
+      "title": "类图",
+      "sources": [
+        "web-computer-science-class-diagram",
+        "working-computer-science-class-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-class-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a1d031ac1dd18fa52e76535dcf6a4f2672fdb94ece4d9ed075a7d9e9fe1df9a6",
+      "evidence_sha256": "sha256:f40af4d6172a2b4caf0b56047bae4db6d10ac4b1cc1ae21a9b889a8fadfe4800",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/class-diagram/82190de279c58802bffb825f8e99fe96e0c486aa57356499987b8f9d1b1a3b43.json",
+      "audited_at": 1788579877.941932
+    },
+    {
+      "wiki_id": "collaboration-diagram",
+      "wiki_path": "content/wiki/computer-science/collaboration-diagram.md",
+      "kind": "reference",
+      "title": "协作图",
+      "sources": [
+        "web-computer-science-collaboration-diagram",
+        "working-computer-science-collaboration-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-collaboration-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:6702a50ee4ff8f991aba5f01096bf04951d8b207f892037f62df13f08fa39cbf",
+      "evidence_sha256": "sha256:3690f415d8a3b1f7329e3f937df1b1a174d99bf84b79e040a2f7fad9d1affa69",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/collaboration-diagram/b15ce34cb2f995e23f1e40ef3ccaccd7f15d4abff2b1f49813b0050f3328e3fc.json",
+      "audited_at": 1788579618.65205
+    },
+    {
+      "wiki_id": "common-performance-design-patterns",
+      "wiki_path": "content/wiki/computer-science/common-performance-design-patterns.md",
+      "kind": "reference",
+      "title": "常用性能设计模式",
+      "sources": [
+        "web-computer-science-software-design",
+        "working-computer-science-common-performance-design-patterns"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-software-design"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:0e19fcab53893a785367cfa5096de2306b5ac227f59af238b1be680ba80b1fb4",
+      "evidence_sha256": "sha256:26c5e112fe93a60d464df9f2f449eceb86000267d01af7472fd08b2169b61659",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/common-performance-design-patterns/449044d9a442bd4364f3ff65e1746ddc9dbd757a2273022f67d605564e03f255.json",
+      "audited_at": 1788582373.1213498
+    },
+    {
+      "wiki_id": "compilation-and-runtime-optimization",
+      "wiki_path": "content/wiki/computer-science/compilation-and-runtime-optimization.md",
+      "kind": "reference",
+      "title": "编译与运行优化",
+      "sources": [
+        "web-computer-science-compilation-and-runtime-optimization",
+        "working-computer-science-compilation-and-runtime-optimization"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-compilation-and-runtime-optimization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:30411ef0ba5b19c0fa2c422d39ae064165bb62750475a33392dd8deba252cd7d",
+      "evidence_sha256": "sha256:dd8983ed5e88a0c4c41ddc0746b1c5c26421eee08a8b16643a44dcd5c8a11b5b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/compilation-and-runtime-optimization/9ee6b9355e2f607ff11fed7af5be9cedaf476e0f0144a44f925f9ecf4803a69b.json",
+      "audited_at": 1788579705.097238
+    },
+    {
+      "wiki_id": "compilation-principle",
+      "wiki_path": "content/wiki/computer-science/compilation-principle.md",
+      "kind": "reference",
+      "title": "编译原理",
+      "sources": [
+        "web-computer-science-compilation-and-runtime-optimization",
+        "working-computer-science-compilation-principle"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-compilation-and-runtime-optimization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:ae5f73a140a3f5e44ae7a7c56af0542d71e70c22e0bb25adbd8971896cdbb711",
+      "evidence_sha256": "sha256:be7858b08a1785d6d2df82b122a96b018c21e8d989b706ee232a2b14f2145928",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/compilation-principle/c40ce54c7bb779936b3f13129683cfd534846fbc96f4907f57db4cb89de3bc06.json",
+      "audited_at": 1788582117.36729
+    },
+    {
+      "wiki_id": "compiler-vectorization",
+      "wiki_path": "content/wiki/computer-science/compiler-vectorization.md",
+      "kind": "knowledge",
+      "title": "编译器向量化指南",
+      "sources": [
+        "gcc-auto-vectorization",
+        "llvm-auto-vectorization"
+      ],
+      "evidence_source_ids": [
+        "llvm-auto-vectorization",
+        "gcc-auto-vectorization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4d2b296456c38986eeff3966bedd704f06e39ee942c7bc3424d33718d4d1ef88",
+      "evidence_sha256": "sha256:243057740239e6458f44258518b8677b2029af9d2f8e8e94203df81b078375ce",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/compiler-vectorization/3bb27f25f07d58797f99d3b2b1a062edace874f1550a0535a2ce32957c2d600d.json",
+      "audited_at": 1788580338.4821398
+    },
+    {
+      "wiki_id": "compilers-on-linux",
+      "wiki_path": "content/wiki/computer-science/compilers-on-linux.md",
+      "kind": "knowledge",
+      "title": "Linux 下从源码构建 GCC：依赖链、配置与版本切换",
+      "sources": [
+        "gcc-install-guide",
+        "gcc-prerequisites",
+        "gcc-configure-options",
+        "mpfr-official",
+        "mpc-official"
+      ],
+      "evidence_source_ids": [
+        "gcc-install-guide",
+        "gcc-prerequisites",
+        "mpfr-official",
+        "mpc-official",
+        "gcc-configure-options"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:f5e183bdfb6c677c1547a8359c98016234e635255fdba410013347d43150f393",
+      "evidence_sha256": "sha256:7a4bb124aa9baff25fc144e75fccdf3d5102eeef852276c340ed1d90823e3205",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/compilers-on-linux/8f51fdfbe044eb0f6fab216b623c727003d4432118ca54b4a9935b7c5411a87f.json",
+      "audited_at": 1788579993.540384
+    },
+    {
+      "wiki_id": "compilers-on-windows",
+      "wiki_path": "content/wiki/computer-science/compilers-on-windows.md",
+      "kind": "reference",
+      "title": "Windows的编译器",
+      "sources": [
+        "microsoft-vs-cpp-install-v2",
+        "working-computer-science-compilers-on-windows"
+      ],
+      "evidence_source_ids": [
+        "microsoft-vs-cpp-install-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:daf13017068e531ec90a223b7bc2785057838634ffb576ad228c01ce4bf27e11",
+      "evidence_sha256": "sha256:75795eb347531bb3e1a7818a809f2f5e680dfe1c79751811b53805089dd7cd65",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/compilers-on-windows/abe14872a9dc2e8bd90e301198fecfbbc664686004bfcdc16a5ff3b3d0eb161a.json",
+      "audited_at": 1788580235.916586
+    },
+    {
+      "wiki_id": "component-diagram",
+      "wiki_path": "content/wiki/computer-science/component-diagram.md",
+      "kind": "reference",
+      "title": "组件图",
+      "sources": [
+        "web-computer-science-component-diagram",
+        "working-computer-science-component-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-component-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:67bedd74967969611bfe95be3fd964e769f49590eba791fcdedf64547e79b871",
+      "evidence_sha256": "sha256:e7bdb835b494ca17ed60b3830c4b4adb3556931011bcb059362467db57c4f10c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/component-diagram/64d2f84c4cde45a74bfe5bb13270cb3079c0d2d0d6a2ffbad56b7ec3e23d3b96.json",
+      "audited_at": 1788580077.009939
+    },
+    {
+      "wiki_id": "computer-performance-and-power-consumption",
+      "wiki_path": "content/wiki/computer-science/computer-performance-and-power-consumption.md",
+      "kind": "reference",
+      "title": "计算机性能和功耗",
+      "sources": [
+        "wikipedia-algorithmic-efficiency-power-v2",
+        "working-computer-science-computer-performance-and-power-consumption"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-algorithmic-efficiency-power-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:54790a78fd0f1f1d4a9570a6d798c62de4393359f4859adaeec868f3babba8cb",
+      "evidence_sha256": "sha256:a13b4bcefb77982e4295acddff60d65144e5636b94c36055d30c9381926cd2a5",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/computer-performance-and-power-consumption/d771c49114f49bbd446835a10db0d2fbab8ecd61aeb192232dc04ab4efde7fae.json",
+      "audited_at": 1788582098.792423
+    },
+    {
+      "wiki_id": "configuration",
+      "wiki_path": "content/wiki/computer-science/configuration.md",
+      "kind": "reference",
+      "title": "Git配置",
+      "sources": [
+        "web-computer-science-configuration",
+        "working-computer-science-configuration"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-configuration"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:99198b5a1edb1e61c89fcfdfdea6293988a423087528137f3d9283517728ddb8",
+      "evidence_sha256": "sha256:09b2668878ceed39150675db1a650995f38aa5ba77282d16a41d55e268163451",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/configuration/d9cbd24f6545e949e15ce3bacf5c36395f24af2c3d746d6dc37e7340f583c410.json",
+      "audited_at": 1788580138.349067
+    },
+    {
+      "wiki_id": "conversion",
+      "wiki_path": "content/wiki/computer-science/conversion.md",
+      "kind": "reference",
+      "title": "转换",
+      "sources": [
+        "cppreference-cpp-conversion-v2",
+        "working-computer-science-conversion"
+      ],
+      "evidence_source_ids": [
+        "cppreference-cpp-conversion-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:94ee3db4e313dd09d98064e69202fe5840a9e6b6937a6570333e0d9391d16e53",
+      "evidence_sha256": "sha256:5e6552c9264f7cbc01054cd6e1fc6626f0c23a83bc4c14d02916968d7ef632a2",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/conversion/5c7612e6c49f0531db48312d34b947fd616e45fdbd87a34f8d31b4ec6f44899a.json",
+      "audited_at": 1788580379.309222
+    },
+    {
+      "wiki_id": "cpp-class-and-raii",
+      "wiki_path": "content/wiki/computer-science/cpp-class-and-raii.md",
+      "kind": "reference",
+      "title": "C++对象生命周期及RAII",
+      "sources": [
+        "web-computer-science-c-class-and-raii",
+        "working-computer-science-c-class-and-raii"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-c-class-and-raii"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a03914141f2ba37db54747785030a6677ff8aa6024845164fe3b1a45e0de5f2a",
+      "evidence_sha256": "sha256:b1fb01f71f6742b2425d79dcc4a9b75ad2fa89002abf9799b8087cdfd19d3d51",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-class-and-raii/d75117937a316da49a1d3558fb22c322ac36148935c0bc486b0d1a01a9adc3b8.json",
+      "audited_at": 1788580391.494818
+    },
+    {
+      "wiki_id": "cpp-concurrent-programming-and-cuda",
+      "wiki_path": "content/wiki/computer-science/cpp-concurrent-programming-and-cuda.md",
+      "kind": "reference",
+      "title": "C++并发编程及CUDA",
+      "sources": [
+        "nvidia-cuda-programming-guide-v2",
+        "working-computer-science-c-concurrent-programming-and-cuda"
+      ],
+      "evidence_source_ids": [
+        "nvidia-cuda-programming-guide-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:aea7f7533e66a6763e03b9ea07f3571f50ead56e6b2af4ddac4c6e3117604eef",
+      "evidence_sha256": "sha256:b0149d0b48e5aa2ebcfe828045cf93fc78a6aa8a7fac888a3ffc9f5cb4adf642",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-concurrent-programming-and-cuda/9028663fcbcba9e3a8547a18cb534c9d9da72f2b8b21aebc329140547cb57c9e.json",
+      "audited_at": 1788579998.748427
+    },
+    {
+      "wiki_id": "cpp-course-chapters",
+      "wiki_path": "content/wiki/computer-science/cpp-course-chapters.md",
+      "kind": "reference",
+      "title": "C++课程章节索引",
+      "sources": [
+        "web-computer-science-cpp",
+        "working-computer-science-feature"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-cpp"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:ad81934e0ed69c4be9ebc3b0eba612a205d942f1f629aa688f20cfcfe2794c80",
+      "evidence_sha256": "sha256:c3611b39d99f8eeb7fcdb75d8bbc504249f3aa799763e5ebf28f0fd488bc9f27",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-course-chapters/4007a57f4b2e7affcd3d684cc9020c486beefa95399894c115ca14257d5b468c.json",
+      "audited_at": 1788579786.002959
+    },
+    {
+      "wiki_id": "cpp-keywords",
+      "wiki_path": "content/wiki/computer-science/cpp-keywords.md",
+      "kind": "reference",
+      "title": "关键字",
+      "sources": [
+        "cppreference-cpp-keywords-v2",
+        "working-computer-science-cpp-key-words"
+      ],
+      "evidence_source_ids": [
+        "cppreference-cpp-keywords-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:bc25424ed2e2a32d46e078c92da9da9ff568c776e8c61a48ff854dd954e5bcbc",
+      "evidence_sha256": "sha256:44ef5530f7da280ff2e333a7115e0d3ccd5c168db1dc7e16f94e0547dab0dff7",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-keywords/4f84c43132b85fe3578321ed70b3207d55f8aaf3b00b70c466db1617f07b50cc.json",
+      "audited_at": 1788579899.265246
+    },
+    {
+      "wiki_id": "cpp-overview",
+      "wiki_path": "content/wiki/computer-science/cpp-overview.md",
+      "kind": "reference",
+      "title": "C++概述",
+      "sources": [
+        "web-computer-science-cpp-overview",
+        "working-computer-science-cpp-overview"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-cpp-overview"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4391832e0042f9f1f87af9d5ef6b8dfd9bb7f0c26027528fc80d556cd3d0a47f",
+      "evidence_sha256": "sha256:905632b2a4a616f068afc77afcd2fcb5988ff502491bad6eb8252bfcb1e7e269",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-overview/e558cb555942702a28bd7c472c0e3dd99d38f2b2ca80000c28a6df978fce20a2.json",
+      "audited_at": 1788580220.311296
+    },
+    {
+      "wiki_id": "cpp-vs-c",
+      "wiki_path": "content/wiki/computer-science/cpp-vs-c.md",
+      "kind": "reference",
+      "title": "C++ VS C",
+      "sources": [
+        "web-computer-science-c-vs-c",
+        "working-computer-science-c-vs-c"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-c-vs-c"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4f2408e806250facd71f5c943b8270f1405074013d973544f63891f465ed43b0",
+      "evidence_sha256": "sha256:b83fb84c68bfc12fde2ef0f096baa004806b3046a9b1429324da6d3a4a2c1f22",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-vs-c/fcd2bcfc57de0a08264e226069b7989cdb69d48dcd4eba6432eda9c82fe0fe76.json",
+      "audited_at": 1788579725.3344588
+    },
+    {
+      "wiki_id": "cpp-vs-java",
+      "wiki_path": "content/wiki/computer-science/cpp-vs-java.md",
+      "kind": "reference",
+      "title": "C++ VS JAVA",
+      "sources": [
+        "web-computer-science-c-vs-java",
+        "working-computer-science-c-vs-java"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-c-vs-java"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:7b5b1cbbf7f95eaff70d5fba5b1bd14c4308ad2387f68e3311eb4e3a935a884e",
+      "evidence_sha256": "sha256:6792b8ef9b31f1df203daecb529614ece8b7f3c048e65b0040a2ef4da81ffb2b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-vs-java/1b42b541942ab495c253de57537fab181917af8d035f72966549f06544eb3c75.json",
+      "audited_at": 1788580304.4330711
+    },
+    {
+      "wiki_id": "cpp-vs-python",
+      "wiki_path": "content/wiki/computer-science/cpp-vs-python.md",
+      "kind": "reference",
+      "title": "C++ vs Python",
+      "sources": [
+        "web-computer-science-c-vs-python",
+        "working-computer-science-c-vs-python"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-c-vs-python"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:2d353967542b46ce4a020e92538ed87ba1cf4d0df05f29fed69083265bae7fbd",
+      "evidence_sha256": "sha256:0f65875a757f396377949a78d99a2b90c6c910e43e8d090bbd574dbd596f5225",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp-vs-python/4c8ab3ff9fda96ef7171367c9278ee5f8aa64737705501b2db5ba95a6b53c89a.json",
+      "audited_at": 1788579675.084408
+    },
+    {
+      "wiki_id": "cpp",
+      "wiki_path": "content/wiki/computer-science/cpp.md",
+      "kind": "reference",
+      "title": "C++",
+      "sources": [
+        "web-computer-science-cpp",
+        "working-computer-science-cpp"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-cpp"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a495c48b4adf84f6e90599ee5a0acabd2abd4b0a32198ac80424bf9ed9716c82",
+      "evidence_sha256": "sha256:f236ef033e894e90dd9833b147ad117aa1385755c2b31452643d8d8d1dabee9d",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpp/e8831870aae6f608774349ffc22fb761b514c9687023a180f8ee4c5569a26732.json",
+      "audited_at": 1788580279.622386
+    },
+    {
+      "wiki_id": "cpu-and-memory",
+      "wiki_path": "content/wiki/computer-science/cpu-and-memory.md",
+      "kind": "reference",
+      "title": "CPU和内存",
+      "sources": [
+        "algorithmica-cpu-cache",
+        "cornell-memory-concepts",
+        "working-computer-science-cpu-and-memory"
+      ],
+      "evidence_source_ids": [
+        "algorithmica-cpu-cache"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:cab31cffeb996f682ace43d5166ff0dcc819924e3046462e7eb0b544cb3b0ae4",
+      "evidence_sha256": "sha256:92f6b9a7b2193700c47de853177de16032017feaf14be3bd64d651895ae84f12",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpu-and-memory/cf7eb98f4a7e6ee3210b31af75899f1b60089a32fd80d853e42b4c45ef2b0898.json",
+      "audited_at": 1788580259.592009
+    },
+    {
+      "wiki_id": "cpu-cache-optimization",
+      "wiki_path": "content/wiki/computer-science/cpu-cache-optimization.md",
+      "kind": "reference",
+      "title": "cache优化",
+      "sources": [
+        "algorithmica-cpu-cache",
+        "algorithmica-cache-latency",
+        "working-computer-science-cpu-cache-optimization"
+      ],
+      "evidence_source_ids": [
+        "algorithmica-cpu-cache"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:82a44c9151131344c7d3f7bd1ed0235d976105513c4db15b942d7247207f22e7",
+      "evidence_sha256": "sha256:fc442fdff6b702a364c71d75383102574904f610e7277323ab91ab7d9b30055f",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpu-cache-optimization/3b0814f386f91c2d8b44f49e3a2845510568f07fcd03b17d45cec974a6d456ff.json",
+      "audited_at": 1788579889.401962
+    },
+    {
+      "wiki_id": "cpu-history",
+      "wiki_path": "content/wiki/computer-science/cpu-history.md",
+      "kind": "reference",
+      "title": "CPU 发展历史",
+      "sources": [
+        "web-computer-science-history",
+        "working-computer-science-cpu-history"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-history"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:febce0a8d139044f6784f8f407f4c2dc9b341fa44d1ac93a384cbca77b360c39",
+      "evidence_sha256": "sha256:8295e97cde620dbacd25464bbdc58f663eb21d8c37f06f03ee3fd2101d88a338",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpu-history/fa15f626f8edfd87d044556bd79c050c89002ae1031fa67b362c2c0db1e2424b.json",
+      "audited_at": 1788580359.393582
+    },
+    {
+      "wiki_id": "cpu-pipeline-and-hazards",
+      "wiki_path": "content/wiki/computer-science/cpu-pipeline-and-hazards.md",
+      "kind": "knowledge",
+      "title": "CPU 指令流水线与三类冒险",
+      "sources": [
+        "pipeline-hazards",
+        "imperial-pipelines",
+        "cornell-processor-microarchitecture",
+        "cornell-superscalar-execution",
+        "cornell-out-of-order-execution",
+        "cornell-branch-prediction",
+        "algorithmica-cpu-cache",
+        "algorithmica-cache-latency"
+      ],
+      "evidence_source_ids": [
+        "imperial-pipelines",
+        "cornell-processor-microarchitecture",
+        "cornell-superscalar-execution",
+        "cornell-out-of-order-execution",
+        "algorithmica-cpu-cache"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4c88d905d2d1e4777da443460134a630ce7baccc89c12eddf3d13d859639886c",
+      "evidence_sha256": "sha256:1879146796b235a6af0d21c9e0e8e4d1f7e9d970d4bcf7fd40a3cd2cbf8508b4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/cpu-pipeline-and-hazards/6a9c8983356c00bdd126e29714747f8c9297118ed121e5d35d524e0239b0d5e3.json",
+      "audited_at": 1788580037.647867
+    },
+    {
+      "wiki_id": "data-structure-optimization",
+      "wiki_path": "content/wiki/computer-science/data-structure-optimization.md",
+      "kind": "reference",
+      "title": "数据结构优化",
+      "sources": [
+        "wikipedia-data-structure-v2",
+        "working-computer-science-data-structure-optimization"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-data-structure-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:8c2c3d47f4f0897989d2b4e0844c05a45f88c4469ab85d48d9b64cae126a7a40",
+      "evidence_sha256": "sha256:b6acea5d21b2fe9b38185e73a0429ac1e80598e2469eaaef2cf983711418b0d4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/data-structure-optimization/b922da76aae9bee0f5b4c90cdab4a27de11fcb56db7898d675e5d4cf671c6800.json",
+      "audited_at": 1788582045.927639
+    },
+    {
+      "wiki_id": "davinci",
+      "wiki_path": "content/wiki/computer-science/davinci.md",
+      "kind": "reference",
+      "title": "华为达芬奇（DaVinci）架构",
+      "sources": [
+        "web-computer-science-davinci",
+        "working-computer-science-davinci"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-davinci"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:bf71140d6c2cc985090a16e0f4018d9866b12b38131b2e0771cd0b567a217520",
+      "evidence_sha256": "sha256:aa7fad340263f15c53b6a276495547c055e2fc12dab852eb9b0e64532911875e",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/davinci/90bf9f0e9178f019f8019a1e2e026a07d1e2fac615da71e6e4dbfcf4ee243f20.json",
+      "audited_at": 1788579846.372172
+    },
+    {
+      "wiki_id": "deployment-diagram",
+      "wiki_path": "content/wiki/computer-science/deployment-diagram.md",
+      "kind": "reference",
+      "title": "部署图",
+      "sources": [
+        "web-computer-science-deployment-diagram",
+        "working-computer-science-deployment-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-deployment-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:5e556857f269bbb17c3e7c2de56a34391eae2ccaba0d084cd501cb3daff22e80",
+      "evidence_sha256": "sha256:5a601a81e380e933bce671a8f33f2de67b43125769e4ba128190ff061f2754b9",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/deployment-diagram/b0f281b6fa000513e4dfb7bc1bb534b2546932c61762e18aecc7d4598234ec8e.json",
+      "audited_at": 1788582070.289802
+    },
+    {
+      "wiki_id": "developer-test",
+      "wiki_path": "content/wiki/computer-science/developer-test.md",
+      "kind": "reference",
+      "title": "开发者测试",
+      "sources": [
+        "martin-fowler-test-pyramid-v2",
+        "working-computer-science-developer-test"
+      ],
+      "evidence_source_ids": [
+        "martin-fowler-test-pyramid-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:80931e71719603aac78e0ed0e672fdd650e977bad0ffe59b5fede3daa6e6032e",
+      "evidence_sha256": "sha256:d25e81c973a43f913f12055e929dddd12e7bd92747bd8dcc5f98fe9a789b911f",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/developer-test/7eb3266245693b62fea5b9a3289ce3941158dc040a163524a5ca66c9b1c5e950.json",
+      "audited_at": 1788579652.997752
+    },
+    {
+      "wiki_id": "device-frequency",
+      "wiki_path": "content/wiki/computer-science/device-frequency.md",
+      "kind": "reference",
+      "title": "设备频率",
+      "sources": [
+        "linux-cpufreq-v2",
+        "working-computer-science-device-frequency"
+      ],
+      "evidence_source_ids": [
+        "linux-cpufreq-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d56fb68e9c564b5dadf3adf45ca6d4f3dba524da4083e432ce55463f84611ee1",
+      "evidence_sha256": "sha256:b47a780cd048ff32392058d21e8bedf1897a11d91f493682ae769c1ee4189dd1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/device-frequency/f4acf6bdab5c60c8819d6293f100aef3909a346c77cc296ec94c4c4d591268de.json",
+      "audited_at": 1788579984.9649742
+    },
+    {
+      "wiki_id": "doubly-circular-linked-list",
+      "wiki_path": "content/wiki/computer-science/doubly-circular-linked-list.md",
+      "kind": "reference",
+      "title": "doubly-circular-linked-list",
+      "sources": [
+        "web-computer-science-doubly-circular-linked-list",
+        "working-computer-science-doubly-circular-linked-list"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-doubly-circular-linked-list"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:c8a79f26fcaec03c3ea5475657885e14ac293944f5dce1064c7c16c6e286c6d7",
+      "evidence_sha256": "sha256:b919bf0e8645f1d6158a2f47ec5fe6efe4533b1cfb3dd10f39a25a5650f535f8",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/doubly-circular-linked-list/3a59c12df63fe04fe202d36ff11a54731baaa17d09e58dc723e2b3e8c41490b5.json",
+      "audited_at": 1788580204.524502
+    },
+    {
+      "wiki_id": "doubly-linked-list",
+      "wiki_path": "content/wiki/computer-science/doubly-linked-list.md",
+      "kind": "reference",
+      "title": "双链表",
+      "sources": [
+        "web-computer-science-doubly-linked-list",
+        "working-computer-science-doubly-linked-list"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-doubly-linked-list"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b0852c62e551de6c0ac54742a572066f697133ddd0de897948e50e2aa934be5f",
+      "evidence_sha256": "sha256:ee0f383fce5b0d9629933f6e9d91f272e241111add648d1a6a47a8e48766880a",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/doubly-linked-list/aafb1fba7a414649fee647a14c44232cadb57e2a6091bbc22112e8229e651328.json",
+      "audited_at": 1788580022.832512
+    },
+    {
+      "wiki_id": "dumpsys",
+      "wiki_path": "content/wiki/computer-science/dumpsys.md",
+      "kind": "reference",
+      "title": "dumpsys",
+      "sources": [
+        "android-dumpsys-v2",
+        "working-computer-science-dumpsys"
+      ],
+      "evidence_source_ids": [
+        "android-dumpsys-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:431f7a03f5e01c6d2ac29084ab53b4c5d3a04e7505e5c1be0dfd2d8272162cb9",
+      "evidence_sha256": "sha256:888ae1b2d4e4b0efe033b24fbdbc25f582d756611fd68f6c37dd3bfae4ca25b8",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/dumpsys/511da472bd50d77c00277dde42de6e30c0668a4d22e1c45fe2b5e995c2ceb755.json",
+      "audited_at": 1788580006.790581
+    },
+    {
+      "wiki_id": "example",
+      "wiki_path": "content/wiki/computer-science/example.md",
+      "kind": "reference",
+      "title": "图书馆管理系统建模例子",
+      "sources": [
+        "web-computer-science-uml",
+        "web-computer-science-use-case-diagram",
+        "web-computer-science-class-diagram",
+        "working-computer-science-example"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-uml"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:8d29512e8f17e0c374db5dcb6c3e2123ec7dbdb15953eb7fefa4ebc695efca89",
+      "evidence_sha256": "sha256:a13a138ab30e03a9ce8debce4cbb07ca8d123c120718178fab8bf50fb299a9c4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/example/5f5807f02dc040293ef5bec002c3c1013af0b40c28a62c20a72a788a78d4c1e7.json",
+      "audited_at": 1788579738.5345411
+    },
+    {
+      "wiki_id": "fastboot",
+      "wiki_path": "content/wiki/computer-science/fastboot.md",
+      "kind": "reference",
+      "title": "fastboot",
+      "sources": [
+        "web-computer-science-fastboot",
+        "working-computer-science-fastboot"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-fastboot"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:f1071a26faa54763d32579d5d76079a09d3436df3bc18261689632c9e6b21674",
+      "evidence_sha256": "sha256:6a511beaea0c572aa40856f45cd26941781f82cff0a2b36235ce35242c372106",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/fastboot/9857e921c9cbedb394847b6bd0f152dc649872b6cd6a53da99db5a07661d3fd7.json",
+      "audited_at": 1788580271.3611069
+    },
+    {
+      "wiki_id": "four-rules-of-simple-design",
+      "wiki_path": "content/wiki/computer-science/four-rules-of-simple-design.md",
+      "kind": "reference",
+      "title": "简单设计四原则",
+      "sources": [
+        "martin-fowler-beck-design-rules-v2",
+        "working-computer-science-four-rules-of-simple-desgin"
+      ],
+      "evidence_source_ids": [
+        "martin-fowler-beck-design-rules-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:f5e6ff7e329af519866fc5a9fdf65e702227ec61fbe01f8fffc6a1081177b482",
+      "evidence_sha256": "sha256:ffeb723922c7ed65a418f103eb85d869aecaa75f9a3da92d35b3127d1a70992c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/four-rules-of-simple-design/a18a0f14473ba3262489dc4054f94b2a7cbd754dba3465165a791f4bc9c6845c.json",
+      "audited_at": 1788582097.431715
+    },
+    {
+      "wiki_id": "gcc",
+      "wiki_path": "content/wiki/computer-science/gcc.md",
+      "kind": "reference",
+      "title": "GCC",
+      "sources": [
+        "gcc-install-guide",
+        "working-computer-science-gcc"
+      ],
+      "evidence_source_ids": [
+        "gcc-install-guide"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:3f580d66071daea94b14e83523f7db73c1ac83ac9c4968bb7e14a09f5aa16412",
+      "evidence_sha256": "sha256:94e17af81be6b2da960d45083cb138d1266193f42c278ddcfed70f398ace6c3c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/gcc/6f4b1c3ec9f7fcac8dc0a2f3baef082e3648d35e74c57fc2f82daf43304a7713.json",
+      "audited_at": 1788582368.825133
+    },
+    {
+      "wiki_id": "gdb",
+      "wiki_path": "content/wiki/computer-science/gdb.md",
+      "kind": "reference",
+      "title": "gdb",
+      "sources": [
+        "web-computer-science-gdb",
+        "working-computer-science-gdb"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-gdb"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:8bd9a655a8cd71cd8f806d6c8c78f440846e009c98ab97e0f92b5746fd1c2831",
+      "evidence_sha256": "sha256:7b9d54eafcc783d57cd4fa70fde1c0a079991183449b3b2397b40c35753eb193",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/gdb/62fbd021b9bd99238db2836617dd7d5ea78b64c9622c3efb475a4288cb35c68c.json",
+      "audited_at": 1788579652.5623932
+    },
+    {
+      "wiki_id": "general-principles",
+      "wiki_path": "content/wiki/computer-science/general-principles.md",
+      "kind": "reference",
+      "title": "总体原则",
+      "sources": [
+        "web-computer-science-compilation-and-runtime-optimization",
+        "working-computer-science-general-principles"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-compilation-and-runtime-optimization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d58e294afc9d717e786840275ff206e277bb9402d7ac12c009ec232efef0a1fe",
+      "evidence_sha256": "sha256:0692f6a759e25ee02c83ef102d0ba4c467536bb409e730f723275c6a0abb12e0",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/general-principles/9427de25191edb186f7256d8d250c8ba49b399fb8fc9ba60578ba416ca4b80cc.json",
+      "audited_at": 1788580182.584836
+    },
+    {
+      "wiki_id": "generic-tree",
+      "wiki_path": "content/wiki/computer-science/generic-tree.md",
+      "kind": "reference",
+      "title": "通用树",
+      "sources": [
+        "web-computer-science-generic-tree",
+        "working-computer-science-generic-tree"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-generic-tree"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:f03a0c6c4f915d0822910920d9f159005227f5f61336c0035455e0e85ec71661",
+      "evidence_sha256": "sha256:1ef3f87d3ab41c092a283688d2570a6dc1c05f611a2325f46196a2b14ca697bb",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/generic-tree/44b5123f0b73f655d601cff44dc920e941cc78a2ae4f90549b6575939379687d.json",
+      "audited_at": 1788579764.217601
+    },
+    {
+      "wiki_id": "gpu-overview",
+      "wiki_path": "content/wiki/computer-science/gpu-overview.md",
+      "kind": "reference",
+      "title": "GPU",
+      "sources": [
+        "nvidia-cuda-programming-guide-v2",
+        "working-computer-science-gpu-overview"
+      ],
+      "evidence_source_ids": [
+        "nvidia-cuda-programming-guide-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:e5c4b599c156eb63f8642b7a2f91518a31eb760757debb3acbc0b19ce2faea77",
+      "evidence_sha256": "sha256:4cc9f6bc0f1f6903b003bd34c776ef8ed9b12553eaa57a72b8dfe7c2b2f83ae4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/gpu-overview/94f63b8ed2854cc76eee847ba6f8978901941e175bd1453186d8090bed02be49.json",
+      "audited_at": 1788580033.824024
+    },
+    {
+      "wiki_id": "harvard-architecture",
+      "wiki_path": "content/wiki/computer-science/harvard-architecture.md",
+      "kind": "reference",
+      "title": "哈佛结构",
+      "sources": [
+        "geeksforgeeks-harvard-architecture-v2",
+        "working-computer-science-harvard-architecture"
+      ],
+      "evidence_source_ids": [
+        "geeksforgeeks-harvard-architecture-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:653551e50b7c18a6d877150e3a1250fe3cabf12762a8ecf15f745ce1bf32f56b",
+      "evidence_sha256": "sha256:037e1327846b569765012e29d4896e2cefe505e1b7eb8e9c026919877df5e664",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/harvard-architecture/92733f6cb6430c66165fc0cfbaa32ac8a8add3345efd6f46de3ba99e48af815b.json",
+      "audited_at": 1788580045.030827
+    },
+    {
+      "wiki_id": "history",
+      "wiki_path": "content/wiki/computer-science/history.md",
+      "kind": "reference",
+      "title": "CPU 发展历史",
+      "sources": [
+        "web-computer-science-history",
+        "working-computer-science-history"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-history"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4f251f9110e277d6c60762b1102744d9d57f473e8c7b6f94f263785a0532dd80",
+      "evidence_sha256": "sha256:151988d71fdf4c9fb3b5570ff478a6c4daeda1790d679e13b60b9299c8395e0a",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/history/d98c8d299b69927950a3107e0e7a9f54a8a7453fdf51f4c0dbfd7efb9ba24c59.json",
+      "audited_at": 1788579847.996935
+    },
+    {
+      "wiki_id": "huawei-camera",
+      "wiki_path": "content/wiki/computer-science/huawei-camera.md",
+      "kind": "reference",
+      "title": "华为相机",
+      "sources": [
+        "huawei-camera-support-v2",
+        "working-computer-science-huawei-camera"
+      ],
+      "evidence_source_ids": [
+        "huawei-camera-support-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b7633fb24e3d0ffd6286fe87a3dbc657b34357859dd1a38b196cb033c5ec2acc",
+      "evidence_sha256": "sha256:3abe3f85d8a6251cd923f937dc06407d9bfe9d73d4926c64187f25616a10efe1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/huawei-camera/025dff0df5a6da803bb961b5f2accf095782c4250b60180e087bb8c1e752ab43.json",
+      "audited_at": 1788582118.9327
+    },
+    {
+      "wiki_id": "ifconfig",
+      "wiki_path": "content/wiki/computer-science/ifconfig.md",
+      "kind": "reference",
+      "title": "ifconfig",
+      "sources": [
+        "web-computer-science-ifconfig",
+        "working-computer-science-ifconfig"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-ifconfig"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:9f8d98b5b6fadf2fff551e3f34c690663d201dfc23350a8cf4becbe8209d4715",
+      "evidence_sha256": "sha256:60d529d89110c5dff19fd29afd3297d7f9f74c90069aa00b6697fac63dd9bfdc",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/ifconfig/7fe255c734fd8261a6ca54c9b606e019b9864d31ecb24d8f8e79e884074949f6.json",
+      "audited_at": 1788579959.134628
+    },
+    {
+      "wiki_id": "instructions",
+      "wiki_path": "content/wiki/computer-science/instructions.md",
+      "kind": "reference",
+      "title": "指令",
+      "sources": [
+        "arm-ddi0487-instruction-sets",
+        "working-computer-science-instructions"
+      ],
+      "evidence_source_ids": [
+        "arm-ddi0487-instruction-sets"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a97e196cf2f08d72a4e6d4e756035d3a463249b6f24ffd61d33c99cc0e5371b5",
+      "evidence_sha256": "sha256:86d46555d845a333d9a4666038d4a929669e7fae09d7dde43327c832de95db37",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/instructions/4b66fe3e2426608552076764720b5f0110823800b0b067d463a285ccd9781922.json",
+      "audited_at": 1788580323.465695
+    },
+    {
+      "wiki_id": "ips",
+      "wiki_path": "content/wiki/computer-science/ips.md",
+      "kind": "reference",
+      "title": "IPS",
+      "sources": [
+        "working-computer-science-ips"
+      ],
+      "evidence_source_ids": [
+        "working-computer-science-ips"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:3c572874c896f6de2fe392ce7dcf1b5d3c9546bc3509f0a9b9d5cf21441bc643",
+      "evidence_sha256": "sha256:c889af5747cddcc5e7ac9984b354828af15dcf1bf6f07a344cb0b982cf43fa63",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/ips/28b92b65ddf294b6fcd661484db751e0aebba3026575da3c939103a817020a16.json",
+      "audited_at": 1788583226.117759
+    },
+    {
+      "wiki_id": "isa-and-microarchitecture",
+      "wiki_path": "content/wiki/computer-science/isa-and-microarchitecture.md",
+      "kind": "knowledge",
+      "title": "ISA 与微架构：处理器体系结构的三层拆分",
+      "sources": [
+        "isa-microarchitecture",
+        "risc-cisc",
+        "ddca-spring2026-readings",
+        "ddca-lecture8-isa-ii",
+        "ddca-lecture9a-isa-microarchitecture",
+        "arm-ddi0487-instruction-sets",
+        "arm-ddi0487-aarch64-registers",
+        "arm-ddi0487-memory-model",
+        "nvidia-ptx-isa"
+      ],
+      "evidence_source_ids": [
+        "ddca-lecture8-isa-ii",
+        "ddca-lecture9a-isa-microarchitecture",
+        "risc-cisc",
+        "nvidia-ptx-isa",
+        "arm-ddi0487-instruction-sets",
+        "arm-ddi0487-aarch64-registers",
+        "arm-ddi0487-memory-model"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:8f282de0c6d7931524b1d45e2b02ac87c332baffc5313c380ac6dd719c3ab2f6",
+      "evidence_sha256": "sha256:1f067cbb9cddf1a81475c9c82261d1b9f855968dd1cff317b4eb83fb98575a9d",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/isa-and-microarchitecture/298951cd8f9c600525b500ea0f4a290738e577b409a1d2d2e472da61935077db.json",
+      "audited_at": 1788580129.226807
+    },
+    {
+      "wiki_id": "kirin-9000s",
+      "wiki_path": "content/wiki/computer-science/kirin-9000s.md",
+      "kind": "reference",
+      "title": "Kirin 9000S",
+      "sources": [
+        "working-computer-science-kirin-9000s"
+      ],
+      "evidence_source_ids": [
+        "working-computer-science-kirin-9000s"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:2a3703fcbf1c9dea83285bd34fc535f147be1c5fcd385d232d7ff0e155514109",
+      "evidence_sha256": "sha256:aa8d608675fe20bc5fe2516e0285dab4dcb5776f6a786a43972a450e86503dac",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/kirin-9000s/5b6fdaa71f54c5a9d161f047c24840db0e67d68c7c57b1122152169306b58763.json",
+      "audited_at": 1788582351.019317
+    },
+    {
+      "wiki_id": "limitations-of-local-work-size-and-global-work-size",
+      "wiki_path": "content/wiki/computer-science/limitations-of-local-work-size-and-global-work-size.md",
+      "kind": "reference",
+      "title": "Limitations of local work size and global work size",
+      "sources": [
+        "khronos-opencl-api-v2",
+        "web-computer-science-limitations-of-local-work-size-and-global-work-size",
+        "working-computer-science-limitations-of-local-work-size-and-global-work-size"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-api-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4ce67b457a0b2b59a6c555742a4a2aae50a838de6fcbff190b506fe85e67d345",
+      "evidence_sha256": "sha256:5e75902c99d89c801c3652a8ef67f0d67f2071730fadd4fa0f3616d7c3b68866",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/limitations-of-local-work-size-and-global-work-size/3e6cc1e0c9acbbb414b23f968746cb1acca13ccfc30aa154e38f3f0d86abb771.json",
+      "audited_at": 1788579781.155029
+    },
+    {
+      "wiki_id": "linux-commands",
+      "wiki_path": "content/wiki/computer-science/linux-commands.md",
+      "kind": "reference",
+      "title": "Linux常用命令",
+      "sources": [
+        "web-computer-science-ifconfig",
+        "working-computer-science-linux-commands"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-ifconfig"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:423f358ab27713f49f7a8c9387091749e3d04e9f0adb31013104a41df38e195d",
+      "evidence_sha256": "sha256:32c71e0506068c8f3d716585bb7b9abc909965f40008b86547a951d968bdebe4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/linux-commands/22526524f10bb3d27143e357fb7f2217e8b7125c164d8ff16d7e2ecc12901e54.json",
+      "audited_at": 1788579895.5081139
+    },
+    {
+      "wiki_id": "linux-compilers",
+      "wiki_path": "content/wiki/computer-science/linux-compilers.md",
+      "kind": "reference",
+      "title": "Linux的编译器",
+      "sources": [
+        "web-computer-science-linux-compilers",
+        "working-computer-science-linux-compilers"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-linux-compilers"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:2b1e6454850d702bf6ce6acb39d7e9e7044d11d97cb1c5b9ef1c69a993db843e",
+      "evidence_sha256": "sha256:c251ba66418c99aa89873354d691dc69d7a029fd20c7c6bfc514979c8e8166fc",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/linux-compilers/0f26f36c7370c959acbd9c119ff1520aae1c616f5237a17fbc67e67478d6509e.json",
+      "audited_at": 1788580076.827082
+    },
+    {
+      "wiki_id": "linux-performance-tools",
+      "wiki_path": "content/wiki/computer-science/linux-performance-tools.md",
+      "kind": "reference",
+      "title": "linux性能分析工具",
+      "sources": [
+        "web-computer-science-linux-performance-tools",
+        "working-computer-science-linux-performance-tools"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-linux-performance-tools"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:cf1f7d29eaa27b7a7a66ae26af4dbb480da3d4e9b27098d1d349a18ec15f714a",
+      "evidence_sha256": "sha256:736bfca66f1bafc85fa96ac88639899c35ffe7d0988bdecefe84f3c80283e365",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/linux-performance-tools/22d16a0231671aa36e35e7bbfea9c0c949a4773c60a106d2583d88ac4cb93924.json",
+      "audited_at": 1788579700.3669262
+    },
+    {
+      "wiki_id": "llvm-auto-vectorization",
+      "wiki_path": "content/wiki/computer-science/llvm-auto-vectorization.md",
+      "kind": "knowledge",
+      "title": "LLVM 自动向量化：两个向量化器与宽度控制",
+      "sources": [
+        "llvm-auto-vectorization"
+      ],
+      "evidence_source_ids": [
+        "llvm-auto-vectorization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:298806b0b54d027d32cdfafb92d2b78415881a925b548a1ebdf302a5abb2fa3a",
+      "evidence_sha256": "sha256:b6630b5240097032314f934b60b07cc6062ad7992e519eb60dbe609d4b3141ff",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/llvm-auto-vectorization/642db0be14532d2ec5115f3159d9f972ebe4303627cc98dbf5e46536d17589d4.json",
+      "audited_at": 1788579727.532347
+    },
+    {
+      "wiki_id": "lod",
+      "wiki_path": "content/wiki/computer-science/lod.md",
+      "kind": "reference",
+      "title": "LOD原则",
+      "sources": [
+        "wikipedia-law-of-demeter-v2",
+        "working-computer-science-lod"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-law-of-demeter-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:48147d1ecf9e66f643a3c86a353a2f2b72e5a3064074f05b35610f465badbcb4",
+      "evidence_sha256": "sha256:446a05b648346e9c76777b793495b8720639d8863887b5bf6f5f3cfa2cc8cbee",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/lod/6ef9d228d1dbfcc32cdca58d50cf7dad420aa20e3ccb87f6ca7b598bf080542d.json",
+      "audited_at": 1788583125.500575
+    },
+    {
+      "wiki_id": "loop-optimization",
+      "wiki_path": "content/wiki/computer-science/loop-optimization.md",
+      "kind": "reference",
+      "title": "循环级优化",
+      "sources": [
+        "gcc-auto-vectorization",
+        "web-computer-science-loop-optimization",
+        "working-computer-science-loop-optimization"
+      ],
+      "evidence_source_ids": [
+        "gcc-auto-vectorization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:8356526466d20d6f3d3427290b2f44491aebc5c8b6a527e5ecb18875ef2348f4",
+      "evidence_sha256": "sha256:20f87214261980f982176f4f2dcb53e09e43a7d1e6be9c3a853f7d83b82dd679",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/loop-optimization/e01a2e796222ed4114e54bcde2ec387ae761a69038dba296e9ea2e62d7de413c.json",
+      "audited_at": 1788580054.548085
+    },
+    {
+      "wiki_id": "mali-bifrost-gpu-compute",
+      "wiki_path": "content/wiki/computer-science/mali-bifrost-gpu-compute.md",
+      "kind": "reference",
+      "title": "Mali Bifrost GPU计算",
+      "sources": [
+        "wikipedia-mali-processor-v2",
+        "working-computer-science-mali-bifrost-gpu-compute"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-mali-processor-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:abf1dd0fe7400c2c9245c81abf61294a43114735388a0a42dbe1a7f2cbdd60f3",
+      "evidence_sha256": "sha256:bb64c68c1818c6633ac76ae71c30fb94ceaf3e71028c7cf34e4719a62db5b6ee",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/mali-bifrost-gpu-compute/b60a9655e170edad3ffaca4c6f851dc3145b377ebf92a607d541b693de599b6c.json",
+      "audited_at": 1788582127.7385228
+    },
+    {
+      "wiki_id": "mali-gpu-overview",
+      "wiki_path": "content/wiki/computer-science/mali-gpu-overview.md",
+      "kind": "reference",
+      "title": "Mali GPU 概述",
+      "sources": [
+        "wikipedia-mali-processor-v2",
+        "working-computer-science-mali-gpu-overview"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-mali-processor-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:9e4f0df4c692e43af9f5f5540ccb365771c573e8696c205848dd037ed4f9df58",
+      "evidence_sha256": "sha256:bb64c68c1818c6633ac76ae71c30fb94ceaf3e71028c7cf34e4719a62db5b6ee",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/mali-gpu-overview/3588925dbc12a528ed78454a53072e92a0b49268381f9dce9d56ce06d1b68213.json",
+      "audited_at": 1788582127.6153998
+    },
+    {
+      "wiki_id": "matrix",
+      "wiki_path": "content/wiki/computer-science/matrix.md",
+      "kind": "reference",
+      "title": "矩阵",
+      "sources": [
+        "web-computer-science-matrix",
+        "working-computer-science-matrix"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-matrix"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:77018fb41a6b92133ba7e950afd8314aea4ac442a66fc84987cc361fbcd23d4c",
+      "evidence_sha256": "sha256:ecd26b7ff73c3f45a85caf1ee05f58f3b43e0bc045c93429789c50058cd6b6af",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/matrix/3c83ffe4dc765cb572fe803ddf7cb377ea5a9f6bf22316e3f595081b293c603a.json",
+      "audited_at": 1788580142.594928
+    },
+    {
+      "wiki_id": "metrics-and-optimization-processes",
+      "wiki_path": "content/wiki/computer-science/metrics-and-optimization-processes.md",
+      "kind": "reference",
+      "title": "程序性能的度量指标及优化流程",
+      "sources": [
+        "osti-profiling-tracing",
+        "lumi-profiling-strategies",
+        "working-computer-science-metrics-and-optimization-processes"
+      ],
+      "evidence_source_ids": [
+        "osti-profiling-tracing"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:e62cd2419d5455db889df795ffbe5deda84b2db8ebf0ec5fc765bc0040c15c72",
+      "evidence_sha256": "sha256:2fcd9d10c5d7655ed6e4214bf6e2d4018bb3a7abbf388affbb72a7cc6ba202e6",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/metrics-and-optimization-processes/50d56caf4def2ae9c6f62fb3b9d8f1a8425f482f63762c25a0b1ea41b5a66716.json",
+      "audited_at": 1788580218.7856052
+    },
+    {
+      "wiki_id": "multi-core-software-design",
+      "wiki_path": "content/wiki/computer-science/multi-core-software-design.md",
+      "kind": "reference",
+      "title": "多核软件设计",
+      "sources": [
+        "cornell-superscalar-execution",
+        "multi-core-software-design-notes",
+        "working-computer-science-multi-core-software-design"
+      ],
+      "evidence_source_ids": [
+        "cornell-superscalar-execution"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:c7ab43b76d49445a371e0a6db6d08cf09afe507d8ec60d012a5175838cc45682",
+      "evidence_sha256": "sha256:f70532e6b14f562ee64216203e46d8f599b2ff18bbd3d931e49c2eca57ae84f0",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/multi-core-software-design/4a22c23b9924a4504fc1070c5a2c5cf6942a26fb50c07af6b7099d1472e382de.json",
+      "audited_at": 1788579976.056258
+    },
+    {
+      "wiki_id": "neon-intrinsics-checklist",
+      "wiki_path": "content/wiki/computer-science/neon-intrinsics-checklist.md",
+      "kind": "reference",
+      "title": "Neon Intrinsics清单",
+      "sources": [
+        "arm-neon-conventions",
+        "arm-neon-intro",
+        "arm-neon-why-intrinsics",
+        "working-computer-science-neon-intrinsics-checklist"
+      ],
+      "evidence_source_ids": [
+        "arm-neon-conventions"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b7ad0262fea373bac8ba0d1fc8fadfc09dedc243b2be5154894b29bb89886d6c",
+      "evidence_sha256": "sha256:08faa2932f9e699f9c434d3a92530532ba04c99fc69e747abd7d0c348d5b4612",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/neon-intrinsics-checklist/8f75170d12e5ce0b2203179d6c053f820235b2fc9ab39c7667a98701181cc79a.json",
+      "audited_at": 1788580361.4992168
+    },
+    {
+      "wiki_id": "object-diagram",
+      "wiki_path": "content/wiki/computer-science/object-diagram.md",
+      "kind": "reference",
+      "title": "对象图",
+      "sources": [
+        "web-computer-science-object-diagram",
+        "working-computer-science-object-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-object-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:54dd98357b71928326b3db718ea1133dad5ccd6a130d1ba8ea981dcd5d71bd44",
+      "evidence_sha256": "sha256:3274f3c1b3d4ab751d476d211e9de0a7798641e7e5ac8c3e73f8a911b6318852",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/object-diagram/188731d097e83944778e64ca407df7c1f70dac30598579531f8fdc37e89ba93c.json",
+      "audited_at": 1788579681.82585
+    },
+    {
+      "wiki_id": "object-oriented",
+      "wiki_path": "content/wiki/computer-science/object-oriented.md",
+      "kind": "reference",
+      "title": "面向对象",
+      "sources": [
+        "web-computer-science-object-oriented",
+        "working-computer-science-object-oriented"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-object-oriented"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:e86a2825cc787c5af3ded2a62a67822ec319220d323f4ec4c34504c682bc49ac",
+      "evidence_sha256": "sha256:1810ea2d8ebd9a887d86724b2695de490ec2410aade3ab41f76c6b8aa3fb06dc",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/object-oriented/ff56133f5af2f9b9dbccd67eb8d9bc41d69a0fec69bb2beaef31d1d9e7731cac.json",
+      "audited_at": 1788580249.392464
+    },
+    {
+      "wiki_id": "opencl-optimization-guideline",
+      "wiki_path": "content/wiki/computer-science/opencl-optimization-guideline.md",
+      "kind": "reference",
+      "title": "OpenCL优化指导",
+      "sources": [
+        "khronos-opencl-overview-v2",
+        "working-computer-science-opencl-optimization-guideline"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-overview-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:7300d3429f62e07042023f4a2a46f37eeeff08f0f7c3bd4f80911bade7390af7",
+      "evidence_sha256": "sha256:ba6ef44e1cf0db95230cf32c16753c4ee5f8dddf438c9bbc1b655ac0e9fc96c7",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/opencl-optimization-guideline/c6f39ff0f180046f4227b536cbc834ca21128aeff9bcbfc49acafd238d18bd57.json",
+      "audited_at": 1788582135.543592
+    },
+    {
+      "wiki_id": "opencl-optimizations-list",
+      "wiki_path": "content/wiki/computer-science/opencl-optimizations-list.md",
+      "kind": "reference",
+      "title": "OpenCL优化列表",
+      "sources": [
+        "khronos-opencl-overview-v2",
+        "working-computer-science-opencl-optimizations-list"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-overview-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:7d142d9fa8362cb00a43188a49371354b6cd13717b7ddd4da829c9cfe4042a8a",
+      "evidence_sha256": "sha256:cf7d5d85500fb37006c016a213d2c9500b109352358f44b23fa6999f49b63b93",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/opencl-optimizations-list/532823df7d12aed37b0856da6645d1378f2651501dc1634e4d0ac28810872f19.json",
+      "audited_at": 1788582146.9787872
+    },
+    {
+      "wiki_id": "opencl",
+      "wiki_path": "content/wiki/computer-science/opencl.md",
+      "kind": "reference",
+      "title": "OpenCL",
+      "sources": [
+        "khronos-opencl-overview-v2",
+        "working-computer-science-opencl"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-overview-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d8c560f20c0bca8f687c10055b0277e19f9f4cff5ec9fb96b43bf3deb67946b3",
+      "evidence_sha256": "sha256:4cd7d2ff3ba358a396d01462931586c65aadad6d91a528de7514c445ed1f5b5b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/opencl/b0cd8c32a04a66f90954af60d36e2aca6537a741546985d040199e359bb5cab9.json",
+      "audited_at": 1788582150.111827
+    },
+    {
+      "wiki_id": "operations",
+      "wiki_path": "content/wiki/computer-science/operations.md",
+      "kind": "reference",
+      "title": "运行",
+      "sources": [
+        "wikipedia-computer-arithmetic-v2",
+        "working-computer-science-operations"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-computer-arithmetic-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:9eb85957deeae03773f9d5a84eb315d57d9ffca78cdcb112ee850ae0d3ce6a50",
+      "evidence_sha256": "sha256:9ab7d16c53ec4939648883c2d82558e738744cb3522c4ab65329d535a7f727fa",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/operations/5995752317dc307c91677a67c0c1a67ec6acf56d0d84daabbef575bcf4bbe6cb.json",
+      "audited_at": 1788582149.378229
+    },
+    {
+      "wiki_id": "optimizing-opencl-for-maleoon-gpus",
+      "wiki_path": "content/wiki/computer-science/optimizing-opencl-for-maleoon-gpus.md",
+      "kind": "reference",
+      "title": "Maleoon Gpu的OpenCL优化",
+      "sources": [
+        "khronos-opencl-overview-v2",
+        "working-computer-science-optimizing-opencl-for-maleoon-gpus"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-overview-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b695af6294fca92147bc432b49f1019463be92ea0b8524be0d7f00a25ddfe604",
+      "evidence_sha256": "sha256:3e7e81d8e78bafe62bb8e7afc466a638e527013b1c9709ca11c9ef7dc295e866",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/optimizing-opencl-for-maleoon-gpus/1cf6fed95e04dc5a53733452dec4bbfdd69f5b924453a80b1bbc9efd1ea03e08.json",
+      "audited_at": 1788582155.9522948
+    },
+    {
+      "wiki_id": "optimizing-opencl-for-mali-gpus",
+      "wiki_path": "content/wiki/computer-science/optimizing-opencl-for-mali-gpus.md",
+      "kind": "reference",
+      "title": "Mali GPUs的OpenCL优化",
+      "sources": [
+        "khronos-opencl-overview-v2",
+        "working-computer-science-optimizing-opencl-for-mali-gpus"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-overview-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:be8a1e9585073fd3b40ec33dd3bef12bd00f46f6321e7eb4b66a805546187a5c",
+      "evidence_sha256": "sha256:718e9d023dbe0f314602ad92c5cb4620921063e66e17c4e8b6e3ac88f717c1c1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/optimizing-opencl-for-mali-gpus/c75ba55d05bd855b0b0f6eea44dbd6d35241a8cc96021f2c78b8806bf7f36da5.json",
+      "audited_at": 1788582150.0380092
+    },
+    {
+      "wiki_id": "orthogonal-design-principles",
+      "wiki_path": "content/wiki/computer-science/orthogonal-design-principles.md",
+      "kind": "reference",
+      "title": "正交设计四原则",
+      "sources": [
+        "dry-principle",
+        "web-computer-science-software-design",
+        "working-computer-science-source-4ed827b8730d"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-software-design"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:6efe2955423d747b0a06973c6e80d14001f6c1b7ae1fa7b461edf3fa4a9f6f64",
+      "evidence_sha256": "sha256:c4ccc8bda819d4aac598667e65a4c4a9c4db2ef57ec38c652021006db21dc6f3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/orthogonal-design-principles/2f56edf7579b5b7ace3a5723854c5abf6a51ceacc432ddbaf133bc043af9c632.json",
+      "audited_at": 1788579841.432116
+    },
+    {
+      "wiki_id": "overview-of-opencl",
+      "wiki_path": "content/wiki/computer-science/overview-of-opencl.md",
+      "kind": "reference",
+      "title": "OpenCL",
+      "sources": [
+        "khronos-opencl-overview-v2",
+        "working-computer-science-overview-of-opencl"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-overview-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:dcc04b72842cafc766a3473b87551890ff3b7b2bbda0ac6b403790448d0037d8",
+      "evidence_sha256": "sha256:bc5bd8419cd78a645b7becce2a4924b065ddfd264dc30fa2319a3f011f828951",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/overview-of-opencl/d939538937ec6e52c05eeafe63d0cd2c4c3df3792e9f89851cbd635ebe5e9dbe.json",
+      "audited_at": 1788582163.668023
+    },
+    {
+      "wiki_id": "process-and-thread",
+      "wiki_path": "content/wiki/computer-science/process-and-thread.md",
+      "kind": "reference",
+      "title": "进程和线程",
+      "sources": [
+        "web-computer-science-process-and-thread",
+        "working-computer-science-process-and-thread"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-process-and-thread"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:5dfa16420c1e657ff30644d58799e76c76e55c5a82d3c5de9da6b7919bc747e6",
+      "evidence_sha256": "sha256:ba4171057f8bef48f791b474cedae62700b72ee47d85a065676a3d0f22af5e66",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/process-and-thread/dac45dd35242d4ef2716f4a66043d010e51ea79eea63a07cce5c8fed1dbaea18.json",
+      "audited_at": 1788579766.024246
+    },
+    {
+      "wiki_id": "process-optimization",
+      "wiki_path": "content/wiki/computer-science/process-optimization.md",
+      "kind": "reference",
+      "title": "过程级优化",
+      "sources": [
+        "web-computer-science-process-optimization",
+        "working-computer-science-process-optimization"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-process-optimization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:ba7783608623dd383694fc708d6830f097a0fa8ac6f979a2eb4bb6e5b292cbe8",
+      "evidence_sha256": "sha256:a62702e7984552bc3f36f50122489839273135c6df9d57fb3c1e1cc843356e6c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/process-optimization/c65e4e05c6ad27f3c95d19426c86e27c9bfd3fc3e03ad31cb226614113caaf16.json",
+      "audited_at": 1788579819.526855
+    },
+    {
+      "wiki_id": "program-performance-analysis",
+      "wiki_path": "content/wiki/computer-science/program-performance-analysis.md",
+      "kind": "knowledge",
+      "title": "程序性能的分析与测量：视角、方法与信息形式",
+      "sources": [
+        "program-performance-analysis-notes",
+        "little-law-columbia",
+        "osti-profiling-tracing",
+        "lumi-profiling-strategies",
+        "bisect-performance-regression",
+        "queueing-theory-gfg"
+      ],
+      "evidence_source_ids": [
+        "little-law-columbia",
+        "osti-profiling-tracing",
+        "bisect-performance-regression",
+        "lumi-profiling-strategies",
+        "queueing-theory-gfg"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b2ad5b0886e56b144185ec300bd8a33a369c442495c230fe3086559a70de55cd",
+      "evidence_sha256": "sha256:46d7c2dec632b52397b75f87e510ce1ab389d94eb18afb3f847577ba59abbcfc",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/program-performance-analysis/9d596a9e3655f47ff5375a4cce3a313db596a7c8b43bbee044d14aba5e63b9a3.json",
+      "audited_at": 1788582208.738741
+    },
+    {
+      "wiki_id": "queue",
+      "wiki_path": "content/wiki/computer-science/queue.md",
+      "kind": "reference",
+      "title": "队列",
+      "sources": [
+        "web-computer-science-queue",
+        "working-computer-science-queue"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-queue"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:58efe381e04b76dd431214ffa760c8d3979043bcb49b8cce1fcf2af97e5233ab",
+      "evidence_sha256": "sha256:dc6a3d042886cca08a2deabc71f42ce7985b50208a8d4c6ecb1a936a648b4210",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/queue/2fa9f69532dc415bc692b4c3fe8ad6fe28b0ac5f54c82fb39c5fb3510454bde5.json",
+      "audited_at": 1788580194.6075861
+    },
+    {
+      "wiki_id": "random",
+      "wiki_path": "content/wiki/computer-science/random.md",
+      "kind": "reference",
+      "title": "随机数",
+      "sources": [
+        "web-computer-science-random",
+        "working-computer-science-random"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-random"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b1cf079896d0e621c45f865b672d5a821a9fb4d4c1961b11113849ebe7702268",
+      "evidence_sha256": "sha256:407feaa9171b2ef3fdd90ce624d32971921ef601e4855ef11aa029788667dbde",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/random/2c2695da8e340bdaf5969f5aa191161bbad6ef1f8e3cbfe7ab4f2f4ba9175349.json",
+      "audited_at": 1788580283.950502
+    },
+    {
+      "wiki_id": "red-black-tree",
+      "wiki_path": "content/wiki/computer-science/red-black-tree.md",
+      "kind": "reference",
+      "title": "红黑树",
+      "sources": [
+        "web-computer-science-red-black-tree",
+        "working-computer-science-red-black-tree"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-red-black-tree"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:21e9f3f3ad5a9115a887a174d7c82c3a46176edc1fe441f7cb118acf32e6e5e8",
+      "evidence_sha256": "sha256:e8048cd81ae93cb17a09eeeb5e7363d6525202dc83f0ecad4199e1e0886236d6",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/red-black-tree/cb08baec50caf38f40e344e8896a584c3316f2f069bac21aa2906626ca0e3884.json",
+      "audited_at": 1788580172.531623
+    },
+    {
+      "wiki_id": "refactoring-concepts-and-principles",
+      "wiki_path": "content/wiki/computer-science/refactoring-concepts-and-principles.md",
+      "kind": "reference",
+      "title": "重构的概念与原则",
+      "sources": [
+        "web-computer-science-refactoring-techniques",
+        "working-computer-science-refactoring-concepts-and-principles"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-refactoring-techniques"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:880e0ad2c52f2dbbce96561ebeecaa0108c450885d4399e0f2e89ab9e097925a",
+      "evidence_sha256": "sha256:78ac3dae8709997d78344e7b2a0a35a76c48df1c87c99fef30cbfeb8ae12eae1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/refactoring-concepts-and-principles/57b134e1605865864410b68d76f2fedeb44a2090e2b1df3e2eb0836377a303e3.json",
+      "audited_at": 1788580353.924459
+    },
+    {
+      "wiki_id": "refactoring-techniques",
+      "wiki_path": "content/wiki/computer-science/refactoring-techniques.md",
+      "kind": "reference",
+      "title": "重构手法",
+      "sources": [
+        "web-computer-science-refactoring-techniques",
+        "working-computer-science-refactoring-techniques"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-refactoring-techniques"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:e08f3b7ad0ddfb437740269b461cba652ce6388bc5f98fa453ad42942e281dd1",
+      "evidence_sha256": "sha256:b18a507a5676d33bdffe99bcfe8732f367fb48578a64c9f269e99657acbac1e6",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/refactoring-techniques/410218b0cafa34e4da62fcc1e63a5907899d54dfa1760a50f2838e971495925b.json",
+      "audited_at": 1788579672.993929
+    },
+    {
+      "wiki_id": "reference",
+      "wiki_path": "content/wiki/computer-science/reference.md",
+      "kind": "reference",
+      "title": "ai相关资料",
+      "sources": [
+        "working-computer-science-reference"
+      ],
+      "evidence_source_ids": [
+        "working-computer-science-reference"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:19d92b6a0fa0c6283c19860c714c89e7bfd1af055ab91ccb19a287832db3f34a",
+      "evidence_sha256": "sha256:3cdd252fd9e70ee14a3805a0e6bc2c9f0f9dd27edb2b9da014ff50ae0483beb1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/reference/bfd8b00d65396d46fbf244b6941d458fb82e4dcff8a85368557bd3040e6c4c72.json",
+      "audited_at": 1788579677.321952
+    },
+    {
+      "wiki_id": "requirements-analysis",
+      "wiki_path": "content/wiki/computer-science/requirements-analysis.md",
+      "kind": "reference",
+      "title": "需求分析",
+      "sources": [
+        "tutorialspoint-software-requirements-v2",
+        "working-computer-science-requirements-analysis"
+      ],
+      "evidence_source_ids": [
+        "tutorialspoint-software-requirements-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a8c096af10caf6ec381a04e517ba2c8d6c1f82ceaf0cda2f243bb5d80d82d9c1",
+      "evidence_sha256": "sha256:214ae173604f9d2b6d4209a71269084e957694bb41a4fea3c52f307a6d2f63d0",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/requirements-analysis/befeb6694f2df03070d80f125052ddd07677c628801939e8c190582f198e0b62.json",
+      "audited_at": 1788582171.087046
+    },
+    {
+      "wiki_id": "sequence-diagram",
+      "wiki_path": "content/wiki/computer-science/sequence-diagram.md",
+      "kind": "reference",
+      "title": "序列图",
+      "sources": [
+        "web-computer-science-sequence-diagram",
+        "working-computer-science-sequence-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-sequence-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b74c81ef70a339b15711cb1261d42818deb36b880d96dbe3ed49a9921514898f",
+      "evidence_sha256": "sha256:76372a87f4984136eb29a050a62d08e990598c3cc82f500144f5476a8dbeab2b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/sequence-diagram/3bf37a480e6d60bde38bbf4db7dc2a029105e9f4cadb2a6213852b84a22369d0.json",
+      "audited_at": 1788579677.731549
+    },
+    {
+      "wiki_id": "significance",
+      "wiki_path": "content/wiki/computer-science/significance.md",
+      "kind": "reference",
+      "title": "软件性能优化的意义",
+      "sources": [
+        "wikipedia-algorithmic-efficiency-power-v2",
+        "working-computer-science-significance"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-algorithmic-efficiency-power-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:239e7cd49f57da22aac5cb710f82a8cc0cbf577a9e5b0ce587904fa867e0092e",
+      "evidence_sha256": "sha256:bd996ccb64bf28ba3a98a3ae46f139c9ff8c12623b5115eacd16ea6f79aec5c4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/significance/489b54a5fbf6dd0e256adad6d85d53e77afb0b97b856204717482fe043921a4c.json",
+      "audited_at": 1788583108.654098
+    },
+    {
+      "wiki_id": "simpleperf",
+      "wiki_path": "content/wiki/computer-science/simpleperf.md",
+      "kind": "reference",
+      "title": "Simpleperf",
+      "sources": [
+        "android-simpleperf-v2",
+        "working-computer-science-simpleperf"
+      ],
+      "evidence_source_ids": [
+        "android-simpleperf-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b05fdd4fa4da3dc55ecf3e12737b983ce4f41eac37c567b2aa9a4b60f0357a43",
+      "evidence_sha256": "sha256:3463b5904e74dbc40c94c0a020cfb4b5dbefc0c2ae58fe25e403a9b86224bbd3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/simpleperf/b6e78ac308f2924c764b5c1a84bdb8851bb5c80b7ebedea9b08ca3eaab669515.json",
+      "audited_at": 1788580012.049834
+    },
+    {
+      "wiki_id": "singly-linked-list",
+      "wiki_path": "content/wiki/computer-science/singly-linked-list.md",
+      "kind": "reference",
+      "title": "单链表",
+      "sources": [
+        "web-computer-science-singly-linked-list",
+        "working-computer-science-singly-linked-list"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-singly-linked-list"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:2f8ed3a036ee75bec4e1226e2731181e53f87e9daff9a98b2e28cbb9749f54e4",
+      "evidence_sha256": "sha256:91ebe1caf1f2011e40ca81a033323d6db9c59a727eb08d318e794bc0a5a50f08",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/singly-linked-list/acfff8fff39a4711e9ecd62c6381482de9840a7e44a92cc319d6777098d13782.json",
+      "audited_at": 1788580164.72454
+    },
+    {
+      "wiki_id": "snapdragon-8gen1",
+      "wiki_path": "content/wiki/computer-science/snapdragon-8gen1.md",
+      "kind": "reference",
+      "title": "Snapdragon 8gen1+",
+      "sources": [
+        "working-computer-science-snapdragon-8gen1"
+      ],
+      "evidence_source_ids": [
+        "working-computer-science-snapdragon-8gen1"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:33f03f5b232aa203e528e8cdcc7a61833df9172012b1100c220716ad48de9224",
+      "evidence_sha256": "sha256:1b4afde85c7d4698033f9db695eb9969a7d4a9346c0036e48c6b29174c6c2a03",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/snapdragon-8gen1/7cfadcd972307db8a47a00ddae507c2a8e4d28bf9159ab09f52fcb2027ff0d2f.json",
+      "audited_at": 1788582366.116178
+    },
+    {
+      "wiki_id": "soc",
+      "wiki_path": "content/wiki/computer-science/soc.md",
+      "kind": "reference",
+      "title": "SOC",
+      "sources": [
+        "wikipedia-system-on-chip-v2",
+        "working-computer-science-soc"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-system-on-chip-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:1ad2b88ac8e2928e4ba54ed368794c8f7dd9390607c738eb74f92d50183a5188",
+      "evidence_sha256": "sha256:dc588049d84767006c13f69ed6f58b5bd4e4abb510fd7027c4ed6e3935ccf459",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/soc/a940b037789af1025c83c8cb17a8a760d7945eadc28d8ee1dd54b4a814cc23fa.json",
+      "audited_at": 1788580249.680777
+    },
+    {
+      "wiki_id": "software-design",
+      "wiki_path": "content/wiki/computer-science/software-design.md",
+      "kind": "reference",
+      "title": "软件设计",
+      "sources": [
+        "web-computer-science-software-design",
+        "working-computer-science-software-design"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-software-design"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:aa2192d9eddcc6306f2d5a020a6231bdd56f1db826df6aecdcc09e9462524834",
+      "evidence_sha256": "sha256:a95401b87ff4f034757df96486efc1535db98423cb4765261f05e85e2d41795e",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/software-design/271affa8a71adab1b048571f1a6f45750c56c55baac551af0684c5ee617c0546.json",
+      "audited_at": 1788579859.597559
+    },
+    {
+      "wiki_id": "software-modeling",
+      "wiki_path": "content/wiki/computer-science/software-modeling.md",
+      "kind": "reference",
+      "title": "软件建模",
+      "sources": [
+        "web-computer-science-software-modeling",
+        "working-computer-science-software-modeling"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-software-modeling"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:6ddecefa36f4cf1e869817207569766afe5fa1fd684573443a2d4cc48662efe4",
+      "evidence_sha256": "sha256:fbb623e1d1c8be3b9f855257d80f3adc3f30412f071adb28f418e93c71df16f9",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/software-modeling/68ac41ea9efa3e8345b2d68c8a7ba9ba115933032a396e97c82224559bd38c2b.json",
+      "audited_at": 1788580021.751429
+    },
+    {
+      "wiki_id": "solid",
+      "wiki_path": "content/wiki/computer-science/solid.md",
+      "kind": "reference",
+      "title": "SOLID原则",
+      "sources": [
+        "web-computer-science-software-design",
+        "working-computer-science-solid"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-software-design"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:1f174b6e6595e0763999bfdf999fd0975f8df811e5a473e4677d322893061eac",
+      "evidence_sha256": "sha256:e97393bdc3654e8a648d2b84782c88728aac07f2a2f3427b984c298f5233c873",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/solid/73123b8782c57a8780633a5812e4edf0c743992c581b31c449387f1e65f0f093.json",
+      "audited_at": 1788580074.157232
+    },
+    {
+      "wiki_id": "stack",
+      "wiki_path": "content/wiki/computer-science/stack.md",
+      "kind": "reference",
+      "title": "栈",
+      "sources": [
+        "web-computer-science-stack",
+        "working-computer-science-stack"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-stack"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:9b5ad85410dee606e7768c88f26c4b128b4426665de0a0ec960d10d1b9bfc245",
+      "evidence_sha256": "sha256:d62e194181b5ddb142261f916f9b71f3a0da226aa16f3c77377ae80c77104fb9",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/stack/f238cdec79b07fd0e607c499a0dae4ee392f8347f88176b228ef79076b0f640e.json",
+      "audited_at": 1788579643.313217
+    },
+    {
+      "wiki_id": "start-a-opencl-project-on-visual-studio-using-nvidia-gpu",
+      "wiki_path": "content/wiki/computer-science/start-a-opencl-project-on-visual-studio-using-nvidia-gpu.md",
+      "kind": "reference",
+      "title": "Start a OpenCL project on Visual Studio using Nvidia GPU",
+      "sources": [
+        "khronos-opencl-api-v2",
+        "working-computer-science-start-a-opencl-project-on-visual-studio-using-nvidia-gpu"
+      ],
+      "evidence_source_ids": [
+        "khronos-opencl-api-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d0ef49ecbc5debb0bf408880dbbf3f272abeac8b4cfca59bcd025ad42695b6df",
+      "evidence_sha256": "sha256:23e7172581551da40f9e7e975ad1151ef9c3f17c727b72b8b0d6c76ee5a905ed",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/start-a-opencl-project-on-visual-studio-using-nvidia-gpu/b631d5281283bcc16aa8e66ad585e9de3946fffd832d3803831a674247071556.json",
+      "audited_at": 1788579908.984033
+    },
+    {
+      "wiki_id": "statechart-diagram",
+      "wiki_path": "content/wiki/computer-science/statechart-diagram.md",
+      "kind": "reference",
+      "title": "状态图",
+      "sources": [
+        "web-computer-science-statechart-diagram",
+        "working-computer-science-statechart-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-statechart-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:03c4aa1ce0af6519fa6967b95ab36e14a4684e555764b556c7edc68f2176e723",
+      "evidence_sha256": "sha256:b0d041b7c296226871d944e8cc60ed25d932f127f0440c22d23d3dd36ee8c1e3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/statechart-diagram/98053c67db70410c737515ae1f05c6f8a59dab3e624d42a2a050de814959b897.json",
+      "audited_at": 1788579811.01828
+    },
+    {
+      "wiki_id": "statement-optimization",
+      "wiki_path": "content/wiki/computer-science/statement-optimization.md",
+      "kind": "reference",
+      "title": "语句级优化",
+      "sources": [
+        "web-computer-science-statement-optimization",
+        "working-computer-science-statement-optimization"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-statement-optimization"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:78f96a28c74a36427accaaf0d86f45fbfac76cff0a2e1c680e3aec3e71e7ccc5",
+      "evidence_sha256": "sha256:4955fb4471492e6077fb69575918c6ce1055b1a345f4b0afb2f3e087db65fae3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/statement-optimization/fe04380edf94568eb7d684030f6b4e34857249e17feb442a00b861eae98cda93.json",
+      "audited_at": 1788579954.842699
+    },
+    {
+      "wiki_id": "systrace",
+      "wiki_path": "content/wiki/computer-science/systrace.md",
+      "kind": "reference",
+      "title": "Systrace",
+      "sources": [
+        "perfetto-docs-v2",
+        "working-computer-science-systrace"
+      ],
+      "evidence_source_ids": [
+        "perfetto-docs-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:4408a9ee0874b9a583c8c9ab12ee15027ebf67abc35b182b2f6025ec9d92ff2a",
+      "evidence_sha256": "sha256:ad2b6ab28757669cfbdbf765a0fc2f21a01a66e036df265cb52f2574e16280d4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/systrace/5e78183f2c0cd7d16c772fb8ddda4e74d960d1e03c59c59888cc31cd06041aaf.json",
+      "audited_at": 1788580044.899101
+    },
+    {
+      "wiki_id": "transformer",
+      "wiki_path": "content/wiki/computer-science/transformer.md",
+      "kind": "reference",
+      "title": "Transformer",
+      "sources": [
+        "arxiv-transformer-v2",
+        "working-computer-science-transformer"
+      ],
+      "evidence_source_ids": [
+        "arxiv-transformer-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:8c40732b4b28dc590b325f8529db3ece23dc3c103001bd24fceccc686ef566bd",
+      "evidence_sha256": "sha256:3ad4029d8cb09583cfcfbbb5d54a3d083150d944fdf036594fda38b8bfdf8673",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/transformer/5844e86b64fc9fddbcd3e27eee56794cc934de7dcafa5f0bd10ce79589c639db.json",
+      "audited_at": 1788579649.288106
+    },
+    {
+      "wiki_id": "types",
+      "wiki_path": "content/wiki/computer-science/types.md",
+      "kind": "reference",
+      "title": "指令集类型",
+      "sources": [
+        "risc-cisc",
+        "isa-microarchitecture",
+        "working-computer-science-types"
+      ],
+      "evidence_source_ids": [
+        "risc-cisc"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:c834fcce243b561f27f0abe80566407ba2b9d94400a1cc0de8a8271b76efdbec",
+      "evidence_sha256": "sha256:42711605c6127e8a28c31f81ed2bc083dc393bf9fa84a2ec11d6ca69cb8b5ccc",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/types/1089521f3d9fd6d320eddd33dc2a43403be47c13915a9c0ded72b6f0a76dbf16.json",
+      "audited_at": 1788580301.500371
+    },
+    {
+      "wiki_id": "uml",
+      "wiki_path": "content/wiki/computer-science/uml.md",
+      "kind": "reference",
+      "title": "UML",
+      "sources": [
+        "web-computer-science-uml",
+        "working-computer-science-uml"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-uml"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:bf72523103501eb14ffba352444aa019deb0f4600fd3512b910bce692149d279",
+      "evidence_sha256": "sha256:10637eb23c5ad53153e7cb168793aebf20c1429f18f747b72fb1315c211489db",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/uml/e1b9cf3237a1b812816af40cd6ca2bf5ad7636ac133c069c943e4a8d27e41234.json",
+      "audited_at": 1788580370.932916
+    },
+    {
+      "wiki_id": "use-case-diagram",
+      "wiki_path": "content/wiki/computer-science/use-case-diagram.md",
+      "kind": "reference",
+      "title": "用例图",
+      "sources": [
+        "web-computer-science-use-case-diagram",
+        "working-computer-science-use-case-diagram"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-use-case-diagram"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:40db1bdf78b18e3afb55a7b6235c5ad9b0b6d67720843af6258d9a51dc9e15a9",
+      "evidence_sha256": "sha256:a1e38ef30016273afa9807fdc96f693eb728996b59b841a91eca80a6e58b21a5",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/use-case-diagram/be2f9792163832c0e8d95906a3c29be2ee28efd0112797faf7db94a5288a07ab.json",
+      "audited_at": 1788579705.205827
+    },
+    {
+      "wiki_id": "von-neumann-architecture",
+      "wiki_path": "content/wiki/computer-science/von-neumann-architecture.md",
+      "kind": "reference",
+      "title": "冯诺依曼结构",
+      "sources": [
+        "arm-a-profile-architectures",
+        "working-computer-science-von-neumann-architecture"
+      ],
+      "evidence_source_ids": [
+        "arm-a-profile-architectures"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:ba894951c83e96af26d0909908226076c9095f35fbdebcab220e7488e69a545d",
+      "evidence_sha256": "sha256:d99af7431baaf58cb427fd35144af38649cc4c4abcb459ef163b91dc8e192a61",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/von-neumann-architecture/7b64766ac54191bf5d7efca0864f655f63c9d7c53e6e075a3941194a957ba523.json",
+      "audited_at": 1788580078.1269062
+    },
+    {
+      "wiki_id": "auto-exposure",
+      "wiki_path": "content/wiki/multimedia/auto-exposure.md",
+      "kind": "knowledge",
+      "title": "自动曝光（AE）",
+      "sources": [
+        "wiki-apex-system",
+        "wiki-exposure-photography",
+        "wiki-metering-mode"
+      ],
+      "evidence_source_ids": [
+        "wiki-exposure-photography",
+        "wiki-apex-system",
+        "wiki-metering-mode"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:0240788f22d8513dbce010f0c766e67202355ca2514b527429943fdcc83f5d2e",
+      "evidence_sha256": "sha256:745122def6b8ef58ce6a9765a2852c319f5a66e1cacf1275ba9bd9ce82d41abb",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/auto-exposure/3223d45f564a3826bd886e1ae16b4de5807840746d111ab41daefea34f939c0d.json",
+      "audited_at": 1788580600.609429
+    },
+    {
+      "wiki_id": "auto-focus",
+      "wiki_path": "content/wiki/multimedia/auto-focus.md",
+      "kind": "reference",
+      "title": "自动对焦",
+      "sources": [
+        "wikipedia-autofocus-v2",
+        "working-multimedia-auto-focus"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-autofocus-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b8cbaeb992ab56c8c09905cd957735d401d389293b4a43799fab866e83710afa",
+      "evidence_sha256": "sha256:29d0dda462e01d30d036c13a4fc71034023ac3d1dce177b3909b730d75f78964",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/auto-focus/7a85b634b97cee3828c232054b51337934c84a50ee9a2a3d6a86070e82164edc.json",
+      "audited_at": 1788582288.571164
+    },
+    {
+      "wiki_id": "auto-white-balance",
+      "wiki_path": "content/wiki/multimedia/auto-white-balance.md",
+      "kind": "reference",
+      "title": "自动白平衡",
+      "sources": [
+        "web-multimedia-auto-white-balance",
+        "working-multimedia-auto-white-balance"
+      ],
+      "evidence_source_ids": [
+        "web-multimedia-auto-white-balance"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:dae244a4d5c9a82289cab6213404ccc62569514026c27580b6973752c649847e",
+      "evidence_sha256": "sha256:d368295aa416d8e1da1a8c122be94d05c39f65318b431ecb695bdd19b254a4ab",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/auto-white-balance/dd463b7bd7ebdc9864d73ee129e16bb1a3a7adcdf3615b16c1d9c9cd0cd39798.json",
+      "audited_at": 1788580543.04033
+    },
+    {
+      "wiki_id": "basic-of-color",
+      "wiki_path": "content/wiki/multimedia/basic-of-color.md",
+      "kind": "reference",
+      "title": "颜色基础",
+      "sources": [
+        "wikipedia-color-v2",
+        "working-multimedia-basic-of-color"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-color-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:532c6037dab72b773f18f6cb1ce3dccdf5fd014850f68e78cb321aa49ceb264e",
+      "evidence_sha256": "sha256:0e057990465e68cb1a0c67e2fe78c2d9b3b9921fb31b97e6787a5001e288b1d9",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/basic-of-color/03ecd23171236360bfb4b46ce447ec6ded58639bfebf4c02e8b8270176fa37b8.json",
+      "audited_at": 1788582256.7846882
+    },
+    {
+      "wiki_id": "black-level-correction",
+      "wiki_path": "content/wiki/multimedia/black-level-correction.md",
+      "kind": "reference",
+      "title": "黑电平与线性化",
+      "sources": [
+        "wikipedia-black-level-v2",
+        "working-multimedia-black-level-correction"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-black-level-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:0fcebdc7e2ebb1f72a79f0312d6c50a96e93bfceeaa94aa9f242c7a77776b036",
+      "evidence_sha256": "sha256:4a880d8a29a64061855db036329b59d312934865281d6cb9c75fb1dc8ab17eb1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/black-level-correction/e3a7a8bb7a771afb9447c01944b4ecce4ad5a1051488ec7618c5741b21580e24.json",
+      "audited_at": 1788582176.981635
+    },
+    {
+      "wiki_id": "color-aberration-correction",
+      "wiki_path": "content/wiki/multimedia/color-aberration-correction.md",
+      "kind": "reference",
+      "title": "色差校正",
+      "sources": [
+        "wikipedia-chromatic-aberration-v2",
+        "working-multimedia-color-aberration-correction"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-chromatic-aberration-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:25bcf2640f3ea6ecc07afac65f3caca1e5618e3aba0f2c422635c0c32631ba76",
+      "evidence_sha256": "sha256:5662a027ae1f2672d38b1fcaf2af643a67c72cca32e8e873486761f954b0fbb3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/color-aberration-correction/6e5c7ccb032f1f2baf273bedd3c66c317091d892e4ddbd60141578696a1e3f15.json",
+      "audited_at": 1788582182.548706
+    },
+    {
+      "wiki_id": "color-correction-and-3d-lut",
+      "wiki_path": "content/wiki/multimedia/color-correction-and-3d-lut.md",
+      "kind": "reference",
+      "title": "色彩矫正与3D LUT",
+      "sources": [
+        "wikipedia-3d-lookup-table-v2",
+        "working-multimedia-color-correction-and-3d-lut"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-3d-lookup-table-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:9750c0fd2c1c5224b492cbdb6da39da2899e169ad58f68cd5f67a1de16411dee",
+      "evidence_sha256": "sha256:0e610617c3b6e8dc38d5e3bb8ecaf11271be8c56c955f91bc524d8dd27f074c7",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/color-correction-and-3d-lut/a4a5808add12e10a23bae67f8e0d8a626797bce8164e0787f10376e75a1363a2.json",
+      "audited_at": 1788582188.733415
+    },
+    {
+      "wiki_id": "color-enhancement",
+      "wiki_path": "content/wiki/multimedia/color-enhancement.md",
+      "kind": "reference",
+      "title": "颜色增强",
+      "sources": [
+        "wikipedia-hsl-hsv-v2",
+        "working-multimedia-color-enhancement"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-hsl-hsv-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:a29aeea7afc6931b2c50113e4bf11af4f59d3e86e239443027f4edf8016b54a5",
+      "evidence_sha256": "sha256:9580753b64ca456d7024f307b5077279eee341e3193725c42a224e5ac4b1573b",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/color-enhancement/820c8afe17027774b93d22c37e20fbf18bd6fab1686cafcba454a2423ad57c42.json",
+      "audited_at": 1788582192.5168798
+    },
+    {
+      "wiki_id": "defective-pixel-correction",
+      "wiki_path": "content/wiki/multimedia/defective-pixel-correction.md",
+      "kind": "reference",
+      "title": "坏点矫正",
+      "sources": [
+        "wikipedia-defective-pixel-camera-v2",
+        "working-multimedia-defective-pixel-correction"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-defective-pixel-camera-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:85cd93c1c6c525de749d1b7226de00dd86acc61de7e5f84085f6dee1e7521065",
+      "evidence_sha256": "sha256:d3231c1c47ca36da9d853ed6df26efe0873e7d85a02f1a4da51e7c2c03f11244",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/defective-pixel-correction/b71aa3647f2aef1f947661ed5e4379d3ce62884cabd4254cd0bb312b45cc5968.json",
+      "audited_at": 1788583192.990013
+    },
+    {
+      "wiki_id": "demosaic",
+      "wiki_path": "content/wiki/multimedia/demosaic.md",
+      "kind": "knowledge",
+      "title": "去马赛克（Demosaicing）",
+      "sources": [
+        "wiki-bayer-filter",
+        "wiki-demosaicing"
+      ],
+      "evidence_source_ids": [
+        "wiki-demosaicing",
+        "wiki-bayer-filter"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:f531307de20e50bd5e0bef0b9dbba9551eab6aee23aba83c5ec87c8f464c3db6",
+      "evidence_sha256": "sha256:6a1c96ff873254d58221a93faa040ccc4b88712b5939dc11329dbccce0d8d694",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/demosaic/f0f989e080f5071e915eb264df526c4f7e4a2f812bd5f17ce7670cc8986bdeb8.json",
+      "audited_at": 1788580483.891933
+    },
+    {
+      "wiki_id": "dynamic-range-compression",
+      "wiki_path": "content/wiki/multimedia/dynamic-range-compression.md",
+      "kind": "reference",
+      "title": "动态范围压缩",
+      "sources": [
+        "wiki-hdri",
+        "working-multimedia-dynamic-range-compression"
+      ],
+      "evidence_source_ids": [
+        "wiki-hdri"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:b43eae245a641c02f098d17e209258b70b9e1a5c78be6ac2e5ea04332dcc4c69",
+      "evidence_sha256": "sha256:28ec774323264fc4fa246713294561c9d2cbabb81fae1aab6698c52e331e5b04",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/dynamic-range-compression/f944946038d951b58463d7136ea688d2cb54cbf831f8a1037345c7b41142f7cc.json",
+      "audited_at": 1788580533.473901
+    },
+    {
+      "wiki_id": "flash",
+      "wiki_path": "content/wiki/multimedia/flash.md",
+      "kind": "reference",
+      "title": "闪光灯",
+      "sources": [
+        "wiki-exposure-photography",
+        "working-multimedia-flash"
+      ],
+      "evidence_source_ids": [
+        "wiki-exposure-photography"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:d9041c0a730669af5aa1f0551f05a14e9e62b36aa3c93b39133fd496ab601bb7",
+      "evidence_sha256": "sha256:e940da82c98ab0830e989cfc8655d93584caa28171d5467ca822626179849fb7",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/flash/b1dc0224620e588e83b427b0eac9c48d85b48e4a8574902408d7f35b9d371efe.json",
+      "audited_at": 1788580458.127002
+    },
+    {
+      "wiki_id": "frequency-domain-noise-reduction",
+      "wiki_path": "content/wiki/multimedia/frequency-domain-noise-reduction.md",
+      "kind": "reference",
+      "title": "频域降噪",
+      "sources": [
+        "wiki-noise-reduction",
+        "working-multimedia-frequency-domain-noise-reduction"
+      ],
+      "evidence_source_ids": [
+        "wiki-noise-reduction"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:1449891e4ff7ae988e390675173a3b4dca9d40bbb7ae29e021677c2a5db4f1d1",
+      "evidence_sha256": "sha256:859dc44bf06dd1fb64404245427628e09725c0fcb64be52ff8934afaae80c6d8",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/frequency-domain-noise-reduction/fa8b585d8d2adc190426e4e0ce6d1f8fe4577b4bb52f63bbebfd574f0b42c168.json",
+      "audited_at": 1788580556.00896
+    },
+    {
+      "wiki_id": "gamma",
+      "wiki_path": "content/wiki/multimedia/gamma.md",
+      "kind": "reference",
+      "title": "gamma",
+      "sources": [
+        "wiki-tone-mapping",
+        "working-multimedia-gamma"
+      ],
+      "evidence_source_ids": [
+        "wiki-tone-mapping"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:228047a4a26a11e4604dc313d710dded6bb90456de00234c6c75d03f9827c752",
+      "evidence_sha256": "sha256:98992c4149671aaed0608a9603fab17f81438e7c661d6a83c9d6aac0d26d1bc4",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/gamma/5c11432649ed980b2e4da8353f8bd7baa0b1449b0fbde3b89ca7671c00267f3c.json",
+      "audited_at": 1788580500.881981
+    },
+    {
+      "wiki_id": "green-balance-correction",
+      "wiki_path": "content/wiki/multimedia/green-balance-correction.md",
+      "kind": "reference",
+      "title": "绿平衡校正",
+      "sources": [
+        "wiki-bayer-filter",
+        "working-multimedia-green-balance-correction"
+      ],
+      "evidence_source_ids": [
+        "wiki-bayer-filter"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:aa80aaf2888cd437f84ffeadaaa71f71b54cc991972d38a16023a3efb80404a3",
+      "evidence_sha256": "sha256:5a9a0555af34b59b02db51351c9b9be85cb8a12447e32ef08d51f6741ac19294",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/green-balance-correction/75cfd2ce0cd75eb23b2d7169e38194f9a31206cae39e5364129a96c4fb622bac.json",
+      "audited_at": 1788580564.594337
+    },
+    {
+      "wiki_id": "hdr",
+      "wiki_path": "content/wiki/multimedia/hdr.md",
+      "kind": "knowledge",
+      "title": "高动态范围（HDR）",
+      "sources": [
+        "wiki-hdri"
+      ],
+      "evidence_source_ids": [
+        "wiki-hdri"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:002f2a995ae5b12942da50c459f0e16c7ec89f7b17b01e948b96b19a28df9d78",
+      "evidence_sha256": "sha256:45648f21698ba8de839a45fa7108083d69f0c62e876bf0da568fbaebf090f563",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/hdr/8c59ac40a8362a907637fffda8f7bd0e8ee1e4a02c6e9762b6dbe17dfc7ba28e.json",
+      "audited_at": 1788580511.8544269
+    },
+    {
+      "wiki_id": "highgui",
+      "wiki_path": "content/wiki/multimedia/highgui.md",
+      "kind": "reference",
+      "title": "highgui",
+      "sources": [
+        "web-multimedia-highgui",
+        "working-multimedia-highgui"
+      ],
+      "evidence_source_ids": [
+        "web-multimedia-highgui"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:2142ad9b6bb86986c0b4a58955d676d1b58295e67af6629089db74078323d54f",
+      "evidence_sha256": "sha256:f1408a116dbb1b2b14eb7bc4b70e8082676ad9948b4bb7b5f1380ca465dd6e37",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/highgui/b2ab6512e697a150881a8d768fad85b3971979b43e0412e2062ab66edce74e05.json",
+      "audited_at": 1788580457.436658
+    },
+    {
+      "wiki_id": "image-file-format",
+      "wiki_path": "content/wiki/multimedia/image-file-format.md",
+      "kind": "knowledge",
+      "title": "图像文件格式",
+      "sources": [
+        "wiki-image-file-format",
+        "wiki-raw-image-format"
+      ],
+      "evidence_source_ids": [
+        "wiki-image-file-format",
+        "wiki-raw-image-format"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:7ff3f9a403216d7833fd975fb9e5addee3cd6795213c8ed661781cfd65cdff47",
+      "evidence_sha256": "sha256:7bde9503c45726f7ae4a529d84ada112b75db878110a0f39c7196f26c6b6ecd9",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/image-file-format/0d9e76e40b4b3edca951f91c59a376db56d1280ea6dca9a66fbc2e1172c6e0a7.json",
+      "audited_at": 1788580499.9066508
+    },
+    {
+      "wiki_id": "image-quality-assessment",
+      "wiki_path": "content/wiki/multimedia/image-quality-assessment.md",
+      "kind": "reference",
+      "title": "图像视频质量评价",
+      "sources": [
+        "wikipedia-image-quality-v2",
+        "working-multimedia-image-quality-assessment"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-image-quality-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:cc80ef4fa71fb57af47a3801eb671a57bdea71713ef7b57a1e785e8025ac48fa",
+      "evidence_sha256": "sha256:2c26e1f74d99cb16f87fd8583e17a91953dfb5ec96c63194866becdba58c33ed",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/image-quality-assessment/e47e84f878fd380b80cec45c4af7aabe38f2334ddb25686c1f147b2c45e34037.json",
+      "audited_at": 1788582199.92347
+    },
+    {
+      "wiki_id": "image-scaling",
+      "wiki_path": "content/wiki/multimedia/image-scaling.md",
+      "kind": "reference",
+      "title": "图像缩放",
+      "sources": [
+        "wikipedia-image-scaling-v2",
+        "working-multimedia-image-scaling"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-image-scaling-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:ea6467482ef42c030b6d4d470bb052e8e9aaf017e85d3a54ac2dd562ba712312",
+      "evidence_sha256": "sha256:4391d3e9e4d7233e705412f746ff5f611a9db5b9eabf7d73667df9c375198463",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/image-scaling/10ec3a273f7398036e9328212abfa25d632733e5f870adec7a8536623cb7be45.json",
+      "audited_at": 1788582198.253134
+    },
+    {
+      "wiki_id": "image-sharpening",
+      "wiki_path": "content/wiki/multimedia/image-sharpening.md",
+      "kind": "reference",
+      "title": "锐化",
+      "sources": [
+        "wikipedia-unsharp-masking-v2",
+        "working-multimedia-image-sharpening"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-unsharp-masking-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:518c6a1e0faf37c25029fa276476c44831afffda6ec5232f05f95b079a51b5f8",
+      "evidence_sha256": "sha256:874536bab450a2ee17d3c44e883cb7800455e465eea00933edf0afa1331c6b40",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/image-sharpening/e2edeed3d7a0d0c3af50723cd719038b4593d246d285e9b170711e946e45d381.json",
+      "audited_at": 1788582205.429923
+    },
+    {
+      "wiki_id": "image-stabilization",
+      "wiki_path": "content/wiki/multimedia/image-stabilization.md",
+      "kind": "reference",
+      "title": "图像防抖",
+      "sources": [
+        "wikipedia-image-stabilization-v2",
+        "working-multimedia-image-stabilization"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-image-stabilization-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:6ec4c4b1acdf66336f1a812af58f54b152db757dd3fac340a77cbef6f136d88b",
+      "evidence_sha256": "sha256:76120c6752b147cf67d2a2f0a88aa54fb565dbb8f313de4c3f5e20070de3089e",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/image-stabilization/c4e1d08f4ea4316a38a69eb203dc3242cdeb0362155a03ff4c3fdb993801a8de.json",
+      "audited_at": 1788582227.599859
+    },
+    {
+      "wiki_id": "isp-system",
+      "wiki_path": "content/wiki/multimedia/isp-system.md",
+      "kind": "reference",
+      "title": "ISP系统",
+      "sources": [
+        "aosp-camera-architecture",
+        "working-multimedia-isp-system"
+      ],
+      "evidence_source_ids": [
+        "aosp-camera-architecture"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:54e157899f5159ba46a92d1971ab8b75e06b347337901318f30777967ab93be6",
+      "evidence_sha256": "sha256:91c8dc79bf60c40626d6599da46f8acf93d67dc1d2687cacd441661b5c5d3e21",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/isp-system/e2d6fe9bb8a384aefcc5317b9d7661619ecd59ac04158eea64c3206801ae1bb7.json",
+      "audited_at": 1788580440.255614
+    },
+    {
+      "wiki_id": "lens-vignetting-correction",
+      "wiki_path": "content/wiki/multimedia/lens-vignetting-correction.md",
+      "kind": "reference",
+      "title": "镜头暗角校正",
+      "sources": [
+        "wikipedia-vignetting-v2",
+        "working-multimedia-lens-vignetting-correction"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-vignetting-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:29267a0f5b23fadb1de5f58ace04bb6227fa2edad7a540464879ac64619220d3",
+      "evidence_sha256": "sha256:6866b7d4afd5b8b697edb03701b368c555e041cc00bf9c02619f0eef12b4f2e1",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/lens-vignetting-correction/954f627f05cde3909c14dfcd56376b7f7ad862357dd47846790ab063e577647b.json",
+      "audited_at": 1788582229.224488
+    },
+    {
+      "wiki_id": "noise-evaluation",
+      "wiki_path": "content/wiki/multimedia/noise-evaluation.md",
+      "kind": "reference",
+      "title": "图像噪声评价",
+      "sources": [
+        "wikipedia-noise-reduction-v2",
+        "working-multimedia-noise-evaluation"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-noise-reduction-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:6f17eb34e51af4169f8be380890d4c9ee00863a347f3e98686abe9ff4ebbaad8",
+      "evidence_sha256": "sha256:896669fe6ff738c8e5d9749c3c6c0570f869c522dc1c72329332be3bb6c2db65",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/noise-evaluation/ba0df218dc926622ecfb7daca3942511810729da849bdc73b5927a17e2680af8.json",
+      "audited_at": 1788582257.535338
+    },
+    {
+      "wiki_id": "opencv",
+      "wiki_path": "content/wiki/multimedia/opencv.md",
+      "kind": "reference",
+      "title": "OpenCV",
+      "sources": [
+        "web-multimedia-opencv",
+        "working-multimedia-opencv"
+      ],
+      "evidence_source_ids": [
+        "web-multimedia-opencv"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:53096f3031c185539509af8c9f1a9bfeadb80aef50246e31a5aa0bef1a8885eb",
+      "evidence_sha256": "sha256:f496846ef0a871d1c299df59f7eceb63391a3ed168dabe9d1999221bf45d7ad8",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/opencv/4d0d5fff216ebde3db22e03b913c4dbac3e7d3ee7d87f722ac1baae9256a34ac.json",
+      "audited_at": 1788580584.8380868
+    },
+    {
+      "wiki_id": "optical-fundamentals",
+      "wiki_path": "content/wiki/multimedia/optical-fundamentals.md",
+      "kind": "reference",
+      "title": "光学基础",
+      "sources": [
+        "wikipedia-optics-v2",
+        "working-multimedia-optical-fundamentals"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-optics-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:000d63f94923a8bef9d80155f2246a15b9245c0869061d3edce97b3320953855",
+      "evidence_sha256": "sha256:0c5c50dffcf803f13e4cf37afb122e453141e409b604932a3c79c479ba8f3529",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/optical-fundamentals/5803ff09363e0e47bc7bd823a7f8845546b43cd499326cee5567e33d01c1214f.json",
+      "audited_at": 1788582224.0323682
+    },
+    {
+      "wiki_id": "overview-of-3a",
+      "wiki_path": "content/wiki/multimedia/overview-of-3a.md",
+      "kind": "reference",
+      "title": "3A统计概述",
+      "sources": [
+        "web-multimedia-auto-white-balance",
+        "working-multimedia-overview-of-3a"
+      ],
+      "evidence_source_ids": [
+        "web-multimedia-auto-white-balance"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:428dfd940c1204dacbcbad2c5f5461438243d83e7eb12acd3863610b1b137464",
+      "evidence_sha256": "sha256:2a1a96be31c1b989321b8b596abb4474de13a654ce4c341ceca036788ed8dee7",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/overview-of-3a/62c3e9d84f88ebf82898e4d7b421ed92903373d2d5134634721b67c9314ee3a6.json",
+      "audited_at": 1788582304.275336
+    },
+    {
+      "wiki_id": "performance-indicator",
+      "wiki_path": "content/wiki/multimedia/performance-indicator.md",
+      "kind": "reference",
+      "title": "关键指标",
+      "sources": [
+        "osti-profiling-tracing",
+        "working-multimedia-performance-indicator"
+      ],
+      "evidence_source_ids": [
+        "osti-profiling-tracing"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:78d0a4b261ebea79618f10e8e7f6ddd16c345079d4034dc29891a2b5256a5cb7",
+      "evidence_sha256": "sha256:8bc5db722f0a3bd7b20371315ba8f419ad5563f1b9319256a8da9f5fa7414bc3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/performance-indicator/4cac43301e31741fd7e5b987a1e562d72c6e34cdf147187baa24a9ae416cc6cd.json",
+      "audited_at": 1788580483.881993
+    },
+    {
+      "wiki_id": "sensor",
+      "wiki_path": "content/wiki/multimedia/sensor.md",
+      "kind": "reference",
+      "title": "图像传感器",
+      "sources": [
+        "wikipedia-image-sensor-v2",
+        "working-multimedia-sensor"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-image-sensor-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:2bda82f806f8ad6be620d2a0dd6e86ef7e7a5d28fa7089daf86c1f7d73219777",
+      "evidence_sha256": "sha256:cdb7cfb489d9154011a31c66ec5dfa10ebf9c32741069687d6c5149408f6ffa5",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/sensor/cb609c9206a89da6a237464bda6cd6c8dd6f56384870cdfbcceddfcfe0d6ef55.json",
+      "audited_at": 1788582230.07709
+    },
+    {
+      "wiki_id": "space-domain-noise-reduction",
+      "wiki_path": "content/wiki/multimedia/space-domain-noise-reduction.md",
+      "kind": "knowledge",
+      "title": "空域降噪",
+      "sources": [
+        "wiki-non-local-means",
+        "wiki-noise-reduction"
+      ],
+      "evidence_source_ids": [
+        "wiki-noise-reduction",
+        "wiki-non-local-means"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:6867d083b4a2f3893c1a628ffb2d05f30907e2ef3c1d300cfeec18efb870727e",
+      "evidence_sha256": "sha256:a8bd110811ef3a9a6a09cddcfb954c22ab8d3a5bbf0cc03d015ea63c546989ea",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/space-domain-noise-reduction/a588b5e64267b94c61c833b3f3544acc4e9d3611c0a69e587be7e5319877546b.json",
+      "audited_at": 1788580587.573301
+    },
+    {
+      "wiki_id": "terminology",
+      "wiki_path": "content/wiki/multimedia/terminology.md",
+      "kind": "reference",
+      "title": "术语",
+      "sources": [
+        "wikipedia-color-v2",
+        "working-multimedia-terminology"
+      ],
+      "evidence_source_ids": [
+        "wikipedia-color-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:0e7a5a5ed647a51be61fe866560d37f19eaa6976206b34f61af15ca903c9964c",
+      "evidence_sha256": "sha256:87e222fd7a289f626b3e8e4ff5b10391000f0b54cea56d20b07e30bf666062a3",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/terminology/d31e6034e07d34ef89dd6d857c5f70e590209c4d22fecda3b456bb49a869a390.json",
+      "audited_at": 1788582251.600241
+    },
+    {
+      "wiki_id": "time-domain-noise-reduction",
+      "wiki_path": "content/wiki/multimedia/time-domain-noise-reduction.md",
+      "kind": "reference",
+      "title": "时域降噪",
+      "sources": [
+        "wiki-noise-reduction",
+        "working-multimedia-time-domain-noise-reduction"
+      ],
+      "evidence_source_ids": [
+        "wiki-noise-reduction"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:463f005c99f319cd1a754d055d521a4d8f36c5674adfa096700890af9b6c3f18",
+      "evidence_sha256": "sha256:68842e7649938e23b7fcbe60cfc11d94c1fe6250b3ab55ae0deabfea7b008899",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/time-domain-noise-reduction/21373caf6d448f8d5004b57950b2871682bb289c61142888ad69f0736b09fb35.json",
+      "audited_at": 1788580512.365466
+    },
+    {
+      "wiki_id": "tonemapping",
+      "wiki_path": "content/wiki/multimedia/tonemapping.md",
+      "kind": "knowledge",
+      "title": "色调映射（Tone Mapping）",
+      "sources": [
+        "wiki-tone-mapping"
+      ],
+      "evidence_source_ids": [
+        "wiki-tone-mapping"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:de51e77adbf7b6b660cb4657e365a07c082b82c0426171da37ecfa91205c7cc1",
+      "evidence_sha256": "sha256:e434447ae4902c4e307263ea28363e772605d921d02588729e5e6d97afc71f3f",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/tonemapping/228fe31516c0944f2a2314d21cd93ba0d6b59c2b9fb8be45d20035822de5b139.json",
+      "audited_at": 1788580490.4286542
+    },
+    {
+      "wiki_id": "how-to-read-a-book",
+      "wiki_path": "content/wiki/reading-notes/how-to-read-a-book.md",
+      "kind": "knowledge",
+      "title": "如何阅读一本书：四个阅读层次与主动阅读",
+      "sources": [
+        "how-to-read-a-book-book"
+      ],
+      "evidence_source_ids": [
+        "how-to-read-a-book-book"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:580aad4f40d810aa0ddc7a6e9bef23725944a4a081a5ce4eca562de9311c2231",
+      "evidence_sha256": "sha256:7f820a4531bae159f789a08558af515e08bac0651c431b20fdae86a3f141fb55",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/how-to-read-a-book/f6aa67cefbe6f3a5040475d7ac61833b3c55709dfdfb12ca8766893339ba9d91.json",
+      "audited_at": 1788580429.694405
+    },
+    {
+      "wiki_id": "git-commands",
+      "wiki_path": "content/wiki/tools/git-commands.md",
+      "kind": "reference",
+      "title": "Git命令",
+      "sources": [
+        "web-computer-science-git-commands",
+        "working-tools-git-commands"
+      ],
+      "evidence_source_ids": [
+        "web-computer-science-git-commands"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:9426638c485ecffb35dfb5c8eb40b9b5ef145f14e817f0585f6932548f341a2b",
+      "evidence_sha256": "sha256:18a42c858bf2b368996c33d42be5f15ad0ce78ba780e7bc66e1da501efb74a4c",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/git-commands/3b7eeaf23db1df21cb26a95abaf54419aeecc4c20e41315e95e2b65a6e33c41a.json",
+      "audited_at": 1788579630.374478
+    },
+    {
+      "wiki_id": "a-day-of-a-programmer",
+      "wiki_path": "content/wiki/work-methods/a-day-of-a-programmer.md",
+      "kind": "reference",
+      "title": "程序员的一天",
+      "sources": [
+        "web-computer-science-software-design",
+        "web-computer-science-git-commands",
+        "working-work-methods-a-day-of-a-programmer"
+      ],
+      "evidence_source_ids": [
+        "working-work-methods-a-day-of-a-programmer"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:8f76f49ad952cae2bfaf44abe84e7a7898e65fc6d1a2de801a8f49fe24d5ad48",
+      "evidence_sha256": "sha256:aea1bcfa921cc5bad820cec4bf5ac4e8874143c949bb7313e66e30993eec7c31",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/a-day-of-a-programmer/57d9cb8aac8009016c6ccb31d948ceedcba37ce570da6b56c93f5f2029e3613a.json",
+      "audited_at": 1788580429.436161
+    },
+    {
+      "wiki_id": "aar",
+      "wiki_path": "content/wiki/work-methods/aar.md",
+      "kind": "knowledge",
+      "title": "AAR 事后回顾",
+      "sources": [
+        "aar-tc25-20"
+      ],
+      "evidence_source_ids": [
+        "aar-tc25-20"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:e1b74a2c5d713d058251d6b5d62402ac578777ecfb7633ea5d15af69a4b9c96d",
+      "evidence_sha256": "sha256:4bbf7b246a4fffad8dadfb9e74cb277bb7f08a9339377d2fbb3e3f53579ec782",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/aar/450c2b603cb43609c4d7f9d86aedc3535b119025953c2f97325c8cabf81f10b0.json",
+      "audited_at": 1788580428.988939
+    },
+    {
+      "wiki_id": "insight",
+      "wiki_path": "content/wiki/work-methods/insight.md",
+      "kind": "reference",
+      "title": "洞察基础知识",
+      "sources": [
+        "web-work-methods-insight-v2",
+        "working-work-methods-insight"
+      ],
+      "evidence_source_ids": [
+        "web-work-methods-insight-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:2651d8714c7ff7b04ae985dcdb140f69cc9b6ce983b3c1a9d9b5c0aea05fe0b1",
+      "evidence_sha256": "sha256:07af39ba3ff5958c65625f446e2b8e1ef6595cfebaa92d963b8787538747771d",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/insight/3dacde255f7585ebfbfaddd68bb2f281ae25cee5fb37497185d3478e7f717062.json",
+      "audited_at": 1788580400.645507
+    },
+    {
+      "wiki_id": "ipd",
+      "wiki_path": "content/wiki/work-methods/ipd.md",
+      "kind": "reference",
+      "title": "IPD",
+      "sources": [
+        "working-work-methods-ipd"
+      ],
+      "evidence_source_ids": [
+        "working-work-methods-ipd"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:64c94c6cfd39b140a4fa83bceb6863bd2304f18a00e88b0025a587be0008b8db",
+      "evidence_sha256": "sha256:e4f5681c3be5e44672bd089024436fa078b7ec030bfedff7eaec9600bb7b4e09",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/ipd/beed4edc63e298cc0c8b5d195d385bc775ba6c19cbc3fed9ef4be0ecac57518f.json",
+      "audited_at": 1788580401.593376
+    },
+    {
+      "wiki_id": "model",
+      "wiki_path": "content/wiki/work-methods/model.md",
+      "kind": "reference",
+      "title": "模型",
+      "sources": [
+        "web-work-methods-model-golden-circle-v2",
+        "working-work-methods-model"
+      ],
+      "evidence_source_ids": [
+        "web-work-methods-model-golden-circle-v2"
+      ],
+      "evidence_origin": "external",
+      "content_sha256": "sha256:47ccd09fbde3eab04b4578314b6945fe04ecf464585f1be5aaf71472c8fa2198",
+      "evidence_sha256": "sha256:e2564ef2d3e5bb3f906780d307bde4d60494817de7a787f9e1f56e8e963d1392",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/model/f191780683a62d023baa8cb538c596c4855c8a6d548193a50b252db356353006.json",
+      "audited_at": 1788580395.3680441
+    },
+    {
+      "wiki_id": "reading-notes",
+      "wiki_path": "content/wiki/work-methods/reading-notes.md",
+      "kind": "reference",
+      "title": "读书笔记模版",
+      "sources": [
+        "working-work-methods-reading-notes"
+      ],
+      "evidence_source_ids": [
+        "working-work-methods-reading-notes"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:5ea38bde9b27927811e92ac433425be4fb19a85e007d6632cafe686b55e3c86a",
+      "evidence_sha256": "sha256:c048cd495f4f7389898761136622058c5e39b680075ba8da00f64581ec701a46",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/reading-notes/b1776bdde4fa75551b80d10c5fccb4a2b4d6e4a8d1f7a8423fff94670e5fb396.json",
+      "audited_at": 1788580418.627108
+    },
+    {
+      "wiki_id": "report",
+      "wiki_path": "content/wiki/work-methods/report.md",
+      "kind": "reference",
+      "title": "如何E2E写一份高质量洞察报告",
+      "sources": [
+        "working-work-methods-report"
+      ],
+      "evidence_source_ids": [
+        "working-work-methods-report"
+      ],
+      "evidence_origin": "personal",
+      "content_sha256": "sha256:3f149d5689230f77fb364943883caee4faf5334b4077fc647405f538973adbfe",
+      "evidence_sha256": "sha256:9868148ea6b7a3709d4fc4168ba3aff6b515e43e44d2a39c31fe04e6594f0873",
+      "verdict": "pass",
+      "audit_report": "audit/validation/wiki/report/ae8f3999ba7c194f922945c67ce017ae088be93f1b89296be7bf563102adee82.json",
+      "audited_at": 1788580402.916322
+    }
+  ]
+}

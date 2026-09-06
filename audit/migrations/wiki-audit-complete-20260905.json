@@ -1,0 +1,39 @@
+{
+  "schema_version": "wiki-audit-complete/v1",
+  "generated_at": "2026-09-05",
+  "scope": "working-migration Wiki entries",
+  "count": 147,
+  "verdict_counts": {
+    "pass": 147
+  },
+  "source_origin_counts": {
+    "external": 141,
+    "personal": 6
+  },
+  "personal_note_ids": [
+    "a-day-of-a-programmer",
+    "calculate-mode",
+    "ipd",
+    "reading-notes",
+    "reference",
+    "report"
+  ],
+  "deterministic_validation": {
+    "wiki_total": 165,
+    "valid": 165,
+    "invalid": 0,
+    "source_total": 352,
+    "source_valid": 352,
+    "source_invalid": 0
+  },
+  "doctor": "healthy",
+  "focused_tests": "153 passed",
+  "working_content_changed": false,
+  "confirm_executed": false,
+  "report_root": "audit/validation/wiki/<wiki-id>/",
+  "supersedes": [
+    "audit/migrations/wiki-audit-batch-20260905.json",
+    "audit/migrations/working-source-audit-20260904.json"
+  ],
+  "per_wiki_binding": "Each current Wiki Front Matter records source_id, source_origin, content/evidence hashes, and the matching report path is under report_root."
+}

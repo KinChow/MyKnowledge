@@ -1,0 +1,42 @@
+{
+  "schema_version": "purge-record/v1",
+  "operation_id": "purge-code-server-20260905",
+  "created_at": "2026-09-05",
+  "target_object_id": "code-server",
+  "reason_code": "obsolete",
+  "deleted_paths": [
+    {
+      "path": "content/wiki/tools/code-server.md",
+      "sha256": "sha256:480191b06fb42fd18cd349843de07b2eba013064644509a7d1d6dd57e07d4daa"
+    },
+    {
+      "path": "content/working/a-external/tools/code-server.md",
+      "sha256": "sha256:df15e42435230aa7f3a7a3689f4c60bf7f958e2faf8af25af28cfdcd9666708c"
+    },
+    {
+      "path": "docs/tools/code-server/code-server.md",
+      "sha256": "sha256:65102567541d98f456c1e74d0bccb6f1094675e9d37fab903b4fc422dce9cf34"
+    },
+    {
+      "path": "content/sources/tools/working-tools-code-server/working-tools-code-server.md",
+      "sha256": "sha256:dc08113e272b0f8e0dc923ae116148bb94f91a76fca7137f8896f68b2ce41026"
+    },
+    {
+      "path": "content/sources/tools/web-tools-code-server/web-tools-code-server.html",
+      "sha256": "sha256:60246146024580dea60b8f26b022f97bc9b33be55e411b2bb28d0c58bdd40bc9"
+    },
+    {
+      "path": "content/sources/tools/web-tools-code-server/web-tools-code-server.md",
+      "sha256": "sha256:c504e92757dca271653e7ab46767e9b0bca16c99ef0f679f7197ab90dc3fc7dc"
+    }
+  ],
+  "removed_index_entries": ["docs/tools/contents.md: code-server"],
+  "retained_for_audit": [
+    "audit/retire/op_74d6158d21ab4de696a219b4331c71ae.json",
+    "content/decisions/CDR-code-server-retire-20260905.md",
+    "audit/validation/wiki/code-server/",
+    "archive/",
+    "archive/manifest.jsonl"
+  ],
+  "confirm_executed": false
+}

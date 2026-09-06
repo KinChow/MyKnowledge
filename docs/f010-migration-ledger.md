@@ -199,6 +199,53 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 - **验证**：确定性校验 valid + evidence_state supported；LLM 审计一次 pass（6/6）；doctor 0 error、477 tests 全过。
 - **待 owner**：内容变更后需重新 confirm → release input/confirm 进 projection。
 
+### 8.14 working → wiki 全量迁移基线（2026-09-04）
+
+- **范围**：`content/working/` 下 156 篇 Markdown；原文件全部保留，未删除或改写。
+- **结果**：147 篇新建 `content/wiki/<domain>/<id>.md`，9 篇已有 Wiki 保留；每篇新条目均为 `status: draft`、`kind: reference`，正文完整捕获到“原文正文（完整保留）”小节。
+- **来源**：每篇新条目建立对应 `personal-note` Source 快照，并在 Wiki 记录原始 working 路径、原文哈希和外链数量；个人快照仅证明迁移来源，不冒充外部权威来源。已有外链只登记为待补来源线索，未自动认定为事实证据。
+- **质量边界**：本批没有空正文；确定性 schema/rules 校验 165 篇 Wiki 全部通过，Source 引用全部可解析；新条目仍待逐篇事实核查、权威来源补齐、evidence 锚定、LLM 审计和 owner/release 确认，未进入 public projection。
+- **可复核记录**：`audit/migrations/working-to-wiki-20260904.json`，记录 156 项、原文哈希、目标 Wiki 和 Source；迁移后复核显示原文缺失 0、哈希变化 0。
+
+### 8.15 working Wiki 来源联网补充（2026-09-04）
+
+- 对 147 篇新迁移 Wiki 执行联网来源审查：正文已有 URL 先做抓取；无 URL 的 78 篇再按标题/文件名执行精确 GitHub 仓库名检索。
+- 结果：38 篇补入联网抓取的外部 Source，109 篇没有找到能够确认对应关系的结果，保留 `personal-note`；个人快照全部保留，未覆盖历史来源。
+- 低置信度搜索结果未写入 Wiki。新增联网来源仍只完成抓取和快照，逐条 claim/evidence 锚定、事实纠错、LLM 审计和发布确认继续保持 pending。
+- 可复核记录：`audit/migrations/working-source-audit-20260904.json`，包含每篇的来源状态、检索方式和失败边界。
+
+### 8.16 逐篇来源复核收口（2026-09-05）
+
+- 在 8.15 基础上继续逐篇核对公开资料：为数据结构、编译器、OpenCL、相机/ISP、SoC、Linux、软件设计和工作方法等条目补入可读取的外部 Source；`multi-core-software-design` 另行补入多核处理器百科来源，移除“仅有 personal-note”的来源状态。
+- 当前 147 篇迁移 Wiki 中 145 篇至少有一个外部 Source；仅 `feature`（无来源标识的课程章节时间索引）、`reading-notes`（模板）保留 `personal-note`。`multi-core-software-design` 的原 personal 快照作为历史材料保留，但已补入外部来源，不再是唯一来源。
+- 发现并修正 4 篇 working 标题错误：`b-tree`、`binary-search-tree`、`generic-tree`、`red-black-tree` 原文均误写为“AVL 树”；Wiki 显示标题已改正，原文仍完整保留。
+- 逐篇来源记录：`audit/migrations/working-source-audit-20260904.json`；原始 working 文件和哈希继续保持不变。
+
+### 8.17 Wiki 命名与格式维护（2026-09-05）
+
+- **命名规则**：Wiki 文件名继续作为稳定 `id`，必须与 front matter 的 `id` 一致；用户可见名称通过 `title`，历史或纠错名称通过 `aliases` 维护。已审计/已发布对象不直接改名，避免使 validation、evidence、release 和反向引用失效。
+- **`git-commands` 核对**：`content/working/b-final/computer-science/git-commands.md` 与 `content/working/b-final/tools/git-commands.md` 正文和 `snapshot_sha256` 完全相同，仅 `domain` 不同；二者都来自同一旧文档 `docs/computer-science/applied-computer-science/software-engineering/tools/git/commands/commands.md`。Wiki 以 `content/wiki/tools/git-commands.md` 作为工具类归属入口，保留 `computer-science` 兼容对象和审计记录，不删除原文。
+- **拼写错误维护**：`four-rules-of-simple-desgin.md` 的稳定文件名暂不改动，Wiki title 已正确，且增加 alias `four-rules-of-simple-design`；若未来确需路径改名，应先建立兼容入口并整体更新引用、审计和 release 绑定。
+- **格式优化**：仅重排 147 篇 `working-migration` draft；18 篇已有审计/发布 Wiki 未修改。统一章节为“来源与迁移记录”和“原文内容（完整保留）”，迁移记录和原文正文均保留。记录见 `audit/migrations/wiki-format-optimization-20260905.json`。
+
+### 8.18 错误命名的审计友好改名（2026-09-05）
+
+- 依据实际主题修正 11 个 draft Wiki 的 canonical 文件名/`id`：C++ 相关 `c-*` 改为 `cpp-*`，`cpp-key-words` 改为 `cpp-keywords`，`four-rules-of-simple-desgin` 改为 `four-rules-of-simple-design`，`source-4ed827b8730d` 改为 `orthogonal-design-principles`，`feature` 改为 `cpp-course-chapters`。
+- 同源重复入口改为兼容历史对象：计算机科学侧 `git-commands` 改为 `git-commands-legacy`，工具侧 `git-commands` 保持 canonical；`key-words` 改为 `keywords-legacy`，`cpp-keywords` 保持 canonical。旧名称通过 aliases/legacy 对象保留，未删除原文。
+- 改名只涉及无 validation report 的 draft 对象；已有 18 篇审计/发布 Wiki 未改。旧 operation/audit 记录 append-only 保留，新旧路径、ID、哈希和处理边界见 `audit/migrations/wiki-rename-20260905.json`。
+
+### 8.19 详细章节标题统一（2026-09-05）
+
+- 参考 `content/wiki/work-methods/aar.md`，将 147 篇迁移 draft 的 `## 原文内容（完整保留）` 统一改为 `## 详细章节`。
+- 只修改章节标签；详细正文逐字保留，working 原文未改，18 篇已有审计/发布 Wiki 未改。
+- 记录见 `audit/migrations/wiki-detail-heading-rename-20260905.json`；旧标题 0 篇，新标题 147 篇，Wiki 确定性校验全部通过。
+
+### 8.20 详细章节内部层级统一（2026-09-05）
+
+- 将 147 篇迁移 Wiki 的详细章节内部标题整体下移两级：原 `#` → `###`、`##` → `####`，深层标题最高收敛到 `######`；代码块内注释不变。
+- 对原文没有一级主题标题的 `cpp` 补充 `### C++` 主题容器，并将页面显示标题修正为 `C++`；原始详细内容继续完整保留。
+- 当前 147 篇全部从 `###` 开始，超出 `######` 和旧 `原文内容` 标题均为 0。记录见 `audit/migrations/wiki-detail-heading-format-complete-20260905.json`。
+
 ## 9. 修订记录
 
 | 日期 | 变更 |
