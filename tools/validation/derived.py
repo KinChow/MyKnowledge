@@ -78,6 +78,11 @@ def load_validation_report(object_id: str, hashes: dict | None, paths) -> dict |
             ):
                 continue  # 绑定的是旧内容，视为过期
         if version == SCHEMA_VERSION:
+            # Historical providers could return ``pass`` for an empty claim
+            # set. Such a record is not evidence and must not drive
+            # validation or confirmation after the audit gate is tightened.
+            if isinstance(record.get("claims"), list) and not record["claims"]:
+                continue
             verdict_records.append((mtime, record, path))
         elif version == NOT_RUN_SCHEMA_VERSION and mtime > notrun_mtime:
             notrun_latest, notrun_mtime = record, mtime

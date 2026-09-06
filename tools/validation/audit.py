@@ -466,6 +466,14 @@ def run_audit(
             f"规则集组装失败: {ruleset_data['errors']}",
         )
     request = build_validation_request(vreport, ruleset_data, paths)
+    # An empty claim set is not an audit pass: it means the Wiki has not yet
+    # been converted into an auditable claim/evidence document. Blocking here
+    # prevents a provider from returning ``pass`` for zero work.
+    if not request["claims"]:
+        raise AuditBlocked(
+            "evidence_missing",
+            "Wiki 没有 claim/evidence，不能执行证据审计；请先补齐可审计断言和引文",
+        )
     response_schema = load_response_schema()
     object_id = str(vreport["metadata"].get("id", ""))
     hashes = vreport["hashes"]
@@ -775,10 +783,15 @@ def main(argv: list[str] | None = None) -> int:
         default=None,
         help="agent CLI 路径（默认环境变量 MYKNOWLEDGE_LLM_CLI 或 ducc）",
     )
+    parser.add_argument(
+        "--model",
+        default=None,
+        help="agent CLI 使用的模型（例如 gpt-5.6-terra）",
+    )
     args = parser.parse_args(argv)
     from .provider import make_provider
 
-    provider = make_provider(args.provider, cli=args.cli)
+    provider = make_provider(args.provider, cli=args.cli, model=args.model)
     try:
         outcome = run_audit(
             args.root, args.wiki, provider, quote_min_chars=args.min_chars

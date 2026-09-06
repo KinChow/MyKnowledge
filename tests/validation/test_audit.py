@@ -124,6 +124,28 @@ class AuditTests(AuditSetup):
         base = self.root / "audit" / "validation" / "wiki" / "test-wiki"
         return sorted(base.glob("*.json")) if base.exists() else []
 
+    def test_empty_claim_set_is_blocked_before_provider(self):
+        """Empty reference content must not become a vacuous audit pass."""
+        metadata = _base_wiki()
+        metadata.update(
+            {
+                "id": "empty-claims",
+                "title": "Empty claims",
+                "kind": "reference",
+                "status": "draft",
+                "evidence": [],
+            }
+        )
+        wiki = _write_wiki(
+            self.root,
+            metadata,
+            body="# Empty claims\n\n## 详细章节\n\n本文没有 claim。\n",
+        )
+        with self.assertRaises(AuditBlocked) as ctx:
+            run_audit(self.root, wiki, self.provider)
+        self.assertEqual(ctx.exception.code, "evidence_missing")
+        self.assertEqual(self.provider.calls, [])
+
     def test_internal_request_requires_provider_opt_in(self):
         request = {"claims": [{"targets": [{"confidentiality": "internal"}]}]}
         self.assertFalse(provider_allows_request(self.provider, request))

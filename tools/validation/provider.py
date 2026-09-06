@@ -472,5 +472,5 @@ def make_provider(
     if name == "openai":
         return OpenAICompatAdapter()
     if name == "agent-cli":
-        return AgentCliAdapter(cli=kwargs.get("cli"))
+        return AgentCliAdapter(cli=kwargs.get("cli"), model=kwargs.get("model"))
     raise ValueError(f"unknown provider: {name}")
