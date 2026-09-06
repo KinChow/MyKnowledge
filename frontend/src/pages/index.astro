@@ -1,190 +1,377 @@
 ---
-// 构建时从 public/generated/catalog.json 生成静态导航页——数据只来自
-// projection catalog（与文章页同一真源），不含任何运行时获取。
-// 分类三个维度：domain（域分组）× kind（类型）× tags（标签面，客户端过滤）。
-import fs from 'node:fs';
-import path from 'node:path';
+import { Icon } from '@astrojs/starlight/components';
+import '../styles/workbench.css';
+import {
+	DOMAIN_META,
+	KIND_LABELS,
+	degreeMap,
+	domainLabel,
+	loadCatalog,
+	loadGraph,
+	routePath,
+} from '../lib/public-catalog';
 
-const catalogPath = path.join(process.cwd(), 'public/generated/catalog.json');
-const catalog = fs.existsSync(catalogPath)
-  ? JSON.parse(fs.readFileSync(catalogPath, 'utf8'))
-  : { items: [] };
-const graphPath = path.join(process.cwd(), 'public/generated/graph.json');
-const graph = fs.existsSync(graphPath)
-  ? JSON.parse(fs.readFileSync(graphPath, 'utf8'))
-  : { nodes: [], edges: [] };
-
-const items = Array.isArray(catalog.items) ? catalog.items : [];
-
-const DOMAIN_LABELS = {
-  'computer-science': { label: '计算机科学', color: '#2563eb' },
-  'multimedia': { label: '多媒体与影像', color: '#0d9488' },
-  'work-methods': { label: '工作方法', color: '#d97706' },
-  'tools': { label: '工具', color: '#7c3aed' },
-  'reading-notes': { label: '读书笔记', color: '#db2777' },
-};
-const KIND_LABELS = { knowledge: '知识', reference: '参考' };
-const domainOf = (item) => item.domain || 'other';
-
-const groups = new Map();
+const base = import.meta.env.BASE_URL;
+const items = loadCatalog();
+const graph = loadGraph();
+const degrees = degreeMap(graph.edges || []);
+const domainCounts = new Map<string, number>();
+const tagCounts = new Map<string, number>();
 for (const item of items) {
-  const d = domainOf(item);
-  if (!groups.has(d)) groups.set(d, []);
-  groups.get(d).push(item);
+	const domain = item.domain || 'other';
+	domainCounts.set(domain, (domainCounts.get(domain) || 0) + 1);
+	for (const tag of item.tags || []) tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
 }
-const orderedGroups = [...groups.entries()]
-  .sort((a, b) => b[1].length - a[1].length)
-  .map(([domain, list]) => [
-    domain,
-    list.sort((a, b) => String(a.title || a.id).localeCompare(String(b.title || b.id), 'zh-Hans')),
-  ]);
-
-// 标签面：出现 ≥5 次的标签按热度取前 36 个
-const tagCount = new Map();
-for (const item of items) for (const t of item.tags || []) tagCount.set(t, (tagCount.get(t) || 0) + 1);
-const topTags = [...tagCount.entries()]
-  .filter(([, c]) => c >= 5)
-  .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))
-  .slice(0, 36);
-
-const degree = new Map();
-for (const e of graph.edges || []) {
-  degree.set(e.source, (degree.get(e.source) || 0) + 1);
-  degree.set(e.target, (degree.get(e.target) || 0) + 1);
-}
-const relEdges = (graph.edges || []).filter((e) => e.kind === 'rel').length;
-const tagEdges = (graph.edges || []).filter((e) => e.kind === 'tag').length;
-const total = items.length;
-
-// 内联数据供客户端标签过滤（只含 id/tags，足够小）
-const filterData = JSON.stringify(
-  items.map((i) => ({ id: i.id, tags: i.tags || [] }))
-).replace(/</g, '\\u003c');
+const topTags = [...tagCounts.entries()]
+	.sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-Hans'))
+	.slice(0, 24);
+const relationCount = graph.edges.length;
+const catalogJson = JSON.stringify({ items }).replace(/</g, '\\u003c');
+const domainOptions = [
+	...DOMAIN_META.filter((domain) => domainCounts.has(domain.key)),
+	...(domainCounts.has('other') ? [{ key: 'other', label: '其他', color: '#64748b' }] : []),
+];
 ---
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MyKnowledge · 知识库</title>
-    <style>
-      :root { --ink:#1e293b; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc; --card:#fff; --accent:#2563eb; }
-      * { box-sizing: border-box; }
-      body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; }
-      .wrap { max-width:1080px; margin:0 auto; padding:48px 24px 80px; }
-      header h1 { font-size:32px; margin:0 0 8px; letter-spacing:-0.5px; }
-      header p { color:var(--muted); margin:0 0 24px; font-size:15px; line-height:1.7; }
-      .stats { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:28px; }
-      .stat { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 18px; }
-      .stat b { font-size:20px; display:block; }
-      .stat span { color:var(--muted); font-size:12px; }
-      .stat a { color:var(--accent); text-decoration:none; font-size:12px; }
-      .tagbar { display:flex; flex-wrap:wrap; gap:8px; padding:16px; background:var(--card);
-        border:1px solid var(--line); border-radius:10px; margin-bottom:36px; }
-      .tagbar .tag { font-size:12.5px; padding:3px 10px; border-radius:999px; border:1px solid var(--line);
-        color:var(--ink); cursor:pointer; background:var(--card); user-select:none; }
-      .tagbar .tag small { color:var(--muted); }
-      .tagbar .tag.active { background:var(--accent); border-color:var(--accent); color:#fff; }
-      .tagbar .tag.active small { color:#dbeafe; }
-      .tagbar .clear { font-size:12.5px; color:var(--accent); background:none; border:none; cursor:pointer;
-        text-decoration:underline; display:none; padding:3px 4px; }
-      section { margin-bottom:40px; }
-      section.hidden { display:none; }
-      h2 { font-size:18px; margin:0 0 14px; display:flex; align-items:center; gap:8px; }
-      h2 .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
-      h2 .count { color:var(--muted); font-weight:400; font-size:14px; }
-      .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
-      a.card { display:block; background:var(--card); border:1px solid var(--line); border-radius:8px;
-        padding:10px 14px; text-decoration:none; color:var(--ink); transition:border-color .15s, transform .15s; }
-      a.card:hover { border-color:var(--accent); transform:translateY(-1px); }
-      a.card.hide { display:none; }
-      a.card .title { font-size:13.5px; line-height:1.45; }
-      a.card .meta { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
-      a.card .meta i { font-style:normal; font-size:10.5px; color:var(--muted);
-        border:1px solid var(--line); border-radius:4px; padding:1px 5px; }
-      a.card .rel { color:var(--muted); font-size:11px; margin-top:4px; }
-      .empty { display:none; color:var(--muted); padding:32px 0; text-align:center; font-size:14px; }
-      footer { color:var(--muted); font-size:12px; margin-top:56px; border-top:1px solid var(--line);
-        padding-top:16px; line-height:1.8; }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <header>
-        <h1>MyKnowledge</h1>
-        <p>证据驱动的个人知识库公共投影。每篇文章的结论都有可溯源的证据锚定，经确定性校验与 LLM 证据审计后发布。</p>
-      </header>
-      <div class="stats">
-        <div class="stat"><b>{total}</b><span>篇已发布</span></div>
-        <div class="stat"><b>{orderedGroups.length}</b><span>个领域</span></div>
-        <div class="stat"><b>{topTags.length}</b><span>个高频标签</span></div>
-        <div class="stat"><b>{relEdges}+{tagEdges}</b><span>显式/标签关联</span></div>
-        <div class="stat"><a href="/graph/">→ 知识图谱</a></div>
-      </div>
-      <div class="tagbar" id="tagbar">
-        {topTags.map(([tag, count]) => (
-          <button class="tag" data-tag={tag}>{tag} <small>{count}</small></button>
-        ))}
-        <button class="clear" id="tag-clear">清除筛选</button>
-      </div>
-      {orderedGroups.map(([domain, list]) => (
-        <section data-domain={domain}>
-          <h2>
-            <span class="dot" style={`background:${(DOMAIN_LABELS[domain] || {}).color || '#94a3b8'}`}></span>
-            {(DOMAIN_LABELS[domain] || {}).label || domain}
-            <span class="count">{list.length} 篇</span>
-          </h2>
-          <div class="grid">
-            {list.map((item) => (
-              <a class="card" href={`${item.route || `/wiki/${item.id}/`}`} data-tags={(item.tags || []).join(' ')}>
-                <div class="title">{item.title || item.id}</div>
-                <div class="meta">
-                  {(KIND_LABELS[item.kind] || item.kind) && <i>{KIND_LABELS[item.kind] || item.kind}</i>}
-                  {(item.tags || []).slice(0, 3).map((t) => <i>{t}</i>)}
-                </div>
-                {(degree.get(item.id) || 0) > 0 && <div class="rel">↔ {degree.get(item.id)} 条关联</div>}
-              </a>
-            ))}
-          </div>
-        </section>
-      ))}
-      <div class="empty" id="empty">当前筛选没有匹配的文章。</div>
-      <footer>
-        本站由 projection manifest 确定性构建：只包含通过发布门禁的内容，构建链含三段泄露扫描与闭包校验。<br/>
-        「N+M」= 显式 related 双链 + 同标签软关联（图谱同源）。全文搜索在任意文章页右上角（Pagefind 索引）。
-      </footer>
-    </div>
-    <script type="application/json" id="filter-data" set:html={filterData} />
-    <script>
-      // 标签面过滤：单选标签，隐藏不含该标签的卡片与空分组
-      const tags = new Set();
-      const bar = document.getElementById('tagbar');
-      const clearBtn = document.getElementById('tag-clear');
-      const empty = document.getElementById('empty');
-      bar.addEventListener('click', (ev) => {
-        const btn = ev.target.closest('.tag');
-        if (!btn) return;
-        const tag = btn.dataset.tag;
-        if (tags.has(tag)) { tags.delete(tag); btn.classList.remove('active'); }
-        else { tags.add(tag); btn.classList.add('active'); }
-        apply();
-      });
-      clearBtn.addEventListener('click', () => { tags.clear();
-        bar.querySelectorAll('.tag.active').forEach((b) => b.classList.remove('active')); apply(); });
-      function apply() {
-        clearBtn.style.display = tags.size ? 'inline' : 'none';
-        let visible = 0;
-        for (const card of document.querySelectorAll('a.card')) {
-          const ok = [...tags].every((t) => (card.dataset.tags || '').split(' ').includes(t));
-          card.classList.toggle('hide', !ok);
-          if (ok) visible++;
-        }
-        for (const sec of document.querySelectorAll('section')) {
-          const any = sec.querySelectorAll('a.card:not(.hide)').length > 0;
-          sec.classList.toggle('hidden', !any);
-        }
-        empty.style.display = visible ? 'none' : 'block';
-      }
-    </script>
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="MyKnowledge 证据驱动的个人知识库工作台" />
+		<title>MyKnowledge · 知识库</title>
+		<script is:inline>
+			try {
+				const stored = localStorage.getItem('starlight-theme');
+				const theme = stored === 'light' || stored === 'dark'
+					? stored
+					: (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+				document.documentElement.dataset.theme = theme;
+			} catch {}
+		</script>
+	</head>
+	<body class="mk-home">
+		<a class="mk-skip" href="#workspace">跳到文章列表</a>
+		<header class="mk-topbar">
+			<div class="mk-topbar-inner">
+				<a class="mk-brand" href={base} aria-label="MyKnowledge 首页">
+					<span class="mk-brand-mark" aria-hidden="true">M</span>
+					<span>MyKnowledge</span>
+				</a>
+				<nav class="mk-topnav" aria-label="主导航">
+					<a href={base} aria-current="page">知识库</a>
+					<a href={routePath(base, 'graph')}>知识图谱</a>
+				</nav>
+				<div class="mk-top-actions">
+					<button class="mk-search-trigger" id="open-search" type="button" aria-label="打开全文搜索">
+						<Icon name="magnifier" />
+						<span>搜索</span>
+						<kbd>⌘K</kbd>
+					</button>
+					<button class="mk-icon-button" id="theme-toggle" type="button" aria-label="切换主题">
+						<Icon name="moon" />
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<main class="mk-shell">
+			<section class="mk-hero" aria-labelledby="page-title">
+				<div>
+					<p class="mk-kicker">PERSONAL KNOWLEDGE WORKBENCH</p>
+					<h1 id="page-title">MyKnowledge</h1>
+					<p class="mk-hero-copy">从已发布的知识出发，按领域、类型、标签和关系快速找到可以继续阅读的内容。</p>
+				</div>
+				<form class="mk-command" id="quick-search">
+					<label for="home-search">检索知识库</label>
+					<div class="mk-search-box">
+						<Icon name="magnifier" />
+						<input id="home-search" name="q" type="search" autocomplete="off" placeholder="搜索标题、正文或标签" />
+						<button class="mk-search-submit" type="submit">全文搜索</button>
+					</div>
+				</form>
+			</section>
+
+			<section class="mk-stat-band" aria-label="知识库统计">
+				<div class="mk-stat"><strong>{items.length}</strong><span>篇公开文章</span></div>
+				<div class="mk-stat"><strong>{domainOptions.length}</strong><span>个知识领域</span></div>
+				<div class="mk-stat"><strong>{tagCounts.size}</strong><span>个主题标签</span></div>
+				<div class="mk-stat"><strong>{relationCount}</strong><span>条图谱关联</span></div>
+			</section>
+
+			<section class="mk-shelves" aria-label="阅读状态">
+				<section class="mk-shelf" aria-labelledby="recent-heading">
+					<div class="mk-shelf-heading"><h2 id="recent-heading">最近阅读</h2><span id="recent-count">0 篇</span></div>
+					<div class="mk-shelf-list" id="recent-list"><p class="mk-shelf-empty">最近打开的文章会显示在这里。</p></div>
+				</section>
+				<section class="mk-shelf" aria-labelledby="favorites-heading">
+					<div class="mk-shelf-heading"><h2 id="favorites-heading">我的收藏</h2><span id="favorite-count">0 篇</span></div>
+					<div class="mk-shelf-list" id="favorites-list"><p class="mk-shelf-empty">收藏的文章会显示在这里。</p></div>
+				</section>
+			</section>
+
+			<section class="mk-workbench" id="workspace" aria-labelledby="library-heading">
+				<aside class="mk-filter-panel" aria-label="知识筛选">
+					<div class="mk-filter-title"><strong>筛选</strong><button class="mk-text-button mk-reset" id="reset-filters" type="button">重置</button></div>
+					<div class="mk-filter-groups">
+						<div class="mk-filter-group">
+							<p>领域</p>
+							<div class="mk-filter-options" role="group" aria-label="按领域筛选">
+								<button class="mk-filter-chip" type="button" data-domain-filter="" aria-pressed="true">全部</button>
+								{domainOptions.map((domain) => <button class="mk-filter-chip" type="button" data-domain-filter={domain.key} aria-pressed="false">{domain.label}</button>)}
+							</div>
+						</div>
+						<div class="mk-filter-group">
+							<p>类型</p>
+							<select class="mk-filter-select" id="kind-filter" aria-label="按类型筛选">
+								<option value="">全部类型</option>
+								<option value="knowledge">知识</option>
+								<option value="reference">参考</option>
+							</select>
+						</div>
+						<div class="mk-filter-group">
+							<p>主题标签</p>
+							<div class="mk-filter-options" role="group" aria-label="按主题标签筛选">
+								{topTags.map(([tag, count]) => <button class="mk-filter-chip" type="button" data-tag-filter={tag} aria-pressed="false">{tag} <span aria-hidden="true">{count}</span></button>)}
+							</div>
+						</div>
+						<div class="mk-filter-group">
+							<p>排序</p>
+							<select class="mk-filter-select" id="sort-filter" aria-label="文章排序">
+								<option value="connections">关联数</option>
+								<option value="title">标题</option>
+							</select>
+						</div>
+						<div class="mk-filter-group">
+							<p>视图</p>
+							<div class="mk-view-switch" role="group" aria-label="切换文章视图">
+								<button class="mk-view-button" type="button" data-view="list" aria-pressed="true">列表</button>
+								<button class="mk-view-button" type="button" data-view="compact" aria-pressed="false">紧凑</button>
+							</div>
+						</div>
+					</div>
+					<p class="mk-storage-note" id="storage-note" data-visible="false">浏览器未允许保存本地阅读状态。</p>
+				</aside>
+
+				<section class="mk-library">
+					<div class="mk-library-header">
+						<div><h2 id="library-heading">全部文章</h2><p id="result-count">显示 {items.length} 篇</p></div>
+					</div>
+					<div class="mk-article-list" id="article-list">
+						{items.map((item) => {
+							const tags = item.tags || [];
+							const degree = degrees.get(item.id) || 0;
+							const href = routePath(base, item.route || item.id);
+							return <article class="mk-article-row" data-article-row data-id={item.id} data-title={item.title || item.id} data-search={[item.title || item.id, item.id, ...tags].join(' ')} data-domain={item.domain || 'other'} data-kind={item.kind || ''} data-tags={tags.join('|')} data-degree={degree}>
+								<a class="mk-article-link" href={href}>
+									<span class="mk-article-title">{item.title || item.id}</span>
+									<span class="mk-article-meta"><span>{domainLabel(item.domain)}</span><span>{KIND_LABELS[item.kind || ''] || item.kind || '未分类'}</span><span>{degree} 条关联</span><span class="mk-article-tags">{tags.slice(0, 4).join(' · ')}</span></span>
+								</a>
+								<button class="mk-favorite-button" type="button" data-favorite-toggle data-favorite-id={item.id} aria-pressed="false" aria-label={`收藏 ${item.title || item.id}`}><Icon name="star" /></button>
+							</article>;
+						})}
+					</div>
+					<p class="mk-empty-state" id="empty-state" hidden>没有匹配的文章。</p>
+				</section>
+			</section>
+		</main>
+
+		<dialog class="mk-search-dialog" id="search-dialog" aria-labelledby="search-dialog-title">
+			<div class="mk-dialog-header"><h2 id="search-dialog-title">全文搜索</h2><button class="mk-icon-button" id="close-search" type="button" aria-label="关闭搜索"><Icon name="close" /></button></div>
+			<div class="mk-dialog-body">
+				<form class="mk-dialog-search" id="dialog-search-form"><input id="dialog-search-input" type="search" placeholder="输入关键词" autocomplete="off" /><button type="submit">搜索</button></form>
+				<p class="mk-search-status" id="search-status" aria-live="polite"></p>
+				<div class="mk-search-results" id="search-results"></div>
+			</div>
+		</dialog>
+
+		<script type="application/json" id="catalog-data" set:html={catalogJson}></script>
+		<script>
+			import {
+				isFavorite,
+				recordRecent,
+				readWorkbenchState,
+				setWorkbenchView,
+				subscribeToWorkbenchState,
+				toggleFavorite,
+			} from '../lib/workbench-state.js';
+
+			const baseUrl = document.querySelector('.mk-brand')?.getAttribute('href')?.replace(/\/$/, '') || '';
+			const catalog = JSON.parse(document.getElementById('catalog-data').textContent || '{"items":[]}');
+			const catalogById = new Map((catalog.items || []).map((item) => [item.id, item]));
+			const searchInput = document.getElementById('home-search');
+			const kindFilter = document.getElementById('kind-filter');
+			const sortFilter = document.getElementById('sort-filter');
+			const articleList = document.getElementById('article-list');
+			const resultCount = document.getElementById('result-count');
+			const emptyState = document.getElementById('empty-state');
+			const stateNote = document.getElementById('storage-note');
+			const state = { domain: '', kind: '', tags: new Set(), query: '', sort: 'connections' };
+
+			function routeFor(item) {
+				return `${baseUrl}/${item.route || item.id}/`;
+			}
+
+			function syncFavoriteButtons() {
+				document.querySelectorAll('[data-favorite-toggle]').forEach((button) => {
+					const active = isFavorite(button.dataset.favoriteId);
+					button.setAttribute('aria-pressed', String(active));
+					button.setAttribute('aria-label', `${active ? '取消收藏' : '收藏'} ${catalogById.get(button.dataset.favoriteId)?.title || button.dataset.favoriteId}`);
+				});
+			}
+
+			function renderShelf(targetId, ids, countId) {
+				const target = document.getElementById(targetId);
+				target.replaceChildren();
+				const valid = ids.map((id) => catalogById.get(id)).filter(Boolean).slice(0, 5);
+				document.getElementById(countId).textContent = `${ids.length} 篇`;
+				if (!valid.length) {
+					const empty = document.createElement('p');
+					empty.className = 'mk-shelf-empty';
+					empty.textContent = targetId === 'recent-list' ? '最近打开的文章会显示在这里。' : '收藏的文章会显示在这里。';
+					target.append(empty);
+					return;
+				}
+				for (const item of valid) {
+					const link = document.createElement('a');
+					link.className = 'mk-shelf-item';
+					link.href = routeFor(item);
+					const title = document.createElement('span');
+					title.className = 'mk-shelf-title';
+					title.textContent = item.title || item.id;
+					const meta = document.createElement('span');
+					meta.className = 'mk-shelf-meta';
+					meta.textContent = item.domain || '其他';
+					link.append(title, meta);
+					target.append(link);
+				}
+			}
+
+			function renderState() {
+				const loaded = readWorkbenchState();
+				stateNote.dataset.visible = String(!loaded.available);
+				const recentIds = loaded.state.recent.map((item) => item.id);
+				renderShelf('recent-list', recentIds, 'recent-count');
+				renderShelf('favorites-list', loaded.state.favorites, 'favorite-count');
+				syncFavoriteButtons();
+				const view = loaded.state.view;
+				document.querySelectorAll('[data-view]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
+				articleList.dataset.view = view;
+			}
+
+			function syncUrl() {
+				const params = new URLSearchParams();
+				if (state.query) params.set('q', state.query);
+				if (state.domain) params.set('domain', state.domain);
+				if (state.kind) params.set('kind', state.kind);
+				if (state.tags.size) params.set('tag', [...state.tags].join(','));
+				if (state.sort !== 'connections') params.set('sort', state.sort);
+				const query = params.toString();
+				history.replaceState(null, '', `${location.pathname}${query ? `?${query}` : ''}`);
+			}
+
+			function applyFilters() {
+				const query = state.query.trim().toLocaleLowerCase();
+				const rows = [...document.querySelectorAll('[data-article-row]')];
+				let visible = 0;
+				for (const row of rows) {
+					const tags = new Set((row.dataset.tags || '').split('|').filter(Boolean));
+					const matches = (!query || (row.dataset.search || '').toLocaleLowerCase().includes(query))
+						&& (!state.domain || row.dataset.domain === state.domain)
+						&& (!state.kind || row.dataset.kind === state.kind)
+						&& [...state.tags].every((tag) => tags.has(tag));
+					row.hidden = !matches;
+					if (matches) visible += 1;
+				}
+				rows.sort((a, b) => state.sort === 'title'
+					? (a.dataset.title || '').localeCompare(b.dataset.title || '', 'zh-Hans')
+					: Number(b.dataset.degree || 0) - Number(a.dataset.degree || 0) || (a.dataset.title || '').localeCompare(b.dataset.title || '', 'zh-Hans'))
+					.forEach((row) => articleList.append(row));
+				resultCount.textContent = `显示 ${visible} 篇`;
+				emptyState.hidden = visible !== 0;
+				syncUrl();
+			}
+
+			function setDomain(value) {
+				state.domain = value;
+				document.querySelectorAll('[data-domain-filter]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.domainFilter === value)));
+				applyFilters();
+			}
+
+			document.querySelectorAll('[data-domain-filter]').forEach((button) => button.addEventListener('click', () => setDomain(button.dataset.domainFilter || '')));
+			document.querySelectorAll('[data-tag-filter]').forEach((button) => button.addEventListener('click', () => {
+				const tag = button.dataset.tagFilter;
+				if (state.tags.has(tag)) state.tags.delete(tag); else state.tags.add(tag);
+				button.setAttribute('aria-pressed', String(state.tags.has(tag)));
+				applyFilters();
+			}));
+			kindFilter.addEventListener('change', () => { state.kind = kindFilter.value; applyFilters(); });
+			sortFilter.addEventListener('change', () => { state.sort = sortFilter.value; applyFilters(); });
+			searchInput.addEventListener('input', () => { state.query = searchInput.value; applyFilters(); });
+			document.getElementById('reset-filters').addEventListener('click', () => {
+				state.domain = ''; state.kind = ''; state.query = ''; state.sort = 'connections'; state.tags.clear();
+				searchInput.value = ''; kindFilter.value = ''; sortFilter.value = 'connections';
+				document.querySelectorAll('[data-domain-filter]').forEach((button) => button.setAttribute('aria-pressed', String(!button.dataset.domainFilter)));
+				document.querySelectorAll('[data-tag-filter]').forEach((button) => button.setAttribute('aria-pressed', 'false'));
+				applyFilters();
+			});
+			document.querySelectorAll('[data-view]').forEach((button) => button.addEventListener('click', () => { setWorkbenchView(button.dataset.view); renderState(); }));
+			document.querySelectorAll('[data-favorite-toggle]').forEach((button) => button.addEventListener('click', (event) => {
+				event.preventDefault();
+				toggleFavorite(button.dataset.favoriteId);
+				renderState();
+			}));
+			document.querySelectorAll('[data-article-row] a').forEach((link) => link.addEventListener('click', () => recordRecent(link.closest('[data-article-row]').dataset.id)));
+
+			const dialog = document.getElementById('search-dialog');
+			const dialogInput = document.getElementById('dialog-search-input');
+			const searchResults = document.getElementById('search-results');
+			const searchStatus = document.getElementById('search-status');
+			function openSearch(query = searchInput.value) { dialog.showModal(); dialogInput.value = query; dialogInput.focus(); if (query) runFullSearch(query); }
+			function plainText(value) { return String(value || '').replace(/<[^>]*>/g, ''); }
+			async function runFullSearch(query) {
+				const cleanQuery = query.trim();
+				searchResults.replaceChildren();
+				if (!cleanQuery) { searchStatus.textContent = '输入关键词开始搜索。'; return; }
+				searchStatus.textContent = '正在搜索…';
+				try {
+					const pagefind = await import(new URL('pagefind/pagefind.js', document.baseURI).href);
+					const response = await pagefind.search(cleanQuery);
+					const results = await Promise.all(response.results.slice(0, 8).map((result) => result.data()));
+					searchStatus.textContent = results.length ? `找到 ${response.results.length} 个结果` : '没有找到匹配文章。';
+					for (const result of results) {
+						const link = document.createElement('a'); link.className = 'mk-search-result'; link.href = result.url;
+						const title = document.createElement('span'); title.className = 'mk-search-result-title'; title.textContent = result.meta?.title || result.url;
+						const excerpt = document.createElement('p'); excerpt.className = 'mk-search-result-excerpt'; excerpt.textContent = plainText(result.excerpt);
+						link.append(title, excerpt); searchResults.append(link);
+					}
+				} catch {
+					searchStatus.textContent = '全文索引暂不可用，已切换为标题和标签搜索。';
+					const fallback = [...catalog.items].filter((item) => `${item.title || ''} ${item.id} ${(item.tags || []).join(' ')}`.toLocaleLowerCase().includes(cleanQuery.toLocaleLowerCase())).slice(0, 8);
+					for (const item of fallback) { const link = document.createElement('a'); link.className = 'mk-search-result'; link.href = routeFor(item); link.textContent = item.title || item.id; searchResults.append(link); }
+				}
+			}
+			document.getElementById('open-search').addEventListener('click', () => openSearch());
+			document.getElementById('close-search').addEventListener('click', () => dialog.close());
+			document.getElementById('quick-search').addEventListener('submit', (event) => { event.preventDefault(); openSearch(searchInput.value); });
+			document.getElementById('dialog-search-form').addEventListener('submit', (event) => { event.preventDefault(); runFullSearch(dialogInput.value); });
+			dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+			document.addEventListener('keydown', (event) => {
+				if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); openSearch(); }
+				if (event.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') { event.preventDefault(); searchInput.focus(); }
+			});
+			document.getElementById('theme-toggle').addEventListener('click', () => {
+				const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+				document.documentElement.dataset.theme = next;
+				try { localStorage.setItem('starlight-theme', next); } catch {}
+			});
+			subscribeToWorkbenchState(renderState);
+			const params = new URLSearchParams(location.search);
+			state.query = params.get('q') || ''; state.domain = params.get('domain') || ''; state.kind = params.get('kind') || ''; state.sort = params.get('sort') === 'title' ? 'title' : 'connections';
+			for (const tag of (params.get('tag') || '').split(',').filter(Boolean)) state.tags.add(tag);
+			searchInput.value = state.query; kindFilter.value = state.kind; sortFilter.value = state.sort;
+			document.querySelectorAll('[data-domain-filter]').forEach((button) => button.setAttribute('aria-pressed', String((button.dataset.domainFilter || '') === state.domain)));
+			document.querySelectorAll('[data-tag-filter]').forEach((button) => button.setAttribute('aria-pressed', String(state.tags.has(button.dataset.tagFilter))));
+			applyFilters(); renderState();
+		</script>
+	</body>
 </html>

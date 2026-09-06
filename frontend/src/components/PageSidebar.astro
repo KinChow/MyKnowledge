@@ -1,0 +1,37 @@
+---
+import Default from '@astrojs/starlight/components/PageSidebar.astro';
+import {
+	degreeMap,
+	domainLabel,
+	loadCatalog,
+	loadGraph,
+	routePath,
+} from '../lib/public-catalog';
+
+const items = loadCatalog();
+const graph = loadGraph();
+const degrees = degreeMap(graph.edges || []);
+const routeId = String(Astro.locals.starlightRoute.id || '').replace(/^\/+|\/+$/g, '');
+const current = items.find((item) => (item.route || item.id).replace(/^\/+|\/+$/g, '') === routeId);
+const base = import.meta.env.BASE_URL;
+const outgoing = current ? (current.links || []).map((id) => items.find((item) => item.id === id)).filter(Boolean) : [];
+const incoming = current ? items.filter((item) => (item.links || []).includes(current.id)) : [];
+const tagPeers = current
+	? items
+			.filter((item) => item.id !== current.id)
+			.map((item) => ({ item, score: (item.tags || []).filter((tag) => (current.tags || []).includes(tag)).length }))
+			.filter(({ score }) => score >= 2 && !outgoing.some((item) => item.id === current.id))
+			.sort((a, b) => b.score - a.score || (a.item.title || a.item.id).localeCompare(b.item.title || b.item.id, 'zh-Hans'))
+			.slice(0, 5)
+			.map(({ item }) => item)
+		: [];
+---
+<Default />
+{current && <section class="mk-article-rail" aria-labelledby="article-context-heading">
+	<div class="mk-rail-heading"><h2 id="article-context-heading">文章关系</h2><span>{degrees.get(current.id) || 0}</span></div>
+	{outgoing.length > 0 && <div class="mk-rail-group"><h3>关联到</h3><ul>{outgoing.map((item) => <li><a href={routePath(base, item.route || item.id)}>{item.title || item.id}</a></li>)}</ul></div>}
+	{incoming.length > 0 && <div class="mk-rail-group"><h3>被关联</h3><ul>{incoming.map((item) => <li><a href={routePath(base, item.route || item.id)}>{item.title || item.id}</a></li>)}</ul></div>}
+	{tagPeers.length > 0 && <div class="mk-rail-group"><h3>同主题</h3><ul>{tagPeers.map((item) => <li><a href={routePath(base, item.route || item.id)}>{item.title || item.id}</a></li>)}</ul></div>}
+	{outgoing.length === 0 && incoming.length === 0 && tagPeers.length === 0 && <p class="mk-rail-empty">暂无关系文章。</p>}
+	<p class="mk-rail-domain">{domainLabel(current.domain)} · {current.tags?.slice(0, 3).join(' · ')}</p>
+</section>}

@@ -1,0 +1,84 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import {
+	KIND_LABELS,
+	degreeMap,
+	domainLabel,
+	loadCatalog,
+	loadGraph,
+	routePath,
+} from '../lib/public-catalog';
+
+const items = loadCatalog();
+const graph = loadGraph();
+const degrees = degreeMap(graph.edges || []);
+const routeId = String(Astro.locals.starlightRoute.id || '').replace(/^\/+|\/+$/g, '');
+const current = items.find((item) => (item.route || item.id).replace(/^\/+|\/+$/g, '') === routeId);
+const base = import.meta.env.BASE_URL;
+const outgoing = current ? (current.links || []).map((id) => items.find((item) => item.id === id)).filter(Boolean) : [];
+const incoming = current ? items.filter((item) => (item.links || []).includes(current.id)) : [];
+const tagPeers = current
+	? items
+			.filter((item) => item.id !== current.id)
+			.map((item) => ({ item, score: (item.tags || []).filter((tag) => (current.tags || []).includes(tag)).length }))
+			.filter(({ score }) => score >= 2 && !outgoing.some((item) => item.id === current.id))
+			.sort((a, b) => b.score - a.score || (a.item.title || a.item.id).localeCompare(b.item.title || b.item.id, 'zh-Hans'))
+			.slice(0, 5)
+			.map(({ item }) => item)
+		: [];
+const relationTotal = new Set([...outgoing, ...incoming, ...tagPeers].map((item) => item.id)).size;
+---
+<div class="mk-article-titlebar" data-article-runtime data-article-id={current?.id}>
+	<div class="mk-article-title-copy">
+		{current && <p class="mk-article-kicker">{domainLabel(current.domain)} / {KIND_LABELS[current.kind || ''] || current.kind || '知识'}</p>}
+		<h1 id="_top">{Astro.locals.starlightRoute.entry.data.title}</h1>
+		{current && <div class="mk-article-meta">
+			<span>{current.tags?.slice(0, 5).join(' · ') || '未设置标签'}</span>
+			<span>{degrees.get(current.id) || 0} 条图谱关联</span>
+			<span>{relationTotal} 篇关系文章</span>
+		</div>}
+	</div>
+	{current && <div class="mk-article-actions" aria-label="文章操作">
+		<button class="mk-article-action" type="button" data-favorite-toggle data-favorite-id={current.id} aria-pressed="false" aria-label={`收藏 ${current.title || current.id}`}><Icon name="star" /><span>收藏</span></button>
+		<a class="mk-article-action" href={`${routePath(base, 'graph')}?focus=${encodeURIComponent(current.id)}`}><Icon name="node" /><span>图谱</span></a>
+		<button class="mk-article-action" type="button" data-copy-link><Icon name="link" /><span>复制链接</span></button>
+	</div>}
+</div>
+
+{current && <details class="mk-mobile-relations">
+	<summary>文章关系 <span>{relationTotal}</span></summary>
+	<div class="mk-mobile-relations-body">
+		{outgoing.length > 0 && <div><strong>关联到</strong>{outgoing.map((item) => <a href={routePath(base, item.route || item.id)}>{item.title || item.id}</a>)}</div>}
+		{incoming.length > 0 && <div><strong>被关联</strong>{incoming.map((item) => <a href={routePath(base, item.route || item.id)}>{item.title || item.id}</a>)}</div>}
+		{tagPeers.length > 0 && <div><strong>同主题</strong>{tagPeers.map((item) => <a href={routePath(base, item.route || item.id)}>{item.title || item.id}</a>)}</div>}
+		{relationTotal === 0 && <p>暂无关系文章。</p>}
+	</div>
+</details>}
+
+<script>
+	import { isFavorite, recordRecent, subscribeToWorkbenchState, toggleFavorite } from '../lib/workbench-state.js';
+
+	const root = document.querySelector('[data-article-runtime]');
+	const id = root?.dataset.articleId;
+	function sync() {
+		if (!id) return;
+		const button = root.querySelector('[data-favorite-toggle]');
+		if (!button) return;
+		const active = isFavorite(id);
+		button.setAttribute('aria-pressed', String(active));
+		button.querySelector('span').textContent = active ? '已收藏' : '收藏';
+		button.setAttribute('aria-label', `${active ? '取消收藏' : '收藏'} ${id}`);
+	}
+	if (id) {
+		recordRecent(id);
+		root.querySelector('[data-favorite-toggle]')?.addEventListener('click', () => { toggleFavorite(id); sync(); });
+		root.querySelector('[data-copy-link]')?.addEventListener('click', async (event) => {
+			const button = event.currentTarget;
+			try { await navigator.clipboard.writeText(location.href); button.querySelector('span').textContent = '已复制'; }
+			catch { button.querySelector('span').textContent = '复制失败'; }
+			setTimeout(() => { button.querySelector('span').textContent = '复制链接'; }, 1600);
+		});
+		subscribeToWorkbenchState(sync);
+		sync();
+	}
+</script>
