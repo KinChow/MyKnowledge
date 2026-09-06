@@ -1,0 +1,143 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "matrix",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_51e00bf23347",
+  "input_hash": "sha256:2a56767be92a0b7853bac3db6924ea77e97f04752421667fd7ed59a1f7f156bf",
+  "provider_duration_ms": 34657,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554685.1579351,
+  "wiki_content_sha256": "sha256:77018fb41a6b92133ba7e950afd8314aea4ac442a66fc84987cc361fbcd23d4c",
+  "wiki_evidence_sha256": "sha256:aca9ff816f93cef72f04007c80e614d4c13d37a9fcc3654dbd24c8f543f09604",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-matrix"
+      },
+      "source_id": "web-computer-science-matrix",
+      "evidence_id": "evidence-3e7ac52db165",
+      "snapshot_sha256": "sha256:52eeaf5c207d5bd55831cceec188a7b6c3d8854a48c0e754e8ac958a6068c15e",
+      "selector_sha256": "sha256:a014249b799d8d7134e5786f0f0bfb1d36cfc5a0dcb30ee27c220671162eb91e",
+      "quote_sha256": "sha256:e979635168a2b4e4efa6bce5f4dc59f630bba6b8aac34e340e443a1b7917e2af"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "matrix-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-matrix",
+          "evidence_id": "evidence-3e7ac52db165"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3e7ac52db165",
+          "exact": "numpy.ndarray#\n- class numpy.ndarray(shape, dtype=np.float64, buffer=None, offset=0, strides=None, order=None)[source]#\n- An array object represents a multidimensional, homogeneous array of fixed-size items. An associated data-type object describes the format of each element in the array (its byte-order, how many bytes it occupies in memory, whether it is an integer, a floating point number, or something else, etc."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3e7ac52db165",
+          "subject": "numpy.ndarray",
+          "predicate": "represents",
+          "object": "a multidimensional, homogeneous array of fixed-size items",
+          "qualifiers": {
+            "class_signature": "numpy.ndarray(shape, dtype=np.float64, buffer=None, offset=0, strides=None, order=None)",
+            "dtype_description": "An associated data-type object describes the format of each element in the array"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文[0,418)完整给出 claim 所称的可回放原文摘录，包括 numpy.ndarray 标题、类签名以及数组对象与 data-type object 的描述；claim 仅声称该摘录如下且不代表覆盖正文全部内容，因此被该 target 直接支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-matrix",
+          "evidence_id": "evidence-3e7ac52db165",
+          "start": 0,
+          "end": 418
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-matrix",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "matrix-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

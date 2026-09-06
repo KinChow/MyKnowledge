@@ -1,0 +1,141 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "binary-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_414d243e23d1",
+  "input_hash": "sha256:321d6f40f18629fcd524eb3b23d9f84bc9fa6f2f0d51191386bd0d0bc9660b8d",
+  "provider_duration_ms": 30557,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788555778.4269152,
+  "wiki_content_sha256": "sha256:71fd008ee86b0d11d01ae27b6b0ac19fd3238ab2cc25466dfcdb5c70ba192655",
+  "wiki_evidence_sha256": "sha256:561f20b7e550264570b0495b2c88f23406315da453942183dfece94e8507a1ef",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-binary-tree"
+      },
+      "source_id": "web-computer-science-binary-tree",
+      "evidence_id": "evidence-0121a3b008d3",
+      "snapshot_sha256": "sha256:c25d74384e121f66df5c92797326cd0fad2915428a78df11a18d221fd86309a7",
+      "selector_sha256": "sha256:20408c2b6021273a1214d8a6311c3a61a23fd55e6772fe09bf8d1a5bab258fd3",
+      "quote_sha256": "sha256:d75e76cc45f055d93d6d463e1f8f31282cad29c4de17c21fa172976a3d635027"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "binary-tree-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-binary-tree",
+          "evidence_id": "evidence-0121a3b008d3"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0121a3b008d3",
+          "exact": "C语言实现二叉树的基本操作"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0121a3b008d3",
+          "subject": "C语言实现二叉树",
+          "predicate": "是",
+          "object": "基本操作",
+          "qualifiers": {
+            "source_type": "excerpt"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文与 claim 文本逐字一致；引文中“C语言实现二叉树的基本操作”覆盖了 claim 的全部内容，因此可判定为支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-binary-tree",
+          "evidence_id": "evidence-0121a3b008d3",
+          "start": 0,
+          "end": 13
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-binary-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "binary-tree-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

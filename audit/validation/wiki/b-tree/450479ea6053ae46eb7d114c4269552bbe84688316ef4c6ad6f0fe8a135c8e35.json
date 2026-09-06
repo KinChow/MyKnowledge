@@ -1,0 +1,439 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "b-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_55f053eaa19e",
+  "input_hash": "sha256:2bb8f9fe3d6db2a34684b2dcc5263e11ec1380bca22cbb58564179a7deb4c91f",
+  "provider_duration_ms": 59228,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788548726.0130649,
+  "wiki_content_sha256": "sha256:70151cda61548ba2bf241baf1f5fb40a326026aa555897b7d429e38505102b3a",
+  "wiki_evidence_sha256": "sha256:0788d9d039fbf70f5dbd9b5be87dcd65ee71a6d27af21e0a36e4cbe1c406aa18",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-b-tree"
+      },
+      "source_id": "web-computer-science-b-tree",
+      "evidence_id": "evidence-66214b606544",
+      "snapshot_sha256": "sha256:16676146810fb0eb8a30a3fadb08b27a08230ed4b540533f51130ac4a02ed3c2",
+      "selector_sha256": "sha256:e202571ea5475c73f27043606b86dc1d3ea1948829b58cb7bd435f4461816a53",
+      "quote_sha256": "sha256:f11be17b21713f0e19c60134f1780aefc915dc0594e6b7ae4a8054f04a49faa6"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-b-tree"
+      },
+      "source_id": "web-computer-science-b-tree",
+      "evidence_id": "evidence-8ae77e263dd5",
+      "snapshot_sha256": "sha256:16676146810fb0eb8a30a3fadb08b27a08230ed4b540533f51130ac4a02ed3c2",
+      "selector_sha256": "sha256:ae9a89ec440549008c302d7454ab66b9ac68d06a4e16432a950c30c5206b938b",
+      "quote_sha256": "sha256:48fe039fdd3ed624a41185e5b01e7a656b48556e57164ad9eb87c27e82a16d5a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-b-tree"
+      },
+      "source_id": "web-computer-science-b-tree",
+      "evidence_id": "evidence-6f6c354a5f7a",
+      "snapshot_sha256": "sha256:16676146810fb0eb8a30a3fadb08b27a08230ed4b540533f51130ac4a02ed3c2",
+      "selector_sha256": "sha256:83f8e780a9712af154be550dffaec2e0fd60c306ca459ba63a72bed4f503498a",
+      "quote_sha256": "sha256:b2113c9111ad4dfbb22d27704159a7d5fb430b268f1992bc4ebb17a36af9368c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-b-tree"
+      },
+      "source_id": "web-computer-science-b-tree",
+      "evidence_id": "evidence-52ff34eab568",
+      "snapshot_sha256": "sha256:16676146810fb0eb8a30a3fadb08b27a08230ed4b540533f51130ac4a02ed3c2",
+      "selector_sha256": "sha256:362098b8643fd7a8b91a785e8541bab345fe29511c232d62053b2b7c002b4dd6",
+      "quote_sha256": "sha256:d17b0e8233c7e1dfa09f6d0b290c1f46336a86671cefc0613f5e71f342fba5fd"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "b-tree-claim-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-66214b606544"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-66214b606544",
+          "exact": "A B-Tree is a specialized m-way tree designed to optimize data access, especially on disk-based storage systems."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-66214b606544",
+          "subject": "B-Tree",
+          "predicate": "is/designed to optimize",
+          "object": "specialized m-way tree / data access on disk-based storage systems",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,112)直接表述 B-Tree 是 specialized m-way tree，并用于 optimize data access，尤其是在 disk-based storage systems 上，覆盖 claim 的全部要点。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-66214b606544",
+          "start": 0,
+          "end": 112
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "b-tree-claim-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-8ae77e263dd5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8ae77e263dd5",
+          "exact": "In a B-Tree of order m, each node can have up to m children and m-1 keys, allowing it to efficiently manage large datasets."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8ae77e263dd5",
+          "subject": "B-Tree of order m",
+          "predicate": "each node can have up to",
+          "object": "m children and m-1 keys",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[24,72)明确说明 each node can have up to m children and m-1 keys，直接支持 m 阶 B 树节点最多有 m 个子节点和 m-1 个键。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-8ae77e263dd5",
+          "start": 24,
+          "end": 72
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "b-tree-claim-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-6f6c354a5f7a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6f6c354a5f7a",
+          "exact": "All leaf nodes of a B tree are at the same level, i.e. they have the same depth (height of the tree)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6f6c354a5f7a",
+          "subject": "All leaf nodes of a B tree",
+          "predicate": "are at / have",
+          "object": "same level / same depth",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,79)说明所有叶子节点 are at the same level，并进一步等同为 have the same depth，完整支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-6f6c354a5f7a",
+          "start": 0,
+          "end": 79
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "b-tree-claim-4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-52ff34eab568"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-52ff34eab568",
+          "exact": "B-Trees deliver consistent and efficient performance for critical operations such as search, insertion, and deletion."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-52ff34eab568",
+          "subject": "B-Trees",
+          "predicate": "deliver performance for critical operations",
+          "object": "search, insertion, and deletion",
+          "qualifiers": {
+            "performance": "consistent and efficient"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[67,98)列举 critical operations such as search, insertion, and deletion，直接支持 B 树支持搜索、插入和删除等关键操作。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-52ff34eab568",
+          "start": 67,
+          "end": 98
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-66214b606544",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:539720e303d9dc28e81dd9afa62c8bb831e4ae7ca833bfd1b6087cdd5822ab58"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-8ae77e263dd5",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:5bc0ba7362a5523b4987e562cb07d33dd1eeafce6bbbe66af4c22b815a773318"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-66214b606544",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:539720e303d9dc28e81dd9afa62c8bb831e4ae7ca833bfd1b6087cdd5822ab58"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-6f6c354a5f7a",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:37eb497a006c9884a8744fb6778a01eacc9be90bbec66eb88f3d866030a45745"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-66214b606544",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:539720e303d9dc28e81dd9afa62c8bb831e4ae7ca833bfd1b6087cdd5822ab58"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-52ff34eab568",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:d733e201ab06610f50d63304effe3b0fa133fa7f2b38a7444d57fb7ada82a50a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-8ae77e263dd5",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:5bc0ba7362a5523b4987e562cb07d33dd1eeafce6bbbe66af4c22b815a773318"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-6f6c354a5f7a",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:37eb497a006c9884a8744fb6778a01eacc9be90bbec66eb88f3d866030a45745"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-8ae77e263dd5",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:5bc0ba7362a5523b4987e562cb07d33dd1eeafce6bbbe66af4c22b815a773318"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-52ff34eab568",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:d733e201ab06610f50d63304effe3b0fa133fa7f2b38a7444d57fb7ada82a50a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-6f6c354a5f7a",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:37eb497a006c9884a8744fb6778a01eacc9be90bbec66eb88f3d866030a45745"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-b-tree",
+          "evidence_id": "evidence-52ff34eab568",
+          "independence_group": "source:web-computer-science-b-tree",
+          "observation_sha256": "sha256:d733e201ab06610f50d63304effe3b0fa133fa7f2b38a7444d57fb7ada82a50a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-b-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-b-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-b-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-b-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "b-tree-claim-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "b-tree-claim-2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "b-tree-claim-3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "b-tree-claim-4",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

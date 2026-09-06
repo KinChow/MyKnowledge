@@ -1,0 +1,130 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "generic-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_cc31faca0c75",
+  "input_hash": "sha256:6c05395254f2dd3ccb3f402c6f3c9e676650d7abb3c94ba4432919c83f5e0d94",
+  "provider_duration_ms": 86104,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788554535.738255,
+  "wiki_content_sha256": "sha256:f03a0c6c4f915d0822910920d9f159005227f5f61336c0035455e0e85ec71661",
+  "wiki_evidence_sha256": "sha256:e58c68d91cfa57ce2aadb5fa9867fe475ade0b6732774d50bac4c7c96bea3b6a",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-b72ffbcde843",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:97f94363ff48a4fd5b18ee65a6317ac13bf034fb285896e4a7e0242a3d1ad5ef",
+      "quote_sha256": "sha256:0fbc2e48d51e8ba42b1499ae3cba1e69e162519dcded4fe61152a075c156696b"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "generic-tree-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-b72ffbcde843"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b72ffbcde843",
+          "exact": "Generic trees are a collection of nodes where each node is a data structure that consists of records and a list of references to its children(duplicate references are not allowed). Unlike the linked list, each node stores the address of multiple nodes. Every node stores address of its children and the very first node's address will be stored in a separate pointer called root.\nThe Generic trees are the N-ary trees which have the following properties:\n1. Many children at every node.\n2."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "The target quote reproduces the claim's quoted excerpt verbatim. The quoted span [0,488) includes the full description of generic trees, the root pointer, and the N-ary properties, so the claim is directly supported by the target text.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-b72ffbcde843",
+          "start": 0,
+          "end": 488
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "generic-tree-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

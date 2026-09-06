@@ -1,0 +1,451 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "arrays",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_43d7f660ff79",
+  "input_hash": "sha256:2a18d649cf03db5e781fa5e8e4c020a388efd118904e0670a1a85e2a8dd0df9e",
+  "provider_duration_ms": 33450,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580110.718842,
+  "wiki_content_sha256": "sha256:a448b66f21be5bd0d3916dc98b256ab02f583bfcb4ea6e44897aad50694bfe92",
+  "wiki_evidence_sha256": "sha256:c47b9804e3b1edebb7a56d304f33c5df7217f96bcbad44742d51db02142d25b3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-arrays"
+      },
+      "source_id": "web-computer-science-arrays",
+      "evidence_id": "evidence-b59e7612c5bd",
+      "snapshot_sha256": "sha256:2f4d9e38975156387979cdacae8c1e22ef4eae427dea58c9e8ba02fec61796cc",
+      "selector_sha256": "sha256:b62852cd040fdb55e47a297413c5d4e2035504c82033e70a92c941da50379fd5",
+      "quote_sha256": "sha256:a2e5d4b6f4357e9346cbefb65c5ce60769f91ed94c54ac068cfae16ce6c0db95"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-arrays"
+      },
+      "source_id": "web-computer-science-arrays",
+      "evidence_id": "evidence-36bd13818eb8",
+      "snapshot_sha256": "sha256:2f4d9e38975156387979cdacae8c1e22ef4eae427dea58c9e8ba02fec61796cc",
+      "selector_sha256": "sha256:f8cb996f78e02b810744aaa1176a62a4e2a1ce063a94e15e33fe977659a90902",
+      "quote_sha256": "sha256:7d222ac5742e7a38f14bee3c1e9c457632390461e52c84a5bedf7c1c514399d4"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-arrays"
+      },
+      "source_id": "web-computer-science-arrays",
+      "evidence_id": "evidence-607b7c3bda98",
+      "snapshot_sha256": "sha256:2f4d9e38975156387979cdacae8c1e22ef4eae427dea58c9e8ba02fec61796cc",
+      "selector_sha256": "sha256:c56a37a7aa3c6186f19110aac393b61f848326a2191a8986910aeeaeda79cbb0",
+      "quote_sha256": "sha256:95ad5784e2f6e1c06e6fdd76ad88b2ce5f4b151b1455d63954f864a6d9cf2c3b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-arrays"
+      },
+      "source_id": "web-computer-science-arrays",
+      "evidence_id": "evidence-2a1b432e458b",
+      "snapshot_sha256": "sha256:2f4d9e38975156387979cdacae8c1e22ef4eae427dea58c9e8ba02fec61796cc",
+      "selector_sha256": "sha256:5fb3fe1cbe8e13a8cf106743a3b777f5d2a5e5c55206d8fc05d98c147e2e4103",
+      "quote_sha256": "sha256:2adaa5c4b44c60b6aa6cbd13ff2dec81bfcaf5bca2e11f1ef001c7bda7686131"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "c1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b59e7612c5bd",
+          "exact": "An array is a fundamental and linear data structure that stores items at contiguous locations."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b59e7612c5bd",
+          "subject": "array",
+          "predicate": "is and stores",
+          "object": "a fundamental and linear data structure; items at contiguous locations"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文[0,94)直接表述 array 是 fundamental and linear data structure，并说明 stores items at contiguous locations，完整支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd",
+          "start": 0,
+          "end": 94
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-36bd13818eb8"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-36bd13818eb8",
+          "exact": "- Random Access : i-th item can be accessed in O(1) Time as we have the base address and every item or reference is of same size."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-36bd13818eb8",
+          "subject": "array",
+          "predicate": "supports",
+          "object": "random access; i-th item can be accessed in O(1) time",
+          "qualifiers": {
+            "reason": "base address and same item/reference size"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文[2,17)给出 Random Access，[18,56)说明 i-th item can be accessed in O(1) Time，支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-36bd13818eb8",
+          "start": 2,
+          "end": 17
+        },
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-36bd13818eb8",
+          "start": 18,
+          "end": 56
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-607b7c3bda98"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-607b7c3bda98",
+          "exact": "- Cache Friendliness : Since items / references are stored at contiguous locations, we get the advantage of locality of reference."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-607b7c3bda98",
+          "subject": "array",
+          "predicate": "has",
+          "object": "cache friendliness",
+          "qualifiers": {
+            "reason": "items/references are stored at contiguous locations, giving locality of reference"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文[2,22)表述 Cache Friendliness，[23,130)说明原因是 items/references stored at contiguous locations 并获得 locality of reference，支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-607b7c3bda98",
+          "start": 2,
+          "end": 22
+        },
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-607b7c3bda98",
+          "start": 23,
+          "end": 130
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-2a1b432e458b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2a1b432e458b",
+          "exact": "Arrays are used to build other data structures like Stack Queue, Deque, Graph, Hash Table, etc."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2a1b432e458b",
+          "subject": "arrays",
+          "predicate": "are used to build",
+          "object": "other data structures like Stack, Queue, Deque, Graph, Hash Table"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "目标引文[0,95)直接说明 Arrays are used to build other data structures，并列出 Stack Queue, Deque, Graph, Hash Table 等，支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-2a1b432e458b",
+          "start": 0,
+          "end": 95
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:4a66922f43a35380d3bef462e7b843ba4a6d3cfb1f01eb5ab8c6ec78740d082f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-36bd13818eb8",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:c45b1d64ec84bf6b2c07a8672bc49bbbd7f5e6ae534364cc8d172297a90321d9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:4a66922f43a35380d3bef462e7b843ba4a6d3cfb1f01eb5ab8c6ec78740d082f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-607b7c3bda98",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:96e46d24480067da04049bd7124d78da02117b8de4fe2690b251b1a7ed78be07"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-b59e7612c5bd",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:4a66922f43a35380d3bef462e7b843ba4a6d3cfb1f01eb5ab8c6ec78740d082f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-2a1b432e458b",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:0e6fd32fc01b1f674332262d33e6900e3945d6de5ceb243e1125f9cbd27a78f7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-36bd13818eb8",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:c45b1d64ec84bf6b2c07a8672bc49bbbd7f5e6ae534364cc8d172297a90321d9"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-607b7c3bda98",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:96e46d24480067da04049bd7124d78da02117b8de4fe2690b251b1a7ed78be07"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-36bd13818eb8",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:c45b1d64ec84bf6b2c07a8672bc49bbbd7f5e6ae534364cc8d172297a90321d9"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-2a1b432e458b",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:0e6fd32fc01b1f674332262d33e6900e3945d6de5ceb243e1125f9cbd27a78f7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-607b7c3bda98",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:96e46d24480067da04049bd7124d78da02117b8de4fe2690b251b1a7ed78be07"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-arrays",
+          "evidence_id": "evidence-2a1b432e458b",
+          "independence_group": "source:web-computer-science-arrays",
+          "observation_sha256": "sha256:0e6fd32fc01b1f674332262d33e6900e3945d6de5ceb243e1125f9cbd27a78f7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-arrays",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-arrays",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-arrays",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-arrays",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "c1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c4",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

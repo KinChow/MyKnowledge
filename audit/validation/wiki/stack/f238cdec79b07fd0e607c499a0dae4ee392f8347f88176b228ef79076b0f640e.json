@@ -1,0 +1,324 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "stack",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_4d568633ed91",
+  "input_hash": "sha256:c28ed2d436c655d622a112359fec2ccc071fe4813905cd2563d0dccd820c0cf4",
+  "provider_duration_ms": 24166,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788579643.313217,
+  "wiki_content_sha256": "sha256:9b5ad85410dee606e7768c88f26c4b128b4426665de0a0ec960d10d1b9bfc245",
+  "wiki_evidence_sha256": "sha256:d62e194181b5ddb142261f916f9b71f3a0da226aa16f3c77377ae80c77104fb9",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-stack"
+      },
+      "source_id": "web-computer-science-stack",
+      "evidence_id": "evidence-0373766e0f29",
+      "snapshot_sha256": "sha256:4ce716c5aa5cc09ccde8ad64717d580d5dba13210750a2428538ef80b3178af5",
+      "selector_sha256": "sha256:002b324ceb000eb0a64d7bf1ba5805a9312c50a930fb0a32785e8e08f7efbd6c",
+      "quote_sha256": "sha256:31c4721db6082268975e76cdb3fae3d9c7bdb3688a0086e5cf733026e66303a3"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-stack"
+      },
+      "source_id": "web-computer-science-stack",
+      "evidence_id": "evidence-5c3fec96a299",
+      "snapshot_sha256": "sha256:4ce716c5aa5cc09ccde8ad64717d580d5dba13210750a2428538ef80b3178af5",
+      "selector_sha256": "sha256:0026c8d62d416885131aab5b677db294467f557d284eaa2caf4094e7eab71f37",
+      "quote_sha256": "sha256:74ad1f6c7eb867212e95b9580a1b391e53ab9641f5e29ddc35408345ff767d6e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-stack"
+      },
+      "source_id": "web-computer-science-stack",
+      "evidence_id": "evidence-c06b7c7a0f59",
+      "snapshot_sha256": "sha256:4ce716c5aa5cc09ccde8ad64717d580d5dba13210750a2428538ef80b3178af5",
+      "selector_sha256": "sha256:38851bcdc64e39486b6fd5dac9c1bddd4a0f586c2bc002673a2399c748061c19",
+      "quote_sha256": "sha256:5ffdf13b24b697647240c694466ba25d420257e7b358210a78a74efdbee31be8"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "stack-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-0373766e0f29"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0373766e0f29",
+          "exact": "A Stack is a linear data structure"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0373766e0f29",
+          "subject": "Stack",
+          "predicate": "is",
+          "object": "linear data structure",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文[0,34)直接陈述“A Stack is a linear data structure”，支持“栈是一种线性数据结构”。未提供 provenance 字段中的 publisher、derived_from 或 independence_group，无法举证独立性。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-0373766e0f29",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "stack-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-5c3fec96a299"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5c3fec96a299",
+          "exact": "The order is LIFO(Last In First Out)"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5c3fec96a299",
+          "subject": "Stack order",
+          "predicate": "is",
+          "object": "LIFO(Last In First Out)",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文[0,36)直接陈述“The order is LIFO(Last In First Out)”，支持“栈遵循 LIFO（后进先出）顺序”。未提供 provenance 字段中的 publisher、derived_from 或 independence_group，无法举证独立性。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-5c3fec96a299",
+          "start": 0,
+          "end": 36
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "stack-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-c06b7c7a0f59"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c06b7c7a0f59",
+          "exact": "the element that is inserted last, comes out first."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c06b7c7a0f59",
+          "subject": "the element that is inserted last",
+          "predicate": "comes out",
+          "object": "first",
+          "qualifiers": {}
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文[0,51)直接陈述“the element that is inserted last, comes out first.”，支持“最后插入的元素会最先被取出”。未提供 provenance 字段中的 publisher、derived_from 或 independence_group，无法举证独立性。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-c06b7c7a0f59",
+          "start": 0,
+          "end": 51
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-0373766e0f29",
+          "independence_group": "source:web-computer-science-stack",
+          "observation_sha256": "sha256:881811329d8cd755e2cf1e9c22720f86c9a8c9bddf3333e73bf6a004a392b610"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-5c3fec96a299",
+          "independence_group": "source:web-computer-science-stack",
+          "observation_sha256": "sha256:c64b2d902f8ae1c61480e4f653e326e1b1dd22a10d852864d3f8b01cafcc7df9"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-0373766e0f29",
+          "independence_group": "source:web-computer-science-stack",
+          "observation_sha256": "sha256:881811329d8cd755e2cf1e9c22720f86c9a8c9bddf3333e73bf6a004a392b610"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-c06b7c7a0f59",
+          "independence_group": "source:web-computer-science-stack",
+          "observation_sha256": "sha256:0eb2adaf525add38e9ceeb456c3edcafe88236a00d80befc3cb93be00bf83411"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-5c3fec96a299",
+          "independence_group": "source:web-computer-science-stack",
+          "observation_sha256": "sha256:c64b2d902f8ae1c61480e4f653e326e1b1dd22a10d852864d3f8b01cafcc7df9"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-stack",
+          "evidence_id": "evidence-c06b7c7a0f59",
+          "independence_group": "source:web-computer-science-stack",
+          "observation_sha256": "sha256:0eb2adaf525add38e9ceeb456c3edcafe88236a00d80befc3cb93be00bf83411"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-stack",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-stack",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-stack",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "stack-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "stack-2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "stack-3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

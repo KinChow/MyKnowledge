@@ -1,0 +1,2218 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "avl-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_89799b54fdf9",
+  "input_hash": "sha256:c0627d28134da86644988325ef0890f73b670d6d37281b500b2c9ef7c66c0246",
+  "provider_duration_ms": 99277,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788624570.211746,
+  "wiki_content_sha256": "sha256:f7bfe5a90ea5ce0203fcf375a440ce5c2333d3b2d1de976bfcea96751b5a8467",
+  "wiki_evidence_sha256": "sha256:d40225a3f7eaff7c4fd00c84ab09ebac418946fb670b12c0148649e382babc26",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-0e522fe6aa29",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:65cf518136564451902e27e849205bb668e5944eaab7c571d420442fe3a625c4",
+      "quote_sha256": "sha256:5198b3075fcc08a0730f428531462caf9265d8ed8e2e98be6417dafe168b58fa"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-6487166eddd5",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:016778518b64869184f7a8d192b89c9c96490bcc8534143c6d9d14068ba7e169",
+      "quote_sha256": "sha256:dfc72c4afb18b270bfb11994190e189644fcd53208667b51851e6ed60dedbc68"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-6d8546da2df8",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:d428a160fdaa1af3add8be558451b5b5b9998c75da33a4eeaeb3ec01450ae299",
+      "quote_sha256": "sha256:aef0042cd56e3edd6f78a804dedfdda705a3eff18aa14735917045655b42b195"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-avl-tree-v2"
+      },
+      "source_id": "programiz-avl-tree-v2",
+      "evidence_id": "evidence-6e44ce038439",
+      "snapshot_sha256": "sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e",
+      "selector_sha256": "sha256:01180763782935445de5fdb0cf7781b3d915b8e4d7091b699d9d9e622f177448",
+      "quote_sha256": "sha256:8eeab488e7e8c6f18217c7a5f9f3958d0d9defcd6ff34a0db2281509c2eea3f6"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-avl-tree-v2"
+      },
+      "source_id": "programiz-avl-tree-v2",
+      "evidence_id": "evidence-74bd0caab81a",
+      "snapshot_sha256": "sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e",
+      "selector_sha256": "sha256:1e971f8a7a201db2f40d1597269d32173f526d0cec8a56f8fb84de85d19df05a",
+      "quote_sha256": "sha256:3507859a1e42db690586e0add98a1c75fe3af4c7720570fdab625f7f3edbbecf"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-avl-tree-v2"
+      },
+      "source_id": "programiz-avl-tree-v2",
+      "evidence_id": "evidence-83331771a789",
+      "snapshot_sha256": "sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e",
+      "selector_sha256": "sha256:db6d6866e5497f56e2000c75a75681a1804305102f6eda534aee644771288804",
+      "quote_sha256": "sha256:1cfbd2357acfed6150536442031cbb70fa541aac4ccdee329a02e6b78f949f30"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-fb396c902653",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:391413dd60ad0185c605d9d71a7e1e49fc7f954eecd45dee347e41e1757626db",
+      "quote_sha256": "sha256:155da4723ae79f7ea069fcc86cafb5411a638547a2b787c21fad12ade68cc80b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-ed8598496e30",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:72f816a589b61b92c214345e57699645a809e492813f5aca7224490b84acaa00",
+      "quote_sha256": "sha256:b1aaa5cee1938c03115c5c5ee3a65ec157b0f3838e6a702e8ec89691d6d9aa34"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-804dc90717c9",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:fe5b5fe7459d48b11e2c50f9a99958054b422bf58bffb3f2783f2840e1f8c165",
+      "quote_sha256": "sha256:516e3c38e6d926aef9177dee63180571c047b139e0568590610c9ca875f1503f"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-b33ffb170466",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:2823d3b8d6f0b048aed9efeae196ebd525b8715c6dd0861384167fc63a40e3ae",
+      "quote_sha256": "sha256:a0d7390b57958e9cac5db1a27572846a3b35b6981a890c6463ca12561f59d992"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-avl-tree"
+      },
+      "source_id": "wiki-avl-tree",
+      "evidence_id": "evidence-3529b2a123b1",
+      "snapshot_sha256": "sha256:29037d3b8291184706a57fbfe0fc00bc91358708877107ea7695f237eed54926",
+      "selector_sha256": "sha256:7c996e4f51e4fdf9080f808fbc2aad52e714fb3ebeee246854c5fa7a62ebc0fc",
+      "quote_sha256": "sha256:8a3efd2c351747c7a09f73bb83357eb4e9f21d3e1534a4a62878feb39446a163"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-avl-tree-v2"
+      },
+      "source_id": "programiz-avl-tree-v2",
+      "evidence_id": "evidence-e31977e17e30",
+      "snapshot_sha256": "sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e",
+      "selector_sha256": "sha256:b179147dd5b2d7ef8ea3ebd5a91e859f6eab9e49f823a2ac32695e045854b863",
+      "quote_sha256": "sha256:b4a1f1637e71c8a68fe365930014a745a7a7ec6c91129c2893e7bd762e6a0395"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-avl-tree-v2"
+      },
+      "source_id": "programiz-avl-tree-v2",
+      "evidence_id": "evidence-9a0d9ef9c838",
+      "snapshot_sha256": "sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e",
+      "selector_sha256": "sha256:44d1d5948b3b82b9fa7f10665db9f3f30ccdec06507d2f29ab2253b56e9490b2",
+      "quote_sha256": "sha256:4e202ad41a53acc3cf3416063031fa0ef0ce231db0d5ea1beca19dd112abecda"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "avl-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-0e522fe6aa29",
+          "exact": "In an AVL tree, the heights of the two child subtrees of any node differ by not more than one; if at any time they differ by more than one, rebalancing is done to restore this property."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-0e522fe6aa29",
+          "subject": "AVL tree",
+          "predicate": "child_subtree_height_difference",
+          "object": "not more than one; rebalancing restores on violation"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,185] 直接陈述：任意节点两棵子树高度差不超过 1（\"differ by not more than one\"），且一旦超过（\"if at any time they differ by more than one\"）即通过再平衡恢复（\"rebalancing is done to restore this property\"），与 claim 的两层断言（高度差≤1、超过后再平衡恢复）逐项对应；\"自平衡二叉搜索树\"为定义性表述，其具体性质均由引文支撑。按 EVD-001 直接证据规则判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "start": 0,
+          "end": 185
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-operation-complexity",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6487166eddd5",
+          "exact": "Lookup, insertion, and deletion all take O(log n) time in both the average and worst cases, where n is the number of nodes in the tree prior to the operation."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6487166eddd5",
+          "subject": "lookup/insertion/deletion",
+          "predicate": "time_complexity",
+          "object": "O(log n) in average and worst cases; n = nodes before operation"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,158] 逐字对应 claim：查找、插入、删除三者均 O(log n)（平均与最坏），且 n 定义为操作前树中节点数（\"n is the number of nodes in the tree prior to the operation\"）。claim 为引文的忠实转述，按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "start": 0,
+          "end": 158
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-history",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6d8546da2df8",
+          "exact": "The AVL tree is named after its two Soviet inventors, Georgy Adelson-Velsky and Evgenii Landis, who published it in their 1962 paper \"An algorithm for the organization of information\". It is the first self-balancing binary search tree data structure to be invented."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6d8546da2df8",
+          "subject": "AVL tree",
+          "predicate": "named_after",
+          "object": "Soviet inventors Adelson-Velsky and Landis, 1962 paper; first self-balancing BST"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,264] 完整覆盖 claim 全部要素：两名苏联发明者姓名（\"Georgy Adelson-Velsky and Evgenii Landis\"）、1962 年论文标题（\"An algorithm for the organization of information\"）以及最早自平衡二叉搜索树（\"It is the first...\"）。claim 与引文一一对应，按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "start": 0,
+          "end": 264
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-balance-factor",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-6e44ce038439",
+          "exact": "Balance factor of a node in an AVL tree is the difference between the height of the left subtree and that of the right subtree of that node."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-6e44ce038439",
+          "subject": "balance factor",
+          "predicate": "equals",
+          "object": "height(left subtree) − height(right subtree)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,140] 逐字对应 claim：平衡因子定义为左子树高度与右子树高度之差（\"the difference between the height of the left subtree and that of the right subtree\"）。claim 为直接转述，按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "start": 0,
+          "end": 140
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-balance-invariant",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-74bd0caab81a",
+          "exact": "The self balancing property of an avl tree is maintained by the balance factor. The value of balance factor should always be -1, 0 or +1."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-74bd0caab81a",
+          "subject": "balance factor",
+          "predicate": "must_be",
+          "object": "-1, 0 or +1; maintains self-balancing property"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,137] 直接对应 claim 的两个断言：自平衡性质由平衡因子维护（\"The self balancing property... is maintained by the balance factor\"），且平衡因子取值始终为 -1、0 或 +1（\"should always be -1, 0 or +1\"）。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "start": 0,
+          "end": 137
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-rotation",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-83331771a789",
+          "exact": "In rotation operation, the positions of the nodes of a subtree are interchanged."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-83331771a789",
+          "subject": "rotation operation",
+          "predicate": "interchanges",
+          "object": "positions of nodes of a subtree"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,80] 逐字对应 claim：旋转操作交换子树中节点的位置（\"the positions of the nodes of a subtree are interchanged\"）。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "start": 0,
+          "end": 80
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-four-cases",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fb396c902653",
+          "exact": "Right Right: X is rebalanced with a simple rotation rotate_Left. Left Left: X is rebalanced with a simple rotation rotate_Right (mirror-image). Right Left: X is rebalanced with a double rotation rotate_RightLeft. Left Right: X is rebalanced with a double rotation rotate_LeftRight (mirror-image)."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fb396c902653",
+          "subject": "four imbalance cases",
+          "predicate": "rebalanced_by",
+          "object": "RR: rotate_Left (simple); LL: rotate_Right (simple, mirror); RL: rotate_RightLeft (double); LR: rotate_LeftRight (double, mirror)"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,296] 逐条对应 claim 的四种情形：Right Right→单旋 rotate_Left、Left Left→单旋 rotate_Right（镜像）、Right Left→双旋 rotate_RightLeft、Left Right→双旋 rotate_LeftRight（镜像），旋转类型（simple/double）与函数名均一致。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "start": 0,
+          "end": 296
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-delete-rebalance",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ed8598496e30",
+          "exact": "Since with a single deletion the height of an AVL subtree cannot decrease by more than one, the temporary balance factor of a node will be in the range from −2 to +2. If the balance factor remains in the range from −1 to +1 it can be adjusted in accord with the AVL rules. If it becomes ±2 then the subtree is unbalanced and needs to be rotated."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-ed8598496e30",
+          "subject": "single deletion",
+          "predicate": "temporary_balance_factor",
+          "object": "range −2..+2; −1..+1 adjustable per AVL rules; ±2 means unbalanced, needs rotation"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,345] 完整覆盖 claim 全部断言：单次删除至多令子树高度下降 1（\"cannot decrease by more than one\"）、临时平衡因子范围 −2 到 +2（\"in the range from −2 to +2\"）、−1 到 +1 内可按 AVL 规则调整（\"remains in the range from −1 to +1 it can be adjusted in accord with the AVL rules\"）、±2 则失衡需旋转（\"If it becomes ±2 then the subtree is unbalanced and needs to be rotated\"）。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "start": 0,
+          "end": 345
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-rotation-cost",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-804dc90717c9",
+          "exact": "RB insertions and deletions and AVL insertions require from zero to three tail-recursive rotations and run in amortized O(1) time, thus equally constant on average. AVL deletions requiring O(log n) rotations in the worst case are also O(1) on average."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-804dc90717c9",
+          "subject": "AVL rotations",
+          "predicate": "cost",
+          "object": "insertions: 0-3 tail-recursive rotations, amortized O(1); deletions: O(log n) rotations worst case, O(1) on average"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,251] 中 AVL 相关断言与 claim 对应：AVL 插入需 0 到 3 次尾递归旋转且摊还 O(1)（\"AVL insertions require from zero to three tail-recursive rotations and run in amortized O(1) time\"），AVL 删除最坏 O(log n) 次旋转、平均 O(1)（\"AVL deletions requiring O(log n) rotations in the worst case are also O(1) on average\"）。引文额外提及 RB 的插图不影响对 AVL 断言的支撑。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "start": 0,
+          "end": 251
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-vs-red-black",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b33ffb170466",
+          "exact": "AVL trees are often compared with red–black trees because both support the same set of operations and take O(log n) time for the basic operations. For lookup-intensive applications, AVL trees are faster than red–black trees because they are more strictly balanced."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b33ffb170466",
+          "subject": "AVL vs red–black trees",
+          "predicate": "comparison",
+          "object": "same operations, O(log n) basic ops; AVL faster for lookup-intensive due to stricter balancing"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,264] 逐句对应 claim：两者支持相同操作集合、基本操作同为 O(log n)（\"both support the same set of operations and take O(log n) time\"），查找密集型应用 AVL 更快因平衡更严格（\"more strictly balanced\"）。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "start": 0,
+          "end": 264
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-rb-math",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3529b2a123b1",
+          "exact": "Indeed, every AVL tree can be colored red–black, but there are RB trees which are not AVL balanced."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3529b2a123b1",
+          "subject": "AVL to RB coloring",
+          "predicate": "relation",
+          "object": "every AVL tree colorable as red–black; some RB trees not AVL balanced"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 [0,99] 直接对应 claim 两个断言：每个 AVL 树可染成红黑树（\"every AVL tree can be colored red–black\"），且存在非 AVL 平衡的红黑树（\"there are RB trees which are not AVL balanced\"）。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "start": 0,
+          "end": 99
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "avl-app-database",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30"
+        },
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e31977e17e30",
+          "exact": "For indexing large records in databases"
+        },
+        {
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "exact": "For searching in large databases"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e31977e17e30",
+          "subject": "AVL tree",
+          "predicate": "application",
+          "object": "indexing large records in databases"
+        },
+        {
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "subject": "AVL tree",
+          "predicate": "application",
+          "object": "searching in large databases"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-002"
+      ],
+      "rationale": "两条引文分别对应 claim 的两半：e31977e17e30 的 [0,39]（\"For indexing large records in databases\"）支撑\"大记录索引\"，9a0d9ef9c838 的 [0,32]（\"For searching in large databases\"）支撑\"大型数据库检索\"，两引文为同一来源（programiz-avl-tree-v2）的并列应用条目，合取完整对应 claim。按 EVD-001 判定 supported。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "start": 0,
+          "end": 39
+        },
+        {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "start": 0,
+          "end": 32
+        }
+      ],
+      "advisory": false,
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-0e522fe6aa29",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:25b1ab371b5e56505a356c427679290bdf1f29c73015506b82c41338a4dc07e3"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6487166eddd5",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:acb0ca2fadc84291379c39671d773316625e05b537d3c13e2364766903e6a6dd"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-6d8546da2df8",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:df4e518330eacbdbfc34a2c98cbeaee7866bf9e64b80770ba0934773a982fdcf"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-6e44ce038439",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:fcf603b8f0d13858ba9e183b068b643fc4fd755655baa231c75f9c23a492bf9d"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-74bd0caab81a",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:9de7a23721312f7aff1c54be0cfdbf43008de48a90a8fb6c7612f7f101dfe52a"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-83331771a789",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:0732d7923cfcb7bff6f06384031e81a229db7cf90faff672f8aef087e9d32a21"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-fb396c902653",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1c61784f3f05f079dc463ff874a2100783108dd3aadcddca2445fefbb06eb35e"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-ed8598496e30",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:3e11a06b1cd9bb41a0e0a542826750434a36c9a927981a8d0e06639cb1b8e19c"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-804dc90717c9",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:1f7a602a367258f173c7750b8e0b354c6136e959ebd95122cd5b6f1a403ccb92"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "target_b": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-b33ffb170466",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:5b62cf8b21db97b7b9041cb49a9c7e6d35ba2a23ba70a01de06984ad54beb159"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-avl-tree",
+          "evidence_id": "evidence-3529b2a123b1",
+          "independence_group": "source:wiki-avl-tree",
+          "observation_sha256": "sha256:27135529b674980d69087cad460686870160be0e71cdcb3174011e2069e717f8"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-e31977e17e30",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:12f94bf7b265e23f3e459c228dbba5e1fa2ed4e31ed95729a82d710d36057e99"
+        },
+        "target_b": {
+          "source_id": "programiz-avl-tree-v2",
+          "evidence_id": "evidence-9a0d9ef9c838",
+          "independence_group": "source:programiz-avl-tree-v2",
+          "observation_sha256": "sha256:15e9cfb0635f28154590ff3a39c390e51140572bbd19a1e9ea9f973d227af230"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-avl-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-avl-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-avl-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-avl-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-avl-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-avl-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-operation-complexity",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-history",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-balance-factor",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-balance-invariant",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-rotation",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-four-cases",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-delete-rebalance",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-rotation-cost",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-vs-red-black",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-rb-math",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "avl-app-database",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

@@ -1,0 +1,2068 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "binary-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_b1904225674a",
+  "input_hash": "sha256:8f85d8490fe2e626c8f3a8a2f062afcb9ff177460972f1330abe903b463074ca",
+  "provider_duration_ms": 69374,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788625259.234346,
+  "wiki_content_sha256": "sha256:17cbb655c72b09eec5acf09573b9c3dcc7230e7f80b04432cda7c7e74f3a8fc7",
+  "wiki_evidence_sha256": "sha256:fcadb910ed8044942defca8ac498b259398dd15f645de5787838a89b4f98f3bc",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-fc3cd706c50d",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:fc5c52a8d526703882b296bbdb0469e88111b0bfa73613136d2d570169684e92",
+      "quote_sha256": "sha256:ae1a2c0aa286cac887b6b0338f28923ccc7e2dc7c3e58c4833301941e1a2dc0a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-99ac291d5c8f",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:55612ece681f1b7a2908914b56fbec65e932d08e8ae999dad019babd2a07863a",
+      "quote_sha256": "sha256:3defc9fb0d22dc88437c9800ee37f27ad363731f3135c3a94d905c6d5175fe5a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-445127cc9c8d",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:85308a7cc9850de45b27b5a2a22026ff92dfc50c41c1fe8ceb44d5e100e1e7ff",
+      "quote_sha256": "sha256:d2cbdb37eed6cefa583f0368b173a16c4579a1e7cb784508d90dfd8ea2331418"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-c07bf1606108",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:6b09f34225753560802ed3a0f1715845bd48aa0196bba9fdd84c5cc248e4d597",
+      "quote_sha256": "sha256:8a5e3288eb7b61bcb0422452259b9de9b4bdb5e9a76002818b7f702c690936b9"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-4715bfc4048b",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:7ca6620643aec035b5e74d7c09361cb82235324beb3764fb232db0d59e2c34c3",
+      "quote_sha256": "sha256:1b428fc83d7408018763aa1a197979e1b58f10c22a7189a37b0e8a94ad40ee34"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-10b8acb00371",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:a272b227f6dc1a2abf68face4f64065af766b530850b5d417a54f80b4271e6bb",
+      "quote_sha256": "sha256:6c400de78e173fcdc2b41d2631b1a23122d4fb1e855dee7c866743fe747403ca"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-1a26cf6fb16b",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:f3084157375206443bd21860e16b8be4732100d3686eb4b777703eb0eb040fa9",
+      "quote_sha256": "sha256:bcd277fd193b5a822b8dec36b0d1c1915619afa82b6cbf0252708a454f279014"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-4e2930adcd59",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:3ebac4a41715b6e1be6a18266246ef2a22253937e472bf5d3634d1cf39406190",
+      "quote_sha256": "sha256:06c12ec624d0baecc2a986ad4300c1c8d5b14c19b9546363afffdf2816275364"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-696f990f0af4",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:d81f9d48dfff6bf16828db1ba5aad28d012153cd0e20f43798aa00c9e7ff86d6",
+      "quote_sha256": "sha256:caef2de5c2df0c60ae266ec51984c713f9642969792230892f2cf79d787b95c5"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-b0ed47f947f1",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:ecbca41eb4b3b7b810a04ffceab2c850298da5a81b3da32b3e919083a4415c38",
+      "quote_sha256": "sha256:9e4f322dddcd46f1085489eb03bcfdf026e556bda503638db5d6c63988854dba"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-4e587942c165",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:c914d5033557d28a52337c6573763e404bacc45727f069fa7c7d9e6d9f577a1f",
+      "quote_sha256": "sha256:5f1c2efe12e1da7936b079fdf6ea34a6eea06d88e116d6d91c6ea8ad10d2173d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-1717ba8ee2fd",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:156c4ba690c6a54c07166b4b48365210a83b4aea01ceb77c0732546572e592eb",
+      "quote_sha256": "sha256:2e2920fe00feac08547408da7fe352c274a7ab4404d1ebc6429fc4643865825a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-b182c79f5138",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:e9862db4612202660275db9292cea5b233d865d458b076e7a08a581ecfd0ec95",
+      "quote_sha256": "sha256:4df534b74af13bbc12d8f660aab77543921050bfa8a62aa7213c8d78fe4302e0"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "bintree-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d"
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f"
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-fc3cd706c50d",
+          "exact": "A binary tree is a tree data structure in which each parent node can have at most two children. Each node of a binary tree consists of three items:"
+        },
+        {
+          "evidence_id": "evidence-99ac291d5c8f",
+          "exact": "address of left child"
+        },
+        {
+          "evidence_id": "evidence-445127cc9c8d",
+          "exact": "address of right child"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-fc3cd706c50d",
+          "subject": "binary tree",
+          "predicate": "has_definition",
+          "object": "tree data structure in which each parent node has at most two children; each node consists of three items"
+        },
+        {
+          "evidence_id": "evidence-99ac291d5c8f",
+          "subject": "binary tree node",
+          "predicate": "includes_item",
+          "object": "address of left child"
+        },
+        {
+          "evidence_id": "evidence-445127cc9c8d",
+          "subject": "binary tree node",
+          "predicate": "includes_item",
+          "object": "address of right child"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-fc3cd706c50d 直接定义二叉树为“each parent node can have at most two children”且节点“consists of three items”；“address of left child”与“address of right child”两条引文分别对应三个组成部分中的两项，完整支撑 claim 的“每个节点由三部分组成，其中两部分是左孩子的地址与右孩子的地址”。三段引文同属单一来源 programiz-binary-tree-v2（provenance 为空），为同一来源内的拆分配文，不存在多源独立佐证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "start": 0,
+          "end": 147
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "start": 0,
+          "end": 21
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "start": 0,
+          "end": 22
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "bintree-full",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c07bf1606108",
+          "exact": "A full Binary tree is a special type of binary tree in which every parent node/internal node has either two or no children."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-c07bf1606108",
+          "subject": "full binary tree",
+          "predicate": "is_defined_as",
+          "object": "special type of binary tree in which every parent node/internal node has either two or no children"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-c07bf1606108 逐字陈述“every parent node/internal node has either two or no children”，与 claim 的“每个父节点/内部节点要么有两个孩子，要么没有孩子”逐项对应，属直接转述，判定为 supported；单来源，无独立佐证可举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "start": 0,
+          "end": 123
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "bintree-perfect",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4715bfc4048b",
+          "exact": "A perfect binary tree is a type of binary tree in which every internal node has exactly two child nodes and all the leaf nodes are at the same level."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4715bfc4048b",
+          "subject": "perfect binary tree",
+          "predicate": "is_defined_as",
+          "object": "binary tree in which every internal node has exactly two child nodes and all leaf nodes are at the same level"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-4715bfc4048b 逐字陈述“every internal node has exactly two child nodes and all the leaf nodes are at the same level”，与 claim 的“每个内部节点恰有两个孩子，且所有叶节点在同一层”完全对应，判定为 supported；单来源，无独立佐证可举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "start": 0,
+          "end": 149
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "bintree-complete",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371"
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b"
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59"
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-10b8acb00371",
+          "exact": "A complete binary tree is just like a full binary tree, but with two major differences"
+        },
+        {
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "exact": "Every level must be completely filled"
+        },
+        {
+          "evidence_id": "evidence-4e2930adcd59",
+          "exact": "All the leaf elements must lean towards the left."
+        },
+        {
+          "evidence_id": "evidence-696f990f0af4",
+          "exact": "The last leaf element might not have a right sibling i.e. a complete binary tree doesn't have to be a full binary tree."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-10b8acb00371",
+          "subject": "complete binary tree",
+          "predicate": "compared_to_full",
+          "object": "just like a full binary tree, but with two major differences"
+        },
+        {
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "subject": "complete binary tree",
+          "predicate": "requires",
+          "object": "every level must be completely filled"
+        },
+        {
+          "evidence_id": "evidence-4e2930adcd59",
+          "subject": "complete binary tree",
+          "predicate": "requires",
+          "object": "all leaf elements must lean towards the left"
+        },
+        {
+          "evidence_id": "evidence-696f990f0af4",
+          "subject": "complete binary tree",
+          "predicate": "allows",
+          "object": "last leaf element might not have a right sibling; need not be a full binary tree"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "四段引文与 claim 各要素一一对应：evidence-10b8acb00371 支持“与满二叉树相似但有两点不同”；evidence-1a26cf6fb16b 支持“每一层必须被完全填满”；evidence-4e2930adcd59 支持“所有叶元素倾向左侧”；evidence-696f990f0af4 支持“最后一个叶元素可能没有右兄弟（不必是满二叉树）”。来源原文写作“two major differences”而实际列举三项，claim 忠实复述了这一来源自身的表述张力，并非 claim 相对引文的偏差，故判定为 supported；同属单来源，无独立佐证可举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "start": 0,
+          "end": 86
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "start": 0,
+          "end": 37
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "start": 0,
+          "end": 49
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "start": 0,
+          "end": 119
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "bintree-degenerate",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1"
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b0ed47f947f1",
+          "exact": "A degenerate or pathological tree is the tree having a single child either left or right."
+        },
+        {
+          "evidence_id": "evidence-4e587942c165",
+          "exact": "A skewed binary tree is a pathological/degenerate tree in which the tree is either dominated by the left nodes or the right nodes."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b0ed47f947f1",
+          "subject": "degenerate or pathological tree",
+          "predicate": "is_defined_as",
+          "object": "tree having a single child either left or right"
+        },
+        {
+          "evidence_id": "evidence-4e587942c165",
+          "subject": "skewed binary tree",
+          "predicate": "is_defined_as",
+          "object": "pathological/degenerate tree dominated by the left nodes or the right nodes"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "evidence-b0ed47f947f1 支持“退化树是每个节点只有一个孩子（左或右）的树”；evidence-4e587942c165 支持“歪斜树是被左节点或右节点主导的退化树”，其中“either dominated by the left nodes or the right nodes”的二选一结构直接蕴含“分左歪斜与右歪斜两类”，判定为 supported；同属单来源，无独立佐证可举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "start": 0,
+          "end": 88
+        },
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "start": 0,
+          "end": 128
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "bintree-balanced",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "exact": "It is a type of binary tree in which the difference between the height of the left and the right subtree for each node is either 0 or 1."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "subject": "balanced binary tree",
+          "predicate": "is_defined_as",
+          "object": "binary tree in which the difference between the height of the left and right subtree for each node is either 0 or 1"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-1717ba8ee2fd 逐字陈述“the difference between the height of the left and the right subtree for each node is either 0 or 1”，与 claim 的“每个节点的左子树与右子树高度差为 0 或 1”完全对应，判定为 supported；单来源，无独立佐证可举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "start": 0,
+          "end": 136
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "bintree-repr",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-b182c79f5138",
+          "exact": "A node of a binary tree is represented by a structure containing a data part and two pointers to other structures of the same type."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-b182c79f5138",
+          "subject": "binary tree node",
+          "predicate": "is_represented_as",
+          "object": "structure containing a data part and two pointers to other structures of the same type"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 evidence-b182c79f5138 逐字陈述节点“represented by a structure containing a data part and two pointers to other structures of the same type”，与 claim 的“一个数据部分和两个指向同类型结构指针的结构体”完全对应，判定为 supported；单来源，无独立佐证可举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "start": 0,
+          "end": 131
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-fc3cd706c50d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:5532fd8f595e0ed88b7216b3418ccfac4b14b96df74e243e94d372dbee9ea7ec"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-99ac291d5c8f",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:815d22dcc6e2e5fa98553662f15da3f2d23c17d698b8d1f68ca572c4ec0e88bc"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-445127cc9c8d",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:7f38379a956af576663fe087f216dc44524c037c55c9ab5ae833ff0a25acd82d"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-c07bf1606108",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:6c1eebaffa449d06d3c54ee085800851a7476ca567676ecc24e9b03291133316"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4715bfc4048b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:e34b41db74d04a079e1228cfead73c0ff06af3e9ff7a6173101f37d0ab18647c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-10b8acb00371",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:71b7f721a52ba0b2ef339f0c9fdb3361daa5f43fb7813d5fa22119abc0aad186"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1a26cf6fb16b",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:1d2bda3c358b585a9c9ee2995e47723b25e1c8e9628eaeb12518d33b328f023f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e2930adcd59",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:847d0684389db752217bd60c4727dd24a9964c1a8ec297b398389fe853ac809e"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-696f990f0af4",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:b60242b6f060a464dbf7ae71a358aec2dde6f2bb8e2bda4abff76b77a4527930"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b0ed47f947f1",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:c5231e0b7923410567ceb5779e6229440c7c02113007ea56939091c21649140f"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4e587942c165",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:8ee623109877bc7e07d53ade6501804fb39cdb9f3bdbd840937405ad2e9e9d7c"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-1717ba8ee2fd",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:f5ac20dc6f71316647eafb53f6620020cdf59eb4a3a2c2047e8d56d1f5216700"
+        },
+        "target_b": {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-b182c79f5138",
+          "independence_group": "source:programiz-binary-tree-v2",
+          "observation_sha256": "sha256:ae7eb3d74ffe9b21c72a8ba06741d449d9755f7901856de40172f1868de45a1c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-full",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-perfect",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-complete",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-degenerate",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-balanced",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "bintree-repr",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 1,
+    "last_fail_rule_refs": [
+      "EVD-001",
+      "VAL-001",
+      "VAL-002"
+    ]
+  }
+}

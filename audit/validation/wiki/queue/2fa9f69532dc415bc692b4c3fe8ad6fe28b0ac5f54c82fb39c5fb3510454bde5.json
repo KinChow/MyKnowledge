@@ -1,0 +1,160 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "queue",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e65a0e470903",
+  "input_hash": "sha256:e0fc4966682ad3b0723b7c5bfe12f0c1b8e03b95be65a5ae1e28cf0d0725358c",
+  "provider_duration_ms": 29605,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580194.6075861,
+  "wiki_content_sha256": "sha256:58efe381e04b76dd431214ffa760c8d3979043bcb49b8cce1fcf2af97e5233ab",
+  "wiki_evidence_sha256": "sha256:dc6a3d042886cca08a2deabc71f42ce7985b50208a8d4c6ecb1a936a648b4210",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-queue"
+      },
+      "source_id": "web-computer-science-queue",
+      "evidence_id": "evidence-53caeacfb415",
+      "snapshot_sha256": "sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477",
+      "selector_sha256": "sha256:d302b3c8a4d5162dcc0f801b2c62235ced317298801dd8e65f6d740ff396cd9b",
+      "quote_sha256": "sha256:77893bead1a3c620ea50bb284e7d3130a6d2a50f1518aea63b1a9804fb9e125a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "queue-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-53caeacfb415"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-53caeacfb415",
+          "exact": "FIFO is an abbreviation for first in, first out. It is a method for handling data structures where the first element is processed first and the newest element is processed last.\nReal-life example:"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-53caeacfb415",
+          "subject": "FIFO",
+          "predicate": "is abbreviation and processing method",
+          "object": "first in, first out; first element processed first and newest last",
+          "qualifiers": {
+            "includes_heading": "Real-life example:"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "目标引文与 claim 文本完全一致：0-48 支持 FIFO 是 first in, first out 的缩写，49-177 支持其作为数据结构处理方法且先进入元素先处理、新元素最后处理，178-196 支持 claim 中的 Real-life example 标题文本。仅有一个 target，未形成证据冲突。无 publisher、derived_from、independence_group provenance 字段，也无引文内转载声明可举证独立性，因此 independence_unknown。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-53caeacfb415",
+          "start": 0,
+          "end": 48
+        },
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-53caeacfb415",
+          "start": 49,
+          "end": 177
+        },
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-53caeacfb415",
+          "start": 178,
+          "end": 196
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-queue",
+            "evidence_id": "evidence-53caeacfb415"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-queue",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "queue-audit-1",
+      "source_id": "web-computer-science-queue",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

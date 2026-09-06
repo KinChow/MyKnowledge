@@ -1,0 +1,3807 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "queue",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_c8af48e4e4cd",
+  "input_hash": "sha256:087d2ee29e51408e836aded2a5308608ccb04ea94ced4e2e0a789b6a69003ac4",
+  "provider_duration_ms": 150415,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788603599.245578,
+  "wiki_content_sha256": "sha256:a78d5b17f3ed09dc8fbc20470d185ee45fdbd7e8ce738aaff527288d062ea1c3",
+  "wiki_evidence_sha256": "sha256:6a00a7fd27179d690e736ce59c65593f8f110277865fff5f0735762a3dd8ecd3",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-321ef16388c5",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:8ad9da45fb704dfaf8830bde3ef4f397e8253b6f51d9ed6132d87ab773ce7627",
+      "quote_sha256": "sha256:4aef33ce74dddde869424a38af7bcfa485a731a4c4a8077638d7fcf4fb3ca4fd"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-0b3f314368e0",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:b38a940fb84dec92e73a25b63d5b474e60b2206ac7aee5a822c41779cebd8741",
+      "quote_sha256": "sha256:bbbbd16e61f8ad119320365e3ade90b811805ebbf0675e89285b1f8877333f2c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-5fbba192da65",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:f169ac9a729dd9eebd914407459e810b3d5d0a19eb4c0d449cedf163f982f27d",
+      "quote_sha256": "sha256:16c8f808981cffed38f339664b7f455c7d0c552aa1d11ddfc0d309ee14b288ac"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-63df362c3908",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:ac5d81577da448d359459346eb5edb7ba94c409e5014de730ff202625701e13e",
+      "quote_sha256": "sha256:24238c808a084346ce1f4465b73b65a04d26c89741629c86311245b793a4080a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-8bb17fb652f7",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:87f4fef4e04277dc323ad81e6e56ea8be52e0b52b26dee12c8f3eeceb01d2b49",
+      "quote_sha256": "sha256:967342c745cc104db471699704ffb71c075c7c37db8379f0bd83c1a8b6befcbb"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-3612bdfaecca",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:98f42b4e9e2b1ecfa3d4e545fa2ae947189b02725c8a2665ffc3876f8ea6089d",
+      "quote_sha256": "sha256:2da52dcbeda3a3ee1a553a974f389efe1960543986d43f483dcdf8fee6684d35"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-8d8f51a56142",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:cb48f5a21b1a5b9500eb0f661667a0465937c95ff7ddf97546ba744f9fa5ba33",
+      "quote_sha256": "sha256:72cc665fc5e28a7885bf3ce0b0a5380ee81f875f0c41628a392411eb3b265486"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-2ae223870aea",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:f4cba435da62baca98c7e7cbc9c0f434dd478ce1428343474ea6c2cc6c13bb39",
+      "quote_sha256": "sha256:eae5bb9821bd9a633d25d4f576938774b54c75af33567c75a3e161559c16b3ea"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-2bcf59757f6a",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:44730e07b299ecfa1f08ccf7c93816792e2209e7e73aca0ba540e622d7e87b6d",
+      "quote_sha256": "sha256:c27c9531de3b544639e3f52c5fe06f9523633efbc9f73cb7027a5389be3ccd16"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-4db305b3ca1c",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:f363ea68ca9523dba2fdb69226666e5a320ef5288cdf2fd4b42da955d52dff48",
+      "quote_sha256": "sha256:9367d1c9a287c2f730fdaff53656172fb24562629eddc23f494b927f78c70ade"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-55c74d7a1fd6",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:c57a6caef3662fd09eba3b08681275bd2841f9362de32b8302acd2f3a9b9ccff",
+      "quote_sha256": "sha256:7e50b91d323b3cb94c3cb6908b72e6d863cd116bfac47b268c4741c0b97de448"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-01e0dc35da5b",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:ebfa968cb442b2b2cd3eb63d5ac45a50efeab1a09bbad618a000b6542754ad91",
+      "quote_sha256": "sha256:56989b37b3d453224596914829ae4f915481757dcbce6500066d0637b772a5a2"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-98db9ed161b0",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:52cdd4e64f437d53f44a681ed26c708442c4c2d3567af74389eb41f208096b00",
+      "quote_sha256": "sha256:b6d4e21f18f8d36254fdce4ea617294d9daedbf4b8d627f9642990b5b8f1c2b0"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "wiki-queue-adt"
+      },
+      "source_id": "wiki-queue-adt",
+      "evidence_id": "evidence-a6281e47fc6b",
+      "snapshot_sha256": "sha256:59e1aece957ba5df3292e05265c2b20977be1ab8ca87c0d03b0122fd85d2abd7",
+      "selector_sha256": "sha256:3cb003a8e0784c2aab1e5795d26852546f77ef813ce77b7ff47946e41f73bba5",
+      "quote_sha256": "sha256:22d0a44812c50943735866afe0ebc86cf2a47a2b8eb1df474fdd224642e7314c"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-queue"
+      },
+      "source_id": "web-computer-science-queue",
+      "evidence_id": "evidence-8ff2ed221c43",
+      "snapshot_sha256": "sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477",
+      "selector_sha256": "sha256:e4263a6e70aab4005df07812114ad85cc6cf6c00349ad1916e3dc7bd58374e71",
+      "quote_sha256": "sha256:8743d4ddda183683be0dcdd52cabca2c13c5a4c9487de3f3da0fe139259c3f1b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-queue"
+      },
+      "source_id": "web-computer-science-queue",
+      "evidence_id": "evidence-9dee8b7f3fce",
+      "snapshot_sha256": "sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477",
+      "selector_sha256": "sha256:2e718a9ca6681d347ed96070862d953d296cf390d386dc2a415030d43dca7864",
+      "quote_sha256": "sha256:8e77fd6a420df8aebb5c60bf4d63c1b52a9fd16a952ec573029a760bc3967f17"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-queue"
+      },
+      "source_id": "web-computer-science-queue",
+      "evidence_id": "evidence-5a69eff1293e",
+      "snapshot_sha256": "sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477",
+      "selector_sha256": "sha256:989c3402ec061303ce13cca813a43cd334da5dc5cea527caf76d3963838b68ae",
+      "quote_sha256": "sha256:fe4f6d8c6a127082a4b0f1a034a6b083435aeb6908633fe40b963d72d546f44e"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-queue"
+      },
+      "source_id": "web-computer-science-queue",
+      "evidence_id": "evidence-e63039c54202",
+      "snapshot_sha256": "sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477",
+      "selector_sha256": "sha256:5226eb9ce242ad9708ed695374f230f2180e45daf844985d4718dda8816cd68f",
+      "quote_sha256": "sha256:5d03445fb5683cd64c1c317330cf1750a2f24676f9785a3474d315b548cba83a"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "q-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5"
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-321ef16388c5",
+          "exact": "In computer science, a queue is an abstract data type that serves as an ordered collection of entities."
+        },
+        {
+          "evidence_id": "evidence-0b3f314368e0",
+          "exact": "By convention, the end of the queue where elements are added is called the back, tail, or rear of the queue. The end of the queue where elements are removed is called the head or front of the queue."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-321ef16388c5",
+          "subject": "queue",
+          "predicate": "is",
+          "object": "abstract data type, ordered collection of entities",
+          "qualifiers": {
+            "context": "computer science"
+          }
+        },
+        {
+          "evidence_id": "evidence-0b3f314368e0",
+          "subject": "queue",
+          "predicate": "has_named_ends",
+          "object": "addition end = back/tail/rear; removal end = head/front",
+          "qualifiers": {
+            "by_convention": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,103)（In computer science, a queue is an abstract data type that serves as an ordered collection of entities.）直接支持 claim 前句（队列=计算机科学中作为实体有序集合的抽象数据类型）；引文 [0,198) 明示添加端称 back/tail/rear、移除端称 head/front 的约定，完整支持 claim 后句。两段引文语义一致、无冲突。说明：本审计上下文仅含引文摘录而未含源文全文，故 rationale_offsets 以所提供引文整体为参照（start=0，end=引文 Unicode code point 数）。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "start": 0,
+          "end": 103
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "start": 0,
+          "end": 198
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-321ef16388c5"
+          },
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-0b3f314368e0"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-ops",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65"
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908"
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5fbba192da65",
+          "exact": "Enqueue, which adds one element to the rear of the queue"
+        },
+        {
+          "evidence_id": "evidence-63df362c3908",
+          "exact": "Dequeue, which removes one element from the front of the queue."
+        },
+        {
+          "evidence_id": "evidence-8bb17fb652f7",
+          "exact": "Other operations may also be allowed, often including a peek or front operation that returns the value of the next element to be dequeued without dequeuing it."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5fbba192da65",
+          "subject": "enqueue",
+          "predicate": "adds",
+          "object": "one element to the rear of the queue"
+        },
+        {
+          "evidence_id": "evidence-63df362c3908",
+          "subject": "dequeue",
+          "predicate": "removes",
+          "object": "one element from the front of the queue"
+        },
+        {
+          "evidence_id": "evidence-8bb17fb652f7",
+          "subject": "peek/front operation",
+          "predicate": "returns",
+          "object": "value of next element to be dequeued, without dequeuing it",
+          "qualifiers": {
+            "often_allowed": true
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,56)（Enqueue, which adds one element to the rear of the queue）与 [0,63)（Dequeue, which removes one element from the front of the queue.）分别对应 claim 的 enqueue/dequeue 两个主要操作；引文 [0,159)（Other operations may also be allowed, often including a peek or front operation...）对应 peek/front 操作及返回下一出队元素而不出队的语义。三段引文与 claim 分句一一对应、一致且无冲突。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "start": 0,
+          "end": 56
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "start": 0,
+          "end": 63
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "start": 0,
+          "end": 159
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-5fbba192da65"
+          },
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-63df362c3908"
+          },
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-8bb17fb652f7"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-fifo-wiki",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca"
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-3612bdfaecca",
+          "exact": "make it a first-in-first-out (FIFO) data structure as the first element added to the queue is the first one removed."
+        },
+        {
+          "evidence_id": "evidence-8d8f51a56142",
+          "exact": "This is equivalent to the requirement that once a new element is added, all elements that were added before have to be removed before the new element can be removed."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-3612bdfaecca",
+          "subject": "queue",
+          "predicate": "is",
+          "object": "FIFO data structure: first element added is first one removed"
+        },
+        {
+          "evidence_id": "evidence-8d8f51a56142",
+          "subject": "FIFO ordering",
+          "predicate": "is_equivalent_to",
+          "object": "all prior elements removed before a new element can be removed"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,116) 明示队列为先进先出（FIFO）数据结构（the first element added to the queue is the first one removed），支持 claim 前半；引文 [0,165)（This is equivalent to the requirement that...）提供等价表述：新元素加入后必须先移除所有先于它的元素，完整支持 claim 后半。两段引文一致，构成定义+等价条件的互补证据，无冲突。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "start": 0,
+          "end": 116
+        },
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "start": 0,
+          "end": 165
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-3612bdfaecca"
+          },
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-8d8f51a56142"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-linear",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2ae223870aea",
+          "exact": "A queue is an example of a linear data structure, or more abstractly a sequential collection."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2ae223870aea",
+          "subject": "queue",
+          "predicate": "is",
+          "object": "example of linear data structure / sequential collection"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,93) 逐字对应该 claim（A queue is an example of a linear data structure, or more abstractly a sequential collection.），线性数据结构与顺序集合表述与 claim 完全一致，支持充分。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "start": 0,
+          "end": 93
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-2ae223870aea"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-impl",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-2bcf59757f6a",
+          "exact": "A queue may be implemented as circular buffers and linked lists, or by using both the stack pointer and the base pointer."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-2bcf59757f6a",
+          "subject": "queue",
+          "predicate": "may_be_implemented_as",
+          "object": "circular buffers and linked lists (or stack pointer + base pointer)"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,121) 明示队列可能实现为 circular buffers 和 linked lists（另提及 stack/base pointer 组合），包含并支持 claim 主张的两种实现；claim 未作排他性断言，与引文无冲突。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "start": 0,
+          "end": 121
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-2bcf59757f6a"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-bounded",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4db305b3ca1c",
+          "exact": "A bounded queue is a queue limited to a fixed number of items."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4db305b3ca1c",
+          "subject": "bounded queue",
+          "predicate": "is",
+          "object": "queue limited to a fixed number of items"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,62) 与 claim 逐字对应（A bounded queue is a queue limited to a fixed number of items.，即限制为固定数量条目），完全支持。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "start": 0,
+          "end": 62
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-4db305b3ca1c"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-efficiency",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "exact": "There are several efficient implementations of FIFO queues. An efficient implementation is one that can perform the operations—en-queuing and de-queuing—in O(1) time."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "subject": "efficient FIFO queue implementation",
+          "predicate": "performs_in",
+          "object": "O(1) time for en-queuing and de-queuing",
+          "qualifiers": {
+            "plural": "several"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,163) 明示存在多种高效 FIFO 队列实现（There are several efficient implementations of FIFO queues），并定义高效为 en-queuing 与 de-queuing 均在 O(1) 时间完成（can perform the operations—en-queuing and de-queuing—in O(1) time），与 claim 完全一致。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "start": 0,
+          "end": 163
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-55c74d7a1fd6"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-ll-impl",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-01e0dc35da5b",
+          "exact": "A doubly linked list has O(1) insertion and deletion at both ends, so it is a natural choice for queues."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-01e0dc35da5b",
+          "subject": "doubly linked list",
+          "predicate": "has",
+          "object": "O(1) insertion and deletion at both ends",
+          "qualifiers": {
+            "consequence": "natural choice for queues"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,104) 明示双向链表两端插入与删除均为 O(1)（O(1) insertion and deletion at both ends），因此是队列的 natural choice，与 claim 逐句对应、完全支持。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "start": 0,
+          "end": 104
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-01e0dc35da5b"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-sll-impl",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-98db9ed161b0",
+          "exact": "A regular singly linked list only has efficient insertion and deletion at one end. However, a small modification—keeping a pointer to the last node in addition to the first one—will enable it to implement an efficient queue."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-98db9ed161b0",
+          "subject": "regular singly linked list",
+          "predicate": "supports_after_modification",
+          "object": "efficient queue via extra pointer to last node",
+          "qualifiers": {
+            "modification": "keeping a pointer to the last node in addition to the first one"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,222) 前半（only has efficient insertion and deletion at one end）支持 claim 第一句常规单链表仅一端高效插入删除；后半（a small modification—keeping a pointer to the last node in addition to the first one—will enable it to implement an efficient queue）支持 claim 第二句保存指向最后节点指针即可实现高效队列。两个分句均获支持，无冲突。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "start": 0,
+          "end": 222
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-98db9ed161b0"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-deque-arr",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a6281e47fc6b",
+          "exact": "A deque implemented using a modified dynamic array"
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-a6281e47fc6b",
+          "subject": "deque",
+          "predicate": "can_be_implemented_using",
+          "object": "modified dynamic array"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,50)（A deque implemented using a modified dynamic array）虽为名词短语，但语义明确主张 deque 可以用改造后的动态数组实现，支持 claim 的断言。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "start": 0,
+          "end": 50
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "wiki-queue-adt",
+            "evidence_id": "evidence-a6281e47fc6b"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-fifo",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43"
+        },
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-8ff2ed221c43",
+          "exact": "FIFO is an abbreviation for first in, first out. It is a method for handling data structures where the first element is processed first and the newest element is processed last."
+        },
+        {
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "exact": "Certain data structures like Queue and other variants of Queue uses FIFO approach for processing data."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-8ff2ed221c43",
+          "subject": "FIFO",
+          "predicate": "is",
+          "object": "method where first element processed first and newest element processed last",
+          "qualifiers": {
+            "abbreviation": "first in, first out"
+          }
+        },
+        {
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "subject": "Queue and its variants",
+          "predicate": "uses",
+          "object": "FIFO approach for processing data"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,177) 给出 FIFO 全称（first in, first out）与方法定义（the first element is processed first and the newest element is processed last），支持 claim 前半；引文 [0,102) 明示 Queue 及其变体使用 FIFO 方式处理数据（Queue and other variants of Queue uses FIFO approach for processing data），支持 claim 后半。两段引文一致、无冲突。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "start": 0,
+          "end": 177
+        },
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "start": 0,
+          "end": 102
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-queue",
+            "evidence_id": "evidence-8ff2ed221c43"
+          },
+          {
+            "source_id": "web-computer-science-queue",
+            "evidence_id": "evidence-9dee8b7f3fce"
+          }
+        ]
+      }
+    },
+    {
+      "claim_id": "q-fifo-usage",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e"
+        },
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5a69eff1293e",
+          "exact": "Disk controllers can use the FIFO as a disk scheduling algorithm to determine the order in which to service disk I/O requests."
+        },
+        {
+          "evidence_id": "evidence-e63039c54202",
+          "exact": "Communication network bridges, switches and routers used in computer networks use FIFOs to hold data packets en route to their next destination."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5a69eff1293e",
+          "subject": "disk controllers",
+          "predicate": "use",
+          "object": "FIFO as disk scheduling algorithm for disk I/O request service order"
+        },
+        {
+          "evidence_id": "evidence-e63039c54202",
+          "subject": "network bridges/switches/routers",
+          "predicate": "use",
+          "object": "FIFOs to hold data packets en route to their next destination"
+        }
+      ],
+      "applied_rule_refs": [
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文 [0,126) 明示磁盘控制器可用 FIFO 作为磁盘调度算法决定磁盘 I/O 请求的服务顺序，支持 claim 第一个分句；引文 [0,144) 明示通信网络中的网桥、交换机与路由器用 FIFO 暂存去往下一目的地的数据包，支持 claim 第二个分句。两个分句分别获独立引文支持，一致且无冲突。offset 以所提供引文整体为参照。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "start": 0,
+          "end": 126
+        },
+        {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "start": 0,
+          "end": 144
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": [
+          {
+            "source_id": "web-computer-science-queue",
+            "evidence_id": "evidence-5a69eff1293e"
+          },
+          {
+            "source_id": "web-computer-science-queue",
+            "evidence_id": "evidence-e63039c54202"
+          }
+        ]
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-321ef16388c5",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:bef2f8ee6800e34a03f482f17ba18cd3ce1a27745a54f413cf5b55fe1928b4c2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-0b3f314368e0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:2ba6e68703e0a11bc618d6579451fa4d04a191edd424ad8a9d4bf504b574cef7"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-5fbba192da65",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:32be9d7f6280ab3de35fe77b2867b34ad3f6aefa91e8b162fd730d67b8d4945d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-63df362c3908",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:3538c772f6f0b303ec2ee9767ad5e5a2857b5349799af12ad5e6df292d3adac3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8bb17fb652f7",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:c524328b0185c9003bc924abf308c3a4ec5847a38f5b92a74aa27c961d3caf7a"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-3612bdfaecca",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:9d79af760076196749e8a4ff48a2067efeed1d1b789bd27b17923a8cc94a09bc"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-8d8f51a56142",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:227705216a05835649004992ce963bdc11d02c67a5e05e0d8a3087bf7dd110b1"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2ae223870aea",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:1f067114f74de3d03400a6994356510b0636d99e6133e658bbc61ec855342fec"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-2bcf59757f6a",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:446fa46c8800326841c0b6c53654c4d25cf00ffcfdcaae72880145f47d0c7b4b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-4db305b3ca1c",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:77bf01426acf7dea02e471d1f8989546d5197043d82b781727e0a9784518915b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-55c74d7a1fd6",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:6b9411422dc0f70732f90c8ffe980cb8c4800f0edbe920a7672cdcf2b1e189a2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-01e0dc35da5b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e854ee6687b72e10e6e97b9f0bc0df8f79eda7a0a92acad1cb14d325cbd287a3"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "target_b": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-98db9ed161b0",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:e28d79eb2d5a452334d676ba8fd739a56c4ea6a8f84c603e56b1c223331c1f43"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "wiki-queue-adt",
+          "evidence_id": "evidence-a6281e47fc6b",
+          "independence_group": "source:wiki-queue-adt",
+          "observation_sha256": "sha256:a401a291e2b0f0831ed900bf04b199da2866712596866953dda4176ef7aedeff"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-8ff2ed221c43",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:c2c962c4e6b7f570fd07152483fd41ec0568f0ba648d77248b5f0c00e1fd3547"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-9dee8b7f3fce",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:64b840326ce181d69a8066e83f3327a33b1e2961ff184b3530d45d82a119917b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-5a69eff1293e",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:43e3cefaa1b63807a83746b0ac3f0ea39bde52793fd76eb4d220e98a15584764"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-queue",
+          "evidence_id": "evidence-e63039c54202",
+          "independence_group": "source:web-computer-science-queue",
+          "observation_sha256": "sha256:ba69c2c6527cd768197af962536e0c3f587a349c685fe0478f353380690534a5"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "wiki-queue-adt",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-queue",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-queue",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-queue",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-queue",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-definition",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-definition",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-ops",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-ops",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-ops",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-fifo-wiki",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-fifo-wiki",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-linear",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-impl",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-bounded",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-efficiency",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-ll-impl",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-sll-impl",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-deque-arr",
+      "source_id": "wiki-queue-adt",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-fifo",
+      "source_id": "web-computer-science-queue",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-fifo",
+      "source_id": "web-computer-science-queue",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-fifo-usage",
+      "source_id": "web-computer-science-queue",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "q-fifo-usage",
+      "source_id": "web-computer-science-queue",
+      "reason": "basis 既未回引 provenance 字段也无原文区间，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

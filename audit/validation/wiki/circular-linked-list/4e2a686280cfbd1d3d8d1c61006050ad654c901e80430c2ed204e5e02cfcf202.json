@@ -1,0 +1,298 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "circular-linked-list",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_e6942e3c28a2",
+  "input_hash": "sha256:fe4dc4c378b889ecee75096acc4693e3763e5c1b41f67c6aea07f3470c549695",
+  "provider_duration_ms": 107750,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788550048.736254,
+  "wiki_content_sha256": "sha256:98b3cd12c1cb609ee0925aa9bbe07527edb3481237c6a0ec6a5bbadd1ac5093f",
+  "wiki_evidence_sha256": "sha256:f086f3d8bdeb1dec82cba722b86a020c90ca36d524556659afd90778768c0e48",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-circular-linked-list"
+      },
+      "source_id": "web-computer-science-circular-linked-list",
+      "evidence_id": "evidence-c128c6562a10",
+      "snapshot_sha256": "sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785",
+      "selector_sha256": "sha256:6414abf6d9f57fff2fd49299b7664aa72ee6665db05099ab688b72852d83c5e4",
+      "quote_sha256": "sha256:465a59183bfe2d5d4b876eb9a44a4cb62c2cdd2ac9a63451c11afa2a0afe1f4d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-circular-linked-list"
+      },
+      "source_id": "web-computer-science-circular-linked-list",
+      "evidence_id": "evidence-a629b87dd79b",
+      "snapshot_sha256": "sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785",
+      "selector_sha256": "sha256:71a1908131cfc552cae80e00535e5b05b2b99d26ec7b8f3cf6c550052f5493bf",
+      "quote_sha256": "sha256:df5406fb952e1c3afab2e26a7a2dd9c774fde1a8a7f159e070a9dcd72355bd0a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-circular-linked-list"
+      },
+      "source_id": "web-computer-science-circular-linked-list",
+      "evidence_id": "evidence-074b809da99c",
+      "snapshot_sha256": "sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785",
+      "selector_sha256": "sha256:e36030f6df47e840a185ae5756a0bf83c85686e1db0f33c0e5154c62240a2291",
+      "quote_sha256": "sha256:77da578ea6ea71c007b2cc3833b127cbe3fd72ae5c2d7872f4111dc18c894bcb"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-circular-linked-list"
+      },
+      "source_id": "web-computer-science-circular-linked-list",
+      "evidence_id": "evidence-ef7973630fcb",
+      "snapshot_sha256": "sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785",
+      "selector_sha256": "sha256:86e4468b882e220bdca89f554bc4a07493f0bef2e289dc250d6fe990b31d7d08",
+      "quote_sha256": "sha256:7f2c6067c4e26afea807a376b18defd15ae4bc3204a8e22525f202186983356c"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "circular-linked-list-claim-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-c128c6562a10"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-c128c6562a10",
+          "exact": "A circular linked list is a data structure where the last node points back to the first node, forming a closed loop."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Quote [0,116) explicitly says the last node points back to the first node, forming a closed loop, which directly supports the claim.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-c128c6562a10",
+          "start": 0,
+          "end": 116
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "circular-linked-list-claim-2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-a629b87dd79b"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-a629b87dd79b",
+          "exact": "In a regular linked list, the last node points to NULL , whereas in a circular linked list, it points to the first node."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Quote [0,120) states that a regular linked list's last node points to NULL, whereas a circular linked list's last node points to the first node.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-a629b87dd79b",
+          "start": 0,
+          "end": 120
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "circular-linked-list-claim-3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-074b809da99c"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-074b809da99c",
+          "exact": "In Circular Singly Linked List, each node has just one pointer called the \"next\" pointer."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Quote [0,89) states that each node has just one pointer called the \"next\" pointer, matching the claim about a circular singly linked list.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-074b809da99c",
+          "start": 0,
+          "end": 89
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "circular-linked-list-claim-4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-ef7973630fcb"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-ef7973630fcb",
+          "exact": "Uses: Ideal for tasks like scheduling and managing playlists, where smooth and repeated."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "Quote [0,88) identifies scheduling and managing playlists as ideal uses and mentions repeated behavior, which supports the claim.",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-circular-linked-list",
+          "evidence_id": "evidence-ef7973630fcb",
+          "start": 0,
+          "end": 88
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-circular-linked-list",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-circular-linked-list",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-circular-linked-list",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-circular-linked-list",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "circular-linked-list-claim-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "circular-linked-list-claim-2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "circular-linked-list-claim-3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "circular-linked-list-claim-4",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

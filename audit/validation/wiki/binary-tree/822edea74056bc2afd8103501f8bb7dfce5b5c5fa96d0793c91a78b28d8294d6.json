@@ -1,0 +1,138 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "binary-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_7b28b064a370",
+  "input_hash": "sha256:683a59b69381ac8106467bad0106d928c3706d2cacb9d5e9bee24d3e20c5362a",
+  "provider_duration_ms": 37706,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788558307.596569,
+  "wiki_content_sha256": "sha256:dafb02ebb461201b5099fdb3062e001411cce471662f23f14492994de16776c5",
+  "wiki_evidence_sha256": "sha256:27f2ddca830eb1abaa0bab276ed4a13045996ca99e7d7fd22ae3419e11dee747",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "programiz-binary-tree-v2"
+      },
+      "source_id": "programiz-binary-tree-v2",
+      "evidence_id": "evidence-4b926633679a",
+      "snapshot_sha256": "sha256:b6236c8add3e386c74f7957fa7d59621120e6ae6325626a3271494bb800cdb7d",
+      "selector_sha256": "sha256:025561f9dd5defd0632a53ee0802832d082a1eb48f971c8936bb985afb6ff4fa",
+      "quote_sha256": "sha256:a253d5fe458eeea767978cfb5f1893e66741d57d583aab5acb807ac00d26cec0"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "binary-tree-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4b926633679a"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-4b926633679a",
+          "exact": "A binary tree is a tree data structure in which each parent node can have at most two children."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-4b926633679a",
+          "subject": "binary tree",
+          "predicate": "is",
+          "object": "a tree data structure in which each parent node can have at most two children"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,95)直接说明 binary tree 是一种 tree data structure，且 each parent node can have at most two children，与 claim“二叉树是每个父节点最多有两个子节点的树数据结构”语义一致。provenance 为空且引文未给出转载或派生声明，独立性无法举证。",
+      "rationale_offsets": [
+        {
+          "source_id": "programiz-binary-tree-v2",
+          "evidence_id": "evidence-4b926633679a",
+          "start": 0,
+          "end": 95
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "programiz-binary-tree-v2",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "binary-tree-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

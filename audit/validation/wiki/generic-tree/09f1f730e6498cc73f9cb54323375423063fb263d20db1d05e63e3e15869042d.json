@@ -1,0 +1,3538 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "generic-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducc-dsv4f",
+  "call_id": "call_c49cc978d55c",
+  "input_hash": "sha256:1fc681c18158a28ea1f7cdde85b78df40bd36884a1237739411e448480090d93",
+  "provider_duration_ms": 120573,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788602650.870372,
+  "wiki_content_sha256": "sha256:2084d0ef7a54c4eada67cae168b47682bd8b4f56118ae223af74c2a1184a8f2b",
+  "wiki_evidence_sha256": "sha256:d58379f9cec2178afa21daaf250680d70fc864f92512152b68fcab02884f1e5d",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-f9bac1c8c445",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:1a2e2c5f823af8242d8c8a37185da3b3d67dacdf36cf8d9847ad24fc9bce7111",
+      "quote_sha256": "sha256:40875c681f5bce9850d5b3f592ce0c165f6ef7887a4e1970a35e3478321c7f8f"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-46c603cf9e8c",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:c339f41a2195ee0df9fa17660c6e43d800decaf51c50847926ddef3b4a37baeb",
+      "quote_sha256": "sha256:cd2d6bb9192edb879e173378f67a753487c45f5840906b485e15f3cf50a42810"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-62968fd58026",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:fc3a48dc16ac1d5168da589eb8f2f9f93847773d8870c47963dd7cbb4469eb15",
+      "quote_sha256": "sha256:964c6cf807d0fca6a9c28ff2a652d083bca5de798e6adefdd078e634bad03e8b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-5263a6f6a6ac",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:470f05c5053aa2fa05d1e2144396a945e609c6e2095286e18d3b5bf66b34974c",
+      "quote_sha256": "sha256:ab5e599c94b9eb2fa5a107326eefc153d874ab19f0feeebfa6cdb70e5e4e3e0d"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-fa4db717e798",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:716e602b1e8ed9ff64239104592b1cf408915e0875545f0295802ff2b4564677",
+      "quote_sha256": "sha256:702c4b1f3a1fb947b166be385a6b0b315f2a1033b1a5eacce7b8bbc8b3e6eaca"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-58d6bbdb5a2e",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:63ba9b05ebbc5289f9c5cf62b90cf177fec954d8232ad212dcd6c138f1f1d384",
+      "quote_sha256": "sha256:624c3d2c6fd6d36446adc7bb24a2fa279a68de54da03e6267b7dc4ba135cde83"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-5e89cf9c3624",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:e03c0f0da7b5c87e6b2827ceef7a80c43fe934f3889547b274dd96131574fb27",
+      "quote_sha256": "sha256:a8e91053e278150fb3b9ceb6a75ffcf3e12a46b20305d89e892e3831c99d9475"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-519b571cd237",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:8c15672ca68ac355bb5e0fc33e7f06816bdd3445ec5c0b6a564b3dc0e07153e9",
+      "quote_sha256": "sha256:b755a826eb0d8adf660b7bc615326ee8dc9dbbacdcbe094095cd6a4bde33a6a8"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-83dfa21cbba1",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:cb305c617287bc15746630780700615b6c4eff50717f74679b5d00498bc7226e",
+      "quote_sha256": "sha256:5c7792526c84e7f922e31e91e1e58bb5e552f09693fa0e04d350136464162416"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-befe247be0b1",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:b370105709dd5f2a99cdd3cd40d96cff11d441877d63a8420aa5bd5e8d9daa54",
+      "quote_sha256": "sha256:559cd7cd98f4827d2fa3f7612007cd1047af9bb49e4008f7bc6169ec5c9cc764"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-18a3b8828169",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:4d73a2da569187e3d7499e11dfb8f2a3d14f241402c122a18b6f4a839eaa5ec0",
+      "quote_sha256": "sha256:8ab23c8696197398bcfc036a1efc0c61ccea53cad90dd8bb98fb29e86819b871"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-e5dcfc7cecfe",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:9f6462484f2758d30e89a9a1de67fe9e58bbcc8c4af80c0dc031da7e63fcd73c",
+      "quote_sha256": "sha256:ca6e5d25497669b9fa05c303f87ad9c34ee342a3384c57afe91bf1ed260de84a"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-dc543a38b4da",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:5839350308f7d9c7892e257392ff467ccf41e250471db014cef33709d8785e6c",
+      "quote_sha256": "sha256:3a2959f3811b32e191b8cabec2df519b445fdbc92b3b7fcb31e8ea1ade6d0b59"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-9b50296a1951",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:b60d11cbbac16ef48a30fbfeeb86cecc9e94c30881ed5d89a1094ed4f9195064",
+      "quote_sha256": "sha256:4064b3027deee4917e4128864b75847060bebdfce657620ba6f4ea67c46c5343"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-24f1ad12af22",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:59eaf5aa25c617cabe411465eda25d04e6eabefea8659e82b865aaab5a2e92f8",
+      "quote_sha256": "sha256:8f999f0f6aa698b1da251c70c2b28e6b621a526721b9de3190d37f9eda5e3503"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-e4d90aa02a5b",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:108eb90ee50d79a5c1589e3f9e7a965d9c5a35a8055af2649d32fa4acd09ae6d",
+      "quote_sha256": "sha256:c93a1cc9e66f7d2a4a6cff20ed3eadfc850523725a5a9d196bb33d9310e1223b"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-f08329fa0d14",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:0baced8d371c4f7916d39e786a48108a4aeca687d40b5c7c788c8ea000f8dd0b",
+      "quote_sha256": "sha256:f8f60e9be85b64b31cb181c835c1729ba256091e6c7430d8fe650984ced63bcc"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-generic-tree"
+      },
+      "source_id": "web-computer-science-generic-tree",
+      "evidence_id": "evidence-8266d22eb01e",
+      "snapshot_sha256": "sha256:2f6ca2fb708ccd4b5d294ba561743bc1a89e533c185412f4188879fe28c7a51f",
+      "selector_sha256": "sha256:6793304d214506cf9d500be6cfe1189bf8ad047d97efd2b2678708a2997ffd20",
+      "quote_sha256": "sha256:10c60d8d8636976ffa7c0272f23a0fd928c428fa63e561f986454e2a2a245323"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "gt-definition",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-f9bac1c8c445",
+          "exact": "Generic trees are a collection of nodes where each node is a data structure that consists of records and a list of references to its children(duplicate references are not allowed)."
+        },
+        {
+          "evidence_id": "evidence-46c603cf9e8c",
+          "exact": "Unlike the linked list, each node stores the address of multiple nodes."
+        },
+        {
+          "evidence_id": "evidence-62968fd58026",
+          "exact": "Every node stores address of its children and the very first node's address will be stored in a separate pointer called root."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-f9bac1c8c445",
+          "subject": "generic tree",
+          "predicate": "defined as",
+          "object": "a collection of nodes; each node is a data structure of records plus a list of references to its children; duplicate references are not allowed"
+        },
+        {
+          "evidence_id": "evidence-46c603cf9e8c",
+          "subject": "generic tree node",
+          "predicate": "stores",
+          "object": "address of multiple nodes, unlike the linked list"
+        },
+        {
+          "evidence_id": "evidence-62968fd58026",
+          "subject": "generic tree",
+          "predicate": "stores",
+          "object": "child addresses in every node; first node's address in a separate pointer called root"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "引文 evidence-f9bac1c8c445（\"collection of nodes ... records and a list of references to its children(duplicate references are not allowed)\"，区间 [0,180)）逐字覆盖 claim 的核心定义：节点=记录+孩子引用列表、不允许重复引用。evidence-46c603cf9e8c（区间 [0,71)）支持\"与链表不同，每个节点存储多个节点的地址\"。evidence-62968fd58026（区间 [0,125)）支持\"每个节点存其孩子地址\"与\"首节点地址存在单独的 root 指针里\"。三条引文共同完整覆盖 claim 的全部三个子句，且与 claim 表述逐字对应，无遗漏、无冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "start": 0,
+          "end": 180
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "start": 0,
+          "end": 71
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "start": 0,
+          "end": 125
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gt-properties",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "exact": "The Generic trees are the N-ary trees which have the following properties:"
+        },
+        {
+          "evidence_id": "evidence-fa4db717e798",
+          "exact": "Many children at every node."
+        },
+        {
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "exact": "The number of nodes for each node is not known in advance."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "subject": "generic tree",
+          "predicate": "is",
+          "object": "the N-ary trees with the following properties"
+        },
+        {
+          "evidence_id": "evidence-fa4db717e798",
+          "subject": "generic tree",
+          "predicate": "has",
+          "object": "many children at every node"
+        },
+        {
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "subject": "generic tree node",
+          "predicate": "has",
+          "object": "number of nodes not known in advance"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "evidence-5263a6f6a6ac（区间 [0,74)）明确指出\"Generic trees are the N-ary trees\"，直接支持\"通用树是 N 叉树\"并引出性质列表。evidence-fa4db717e798（区间 [0,28)）为性质之一\"Many children at every node\"，支持\"每个节点可有多个孩子\"。evidence-58d6bbdb5a2e（区间 [0,58)）为性质之一\"The number of nodes for each node is not known in advance\"，支持\"每个节点的孩子数量事先未知\"（原文用 nodes 指代每个节点的孩子/节点数，与 claim 表述一致）。三引文为同一性质列表，完整覆盖 claim 全部元素。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "start": 0,
+          "end": 74
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "start": 0,
+          "end": 28
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "start": 0,
+          "end": 58
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gt-naive-drawback",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5e89cf9c3624",
+          "exact": "Memory Wastage - All the pointers are not required in all the cases. Hence, there is lot of memory wastage."
+        },
+        {
+          "evidence_id": "evidence-519b571cd237",
+          "exact": "Unknown number of children - The number of children for each node is not known in advance."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-5e89cf9c3624",
+          "subject": "naive fixed-pointer representation",
+          "predicate": "has drawback",
+          "object": "memory wastage; all pointers are not required in all cases"
+        },
+        {
+          "evidence_id": "evidence-519b571cd237",
+          "subject": "naive fixed-pointer representation",
+          "predicate": "has drawback",
+          "object": "unknown number of children; not known in advance"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "evidence-5e89cf9c3624（区间 [0,107)）列出缺点\"Memory Wastage - All the pointers are not required in all the cases\"，支持\"多数情况下指针用不到造成大量内存浪费\"。evidence-519b571cd237（区间 [0,90)）列出缺点\"Unknown number of children - The number of children for each node is not known in advance\"，支持\"孩子数量事先未知导致容量难以确定\"（未知孩子数即无法预分配容量，属直接推理）。两条引文与 claim 的两大缺点一一对应，且在原文中同属对朴素表示的缺点列举，无冲突。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "start": 0,
+          "end": 107
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "start": 0,
+          "end": 90
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gt-array-vs-list",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-83dfa21cbba1",
+          "exact": "In Linked list, we can not randomly access any child's address. So it will be expensive."
+        },
+        {
+          "evidence_id": "evidence-befe247be0b1",
+          "exact": "In array, we can randomly access the address of any child, but we can store only fixed number of children's addresses in it."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-83dfa21cbba1",
+          "subject": "linked-list storage of child addresses",
+          "predicate": "cannot",
+          "object": "randomly access any child's address; expensive"
+        },
+        {
+          "evidence_id": "evidence-befe247be0b1",
+          "subject": "array storage of child addresses",
+          "predicate": "can",
+          "object": "randomly access any child's address but store only fixed number of children's addresses"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "evidence-83dfa21cbba1（区间 [0,88)）直接陈述\"In Linked list, we can not randomly access any child's address. So it will be expensive.\"，完整支持\"用链表存孩子地址无法随机访问任意孩子的地址（访问代价高）\"。evidence-befe247be0b1（区间 [0,124)）直接陈述\"we can randomly access the address of any child, but we can store only fixed number of children's addresses\"，完整支持\"用数组可随机访问，但只能存固定数量的孩子地址\"。两条引文分别对应 claim 的链表/数组两分句，逐字对应，无遗漏。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "start": 0,
+          "end": 88
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "start": 0,
+          "end": 124
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gt-dynamic-array",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-18a3b8828169",
+          "exact": "We can use Dynamic Arrays for storing the address of children. We can randomly access any child's address and the size of the vector is also not fixed."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-18a3b8828169",
+          "subject": "dynamic array storage of child addresses",
+          "predicate": "provides",
+          "object": "random access to any child's address and non-fixed size"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "evidence-18a3b8828169（区间 [0,151)）同时给出\"We can use Dynamic Arrays for storing the address of children\"、\"We can randomly access any child's address\"与\"the size of the vector is also not fixed\"，完整支持 claim 的两个性质（随机访问任意孩子地址、容量不固定）。\"更好的做法\"是 claim 对原文上下文的概括（原文在对比链表/数组后提出该方案，且 \"We can use\" 表述了建议性），属于对上下文的中性转述，不改变引文所载内容。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "start": 0,
+          "end": 151
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gt-sibling-repr",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "exact": "In the first child/next sibling representation, the steps taken are:"
+        },
+        {
+          "evidence_id": "evidence-dc543a38b4da",
+          "exact": "At each node-link the children of the same parent(siblings) from left to right."
+        },
+        {
+          "evidence_id": "evidence-9b50296a1951",
+          "exact": "Remove the links from parent to all children except the first child."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "subject": "first child/next sibling representation",
+          "predicate": "has",
+          "object": "steps taken as listed"
+        },
+        {
+          "evidence_id": "evidence-dc543a38b4da",
+          "subject": "first child/next sibling representation",
+          "predicate": "links",
+          "object": "children of same parent (siblings) from left to right"
+        },
+        {
+          "evidence_id": "evidence-9b50296a1951",
+          "subject": "first child/next sibling representation",
+          "predicate": "removes",
+          "object": "links from parent to all children except the first child"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "evidence-e5dcfc7cecfe（区间 [0,68)）给出表示法名称\"first child/next sibling representation\"并引出步骤。evidence-dc543a38b4da（区间 [0,79)）为步骤 1\"link the children of the same parent(siblings) from left to right\"，支持\"把同一父节点的孩子们（兄弟）从左到右链接起来\"。evidence-9b50296a1951（区间 [0,68)）为步骤 2\"Remove the links from parent to all children except the first child\"，支持\"移除父节点指向除第一个孩子之外其他孩子的链接\"。claim 中的\"左孩子/右兄弟\"为 first child/next sibling 的标准译名，两条步骤引文完整覆盖 claim 的两个动作。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "start": 0,
+          "end": 68
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "start": 0,
+          "end": 79
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "start": 0,
+          "end": 68
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "gt-sibling-advantages",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14"
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-24f1ad12af22",
+          "exact": "Memory efficient - No extra links are required, hence a lot of memory is saved."
+        },
+        {
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "exact": "Treated as binary trees - Since we are able to convert any generic tree to binary representation, we can treat all generic trees with a first child/next sibling representation as binary trees."
+        },
+        {
+          "evidence_id": "evidence-f08329fa0d14",
+          "exact": "Many algorithms can be expressed more easily because it is just a binary tree."
+        },
+        {
+          "evidence_id": "evidence-8266d22eb01e",
+          "exact": "Each node is of fixed size ,so no auxiliary array or vector is required."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-24f1ad12af22",
+          "subject": "first child/next sibling representation",
+          "predicate": "is",
+          "object": "memory efficient; no extra links required"
+        },
+        {
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "subject": "first child/next sibling representation",
+          "predicate": "allows",
+          "object": "treating all generic trees as binary trees; convert any generic tree to binary representation"
+        },
+        {
+          "evidence_id": "evidence-f08329fa0d14",
+          "subject": "first child/next sibling representation",
+          "predicate": "enables",
+          "object": "many algorithms expressed more easily because it is a binary tree"
+        },
+        {
+          "evidence_id": "evidence-8266d22eb01e",
+          "subject": "first child/next sibling representation",
+          "predicate": "has",
+          "object": "each node of fixed size; no auxiliary array or vector required"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "四条引文与 claim 的四项优点一一对应：evidence-24f1ad12af22（区间 [0,79)）\"Memory efficient - No extra links are required\"支持\"内存高效（不需要额外链接）\"; evidence-e4d90aa02a5b（区间 [0,191)）\"convert any generic tree to binary representation ... treat ... as binary trees\"支持\"任何通用树都能转成这种二叉表示\"与\"可按二叉树处理\"（\"用 firstChild/nextSibling 取代左右指针\"是该表示法命名的固有含义，原文以 \"first child/next sibling representation ... as binary trees\" 直接承载该含义，属轻量推断而非新增事实）; evidence-f08329fa0d14（区间 [0,78)）\"Many algorithms can be expressed more easily\"支持\"许多算法因它就是二叉树而更容易表达\"; evidence-8266d22eb01e（区间 [0,72)）\"Each node is of fixed size, so no auxiliary array or vector is required\"支持\"每个节点定长，无需辅助数组或向量\"。全部 4 子句均获证据支持。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "start": 0,
+          "end": 79
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "start": 0,
+          "end": 191
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "start": 0,
+          "end": 78
+        },
+        {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "start": 0,
+          "end": 72
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f9bac1c8c445",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:af14da1db92a52b519ad6d6fd30417ec2d9b7dc7f5f226badd72d089f7ca38b0"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-46c603cf9e8c",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e8ba8f2a7406372001941580b425f1311e7d0f496058f402ba6582d4bc479309"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-62968fd58026",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:67bc5dd81615d9261617524f16fb4133fdd72b3174207ebe088583c4ab99c760"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5263a6f6a6ac",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:451f9ce62fab346fd64171e9378cb4996b956da3e989901dd478d19e2b1e2278"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-fa4db717e798",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:746dd8e39c1499142c42c131dd3080d02b66a0742f6f092dd280a41e3470edc6"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-58d6bbdb5a2e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:c8bd85ac2473ef1da36aef39d688f1513ff78b5052be145f33d49d8fa8c5598f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-5e89cf9c3624",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:06624720d92e3d18650a4aeab6e345c754500b711832d4b279cb220d8e00ee94"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-519b571cd237",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:ab000a431d11df2a46fa12965cfc823464464137c02bc47d28d4aabae2759431"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-83dfa21cbba1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:288f69dfc214feec7b1da5a7a363a48717124a639fd22526315e7cfc81624b0c"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-befe247be0b1",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:958db59690a7e8c2f0080b334faad50cc96c7ca0ab3403449f052f3f4e9a847f"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-18a3b8828169",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:9c5184487f36cbb34d2b5c5e5dd626a77e57dd73850b03094a81cb64decdea3d"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e5dcfc7cecfe",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:2ecdcc7e09097305026eb53e54b04a0f99b159ce0e184443662a6b65e1b7be44"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-dc543a38b4da",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:3557b0ad6153cd8e3278b0c766e5a39bf02d53e24c519c9ad52737ae9538c6e2"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-9b50296a1951",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:e913b072fa2cb5b51699d241e54a514405b9864dcae1fa6e8f53312a963f0239"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-24f1ad12af22",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:91829625bd8feda7994cc96738cf90b88b88a66a6d4a045c98d8ae654962d543"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-e4d90aa02a5b",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:8c14ac1c54d57205c699cc999d663f1509d1bce23d3ed6b6b3b830092d161353"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      },
+      {
+        "target_a": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-f08329fa0d14",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:447574aa0523b7319f02bb9e1c32ae26ca43863ab8462ecc8f5a4bfe64ac9a3b"
+        },
+        "target_b": {
+          "source_id": "web-computer-science-generic-tree",
+          "evidence_id": "evidence-8266d22eb01e",
+          "independence_group": "source:web-computer-science-generic-tree",
+          "observation_sha256": "sha256:780d4396f1b40a179b3d910f08938747eebf126adde58f087bca2089790fe547"
+        },
+        "result": "unresolved",
+        "reason": "命题无法比较（subject/predicate/object 不同）",
+        "comparator": "corroboration-v1"
+      }
+    ],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-generic-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-definition",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-properties",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-naive-drawback",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-array-vs-list",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-dynamic-array",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-sibling-repr",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "gt-sibling-advantages",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

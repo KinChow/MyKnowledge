@@ -1,0 +1,167 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "singly-linked-list",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_f96cbcad1151",
+  "input_hash": "sha256:43024bff84e579d6955be680c6589fe10cbec6c5f4e4f2e6281d42f586aa2da6",
+  "provider_duration_ms": 26150,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788580164.72454,
+  "wiki_content_sha256": "sha256:2f8ed3a036ee75bec4e1226e2731181e53f87e9daff9a98b2e28cbb9749f54e4",
+  "wiki_evidence_sha256": "sha256:91ebe1caf1f2011e40ca81a033323d6db9c59a727eb08d318e794bc0a5a50f08",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-singly-linked-list"
+      },
+      "source_id": "web-computer-science-singly-linked-list",
+      "evidence_id": "evidence-534233ca8105",
+      "snapshot_sha256": "sha256:a64bdd90e109dd6daeb6536d4e68e7ae41da9f59508bd7635e3ecff97fdaf024",
+      "selector_sha256": "sha256:d7b50dfe791d2db02e7c6b4ff3a1cfe5fea6c3a84c2b86d535d05ea9781bc3f3",
+      "quote_sha256": "sha256:ca91c625c34e3446300a8af87fc7fc00c3c71a305a250ddd0665c43a1fa8b735"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "singly-linked-list-audit-1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-singly-linked-list",
+          "evidence_id": "evidence-534233ca8105"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-534233ca8105",
+          "exact": "A linked list is a fundamental data structure in computer science. It mainly allows efficient insertion and deletion operations compared to arrays. Like arrays, it is also used to implement other data structures like stack, queue and deque.\nA linked list is a type of linear data structure individual items are not necessarily at contiguous locations. The individual items are called nodes and connected with each other using links."
+        }
+      ],
+      "observations": [
+        {
+          "evidence_id": "evidence-534233ca8105",
+          "subject": "linked list",
+          "predicate": "is described as",
+          "object": "fundamental linear data structure with non-contiguous nodes connected by links",
+          "qualifiers": {
+            "operations": "efficient insertion and deletion compared to arrays",
+            "uses": "implement stack, queue and deque"
+          }
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001",
+        "VAL-002"
+      ],
+      "rationale": "The single target quote exactly states the claim: it says a linked list is a fundamental data structure (0-66), allows efficient insertion and deletion compared to arrays (67-147), is used to implement stack, queue and deque (148-240), has items not necessarily contiguous (241-351), and consists of nodes connected using links (352-432).",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-singly-linked-list",
+          "evidence_id": "evidence-534233ca8105",
+          "start": 0,
+          "end": 66
+        },
+        {
+          "source_id": "web-computer-science-singly-linked-list",
+          "evidence_id": "evidence-534233ca8105",
+          "start": 67,
+          "end": 147
+        },
+        {
+          "source_id": "web-computer-science-singly-linked-list",
+          "evidence_id": "evidence-534233ca8105",
+          "start": 148,
+          "end": 240
+        },
+        {
+          "source_id": "web-computer-science-singly-linked-list",
+          "evidence_id": "evidence-534233ca8105",
+          "start": 241,
+          "end": 351
+        },
+        {
+          "source_id": "web-computer-science-singly-linked-list",
+          "evidence_id": "evidence-534233ca8105",
+          "start": 352,
+          "end": 432
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "supported",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-singly-linked-list",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "singly-linked-list-audit-1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}

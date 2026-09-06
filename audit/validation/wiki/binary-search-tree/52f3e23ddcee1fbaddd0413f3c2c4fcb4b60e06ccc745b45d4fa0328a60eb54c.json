@@ -1,0 +1,298 @@
+{
+  "schema_version": "validation-report/v1",
+  "wiki_id": "binary-search-tree",
+  "validator_version": "wiki-validator",
+  "provider_identity": "agent-cli:ducx",
+  "call_id": "call_44ec58bebc91",
+  "input_hash": "sha256:e364f99dbc54c301bd7b6f7963f53197f1f1315daf43868cf158f1ee9b9bf8d4",
+  "provider_duration_ms": 114167,
+  "provider_meta": {},
+  "ruleset_sha256": "sha256:12994bd7fde3c8df81634c2fe62479c39e357636285e5bcba0113822a0af386d",
+  "rule_refs": [
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6",
+      "spec_id": "WIKI-001",
+      "extract_sha256": "sha256:a6750f56ec50feb9cacb13ba2f6edc4693051f152bda2fb7392f22afb6216e5c"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "EVD-001",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.9",
+      "spec_id": "VAL-001",
+      "extract_sha256": "sha256:ea4d58b37e9e9ff15c5b9b5fd04c8c67dfe000e8bb06357fe037dbe9209f53c0"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§8",
+      "spec_id": "VAL-002",
+      "extract_sha256": "sha256:fcd4efe26830ea6ad8ddf3101ba04a8e15d83f7cb84e5de52400e3b9f0625110"
+    },
+    {
+      "doc": "docs/myknowledge-system-design.md",
+      "section": "§6.4",
+      "spec_id": "ARC-002",
+      "extract_sha256": "sha256:2de8af977dbda5a1816b8d983ae781552c69c9286351310978993716bd83cea2"
+    }
+  ],
+  "audited_at": 1788549304.528779,
+  "wiki_content_sha256": "sha256:745910542e7b00bf745f42d821400795e9f0f24339c71845dec606b88060dc9f",
+  "wiki_evidence_sha256": "sha256:1958571dd14831d7e0fa0bcc3e751896695f2db025dcc666bb65efb9bc5b308f",
+  "evidence_bindings": [
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-binary-search-tree"
+      },
+      "source_id": "web-computer-science-binary-search-tree",
+      "evidence_id": "evidence-48d9322f8dc0",
+      "snapshot_sha256": "sha256:1921c4f32210362ce3be70ac4f8a6cc8a19329c03929dc7c061a96b30d084853",
+      "selector_sha256": "sha256:9c3eee14a9e54a3c9200f7120f23123a6f417e4dc268cc900e562f05e64ef420",
+      "quote_sha256": "sha256:f622a23cd664dd73c81b699bf020eb651b20edb733c4dfd46c7035487f0d93c4"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-binary-search-tree"
+      },
+      "source_id": "web-computer-science-binary-search-tree",
+      "evidence_id": "evidence-43de59ee6712",
+      "snapshot_sha256": "sha256:1921c4f32210362ce3be70ac4f8a6cc8a19329c03929dc7c061a96b30d084853",
+      "selector_sha256": "sha256:b1869201664beb8fedfbb17060ac8adbd370dafe4673fc4d3ee88609c9c44155",
+      "quote_sha256": "sha256:10f408ff5a3a76a524d2e40ca40f5acfd7117f056ce3a896365df4951dd80693"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-binary-search-tree"
+      },
+      "source_id": "web-computer-science-binary-search-tree",
+      "evidence_id": "evidence-5c0f2e90f128",
+      "snapshot_sha256": "sha256:1921c4f32210362ce3be70ac4f8a6cc8a19329c03929dc7c061a96b30d084853",
+      "selector_sha256": "sha256:cdb2e8c67712738ad3299f09d8eac1f1d4b3e7f0628c7a4a029d2de71160aaf3",
+      "quote_sha256": "sha256:123e0e795a2d3dac2b7ec8b930ebd8c72d948c3e19272e0df285dbdc7eb3b541"
+    },
+    {
+      "resolved_object_ref": {
+        "vault_id": "public",
+        "object_type": "source",
+        "object_id": "web-computer-science-binary-search-tree"
+      },
+      "source_id": "web-computer-science-binary-search-tree",
+      "evidence_id": "evidence-09784d528634",
+      "snapshot_sha256": "sha256:1921c4f32210362ce3be70ac4f8a6cc8a19329c03929dc7c061a96b30d084853",
+      "selector_sha256": "sha256:adecf33ae7b525e92f73f75ece5d1a6ab53b5e9a29432f05ac930914c9eab2c1",
+      "quote_sha256": "sha256:cc06b78cc48aa74e76476e7524d07b05ce0c21525d2a5f9702a2b3a607c79cee"
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "c1",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-48d9322f8dc0"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-48d9322f8dc0",
+          "exact": "A Binary Search Tree (BST) is a type of binary tree data structure in which each node contains a unique key and satisfies a specific ordering property:"
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,151)直接陈述“is a type of binary tree data structure”“each node contains a unique key”“satisfies a specific ordering property”，与 claim 完全一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-48d9322f8dc0",
+          "start": 0,
+          "end": 151
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c2",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-43de59ee6712"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-43de59ee6712",
+          "exact": "All nodes in the left subtree of a node contain values strictly less than the node’s value."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,90)明确给出“left subtree”“strictly less than the node’s value”，直接支持 claim。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-43de59ee6712",
+          "start": 0,
+          "end": 90
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c3",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-5c0f2e90f128"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-5c0f2e90f128",
+          "exact": "All nodes in the right subtree of a node contain values strictly greater than the node’s value."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,94)明确给出“right subtree”“strictly greater than the node’s value”，与 claim 一致。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-5c0f2e90f128",
+          "start": 0,
+          "end": 94
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    },
+    {
+      "claim_id": "c4",
+      "verdict": "supported",
+      "targets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-09784d528634"
+        }
+      ],
+      "supporting_quotes": [
+        {
+          "evidence_id": "evidence-09784d528634",
+          "exact": "Operations like search, insertion, and deletion work in O(Log n) time for a balanced binary search tree. In the worst-case (unbalanced), these degrade to O(n)."
+        }
+      ],
+      "applied_rule_refs": [
+        "WIKI-001",
+        "EVD-001",
+        "VAL-001"
+      ],
+      "rationale": "引文[0,159)同时包含“work in O(Log n) time for a balanced binary search tree”和“worst-case (unbalanced)...degrade to O(n)”，完整支持 claim 的两部分。",
+      "rationale_offsets": [
+        {
+          "source_id": "web-computer-science-binary-search-tree",
+          "evidence_id": "evidence-09784d528634",
+          "start": 0,
+          "end": 159
+        }
+      ],
+      "independence": {
+        "group_id": "independence_unknown",
+        "basis": []
+      }
+    }
+  ],
+  "unmapped_claims": [],
+  "contradictions": [],
+  "missing_evidence": [],
+  "quote_errors": [],
+  "verdict": "pass",
+  "corroboration": {
+    "version": "corroboration-v1",
+    "evidence_state": "unresolved",
+    "status": null,
+    "independent_groups": [],
+    "conflict_pairs": [],
+    "same_group_conflicts": false,
+    "pairs": [],
+    "warnings": [
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-binary-search-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-binary-search-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-binary-search-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      },
+      {
+        "code": "independence_unknown",
+        "source_id": "web-computer-science-binary-search-tree",
+        "reason": "source 未声明 independence_group，退回唯一 source ObjectRef；禁止以域名/URL 推断独立（AC-F003-005）"
+      }
+    ],
+    "duplicate_targets": [],
+    "version_scoped_targets": false
+  },
+  "independence_warnings": [
+    {
+      "code": "independence_unknown",
+      "claim_id": "c1",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c2",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c3",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    },
+    {
+      "code": "independence_unknown",
+      "claim_id": "c4",
+      "reason": "独立性判定无 basis 举证，按单一 source 处理"
+    }
+  ],
+  "fail_history": {
+    "fail_count": 0,
+    "last_fail_rule_refs": []
+  }
+}
