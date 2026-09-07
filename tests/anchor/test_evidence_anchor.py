@@ -20,6 +20,26 @@ from tools.operation_store import OPERATION_TTL_SECONDS
 
 
 class EvidenceAnchorTests(unittest.TestCase):
+    def test_media_fragment_is_locator_only(self):
+        snapshot = "这是一个足够长的课程转录片段，用于测试时间定位。"
+        exact = "课程转录片段，用于测试时间定位"
+        plain = EvidenceAnchor.anchor(snapshot, exact, min_chars=6)
+        media = EvidenceAnchor.anchor(
+            snapshot, exact, min_chars=6, media_fragment="#t=1450,1520"
+        )
+        self.assertEqual(plain["selector_sha256"], media["selector_sha256"])
+        self.assertEqual(plain["quote_sha256"], media["quote_sha256"])
+        self.assertEqual(media["locator"], {"media_fragment": "#t=1450,1520"})
+
+    def test_media_fragment_is_strictly_validated(self):
+        with self.assertRaisesRegex(ValueError, "media_fragment_invalid"):
+            EvidenceAnchor.anchor(
+                "足够长的课程转录片段，用于测试时间定位。",
+                "课程转录片段，用于测试时间定位",
+                min_chars=6,
+                media_fragment="#t=20,10",
+            )
+
     def test_ambiguous_and_short_quotes(self):
         """AC-F001-012：短引文与歧义引文被拒绝。"""
         with self.assertRaisesRegex(ValueError, "ambiguous_selector"):

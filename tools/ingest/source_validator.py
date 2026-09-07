@@ -16,6 +16,7 @@ from ..common import (
     sha256_text,
 )
 from ..front_matter import FrontMatter
+from .video_inventory import validate_video_url
 
 
 class SourceValidator:
@@ -33,16 +34,18 @@ class SourceValidator:
             errors.append({"code": "schema_invalid", "path": "source_type"})
         if request.get("domain") not in DOMAINS:
             errors.append({"code": "schema_invalid", "path": "domain"})
-        if request.get("input_path") and source_type != "local-file":
+        if request.get("input_path") and source_type not in {"local-file", "video"}:
             errors.append(
                 {
                     "code": "schema_invalid",
                     "path": "source_type",
-                    "reason": "input_path_requires_local_file",
+                    "reason": "input_path_requires_local_file_or_video_transcript",
                 }
             )
         if source_type == "local-file" and not request.get("input_path"):
             errors.append({"code": "schema_invalid", "path": "input_path"})
+        if source_type == "video":
+            errors.extend(self._validate_video_request(request))
         if (
             source_type == "personal-note"
             and request.get("origin", "personal") != "personal"
@@ -67,6 +70,7 @@ class SourceValidator:
         acquisition = request.get("acquisition") or {
             "local-file": "local-file",
             "personal-note": "personal-note",
+            "video": "video",
         }.get(source_type, "fetch")
         if acquisition not in ACQUISITIONS:
             errors.append({"code": "schema_invalid", "path": "retrieval.acquisition"})
@@ -75,6 +79,29 @@ class SourceValidator:
                 safe_id(request["source_id"])
             except ValueError:
                 errors.append({"code": "schema_invalid", "path": "source_id"})
+        return errors
+
+    @staticmethod
+    def _validate_video_request(request: dict) -> list[dict]:
+        errors = []
+        if request.get("url"):
+            try:
+                validate_video_url(request["url"])
+            except ValueError:
+                errors.append({"code": "schema_invalid", "path": "url"})
+        if request.get("asr_engine"):
+            if request["asr_engine"] not in {"whisper.cpp", "openai-whisper"}:
+                errors.append({"code": "schema_invalid", "path": "asr_engine"})
+            if not request.get("input_path"):
+                errors.append({"code": "schema_invalid", "path": "input_path"})
+            if request["asr_engine"] == "whisper.cpp" and not request.get(
+                "asr_model_path"
+            ):
+                errors.append({"code": "schema_invalid", "path": "asr_model_path"})
+        if request.get("archive_policy", "transcript-only") != "transcript-only":
+            errors.append({"code": "schema_invalid", "path": "archive_policy"})
+        if request.get("subtitle_mode") not in {None, "manual", "automatic"}:
+            errors.append({"code": "schema_invalid", "path": "subtitle_mode"})
         return errors
 
     @staticmethod
@@ -111,6 +138,8 @@ class SourceValidator:
                 )
             if not metadata.get("snapshot_sha256"):
                 errors.append({"code": "schema_invalid", "path": "snapshot_sha256"})
+        elif metadata.get("source_type") == "video":
+            errors.extend(self._validate_video_metadata(metadata))
         elif metadata.get("source_type") == "personal-note":
             if (metadata.get("retrieval") or {}).get("acquisition") != "personal-note":
                 errors.append(
@@ -122,4 +151,13 @@ class SourceValidator:
             "snapshot_sha256"
         ) != sha256_text(body):
             errors.append({"code": "snapshot_hash_mismatch", "path": "snapshot_sha256"})
+        return errors
+
+    @staticmethod
+    def _validate_video_metadata(metadata: dict) -> list[dict]:
+        errors = []
+        if (metadata.get("retrieval") or {}).get("acquisition") != "video":
+            errors.append({"code": "schema_invalid", "path": "retrieval.acquisition"})
+        if not metadata.get("video"):
+            errors.append({"code": "schema_invalid", "path": "video"})
         return errors

@@ -38,6 +38,9 @@ from ..vault_lock import LockBusyError, VaultLock
 from .fetcher import URLFetcher
 from .parser import Attachment, DocumentParser, ParseResult, media_suffix
 from .source_validator import SourceValidator
+from .video_asr import transcribe_openai_whisper, transcribe_whisper_cpp
+from .video_subtitles import acquire_subtitles
+from .video_transcript import parse_subtitles, render_transcript
 
 
 def _block_error_code(exc: Exception) -> str:
@@ -96,6 +99,7 @@ class AcquireResult(NamedTuple):
     resolved_url: str | None = None
     raw_data: bytes | None = None
     attachments: list = []
+    provenance: dict | None = None
 
 
 class SourceAcquirer(Protocol):
@@ -144,6 +148,72 @@ class PersonalNoteAcquirer:
         )
 
 
+class VideoAcquirer:
+    """Normalize a local VTT/SRT transcript for a video Source."""
+
+    source_type = "video"
+
+    def acquire(self, request: dict, extractor: Extractor) -> AcquireResult:  # noqa: ARG002
+        if request.get("asr_engine"):
+            path = Path(request["input_path"])
+            media_data, stat = read_stable(path)
+            if request["asr_engine"] == "openai-whisper":
+                asr = transcribe_openai_whisper(
+                    path,
+                    model=request.get("asr_model", "turbo"),
+                    executable=request.get("asr_path", "whisper"),
+                    language=request.get("asr_language", "zh"),
+                )
+            else:
+                asr = transcribe_whisper_cpp(
+                    path,
+                    Path(request["asr_model_path"]),
+                    executable=request.get("asr_path", "whisper-cli"),
+                    language=request.get("asr_language", "auto"),
+                    threads=request.get("asr_threads"),
+                )
+            if request.get("asr_model_sha256"):
+                asr.provenance["model_sha256"] = request["asr_model_sha256"]
+            data, suffix = asr.data, ".srt"
+            original_hash = sha256_bytes(media_data)
+            provenance = asr.provenance
+        elif request.get("input_path"):
+            path = Path(request["input_path"])
+            data, stat = read_stable(path)
+            suffix = path.suffix.lower() or ".vtt"
+            original_hash = sha256_bytes(data)
+            provenance = request.get("transcript_provenance") or {
+                "kind": "manual",
+                "language": request.get("subtitle_language", "unknown"),
+                "format": suffix.removeprefix("."),
+                "extractor": "local-subtitle/1",
+            }
+        else:
+            remote = acquire_subtitles(
+                request["url"],
+                languages=request.get("subtitle_languages", "zh-Hans,zh-CN,zh,cmn,en"),
+                allow_automatic=request.get("allow_automatic", False),
+                executable=request.get("ytdlp_path", "yt-dlp"),
+            )
+            data, stat, suffix = remote.data, None, ".vtt"
+            original_hash = sha256_bytes(data)
+            provenance = {
+                "kind": remote.kind,
+                "language": remote.language,
+                "format": remote.format,
+                "extractor": remote.extractor,
+            }
+        body = render_transcript(parse_subtitles(data, suffix))
+        return AcquireResult(
+            body=body,
+            extractor="video-transcript/1",
+            media_type="text/markdown",
+            original_hash=original_hash,
+            original_stat=stat,
+            provenance=provenance,
+        )
+
+
 class FetchAcquirer:
     """fetch 策略：抓取 URL 并提取正文（非 local-file/personal-note 的 source_type 默认走此）。"""
 
@@ -186,6 +256,7 @@ class SourceIngestor:
         self._acquirers: dict[str, SourceAcquirer] = {
             LocalFileAcquirer.source_type: LocalFileAcquirer(),
             PersonalNoteAcquirer.source_type: PersonalNoteAcquirer(),
+            VideoAcquirer.source_type: VideoAcquirer(),
             FetchAcquirer.source_type: FetchAcquirer(fetcher),
         }
 
@@ -246,6 +317,16 @@ class SourceIngestor:
                     else None
                 ),
             }
+            if source_type == "video":
+                payload["video"] = {
+                    "url": request["url"],
+                    "archive_policy": request.get("archive_policy", "transcript-only"),
+                    "transcript_provenance": acquired.provenance or {},
+                }
+                if (acquired.provenance or {}).get("kind") == "asr":
+                    payload["video"]["media_input_sha256"] = acquired.original_hash
+                else:
+                    payload["video"]["transcript_input_sha256"] = acquired.original_hash
             if acquired.resolved_url is not None:
                 payload["resolved_url"] = acquired.resolved_url
             if acquired.raw_data is not None:
@@ -412,7 +493,8 @@ class SourceIngestor:
     def _source_metadata(self, record: dict, snapshot_hash: str) -> dict:
         """source front matter（§5.4）：不含 local 段，由 sidecar 写入时补。"""
         personal = record["source_type"] == "personal-note"
-        return {
+        video = record["source_type"] == "video"
+        metadata = {
             "schema_version": "source/v1",
             "id": record["source_id"],
             "domain": record["domain"],
@@ -423,7 +505,11 @@ class SourceIngestor:
                 "acquisition": (
                     "personal-note"
                     if personal
-                    else ("local-file" if record["input_path"] else "fetch")
+                    else (
+                        "video"
+                        if video
+                        else ("local-file" if record["input_path"] else "fetch")
+                    )
                 ),
                 **({"url": record["url"]} if record.get("url") else {}),
                 **(
@@ -437,8 +523,16 @@ class SourceIngestor:
             "media_type": record["media_type"],
             "read_status": "retrieved",
             "confidentiality": "public",
-            "archive_policy": "text-only",
+            "archive_policy": "transcript-only" if video else "text-only",
         }
+        if video:
+            metadata["video"] = record.get("video") or {
+                "url": record.get("url"),
+                "archive_policy": "transcript-only",
+                "transcript_input_sha256": record.get("input_hash"),
+            }
+            metadata["retrieval"]["transcript_source"] = "local-subtitle"
+        return metadata
 
     def _attach_originals(
         self, record: dict, metadata: dict
@@ -514,7 +608,7 @@ class SourceIngestor:
         if not archive_path.exists():
             atomic_write(archive_path, body.encode("utf-8"))
         injection_point("after_archive")
-        if record["input_path"]:
+        if record["input_path"] and record["source_type"] == "local-file":
             metadata["local"] = self._write_sidecar(record)
         self._append_manifest(
             self._manifest_entry(
@@ -632,6 +726,38 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--from-file", dest="input_path")
     parser.add_argument("--personal-note")
     parser.add_argument("--url")
+    parser.add_argument(
+        "--video-transcript", help="local .vtt/.srt transcript for --url"
+    )
+    parser.add_argument(
+        "--video-subtitles", action="store_true", help="fetch platform subtitles only"
+    )
+    parser.add_argument(
+        "--allow-automatic-subtitles",
+        action="store_true",
+        help="allow automatic subtitles after manual subtitles are absent",
+    )
+    parser.add_argument("--subtitle-languages", default="zh-Hans,zh-CN,zh,cmn,en")
+    parser.add_argument("--transcript-kind", choices=("manual", "automatic", "asr"))
+    parser.add_argument("--transcript-engine")
+    parser.add_argument("--transcript-model")
+    parser.add_argument("--transcript-model-sha256")
+    parser.add_argument("--ytdlp-path", default="yt-dlp")
+    parser.add_argument(
+        "--video-asr",
+        action="store_true",
+        help="transcribe local media with a supported ASR CLI",
+    )
+    parser.add_argument(
+        "--asr-engine",
+        choices=("whisper.cpp", "openai-whisper"),
+        default="whisper.cpp",
+    )
+    parser.add_argument("--asr-model")
+    parser.add_argument("--asr-model-sha256")
+    parser.add_argument("--asr-path", default="whisper-cli")
+    parser.add_argument("--asr-language", default="auto")
+    parser.add_argument("--asr-threads", type=int)
     parser.add_argument("--source-id")
     parser.add_argument("--domain", default="tools")
     parser.add_argument("--media-type", default="text/plain")
@@ -657,7 +783,55 @@ def main(argv: list[str] | None = None) -> int:
             )
         )
         return 0
-    if args.input_path:
+    if args.video_asr:
+        request = {
+            "source_type": "video",
+            "domain": args.domain,
+            "input_path": args.input_path,
+            "url": args.url,
+            "source_id": args.source_id,
+            "archive_policy": "transcript-only",
+            "asr_engine": args.asr_engine,
+            "asr_model": args.asr_model,
+            "asr_model_sha256": args.asr_model_sha256,
+            "asr_model_path": args.asr_model,
+            "asr_path": args.asr_path,
+            "asr_language": args.asr_language,
+            "asr_threads": args.asr_threads,
+        }
+    elif args.video_transcript:
+        request = {
+            "source_type": "video",
+            "domain": args.domain,
+            "input_path": args.video_transcript,
+            "url": args.url,
+            "source_id": args.source_id,
+            "archive_policy": "transcript-only",
+            "transcript_provenance": (
+                {
+                    "kind": args.transcript_kind,
+                    "engine": args.transcript_engine,
+                    "model_name": args.transcript_model,
+                    "model_sha256": args.transcript_model_sha256,
+                    "language": args.asr_language,
+                    "format": "srt",
+                }
+                if args.transcript_kind
+                else None
+            ),
+        }
+    elif args.video_subtitles:
+        request = {
+            "source_type": "video",
+            "domain": args.domain,
+            "url": args.url,
+            "source_id": args.source_id,
+            "archive_policy": "transcript-only",
+            "allow_automatic": args.allow_automatic_subtitles,
+            "subtitle_languages": args.subtitle_languages,
+            "ytdlp_path": args.ytdlp_path,
+        }
+    elif args.input_path:
         request = {
             "source_type": "local-file",
             "domain": args.domain,

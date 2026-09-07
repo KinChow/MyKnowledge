@@ -15,6 +15,7 @@
 | OPS | 写操作协议 |
 | IDX / API / WEB | 索引、后端和公开站 |
 | QST / SKILL / MIG / SEC | 题目、Agent、迁移和保密 |
+| VID | 视频来源、合集 inventory、课程任务和媒体资料边界 |
 
 ## 完成度列说明
 
@@ -57,8 +58,16 @@
 | LAY-004 | F013/F004 | ADR-0014/0006 | [layers-and-channels](./technical-design/layers-and-channels.md), [write-operation-and-locking](./technical-design/write-operation-and-locking.md) | AC-F013-003/004/005 | 待实现 | Designed | 未开始 |
 | CHN-001 | F013/F002 | ADR-0014 | [layers-and-channels](./technical-design/layers-and-channels.md), [wiki-claim-validation](./technical-design/wiki-claim-validation.md) | AC-F013-006/007 | 语义已按 2026-09-01 决策改为「降级落位 + 逐篇升级」（快速通道取消）；`tools/layers.py::working_contract_error` + tests/test_write_operation.py 覆盖入口约束，整批降级与出口隔离断言待 Task 9 | Implemented（部分） | 主体完成 |
 | WIKI-003 | F013/F002 | ADR-0014/0004 | [layers-and-channels](./technical-design/layers-and-channels.md) | AC-F013-008/009 | tests/test_review_by.py（真实页面增删 `review_by` 后双 hash 与派生状态逐项不变、发布确认仍有效、到期只进 doctor 清单、非法日期阻断） | Implemented | 完成 |
-| SRC-002 | F014/F001 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [source-ingestion](./technical-design/source-ingestion-and-archive.md) | AC-F014-001/006 | 待实现 | Designed | 未开始 |
-| ARC-005 | F014/F003 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [wiki-claim-validation](./technical-design/wiki-claim-validation.md) | AC-F014-002/003/004/005/007/008 | 待实现 | Designed | 未开始 |
+| SRC-002 | F014/F001 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [source-ingestion](./technical-design/source-ingestion-and-archive.md) | AC-F014-001/006 | `tools/ingest/source_ingestor.py`, `tools/ingest/source_validator.py`; `tests/ingest/test_video_transcript.py`, `tests/ingest/test_video_asr.py` 覆盖 `video` Source 的 preview/apply 与既有导入回归；数字断言语气规则仍待实现 | Implemented（部分） | 主体完成 |
+| ARC-005 | F014/F003 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [wiki-claim-validation](./technical-design/wiki-claim-validation.md) | AC-F014-002/003/004/005/007/008 | `tools/ingest/video_transcript.py`, `tools/ingest/video_subtitles.py`, `tools/ingest/video_asr.py`, `tools/ingest/video_frames.py`, `tools/evidence_anchor.py`, `tools/validation/derived.py`, `tests/ingest/test_video_transcript.py`, `tests/ingest/test_video_subtitles.py`, `tests/ingest/test_video_asr.py`, `tests/ingest/test_video_frames.py`, `tests/anchor/test_evidence_anchor.py`, `tests/validation/test_video_strength.py` 覆盖 transcript、平台字幕 provenance、本地 ASR strength gate、关键帧 manifest/确认落位、media_fragment、不写 raw、hash 漂移；人工字幕完整 strength 回归仍待实现 | Implemented（部分） | 主体完成 |
+| VID-001 | F014 | ADR-0013/0014 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-002/003 | 待实现 | Designed | 未开始 |
+| VID-002 | F014 | ADR-0013/0001 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-003/005/007 | 待实现 | Designed | 未开始 |
+| VID-003 | F014 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-004/005 | 待实现 | Designed | 未开始 |
+| VID-004 | F014 | ADR-0013 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-005/007 | 待实现 | Designed | 未开始 |
+| VID-005 | F014 | ADR-0002/0003/0013 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-001/006/010 | 待实现 | Designed | 未开始 |
+| VID-006 | F014 | ADR-0001/0002 | [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-004/010 | 待实现 | Designed | 未开始 |
+| VID-007 | F014 | ADR-0004/0013 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-009 | 待实现 | Designed | 未开始 |
+| VID-008 | F014 | ADR-0006/0013 | [media-sources](./technical-design/media-sources.md), [cs336-course-archive-task](./technical-design/cs336-course-archive-task.md) | TASK-CS336-009/010 | 待实现 | Designed | 未开始 |
 
 ## Public Wiki、索引与 Private Vault
 
@@ -101,7 +110,7 @@
 | F011 | AC-F011-001, AC-F011-002, AC-F011-003, AC-F011-004, AC-F011-005, AC-F011-006, AC-F011-007, AC-F011-008, AC-F011-009, AC-F011-010, AC-F011-011, AC-F011-012, AC-F011-013, AC-F011-014, AC-F011-015, AC-F011-016, AC-F011-017, AC-F011-018, AC-F011-019 |
 | F012 | AC-F012-001, AC-F012-002, AC-F012-003, AC-F012-004, AC-F012-005, AC-F012-006, AC-F012-007, AC-F012-008 |
 | F013 | AC-F013-001, AC-F013-002, AC-F013-003, AC-F013-004, AC-F013-005, AC-F013-006, AC-F013-007, AC-F013-008, AC-F013-009, AC-F013-010, AC-F013-011, AC-F013-012 |
-| F014 | AC-F014-001, AC-F014-002, AC-F014-003, AC-F014-004, AC-F014-005, AC-F014-006, AC-F014-007, AC-F014-008 |
+| F014 | AC-F014-001, AC-F014-002, AC-F014-003, AC-F014-004, AC-F014-005, AC-F014-006, AC-F014-007, AC-F014-008, TASK-CS336-001, TASK-CS336-002, TASK-CS336-003, TASK-CS336-004, TASK-CS336-005, TASK-CS336-006, TASK-CS336-007, TASK-CS336-008, TASK-CS336-009, TASK-CS336-010 |
 
 ## 完整性要求
 

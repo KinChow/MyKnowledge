@@ -495,6 +495,8 @@ def compute_strength(
     )
     if resolution.get("personal_only") or any_claim_personal_only:
         return "personal"
+    if _has_unverified_asr_target(resolution):
+        return "attested"
     if resolution.get("common_knowledge_only") and evidence_state in {
         "supported",
         "corroborated",
@@ -513,6 +515,38 @@ def compute_strength(
         }
         return "attested" if len(sources) <= 1 else "verified"
     return None  # 其他：不可发布，等待补证/人工决策
+
+
+def _has_unverified_asr_target(resolution: dict) -> bool:
+    """ASR/automatic subtitle evidence is capped until its cited segment is checked."""
+    sources = resolution.get("sources") or {}
+    for target in resolution.get("resolved_targets") or []:
+        source = sources.get(target.get("source_id")) or {}
+        metadata = source.get("metadata") or {}
+        video = metadata.get("video") or {}
+        provenance = video.get("transcript_provenance") or {}
+        if provenance.get("kind") not in {"asr", "automatic"}:
+            continue
+        marker = target.get("human_verified_segment")
+        position = target.get("position") or {}
+        if not _segment_covers(marker, position):
+            return True
+    return False
+
+
+def _segment_covers(marker: object, position: dict) -> bool:
+    """Only an evidence-item segment range can unlock an ASR target."""
+    if not isinstance(marker, dict):
+        return False
+    marker_start = marker.get("start")
+    marker_end = marker.get("end")
+    start = position.get("start")
+    end = position.get("end")
+    return (
+        all(isinstance(value, int) for value in (marker_start, marker_end, start, end))
+        and marker_start <= start
+        and end <= marker_end
+    )
 
 
 def has_private_confirmation(

@@ -112,6 +112,8 @@ class MarkerExtractor:
             from marker.converters.pdf import PdfConverter
             from marker.models import create_model_dict
         except ImportError as exc:  # pragma: no cover - 依赖缺失路径
+            if self._is_pdf(data, media_type):
+                return self._pdf_fallback(data, media_type)
             raise RuntimeError("extractor_unavailable:marker") from exc
         try:
             import tempfile
@@ -124,6 +126,11 @@ class MarkerExtractor:
                 converter = PdfConverter(artifact_dict=artifacts)
                 result = converter(Path(handle.name))
         except Exception as exc:
+            if self._is_pdf(data, media_type):
+                try:
+                    return self._pdf_fallback(data, media_type)
+                except RuntimeError:
+                    pass
             raise RuntimeError("extract_failed:marker") from exc
         markdown = _MARKER_BOLD_NOISE.sub(r"\1", result.markdown or "")
         attachments = self._collect_attachments(result)
@@ -138,6 +145,16 @@ class MarkerExtractor:
             metadata=metadata,
             extractor="marker/" + _marker_version(),
         )
+
+    @staticmethod
+    def _is_pdf(data: bytes, media_type: str) -> bool:
+        return "pdf" in (media_type or "").lower() or data.startswith(b"%PDF")
+
+    @staticmethod
+    def _pdf_fallback(data: bytes, media_type: str) -> ParseResult:
+        """Use the repository's mature pypdf extractor when Marker cannot run."""
+        text, extractor = TextExtractor().extract(data, media_type)
+        return ParseResult(markdown=text, extractor=extractor)
 
     def _suffix(self, media_type: str) -> str:
         mt = (media_type or "").lower()

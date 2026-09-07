@@ -103,11 +103,21 @@ class RepoPaths:
         原文为 `sources/<domain>/<id>.md`；A3 把每个 source 收进以 id 命名的目录，
         原始附件（`<id>.<ext>`）、衍生媒体（`media/`）、转录（`transcript/`）与 .md 同驻。
         """
-        return self.source_dir(domain, source_id) / f"{source_id}.md"
+        direct = self.sources_dir(domain) / source_id / f"{source_id}.md"
+        if direct.exists():
+            return direct
+        nested = sorted(
+            self.sources_dir(domain).glob(f"*/{source_id}/{source_id}.md")
+        )
+        return nested[0] if len(nested) == 1 else direct
 
     def source_dir(self, domain: str, source_id: str) -> Path:
         """A3 目录：`sources/<domain>/<id>/`。"""
-        return self.sources_dir(domain) / source_id
+        direct = self.sources_dir(domain) / source_id
+        if (direct / f"{source_id}.md").exists():
+            return direct
+        nested = sorted(self.sources_dir(domain).glob(f"*/{source_id}"))
+        return nested[0] if len(nested) == 1 else direct
 
     def source_attachment(self, domain: str, source_id: str, filename: str) -> Path:
         """source 目录内的附件路径（原始件 `<id>.<ext>`、衍生 `media/<name>` 等）。"""
@@ -120,6 +130,10 @@ class RepoPaths:
     def source_raw_staging(self, operation_id: str, suffix: str = "") -> Path:
         """fetch 原件在 preview→apply 之间的暂存路径（apply 后清除，不留垃圾）。"""
         return self.state_root / "source-raw" / f"{operation_id}{suffix}"
+
+    def frame_staging(self, operation_id: str) -> Path:
+        """视频关键帧 preview 产物的暂存目录（apply 后清除）。"""
+        return self.state_root / "frame-staging" / operation_id
 
     def source_domains(self) -> list[str]:
         """sources 下实际存在的域目录。

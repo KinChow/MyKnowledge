@@ -4,8 +4,9 @@
 - 相关规范：ARC-005、SRC-002（系统设计 §5.10、§5.6、§6.7、§6.9）
 - ADR：ADR-0013
 - 实现设计：[音视频与转录来源](../technical-design/media-sources.md)
-- 状态：Designed（2026-08-30；尚未实现，全部场景待实现）
-- 测试运行：`.venv/bin/python -m pytest tests/ingest/ tests/validation/`
+- 状态：In progress（2026-09-07；transcript-only、平台字幕探测、ASR、批处理和关键帧已实现；完整真实任务及部分 AC 仍待完成）
+- 测试运行：`/tmp/video-f014-test-env/bin/python -m pytest -q tests/ingest/test_video_transcript.py tests/ingest/test_video_inventory.py tests/ingest/test_source_ingestor.py`
+- 首个真实任务：[CS336 课程归档演练](./cs336-course-archive-task.md)
 
 ## Fixture 约定
 
@@ -19,7 +20,7 @@
 - 失败时不变量：**不得重命名或删除既有取值**（`source_type` 位于 `hash_inputs.source_semantic`，改名会触发全库重验）；CSL 对齐只能通过映射表表达；
 - 自动化级别：Unit。
 - 对应测试：待实现。
-- 当前状态：待实现。
+- 当前状态：部分实现：`video` 已加入枚举并通过既有 Source 导入回归；其它计划中的媒体/学术类型仍待实现。
 
 ## AC-F014-002 media_fragment 不参与任何 hash
 
@@ -28,8 +29,8 @@
 - Then：三者与不含 `media_fragment` 时完全一致；修改 `media_fragment` 不使任何 claim 失效；
 - 失败时不变量：`media_fragment` 与 §5.5 的章节 locator 同性质，只用于阅读定位，不得引入新的失效轴；
 - 自动化级别：Unit。
-- 对应测试：待实现。
-- 当前状态：待实现。
+- 对应测试：`tests/anchor/test_evidence_anchor.py`。
+- 当前状态：已实现。
 
 ## AC-F014-003 ASR 派生的 claim 强度封顶 attested
 
@@ -38,8 +39,8 @@
 - Then：`strength` 为 `attested`，不是 `verified`；页面上可见该强度标识；
 - 失败时不变量：不得静默保留 `verified`；不得由作者字段覆写派生结果；
 - 自动化级别：Unit。
-- 对应测试：待实现。
-- 当前状态：待实现。
+- 对应测试：`tests/validation/test_video_strength.py`。
+- 当前状态：已实现。
 
 ## AC-F014-004 片段级人工校对解除上限
 
@@ -48,8 +49,8 @@
 - Then：上限解除，该 claim 可按常规规则派生 `verified`；同一份转录稿内未校对区间的其它 claim 仍被封顶为 `attested`；
 - 失败时不变量：标注必须是片段级，不得以 source 级开关一次性解除整篇；
 - 自动化级别：Unit。
-- 对应测试：待实现。
-- 当前状态：待实现。
+- 对应测试：`tests/validation/test_video_strength.py`。
+- 当前状态：已实现。
 
 ## AC-F014-005 人工字幕按准原文处理、自动字幕按 ASR 处理
 
@@ -58,8 +59,48 @@
 - Then：人工字幕支撑的 claim 可派生 `verified`；自动字幕支撑的 claim 被封顶为 `attested`；
 - 失败时不变量：判据是字幕来源而不是文件格式，`.vtt` 后缀本身不构成任何强度依据；
 - 自动化级别：Unit。
-- 对应测试：待实现。
-- 当前状态：待实现。
+- 对应测试：`tests/ingest/test_video_subtitles.py`、`tests/validation/test_video_strength.py`。
+- 当前状态：部分实现：来源 provenance 已区分人工/自动；人工字幕准原文与自动字幕 ASR 的完整 strength 回归仍待补。
+
+## AC-F014-007a transcript-only 本地字幕切片（已实现）
+
+- Given：`source_type: video`、可访问的视频 URL，以及本地 `.vtt` 或 `.srt` 字幕文件；
+- When：执行 `SourceIngestor.preview` → 人工确认 `apply`；
+- Then：字幕被规范化为带时间范围的 Markdown snapshot，Source 与 manifest 记录视频 URL、字幕输入 hash、`video-transcript/1` 和 `archive_policy: transcript-only`；不写 `archive/raw/`；
+- 失败时不变量：preview 后字幕文件发生内容或 stat 漂移，apply 返回 `hash_mismatch`；空字幕、反向时间或不支持后缀被阻断；
+- 自动化级别：Unit + integration；
+- 对应测试：`tests/ingest/test_video_transcript.py`；
+- 当前状态：已实现并独立环境验证通过。
+
+## AC-F014-005a 平台字幕获取（已实现）
+
+- Given：Bilibili/YouTube URL；
+- When：执行 `source --video-subtitles`，调用 `yt-dlp` 的 `--skip-download` 和字幕选项；
+- Then：优先获取人工字幕并规范化为同一 transcript snapshot，Source 记录 `yt-dlp` 版本、语言、`manual`/`automatic` 来源和输入 hash；
+- 失败时不变量：只有显式允许自动字幕时才回退自动字幕；没有字幕返回 `video_subtitles_missing`；不下载视频，不写 `archive/raw/`；
+- 自动化级别：Unit + integration + live probe；
+- 对应测试：`tests/ingest/test_video_subtitles.py`；真实 Bilibili 探测记录为无字幕阻断；
+- 当前状态：已实现并独立环境验证通过。
+
+## AC-F014-003a 本地 ASR provenance（已实现）
+
+- Given：本地音视频文件，以及外部 `whisper.cpp` 或 `openai-whisper` 可执行文件和模型；
+- When：执行 `source --video-asr`；
+- Then：读取 ASR CLI 生成的 SRT，转为 canonical transcript，并记录引擎版本、模型名/hash、语言、线程参数和媒体输入 hash；
+- 失败时不变量：媒体、模型或 ASR 运行时缺失时结构化阻断；模型权重和媒体不写入仓库的 `archive/raw/`；
+- 自动化级别：Unit + integration；
+- 对应测试：`tests/ingest/test_video_asr.py`；真实 CS336 P1 30 秒样本使用 OpenAI Whisper Turbo 跑通，P9/P10 full transcript 使用 whisper.cpp 跑通并完成 canonical Apply。
+- 当前状态：已实现并独立环境验证通过；ASR strength gate 由 `tests/validation/test_video_strength.py` 覆盖。
+
+## AC-F014-008a 关键帧 manifest 与确认落位（已实现）
+
+- Given：已存在的 `video` Source、本地媒体文件和人工选择的时间点；
+- When：执行 `video-frames preview` 后人工确认 `video-frames apply`；
+- Then：ffmpeg 生成 PNG，Source 的 `media/frames/` 和 manifest 记录视频 hash、时间戳、ffmpeg 版本/参数及图片 hash；
+- 失败时不变量：媒体漂移、ffmpeg 缺失、抽帧失败或未确认不得把图片写入 Source；图片不能脱离视频 hash 单独成为事实证据；
+- 自动化级别：Unit + integration；
+- 对应测试：`tests/ingest/test_video_frames.py`；
+- 当前状态：已实现并独立环境验证通过。
 
 ## AC-F014-006 口头来源的数字类断言必须降级
 
@@ -90,3 +131,9 @@
 - 自动化级别：Unit。
 - 对应测试：待实现。
 - 当前状态：待实现。
+
+## 首个真实任务
+
+F014 的完整验收不能只依赖 unit fixture。首个真实任务是 [CS336 课程归档演练](./cs336-course-archive-task.md)，其任务级验收编号为 `TASK-CS336-001`–`TASK-CS336-010`，覆盖 Bilibili 合集 inventory、范围确认、官方 Stanford 资料 allowlist、字幕/ASR、关键帧、时间戳证据、漂移恢复和 public/private 隔离。
+
+任务验收通过的条件是：所有阻断级任务场景通过，且至少一条真实视频产生可校验 transcript snapshot、至少一份官方资料产生可校验 text/PDF snapshot；任务失败或只完成 metadata inventory 时，F014 仍保持 `Designed`，不得标记为 `Accepted`。

@@ -187,6 +187,7 @@ def resolve_and_verify(
                     "snapshot_sha256": item.get("snapshot_sha256"),
                     "selector": item.get("selector") or {},
                     "position": item.get("position") or {},
+                    "human_verified_segment": item.get("human_verified_segment"),
                     "supporting_quote": quotes.get(evidence_id, ""),
                 }
             )

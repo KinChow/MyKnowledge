@@ -9,5 +9,26 @@ from .extractor import TextExtractor
 from .fetcher import URLFetcher
 from .source_ingestor import SourceIngestor
 from .source_validator import SourceValidator
+from .video_asr import transcribe_openai_whisper, transcribe_whisper_cpp
+from .video_frames import VideoFrameService, extract_keyframes
+from .video_inventory import build_inventory, classify_language, validate_video_url
+from .video_subtitles import acquire_subtitles
+from .video_transcript import normalize_file, parse_subtitles, render_transcript
 
-__all__ = ["SourceIngestor", "URLFetcher", "TextExtractor", "SourceValidator"]
+__all__ = [
+    "SourceIngestor",
+    "URLFetcher",
+    "TextExtractor",
+    "SourceValidator",
+    "build_inventory",
+    "classify_language",
+    "validate_video_url",
+    "acquire_subtitles",
+    "transcribe_whisper_cpp",
+    "transcribe_openai_whisper",
+    "VideoFrameService",
+    "extract_keyframes",
+    "normalize_file",
+    "parse_subtitles",
+    "render_transcript",
+]

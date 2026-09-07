@@ -35,7 +35,13 @@
 | F010 存量内容迁移和质量清理 | Implemented | [F010](./F010-content-migration.md) |
 | F011 Private Vaults 子仓库（0..N） | Implemented | [F011](./F011-private-vault.md) |
 | F012 备份、恢复和可观测性 | Implemented | [F012](./F012-backup-and-observability.md) |
-| F014 音视频与转录来源 | Designed（未实现） | [F014](./F014-media-sources.md) |
+| F014 音视频与转录来源 | In progress | [F014](./F014-media-sources.md) |
+
+## F014 首个真实任务
+
+| 任务 | 状态 | 验收文档 |
+| --- | --- | --- |
+| CS336 课程归档演练 | Partial | [任务验收](./cs336-course-archive-task.md) |
 
 > 状态从各验收文档「- 状态：」行读取；`Implemented` 不等于 `Accepted`（需
 > P0 阻断级场景全部通过）。索引完整性由 `tools.matrix_sync.check_doc_indexes`

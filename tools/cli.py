@@ -18,6 +18,9 @@ from tools.backup import BackupManager
 from tools.doctor import main as doctor_main
 from tools.evidence_anchor import main as anchor_main
 from tools.ingest.source_ingestor import main as source_main
+from tools.ingest.video_batch import main as video_batch_main
+from tools.ingest.video_frames import main as video_frames_main
+from tools.ingest.video_inventory import main as video_inventory_main
 from tools.inventory_legacy import main as inventory_main
 from tools.matrix_sync import main as matrix_main
 from tools.migrate_legacy import main as migrate_main
@@ -634,6 +637,9 @@ def skill_main(argv: list[str]) -> int:
 
 COMMANDS = {
     "source": source_main,
+    "video-inventory": video_inventory_main,
+    "video-frames": video_frames_main,
+    "video-batch": video_batch_main,
     "anchor": anchor_main,
     "validate": validate_main,
     "audit": audit_main,
@@ -664,6 +670,9 @@ COMMANDS = {
 USAGE = """usage: python -m tools.cli <command> [options...]
 commands:
   source           Source 导入与归档（local-file / personal-note / url）
+  video-inventory  Bilibili/YouTube metadata inventory（不下载媒体）
+  video-frames     Preview/apply confirmed video keyframes
+  video-batch      Resumable per-item video Source batch archive
   anchor           Evidence 锚定（在快照中定位引文生成 selector）
   validate         Wiki 确定性校验（schema + 跨字段规则 + 派生字段）
   audit            LLM 证据审计（provider 调用 + 覆盖义务 + 报告写入）

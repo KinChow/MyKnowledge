@@ -36,6 +36,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 | Question 题型与面试练习 | Implemented | [正文](./question-and-practice.md) |
 | 存量内容迁移与质量清理 | Implemented | [正文](./content-migration.md) |
 | 音视频与转录来源 | （正文无状态行） | [正文](./media-sources.md) |
+| F014 首个真实任务：CS336 课程归档演练 | Partial | [正文](./cs336-course-archive-task.md) |
 | 备份、恢复与可观测性 | Implemented | [正文](./backup-and-observability.md) |
 | Private Vaults 子仓库（0..N） | Implemented | [正文](./private-vault-submodule.md) |
 | Astro/Starlight 静态 Wiki 发布 | Implemented | [正文](./static-wiki-publishing.md) |

@@ -13,6 +13,7 @@ from wiki_fixtures import _minimal_pdf
 
 from tools.common import strip_sha256_prefix
 from tools.ingest.extractor import TextExtractor
+from tools.ingest.parser import DocumentParser
 from tools.ingest.source_ingestor import SourceIngestor
 
 
@@ -70,6 +71,13 @@ class ExtractorTests(unittest.TestCase):
         text, name = TextExtractor().extract(pdf, "application/pdf")
         self.assertIn("Hello PDF Text", text)
         self.assertTrue(name.startswith("pypdf/"))
+
+    def test_document_parser_falls_back_to_pypdf_for_pdf(self):
+        result = DocumentParser().parse(
+            _minimal_pdf("Marker fallback PDF"), "application/pdf"
+        )
+        self.assertIn("Marker fallback PDF", result.markdown)
+        self.assertTrue(result.extractor.startswith("pypdf/"))
 
     def test_html_extractor_unavailable_without_trafilatura(self):
         """无 trafilatura 环境：返回 extractor_unavailable:trafilatura，不降级。"""

@@ -18,8 +18,17 @@ from typing import Any
 
 import yaml
 
-SOURCE_TYPES = {"blog", "doc", "book", "contest", "pr", "local-file", "personal-note"}
-ACQUISITIONS = {"fetch", "local-file", "personal-note"}
+SOURCE_TYPES = {
+    "blog",
+    "doc",
+    "book",
+    "contest",
+    "pr",
+    "local-file",
+    "personal-note",
+    "video",
+}
+ACQUISITIONS = {"fetch", "local-file", "personal-note", "video"}
 DOMAINS = {"computer-science", "multimedia", "reading-notes", "tools", "work-methods"}
 SAFE_ID = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 OPERATION_ID = re.compile(r"^op[-_][a-z0-9][a-z0-9-]{0,62}$")

@@ -1065,6 +1065,14 @@ evidence_items:
 
 `archive_policies` 新增 `transcript-only`：只归档转录稿与元数据，不归档媒体原件。它避免了在「把几十 MB 音频纳入 git-lfs」与「`external-only` 导致没有可复核快照」之间二选一。此档下转录稿是主快照，不是补充快照。
 
+### 5.11 视频合集与课程任务
+
+F014 的视频功能支持用户明确给出的 Bilibili/YouTube 单视频或合集。合集/课程不是新的 `source_type`，而是一次任务对多个 media item、transcript snapshot、官方资料 Source 和 Evidence 的编排。任务可以使用一个 collection Source 作为入口，但每个子项必须保留自己的平台 ID、官方 URL/commit、snapshot hash、provenance 和状态。
+
+课程任务必须先做 metadata-only inventory，再做人工 scope confirmation。平台返回的条目数、用户口中的目标数和官方 schedule 的 lecture 数可能不同；工具不得按序号、标题或“前 N 个”自动选择。未确认范围时只能产生 `metadata-only`/`needs_selection`，不能写入 `retrieved` 或 `ready_for_evidence`。
+
+官方课程网站、官方 Git 仓库、平台视频和 ASR 转录属于不同来源角色。官方 schedule/commit 是课程映射的权威键，平台 P 只作为媒体定位；同一内容的搬运视频不能自动视为独立 corroboration。完整视频、自动字幕、ASR transcript 和官方 PDF 默认属于 local/private 归档边界，public projection 只能消费明确 allowlisted 的 metadata/附件和人工确认事件。
+
 ## 6. Wiki 严格规范
 
 ### 6.1 Wiki Front Matter
@@ -2874,6 +2882,7 @@ source 先行
 | SKILL | Agent Skill 受控入口及工具边界 | §14–§15 |
 | MIG | 迁移、发布和回滚 | §16–§18 |
 | SEC | confidentiality、Vault 和公开泄漏门禁 | §4.2、§13.3 |
+| VID | 视频来源、合集 inventory、课程任务和媒体资料边界 | §5.10–§5.11 |
 
 当前 P0 规范编号：
 
@@ -2916,6 +2925,14 @@ source 先行
 - `BAK-001`：备份和恢复按 Vault 独立验收，`backup_state` 不能由全局汇总替代。
 - `BAK-002`：备份 manifest 必须覆盖 owner ObjectRef、snapshot、evidence、attestation、operation 和 confirmation hash，并通过隔离空仓恢复。
 - `SEC-004`：本地 API capability token、Vault 路径隔离、SSRF/文件竞态和 public allowlist 必须有拒绝与恢复证据。
+- `VID-001`：F014 视频合集先做 metadata-only inventory；平台条目数与用户目标数不一致时必须人工确认 scope，工具不得隐式截断或选择。
+- `VID-002`：课程/合集任务可以有一个 collection Source 入口，但每个 child media/resource 必须保留稳定身份、来源角色、独立 hash、provenance 和处理状态。
+- `VID-003`：官方课程 schedule、官方仓库 commit/ref 和官方文件 hash 是课程映射权威；Bilibili/YouTube P 序号只用于平台定位，不得替代官方 lecture ID。
+- `VID-004`：平台视频、官方资料和 ASR transcript 必须保留不同来源角色与 independence group；转载视频不得自动计为独立 corroboration。
+- `VID-005`：完整媒体默认采用 `transcript-only` 或 private/raw policy；视频、自动字幕、ASR transcript、private path 和签名 URL 不得进入 public projection。
+- `VID-006`：官方资料抓取只允许用户指定的官网和官网明确列出的官方仓库/文件；外部参考、赞助、pricing、学生提交和无界历史默认只登记链接或跳过并记录原因。
+- `VID-007`：媒体/官方资料发生标题、字幕、文件、commit 或参数漂移时生成新 snapshot/manifest record，不覆盖已被 Evidence 引用的旧记录。
+- `VID-008`：视频任务必须按单项记录 partial/blocked/next_action；一个 P 或一个官方文件失败不能被报告为全量成功，也不得污染其它已完成项。
 
 ID 的详细交付映射见 [规范到验收追踪矩阵](./traceability-matrix.md)；交付状态见 [Feature List](./feature-list.md)。
 
@@ -2929,5 +2946,6 @@ ID 的详细交付映射见 [规范到验收追踪矩阵](./traceability-matrix.
 | 2026-08-28 | 检索确认无外部出处的本人综合按 personal 建模：`personal-note` source 作 provenance，`support: personal`，strength 承载 `personal`，不进证据阻断集合 | §6.4 F010 迁移澄清 |
 | 2026-08-26 | 当前验证过的构建基线（legacy content adapter）：277 输入 / 276 篇 / 224 条关系 / 19 条未解析链接 | §2.1 |
 | 2026-08-26 | 组件级实现对标核查（W3C/Trafilatura/ArchiveBox/FTS5/QMD/Pagefind/MCP/FSRS） | §20.2 |
+| 2026-09-07 | F014 视频功能范围收窄：CS336 作为首个真实任务，不新增课程 Feature；补充视频合集 inventory、官方资料 allowlist、scope confirmation 和任务级验收边界 | §5.11、VID-001–VID-008 |
 
 > 维护规则：新增实质修订时在此表追加一行（时间倒序），并在对应正文段落保留修订说明；不因本表而删除或改写正文原文。

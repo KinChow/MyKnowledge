@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import time
 import uuid
 from pathlib import Path
@@ -34,7 +35,13 @@ class EvidenceAnchor:
         self.store = OperationStore(root)
 
     @staticmethod
-    def anchor(snapshot: str, exact: str, min_chars: int = 12) -> dict:
+    def anchor(
+        snapshot: str,
+        exact: str,
+        min_chars: int = 12,
+        *,
+        media_fragment: str | None = None,
+    ) -> dict:
         """在快照文本中定位唯一引文，生成 selector 与 hash。
 
         引文过短、未命中或多处命中时分别抛 ValueError（quote_too_short、
@@ -42,6 +49,8 @@ class EvidenceAnchor:
         """
         if len(canonical_quote(exact)) < min_chars:
             raise ValueError("quote_too_short")
+        if media_fragment is not None:
+            EvidenceAnchor._validate_media_fragment(media_fragment)
         hits = [i for i in range(len(snapshot)) if snapshot.startswith(exact, i)]
         if not hits:
             raise ValueError("selector_unresolved")
@@ -67,7 +76,7 @@ class EvidenceAnchor:
                 "suffix": selector["suffix"],
             }
         )
-        return {
+        evidence = {
             "evidence_id": "evidence-" + uuid.uuid4().hex[:12],
             "snapshot_sha256": snapshot_hash,
             "selector": selector,
@@ -75,6 +84,22 @@ class EvidenceAnchor:
             "selector_sha256": selector_hash,
             "quote_sha256": sha256_text(canonical_quote(exact)),
         }
+        if media_fragment is not None:
+            evidence["locator"] = {"media_fragment": media_fragment}
+        return evidence
+
+    @staticmethod
+    def _validate_media_fragment(value: str) -> None:
+        match = re.fullmatch(
+            r"#t=(?P<start>\d+(?:\.\d+)?)(?:,(?P<end>\d+(?:\.\d+)?))?",
+            value,
+        )
+        if not match:
+            raise ValueError("media_fragment_invalid")
+        if match.group("end") is not None and float(match.group("end")) < float(
+            match.group("start")
+        ):
+            raise ValueError("media_fragment_invalid")
 
     @staticmethod
     def apply_evidence(source_path: Path, evidence: dict) -> dict:
@@ -102,11 +127,14 @@ class EvidenceAnchor:
         snapshot_path: Path,
         exact: str,
         min_chars: int = 12,
+        media_fragment: str | None = None,
     ) -> dict:
         """生成锚定操作（previewed）；source 快照引用与快照不匹配时抛 stale。"""
         source_bytes = source_path.read_bytes()
         snapshot = snapshot_path.read_text(encoding="utf-8")
-        evidence = self.anchor(snapshot, exact, min_chars)
+        evidence = self.anchor(
+            snapshot, exact, min_chars, media_fragment=media_fragment
+        )
         metadata, _ = FrontMatter.parse(source_bytes.decode("utf-8"))
         if metadata.get("snapshot_sha256") != evidence["snapshot_sha256"]:
             raise ValueError("stale")
@@ -253,7 +281,13 @@ def _batch_main(args: argparse.Namespace) -> int:
                     source = args.root / source
                 if not snapshot.is_absolute():
                     snapshot = args.root / snapshot
-                result = anchor_service.preview(source, snapshot, exact, min_chars)
+                result = anchor_service.preview(
+                    source,
+                    snapshot,
+                    exact,
+                    min_chars,
+                    item.get("media_fragment"),
+                )
                 report["ok"].append(
                     {
                         "line": line_no,
@@ -289,6 +323,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("exact", nargs="?")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--min-chars", type=int, default=12)
+    parser.add_argument(
+        "--media-fragment", help="W3C Media Fragments time range, e.g. #t=1450,1520"
+    )
     parser.add_argument("--apply", metavar="OPERATION_ID")
     parser.add_argument("--source", type=Path)
     parser.add_argument("--from-jsonl", type=Path, metavar="PATH")
@@ -320,13 +357,18 @@ def main(argv: list[str] | None = None) -> int:
     try:
         if args.source:
             result = anchor_service.preview(
-                args.source, args.snapshot, args.exact, args.min_chars
+                args.source,
+                args.snapshot,
+                args.exact,
+                args.min_chars,
+                args.media_fragment,
             )
         else:
             result = EvidenceAnchor.anchor(
                 args.snapshot.read_text(encoding="utf-8"),
                 args.exact,
                 args.min_chars,
+                media_fragment=args.media_fragment,
             )
     except ValueError as exc:
         print(json.dumps({"state": "blocked", "error_code": str(exc)}))
