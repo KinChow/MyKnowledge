@@ -68,6 +68,12 @@ jobs:
       # 只在 3.12 跑一次即可——检查的是仓库内容，与解释器版本无关。
       - if: matrix.python-version == '3.12'
         run: python -m tools.cli doctor --assert-clean
+      # 官方课程资料按 pinned commit 原样归档，不参与项目代码格式化；
+      # SHA256SUMS 是它们的独立完整性门禁。
+      - if: matrix.python-version == '3.12'
+        name: Verify pinned official course materials
+        working-directory: content/sources/computer-science/cs336-2026/official-materials
+        run: sha256sum -c SHA256SUMS
 
   # 前端只有校验脚本（无发布），config/docs 常驻；projection 仅在 manifest 存在时校验
   frontend-gates:

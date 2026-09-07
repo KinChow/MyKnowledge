@@ -13,7 +13,12 @@ target-version = "py312"
 # archive/ 文件名就是正文 sha256、sources/wiki 的 content_sha256 进证据链——
 # 2026-08-28 实测 `ruff format .` 改写了 1 个 archive 快照 + 1 个 source + 6 篇 docs，
 # 直接让 doctor 报 sources invalid。ruff 只管 Python 源码。
+# Ruff's project scope is explicit: content/sources contains immutable external
+# snapshots and vendored course materials, which use a separate hash gate.
+# force-exclude keeps this scope effective for files passed by pre-commit.
+include = ["pyproject.toml", "backend/**/*.py", "tools/**/*.py", "tests/**/*.py", "scripts/**/*.py"]
 extend-exclude = [".venv", "frontend", "state", "*.md"]
+force-exclude = true
 
 [tool.ruff.lint]
 select = [

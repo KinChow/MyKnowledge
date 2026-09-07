@@ -106,9 +106,7 @@ class RepoPaths:
         direct = self.sources_dir(domain) / source_id / f"{source_id}.md"
         if direct.exists():
             return direct
-        nested = sorted(
-            self.sources_dir(domain).glob(f"*/{source_id}/{source_id}.md")
-        )
+        nested = sorted(self.sources_dir(domain).glob(f"*/{source_id}/{source_id}.md"))
         return nested[0] if len(nested) == 1 else direct
 
     def source_dir(self, domain: str, source_id: str) -> Path:
