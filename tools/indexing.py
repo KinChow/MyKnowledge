@@ -134,9 +134,9 @@ class SQLiteIndex:
     MIT，https://github.com/wangfenjin/simple）后建表用 ``tokenize='simple'``，
     查询用 ``jieba_query()``（词级分词 + AND）；扩展/词典缺失或加载失败一律
     fail-closed 回退 unicode61（引号短语查询），并在 index_info 记录 tokenizer
-    供 doctor 显性化。扩展基名默认 ``state/lib/libsimple``（sqlite 自动追加
+    供 doctor 显性化。扩展基名默认 ``var/state/lib/libsimple``（sqlite 自动追加
     平台后缀），可用 ``MYKNOWLEDGE_SIMPLE_LIB`` 覆盖；词典经 ``jieba_dict()``
-    显式指定为 ``state/lib/dict/`` 绝对路径，不依赖 cwd。
+    显式指定为 ``var/state/lib/dict/`` 绝对路径，不依赖 cwd。
     """
 
     def __init__(self, path: Path, *, root: Path | None = None):

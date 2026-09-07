@@ -32,7 +32,8 @@ else
 fi
 
 echo "== 5/6 中文分词扩展（可选，缺失回退 unicode61 并告警）=="
-if [ ! -f state/lib/libsimple.dylib ] && [ ! -f state/lib/libsimple.so ]; then
+SIMPLE_LIB_DIR="${ROOT}/var/state/lib"
+if [ ! -f "$SIMPLE_LIB_DIR/libsimple.dylib" ] && [ ! -f "$SIMPLE_LIB_DIR/libsimple.so" ]; then
   SIMPLE_VER=v0.7.1
   case "$(uname -s)-$(uname -m)" in
     Darwin-arm64) ASSET=libsimple-osx-arm64.zip ;;
@@ -42,10 +43,32 @@ if [ ! -f state/lib/libsimple.dylib ] && [ ! -f state/lib/libsimple.so ]; then
     *) ASSET="" ;;
   esac
   if [ -n "$ASSET" ] && command -v curl >/dev/null 2>&1; then
-    curl -sL "https://github.com/wangfenjin/simple/releases/download/${SIMPLE_VER}/${ASSET}" -o /tmp/libsimple.zip \
-      && mkdir -p state/lib && cd /tmp && unzip -o -q libsimple.zip && cd - >/dev/null \
-      && cp /tmp/libsimple*/libsimple.* state/lib/ 2>/dev/null; cp -r /tmp/libsimple*/dict state/lib/ 2>/dev/null; chmod +x state/lib/libsimple* 2>/dev/null
-    echo "simple: $(ls state/lib/libsimple* 2>/dev/null || echo 下载失败，回退 unicode61)"
+    SIMPLE_TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/myknowledge-simple.XXXXXX")"
+    cleanup_simple() { rm -r -- "$SIMPLE_TMP_DIR"; }
+    trap cleanup_simple EXIT
+    SIMPLE_ARCHIVE="$SIMPLE_TMP_DIR/libsimple.zip"
+    SIMPLE_EXTRACT_DIR="$SIMPLE_TMP_DIR/extracted"
+    SIMPLE_OK=false
+    if curl -fsSL "https://github.com/wangfenjin/simple/releases/download/${SIMPLE_VER}/${ASSET}" -o "$SIMPLE_ARCHIVE" \
+      && mkdir -p "$SIMPLE_EXTRACT_DIR" \
+      && unzip -o -q "$SIMPLE_ARCHIVE" -d "$SIMPLE_EXTRACT_DIR"; then
+      SIMPLE_DIR="$(find "$SIMPLE_EXTRACT_DIR" -maxdepth 1 -type d -name 'libsimple*' -print -quit)"
+      if [ -n "$SIMPLE_DIR" ] && [ -d "$SIMPLE_DIR/dict" ] \
+        && { [ -f "$SIMPLE_DIR/libsimple.dylib" ] || [ -f "$SIMPLE_DIR/libsimple.so" ]; }; then
+        mkdir -p "$SIMPLE_LIB_DIR"
+        cp "$SIMPLE_DIR"/libsimple.* "$SIMPLE_LIB_DIR"/
+        cp -R "$SIMPLE_DIR/dict" "$SIMPLE_LIB_DIR"/
+        chmod +x "$SIMPLE_LIB_DIR"/libsimple.* 2>/dev/null || true
+        SIMPLE_OK=true
+      fi
+    fi
+    trap - EXIT
+    cleanup_simple
+    if [ "$SIMPLE_OK" = true ]; then
+      echo "simple: $(ls "$SIMPLE_LIB_DIR"/libsimple* 2>/dev/null)"
+    else
+      echo "simple: 下载或安装失败，回退 unicode61"
+    fi
   else
     echo "simple: 平台不支持或无 curl，回退 unicode61"
   fi
