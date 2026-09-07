@@ -29,7 +29,12 @@ def test_graph_page_is_static_and_reads_generated_graph_only():
 def test_frontend_workbench_contract_exposes_projection_safe_controls():
     home = (FRONTEND / "src/pages/index.astro").read_text(encoding="utf-8")
     graph = (FRONTEND / "src/pages/graph.astro").read_text(encoding="utf-8")
-    for marker in ("data-domain-filter", "data-favorite-toggle", "search-dialog", "pagefind"):
+    for marker in (
+        "data-domain-filter",
+        "data-favorite-toggle",
+        "search-dialog",
+        "pagefind",
+    ):
         assert marker in home
     for marker in ("cytoscape", "global-mode", "local-mode", "graph-export", "focus"):
         assert marker in graph
