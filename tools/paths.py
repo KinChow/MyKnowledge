@@ -340,6 +340,13 @@ class RepoPaths:
     def practice_reviews(self, question_id: str) -> Path:
         return self.practice_reviews_root / f"{question_id}.jsonl"
 
+    @property
+    def practice_sessions_root(self) -> Path:
+        return self.state_root / "practice-sessions"
+
+    def practice_session(self, session_id: str) -> Path:
+        return self.practice_sessions_root / f"{session_id}.json"
+
     # ---- config ----
     @property
     def config_dir(self) -> Path:

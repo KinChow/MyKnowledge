@@ -56,6 +56,13 @@ ACTION_FIELDS = {
     "backup_status": set(),
     "backup_manifest": {"vault_id"},
     "question_create": {"spec", "wiki_path"},
+    "question_list": {"domain", "topic", "skill", "status"},
+    "question_session": {"size", "domain", "topic", "concept_id", "skill"},
+    "question_errors": {"limit", "domain", "topic", "concept_id", "skill"},
+    "question_queue": {"size", "domain", "topic", "concept_id", "skill", "only_due"},
+    "question_disable": {"question_id", "reason"},
+    "question_enable": {"question_id"},
+    "question_delete": {"question_id"},
     "question_answer": {"question_id", "response", "scoring_mode"},
     "question_review": {"question_id", "rating"},
 }
@@ -302,6 +309,57 @@ def _handle_question_answer(root: Path, payload: dict[str, Any]) -> dict[str, An
         scoring_mode=scoring_mode,
     )
 
+def _handle_question_list(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    status = payload.get("status", "enabled")
+    if status not in {"enabled", "disabled", "all"}:
+        raise ValueError("question_status_invalid")
+    return QuestionStore(root).list(
+        domain=payload.get("domain"),
+        topic=payload.get("topic"),
+        skill=payload.get("skill"),
+        status=status,
+    )
+
+def _handle_question_session(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    return QuestionStore(root).create_session(
+        size=payload.get("size", 6),
+        domain=payload.get("domain"),
+        topic=payload.get("topic"),
+        concept_id=payload.get("concept_id"),
+        skill=payload.get("skill"),
+    )
+
+def _handle_question_errors(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    return QuestionStore(root).error_queue(
+        limit=payload.get("limit", 10),
+        domain=payload.get("domain"),
+        topic=payload.get("topic"),
+        concept_id=payload.get("concept_id"),
+        skill=payload.get("skill"),
+    )
+
+def _handle_question_queue(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    return QuestionStore(root).review_queue(
+        size=payload.get("size", 6),
+        domain=payload.get("domain"),
+        topic=payload.get("topic"),
+        concept_id=payload.get("concept_id"),
+        skill=payload.get("skill"),
+        include_new=not payload.get("only_due", False),
+    )
+
+def _handle_question_disable(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    return QuestionStore(root).disable(
+        str(payload.get("question_id", "")),
+        reason=str(payload.get("reason", "manual")),
+    )
+
+def _handle_question_enable(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    return QuestionStore(root).enable(str(payload.get("question_id", "")))
+
+def _handle_question_delete(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    return QuestionStore(root).delete(str(payload.get("question_id", "")))
+
 
 def _handle_question_review(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).review(
@@ -329,6 +387,13 @@ _HANDLERS: dict[str, Callable[[Path, dict[str, Any]], dict[str, Any]]] = {
     "backup_status": _handle_backup_status,
     "backup_manifest": _handle_backup_manifest,
     "question_create": _handle_question_create,
+    "question_list": _handle_question_list,
+    "question_session": _handle_question_session,
+    "question_errors": _handle_question_errors,
+    "question_queue": _handle_question_queue,
+    "question_disable": _handle_question_disable,
+    "question_enable": _handle_question_enable,
+    "question_delete": _handle_question_delete,
     "question_answer": _handle_question_answer,
     "question_review": _handle_question_review,
 }

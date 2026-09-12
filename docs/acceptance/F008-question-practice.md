@@ -1,99 +1,126 @@
-# F008 Question / 面试练习验收
-
-## Strict question schema 增量证据（2026-08-27）
-
-- `QuestionStore._validate_spec` 现在拒绝 `question/v1` 未声明字段，并拒绝简答题携带选择题专属 `options`/`correct_option_ids`；`tests/test_question.py::QuestionTests::test_question_schema_rejects_unknown_and_type_specific_fields` 覆盖未知 provider URL 和题型字段污染。
-- 该边界延续 FSRS 6.3.2（MIT）仅负责 review scheduling、Anki note/card 分离仅作状态参考；题目事实、claim 绑定与隐私字段由 MyKnowledge schema 保留。
+# F008 个人题库与大模型知识练习验收
 
 - Feature：F008
-- 状态：Implemented（基础能力；完整验收未闭合）
-- 实现证据：`tools/question.py`、`tests/test_question.py`
+- 状态：Designed；现有 v1 基础能力已实现，个人 MVP 运行面未完成
+- Technical Design：[Question 与面试练习实现设计](../technical-design/question-and-practice.md)
 
-## AC-F008-001 题型与 schema
+## 范围
 
-- Given：单选、多选、简答和非法题目定义；When：创建题目；Then：合法题目写入 `question/v1`，非法字段被拒绝；失败时不变量：不产生题目文件。
-- 对应测试：`tests/test_question.py::QuestionTests::test_create_requires_verified_claim`；当前状态：通过。
+本轮只验收单用户本地题库：
 
-## AC-F008-002 Claim 绑定与证据 hash
+- 题目以 JSON 文件存在于 `content/practice/questions/`；
+- 支持导入、校验、启用、禁用和删除；
+- 支持单选、多选、填空；
+- 支持按 domain/topic/concept/skill 筛选；
+- 支持短回合、即时评分、错题重练和 FSRS；
+- 题目和复习状态不进入 public projection。
 
-- Given：Wiki claim 验证报告；When：创建题目；Then：保存 Wiki/claim/content/evidence 绑定；未验证或 evidence 不可用时阻断；当前状态：基础绑定通过，Wiki 变化后的自动迁移待补。
+不在本轮验收：插件系统、题目包 registry、H5P/Anki/Moodle、代码沙箱、开放式答案自动评分、多用户和跨设备同步。
 
-## AC-F008-003 自动评分与简答复核
+## 题库与导入
 
-- Given：单选、多选或简答答案；When：作答；Then：选择题 deterministic 评分，简答返回 rubric/manual review；当前状态：通过，测试见 `tests/test_question.py`。
+### AC-F008-001 空题库
 
-## AC-F008-004 FSRS review adapter
+- Given：`content/practice/questions/` 不存在或为空；
+- When：启动本地后端并请求题目目录/队列；
+- Then：服务正常启动，返回 `state: empty` 和 `next_action: import_question`；不从 Wiki 临时生成题目。
 
-- Given：rating 1..4；When：更新复习状态；Then：调用 FSRS，依赖不可用时返回明确 `unavailable`；当前状态：adapter 边界通过，安装 FSRS 后的真实调度回归待补。
+### AC-F008-002 题目 JSON 校验
 
-## AC-F008-005 Public 隔离
+- Given：合法题目、未知字段、缺少题型字段、重复选项 ID、非法答案和错误 hash；
+- When：执行导入或索引；
+- Then：合法题目可落盘；非法题目被拒绝并返回字段级错误；失败不产生半成品题目或 review 记录。
 
-- Given：practice 题目包含答案、解析和 review state；When：生成 public projection；Then：public 输入、索引和静态构建不读取 practice；当前状态：由 F007 leak gate 集成验收待补。
+### AC-F008-003 导入幂等和冲突
 
-## AC-F008-006 简答评分 provider 边界
+- Given：同一题目重复导入、同 ID 不同内容导入；
+- When：执行 `practice import`；
+- Then：内容 hash 相同为 noop；同 ID 不同 hash 阻断，不覆盖原题，不修改既有复习状态。
 
-- Given：简答题 rubric；When：分别以人工、deterministic 和注入 LLM provider 评分；Then：人工返回 `manual_review`，deterministic 按 rubric 可重复计算 0..1 分数，LLM 缺失/异常/malformed 返回 `unavailable`；provider endpoint、密钥和原始 prompt 不写入 practice 记录。
-- 对应测试：`tests/test_question.py::QuestionTests::test_short_answer_deterministic_rubric_and_provider_boundaries`；当前状态：通过。
+### AC-F008-004 启用、禁用和删除
 
-## AC-F008-007 Practice 备份与恢复
+- Given：enabled、disabled 题目以及已有 review 记录的题目；
+- When：执行 enable、disable 或 delete；
+- Then：disabled 不进入新队列；无 review 的题目可以删除；有 review 的题目默认保留题目文件和历史并标记 disabled；删除不影响 Wiki 和其他题目。
 
-- Given：题目答案、解析和 review state 位于某个 vault 的 `practice/`；When：生成 owner-scoped manifest、校验并恢复到空 checkout；Then：questions/reviews 均按 sha256 恢复，不读取其他 vault，非空目标或篡改 manifest 阻断；当前状态：通过，测试见 `tests/test_vault_registry.py::VaultRegistryTests::test_practice_entries_are_owner_scoped_and_restored` 与 `test_private_manifest_does_not_read_public_or_escape_owner`。
+### AC-F008-005 可选 Wiki 关联
 
-## AC-F008-008 批量题目失效
+- Given：有 Wiki claim 绑定和没有 Wiki 绑定的题目；
+- When：导入并索引；
+- Then：两者都可以进入个人题库；存在 `wiki_refs` 时校验 Wiki/claim hash，漂移后题目 disabled；没有 Wiki 绑定不能伪装为已验证 Wiki。
 
-- Given：多个本地题目分别绑定仍有效、已变化或缺失的 Wiki；When：执行 `refresh_all(wiki_reports)`；Then：有效题目保持 enabled，stale/missing claim 题目变为 disabled 并保留原文件和 review 记录；当前状态：通过 `tests/test_question.py::QuestionTests::test_refresh_all_disables_missing_or_stale_wiki_reports`。
+## 题型与评分
 
-## AC-F008-009 Practice API scoring mode
+### AC-F008-006 单选和多选
 
-- Given：带 capability 的练习 API 请求；When：传入 `scoring_mode=deterministic` 或 `scoring_mode=llm`；Then：分别返回 rubric 评分或 provider unavailable，非法模式被 FastAPI schema 拒绝，API 不创建网络 provider；当前状态：通过 `tests/test_api.py::test_practice_api_exposes_deterministic_mode_and_llm_unavailable`。
+- Given：单选、多选题以及未知选项、重复选项、正确答案和错误答案；
+- When：提交答案；
+- Then：评分确定且可重放；未知/重复选项被拒绝；多选反馈显示缺少项和多选项。
 
-## Practice review API 增量证据（2026-08-27）
+### AC-F008-007 填空
 
-- `tests/test_api.py::test_practice_review_api_persists_fsrs_card_state` 通过 local capability 调用 `/api/practice/{question_id}/review`，验证 `practice-review/v1` 返回和 `fsrs-card/v1` Card 状态持久化；缺失 FSRS 时仍按 `provider_unavailable` 契约返回，不伪造调度成功。
-- 该证据复用 FSRS `Card.to_dict()/from_dict()` 和 Anki card/review 分离边界，练习状态仍只存在 private/local `practice/`。
+- Given：accepted answers、aliases 和 term/phrase/number 规范化规则；
+- When：提交大小写、空格、别名和非法近似答案；
+- Then：只按题目声明的规则评分；不调用 LLM；返回规范化和判分结果。
 
-## 本轮证据（2026-08-30）
+### AC-F008-008 即时反馈
 
-- AC-F008-005 增量：`tests/test_frontend_projection.py::test_leak_gate_rejects_question_payload_even_under_public_path` 验证即使题目 JSON 被伪装到 `wiki/` 路径，包含 `question/v1`/`answer` 的输入仍被 public leak gate 拒绝。
+- Given：答对或答错的题目；
+- When：完成 answer；
+- Then：返回正确答案、解释、相关 Wiki 引用和可选错误标签；答题前不返回答案或隐藏解释。
 
-- AC-F008-002/003：`tests/test_question.py::QuestionTests::test_claim_hash_change_disables_question` 验证 claim content hash 变化后题目变为 `disabled`，后续作答返回 `question_disabled`。
-- AC-F008-005：`tests/test_api.py::test_practice_api_is_private_and_does_not_bypass_validator` 验证练习 API 缺 capability 时返回 401，携带 capability 但题目不存在时返回结构化 `question_not_found`，不会绕过题目服务。
-- AC-F008-004：`.venv` 中实际安装 `fsrs==6.3.2` 后，`tests/test_question.py::QuestionTests::test_fsrs_unavailable_is_explicit` 验证真实 `scheduled` 结果与 Card state 持久化；依赖缺失路径仍由 adapter 返回 `unavailable/provider_unavailable`，不伪造调度成功。
+## 队列与复习
 
-本轮状态兼容增量证据（2026-08-30）：`FSRSAdapter` 在保留 `Card.to_dict()` 顶层字段的同时写入 `review_state_schema=fsrs-card/v1` 和实际 `scheduler_version`；同一测试验证真实安装版本和 schema，后续 review 可从持久化状态继续调度，升级/缺失时不会伪造成功。
+### AC-F008-009 题目分类筛选
 
-真实 FSRS 版本回归、practice backup/restore、public build 全量输入扫描仍待闭合；简答 provider 边界已通过 AC-F008-006。
+- Given：不同 `domain`、`topic`、`concept_id` 和 `skill` 的题目；
+- When：请求 catalog 或 queue；
+- Then：只返回符合筛选条件的 enabled 题目；无匹配时返回空结果和原因。
 
-## 评分记录增量证据（2026-08-30）
+### AC-F008-010 短回合 session
 
-- AC-F008-003/005：自动评分和简答 manual review 结果追加到 `practice/reviews/<question_id>.jsonl`，写入后显式 fsync；该目录不在 public projection 输入范围内。
+- Given：新题、到期题和错题；
+- When：创建 3、6 或 10 题 session；
+- Then：返回稳定题目顺序；同一知识点不会无意义连续重复；session 不泄露答案。
 
-## 题型字段一致性增量证据（2026-08-27）
+### AC-F008-011 答题与复习分离
 
-- `test_choice_schema_rejects_duplicate_and_unknown_option_ids` 验证选项 ID 必须唯一，正确答案只能引用已声明选项。
-- `test_multi_choice_response_rejects_duplicate_ids` 验证多选作答不接受重复 option ID，避免集合归一化掩盖非法输入。
-- 题型校验仍独立于 FSRS；调度器不参与事实、claim 或隐私判定。
+- Given：一次 session 答题；
+- When：先调用 answer，再提交 rating；
+- Then：answer 只记录 attempt 和反馈；review 才调用 FSRS；任一失败不伪造另一阶段成功。
 
-## 作答 option allowlist 增量证据（2026-08-27）
+### AC-F008-012 错题重练
 
-- `tests/test_question.py::QuestionTests::test_choice_response_rejects_unknown_option_ids` 验证单选/多选答案只能引用题目声明的 option ID；未知 ID 返回 `response_option_unknown`，不会写入评分记录或被降级为普通错误。
+- Given：答错或使用提示后答对的题目；
+- When：请求 error queue；
+- Then：最近一次作答错误的题目进入活动队列；最近一次作答正确的题目从活动队列移除；所有历史 attempt、原始错误标签、提示状态和最近作答时间仍保留；移出队列不产生“已掌握”结论。
 
-## Wiki/Claim identity 增量证据（2026-08-27）
+### AC-F008-013 FSRS 状态
 
-- `tests/test_question.py::QuestionTests::test_create_rejects_wiki_or_claim_identity_mismatch` 验证题目创建时 `wiki_id` 必须匹配当前验证报告 owner object，`claim_id` 必须存在于该报告的 evidence claim 集合；不匹配分别返回 `wiki_id_mismatch`/`claim_not_found`，防止跨页面或不存在 Claim 的错误绑定。
-- `tests/test_question.py::QuestionTests::test_refresh_rejects_wrong_wiki_claim_report_even_when_hashes_match` 验证批量刷新也重新检查 owner/Claim identity；仅 hash 相同不足以让错误报告维持题目 enabled。
+- Given：无卡片、已有卡片、非法 rating 和 FSRS 依赖缺失；
+- When：提交 review；
+- Then：可用时保存 Card 和 scheduler version；不可用时返回结构化 `provider_unavailable`，不伪造 due。
 
-## 题目持久化完整性增量证据（2026-08-30）
+### AC-F008-014 状态恢复
 
-- `QuestionStore.load()` 现在校验 `question/v1`、稳定 ID 和 `content_sha256`；题目事实字段被篡改时，作答和复习均在读取阶段返回/抛出 `question_hash_mismatch`，不会写入新的 review 记录。
-- `tests/test_question.py::QuestionTests::test_tampered_question_content_is_fail_closed` 验证篡改题干后 answer/review 均 fail-closed；`status` 与 `review_state` 仍作为可变状态，不改变题目事实 hash。
-- 该证据增强 AC-F008-001/003/004/007 的持久化完整性边界；完整 practice 恢复后 FSRS 重放与 public build 全量扫描仍待闭合。
+- Given：题目和 review JSONL 已存在；
+- When：重启后重新构建索引；
+- Then：题目、队列和 FSRS 状态可继续使用；索引可删除并重建，不改变 canonical 题目和 review log。
 
-## Practice 恢复语义增量证据（2026-08-27）
+## 隔离与真实切片
 
-- `BackupManager._verify_practice_tree()` 在恢复后的 owner checkout 中重放 `question/v1` 与 `content_sha256`，并校验 `practice-review-record/v1` 的 `question_id` 归属；题目事实被篡改时返回 `practice_question_invalid`，review 记录 schema/归属错误时返回结构化失败。
-- `tests/test_vault_registry.py::VaultRegistryTests::test_restored_practice_semantics_are_verified` 覆盖恢复后题目内容篡改的 fail-closed 语义校验；字节级 manifest hash 校验和语义校验均不派生 verified。
+### AC-F008-015 Public 隔离
 
-## FSRS 恢复重放增量证据（2026-08-27）
+- Given：题目含答案、解释、accepted answers 和 review state；
+- When：生成 public projection、索引或 dist；
+- Then：这些字段不被复制或索引；字段级 leak gate 仍然拒绝误放到 public 路径的题目内容。
 
-- `tests/test_vault_registry.py::VaultRegistryTests::test_restored_fsrs_card_can_continue_review` 验证题目经 owner-scoped manifest 恢复后，保留原 `card_id` 与 `fsrs-card/v1` 状态，并可继续执行下一次 FSRS review；缺少 FSRS 依赖时测试按契约保留 `provider_unavailable` 边界。
+### AC-F008-016 真实垂直切片
+
+- Given：至少 10 道个人有权使用的大模型题目，覆盖 KV Cache、Prefill/Decode 或推理性能；
+- When：完成至少 5 个短回合；
+- Then：能按领域筛选、答题、查看反馈、重练错题并完成 FSRS review；所有记录位于 local/private。
+
+## 完成定义
+
+F008 个人 MVP 只有在 AC-F008-001 至 AC-F008-016 均有测试或真实运行证据后，才从 Designed/Implemented（基础）推进 Accepted。

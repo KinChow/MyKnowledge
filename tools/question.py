@@ -12,15 +12,18 @@ import importlib.metadata
 import json
 import os
 import time
+import unicodedata
+import uuid
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from .common import atomic_write, canonical_json, safe_id
+from .common import atomic_write, canonical_json, safe_id, sha256_bytes
 from .paths import RepoPaths
 from .validation.validator import WikiValidator
 
 QUESTION_SCHEMA = "question/v1"
-QUESTION_TYPES = {"single_choice", "multi_choice", "short_answer"}
+QUESTION_TYPES = {"single_choice", "multi_choice", "short_answer", "cloze"}
 QUESTION_FIELDS = {
     "id",
     "type",
@@ -34,6 +37,22 @@ QUESTION_FIELDS = {
     "answer",
     "explanation",
     "rubric",
+}
+IMPORT_FIELDS = {
+    "schema_version",
+    "id",
+    "type",
+    "domain",
+    "topic",
+    "concept_id",
+    "skill",
+    "prompt",
+    "options",
+    "correct_option_ids",
+    "answer",
+    "explanation",
+    "wiki_refs",
+    "status",
 }
 
 
@@ -188,6 +207,30 @@ class QuestionStore:
                             "type": question_type,
                         }
                     )
+        if question_type == "cloze":
+            if "rubric" in spec or "options" in spec or "correct_option_ids" in spec:
+                errors.append({"code": "field_not_allowed", "type": question_type})
+            answer = spec.get("answer")
+            if not isinstance(answer, dict):
+                errors.append({"code": "answer_required"})
+            else:
+                accepted = answer.get("accepted_answers")
+                aliases = answer.get("aliases", [])
+                normalization = answer.get("normalization", {})
+                if not isinstance(accepted, list) or not accepted or any(
+                    not isinstance(value, str) or not value.strip()
+                    for value in accepted
+                ):
+                    errors.append({"code": "accepted_answers_required"})
+                if not isinstance(aliases, list) or any(
+                    not isinstance(value, str) or not value.strip()
+                    for value in aliases
+                ):
+                    errors.append({"code": "answer_aliases_invalid"})
+                if not isinstance(normalization, dict):
+                    errors.append({"code": "answer_normalization_invalid"})
+                elif set(normalization) - {"casefold", "trim", "collapse_whitespace"}:
+                    errors.append({"code": "answer_normalization_rule_unknown"})
         return errors
 
     def _wiki_report(self, wiki_path: Path) -> dict:
@@ -251,6 +294,640 @@ class QuestionStore:
         )
         return {"state": "created", "question": question}
 
+    @staticmethod
+    def _validate_import_spec(spec: dict) -> list[dict]:
+        errors: list[dict] = []
+        if not isinstance(spec, dict):
+            return [{"code": "question_spec_invalid"}]
+        for field in sorted(set(spec) - IMPORT_FIELDS):
+            errors.append({"code": "unknown_field", "field": field})
+        if spec.get("schema_version") not in {None, QUESTION_SCHEMA}:
+            errors.append({"code": "question_schema_invalid"})
+        try:
+            safe_id(str(spec.get("id", "")))
+        except ValueError:
+            errors.append({"code": "question_id_invalid"})
+        if spec.get("type") not in {"single_choice", "multi_choice", "cloze"}:
+            errors.append({"code": "question_type_invalid"})
+        for field in ("prompt", "domain", "topic", "concept_id", "skill"):
+            if not isinstance(spec.get(field), str) or not spec[field].strip():
+                errors.append({"code": f"{field}_required"})
+        options = spec.get("options")
+        correct = spec.get("correct_option_ids")
+        option_ids = []
+        if spec.get("type") in {"single_choice", "multi_choice"}:
+            if not isinstance(options, list) or len(options) < 2:
+                errors.append({"code": "options_required"})
+            if isinstance(options, list):
+                for item in options:
+                    if (
+                        not isinstance(item, dict)
+                        or not isinstance(item.get("id"), str)
+                        or not isinstance(item.get("text"), str)
+                    ):
+                        errors.append({"code": "option_invalid"})
+                        continue
+                    option_ids.append(item["id"])
+        if spec.get("type") == "cloze":
+            answer = spec.get("answer")
+            for field in ("options", "correct_option_ids"):
+                if field in spec and spec[field] is not None:
+                    errors.append(
+                        {
+                            "code": "field_not_allowed",
+                            "field": field,
+                            "type": "cloze",
+                        }
+                    )
+            if not isinstance(answer, dict):
+                errors.append({"code": "answer_required"})
+            else:
+                accepted = answer.get("accepted_answers")
+                aliases = answer.get("aliases", [])
+                normalization = answer.get("normalization", {})
+                if not isinstance(accepted, list) or not accepted or any(
+                    not isinstance(value, str) or not value.strip()
+                    for value in accepted
+                ):
+                    errors.append({"code": "accepted_answers_required"})
+                if not isinstance(aliases, list) or any(
+                    not isinstance(value, str) or not value.strip()
+                    for value in aliases
+                ):
+                    errors.append({"code": "answer_aliases_invalid"})
+                if not isinstance(normalization, dict):
+                    errors.append({"code": "answer_normalization_invalid"})
+                elif set(normalization) - {"casefold", "trim", "collapse_whitespace"}:
+                    errors.append({"code": "answer_normalization_rule_unknown"})
+        if len(option_ids) != len(set(option_ids)):
+            errors.append({"code": "option_ids_invalid"})
+        if spec.get("type") in {"single_choice", "multi_choice"}:
+            if not isinstance(correct, list) or not correct:
+                errors.append({"code": "correct_options_required"})
+            elif any(value not in option_ids for value in correct) or len(
+                set(correct)
+            ) != len(correct):
+                errors.append({"code": "correct_option_id_unknown"})
+            if (
+                spec.get("type") == "single_choice"
+                and isinstance(correct, list)
+                and len(correct) != 1
+            ):
+                errors.append({"code": "single_choice_requires_one_answer"})
+        if "wiki_refs" in spec and not isinstance(spec["wiki_refs"], list):
+            errors.append({"code": "wiki_refs_invalid"})
+        if spec.get("status", "enabled") not in {"enabled", "disabled"}:
+            errors.append({"code": "question_status_invalid"})
+        return errors
+
+    @staticmethod
+    def _import_content_hash(question: dict) -> str:
+        excluded = {
+            "content_sha256",
+            "status",
+            "disabled_reason",
+            "created_at",
+            "review_state",
+        }
+        return sha256_bytes(
+            canonical_json({key: value for key, value in question.items() if key not in excluded})
+        )
+
+    def import_file(self, source: Path) -> dict:
+        """Import one standalone personal question without requiring a Wiki claim."""
+        try:
+            spec = json.loads(source.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            return {"state": "blocked", "source": str(source), "errors": [{"code": "question_json_invalid", "detail": type(exc).__name__}]}
+        result = self.import_spec(spec)
+        if result["state"] == "blocked":
+            result["source"] = str(source)
+        return result
+
+    def import_spec(self, spec: dict) -> dict:
+        """Import one standalone personal question from an already parsed object."""
+        errors = self._validate_import_spec(spec)
+        if errors:
+            return {"state": "blocked", "errors": errors}
+        question = {
+            "schema_version": QUESTION_SCHEMA,
+            "id": spec["id"],
+            "type": spec["type"],
+            "domain": spec["domain"],
+            "topic": spec["topic"],
+            "concept_id": spec["concept_id"],
+            "skill": spec["skill"],
+            "prompt": spec["prompt"],
+            "options": spec.get("options"),
+            "correct_option_ids": spec.get("correct_option_ids"),
+            "answer": spec.get("answer"),
+            "explanation": spec.get("explanation", ""),
+            "wiki_refs": spec.get("wiki_refs", []),
+            "status": spec.get("status", "enabled"),
+            "created_at": time.time(),
+            "review_state": None,
+        }
+        question["content_sha256"] = self._import_content_hash(question)
+        target = self._file(question["id"])
+        if target.exists():
+            try:
+                existing = self.load(question["id"])
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                return {"state": "blocked", "errors": [{"code": "existing_question_invalid", "detail": type(exc).__name__}]}
+            if self._import_content_hash(existing) == self._import_content_hash(question):
+                return {"state": "noop", "question_id": question["id"], "content_sha256": question["content_sha256"]}
+            return {"state": "blocked", "question_id": question["id"], "errors": [{"code": "question_id_conflict"}]}
+        atomic_write(target, canonical_json(question) + b"\n", 0o600)
+        return {"state": "imported", "question_id": question["id"], "content_sha256": question["content_sha256"], "path": str(target)}
+
+    def import_path(self, source: Path) -> dict:
+        source = Path(source)
+        files = [source] if source.is_file() else sorted(source.glob("*.json")) if source.is_dir() else []
+        if not files:
+            return {"state": "blocked", "source": str(source), "errors": [{"code": "question_import_source_empty"}]}
+        results = [self.import_file(path) for path in files]
+        return {
+            "state": "imported" if any(item["state"] == "imported" for item in results) else "noop" if all(item["state"] == "noop" for item in results) else "blocked",
+            "source": str(source),
+            "total": len(results),
+            "imported": sum(item["state"] == "imported" for item in results),
+            "noop": sum(item["state"] == "noop" for item in results),
+            "blocked": sum(item["state"] == "blocked" for item in results),
+            "results": results,
+        }
+
+    @staticmethod
+    def _catalog_item(question: dict) -> dict:
+        """Return the prompt-side shape; answers and explanations stay private."""
+        return {
+            key: question.get(key)
+            for key in (
+                "id",
+                "type",
+                "domain",
+                "topic",
+                "concept_id",
+                "skill",
+                "prompt",
+                "options",
+                "wiki_refs",
+                "status",
+            )
+            if key in question
+        }
+
+    def list(
+        self,
+        *,
+        domain: str | None = None,
+        topic: str | None = None,
+        skill: str | None = None,
+        status: str = "enabled",
+    ) -> dict:
+        """List valid local questions with optional classification filters."""
+        if status not in {"enabled", "disabled", "all"}:
+            return {"state": "blocked", "error_code": "question_status_invalid"}
+        items: list[dict] = []
+        invalid: list[dict] = []
+        for path in sorted(self.paths.practice_questions.glob("*.json")):
+            try:
+                question = self.load(path.stem)
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                invalid.append(
+                    {
+                        "question_id": path.stem,
+                        "reason": "question_invalid",
+                        "detail": type(exc).__name__,
+                    }
+                )
+                continue
+            if status != "all" and question.get("status", "enabled") != status:
+                continue
+            if domain is not None and question.get("domain") != domain:
+                continue
+            if topic is not None and question.get("topic") != topic:
+                continue
+            if skill is not None and question.get("skill") != skill:
+                continue
+            items.append(self._catalog_item(question))
+        return {
+            "state": "listed",
+            "total": len(items),
+            "items": items,
+            "invalid": invalid,
+        }
+
+    def create_session(
+        self,
+        *,
+        size: int = 6,
+        domain: str | None = None,
+        topic: str | None = None,
+        concept_id: str | None = None,
+        skill: str | None = None,
+    ) -> dict:
+        if size not in {3, 6, 10}:
+            return {"state": "blocked", "error_code": "session_size_invalid"}
+        catalog = self.list(domain=domain, topic=topic, skill=skill)
+        if catalog["invalid"]:
+            return {
+                "state": "blocked",
+                "error_code": "question_catalog_invalid",
+                "invalid": catalog["invalid"],
+            }
+        candidates = [
+            item
+            for item in catalog["items"]
+            if concept_id is None or item.get("concept_id") == concept_id
+        ]
+        if not candidates:
+            return {
+                "state": "empty",
+                "question_count": 0,
+                "next_action": "import_question",
+            }
+        # Build deterministic buckets: due reviews first, then active errors, then new
+        # questions. Future reviews are eligible only as a final fallback.
+        now = datetime.now(UTC)
+        due_ids: set[str] = set()
+        reviewed_ids: set[str] = set()
+        error_ids: set[str] = set()
+        for item in candidates:
+            question = self.load(item["id"])
+            review_state = question.get("review_state")
+            if isinstance(review_state, dict):
+                reviewed_ids.add(item["id"])
+                try:
+                    due = datetime.fromisoformat(str(review_state.get("due")))
+                    if due.tzinfo is None:
+                        due = due.replace(tzinfo=UTC)
+                    if due <= now:
+                        due_ids.add(item["id"])
+                except (TypeError, ValueError):
+                    pass
+            review_path = self.paths.practice_reviews(item["id"])
+            latest = None
+            if review_path.exists():
+                try:
+                    for line in review_path.read_text(encoding="utf-8").splitlines():
+                        record = json.loads(line)
+                        if (
+                            isinstance(record, dict)
+                            and record.get("question_id") == item["id"]
+                            and isinstance(record.get("recorded_at"), (int, float))
+                            and (
+                                latest is None
+                                or record["recorded_at"] > latest["recorded_at"]
+                            )
+                        ):
+                            latest = record
+                except (OSError, UnicodeError, json.JSONDecodeError):
+                    latest = None
+            result = latest.get("result") if isinstance(latest, dict) else None
+            if (
+                isinstance(result, dict)
+                and result.get("state") == "graded"
+                and (
+                    result.get("correct") is False
+                    or result.get("score", 1) < 1
+                )
+            ):
+                error_ids.add(item["id"])
+
+        def stable(items: list[dict]) -> list[dict]:
+            return sorted(
+                items, key=lambda item: (str(item.get("concept_id", "")), item["id"])
+            )
+
+        due_items = stable([item for item in candidates if item["id"] in due_ids])
+        error_items = stable(
+            [
+                item
+                for item in candidates
+                if item["id"] in error_ids and item["id"] not in due_ids
+            ]
+        )
+        new_items = stable(
+            [
+                item
+                for item in candidates
+                if item["id"] not in reviewed_ids and item["id"] not in error_ids
+            ]
+        )
+        fallback_items = stable(
+            [
+                item
+                for item in candidates
+                if item["id"] not in due_ids
+                and item["id"] not in error_ids
+                and item["id"] in reviewed_ids
+            ]
+        )
+        candidates = due_items + error_items + new_items + fallback_items
+        selected: list[dict] = []
+        concept_counts: dict[str, int] = {}
+        for item in candidates:
+            concept = str(item.get("concept_id", ""))
+            if concept_counts.get(concept, 0) >= 2:
+                continue
+            selected.append(item)
+            concept_counts[concept] = concept_counts.get(concept, 0) + 1
+            if len(selected) == size:
+                break
+        session_id = f"session-{uuid.uuid4().hex[:16]}"
+        session = {
+            "schema_version": "practice-session/v1",
+            "id": session_id,
+            "created_at": time.time(),
+            "status": "active",
+            "filters": {
+                "domain": domain,
+                "topic": topic,
+                "concept_id": concept_id,
+                "skill": skill,
+            },
+            "question_ids": [item["id"] for item in selected],
+            "current_index": 0,
+            "completed": False,
+        }
+        atomic_write(
+            self.paths.practice_session(session_id),
+            canonical_json(session) + b"\n",
+            0o600,
+        )
+        return {
+            "state": "created",
+            "session": session,
+            "items": selected,
+            "question_count": len(selected),
+        }
+
+    def update_session(
+        self,
+        session_id: str,
+        *,
+        current_index: int,
+        completed: bool = False,
+    ) -> dict:
+        safe_id(session_id)
+        path = self.paths.practice_session(session_id)
+        try:
+            session = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError("session_not_found") from exc
+        if (
+            not isinstance(session, dict)
+            or session.get("schema_version") != "practice-session/v1"
+            or session.get("id") != session_id
+        ):
+            raise ValueError("session_invalid")
+        question_ids = session.get("question_ids")
+        if not isinstance(question_ids, list) or not all(
+            isinstance(item, str) for item in question_ids
+        ):
+            raise ValueError("session_invalid")
+        if not isinstance(current_index, int) or not 0 <= current_index <= len(
+            question_ids
+        ):
+            raise ValueError("session_index_invalid")
+        if completed and current_index != len(question_ids):
+            raise ValueError("session_completion_invalid")
+        session["current_index"] = current_index
+        session["completed"] = completed
+        session["status"] = "completed" if completed else "active"
+        atomic_write(path, canonical_json(session) + b"\n", 0o600)
+        return {"state": "updated", "session": session}
+
+    def get_session(self, session_id: str) -> dict:
+        safe_id(session_id)
+        path = self.paths.practice_session(session_id)
+        try:
+            session = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise ValueError("session_not_found") from exc
+        if (
+            not isinstance(session, dict)
+            or session.get("schema_version") != "practice-session/v1"
+            or session.get("id") != session_id
+        ):
+            raise ValueError("session_invalid")
+        question_ids = session.get("question_ids")
+        current_index = session.get("current_index")
+        if (
+            not isinstance(question_ids, list)
+            or not all(isinstance(item, str) for item in question_ids)
+            or not isinstance(current_index, int)
+            or not 0 <= current_index <= len(question_ids)
+        ):
+            raise ValueError("session_invalid")
+        items = []
+        for question_id in question_ids:
+            question = self.load(question_id)
+            if question.get("status") == "enabled":
+                items.append(self._catalog_item(question))
+        return {
+            "state": "listed",
+            "session": session,
+            "items": items,
+            "question_count": len(items),
+        }
+
+    def error_queue(
+        self,
+        *,
+        domain: str | None = None,
+        topic: str | None = None,
+        concept_id: str | None = None,
+        skill: str | None = None,
+        limit: int = 10,
+    ) -> dict:
+        if not 1 <= limit <= 50:
+            return {"state": "blocked", "error_code": "error_queue_limit_invalid"}
+        catalog = self.list(
+            domain=domain,
+            topic=topic,
+            skill=skill,
+            status="enabled",
+        )
+        if catalog["invalid"]:
+            return {
+                "state": "blocked",
+                "error_code": "question_catalog_invalid",
+                "invalid": catalog["invalid"],
+            }
+        candidates = {
+            item["id"]
+            for item in catalog["items"]
+            if concept_id is None or item.get("concept_id") == concept_id
+        }
+        errors: list[dict] = []
+        warnings: list[dict] = []
+        for question_id in candidates:
+            path = self.paths.practice_reviews(question_id)
+            latest = None
+            if not path.exists():
+                continue
+            try:
+                for line in path.read_text(encoding="utf-8").splitlines():
+                    record = json.loads(line)
+                    if (
+                        isinstance(record, dict)
+                        and record.get("question_id") == question_id
+                        and isinstance(record.get("recorded_at"), (int, float))
+                        and (
+                            latest is None
+                            or record["recorded_at"] > latest["recorded_at"]
+                            )
+                        ):
+                            latest = record
+            except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+                warnings.append(
+                    {
+                        "code": "review_log_invalid",
+                        "question_id": question_id,
+                        "detail": type(exc).__name__,
+                    }
+                )
+                continue
+            result = latest.get("result") if isinstance(latest, dict) else None
+            if not isinstance(result, dict) or result.get("state") != "graded":
+                continue
+            if result.get("correct") is not False and result.get("score", 1) >= 1:
+                continue
+            question = self.load(question_id)
+            errors.append(
+                {
+                    "question_id": question_id,
+                    "last_error_at": latest["recorded_at"],
+                    "last_result": {
+                        key: result[key]
+                        for key in ("score", "correct", "scoring_provider")
+                        if key in result
+                    },
+                    "question": self._catalog_item(question),
+                }
+            )
+        errors.sort(key=lambda item: (-item["last_error_at"], item["question_id"]))
+        return {
+            "state": "listed",
+            "total": min(len(errors), limit),
+            "items": errors[:limit],
+            "warnings": warnings,
+        }
+
+    def review_queue(
+        self,
+        *,
+        size: int = 6,
+        domain: str | None = None,
+        topic: str | None = None,
+        concept_id: str | None = None,
+        skill: str | None = None,
+        include_new: bool = True,
+    ) -> dict:
+        if size not in {3, 6, 10}:
+            return {"state": "blocked", "error_code": "queue_size_invalid"}
+        catalog = self.list(
+            domain=domain,
+            topic=topic,
+            skill=skill,
+            status="enabled",
+        )
+        if catalog["invalid"]:
+            return {
+                "state": "blocked",
+                "error_code": "question_catalog_invalid",
+                "invalid": catalog["invalid"],
+            }
+        candidates = [
+            item
+            for item in catalog["items"]
+            if concept_id is None or item.get("concept_id") == concept_id
+        ]
+        now = datetime.now(UTC)
+        due: list[tuple[datetime, dict]] = []
+        new: list[dict] = []
+        for item in candidates:
+            question = self.load(item["id"])
+            review_state = question.get("review_state")
+            if not isinstance(review_state, dict):
+                new.append(item)
+                continue
+            due_value = review_state.get("due")
+            try:
+                parsed_due = datetime.fromisoformat(str(due_value))
+                if parsed_due.tzinfo is None:
+                    parsed_due = parsed_due.replace(tzinfo=UTC)
+            except (TypeError, ValueError):
+                continue
+            if parsed_due <= now:
+                due.append((parsed_due, item))
+        due.sort(key=lambda pair: (pair[0], pair[1]["id"]))
+        new.sort(key=lambda item: (str(item.get("concept_id", "")), item["id"]))
+        selected: list[dict] = [
+            {"queue_kind": "due", "due": due_value.isoformat(), "question": item}
+            for due_value, item in due[:size]
+        ]
+        if include_new and len(selected) < size:
+            selected.extend(
+                {"queue_kind": "new", "due": None, "question": item}
+                for item in new[: size - len(selected)]
+            )
+        return {
+            "state": "listed" if selected else "empty",
+            "total": len(selected),
+            "items": selected,
+            "next_action": None if selected else "import_question",
+        }
+
+    def disable(self, question_id: str, *, reason: str = "manual") -> dict:
+        question = self.load(question_id)
+        if question.get("status") == "disabled":
+            return {
+                "state": "noop",
+                "question_id": question_id,
+                "status": "disabled",
+            }
+        question["status"] = "disabled"
+        question["disabled_reason"] = reason
+        atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
+        return {
+            "state": "disabled",
+            "question_id": question_id,
+            "status": "disabled",
+            "reason": reason,
+        }
+
+    def enable(self, question_id: str) -> dict:
+        question = self.load(question_id)
+        if question.get("status", "enabled") == "enabled":
+            return {
+                "state": "noop",
+                "question_id": question_id,
+                "status": "enabled",
+            }
+        question["status"] = "enabled"
+        question.pop("disabled_reason", None)
+        atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
+        return {
+            "state": "enabled",
+            "question_id": question_id,
+            "status": "enabled",
+        }
+
+    def delete(self, question_id: str) -> dict:
+        self.load(question_id)
+        review_path = self.paths.practice_reviews(question_id)
+        if review_path.exists() and review_path.stat().st_size > 0:
+            result = self.disable(question_id, reason="delete_requested_with_history")
+            return {
+                **result,
+                "state": "disabled",
+                "reason": "review_history_preserved",
+            }
+        self._file(question_id).unlink()
+        return {"state": "deleted", "question_id": question_id}
+
     def load(self, question_id: str) -> dict:
         question = json.loads(self._file(question_id).read_text(encoding="utf-8"))
         if (
@@ -266,6 +943,37 @@ class QuestionStore:
         if stored not in {expected, legacy_expected}:
             raise ValueError("question_hash_mismatch")
         return question
+
+    def _score_cloze(self, question: dict, response: Any) -> dict:
+        answer = question.get("answer") or {}
+        normalization = answer.get("normalization") or {}
+
+        def normalize(value: Any) -> str:
+            normalized = unicodedata.normalize("NFKC", str(value))
+            if normalization.get("trim", True):
+                normalized = normalized.strip()
+            if normalization.get("collapse_whitespace", True):
+                normalized = " ".join(normalized.split())
+            if normalization.get("casefold", True):
+                normalized = normalized.casefold()
+            return normalized
+
+        expected = [
+            normalize(value)
+            for value in (answer.get("accepted_answers") or [])
+            + (answer.get("aliases") or [])
+        ]
+        observed = normalize(response)
+        correct = bool(observed) and observed in expected
+        result = {
+            "state": "graded",
+            "scoring_provider": "deterministic_cloze",
+            "score": 1.0 if correct else 0.0,
+            "correct": correct,
+            "normalized_response": observed,
+        }
+        self._record_answer(question["id"], result, response)
+        return result
 
     def refresh_status(self, question_id: str, wiki_report: dict) -> dict:
         """Revalidate the claim binding and disable stale questions atomically."""
@@ -349,6 +1057,16 @@ class QuestionStore:
         question = self.load(question_id)
         if question.get("status") != "enabled":
             return {"state": "blocked", "error_code": "question_disabled"}
+
+        def feedback(result: dict) -> dict:
+            return {
+                **result,
+                "correct_option_ids": question.get("correct_option_ids"),
+                "answer": question.get("answer"),
+                "explanation": question.get("explanation", ""),
+                "wiki_refs": question.get("wiki_refs", []),
+            }
+
         kind = question["type"]
         if kind == "single_choice":
             option_ids = {
@@ -365,7 +1083,7 @@ class QuestionStore:
             )
             result = {"state": "graded", "score": score, "correct": score == 1.0}
             self._record_answer(question_id, result, response)
-            return result
+            return feedback(result)
         if kind == "multi_choice":
             expected = set(question.get("correct_option_ids") or [])
             values = response if isinstance(response, list) else []
@@ -385,7 +1103,9 @@ class QuestionStore:
             score = 1.0 if actual == expected else 0.0
             result = {"state": "graded", "score": score, "correct": score == 1.0}
             self._record_answer(question_id, result, response)
-            return result
+            return feedback(result)
+        if kind == "cloze":
+            return feedback(self._score_cloze(question, response))
         if scoring_mode not in {"manual", "deterministic", "llm"}:
             return {"state": "blocked", "error_code": "scoring_mode_invalid"}
         if scoring_mode == "manual":
@@ -472,6 +1192,8 @@ class QuestionStore:
         if rating not in {1, 2, 3, 4}:
             return {"state": "blocked", "error_code": "rating_invalid"}
         question = self.load(question_id)
+        if question.get("status") != "enabled":
+            return {"state": "blocked", "error_code": "question_disabled"}
         result = self.fsrs.review(question.get("review_state"), rating)
         if result.get("state") == "scheduled":
             question["review_state"] = {

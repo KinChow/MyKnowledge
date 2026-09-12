@@ -389,6 +389,218 @@ def create_app(
                 404, "question_not_found", "practice", "check question_id"
             ) from exc
 
+    @app.get("/api/practice/questions")
+    def practice_questions(
+        domain: str | None = Query(default=None, max_length=128),
+        topic: str | None = Query(default=None, max_length=128),
+        skill: str | None = Query(default=None, max_length=128),
+        status: str = Query(default="enabled", pattern="^(enabled|disabled|all)$"),
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        return {
+            "schema_version": "practice-question-catalog/v1",
+            **state.practice.list(
+                domain=domain, topic=topic, skill=skill, status=status
+            ),
+        }
+
+    @app.post("/api/practice/import")
+    def practice_import(
+        spec: Any = Body(...),  # noqa: B008 - FastAPI 依赖注入的既定写法
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        if not isinstance(spec, dict):
+            raise api_error(
+                422,
+                "question_spec_invalid",
+                "practice",
+                "send one question JSON object",
+            )
+        result = state.practice.import_spec(spec)
+        if result.get("state") == "blocked":
+            return {"schema_version": "practice-import/v1", **result}
+        return {"schema_version": "practice-import/v1", **result}
+
+    @app.post("/api/practice/sessions")
+    def practice_session_create(
+        size: int = Query(default=6),
+        domain: str | None = Query(default=None, max_length=128),
+        topic: str | None = Query(default=None, max_length=128),
+        concept_id: str | None = Query(default=None, max_length=128),
+        skill: str | None = Query(default=None, max_length=128),
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        result = state.practice.create_session(
+            size=size,
+            domain=domain,
+            topic=topic,
+            concept_id=concept_id,
+            skill=skill,
+        )
+        return {"schema_version": "practice-session/v1", **result}
+
+    @app.post("/api/practice/sessions/{session_id}/progress")
+    def practice_session_progress(
+        session_id: str,
+        current_index: int = Query(..., ge=0),
+        completed: bool = False,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        try:
+            return {
+                "schema_version": "practice-session-progress/v1",
+                **state.practice.update_session(
+                    session_id,
+                    current_index=current_index,
+                    completed=completed,
+                ),
+            }
+        except OSError as exc:
+            raise api_error(
+                404, "session_not_found", "practice", "check session_id"
+            ) from exc
+        except ValueError as exc:
+            code = str(exc)
+            if code in {"session_index_invalid", "session_completion_invalid"}:
+                raise api_error(
+                    422, code, "practice", "check session progress"
+                ) from exc
+            raise api_error(
+                404, "session_not_found", "practice", "check session_id"
+            ) from exc
+
+    @app.get("/api/practice/sessions/{session_id}")
+    def practice_session_get(
+        session_id: str,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        try:
+            return {
+                "schema_version": "practice-session/v1",
+                **state.practice.get_session(session_id),
+            }
+        except (OSError, ValueError) as exc:
+            raise api_error(
+                404, "session_not_found", "practice", "check session_id"
+            ) from exc
+
+    @app.get("/api/practice/errors")
+    def practice_errors(
+        limit: int = Query(default=10, ge=1, le=50),
+        domain: str | None = Query(default=None, max_length=128),
+        topic: str | None = Query(default=None, max_length=128),
+        concept_id: str | None = Query(default=None, max_length=128),
+        skill: str | None = Query(default=None, max_length=128),
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        return {
+            "schema_version": "practice-error-queue/v1",
+            **state.practice.error_queue(
+                limit=limit,
+                domain=domain,
+                topic=topic,
+                concept_id=concept_id,
+                skill=skill,
+            ),
+        }
+
+    @app.get("/api/practice/queue")
+    def practice_queue(
+        size: int = Query(default=6),
+        domain: str | None = Query(default=None, max_length=128),
+        topic: str | None = Query(default=None, max_length=128),
+        concept_id: str | None = Query(default=None, max_length=128),
+        skill: str | None = Query(default=None, max_length=128),
+        only_due: bool = False,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        return {
+            "schema_version": "practice-review-queue/v1",
+            **state.practice.review_queue(
+                size=size,
+                domain=domain,
+                topic=topic,
+                concept_id=concept_id,
+                skill=skill,
+                include_new=not only_due,
+            ),
+        }
+
+    @app.post("/api/practice/{question_id}/disable")
+    def practice_disable(
+        question_id: str,
+        reason: str = Query(default="manual", max_length=128),
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        try:
+            return {
+                "schema_version": "practice-question-lifecycle/v1",
+                **state.practice.disable(question_id, reason=reason),
+            }
+        except (OSError, ValueError) as exc:
+            raise api_error(
+                404, "question_not_found", "practice", "check question_id"
+            ) from exc
+
+    @app.post("/api/practice/{question_id}/enable")
+    def practice_enable(
+        question_id: str,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        try:
+            return {
+                "schema_version": "practice-question-lifecycle/v1",
+                **state.practice.enable(question_id),
+            }
+        except (OSError, ValueError) as exc:
+            raise api_error(
+                404, "question_not_found", "practice", "check question_id"
+            ) from exc
+
+    @app.delete("/api/practice/{question_id}")
+    def practice_delete(
+        question_id: str,
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        try:
+            return {
+                "schema_version": "practice-question-lifecycle/v1",
+                **state.practice.delete(question_id),
+            }
+        except (OSError, ValueError) as exc:
+            raise api_error(
+                404, "question_not_found", "practice", "check question_id"
+            ) from exc
+
     @app.post("/api/practice/{question_id}/review")
     def practice_review(
         question_id: str,

@@ -1,0 +1,19 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-import-kv-cache-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "kv-cache",
+  "concept_id": "kv-cache-purpose",
+  "skill": "mechanism",
+  "prompt": "KV Cache 的主要作用是什么？",
+  "options": [
+    {"id": "a", "text": "复用历史 token 的 K/V"},
+    {"id": "b", "text": "减少模型参数量"},
+    {"id": "c", "text": "替代 tokenizer"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "Decode 阶段复用历史 token 的 K/V，避免重复计算。",
+  "wiki_refs": [],
+  "status": "enabled"
+}

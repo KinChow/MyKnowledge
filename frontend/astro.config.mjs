@@ -1,8 +1,28 @@
 import { defineConfig } from 'astro/config';
+import fs from 'node:fs';
+import path from 'node:path';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
 	output: 'static',
+	vite: {
+		server: {
+			proxy: {
+				'/local-api': {
+					target: 'http://127.0.0.1:8765',
+					rewrite: (requestPath) => requestPath.replace(/^\/local-api/, '/api'),
+					configure: (proxy) => {
+						proxy.on('proxyReq', (proxyReq) => {
+							const tokenPath = path.resolve('../var/state/capability-token');
+							if (fs.existsSync(tokenPath)) {
+								proxyReq.setHeader('X-MyKnowledge-Capability', fs.readFileSync(tokenPath, 'utf8').trim());
+							}
+						});
+					},
+				},
+			},
+		},
+	},
 	integrations: [
 		starlight({
 			title: 'MyKnowledge',

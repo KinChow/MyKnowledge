@@ -58,7 +58,7 @@ Feature 按**两个正交轴**归类，任何新 Feature 必须且只能落在�
 | F005 | Public/Local 索引与检索 | 核心链路 | P1 | F001–F004 | [F005](./acceptance/F005-index-and-retrieval.md) |
 | F006 | FastAPI 本地服务与离线降级 | 消费端 | P1 | F005 | [F006](./acceptance/F006-local-api-and-offline.md) |
 | F007 | Astro/Starlight 公共静态 Wiki 和发布门禁 | 消费端 | P1 | F002, F003, F005, F011（public projection） | [F007](./acceptance/F007-static-wiki-publishing.md) |
-| F008 | Question 题型、claim 绑定和面试练习 | 消费端 | P1 | F002, F003 | [F008](./acceptance/F008-question-practice.md) |
+| F008 | 个人题库与大模型知识短回合练习 | 消费端 | P1 | F002, F003, F006 | [F008](./acceptance/F008-question-practice.md) |
 | F009 | Agent Skill 受控读写 | 消费端 | P1 | F004–F006 | [F009](./acceptance/F009-agent-skill.md) |
 | F010 | 存量内容迁移和质量清理 | 消费端 | P1 | F001–F004 | [F010](./acceptance/F010-content-migration.md)、[迁移台账](./f010-migration-ledger.md) |
 | F011 | Private Vaults 独立私有 Git 子仓库（0..N） | 横向基础 | P1 | F001–F004、SEC 契约 | [F011](./acceptance/F011-private-vault.md) |
@@ -103,7 +103,11 @@ Feature 按**两个正交轴**归类，任何新 Feature 必须且只能落在�
 
 当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（2026-08-28 补齐：operation-confirmation/v1 确认事件绑定（AC-006/011）、双进程并发一致性（AC-003）、public apply 默认真实 projection 重建（AC-004-009 部分）；此前已有通用 writer、retire/purge 门禁和 private owner-root 路径绑定；跨 Vault staging 与领域 writer 统一迁移未闭合）；F005 已进入 `Implemented`（projection、SQLite FTS5、fallback 与 Registry owner-aware projection 接入，QMD/完整恢复验收未闭合）；F006 已进入 `Implemented`（FastAPI retrieve/query/ask 基础能力，完整 API 验收未闭合）；F007 已进入 `Implemented`（Astro 工程骨架、静态 graph、确定性 sitemap 与 leak gate，真实 projection/浏览器验收未闭合）；F008 已进入 `Implemented`（题目 schema、绑定、评分和 FSRS adapter 基础能力，完整验收未闭合）；F009 已进入 `Implemented`（canonical Skill 基础契约，完整运行验收未闭合）；F010 已进入 `Implemented`（legacy inventory 基础能力，Source-first 迁移未闭合）；F011 已进入 `Implemented`（Registry、owner-aware local projection，完整 Vault 写入/恢复验收未闭合）；F012 已进入 `Implemented`（状态、manifest、隔离恢复与 durable restore marker，外部 target 验收未闭合）。以上均不等同于 `Accepted`。
 
-F008 已转入本轮独立 Feature，不改变 Source → Wiki → Evidence 主链路；题型为单选题、多选题和面向面试的简答题，复习调度采用 FSRS，题目与复习状态仅保留在 local/private，不进入 public projection。
+F008 面向单用户个人学习，不建设通用题库平台。题目以本地 JSON 文件作为题库，可通过导入命令或本地 API 加入，启动时扫描生成可重建索引；支持题目启用/禁用和删除。首期题型为单选、多选、填空，按 domain/topic/concept/skill 筛选，提供短回合练习、即时确定性评分、错题重练和 FSRS 复习。题目、答案、解析和复习状态仅保留在 local/private，不进入 public projection。Wiki 关联是可选增强，不阻塞外部面经或个人题目导入。
+
+F008 错题语义约定：答题历史和错误记录永久保留；“错题重练队列”是活动队列，只根据每道题最近一次作答结果决定是否出现。题目最近一次答对后可以从活动错题队列移除，但不表示已经掌握。后续增强再引入连续正确次数、间隔时间与 FSRS 联合判定，以降低重练优先级或确认掌握状态。
+
+F008 明确非目标：插件注册系统、题目包版本仓库、多用户权限、Moodle/H5P/Anki 运行时、代码沙箱、开放式答案自动评分和复杂题目生命周期平台。后续只有在题量、同步或导入格式确实形成压力时再抽象。
 
 ## 实施顺序
 

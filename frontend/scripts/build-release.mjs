@@ -24,6 +24,14 @@ try {
   execFileSync('node',['scripts/build-graph.mjs'],{stdio:'inherit'});
   execFileSync('node',['scripts/leak-gate.mjs','--scope','staging','src/content','public/generated'],{stdio:'inherit'});
   execFileSync('npx',['astro','build','--outDir','dist.next'],{stdio:'inherit'});
+  // practice is a local/private UI; keep it available to the dev server but
+  // exclude its route and route-specific asset from the public release.
+  fs.rmSync('dist.next/practice',{recursive:true,force:true});
+  for (const entry of fs.readdirSync('dist.next/_astro')) {
+    if (entry.startsWith('practice.') && entry.endsWith('.css')) {
+      fs.rmSync(path.join('dist.next/_astro', entry), {force:true});
+    }
+  }
   const catalog = JSON.parse(fs.readFileSync('public/generated/catalog.json', 'utf8'));
   const routes = new Set(['/','/graph/']);
   for (const item of catalog.items || []) {

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 import tempfile
 import unittest
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from tools.question import QuestionStore
@@ -268,6 +270,625 @@ class QuestionTests(unittest.TestCase):
                 store.answer("q-two", ["a", "missing"])["error_code"],
                 "response_option_unknown",
             )
+
+    def test_import_personal_question_without_wiki_is_idempotent_and_conflict_safe(self):
+        with tempfile.TemporaryDirectory() as d:
+            source = Path(d) / "q.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "schema_version": "question/v1",
+                        "id": "q-import",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "kv-cache",
+                        "concept_id": "kv-cache-purpose",
+                        "skill": "mechanism",
+                        "prompt": "KV Cache 的主要作用是什么？",
+                        "options": [{"id": "a", "text": "复用 K/V"}, {"id": "b", "text": "减少参数"}],
+                        "correct_option_ids": ["a"],
+                        "explanation": "复用历史 K/V。",
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            store = QuestionStore(Path(d))
+            first = store.import_file(source)
+            self.assertEqual(first["state"], "imported")
+            self.assertEqual(store.import_file(source)["state"], "noop")
+            changed = json.loads(source.read_text(encoding="utf-8"))
+            changed["prompt"] = "changed"
+            source.write_text(json.dumps(changed), encoding="utf-8")
+            conflict = store.import_file(source)
+            self.assertEqual(conflict["errors"][0]["code"], "question_id_conflict")
+
+    def test_import_rejects_external_content_hash_field(self):
+        with tempfile.TemporaryDirectory() as d:
+            source = Path(d) / "q.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-hash",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "kv-cache",
+                        "concept_id": "kv-cache-purpose",
+                        "skill": "mechanism",
+                        "prompt": "What does KV cache do?",
+                        "options": [
+                            {"id": "a", "text": "Reuse K/V"},
+                            {"id": "b", "text": "Increase parameters"},
+                        ],
+                        "correct_option_ids": ["a"],
+                        "content_sha256": "sha256:wrong",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = QuestionStore(Path(d)).import_file(source)
+            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["errors"][0]["code"], "unknown_field")
+
+    def test_import_and_score_cloze_with_alias_and_normalization(self):
+        with tempfile.TemporaryDirectory() as d:
+            source = Path(d) / "cloze.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-cloze",
+                        "type": "cloze",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "continuous-batching",
+                        "skill": "terminology",
+                        "prompt": "多个请求动态共享 GPU 执行机会的技术叫什么？",
+                        "answer": {
+                            "accepted_answers": ["continuous batching"],
+                            "aliases": ["连续批处理"],
+                            "normalization": {
+                                "casefold": True,
+                                "trim": True,
+                                "collapse_whitespace": True,
+                            },
+                        },
+                        "explanation": "Continuous batching dynamically admits requests.",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store = QuestionStore(Path(d))
+            self.assertEqual(store.import_file(source)["state"], "imported")
+            correct = store.answer("q-cloze", "  CONTINUOUS   BATCHING ")
+            self.assertEqual(correct["state"], "graded")
+            self.assertEqual(correct["scoring_provider"], "deterministic_cloze")
+            self.assertTrue(correct["correct"])
+            self.assertEqual(correct["normalized_response"], "continuous batching")
+            wrong = store.answer("q-cloze", "dynamic batching")
+            self.assertFalse(wrong["correct"])
+
+    def test_cloze_normalization_applies_unicode_nfkc(self):
+        with tempfile.TemporaryDirectory() as d:
+            source = Path(d) / "cloze.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-cloze-nfkc",
+                        "type": "cloze",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "batching",
+                        "skill": "terminology",
+                        "prompt": "技术名称？",
+                        "answer": {
+                            "accepted_answers": ["continuous batching"],
+                            "normalization": {
+                                "casefold": True,
+                                "trim": True,
+                                "collapse_whitespace": True,
+                            },
+                        },
+                    },
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            store = QuestionStore(Path(d))
+            self.assertEqual(store.import_file(source)["state"], "imported")
+            result = store.answer("q-cloze-nfkc", "  ｃｏｎｔｉｎｕｏｕｓ　 batching ")
+            self.assertTrue(result["correct"])
+
+    def test_cloze_import_rejects_unknown_normalization_rule(self):
+        with tempfile.TemporaryDirectory() as d:
+            source = Path(d) / "cloze.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-cloze-invalid",
+                        "type": "cloze",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "continuous-batching",
+                        "skill": "terminology",
+                        "prompt": "What is it called?",
+                        "answer": {
+                            "accepted_answers": ["continuous batching"],
+                            "normalization": {"fuzzy": True},
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = QuestionStore(Path(d)).import_file(source)
+            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(
+                result["errors"][0]["code"], "answer_normalization_rule_unknown"
+            )
+
+    def test_cloze_import_rejects_choice_fields(self):
+        with tempfile.TemporaryDirectory() as d:
+            source = Path(d) / "cloze.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-cloze-choice-fields",
+                        "type": "cloze",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "continuous-batching",
+                        "skill": "terminology",
+                        "prompt": "What is it called?",
+                        "options": [
+                            {"id": "a", "text": "A"},
+                            {"id": "b", "text": "B"},
+                        ],
+                        "correct_option_ids": ["a"],
+                        "answer": {"accepted_answers": ["continuous batching"]},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = QuestionStore(Path(d)).import_file(source)
+            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(
+                {error["field"] for error in result["errors"] if "field" in error},
+                {"options", "correct_option_ids"},
+            )
+
+    def test_list_filters_catalog_and_excludes_answers(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for suffix, topic, status in (
+                ("one", "kv-cache", "enabled"),
+                ("two", "batching", "disabled"),
+            ):
+                (source_dir / f"{suffix}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": f"q-{suffix}",
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": topic,
+                            "concept_id": topic,
+                            "skill": "mechanism",
+                            "prompt": f"Explain {topic}",
+                            "options": [
+                                {"id": "a", "text": "correct"},
+                                {"id": "b", "text": "distractor"},
+                            ],
+                            "correct_option_ids": ["a"],
+                            "answer": "private answer",
+                            "explanation": "private explanation",
+                            "status": status,
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            self.assertEqual(store.import_path(source_dir)["imported"], 2)
+            result = store.list(topic="kv-cache")
+            self.assertEqual(result["total"], 1)
+            self.assertEqual(result["items"][0]["id"], "q-one")
+            self.assertNotIn("answer", result["items"][0])
+            self.assertNotIn("explanation", result["items"][0])
+
+    def test_get_session_returns_completed_state_and_safe_items(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source = Path(d) / "question.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-session-get",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "batching",
+                        "skill": "recall",
+                        "prompt": "What is batching?",
+                        "options": [
+                            {"id": "a", "text": "group requests"},
+                            {"id": "b", "text": "change weights"},
+                        ],
+                        "correct_option_ids": ["a"],
+                        "answer": "private",
+                        "explanation": "private",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store.import_file(source)
+            created = store.create_session(size=3)
+            session_id = created["session"]["id"]
+            store.update_session(session_id, current_index=1, completed=True)
+            result = store.get_session(session_id)
+            self.assertEqual(result["session"]["status"], "completed")
+            self.assertEqual(result["session"]["current_index"], 1)
+            self.assertNotIn("answer", result["items"][0])
+            self.assertNotIn("explanation", result["items"][0])
+
+    def test_list_isolates_invalid_question_files(self):
+        with tempfile.TemporaryDirectory() as d:
+            question_dir = Path(d) / "content" / "practice" / "questions"
+            question_dir.mkdir(parents=True)
+            (question_dir / "broken.json").write_text("{", encoding="utf-8")
+            result = QuestionStore(Path(d)).list()
+            self.assertEqual(result["total"], 0)
+            self.assertEqual(result["invalid"][0]["reason"], "question_invalid")
+
+    def test_disable_and_delete_preserve_review_history(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source = Path(d) / "question.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-lifecycle",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "kv-cache",
+                        "concept_id": "kv-cache",
+                        "skill": "mechanism",
+                        "prompt": "Explain KV cache",
+                        "options": [
+                            {"id": "a", "text": "Reuse K/V"},
+                            {"id": "b", "text": "Change tokenizer"},
+                        ],
+                        "correct_option_ids": ["a"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store.import_file(source)
+            disabled = store.disable("q-lifecycle", reason="manual_cleanup")
+            self.assertEqual(disabled["state"], "disabled")
+            self.assertEqual(
+                store.answer("q-lifecycle", "a")["error_code"], "question_disabled"
+            )
+            self.assertEqual(store.delete("q-lifecycle")["state"], "deleted")
+            self.assertFalse(store._file("q-lifecycle").exists())
+
+            store.import_file(source)
+            store.answer("q-lifecycle", "a")
+            preserved = store.delete("q-lifecycle")
+            self.assertEqual(preserved["state"], "disabled")
+            self.assertEqual(preserved["reason"], "review_history_preserved")
+            self.assertTrue(store._file("q-lifecycle").exists())
+            self.assertEqual(store.load("q-lifecycle")["status"], "disabled")
+
+    def test_enable_restores_answering_and_import_idempotency(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source = Path(d) / "question.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-enable",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "kv-cache",
+                        "concept_id": "kv-cache",
+                        "skill": "mechanism",
+                        "prompt": "Explain KV cache",
+                        "options": [
+                            {"id": "a", "text": "Reuse K/V"},
+                            {"id": "b", "text": "Change tokenizer"},
+                        ],
+                        "correct_option_ids": ["a"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store.import_file(source)
+            store.disable("q-enable", reason="manual_cleanup")
+            enabled = store.enable("q-enable")
+            self.assertEqual(enabled["state"], "enabled")
+            self.assertTrue(store.answer("q-enable", "a")["correct"])
+            self.assertEqual(store.enable("q-enable")["state"], "noop")
+            self.assertEqual(store.import_file(source)["state"], "noop")
+
+    def test_create_session_is_stable_bounded_and_answer_safe(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for index in range(4):
+                (source_dir / f"q-{index}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": f"q-session-{index}",
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": "serving",
+                            "concept_id": f"concept-{index % 2}",
+                            "skill": "recall",
+                            "prompt": f"Question {index}",
+                            "options": [
+                                {"id": "a", "text": "yes"},
+                                {"id": "b", "text": "no"},
+                            ],
+                            "correct_option_ids": ["a"],
+                            "answer": "private answer",
+                            "explanation": "private explanation",
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            self.assertEqual(store.import_path(source_dir)["imported"], 4)
+            first = store.create_session(size=3, domain="llm-inference")
+            second = store.create_session(size=3, domain="llm-inference")
+            self.assertEqual(first["state"], "created")
+            self.assertEqual(first["question_count"], 3)
+            self.assertEqual(
+                first["session"]["question_ids"], second["session"]["question_ids"]
+            )
+            self.assertLessEqual(
+                max(
+                    first["session"]["question_ids"].count(question_id)
+                    for question_id in first["session"]["question_ids"]
+                ),
+                1,
+            )
+            self.assertNotIn("answer", first["items"][0])
+            self.assertNotIn("explanation", first["items"][0])
+            self.assertEqual(
+                store.create_session(size=4)["error_code"], "session_size_invalid"
+            )
+            self.assertEqual(
+                store.create_session(size=6, concept_id="missing")["state"], "empty"
+            )
+
+    def test_create_session_prioritizes_due_then_errors_then_new(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for index in range(3):
+                (source_dir / f"q-{index}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": f"q-priority-{index}",
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": "serving",
+                            "concept_id": f"concept-{index}",
+                            "skill": "recall",
+                            "prompt": f"Question {index}",
+                            "options": [
+                                {"id": "a", "text": "correct"},
+                                {"id": "b", "text": "wrong"},
+                            ],
+                            "correct_option_ids": ["a"],
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            store.import_path(source_dir)
+            store.review("q-priority-0", 3)
+            question = store.load("q-priority-0")
+            question["review_state"]["due"] = (
+                datetime.now(UTC) - timedelta(minutes=1)
+            ).isoformat()
+            store._file("q-priority-0").write_text(
+                json.dumps(question), encoding="utf-8"
+            )
+            store.answer("q-priority-1", "b")
+
+            session = store.create_session(size=3)
+            self.assertEqual(
+                session["session"]["question_ids"],
+                ["q-priority-0", "q-priority-1", "q-priority-2"],
+            )
+
+    def test_update_session_persists_progress_and_completion(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source = Path(d) / "question.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-session-progress",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "batching",
+                        "skill": "recall",
+                        "prompt": "What is batching?",
+                        "options": [
+                            {"id": "a", "text": "group requests"},
+                            {"id": "b", "text": "change weights"},
+                        ],
+                        "correct_option_ids": ["a"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store.import_file(source)
+            created = store.create_session(size=3)
+            session_id = created["session"]["id"]
+            updated = store.update_session(
+                session_id, current_index=1, completed=False
+            )
+            self.assertEqual(updated["session"]["current_index"], 1)
+            completed = store.update_session(
+                session_id, current_index=1, completed=True
+            )
+            self.assertEqual(completed["session"]["status"], "completed")
+            self.assertEqual(completed["session"]["current_index"], 1)
+
+    def test_error_queue_tracks_latest_wrong_attempt_and_filters(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for question_id, topic in (("q-error", "kv-cache"), ("q-other", "batching")):
+                (source_dir / f"{question_id}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": question_id,
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": topic,
+                            "concept_id": topic,
+                            "skill": "recall",
+                            "prompt": f"Explain {topic}",
+                            "options": [
+                                {"id": "a", "text": "correct"},
+                                {"id": "b", "text": "wrong"},
+                            ],
+                            "correct_option_ids": ["a"],
+                            "answer": "private answer",
+                            "explanation": "private explanation",
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            store.import_path(source_dir)
+            store.answer("q-error", "b")
+            store.answer("q-other", "b")
+            result = store.error_queue(topic="kv-cache", limit=1)
+            self.assertEqual(result["total"], 1)
+            self.assertEqual(result["items"][0]["question_id"], "q-error")
+            self.assertNotIn("answer", result["items"][0]["question"])
+            self.assertNotIn("explanation", result["items"][0]["question"])
+            self.assertEqual(store.error_queue(limit=0)["error_code"], "error_queue_limit_invalid")
+            store.answer("q-error", "a")
+            self.assertEqual(store.error_queue(topic="kv-cache")["total"], 0)
+
+    def test_error_queue_reports_corrupt_review_log(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source = Path(d) / "question.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-corrupt-review",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "batching",
+                        "skill": "recall",
+                        "prompt": "What is batching?",
+                        "options": [
+                            {"id": "a", "text": "group requests"},
+                            {"id": "b", "text": "change weights"},
+                        ],
+                        "correct_option_ids": ["a"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store.import_file(source)
+            review_path = store.paths.practice_reviews("q-corrupt-review")
+            review_path.parent.mkdir(parents=True, exist_ok=True)
+            review_path.write_text("{broken\n", encoding="utf-8")
+            result = store.error_queue()
+            self.assertEqual(result["total"], 0)
+            self.assertEqual(result["warnings"][0]["code"], "review_log_invalid")
+            self.assertEqual(
+                result["warnings"][0]["question_id"], "q-corrupt-review"
+            )
+
+    def test_review_queue_prioritizes_due_and_can_exclude_new(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for index in range(3):
+                (source_dir / f"q-{index}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": f"q-queue-{index}",
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": "serving",
+                            "concept_id": f"concept-{index}",
+                            "skill": "recall",
+                            "prompt": f"Question {index}",
+                            "options": [
+                                {"id": "a", "text": "correct"},
+                                {"id": "b", "text": "wrong"},
+                            ],
+                            "correct_option_ids": ["a"],
+                            "answer": "private answer",
+                            "explanation": "private explanation",
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            store.import_path(source_dir)
+            store.review("q-queue-0", 3)
+            store.review("q-queue-1", 3)
+            now = datetime.now(UTC)
+            for question_id, due in (
+                ("q-queue-0", now - timedelta(minutes=1)),
+                ("q-queue-1", now + timedelta(days=1)),
+            ):
+                question = store.load(question_id)
+                question["review_state"]["due"] = due.isoformat()
+                store._file(question_id).write_text(json.dumps(question), encoding="utf-8")
+            due_only = store.review_queue(size=3, include_new=False)
+            self.assertEqual(due_only["total"], 1)
+            self.assertEqual(due_only["items"][0]["queue_kind"], "due")
+            self.assertEqual(due_only["items"][0]["question"]["id"], "q-queue-0")
+            full = store.review_queue(size=3)
+            self.assertEqual(full["total"], 2)
+            self.assertEqual(full["items"][0]["queue_kind"], "due")
+            self.assertEqual(full["items"][1]["queue_kind"], "new")
+            self.assertNotIn("answer", full["items"][0]["question"])
+            self.assertEqual(
+                store.review_queue(size=4)["error_code"], "queue_size_invalid"
+            )
+
+    def test_disabled_question_cannot_be_reviewed(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source = Path(d) / "question.json"
+            source.write_text(
+                json.dumps(
+                    {
+                        "id": "q-disabled-review",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "batching",
+                        "skill": "recall",
+                        "prompt": "What is batching?",
+                        "options": [
+                            {"id": "a", "text": "group requests"},
+                            {"id": "b", "text": "change weights"},
+                        ],
+                        "correct_option_ids": ["a"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            store.import_file(source)
+            store.disable("q-disabled-review")
+            result = store.review("q-disabled-review", 3)
+            self.assertEqual(result["error_code"], "question_disabled")
+            self.assertIsNone(store.load("q-disabled-review")["review_state"])
 
 
 if __name__ == "__main__":

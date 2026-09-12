@@ -1,0 +1,340 @@
+---
+import '../styles/workbench.css';
+const base = import.meta.env.BASE_URL;
+---
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>练习 · MyKnowledge</title>
+	</head>
+	<body class="mk-practice-page">
+		<header class="mk-practice-topbar">
+			<a class="mk-practice-brand" href={base}>MyKnowledge</a>
+			<nav aria-label="练习导航">
+				<a href={`${base}practice/`} aria-current="page">练习</a>
+				<a href={base}>知识库</a>
+			</nav>
+			<button id="settings-toggle" class="mk-practice-icon" type="button" aria-label="打开连接设置" title="连接设置">⚙</button>
+		</header>
+		<main class="mk-practice-shell">
+			<section class="mk-practice-heading">
+				<div>
+					<p class="mk-practice-kicker">PERSONAL PRACTICE</p>
+					<h1>大模型知识练习</h1>
+					<p>按领域选择一个短回合，完成后立即查看反馈。</p>
+				</div>
+				<div class="mk-practice-status" id="connection-status" aria-live="polite">未连接</div>
+			</section>
+			<section class="mk-practice-layout">
+				<aside class="mk-practice-controls" aria-label="练习筛选">
+					<label>后端地址<input id="api-base" type="text" placeholder="/local-api" /></label>
+					<button id="connect" class="mk-practice-primary" type="button">连接题库</button>
+					<hr />
+					<label>领域<select id="domain"><option value="">全部领域</option></select></label>
+					<label>主题<input id="topic" type="text" placeholder="例如 kv-cache" /></label>
+					<div class="mk-practice-actions">
+						<button id="start-session" type="button">开始短回合</button>
+						<button id="load-errors" type="button">错题重练</button>
+					</div>
+					<p class="mk-practice-hint" id="control-status">请先连接本地题库。</p>
+				</aside>
+				<section class="mk-practice-main" aria-live="polite">
+					<div class="mk-practice-progress" id="progress"></div>
+					<div id="practice-content" class="mk-practice-empty">
+						<h2>等待开始</h2>
+						<p>连接后选择短回合或错题重练。</p>
+					</div>
+				</section>
+			</section>
+		</main>
+		<script>
+			const storageKey = 'myknowledge:practice:connection:v2';
+			const sessionStorageKey = 'myknowledge:practice:session:v1';
+			const state = { items: [], index: 0, answered: false, mode: 'session', sessionId: null };
+			const $ = (id) => document.getElementById(id);
+			const status = $('connection-status');
+			const content = $('practice-content');
+			const progress = $('progress');
+			const controlStatus = $('control-status');
+			const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+			$('api-base').value = saved.base || '/local-api';
+
+			function apiUrl(path, params = {}) {
+				const baseUrl = $('api-base').value.trim().replace(/\/$/, '');
+				const query = new URLSearchParams({ scope: 'local' });
+				for (const [key, value] of Object.entries(params)) {
+					if (value !== '' && value !== null && value !== undefined) {
+						query.set(key, value);
+					}
+				}
+				return `${baseUrl}${path}?${query}`;
+			}
+			async function request(path, params = {}, options = {}) {
+				const response = await fetch(apiUrl(path, params), options);
+				const body = await response.json().catch(() => ({}));
+				if (!response.ok) throw new Error(body?.detail?.code || `HTTP ${response.status}`);
+				return body;
+			}
+			function showMessage(title, message, kind = '') {
+				content.className = `mk-practice-empty ${kind}`;
+				content.replaceChildren();
+				const heading = document.createElement('h2');
+				heading.textContent = title;
+				const detail = document.createElement('p');
+				detail.textContent = message;
+				content.append(heading, detail);
+			}
+			function renderDomains(items) {
+				const domains = [...new Set(items.map((item) => item.domain).filter(Boolean))].sort();
+				const select = $('domain');
+				select.replaceChildren(new Option('全部领域', ''));
+				for (const value of domains) select.append(new Option(value, value));
+			}
+			function renderQuestion() {
+				const item = state.items[state.index];
+				if (!item) {
+					progress.textContent = '';
+					showMessage('这一轮完成', '可以开始下一轮，或查看错题重练。', 'success');
+					return;
+				}
+				progress.textContent = `${state.index + 1} / ${state.items.length} · ${state.mode === 'errors' ? '错题重练' : '短回合'}`;
+				state.answered = false;
+				content.className = 'mk-practice-question';
+				content.replaceChildren();
+				const meta = document.createElement('div');
+				meta.className = 'mk-practice-meta';
+				meta.textContent = `${item.domain || '未分类'} · ${item.topic || '未分类'} · ${item.skill || '未分类'}`;
+				const heading = document.createElement('h2');
+				heading.textContent = item.prompt;
+				content.append(meta, heading);
+				const form = document.createElement('form');
+				form.className = 'mk-practice-answer';
+				if (item.type === 'cloze') {
+					const input = document.createElement('input');
+					input.name = 'response';
+					input.required = true;
+					input.placeholder = '输入答案';
+					form.append(input);
+				} else {
+					for (const option of item.options || []) {
+						const label = document.createElement('label');
+						label.className = 'mk-practice-option';
+						const input = document.createElement('input');
+						input.type = item.type === 'multi_choice' ? 'checkbox' : 'radio';
+						input.name = 'response';
+						input.value = option.id;
+						label.append(input, document.createTextNode(option.text));
+						form.append(label);
+					}
+				}
+				const submit = document.createElement('button');
+				submit.className = 'mk-practice-primary';
+				submit.type = 'submit';
+				submit.textContent = '提交答案';
+				form.append(submit);
+				const feedback = document.createElement('div');
+				feedback.className = 'mk-practice-feedback';
+				feedback.setAttribute('aria-live', 'polite');
+				form.addEventListener('submit', async (event) => {
+					event.preventDefault();
+					if (state.answered) return;
+					const responseControl = form.elements.response;
+					const values = item.type === 'cloze'
+						? []
+						: [...responseControl].filter((input) => input.checked).map((input) => input.value);
+					const response = item.type === 'cloze'
+						? responseControl.value
+						: item.type === 'multi_choice'
+							? values
+							: values[0];
+					if (!response || (Array.isArray(response) && !response.length)) return;
+					submit.disabled = true;
+					try {
+						const result = await request(`/practice/${encodeURIComponent(item.id)}/answer`, {}, { method: 'POST', body: JSON.stringify(response), headers: { 'Content-Type': 'application/json' } });
+						state.answered = true;
+						feedback.className = `mk-practice-feedback ${result.correct ? 'is-correct' : 'is-wrong'}`;
+						feedback.replaceChildren();
+						const resultText = document.createElement('div');
+						resultText.textContent = result.correct ? '回答正确' : `回答错误，得分 ${result.score ?? 0}`;
+						feedback.append(resultText);
+						const explanation = document.createElement('div');
+						explanation.textContent = result.explanation || '暂无解析';
+						feedback.append(explanation);
+						if (item.type === 'cloze' && result.answer?.accepted_answers?.length) {
+							const answer = document.createElement('div');
+							answer.textContent = `参考答案：${result.answer.accepted_answers.join(' / ')}`;
+							feedback.append(answer);
+						} else if (result.correct_option_ids?.length) {
+							const answer = document.createElement('div');
+							answer.textContent = `正确选项：${result.correct_option_ids.join('、')}`;
+							feedback.append(answer);
+						}
+						if (result.wiki_refs?.length) {
+							const refs = document.createElement('div');
+							refs.textContent = `相关 Wiki：${result.wiki_refs.join('、')}`;
+							feedback.append(refs);
+						}
+						const reviewPrompt = document.createElement('div');
+						reviewPrompt.textContent = '这道题的掌握感受';
+						feedback.append(reviewPrompt);
+						const reviewActions = document.createElement('div');
+						reviewActions.className = 'mk-practice-review-actions';
+						for (const [rating, label] of [[1, '重来'], [2, '困难'], [3, '良好'], [4, '简单']]) {
+							const reviewButton = document.createElement('button');
+							reviewButton.type = 'button';
+							reviewButton.textContent = label;
+							reviewButton.addEventListener('click', async () => {
+								reviewActions.querySelectorAll('button').forEach((button) => { button.disabled = true; });
+								try {
+									const review = await request(`/practice/${encodeURIComponent(item.id)}/review`, { rating }, { method: 'POST' });
+									const reviewStatus = document.createElement('div');
+									reviewStatus.textContent = review.state === 'scheduled' ? '复习计划已更新' : '复习计划暂不可用';
+									feedback.append(reviewStatus);
+								} catch (error) {
+									const reviewStatus = document.createElement('div');
+									reviewStatus.textContent = `复习记录失败：${error.message}`;
+									feedback.append(reviewStatus);
+								}
+								reviewActions.remove();
+								const nextIndex = state.index + 1;
+								if (state.sessionId) {
+									try {
+										await request(`/practice/sessions/${encodeURIComponent(state.sessionId)}/progress`, {
+											current_index: nextIndex,
+											completed: nextIndex === state.items.length,
+										}, { method: 'POST' });
+										if (nextIndex === state.items.length) {
+											sessionStorage.removeItem(sessionStorageKey);
+										}
+									} catch (error) {
+										const progressStatus = document.createElement('div');
+										progressStatus.textContent = `进度保存失败：${error.message}`;
+										feedback.append(progressStatus);
+									}
+								}
+								appendNext();
+							});
+							reviewActions.append(reviewButton);
+						}
+						feedback.append(reviewActions);
+						function appendNext() {
+							const next = document.createElement('button');
+							next.type = 'button';
+							next.className = 'mk-practice-next';
+							next.textContent = state.index + 1 === state.items.length ? '完成练习' : '下一题';
+							next.addEventListener('click', () => { state.index += 1; renderQuestion(); });
+							feedback.append(next);
+						}
+					} catch (error) {
+						submit.disabled = false;
+						feedback.textContent = `提交失败：${error.message}`;
+					}
+				});
+				form.append(feedback);
+				content.append(form);
+			}
+			async function connect() {
+				try {
+					localStorage.setItem(storageKey, JSON.stringify({ base: $('api-base').value.trim() }));
+					const result = await request('/practice/questions', { status: 'enabled' });
+					renderDomains(result.items || []);
+					status.textContent = `已连接 · ${result.total} 道题`;
+					controlStatus.textContent = result.total ? '选择筛选条件后开始练习。' : '题库为空，请先导入题目。';
+					await resumeSession();
+				} catch (error) {
+					status.textContent = '连接失败';
+					controlStatus.textContent = `连接失败：${error.message}`;
+				}
+			}
+			async function resumeSession() {
+				const sessionId = sessionStorage.getItem(sessionStorageKey);
+				if (!sessionId) return;
+				try {
+					const result = await request(`/practice/sessions/${encodeURIComponent(sessionId)}`);
+					if (result.session.completed || !result.items?.length) {
+						sessionStorage.removeItem(sessionStorageKey);
+						return;
+					}
+					state.items = result.items;
+					state.index = Math.min(result.session.current_index, state.items.length);
+					state.mode = 'session';
+					state.sessionId = result.session.id;
+					controlStatus.textContent = '已恢复上次未完成的短回合。';
+					renderQuestion();
+				} catch {
+					sessionStorage.removeItem(sessionStorageKey);
+				}
+			}
+			async function startSession() {
+				try {
+					const result = await request('/practice/sessions', { size: 6, domain: $('domain').value, topic: $('topic').value.trim() }, { method: 'POST' });
+					state.items = result.items || [];
+					state.sessionId = result.session?.id || null;
+					if (state.sessionId) sessionStorage.setItem(sessionStorageKey, state.sessionId);
+					state.index = 0; state.mode = 'session'; renderQuestion();
+				} catch (error) { showMessage('无法开始练习', error.message, 'error'); }
+			}
+			async function loadErrors() {
+				try {
+					const result = await request('/practice/errors', { limit: 10, domain: $('domain').value, topic: $('topic').value.trim() });
+					state.items = (result.items || []).map((item) => item.question);
+					state.index = 0; state.mode = 'errors'; state.sessionId = null;
+					sessionStorage.removeItem(sessionStorageKey);
+					renderQuestion();
+				} catch (error) { showMessage('无法加载错题', error.message, 'error'); }
+			}
+			$('connect').addEventListener('click', connect);
+			$('start-session').addEventListener('click', startSession);
+			$('load-errors').addEventListener('click', loadErrors);
+			$('settings-toggle').addEventListener('click', () => $('api-base').focus());
+		</script>
+	</body>
+</html>
+
+<style>
+	.mk-practice-page { min-width: 320px; min-height: 100vh; margin: 0; background: var(--mk-bg); color: var(--mk-ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; }
+	.mk-practice-topbar { display: flex; align-items: center; gap: 1.5rem; min-height: 60px; padding: 0 1.5rem; border-bottom: 1px solid var(--mk-line); background: var(--mk-surface); }
+	.mk-practice-brand { font-weight: 700; text-decoration: none; }
+	.mk-practice-topbar nav { display: flex; gap: 1rem; margin-right: auto; }
+	.mk-practice-topbar nav a { color: var(--mk-muted); font-size: .85rem; text-decoration: none; }
+	.mk-practice-topbar nav a[aria-current='page'] { color: var(--mk-accent); }
+	.mk-practice-icon { width: 34px; height: 34px; border: 1px solid var(--mk-line); border-radius: 6px; background: transparent; color: var(--mk-muted); cursor: pointer; }
+	.mk-practice-shell { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+	.mk-practice-heading { display: flex; align-items: end; justify-content: space-between; gap: 1.5rem; padding: 3.5rem 0 2rem; border-bottom: 1px solid var(--mk-line); }
+	.mk-practice-kicker { margin: 0 0 .55rem; color: var(--mk-focus); font-size: .7rem; font-weight: 700; letter-spacing: .12em; }
+	.mk-practice-heading h1 { margin: 0; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+	.mk-practice-heading p:not(.mk-practice-kicker) { margin: .7rem 0 0; color: var(--mk-muted); }
+	.mk-practice-status { padding: .35rem .6rem; border: 1px solid var(--mk-line); border-radius: 5px; color: var(--mk-muted); font-size: .75rem; }
+	.mk-practice-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 2.5rem; padding-top: 2rem; }
+	.mk-practice-controls { display: grid; align-content: start; gap: .75rem; padding-right: 1.5rem; border-right: 1px solid var(--mk-line); }
+	.mk-practice-controls label { display: grid; gap: .35rem; color: var(--mk-muted); font-size: .75rem; font-weight: 600; }
+	.mk-practice-controls input, .mk-practice-controls select { min-width: 0; min-height: 36px; padding: 0 .55rem; border: 1px solid var(--mk-line); border-radius: 5px; background: var(--mk-surface); color: var(--mk-ink); }
+	.mk-practice-controls hr { width: 100%; margin: .5rem 0; border: 0; border-top: 1px solid var(--mk-line); }
+	.mk-practice-primary, .mk-practice-actions button, .mk-practice-next { min-height: 38px; padding: 0 .8rem; border: 0; border-radius: 5px; background: var(--mk-accent); color: white; cursor: pointer; }
+	.mk-practice-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem; }
+	.mk-practice-actions button { border: 1px solid var(--mk-line-strong); background: var(--mk-surface); color: var(--mk-ink); font-size: .75rem; }
+	.mk-practice-hint { margin: .25rem 0 0; color: var(--mk-faint); font-size: .75rem; }
+	.mk-practice-main { min-width: 0; }
+	.mk-practice-progress { min-height: 1.2rem; color: var(--mk-muted); font-size: .75rem; }
+	.mk-practice-empty { display: grid; place-content: center; min-height: 360px; padding: 2rem; border: 1px solid var(--mk-line); background: var(--mk-surface); text-align: center; }
+	.mk-practice-empty h2 { margin: 0; font-size: 1.25rem; }
+	.mk-practice-empty p { margin: .55rem 0 0; color: var(--mk-muted); }
+	.mk-practice-empty.error { border-color: #dc2626; }
+	.mk-practice-empty.success { border-color: #0f766e; }
+	.mk-practice-question { min-height: 360px; padding: 2rem; border: 1px solid var(--mk-line); background: var(--mk-surface); }
+	.mk-practice-meta { color: var(--mk-focus); font-size: .75rem; }
+	.mk-practice-question h2 { max-width: 720px; margin: .8rem 0 1.75rem; font-size: clamp(1.2rem, 3vw, 1.8rem); line-height: 1.45; }
+	.mk-practice-answer { display: grid; gap: .7rem; max-width: 720px; }
+	.mk-practice-option { display: flex; align-items: center; gap: .7rem; padding: .85rem; border: 1px solid var(--mk-line); border-radius: 5px; cursor: pointer; }
+	.mk-practice-option:hover { border-color: var(--mk-accent); background: var(--mk-accent-soft); }
+	.mk-practice-answer > input { min-height: 44px; padding: 0 .75rem; border: 1px solid var(--mk-line-strong); border-radius: 5px; background: var(--mk-bg); color: var(--mk-ink); }
+	.mk-practice-feedback { display: grid; gap: .7rem; min-height: 1.4rem; color: var(--mk-muted); font-size: .85rem; }
+	.mk-practice-review-actions { display: flex; flex-wrap: wrap; gap: .45rem; }
+	.mk-practice-review-actions button { min-height: 34px; padding: 0 .7rem; border: 1px solid var(--mk-line-strong); border-radius: 5px; background: var(--mk-surface); color: var(--mk-ink); cursor: pointer; }
+	.mk-practice-feedback.is-correct { color: #0f766e; }
+	.mk-practice-feedback.is-wrong { color: #b91c1c; }
+	.mk-practice-next { justify-self: start; }
+	@media (max-width: 720px) { .mk-practice-heading { align-items: start; flex-direction: column; } .mk-practice-layout { grid-template-columns: 1fr; gap: 1.5rem; } .mk-practice-controls { padding: 0 0 1.25rem; border-right: 0; border-bottom: 1px solid var(--mk-line); } .mk-practice-question { padding: 1.25rem; } }
+</style>

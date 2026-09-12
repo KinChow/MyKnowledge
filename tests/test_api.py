@@ -488,6 +488,466 @@ def test_practice_api_is_private_and_does_not_bypass_validator(tmp_path: Path):
     assert response.json()["detail"]["code"] == "question_not_found"
 
 
+def test_practice_question_catalog_requires_capability_filters_and_hides_answers(
+    tmp_path: Path,
+):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-catalog",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "kv-cache",
+                "concept_id": "kv-cache-purpose",
+                "skill": "mechanism",
+                "prompt": "What does KV cache do?",
+                "options": [
+                    {"id": "a", "text": "Reuse K/V"},
+                    {"id": "b", "text": "Increase parameters"},
+                ],
+                "correct_option_ids": ["a"],
+                "answer": "private answer",
+                "explanation": "private explanation",
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.get("/api/practice/questions").status_code == 401
+    response = client.get(
+        "/api/practice/questions",
+        params={"scope": "local", "domain": "llm-inference", "topic": "kv-cache"},
+        headers={"X-MyKnowledge-Capability": "token"},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["schema_version"] == "practice-question-catalog/v1"
+    assert body["total"] == 1
+    assert body["items"][0]["id"] == "q-catalog"
+    assert "answer" not in body["items"][0]
+    assert "explanation" not in body["items"][0]
+
+
+def test_practice_answer_returns_feedback_only_after_grading(tmp_path: Path):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-feedback",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "kv-cache",
+                "concept_id": "kv-cache-purpose",
+                "skill": "mechanism",
+                "prompt": "What does KV cache do?",
+                "options": [
+                    {"id": "a", "text": "Reuse K/V"},
+                    {"id": "b", "text": "Increase parameters"},
+                ],
+                "correct_option_ids": ["a"],
+                "explanation": "Reuse historical K/V during decoding.",
+                "wiki_refs": ["wiki://kv-cache"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    response = client.post(
+        "/api/practice/q-api-feedback/answer",
+        params={"scope": "local"},
+        headers=headers,
+        json="b",
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["correct"] is False
+    assert body["correct_option_ids"] == ["a"]
+    assert body["explanation"] == "Reuse historical K/V during decoding."
+    assert body["wiki_refs"] == ["wiki://kv-cache"]
+
+
+def test_practice_import_api_requires_write_capability_and_is_idempotent(
+    tmp_path: Path,
+):
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    spec = {
+        "schema_version": "question/v1",
+        "id": "q-api-import",
+        "type": "single_choice",
+        "domain": "llm-inference",
+        "topic": "kv-cache",
+        "concept_id": "kv-cache-purpose",
+        "skill": "mechanism",
+        "prompt": "What does KV cache do?",
+        "options": [
+            {"id": "a", "text": "Reuse K/V"},
+            {"id": "b", "text": "Increase parameters"},
+        ],
+        "correct_option_ids": ["a"],
+        "explanation": "Reuse historical K/V during decoding.",
+    }
+    assert client.post("/api/practice/import", json=spec).status_code == 401
+    headers = {"X-MyKnowledge-Capability": "token"}
+    first = client.post("/api/practice/import", headers=headers, json=spec)
+    assert first.status_code == 200
+    assert first.json()["state"] == "imported"
+    second = client.post("/api/practice/import", headers=headers, json=spec)
+    assert second.status_code == 200
+    assert second.json()["state"] == "noop"
+    invalid = {**spec, "id": "q-api-import-invalid", "content_sha256": "sha256:wrong"}
+    rejected = client.post("/api/practice/import", headers=headers, json=invalid)
+    assert rejected.status_code == 200
+    assert rejected.json()["state"] == "blocked"
+    assert rejected.json()["errors"][0]["code"] == "unknown_field"
+
+
+def test_practice_session_progress_api_persists_progress(tmp_path: Path):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-session-progress",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "recall",
+                "prompt": "What is batching?",
+                "options": [
+                    {"id": "a", "text": "group requests"},
+                    {"id": "b", "text": "change weights"},
+                ],
+                "correct_option_ids": ["a"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    created = client.post(
+        "/api/practice/sessions",
+        params={"scope": "local", "size": 3},
+        headers=headers,
+    )
+    session_id = created.json()["session"]["id"]
+    assert client.post(
+        f"/api/practice/sessions/{session_id}/progress",
+        params={"scope": "local", "current_index": 1},
+        headers=headers,
+    ).json()["session"]["current_index"] == 1
+    invalid_completion = client.post(
+        f"/api/practice/sessions/{session_id}/progress",
+        params={"scope": "local", "current_index": 0, "completed": "true"},
+        headers=headers,
+    )
+    assert invalid_completion.status_code == 422
+    assert invalid_completion.json()["detail"]["code"] == "session_completion_invalid"
+    completed = client.post(
+        f"/api/practice/sessions/{session_id}/progress",
+        params={"scope": "local", "current_index": 1, "completed": "true"},
+        headers=headers,
+    )
+    assert completed.status_code == 200
+    assert completed.json()["session"]["status"] == "completed"
+
+
+def test_practice_session_get_api_requires_capability_and_returns_progress(
+    tmp_path: Path,
+):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-session-get",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "recall",
+                "prompt": "What is batching?",
+                "options": [
+                    {"id": "a", "text": "group requests"},
+                    {"id": "b", "text": "change weights"},
+                ],
+                "correct_option_ids": ["a"],
+                "answer": "private",
+                "explanation": "private",
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    created = client.post(
+        "/api/practice/sessions",
+        params={"scope": "local", "size": 3},
+        headers=headers,
+    )
+    session_id = created.json()["session"]["id"]
+    client.post(
+        f"/api/practice/sessions/{session_id}/progress",
+        params={"scope": "local", "current_index": 1},
+        headers=headers,
+    )
+    assert client.get(f"/api/practice/sessions/{session_id}").status_code == 401
+    response = client.get(
+        f"/api/practice/sessions/{session_id}",
+        params={"scope": "local"},
+        headers=headers,
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["session"]["current_index"] == 1
+    assert "answer" not in body["items"][0]
+    assert "explanation" not in body["items"][0]
+
+
+def test_practice_question_lifecycle_api_is_private_and_preserves_history(
+    tmp_path: Path,
+):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-lifecycle",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "kv-cache",
+                "concept_id": "kv-cache-purpose",
+                "skill": "mechanism",
+                "prompt": "What does KV cache do?",
+                "options": [
+                    {"id": "a", "text": "Reuse K/V"},
+                    {"id": "b", "text": "Increase parameters"},
+                ],
+                "correct_option_ids": ["a"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    assert client.post("/api/practice/q-api-lifecycle/disable").status_code == 401
+    QuestionStore(tmp_path).answer("q-api-lifecycle", "a")
+    disabled = client.post(
+        "/api/practice/q-api-lifecycle/disable",
+        params={"scope": "local", "reason": "manual_cleanup"},
+        headers=headers,
+    )
+    assert disabled.status_code == 200
+    assert disabled.json()["state"] == "disabled"
+    assert (
+        client.post(
+            "/api/practice/q-api-lifecycle/answer",
+            params={"scope": "local"},
+            headers=headers,
+            json="a",
+        ).status_code
+        == 200
+    )
+    deleted = client.delete(
+        "/api/practice/q-api-lifecycle",
+        params={"scope": "local"},
+        headers=headers,
+    )
+    assert deleted.status_code == 200
+    assert deleted.json()["state"] == "disabled"
+    assert deleted.json()["reason"] == "review_history_preserved"
+
+
+def test_practice_question_enable_api_restores_enabled_status(tmp_path: Path):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-enable",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "kv-cache",
+                "concept_id": "kv-cache-purpose",
+                "skill": "mechanism",
+                "prompt": "What does KV cache do?",
+                "options": [
+                    {"id": "a", "text": "Reuse K/V"},
+                    {"id": "b", "text": "Increase parameters"},
+                ],
+                "correct_option_ids": ["a"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    QuestionStore(tmp_path).disable("q-api-enable")
+    assert client.get(
+        "/api/practice/questions",
+        params={"scope": "local"},
+        headers=headers,
+    ).json()["total"] == 0
+    assert client.post("/api/practice/q-api-enable/enable").status_code == 401
+    enabled = client.post(
+        "/api/practice/q-api-enable/enable",
+        params={"scope": "local"},
+        headers=headers,
+    )
+    assert enabled.status_code == 200
+    assert enabled.json()["state"] == "enabled"
+    assert client.get(
+        "/api/practice/questions",
+        params={"scope": "local"},
+        headers=headers,
+    ).json()["total"] == 1
+
+
+def test_practice_session_api_is_private_and_persists_safe_items(tmp_path: Path):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-session-api",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "recall",
+                "prompt": "What is batching?",
+                "options": [
+                    {"id": "a", "text": "group requests"},
+                    {"id": "b", "text": "change weights"},
+                ],
+                "correct_option_ids": ["a"],
+                "answer": "private answer",
+                "explanation": "private explanation",
+            }
+        ),
+        encoding="utf-8",
+    )
+    QuestionStore(tmp_path).import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.post("/api/practice/sessions").status_code == 401
+    response = client.post(
+        "/api/practice/sessions",
+        params={"scope": "local", "size": 3, "domain": "llm-inference"},
+        headers={"X-MyKnowledge-Capability": "token"},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["schema_version"] == "practice-session/v1"
+    assert body["question_count"] == 1
+    assert body["items"][0]["id"] == "q-session-api"
+    assert "answer" not in body["items"][0]
+    assert "explanation" not in body["items"][0]
+
+
+def test_practice_error_queue_api_requires_capability_and_returns_latest_errors(
+    tmp_path: Path,
+):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-error",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "recall",
+                "prompt": "What is batching?",
+                "options": [
+                    {"id": "a", "text": "group requests"},
+                    {"id": "b", "text": "change weights"},
+                ],
+                "correct_option_ids": ["a"],
+                "answer": "private answer",
+                "explanation": "private explanation",
+            }
+        ),
+        encoding="utf-8",
+    )
+    store = QuestionStore(tmp_path)
+    store.import_file(source)
+    store.answer("q-api-error", "b")
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.get("/api/practice/errors").status_code == 401
+    response = client.get(
+        "/api/practice/errors",
+        params={"scope": "local", "topic": "serving"},
+        headers={"X-MyKnowledge-Capability": "token"},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["schema_version"] == "practice-error-queue/v1"
+    assert body["total"] == 1
+    assert body["items"][0]["question_id"] == "q-api-error"
+    assert "answer" not in body["items"][0]["question"]
+    assert "explanation" not in body["items"][0]["question"]
+
+
+def test_practice_review_queue_api_returns_due_and_new_items(tmp_path: Path):
+    from tools.question import QuestionStore
+
+    source = tmp_path / "question.json"
+    source.write_text(
+        json.dumps(
+            {
+                "id": "q-api-queue",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "recall",
+                "prompt": "What is batching?",
+                "options": [
+                    {"id": "a", "text": "group requests"},
+                    {"id": "b", "text": "change weights"},
+                ],
+                "correct_option_ids": ["a"],
+                "answer": "private answer",
+                "explanation": "private explanation",
+            }
+        ),
+        encoding="utf-8",
+    )
+    store = QuestionStore(tmp_path)
+    store.import_file(source)
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    assert client.get("/api/practice/queue").status_code == 401
+    response = client.get(
+        "/api/practice/queue",
+        params={"scope": "local", "size": 3, "only_due": "true"},
+        headers={"X-MyKnowledge-Capability": "token"},
+    )
+    assert response.status_code == 200
+    body = response.json()
+    assert body["schema_version"] == "practice-review-queue/v1"
+    assert body["state"] == "empty"
+    assert body["next_action"] == "import_question"
+
+
 def test_capability_token_rotates_with_secure_permissions(tmp_path: Path):
     first = create_app(root=tmp_path)
     token_path = tmp_path / "var" / "state" / "capability-token"

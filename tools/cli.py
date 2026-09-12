@@ -25,7 +25,7 @@ from tools.inventory_legacy import main as inventory_main
 from tools.matrix_sync import main as matrix_main
 from tools.migrate_legacy import main as migrate_main
 from tools.public_projection import PublicProjectionGenerator
-from tools.question import QuestionStore
+from tools.question_cli import question_main
 from tools.validation.audit import main as audit_main
 from tools.validation.confirm import main as confirm_main
 from tools.validation.validator import main as validate_main
@@ -315,31 +315,6 @@ def backup_main(argv: list[str]) -> int:
             if not args.target:
                 parser.error("--target is required for restore")
             result = manager.restore_manifest(args.manifest, args.target)
-    _print_json(result)
-    return 0
-
-
-def question_main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="F008 question practice")
-    parser.add_argument("action", choices=["create", "answer", "review"])
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--question-id")
-    parser.add_argument("--spec", type=Path)
-    parser.add_argument("--wiki", type=Path)
-    parser.add_argument("--response")
-    parser.add_argument("--rating", type=int)
-    args = parser.parse_args(argv)
-    store = QuestionStore(args.root)
-    if args.action == "create":
-        if not args.spec:
-            parser.error("--spec is required")
-        result = store.create(
-            json.loads(args.spec.read_text(encoding="utf-8")), wiki_path=args.wiki
-        )
-    elif args.action == "answer":
-        result = store.answer(args.question_id, json.loads(args.response))
-    else:
-        result = store.review(args.question_id, args.rating)
     _print_json(result)
     return 0
 
