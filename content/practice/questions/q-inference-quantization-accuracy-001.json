@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-quantization-accuracy-001",
+  "type": "multi_choice",
+  "domain": "llm-inference",
+  "topic": "quantization",
+  "concept_id": "quantization-accuracy-tradeoff",
+  "skill": "tradeoff",
+  "prompt": "评估 LLM 量化方案时，哪些因素需要同时关注？",
+  "options": [
+    {"id": "a", "text": "权重和激活的量化误差分布"},
+    {"id": "b", "text": "目标硬件对数据类型和 kernel 的支持"},
+    {"id": "c", "text": "端到端吞吐、延迟和显存，而不仅是模型大小"},
+    {"id": "d", "text": "只要 bit 数更低，效果和性能必然更好"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "量化是精度、硬件路径和端到端性能的联合权衡，不能只看压缩比。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:77a833b25756c1484325ee653c98eec1e3801bd948ade5d6d0ad15be313f81dd",
+  "status": "enabled"
+}

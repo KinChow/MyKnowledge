@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-correctness-001",
+  "type": "multi_choice",
+  "domain": "operator-development",
+  "topic": "correctness",
+  "concept_id": "operator-correctness-contract",
+  "skill": "engineering",
+  "prompt": "算子开发交付前，哪些正确性检查通常不可省略？",
+  "options": [
+    {"id": "a", "text": "覆盖边界 shape、空张量和非连续布局等输入"},
+    {"id": "b", "text": "比较误差容忍度并区分 dtype 语义"},
+    {"id": "c", "text": "验证反向或梯度语义（若算子支持训练）"},
+    {"id": "d", "text": "只要一个随机输入通过就足够"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "算子契约包括 shape、layout、dtype、数值误差和 autograd 行为，单个随机样例不能覆盖这些边界。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:81000163dfe898f993398591b3b07305803f9df8c50bae6449b7813425670657",
+  "status": "enabled"
+}

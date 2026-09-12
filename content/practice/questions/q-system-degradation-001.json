@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-system-degradation-001",
+  "type": "single_choice",
+  "domain": "ml-system-design",
+  "topic": "reliability",
+  "concept_id": "llm-serving-degradation",
+  "skill": "design",
+  "prompt": "当 LLM 服务过载且无法立即扩容时，最合理的第一类措施是什么？",
+  "options": [
+    {"id": "a", "text": "基于优先级和预算做限流、排队、降级或切换小模型"},
+    {"id": "b", "text": "无限增加请求超时时间"},
+    {"id": "c", "text": "关闭所有监控以减少开销"},
+    {"id": "d", "text": "让所有请求无限等待"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "过载保护要控制排队和资源消耗，结合优先级、超时、fallback 和 admission control 保住整体 SLO。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:ad5ac46496846a67f4fed74fd06d843cf13f57eeeeea181867f22af32d7b035c",
+  "status": "enabled"
+}

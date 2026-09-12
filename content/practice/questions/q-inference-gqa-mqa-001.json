@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-gqa-mqa-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "kv-cache",
+  "concept_id": "gqa-mqa-memory-bandwidth",
+  "skill": "mechanism",
+  "prompt": "GQA 或 MQA 相比标准 MHA，最直接的推理收益是什么？",
+  "options": [
+    {"id": "a", "text": "减少 KV Cache 的 K/V 头数量，从而降低显存和带宽压力"},
+    {"id": "b", "text": "让模型不再需要位置编码"},
+    {"id": "c", "text": "把所有注意力计算变成卷积"},
+    {"id": "d", "text": "保证困惑度一定下降"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "多个 query head 共享较少的 KV head，主要降低 decode 阶段读取 KV Cache 的内存流量。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:ed7da1b62aad8a937147801e8ddb767b44e4568e6049168c2b9874e885ec6bab",
+  "status": "enabled"
+}

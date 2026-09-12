@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-system-serving-slo-001",
+  "type": "single_choice",
+  "domain": "ml-system-design",
+  "topic": "serving-slo",
+  "concept_id": "serving-slo-latency-throughput",
+  "skill": "interview",
+  "prompt": "设计在线 LLM 服务时，为什么不能只用平均延迟定义 SLO？",
+  "options": [
+    {"id": "a", "text": "平均值会掩盖长尾，用户体验通常受 P95/P99 等分位数影响"},
+    {"id": "b", "text": "平均延迟无法用监控系统采集"},
+    {"id": "c", "text": "平均延迟一定比 P99 更大"},
+    {"id": "d", "text": "SLO 只应定义 GPU 利用率"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "排队、抢占、长上下文和故障重试都会制造长尾，服务设计需要同时看 TTFT、TPOT 和端到端分位数。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:0903760a2f99378d50f425af8909cb225a65ed2f2faa991fd908b9dfe156024a",
+  "status": "enabled"
+}

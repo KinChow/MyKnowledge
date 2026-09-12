@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-fusion-001",
+  "type": "single_choice",
+  "domain": "operator-development",
+  "topic": "operator-fusion",
+  "concept_id": "operator-fusion-memory-traffic",
+  "skill": "mechanism",
+  "prompt": "算子融合通常首先希望解决什么问题？",
+  "options": [
+    {"id": "a", "text": "减少中间张量读写和 kernel launch 开销"},
+    {"id": "b", "text": "让模型参数自动变少"},
+    {"id": "c", "text": "消除所有同步和数据依赖"},
+    {"id": "d", "text": "让任意算子都能在 CPU 上运行"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "融合可以复用片上数据、减少 global memory traffic 和 launch 次数，但受形状、寄存器和并行度约束。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:1562d6b64383f007dfc9d5936d15d73429ff5a998491cbc345d8b285ea9fd0bd",
+  "status": "enabled"
+}

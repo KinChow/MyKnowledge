@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-system-capacity-planning-001",
+  "type": "multi_choice",
+  "domain": "ml-system-design",
+  "topic": "capacity-planning",
+  "concept_id": "llm-capacity-model",
+  "skill": "calculate",
+  "prompt": "LLM 推理容量规划时，哪些输入通常必须纳入？",
+  "options": [
+    {"id": "a", "text": "请求到达率和并发分布"},
+    {"id": "b", "text": "输入/输出 token 长度分布"},
+    {"id": "c", "text": "目标 TTFT、TPOT、吞吐和可用性"},
+    {"id": "d", "text": "只看单卡峰值 FLOPS 就足够"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "真实容量由流量、token 分布、调度、显存和 SLO 共同决定，峰值 FLOPS 只是上限指标。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:b29042a1d62ab08d83b6afd215ff4695fe2664e3039b71d2cc55843475fc85f0",
+  "status": "enabled"
+}

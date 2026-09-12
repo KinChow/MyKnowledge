@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-system-rollout-001",
+  "type": "multi_choice",
+  "domain": "ml-system-design",
+  "topic": "model-release",
+  "concept_id": "model-serving-canary",
+  "skill": "design",
+  "prompt": "模型服务上线采用 canary 发布时，哪些做法合理？",
+  "options": [
+    {"id": "a", "text": "小流量验证延迟、错误率、质量和资源指标"},
+    {"id": "b", "text": "保留可快速回滚的旧版本"},
+    {"id": "c", "text": "只要新模型离线指标更高就跳过线上验证"},
+    {"id": "d", "text": "按租户或请求类型切分流量以发现局部回归"}
+  ],
+  "correct_option_ids": ["a", "b", "d"],
+  "explanation": "线上分布和系统交互可能与离线评估不同，canary 必须可观测、可回滚并覆盖关键流量切片。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:3a2558d76a0012b9ee98726a397983761901a5c6d47eec7d7a33ec96ab8694ca",
+  "status": "enabled"
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-speculative-decoding-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "speculative-decoding",
+  "concept_id": "speculative-decoding-acceptance",
+  "skill": "mechanism",
+  "prompt": "Speculative decoding 提升解码速度的关键条件是什么？",
+  "options": [
+    {"id": "a", "text": "draft model 能提出较多被 target model 接受的 token"},
+    {"id": "b", "text": "draft model 必须比 target model 更大"},
+    {"id": "c", "text": "target model 不再执行校验"},
+    {"id": "d", "text": "所有 token 都必须由 draft model 最终决定"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "收益来自一次 target model 前向并行验证多个 draft token；接受率和 draft 成本决定净收益。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:7f0de99db9a5f51356eca64a41068db4bd6b1c1159458a363f480cdaad85ffe0",
+  "status": "enabled"
+}

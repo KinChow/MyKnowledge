@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-tiling-001",
+  "type": "multi_choice",
+  "domain": "operator-development",
+  "topic": "tiling",
+  "concept_id": "kernel-tiling-tradeoff",
+  "skill": "tradeoff",
+  "prompt": "设计矩阵乘 kernel 的 tile size 时，哪些约束需要权衡？",
+  "options": [
+    {"id": "a", "text": "shared memory 或片上缓存容量"},
+    {"id": "b", "text": "寄存器使用量和 occupancy"},
+    {"id": "c", "text": "访存复用、线程映射和边界处理"},
+    {"id": "d", "text": "tile 越大就必然越快"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "tile 增大可能提高复用，但也会增加片上资源、降低 occupancy 或造成形状尾部浪费，需要基准测试选择。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:8e4918a098e1f0261d6d77f264a1b5084d7128d77382288e26790c43faf33b45",
+  "status": "enabled"
+}

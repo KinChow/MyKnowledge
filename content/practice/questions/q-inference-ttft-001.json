@@ -1,0 +1,23 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-ttft-001",
+  "type": "cloze",
+  "domain": "llm-inference",
+  "topic": "latency",
+  "concept_id": "time-to-first-token",
+  "skill": "interview",
+  "prompt": "LLM 服务从请求到生成第一个 token 的延迟通常称为 ____。",
+  "answer": {
+    "accepted_answers": ["TTFT", "time to first token"],
+    "aliases": ["首 token 延迟", "首字延迟"],
+    "normalization": {
+      "casefold": true,
+      "trim": true,
+      "collapse_whitespace": true
+    }
+  },
+  "explanation": "TTFT 主要受排队、调度、Prefill 和首轮输出影响，是交互体验的重要指标。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:0f77faaf89887861c41129168382d59ddbc3c282d61cb0be6dd8c1f1339b3d29"
+}

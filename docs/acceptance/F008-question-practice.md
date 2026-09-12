@@ -1,7 +1,7 @@
 # F008 个人题库与大模型知识练习验收
 
 - Feature：F008
-- 状态：Designed；现有 v1 基础能力已实现，个人 MVP 运行面未完成
+- 状态：Accepted（P1 personal practice slice）
 - Technical Design：[Question 与面试练习实现设计](../technical-design/question-and-practice.md)
 
 ## 范围
@@ -117,9 +117,30 @@
 
 ### AC-F008-016 真实垂直切片
 
-- Given：至少 10 道个人有权使用的大模型题目，覆盖 KV Cache、Prefill/Decode 或推理性能；
+- Given：至少 20 道个人有权使用的大模型题目，覆盖 LLM 推理、ML 系统设计和算子开发；
 - When：完成至少 5 个短回合；
 - Then：能按领域筛选、答题、查看反馈、重练错题并完成 FSRS review；所有记录位于 local/private。
+
+本次 P1 题库共 21 道 enabled 题目，覆盖：
+
+- `llm-inference`：KV Cache、GQA/MQA、PagedAttention、Continuous Batching、Prefill/Decode、量化、Speculative Decoding、TTFT、TPOT；
+- `ml-system-design`：SLO 分位数、容量规划、过载降级、Canary 发布；
+- `operator-development`：算子融合、合并访存、Tiling、Occupancy、Roofline、性能分析和正确性契约。
+
+题型覆盖单选、多选和填空；填空题支持声明式 accepted answers、aliases 以及大小写/空格规范化。
+
+### P1 真实运行证据（2026-09-12）
+
+- 后端 `GET /api/health` 返回 `{"status":"ok","api":"local"}`；
+- 前端 `/practice/` 自动连接并显示 `已连接 · 21 道题`；
+- 领域下拉框显示 `llm-inference`、`ml-system-design`、`operator-development`；
+- 按 `llm-inference + latency` 开始短回合，显示 TTFT/TPOT 填空题；
+- 输入 `TPOT` 后显示“回答正确”、参考答案和解释；
+- 选择题答对后显示解释并可提交 `良好`，页面显示“复习计划已更新”；
+- 错答后显示错误反馈；错误题目进入活动错题统计；
+- 刷新页面可恢复未完成短回合。
+
+自动化证据：`78 passed`，`ruff check` 通过，前端 `npm run build` 通过，public leak gate 通过；题库扫描 `total=21` 且 `invalid=[]`。
 
 ## 完成定义
 

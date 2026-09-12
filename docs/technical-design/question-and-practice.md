@@ -1,13 +1,13 @@
 # F008 个人题库与大模型知识练习实现设计
 
-- 状态：Designed；现有 `question/v1` 基础实现为 Implemented，个人 MVP 运行面尚未完成
+- 状态：Implemented；P1 个人练习垂直切片已验收
 - 相关 Feature：F008
 - 相关 ADR：ADR-0008
 - 相关验收：[F008](../acceptance/F008-question-practice.md)
 
 ## 1. 目标与边界
 
-F008 只服务一个本地用户。题目是独立于 Wiki 的本地内容域，当前没有题目是正常状态；题目通过导入 JSON 文件进入题库，后端扫描题目目录提供 catalog、queue、answer 和 review。
+F008 只服务一个本地用户。题目是独立于 Wiki 的本地内容域，题目为空是正常状态；题目通过导入 JSON 文件进入题库，后端扫描题目目录提供 catalog、queue、answer 和 review。当前 P1 已提供 21 道本地题目作为真实垂直切片。
 
 目标：
 

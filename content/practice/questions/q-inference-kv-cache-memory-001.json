@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-kv-cache-memory-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "kv-cache",
+  "concept_id": "kv-cache-memory-growth",
+  "skill": "mechanism",
+  "prompt": "自回归解码时，KV Cache 的显存占用主要随什么增长？",
+  "options": [
+    {"id": "a", "text": "batch size、序列长度、层数和 KV 头维度"},
+    {"id": "b", "text": "只随词表大小增长"},
+    {"id": "c", "text": "只随 tokenizer 文件大小增长"},
+    {"id": "d", "text": "只随输出概率分布熵增长"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "每层每个 token 都要保存 K/V，显存近似与 batch、上下文长度、层数和 KV 维度成正比。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:d14896e7dd30df1b0681c51c38d49e7143a1bdf1d1e83b57fd66c6278766e5ba",
+  "status": "enabled"
+}

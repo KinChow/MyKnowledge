@@ -1,0 +1,23 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-tpot-001",
+  "type": "cloze",
+  "domain": "llm-inference",
+  "topic": "latency",
+  "concept_id": "time-per-output-token",
+  "skill": "interview",
+  "prompt": "生成阶段平均每输出一个 token 所需的时间通常称为 ____。",
+  "answer": {
+    "accepted_answers": ["TPOT", "time per output token"],
+    "aliases": ["每 token 延迟", "token 间延迟"],
+    "normalization": {
+      "casefold": true,
+      "trim": true,
+      "collapse_whitespace": true
+    }
+  },
+  "explanation": "TPOT 反映 Decode 阶段的逐 token 速度，常与 inter-token latency 一起分析。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:42b11b9f33befaf4e4662f14c7a2a0bc9dca4bee939d202ca1262b7944771a98"
+}

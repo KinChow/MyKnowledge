@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-profiling-001",
+  "type": "multi_choice",
+  "domain": "operator-development",
+  "topic": "profiling",
+  "concept_id": "operator-bottleneck-method",
+  "skill": "diagnosis",
+  "prompt": "定位一个算子性能瓶颈时，哪些证据组合更可靠？",
+  "options": [
+    {"id": "a", "text": "端到端耗时和算子级时间占比"},
+    {"id": "b", "text": "kernel 的计算吞吐、内存带宽和 occupancy 指标"},
+    {"id": "c", "text": "不同 shape、dtype 和 batch 下的回归基准"},
+    {"id": "d", "text": "只看 GPU 利用率一个指标"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "性能判断要把端到端贡献、硬件瓶颈信号和代表性 shape 结合，单一利用率指标容易误导。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:4b146b3e67a5b7f7d19f2485c5b33542f8d0f5aab5efab913f48b3c990770a18",
+  "status": "enabled"
+}

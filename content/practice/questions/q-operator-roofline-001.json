@@ -1,0 +1,23 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-roofline-001",
+  "type": "cloze",
+  "domain": "operator-development",
+  "topic": "performance-model",
+  "concept_id": "roofline-arithmetic-intensity",
+  "skill": "diagnosis",
+  "prompt": "Roofline 模型中，单位内存流量对应的计算量通常称为算术 ____。",
+  "answer": {
+    "accepted_answers": ["intensity", "arithmetic intensity"],
+    "aliases": ["强度", "计算强度"],
+    "normalization": {
+      "casefold": true,
+      "trim": true,
+      "collapse_whitespace": true
+    }
+  },
+  "explanation": "Arithmetic intensity 帮助判断算子更可能受计算峰值还是内存带宽限制。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:6fb621ec88cebe8b60bcac0bf64736e0a4e5a0c965e258943b53f291dc1d9fb9"
+}

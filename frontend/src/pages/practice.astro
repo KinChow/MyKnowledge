@@ -41,6 +41,11 @@ const base = import.meta.env.BASE_URL;
 					<p class="mk-practice-hint" id="control-status">请先连接本地题库。</p>
 				</aside>
 				<section class="mk-practice-main" aria-live="polite">
+					<div class="mk-practice-overview" aria-label="学习概览">
+						<div><strong id="overview-total">0</strong><span>题目</span></div>
+						<div><strong id="overview-errors">0</strong><span>活动错题</span></div>
+						<div><strong id="overview-due">0</strong><span>待复习</span></div>
+					</div>
 					<div class="mk-practice-progress" id="progress"></div>
 					<div id="practice-content" class="mk-practice-empty">
 						<h2>等待开始</h2>
@@ -91,6 +96,19 @@ const base = import.meta.env.BASE_URL;
 				const select = $('domain');
 				select.replaceChildren(new Option('全部领域', ''));
 				for (const value of domains) select.append(new Option(value, value));
+			}
+			async function loadOverview() {
+				const filters = { domain: $('domain').value, topic: $('topic').value.trim() };
+				const [catalog, errors, queue] = await Promise.all([
+					request('/practice/questions', { ...filters, status: 'enabled' }),
+					request('/practice/errors', { ...filters, limit: 50 }),
+					request('/practice/queue', { ...filters, size: 10, only_due: true }),
+				]);
+				$('overview-total').textContent = String(catalog.total || 0);
+				$('overview-errors').textContent = String(errors.total || 0);
+				$('overview-due').textContent = String(
+					(queue.items || []).filter((item) => item.queue_kind === 'due').length,
+				);
 			}
 			function renderQuestion() {
 				const item = state.items[state.index];
@@ -242,6 +260,7 @@ const base = import.meta.env.BASE_URL;
 					renderDomains(result.items || []);
 					status.textContent = `已连接 · ${result.total} 道题`;
 					controlStatus.textContent = result.total ? '选择筛选条件后开始练习。' : '题库为空，请先导入题目。';
+					await loadOverview();
 					await resumeSession();
 				} catch (error) {
 					status.textContent = '连接失败';
@@ -289,6 +308,7 @@ const base = import.meta.env.BASE_URL;
 			$('start-session').addEventListener('click', startSession);
 			$('load-errors').addEventListener('click', loadErrors);
 			$('settings-toggle').addEventListener('click', () => $('api-base').focus());
+			connect();
 		</script>
 	</body>
 </html>
@@ -317,6 +337,10 @@ const base = import.meta.env.BASE_URL;
 	.mk-practice-actions button { border: 1px solid var(--mk-line-strong); background: var(--mk-surface); color: var(--mk-ink); font-size: .75rem; }
 	.mk-practice-hint { margin: .25rem 0 0; color: var(--mk-faint); font-size: .75rem; }
 	.mk-practice-main { min-width: 0; }
+	.mk-practice-overview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin-bottom: 1rem; }
+	.mk-practice-overview div { display: grid; gap: .2rem; padding: .7rem .8rem; border-bottom: 1px solid var(--mk-line); background: var(--mk-surface); }
+	.mk-practice-overview strong { font-size: 1.3rem; line-height: 1; }
+	.mk-practice-overview span { color: var(--mk-muted); font-size: .72rem; }
 	.mk-practice-progress { min-height: 1.2rem; color: var(--mk-muted); font-size: .75rem; }
 	.mk-practice-empty { display: grid; place-content: center; min-height: 360px; padding: 2rem; border: 1px solid var(--mk-line); background: var(--mk-surface); text-align: center; }
 	.mk-practice-empty h2 { margin: 0; font-size: 1.25rem; }

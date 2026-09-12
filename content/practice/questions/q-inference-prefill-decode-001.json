@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-prefill-decode-001",
+  "type": "multi_choice",
+  "domain": "llm-inference",
+  "topic": "prefill-decode",
+  "concept_id": "prefill-decode-bottleneck",
+  "skill": "diagnosis",
+  "prompt": "关于 Prefill 和 Decode 阶段，哪些判断通常正确？",
+  "options": [
+    {"id": "a", "text": "Prefill 通常有更大的矩阵计算并行度"},
+    {"id": "b", "text": "Decode 常受 KV Cache 读取和内存带宽影响"},
+    {"id": "c", "text": "两阶段一定必须使用相同 batch 调度策略"},
+    {"id": "d", "text": "PD 分离可以隔离两类负载的资源和调度目标"}
+  ],
+  "correct_option_ids": ["a", "b", "d"],
+  "explanation": "Prefill 偏计算密集，Decode 常偏带宽和逐 token 延迟；PD 分离是为了分别优化两类阶段。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:6817b4ddda666835a3408cb967d359a7afd50d8291fa1f562fe882a107349c4f",
+  "status": "enabled"
+}

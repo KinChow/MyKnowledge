@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-paged-attention-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "paged-attention",
+  "concept_id": "paged-attention-block-table",
+  "skill": "mechanism",
+  "prompt": "PagedAttention 中 block table 的核心作用是什么？",
+  "options": [
+    {"id": "a", "text": "把逻辑连续的 KV Cache 映射到物理上可分页复用的 block"},
+    {"id": "b", "text": "把模型权重压缩成 1 bit"},
+    {"id": "c", "text": "替代 GPU kernel launch"},
+    {"id": "d", "text": "只用于保存 tokenizer 状态"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "block table 解耦逻辑序列位置和物理 KV block，减少连续分配带来的碎片并支持共享/回收。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:a25f5bbc28c0d6abbd83420193db674472248ecee530e7ef8344dcb626e32152",
+  "status": "enabled"
+}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-occupancy-001",
+  "type": "cloze",
+  "domain": "operator-development",
+  "topic": "profiling",
+  "concept_id": "gpu-occupancy",
+  "skill": "diagnosis",
+  "prompt": "GPU 上 SM 中活跃 warp 数占理论最大活跃 warp 数的比例通常称为 ____。",
+  "answer": {
+    "accepted_answers": ["occupancy", "sm occupancy"],
+    "aliases": ["占用率", "计算占用率"],
+    "normalization": {
+      "casefold": true,
+      "trim": true,
+      "collapse_whitespace": true
+    }
+  },
+  "explanation": "Occupancy 受寄存器、shared memory、线程块大小等资源限制影响，但高 occupancy 不等于一定高性能。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:e7b6e6f34699e08e5dd60fd64015083e8984d46edf4c4bc7bd174236ad70940a"
+}

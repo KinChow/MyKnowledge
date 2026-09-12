@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-continuous-batching-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "batching",
+  "concept_id": "continuous-batching-scheduler",
+  "skill": "engineering",
+  "prompt": "Continuous batching 相比静态 batching 的主要优势是什么？",
+  "options": [
+    {"id": "a", "text": "请求完成后可以动态补入新请求，减少 batch 空洞"},
+    {"id": "b", "text": "完全消除模型计算量"},
+    {"id": "c", "text": "保证每个请求延迟相同"},
+    {"id": "d", "text": "不再需要调度策略"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "动态插入和退出提高 GPU 利用率，但需要处理公平性、队列延迟和 KV Cache 生命周期。",
+  "wiki_refs": [],
+  "content_sha256": "sha256:da627aec06964a1f8472b54628eea4757d520235ed1f20d884ecd7bfd1d221f8",
+  "status": "enabled"
+}
