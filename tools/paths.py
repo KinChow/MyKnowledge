@@ -337,6 +337,10 @@ class RepoPaths:
     def practice_reviews_root(self) -> Path:
         return self.content_root / "practice" / "reviews"
 
+    @property
+    def practice_quality_root(self) -> Path:
+        return self.content_root / "practice" / "quality"
+
     def practice_reviews(self, question_id: str) -> Path:
         return self.practice_reviews_root / f"{question_id}.jsonl"
 

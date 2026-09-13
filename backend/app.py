@@ -23,6 +23,7 @@ from tools.indexing import Retriever, default_public_index_path
 from tools.paths import RepoPaths
 from tools.projection import PublicProjectionStore
 from tools.question import QuestionStore
+from tools.question_quality import QuestionQualityService
 from tools.skill_runtime import dispatch
 from tools.validation.validator import WikiValidator
 from tools.vault_registry import VaultRegistry
@@ -105,6 +106,7 @@ def create_app(
     if capability_token is None and root is not None:
         _persist_capability_token(state)
     state.practice = QuestionStore(state.root)
+    state.question_quality = QuestionQualityService(state.root)
     state.writer = WriteOperation(state.root)
     state.max_request_body_bytes = 1_048_576
     app.middleware("http")(local_origin_guard)
@@ -619,6 +621,22 @@ def create_app(
             raise api_error(
                 404, "question_not_found", "practice", "check question_id"
             ) from exc
+
+    @app.post("/api/practice/{question_id}/quality")
+    def practice_quality(
+        question_id: str,
+        mode: str = Query(default="deterministic", pattern="^(deterministic|llm)$"),
+        scope: str = "local",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        result = state.question_quality.validate(question_id, mode=mode)
+        if result.get("state") == "blocked":
+            if result.get("error_code") == "question_not_found":
+                raise api_error(404, "question_not_found", "practice", "check question_id")
+            raise api_error(422, result["error_code"], "practice", "check quality mode")
+        return {"schema_version": "practice-quality/v1", **result}
 
     return app
 

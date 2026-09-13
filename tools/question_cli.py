@@ -17,7 +17,7 @@ def _add_root(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--root", type=Path, default=Path.cwd())
 
 
-def _build_parser() -> argparse.ArgumentParser:
+def _build_parser() -> argparse.ArgumentParser:  # noqa: PLR0915 - explicit CLI subcommands
     parser = argparse.ArgumentParser(
         prog="python -m tools.cli question",
         description="F008 personal question bank",
@@ -94,6 +94,10 @@ def _build_parser() -> argparse.ArgumentParser:
     _add_root(review)
     review.add_argument("--question-id", required=True)
     review.add_argument("--rating", type=int, required=True)
+    quality = subparsers.add_parser("quality", help="validate question authoring quality")
+    _add_root(quality)
+    quality.add_argument("--question-id", required=True)
+    quality.add_argument("--mode", choices=["deterministic", "llm"], default="deterministic")
     return parser
 
 
@@ -149,6 +153,12 @@ def question_main(argv: list[str]) -> int:
             args.question_id,
             json.loads(args.response),
             scoring_mode=args.scoring_mode,
+        )
+    elif args.action == "quality":
+        from .question_quality import QuestionQualityService
+
+        result = QuestionQualityService(args.root).validate(
+            args.question_id, mode=args.mode
         )
     else:
         result = store.review(args.question_id, args.rating)

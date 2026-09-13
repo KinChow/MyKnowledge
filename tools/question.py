@@ -37,6 +37,8 @@ QUESTION_FIELDS = {
     "answer",
     "explanation",
     "rubric",
+    "company_tags",
+    "source_refs",
 }
 IMPORT_FIELDS = {
     "schema_version",
@@ -52,6 +54,8 @@ IMPORT_FIELDS = {
     "answer",
     "explanation",
     "wiki_refs",
+    "company_tags",
+    "source_refs",
     "status",
 }
 
@@ -151,7 +155,7 @@ class QuestionStore:
             os.fsync(handle.fileno())
 
     @staticmethod
-    def _validate_spec(spec: dict) -> list[dict]:
+    def _validate_spec(spec: dict) -> list[dict]:  # noqa: PLR0915 - explicit Wiki question contract validation
         errors: list[dict] = []
         if not isinstance(spec, dict):
             return [{"code": "question_spec_invalid"}]
@@ -231,6 +235,28 @@ class QuestionStore:
                     errors.append({"code": "answer_normalization_invalid"})
                 elif set(normalization) - {"casefold", "trim", "collapse_whitespace"}:
                     errors.append({"code": "answer_normalization_rule_unknown"})
+        company_tags = spec.get("company_tags", [])
+        if not isinstance(company_tags, list) or any(
+            not isinstance(value, str) or not value.strip() for value in company_tags
+        ):
+            errors.append({"code": "company_tags_invalid"})
+        elif len(company_tags) != len(set(company_tags)):
+            errors.append({"code": "company_tags_duplicate"})
+        source_refs = spec.get("source_refs", [])
+        if not isinstance(source_refs, list):
+            errors.append({"code": "source_refs_invalid"})
+        else:
+            for source in source_refs:
+                if not isinstance(source, dict):
+                    errors.append({"code": "source_ref_invalid"})
+                    continue
+                if any(
+                    not isinstance(source.get(field), str) or not source[field].strip()
+                    for field in ("title", "url", "kind")
+                ):
+                    errors.append({"code": "source_ref_required"})
+                if any(secret in source.get("url", "").lower() for secret in ("token", "api_key", "secret")):
+                    errors.append({"code": "source_ref_sensitive_url"})
         return errors
 
     def _wiki_report(self, wiki_path: Path) -> dict:
@@ -284,6 +310,8 @@ class QuestionStore:
             "answer": spec.get("answer"),
             "explanation": spec.get("explanation"),
             "rubric": spec.get("rubric"),
+            "company_tags": spec.get("company_tags", []),
+            "source_refs": spec.get("source_refs", []),
             "status": "enabled",
             "created_at": time.time(),
             "review_state": None,
@@ -295,7 +323,7 @@ class QuestionStore:
         return {"state": "created", "question": question}
 
     @staticmethod
-    def _validate_import_spec(spec: dict) -> list[dict]:
+    def _validate_import_spec(spec: dict) -> list[dict]:  # noqa: PLR0915 - explicit import contract validation
         errors: list[dict] = []
         if not isinstance(spec, dict):
             return [{"code": "question_spec_invalid"}]
@@ -376,6 +404,28 @@ class QuestionStore:
                 errors.append({"code": "single_choice_requires_one_answer"})
         if "wiki_refs" in spec and not isinstance(spec["wiki_refs"], list):
             errors.append({"code": "wiki_refs_invalid"})
+        company_tags = spec.get("company_tags", [])
+        if not isinstance(company_tags, list) or any(
+            not isinstance(value, str) or not value.strip() for value in company_tags
+        ):
+            errors.append({"code": "company_tags_invalid"})
+        elif len(company_tags) != len(set(company_tags)):
+            errors.append({"code": "company_tags_duplicate"})
+        source_refs = spec.get("source_refs", [])
+        if not isinstance(source_refs, list):
+            errors.append({"code": "source_refs_invalid"})
+        else:
+            for source in source_refs:
+                if not isinstance(source, dict):
+                    errors.append({"code": "source_ref_invalid"})
+                    continue
+                if any(
+                    not isinstance(source.get(field), str) or not source[field].strip()
+                    for field in ("title", "url", "kind")
+                ):
+                    errors.append({"code": "source_ref_required"})
+                if any(secret in source.get("url", "").lower() for secret in ("token", "api_key", "secret")):
+                    errors.append({"code": "source_ref_sensitive_url"})
         if spec.get("status", "enabled") not in {"enabled", "disabled"}:
             errors.append({"code": "question_status_invalid"})
         return errors
@@ -423,6 +473,8 @@ class QuestionStore:
             "answer": spec.get("answer"),
             "explanation": spec.get("explanation", ""),
             "wiki_refs": spec.get("wiki_refs", []),
+            "company_tags": spec.get("company_tags", []),
+            "source_refs": spec.get("source_refs", []),
             "status": spec.get("status", "enabled"),
             "created_at": time.time(),
             "review_state": None,
@@ -471,6 +523,8 @@ class QuestionStore:
                 "prompt",
                 "options",
                 "wiki_refs",
+                "company_tags",
+                "source_refs",
                 "status",
             )
             if key in question

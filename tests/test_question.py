@@ -233,6 +233,63 @@ class QuestionTests(unittest.TestCase):
                 "field_not_allowed", {item["code"] for item in result["errors"]}
             )
 
+    def test_import_preserves_company_and_source_metadata(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            result = store.import_spec(
+                {
+                    "id": "q-meta",
+                    "type": "single_choice",
+                    "domain": "llm-inference",
+                    "topic": "serving",
+                    "concept_id": "batching",
+                    "skill": "design",
+                    "prompt": "哪项最适合降低排队延迟？",
+                    "options": [
+                        {"id": "a", "text": "连续批处理"},
+                        {"id": "b", "text": "固定大 batch"},
+                    ],
+                    "correct_option_ids": ["a"],
+                    "explanation": "连续批处理可让新请求加入运行中的批次。",
+                    "company_tags": ["ByteDance", "NVIDIA"],
+                    "source_refs": [
+                        {
+                            "title": "CUDA C Programming Guide",
+                            "url": "https://docs.nvidia.com/cuda/cuda-c-programming-guide/",
+                            "kind": "official_docs",
+                        }
+                    ],
+                }
+            )
+            self.assertEqual(result["state"], "imported")
+            question = store.load("q-meta")
+            self.assertEqual(question["company_tags"], ["ByteDance", "NVIDIA"])
+            self.assertEqual(question["source_refs"][0]["kind"], "official_docs")
+            catalog = store.list()["items"][0]
+            self.assertEqual(catalog["company_tags"], ["ByteDance", "NVIDIA"])
+            self.assertNotIn("correct_option_ids", catalog)
+
+    def test_import_rejects_malformed_source_metadata(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            spec = {
+                "id": "q-meta",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "design",
+                "prompt": "哪项最适合降低排队延迟？",
+                "options": [{"id": "a", "text": "连续批处理"}, {"id": "b", "text": "固定大 batch"}],
+                "correct_option_ids": ["a"],
+                "company_tags": ["ByteDance", "ByteDance"],
+                "source_refs": [{"title": "bad"}],
+            }
+            result = store.import_spec(spec)
+            codes = {item["code"] for item in result["errors"]}
+            self.assertIn("company_tags_duplicate", codes)
+            self.assertIn("source_ref_required", codes)
+
     def test_tampered_question_content_is_fail_closed(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
