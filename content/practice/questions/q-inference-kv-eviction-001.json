@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-kv-eviction-001",
+  "type": "multi_choice",
+  "domain": "llm-inference",
+  "topic": "kv-cache",
+  "concept_id": "kv-cache-budget-eviction",
+  "skill": "design",
+  "prompt": "KV Cache 预算不足时，哪些策略可能用于控制显存？",
+  "options": [
+    {"id": "a", "text": "限制最大上下文或最大并发"},
+    {"id": "b", "text": "对请求排队、抢占或驱逐可恢复的 cache"},
+    {"id": "c", "text": "使用 KV 量化或分层 offload，并评估性能影响"},
+    {"id": "d", "text": "只增加 batch size 就能降低 KV Cache 占用"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "KV 管理是容量、延迟和恢复成本的联合问题；驱逐和 offload 不能脱离 workload 与硬件评估。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:9204333ded22d5c8083ffd38571b8a43201884b5d63acd17aab5ca14bf140e2d"
+}

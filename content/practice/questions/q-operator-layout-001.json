@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-layout-001",
+  "type": "multi_choice",
+  "domain": "operator-development",
+  "topic": "layout",
+  "concept_id": "tensor-layout-performance",
+  "skill": "diagnosis",
+  "prompt": "张量 layout 选择会影响算子性能的原因包括哪些？",
+  "options": [
+    {"id": "a", "text": "影响线程到元素的映射和 global memory 访问模式"},
+    {"id": "b", "text": "可能决定是否需要 transpose 或额外拷贝"},
+    {"id": "c", "text": "会影响向量化、tile 复用和 kernel 分支"},
+    {"id": "d", "text": "layout 只影响 API 字段名称，不影响计算"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "layout 是算子契约和性能实现的一部分，不能只在接口层面忽略。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:17fb60183411042c85a311d61a2324ec6280de314076d42ac5c8e789f213baa7"
+}

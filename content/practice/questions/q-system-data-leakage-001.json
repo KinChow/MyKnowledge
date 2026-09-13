@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-system-data-leakage-001",
+  "type": "single_choice",
+  "domain": "ml-system-design",
+  "topic": "data-quality",
+  "concept_id": "train-test-leakage",
+  "skill": "diagnosis",
+  "prompt": "时间序列或推荐系统离线评估异常好，线上效果却明显下降，首先应排查什么？",
+  "options": [
+    {"id": "a", "text": "训练/验证切分是否引入未来信息或数据泄漏"},
+    {"id": "b", "text": "是否把模型层数增加一倍"},
+    {"id": "c", "text": "是否关闭所有线上监控"},
+    {"id": "d", "text": "是否只使用更大的 batch"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "时间穿越、标签泄漏和不一致的特征生成会让离线指标失真，应先恢复与线上时间和数据生成过程一致的评估。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:84fdcc6cdbe6fe1b145d67e23ed8f981e25c1f6cd79333f427f96ade66e5debe"
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-reduction-001",
+  "type": "single_choice",
+  "domain": "operator-development",
+  "topic": "parallel-reduction",
+  "concept_id": "parallel-reduction-correctness",
+  "skill": "mechanism",
+  "prompt": "并行 reduction 算子最需要特别处理的正确性问题是什么？",
+  "options": [
+    {"id": "a", "text": "并发累加的同步、归约顺序和数值误差"},
+    {"id": "b", "text": "只要线程数是 2 的幂就没有边界问题"},
+    {"id": "c", "text": "所有输入 dtype 都能使用同一误差容忍度"},
+    {"id": "d", "text": "归约结果与输入布局完全无关"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "归约涉及同步、竞争、边界和浮点累加顺序；不同 dtype 和 shape 需要分别验证。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:2c03a651a0d326813308c43799dcc5b1454bd11d4c3fbedcaa758d50daf18dbf"
+}

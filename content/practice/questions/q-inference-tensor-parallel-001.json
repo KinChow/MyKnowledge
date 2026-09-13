@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-tensor-parallel-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "parallelism",
+  "concept_id": "tensor-parallel-communication",
+  "skill": "tradeoff",
+  "prompt": "Tensor Parallelism 在多 GPU 推理中的主要代价是什么？",
+  "options": [
+    {"id": "a", "text": "分片计算后需要跨 GPU 通信同步中间结果"},
+    {"id": "b", "text": "每张卡必须复制全部 KV Cache 且无法切分"},
+    {"id": "c", "text": "模型只能使用 CPU 计算"},
+    {"id": "d", "text": "不能支持 batch 推理"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "TP 可以让单卡放不下的层或权重跨卡执行，但通信开销、互联带宽和同步点会影响端到端收益。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:4e008504218e0a547bd8e1fc294209569a7e4a39c68e6fc529d6d6ffd011b2bb"
+}

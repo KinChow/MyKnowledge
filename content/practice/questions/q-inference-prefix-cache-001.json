@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-prefix-cache-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "prefix-cache",
+  "concept_id": "prefix-cache-reuse",
+  "skill": "mechanism",
+  "prompt": "LLM serving 中 prefix caching 的主要收益是什么？",
+  "options": [
+    {"id": "a", "text": "复用相同前缀的 KV Cache，减少重复 Prefill"},
+    {"id": "b", "text": "减少模型权重的参数量"},
+    {"id": "c", "text": "让 Decode 阶段不再需要采样"},
+    {"id": "d", "text": "保证所有请求拥有相同输出"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "共享系统提示词等重复前缀可以减少 Prefill 计算，但需要考虑命中率、缓存隔离、失效和内存占用。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:2e409807410ec0655e4ac40cff3444d3d98df7246d3bfad7d733f8c09b48ca14"
+}

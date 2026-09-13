@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-operator-launch-overhead-001",
+  "type": "single_choice",
+  "domain": "operator-development",
+  "topic": "kernel-launch",
+  "concept_id": "kernel-launch-overhead",
+  "skill": "diagnosis",
+  "prompt": "当算子输入很小且 kernel 执行时间极短时，端到端耗时可能主要受什么影响？",
+  "options": [
+    {"id": "a", "text": "kernel launch、同步和框架调度开销"},
+    {"id": "b", "text": "只受显存容量限制"},
+    {"id": "c", "text": "只受模型参数量限制"},
+    {"id": "d", "text": "只要提高 occupancy 就能消除全部开销"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "微小算子可能被固定调度成本主导，融合、批处理或减少同步点有时比继续优化 kernel 内部更有效。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:501c0424f14e730dcb73e4a0edc571d52699e8a94d16db2feca334718c4a5442"
+}

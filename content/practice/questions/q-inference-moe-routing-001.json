@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-moe-routing-001",
+  "type": "multi_choice",
+  "domain": "llm-inference",
+  "topic": "moe",
+  "concept_id": "expert-parallel-routing",
+  "skill": "diagnosis",
+  "prompt": "MoE 推理中的 expert parallel routing 需要重点关注哪些问题？",
+  "options": [
+    {"id": "a", "text": "token 在 expert 之间的通信和负载均衡"},
+    {"id": "b", "text": "热门 expert 造成局部拥塞或容量溢出"},
+    {"id": "c", "text": "路由结果与 token 顺序恢复的正确性"},
+    {"id": "d", "text": "只要 expert 数量增加，通信成本必然下降"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "MoE 的稀疏计算收益会被 all-to-all 通信、expert imbalance、capacity factor 和 token dispatch 开销抵消。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:45239023cb52b75af65e9d9a62f58974e2127a72aaefdfbc8f6a2da465c3253d"
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-system-requirements-001",
+  "type": "multi_choice",
+  "domain": "ml-system-design",
+  "topic": "requirements",
+  "concept_id": "ml-system-requirements-framing",
+  "skill": "interview",
+  "prompt": "ML 系统设计面试开始时，哪些问题应先澄清？",
+  "options": [
+    {"id": "a", "text": "用户和业务目标，以及成功指标"},
+    {"id": "b", "text": "流量、数据规模、延迟和可用性约束"},
+    {"id": "c", "text": "实时性、更新频率和允许的错误代价"},
+    {"id": "d", "text": "一开始就确定具体神经网络层数"}
+  ],
+  "correct_option_ids": ["a", "b", "c"],
+  "explanation": "先约束问题空间，才能判断是否需要 ML、选择架构并解释后续 tradeoff。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:99bf135dccf5226fa1c45f23f2f55d57f0cd78af84af95dda336c980e66cfac5"
+}

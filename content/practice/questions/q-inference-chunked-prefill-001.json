@@ -1,0 +1,21 @@
+{
+  "schema_version": "question/v1",
+  "id": "q-inference-chunked-prefill-001",
+  "type": "single_choice",
+  "domain": "llm-inference",
+  "topic": "prefill-decode",
+  "concept_id": "chunked-prefill-fairness",
+  "skill": "tradeoff",
+  "prompt": "Chunked Prefill 主要用于解决什么调度问题？",
+  "options": [
+    {"id": "a", "text": "把长 Prefill 切成多个块，减少其对 Decode 请求的长时间阻塞"},
+    {"id": "b", "text": "把每个 token 永久保存到 CPU"},
+    {"id": "c", "text": "完全消除 Prefill 的计算量"},
+    {"id": "d", "text": "保证长请求和短请求占用相同显存"}
+  ],
+  "correct_option_ids": ["a"],
+  "explanation": "Chunked Prefill 在吞吐、TTFT、Decode 抖动和调度复杂度之间做权衡。",
+  "wiki_refs": [],
+  "status": "enabled",
+  "content_sha256": "sha256:0ab649834ff32a9b78857cf5ae24dc5bddc2b19b18f0fdab67cf7abd9c8a4953"
+}
