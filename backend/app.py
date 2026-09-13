@@ -634,7 +634,9 @@ def create_app(
         result = state.question_quality.validate(question_id, mode=mode)
         if result.get("state") == "blocked":
             if result.get("error_code") == "question_not_found":
-                raise api_error(404, "question_not_found", "practice", "check question_id")
+                raise api_error(
+                    404, "question_not_found", "practice", "check question_id"
+                )
             raise api_error(422, result["error_code"], "practice", "check quality mode")
         return {"schema_version": "practice-quality/v1", **result}
 

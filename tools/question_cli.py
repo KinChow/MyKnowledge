@@ -29,7 +29,9 @@ def _build_parser() -> argparse.ArgumentParser:  # noqa: PLR0915 - explicit CLI 
     create.add_argument("--spec", type=Path, required=True)
     create.add_argument("--wiki", type=Path)
 
-    import_parser = subparsers.add_parser("import", help="import standalone JSON questions")
+    import_parser = subparsers.add_parser(
+        "import", help="import standalone JSON questions"
+    )
     _add_root(import_parser)
     import_parser.add_argument("--source", type=Path, required=True)
 
@@ -94,10 +96,14 @@ def _build_parser() -> argparse.ArgumentParser:  # noqa: PLR0915 - explicit CLI 
     _add_root(review)
     review.add_argument("--question-id", required=True)
     review.add_argument("--rating", type=int, required=True)
-    quality = subparsers.add_parser("quality", help="validate question authoring quality")
+    quality = subparsers.add_parser(
+        "quality", help="validate question authoring quality"
+    )
     _add_root(quality)
     quality.add_argument("--question-id", required=True)
-    quality.add_argument("--mode", choices=["deterministic", "llm"], default="deterministic")
+    quality.add_argument(
+        "--mode", choices=["deterministic", "llm"], default="deterministic"
+    )
     return parser
 
 

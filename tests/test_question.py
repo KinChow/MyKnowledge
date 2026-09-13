@@ -280,7 +280,10 @@ class QuestionTests(unittest.TestCase):
                 "concept_id": "batching",
                 "skill": "design",
                 "prompt": "哪项最适合降低排队延迟？",
-                "options": [{"id": "a", "text": "连续批处理"}, {"id": "b", "text": "固定大 batch"}],
+                "options": [
+                    {"id": "a", "text": "连续批处理"},
+                    {"id": "b", "text": "固定大 batch"},
+                ],
                 "correct_option_ids": ["a"],
                 "company_tags": ["ByteDance", "ByteDance"],
                 "source_refs": [{"title": "bad"}],
@@ -328,7 +331,9 @@ class QuestionTests(unittest.TestCase):
                 "response_option_unknown",
             )
 
-    def test_import_personal_question_without_wiki_is_idempotent_and_conflict_safe(self):
+    def test_import_personal_question_without_wiki_is_idempotent_and_conflict_safe(
+        self,
+    ):
         with tempfile.TemporaryDirectory() as d:
             source = Path(d) / "q.json"
             source.write_text(
@@ -342,7 +347,10 @@ class QuestionTests(unittest.TestCase):
                         "concept_id": "kv-cache-purpose",
                         "skill": "mechanism",
                         "prompt": "KV Cache 的主要作用是什么？",
-                        "options": [{"id": "a", "text": "复用 K/V"}, {"id": "b", "text": "减少参数"}],
+                        "options": [
+                            {"id": "a", "text": "复用 K/V"},
+                            {"id": "b", "text": "减少参数"},
+                        ],
                         "correct_option_ids": ["a"],
                         "explanation": "复用历史 K/V。",
                     },
@@ -784,9 +792,7 @@ class QuestionTests(unittest.TestCase):
             store.import_file(source)
             created = store.create_session(size=3)
             session_id = created["session"]["id"]
-            updated = store.update_session(
-                session_id, current_index=1, completed=False
-            )
+            updated = store.update_session(session_id, current_index=1, completed=False)
             self.assertEqual(updated["session"]["current_index"], 1)
             completed = store.update_session(
                 session_id, current_index=1, completed=True
@@ -799,7 +805,10 @@ class QuestionTests(unittest.TestCase):
             store = QuestionStore(Path(d))
             source_dir = Path(d) / "imports"
             source_dir.mkdir()
-            for question_id, topic in (("q-error", "kv-cache"), ("q-other", "batching")):
+            for question_id, topic in (
+                ("q-error", "kv-cache"),
+                ("q-other", "batching"),
+            ):
                 (source_dir / f"{question_id}.json").write_text(
                     json.dumps(
                         {
@@ -829,7 +838,9 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(result["items"][0]["question_id"], "q-error")
             self.assertNotIn("answer", result["items"][0]["question"])
             self.assertNotIn("explanation", result["items"][0]["question"])
-            self.assertEqual(store.error_queue(limit=0)["error_code"], "error_queue_limit_invalid")
+            self.assertEqual(
+                store.error_queue(limit=0)["error_code"], "error_queue_limit_invalid"
+            )
             store.answer("q-error", "a")
             self.assertEqual(store.error_queue(topic="kv-cache")["total"], 0)
 
@@ -863,9 +874,7 @@ class QuestionTests(unittest.TestCase):
             result = store.error_queue()
             self.assertEqual(result["total"], 0)
             self.assertEqual(result["warnings"][0]["code"], "review_log_invalid")
-            self.assertEqual(
-                result["warnings"][0]["question_id"], "q-corrupt-review"
-            )
+            self.assertEqual(result["warnings"][0]["question_id"], "q-corrupt-review")
 
     def test_review_queue_prioritizes_due_and_can_exclude_new(self):
         with tempfile.TemporaryDirectory() as d:
@@ -904,7 +913,9 @@ class QuestionTests(unittest.TestCase):
             ):
                 question = store.load(question_id)
                 question["review_state"]["due"] = due.isoformat()
-                store._file(question_id).write_text(json.dumps(question), encoding="utf-8")
+                store._file(question_id).write_text(
+                    json.dumps(question), encoding="utf-8"
+                )
             due_only = store.review_queue(size=3, include_new=False)
             self.assertEqual(due_only["total"], 1)
             self.assertEqual(due_only["items"][0]["queue_kind"], "due")

@@ -33,7 +33,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 | Public/Local 索引与检索 | Implemented | [正文](./index-and-retrieval.md) |
 | FastAPI 本地服务与离线降级 | Implemented | [正文](./local-api-and-offline.md) |
 | Agent Skill 受控读写 | Implemented | [正文](./agent-skill.md) |
-| Question 个人题库与大模型学习练习 | Designed（v1 基础实现） | [正文](./question-and-practice.md) |
+| Question 个人题库与大模型学习练习 | Implemented | [正文](./question-and-practice.md) |
 | 存量内容迁移与质量清理 | Implemented | [正文](./content-migration.md) |
 | 音视频与转录来源 | （正文无状态行） | [正文](./media-sources.md) |
 | F014 首个真实任务：CS336 课程归档演练 | Partial | [正文](./cs336-course-archive-task.md) |

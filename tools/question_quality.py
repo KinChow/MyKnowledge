@@ -42,7 +42,11 @@ def deterministic_quality(question: dict) -> dict:
             findings.append({"severity": "error", "code": "options_insufficient"})
         else:
             ids = [item.get("id") for item in options if isinstance(item, dict)]
-            texts = [str(item.get("text", "")).strip() for item in options if isinstance(item, dict)]
+            texts = [
+                str(item.get("text", "")).strip()
+                for item in options
+                if isinstance(item, dict)
+            ]
             if len(ids) != len(set(ids)):
                 findings.append({"severity": "error", "code": "option_id_duplicate"})
             if len(texts) != len(set(texts)):
@@ -51,7 +55,9 @@ def deterministic_quality(question: dict) -> dict:
             if not correct or not set(correct).issubset(set(ids)):
                 findings.append({"severity": "error", "code": "correct_answer_invalid"})
             if question_type == "single_choice" and len(correct) != 1:
-                findings.append({"severity": "error", "code": "single_choice_answer_count"})
+                findings.append(
+                    {"severity": "error", "code": "single_choice_answer_count"}
+                )
     elif question_type == "cloze":
         answer = question.get("answer") or {}
         if not isinstance(answer, dict) or not answer.get("accepted_answers"):
@@ -88,7 +94,11 @@ class QuestionQualityService:
         try:
             question = self.store.load(question_id)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
-            return {"state": "blocked", "error_code": "question_not_found", "detail": type(exc).__name__}
+            return {
+                "state": "blocked",
+                "error_code": "question_not_found",
+                "detail": type(exc).__name__,
+            }
 
         llm = None
         if mode == "llm":
@@ -100,7 +110,11 @@ class QuestionQualityService:
                 try:
                     llm = llm_reviewer(self._review_payload(question))
                 except Exception as exc:  # noqa: BLE001 - provider boundary
-                    llm = {"state": "unavailable", "reason": "provider_error", "detail": type(exc).__name__}
+                    llm = {
+                        "state": "unavailable",
+                        "reason": "provider_error",
+                        "detail": type(exc).__name__,
+                    }
 
         report = {
             "schema_version": QUALITY_SCHEMA,
@@ -112,7 +126,11 @@ class QuestionQualityService:
             "llm": llm,
         }
         self.quality_root.mkdir(parents=True, exist_ok=True)
-        atomic_write(self.quality_root / f"{question_id}.json", canonical_json(report) + b"\n", 0o600)
+        atomic_write(
+            self.quality_root / f"{question_id}.json",
+            canonical_json(report) + b"\n",
+            0o600,
+        )
         return {"state": "validated", "report": report}
 
     @staticmethod
@@ -122,14 +140,28 @@ class QuestionQualityService:
             "question": {
                 key: question.get(key)
                 for key in (
-                    "type", "domain", "topic", "concept_id", "skill",
-                    "prompt", "options", "correct_option_ids", "answer", "explanation",
+                    "type",
+                    "domain",
+                    "topic",
+                    "concept_id",
+                    "skill",
+                    "prompt",
+                    "options",
+                    "correct_option_ids",
+                    "answer",
+                    "explanation",
                 )
             },
             "output_schema": {
                 "state": "pass_or_fail",
                 "score": "0_to_1",
-                "findings": [{"severity": "error_or_warning", "code": "stable_code", "message": "string"}],
+                "findings": [
+                    {
+                        "severity": "error_or_warning",
+                        "code": "stable_code",
+                        "message": "string",
+                    }
+                ],
                 "suggestions": ["string"],
             },
         }
@@ -139,7 +171,9 @@ def configured_llm_reviewer() -> Callable[[dict], dict] | None:
     """Build the optional OpenAI-compatible reviewer from local env config."""
     if not (
         os.environ.get("OPENAI_API_KEY")
-        and (os.environ.get("OPENAI_MODEL") or os.environ.get("MYKNOWLEDGE_LLM_PROFILE"))
+        and (
+            os.environ.get("OPENAI_MODEL") or os.environ.get("MYKNOWLEDGE_LLM_PROFILE")
+        )
     ):
         return None
 
@@ -177,9 +211,14 @@ def configured_llm_reviewer() -> Callable[[dict], dict] | None:
             raise ValueError("malformed_output")
         if result.get("state") not in {"pass", "fail"}:
             raise ValueError("malformed_output")
-        if not isinstance(result.get("score"), (int, float)) or not 0 <= result["score"] <= 1:
+        if (
+            not isinstance(result.get("score"), (int, float))
+            or not 0 <= result["score"] <= 1
+        ):
             raise ValueError("malformed_output")
-        if not isinstance(result.get("findings"), list) or not isinstance(result.get("suggestions"), list):
+        if not isinstance(result.get("findings"), list) or not isinstance(
+            result.get("suggestions"), list
+        ):
             raise ValueError("malformed_output")
         return result
 

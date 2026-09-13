@@ -1,6 +1,7 @@
 # F008 个人题库与大模型知识练习实现设计
 
-- 状态：Implemented；P1 个人练习垂直切片已验收
+- 状态：Implemented
+- P1 个人练习垂直切片已验收
 - 相关 Feature：F008
 - 相关 ADR：ADR-0008
 - 相关验收：[F008](../acceptance/F008-question-practice.md)

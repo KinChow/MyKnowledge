@@ -221,14 +221,17 @@ class QuestionStore:
                 accepted = answer.get("accepted_answers")
                 aliases = answer.get("aliases", [])
                 normalization = answer.get("normalization", {})
-                if not isinstance(accepted, list) or not accepted or any(
-                    not isinstance(value, str) or not value.strip()
-                    for value in accepted
+                if (
+                    not isinstance(accepted, list)
+                    or not accepted
+                    or any(
+                        not isinstance(value, str) or not value.strip()
+                        for value in accepted
+                    )
                 ):
                     errors.append({"code": "accepted_answers_required"})
                 if not isinstance(aliases, list) or any(
-                    not isinstance(value, str) or not value.strip()
-                    for value in aliases
+                    not isinstance(value, str) or not value.strip() for value in aliases
                 ):
                     errors.append({"code": "answer_aliases_invalid"})
                 if not isinstance(normalization, dict):
@@ -255,7 +258,10 @@ class QuestionStore:
                     for field in ("title", "url", "kind")
                 ):
                     errors.append({"code": "source_ref_required"})
-                if any(secret in source.get("url", "").lower() for secret in ("token", "api_key", "secret")):
+                if any(
+                    secret in source.get("url", "").lower()
+                    for secret in ("token", "api_key", "secret")
+                ):
                     errors.append({"code": "source_ref_sensitive_url"})
         return errors
 
@@ -373,14 +379,17 @@ class QuestionStore:
                 accepted = answer.get("accepted_answers")
                 aliases = answer.get("aliases", [])
                 normalization = answer.get("normalization", {})
-                if not isinstance(accepted, list) or not accepted or any(
-                    not isinstance(value, str) or not value.strip()
-                    for value in accepted
+                if (
+                    not isinstance(accepted, list)
+                    or not accepted
+                    or any(
+                        not isinstance(value, str) or not value.strip()
+                        for value in accepted
+                    )
                 ):
                     errors.append({"code": "accepted_answers_required"})
                 if not isinstance(aliases, list) or any(
-                    not isinstance(value, str) or not value.strip()
-                    for value in aliases
+                    not isinstance(value, str) or not value.strip() for value in aliases
                 ):
                     errors.append({"code": "answer_aliases_invalid"})
                 if not isinstance(normalization, dict):
@@ -424,7 +433,10 @@ class QuestionStore:
                     for field in ("title", "url", "kind")
                 ):
                     errors.append({"code": "source_ref_required"})
-                if any(secret in source.get("url", "").lower() for secret in ("token", "api_key", "secret")):
+                if any(
+                    secret in source.get("url", "").lower()
+                    for secret in ("token", "api_key", "secret")
+                ):
                     errors.append({"code": "source_ref_sensitive_url"})
         if spec.get("status", "enabled") not in {"enabled", "disabled"}:
             errors.append({"code": "question_status_invalid"})
@@ -440,7 +452,9 @@ class QuestionStore:
             "review_state",
         }
         return sha256_bytes(
-            canonical_json({key: value for key, value in question.items() if key not in excluded})
+            canonical_json(
+                {key: value for key, value in question.items() if key not in excluded}
+            )
         )
 
     def import_file(self, source: Path) -> dict:
@@ -448,7 +462,13 @@ class QuestionStore:
         try:
             spec = json.loads(source.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            return {"state": "blocked", "source": str(source), "errors": [{"code": "question_json_invalid", "detail": type(exc).__name__}]}
+            return {
+                "state": "blocked",
+                "source": str(source),
+                "errors": [
+                    {"code": "question_json_invalid", "detail": type(exc).__name__}
+                ],
+            }
         result = self.import_spec(spec)
         if result["state"] == "blocked":
             result["source"] = str(source)
@@ -485,21 +505,58 @@ class QuestionStore:
             try:
                 existing = self.load(question["id"])
             except (OSError, ValueError, json.JSONDecodeError) as exc:
-                return {"state": "blocked", "errors": [{"code": "existing_question_invalid", "detail": type(exc).__name__}]}
-            if self._import_content_hash(existing) == self._import_content_hash(question):
-                return {"state": "noop", "question_id": question["id"], "content_sha256": question["content_sha256"]}
-            return {"state": "blocked", "question_id": question["id"], "errors": [{"code": "question_id_conflict"}]}
+                return {
+                    "state": "blocked",
+                    "errors": [
+                        {
+                            "code": "existing_question_invalid",
+                            "detail": type(exc).__name__,
+                        }
+                    ],
+                }
+            if self._import_content_hash(existing) == self._import_content_hash(
+                question
+            ):
+                return {
+                    "state": "noop",
+                    "question_id": question["id"],
+                    "content_sha256": question["content_sha256"],
+                }
+            return {
+                "state": "blocked",
+                "question_id": question["id"],
+                "errors": [{"code": "question_id_conflict"}],
+            }
         atomic_write(target, canonical_json(question) + b"\n", 0o600)
-        return {"state": "imported", "question_id": question["id"], "content_sha256": question["content_sha256"], "path": str(target)}
+        return {
+            "state": "imported",
+            "question_id": question["id"],
+            "content_sha256": question["content_sha256"],
+            "path": str(target),
+        }
 
     def import_path(self, source: Path) -> dict:
         source = Path(source)
-        files = [source] if source.is_file() else sorted(source.glob("*.json")) if source.is_dir() else []
+        files = (
+            [source]
+            if source.is_file()
+            else sorted(source.glob("*.json"))
+            if source.is_dir()
+            else []
+        )
         if not files:
-            return {"state": "blocked", "source": str(source), "errors": [{"code": "question_import_source_empty"}]}
+            return {
+                "state": "blocked",
+                "source": str(source),
+                "errors": [{"code": "question_import_source_empty"}],
+            }
         results = [self.import_file(path) for path in files]
         return {
-            "state": "imported" if any(item["state"] == "imported" for item in results) else "noop" if all(item["state"] == "noop" for item in results) else "blocked",
+            "state": "imported"
+            if any(item["state"] == "imported" for item in results)
+            else "noop"
+            if all(item["state"] == "noop" for item in results)
+            else "blocked",
             "source": str(source),
             "total": len(results),
             "imported": sum(item["state"] == "imported" for item in results),
@@ -641,10 +698,7 @@ class QuestionStore:
             if (
                 isinstance(result, dict)
                 and result.get("state") == "graded"
-                and (
-                    result.get("correct") is False
-                    or result.get("score", 1) < 1
-                )
+                and (result.get("correct") is False or result.get("score", 1) < 1)
             ):
                 error_ids.add(item["id"])
 
@@ -831,9 +885,9 @@ class QuestionStore:
                         and (
                             latest is None
                             or record["recorded_at"] > latest["recorded_at"]
-                            )
-                        ):
-                            latest = record
+                        )
+                    ):
+                        latest = record
             except (OSError, UnicodeError, json.JSONDecodeError) as exc:
                 warnings.append(
                     {
