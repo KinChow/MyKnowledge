@@ -31,7 +31,7 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 | 索引检索 | FTS5 中文分词 + 确定性 fallback | §11 | `tools.cli query / index` |
 | 本地 API | FastAPI loopback，写入需 capability token | §12 | `backend.server` |
 | 静态发布 | public projection + leak gate + Astro 构建 | §13 | `tools.cli projection` |
-| 练习（F008） | 绑定 claim 的题目 + FSRS 复习（延后） | §7 | 不属当前主链路 |
+| 练习（F008） | 面向大模型知识的短回合题目、分类、反馈和 FSRS 复习 | §7 | 独立消费端能力，不改变主链路 |
 
 ### 0.3 怎么开发
 
@@ -70,7 +70,7 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 | IDX | 索引、检索和 RAG 边界 | §11 |
 | API | FastAPI 本地后端 | §12 |
 | WEB | Astro 公开静态模式 | §13 |
-| QST | Question 和复习（F008 延后） | §7 |
+| QST | Question、短回合学习和复习（F008） | §7 |
 | SKILL | Agent Skill 受控入口及工具边界 | §14-§15 |
 | MIG | 迁移、发布和回滚 | §16-§18 |
 | SEC | confidentiality、Vault 和公开泄漏门禁 | §4.2、§13.3 |
@@ -96,12 +96,12 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 
 ## 1. 文档目的
 
-MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当前版本承担三个工作流；另有一个不进入当前验收的 F008 扩展：
+MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当前版本承担三个主工作流，并提供不改变主链路的 F008 学习扩展：
 
 1. 查询阅读：快速找到已经学习过的知识，并沿关系和来源继续阅读。
 2. 写入：把外部资料和个人原始文档稳定地纳入知识库。
 3. 索引：从人工内容生成可查询、可导航、可供 Agent 使用的索引。
-4. 做题（F008，后续）：单选题、多选题和面向面试的简答题；不属于当前主链路。
+4. 做题（F008）：面向大模型知识的短回合练习；不属于当前 Source → Wiki 主链路，但消费已验证知识。
 
 系统有两个运行环境：
 
@@ -1613,9 +1613,11 @@ canonical snapshot 已在提取阶段固定文本边界，因此匹配不再粗�
 
 失败时必须返回可诊断信息：规范化后的引文、snapshot hash、evidence item ID、selector 范围、snapshot 的规范化长度、以及最长公共子串的位置和长度。只返回"不匹配"会让人无法判断是引错了 snapshot、抄漏了半句，还是规范化规则太严。规范化规则的调整必须与 fixture 一起提交，避免为了让某一篇通过而悄悄放宽标准。
 
-## 7. F008 Question/练习延期边界（非当前规范）
+## 7. F008 Question/练习边界
 
-旧的 Question 字段和四选一模板已废弃。F008 现行契约见 [Question 与面试练习实现设计](./technical-design/question-and-practice.md)：支持单选题、多选题和面向面试的简答题，绑定已验证 Wiki claim，复习调度采用 FSRS；题目、答案、解析和复习状态仅位于 local/private，public 运行时仍不得读取 practice。
+F008 是独立消费端能力，不改变 Source → Wiki → Evidence 主链路。现行产品定义见
+[Question 与大模型学习练习实现设计](./technical-design/question-and-practice.md)：
+题目以 Wiki/面经为知识底座，按 domain/topic/concept/skill 分类，首期支持单选、多选、填空、面试表达要点和工程场景题；评分优先采用本地确定性规则，调度复用 FSRS。题目、答案、解析和复习状态仅位于 local/private，public 运行时仍不得读取 practice。
 
 ## 8. LLM 证据验证
 
@@ -2078,7 +2080,7 @@ QMD 自己是否启用向量、rerank 或模型缓存由其运行时能力决定
 | 根据自然语言问题返回相关文档片段 | 是 | QMD 默认；不可用时 FTS5，再回退 Python/SQLite LIKE |
 | 基于多个文档片段生成回答 | 是 | Retriever + LLM + citations |
 | 基于 source 生成 wiki 草稿 | 可使用 | RAG 辅助候选生成，仍须 evidence validation |
-| 根据 wiki 生成题目 | F008 延后 | 当前版本不暴露题目生成入口，不建立题目索引 |
+| 根据 wiki 生成题目 | F008 设计后实现 | 由外层 Agent/人工起草，经过 F008 schema、claim/evidence 和 preview/apply 门禁；不在实时练习请求内生成 |
 
 RAG 的职责是"找到回答所需的上下文并组织答案"；Evidence Validator 的职责是"判断 wiki claim 是否被 source 支持"。RAG 检索到片段不能直接证明最终论断，也不能直接将页面变为 `published`。
 
@@ -2581,7 +2583,7 @@ computer-science
 - source ID 存在性；
 - source locator 存在性；
 - personal/external 支持类型兼容性；
-- （F008 延后）题目类型、选项数量和判分规则不属于当前测试集；
+- （F008）题目类型、选项数量和判分规则由 F008 独立测试集覆盖，不改变 Source/Wiki 主链路；
 - source 正文和章节超过阻断阈值时必须被拒绝并返回拆分建议；
 - `local-file` source 缺少 sidecar path 或 file_sha256 必须失败；
 - `local-file` 路径无法解析时标记 unresolved，不得判定为证据缺失；
@@ -2609,9 +2611,9 @@ computer-science
 - 引文规范化：全角半角、中英文空格、Markdown 行内标记、零宽字符的等价性用例；
 - 引文短于 `quote_min_chars` 必须失败；
 - 引文出现在其他章节而非被引 locator 时必须失败；
-- （F008 后续）题目 claim_ids 必须命中 wiki evidence；
-- （F008 后续）引用 draft wiki 的题目必须被拒绝；
-- （F008 后续）wiki 正文或 evidence 变化后题目自动 `enabled: false`；
+- （F008）题目 claim_ids 必须命中 wiki evidence；
+- （F008）引用 draft wiki 的题目必须被拒绝；
+- （F008）wiki 正文或 evidence 变化后题目自动 `enabled: false`；
 - 任一允许 public projection 的 vault 中出现 internal 声明必须失败；
 - 内网 URL 声明为 public 必须失败；
 - wiki 引用 internal source 时有效等级必须升级；它可以在 owner private Vault 内经 `operation-confirmation/v1`（`scope: publish_private` + 告警确认字段）后以 `status: published`、`publication_scope: private` 发布，但不得进入 public projection；对外发布必须另建 public-owned 脱敏 copy 并重新校验；
@@ -2791,7 +2793,7 @@ computer-science
 - public 构建只包含 `public_publishable` wiki，private 构建显式显示 internal warning；
 - 每个 private vault 的 Git remote/加密备份未配置时必须显示带 `vault_id` 的 `backup_not_configured`，不能声称恢复链路就绪；只有该 vault 配置后并完成自己的备份和恢复演练才可标记 `verified`；
 - local 后端可查询 source、wiki；
-- Question/复习不属于当前版本完成标准；F008 后续单独设计单选题、多选题和面向面试的简答题；
+- Question/复习属于独立 F008 完成标准；目标是大模型知识的短回合单选、多选、填空、面试表达要点和工程场景练习；
 - Agent Skill 支持 query/read、ask、source、wiki、publish、index、audit 等模式（归并为查询、写入、发布、索引四类能力），写入不可绕过规范；
 - preview/apply 可追踪、可失效、可回滚；
 - 旧内容迁移有清单、route map 和明确的 completed/pending 边界。
@@ -2839,7 +2841,7 @@ source 先行
 | Dendron | 层级命名、模板、批量重构 | 生态已较少维护，写入规则不够严格 | 只借鉴模板和渐进迁移 |
 | Logseq | 属性、引用和双向链接 | block-first 数据模型会增加迁移复杂度 | 继续 page-first Markdown |
 | Obsidian | 本地文件、插件和图谱体验 | 插件可直接改文件，难以形成硬门禁 | 不把插件作为写入真相源 |
-| Anki/FSRS | 复习调度和导入导出 | 不负责知识证据和内容管理 | 留作 F008 评估候选；当前不实现 question review state |
+| Anki/FSRS | 复习调度和导入导出 | 不负责知识证据和内容管理 | F008 复用 FSRS adapter；Anki 仅作为状态边界和后续单向导出的参考 |
 | kernelwiki-kunlun | fail-closed、manifest、证据边界 | 其领域词表和运行环境不适合 MyKnowledge | 复用流程思想，重新定义领域 schema |
 
 因此，第一阶段的核心不是增加更多 AI 功能，而是先把“可追溯写入”和“不可绕过发布门禁”做成确定性基础。语义检索、自动摘要和更复杂题型都必须作为后续消费者接入，不能改变 source -> evidence -> wiki 的主链路。
@@ -2878,7 +2880,7 @@ source 先行
 | IDX | 索引、检索和 RAG 边界 | §11 |
 | API | FastAPI 本地后端 | §12 |
 | WEB | Astro 公开静态模式 | §13 |
-| QST | Question 和复习（F008 延后） | §7 |
+| QST | Question、短回合学习和复习（F008） | §7 |
 | SKILL | Agent Skill 受控入口及工具边界 | §14–§15 |
 | MIG | 迁移、发布和回滚 | §16–§18 |
 | SEC | confidentiality、Vault 和公开泄漏门禁 | §4.2、§13.3 |

@@ -39,7 +39,7 @@ Proposed → Accepted → Superseded
 | ADR-0005 | Accepted | 引文规范化与验证 | [正文](./0005-quote-normalization-and-verification.md) |
 | ADR-0006 | Accepted | Preview/Apply 写协议 | [正文](./0006-preview-apply-write-protocol.md) |
 | ADR-0007 | Accepted | 检索和索引架构 | [正文](./0007-retrieval-and-index-architecture.md) |
-| ADR-0008 | Accepted | Question 门禁与 FSRS（基础实现；完整运行面按 Acceptance 增量闭合） | [正文](./0008-question-evidence-and-fsrs.md) |
+| ADR-0008 | Accepted | Question 门禁与 FSRS（基础契约；学习产品扩展见 ADR-0016） | [正文](./0008-question-evidence-and-fsrs.md) |
 | ADR-0009 | Accepted | Astro/Starlight 静态 Wiki 发布链 | [正文](./0009-static-wiki-publishing.md) |
 | ADR-0010 | Accepted | 发布门禁：确定性校验 + 可选 LLM 规范审计 + 必须人工审计 | [正文](./0010-publish-gate-llm-audit-and-human-approval.md) |
 | ADR-0011 | Accepted | 入口层必须消费共享 domain service | [正文](./0011-entry-layer-shared-services.md) |

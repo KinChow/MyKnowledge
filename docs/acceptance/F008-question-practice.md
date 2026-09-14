@@ -1,147 +1,181 @@
-# F008 个人题库与大模型知识练习验收
+# F008 Question / 大模型学习练习验收
 
 - Feature：F008
-- 状态：Accepted（P1 personal practice slice）
-- Technical Design：[Question 与面试练习实现设计](../technical-design/question-and-practice.md)
+- 状态：Implemented（部分）；Question Platform 运行面未闭合
+- 设计：[Question 与大模型学习练习实现设计](../technical-design/question-and-practice.md)
+- 平台设计：[F008 Question Platform：可插拔题目域与练习后端](../technical-design/f008-question-platform.md)
+- Deep-ML 对齐：[F008 Deep-ML Inference Engineer 对齐与完整训练方案](../technical-design/f008-deep-ml-interview-mapping.md)
+- ADR：[ADR-0016](../adr/0016-f008-learning-product-and-component-boundary.md)
 
-## 范围
+## Question Platform 验收
 
-本轮只验收单用户本地题库：
+### AC-F008-000 空题库
 
-- 题目以 JSON 文件存在于 `content/practice/questions/`；
-- 支持导入、校验、启用、禁用和删除；
-- 支持单选、多选、填空；
-- 支持按 domain/topic/concept/skill 筛选；
-- 支持短回合、即时评分、错题重练和 FSRS；
-- 题目和复习状态不进入 public projection。
+- Given：没有任何 Question Package；
+- When：启动本地后端并请求 catalog/session；
+- Then：服务正常启动，catalog 返回 `state: empty` 和 `next_action: import_question_package`；创建 session 返回结构化 `practice_catalog_empty`，不返回 404，不从 Wiki 临时生成题目。
 
-不在本轮验收：插件系统、题目包 registry、H5P/Anki/Moodle、代码沙箱、开放式答案自动评分、多用户和跨设备同步。
+### AC-F008-020 题目包导入 preview
 
-## 题库与导入
+- Given：合法、损坏、缺字段、未知题型、缺 license 和校验和错误的 `question-package/v1`；
+- When：执行 import preview；
+- Then：只返回新增、noop、冲突、阻断和字段丢失报告，不写入 Question、Registry 或 review state。
 
-### AC-F008-001 空题库
+### AC-F008-021 题目包导入 apply
 
-- Given：`content/practice/questions/` 不存在或为空；
-- When：启动本地后端并请求题目目录/队列；
-- Then：服务正常启动，返回 `state: empty` 和 `next_action: import_question`；不从 Wiki 临时生成题目。
+- Given：经过人工确认的 preview；
+- When：执行 import apply；
+- Then：题目、package manifest、source/license 元数据和 Registry 原子落盘；重复 apply 幂等；不可覆盖已有不同 hash 的题目。
 
-### AC-F008-002 题目 JSON 校验
+### AC-F008-022 题目版本和冲突
 
-- Given：合法题目、未知字段、缺少题型字段、重复选项 ID、非法答案和错误 hash；
-- When：执行导入或索引；
-- Then：合法题目可落盘；非法题目被拒绝并返回字段级错误；失败不产生半成品题目或 review 记录。
+- Given：相同 question ID 的相同版本、不同版本和相同版本不同 hash；
+- When：导入题目包；
+- Then：相同 hash 为 noop，不同 revision 新增版本，相同 revision 不同 hash 阻断并要求人工处理；不修改已有 attempt/review/card。
 
-### AC-F008-003 导入幂等和冲突
+### AC-F008-023 题目生命周期
 
-- Given：同一题目重复导入、同 ID 不同内容导入；
-- When：执行 `practice import`；
-- Then：内容 hash 相同为 noop；同 ID 不同 hash 阻断，不覆盖原题，不修改既有复习状态。
+- Given：imported、enabled、disabled、retired 和有历史记录的题目；
+- When：执行 enable/disable/retire/delete；
+- Then：disabled/retired 不进入新 session；有历史的题目默认保留 tombstone 和 review 引用，不物理删除；Question ID 不复用。
 
-### AC-F008-004 启用、禁用和删除
+### AC-F008-024 删除隔离
 
-- Given：enabled、disabled 题目以及已有 review 记录的题目；
-- When：执行 enable、disable 或 delete；
-- Then：disabled 不进入新队列；无 review 的题目可以删除；有 review 的题目默认保留题目文件和历史并标记 disabled；删除不影响 Wiki 和其他题目。
+- Given：题目关联 Wiki、package、attempt 和 review；
+- When：删除或撤回题目；
+- Then：不删除 Wiki、Source、package 中其他题目或 review history；删除 package 前返回受影响题目清单。
 
-### AC-F008-005 可选 Wiki 关联
+### AC-F008-025 可插拔题型
 
-- Given：有 Wiki claim 绑定和没有 Wiki 绑定的题目；
-- When：导入并索引；
-- Then：两者都可以进入个人题库；存在 `wiki_refs` 时校验 Wiki/claim hash，漂移后题目 disabled；没有 Wiki 绑定不能伪装为已验证 Wiki。
+- Given：内置或已注册的 Question Type Plugin；
+- When：导入并练习题目；
+- Then：插件只能声明的 schema/render/grade/feedback 能力范围内运行；未知插件阻断导入；插件不能读 vault、token 或其他题目答案。
 
-## 题型与评分
+## 基础兼容门禁
 
-### AC-F008-006 单选和多选
+### AC-F008-001 题目 schema 和版本
 
-- Given：单选、多选题以及未知选项、重复选项、正确答案和错误答案；
-- When：提交答案；
-- Then：评分确定且可重放；未知/重复选项被拒绝；多选反馈显示缺少项和多选项。
+- Given：合法与非法的 `question/v1`、`question/v2` 定义；
+- When：创建或加载题目；
+- Then：未知字段、题型专属字段、非法 ID、缺少分类或缺少答案规则被拒绝；v1 可读取，v2 按新契约校验；
+- 当前证据：v1 基础测试已通过；v2 待实现。
 
-### AC-F008-007 填空
+### AC-F008-002 Claim/evidence 绑定
 
-- Given：accepted answers、aliases 和 term/phrase/number 规范化规则；
-- When：提交大小写、空格、别名和非法近似答案；
-- Then：只按题目声明的规则评分；不调用 LLM；返回规范化和判分结果。
+- Given：Wiki 验证报告和一个或多个 claim；
+- When：创建题目或刷新题目；
+- Then：owner、wiki_id、claim_id、content_sha256、evidence_sha256 全部匹配；任一缺失、stale 或 hash 漂移则 blocked/disabled；
+- 题目保留原文件和 review log，不删除历史。
 
-### AC-F008-008 即时反馈
+### AC-F008-003 Private/public 隔离
 
-- Given：答对或答错的题目；
-- When：完成 answer；
-- Then：返回正确答案、解释、相关 Wiki 引用和可选错误标签；答题前不返回答案或隐藏解释。
+- Given：题目包含答案、解析、accepted answers 和 review state；
+- When：生成 public projection、Pagefind 索引或静态 dist；
+- Then：这些内容不会被读取、复制或索引；即使题目被放在错误 public 路径也会被字段级 leak gate 拒绝。
 
-## 队列与复习
+### AC-F008-004 FSRS adapter
 
-### AC-F008-009 题目分类筛选
-
-- Given：不同 `domain`、`topic`、`concept_id` 和 `skill` 的题目；
-- When：请求 catalog 或 queue；
-- Then：只返回符合筛选条件的 enabled 题目；无匹配时返回空结果和原因。
-
-### AC-F008-010 短回合 session
-
-- Given：新题、到期题和错题；
-- When：创建 3、6 或 10 题 session；
-- Then：返回稳定题目顺序；同一知识点不会无意义连续重复；session 不泄露答案。
-
-### AC-F008-011 答题与复习分离
-
-- Given：一次 session 答题；
-- When：先调用 answer，再提交 rating；
-- Then：answer 只记录 attempt 和反馈；review 才调用 FSRS；任一失败不伪造另一阶段成功。
-
-### AC-F008-012 错题重练
-
-- Given：答错或使用提示后答对的题目；
-- When：请求 error queue；
-- Then：最近一次作答错误的题目进入活动队列；最近一次作答正确的题目从活动队列移除；所有历史 attempt、原始错误标签、提示状态和最近作答时间仍保留；移出队列不产生“已掌握”结论。
-
-### AC-F008-013 FSRS 状态
-
-- Given：无卡片、已有卡片、非法 rating 和 FSRS 依赖缺失；
+- Given：无 review state、已有 Card、非法 rating、FSRS 依赖缺失或调度器异常；
 - When：提交 review；
-- Then：可用时保存 Card 和 scheduler version；不可用时返回结构化 `provider_unavailable`，不伪造 due。
+- Then：可用时保存 `fsrs-card/v1` 和 scheduler version；不可用时返回结构化 `provider_unavailable`，不得伪造 due；
+- Card 可在备份恢复后继续调度。
 
-### AC-F008-014 状态恢复
+### AC-F008-005 题目完整性
 
-- Given：题目和 review JSONL 已存在；
-- When：重启后重新构建索引；
-- Then：题目、队列和 FSRS 状态可继续使用；索引可删除并重建，不改变 canonical 题目和 review log。
+- Given：题干、选项、答案、解释或 rubric 被直接篡改；
+- When：answer、review、backup restore；
+- Then：`content_sha256` 校验失败并 fail-closed；API 不把完整性错误伪装成 `question_not_found`。
 
-## 隔离与真实切片
+### AC-F008-006 禁用题目不可复习
 
-### AC-F008-015 Public 隔离
+- Given：题目 status 为 disabled，或 Wiki claim 已 stale；
+- When：answer 或 review；
+- Then：两条路径都返回 `question_disabled`，不追加答案记录，不改变 FSRS Card。
 
-- Given：题目含答案、解释、accepted answers 和 review state；
-- When：生成 public projection、索引或 dist；
-- Then：这些字段不被复制或索引；字段级 leak gate 仍然拒绝误放到 public 路径的题目内容。
+## 题型验收
 
-### AC-F008-016 真实垂直切片
+### AC-F008-007 单选和多选
 
-- Given：至少 20 道个人有权使用的大模型题目，覆盖 LLM 推理、ML 系统设计和算子开发；
-- When：完成至少 5 个短回合；
-- Then：能按领域筛选、答题、查看反馈、重练错题并完成 FSRS review；所有记录位于 local/private。
+- Given：单选、多选题和选项解释；
+- When：提交未知选项、重复选项、正确答案、错误答案和部分多选；
+- Then：输入校验确定；评分可重放；多选反馈显示缺少项/多选项；错误选项可显示 misconception tag。
 
-本次 P1 题库共 21 道 enabled 题目，覆盖：
+### AC-F008-008 填空
 
-- `llm-inference`：KV Cache、GQA/MQA、PagedAttention、Continuous Batching、Prefill/Decode、量化、Speculative Decoding、TTFT、TPOT；
-- `ml-system-design`：SLO 分位数、容量规划、过载降级、Canary 发布；
-- `operator-development`：算子融合、合并访存、Tiling、Occupancy、Roofline、性能分析和正确性契约。
+- Given：带 accepted、aliases、term/phrase/number/unit normalization 的 cloze；
+- When：提交大小写、空格、Unicode、别名、非法近似和数字边界输入；
+- Then：只按题目声明的规范化规则判分；不调用 LLM；结果包含规范化后的判分原因。
 
-题型覆盖单选、多选和填空；填空题支持声明式 accepted answers、aliases 以及大小写/空格规范化。
+### AC-F008-009 面试表达骨架
 
-### P1 真实运行证据（2026-09-12）
+- Given：包含核心要点和加分要点的 `keypoint_select`；
+- When：选择完整、缺少核心或混入错误要点；
+- Then：显示缺失的核心要点及 Wiki 引用；结果不被标记为“完整口头表达能力”。
 
-- 后端 `GET /api/health` 返回 `{"status":"ok","api":"local"}`；
-- 前端 `/practice/` 自动连接并显示 `已连接 · 21 道题`；
-- 领域下拉框显示 `llm-inference`、`ml-system-design`、`operator-development`；
-- 按 `llm-inference + latency` 开始短回合，显示 TTFT/TPOT 填空题；
-- 输入 `TPOT` 后显示“回答正确”、参考答案和解释；
-- 选择题答对后显示解释并可提交 `良好`，页面显示“复习计划已更新”；
-- 错答后显示错误反馈；错误题目进入活动错题统计；
-- 刷新页面可恢复未完成短回合。
+### AC-F008-010 工程迁移
 
-自动化证据：`78 passed`，`ruff check` 通过，前端 `npm run build` 通过，public leak gate 通过；题库扫描 `total=21` 且 `invalid=[]`。
+- Given：日志、配置或架构约束场景题；
+- When：选择瓶颈、排查项、方案或副作用；
+- Then：使用 deterministic choice grading，并保留 `diagnosis`/`tradeoff` 等 skill 标签。
 
-## 完成定义
+## 练习流程验收
 
-F008 个人 MVP 只有在 AC-F008-001 至 AC-F008-016 均有测试或真实运行证据后，才从 Designed/Implemented（基础）推进 Accepted。
+### AC-F008-011 Catalog 和分类
+
+- Given：多个 domain/topic/concept/skill 的 enabled 题目；
+- When：请求 catalog；
+- Then：返回可练习分类、enabled/due/new/error 数量；不返回答案。
+
+### AC-F008-012 六题短回合
+
+- Given：到期题、新题和错题均存在；
+- When：创建默认 session；
+- Then：生成 6 题，默认包含 3 道到期/错题、2 道新题、1 道变式/面试/工程题；同一 concept 不连续重复超过两题。
+
+### AC-F008-013 答题和复习分离
+
+- Given：一个 session；
+- When：先 answer，再显式 review；
+- Then：answer 只写 attempt 和反馈；review 才调用 FSRS；任一阶段失败不会伪造另一阶段成功。
+
+### AC-F008-014 错题重练
+
+- Given：一次错误或看强提示后答对；
+- When：选择 only_errors；
+- Then：题目或同 concept 的变式可进入优先队列，并保留原始错误标签。
+
+### AC-F008-015 领域筛选
+
+- Given：`domain`、`topic`、`mode`、`skill`、`only_due`、`only_errors`；
+- When：创建 session；
+- Then：只返回满足过滤器的题目；空结果返回明确状态，不随机跨域补题。
+
+### AC-F008-016 Concept 聚合
+
+- Given：同一 concept 下多种题型的 attempts；
+- When：请求 stats；
+- Then：区分题目正确率、独立答对率、提示后答对率、lapse 次数和最近变式题结果；不能用单题正确率冒充 concept mastery。
+
+### AC-F008-017 真实大模型垂直切片
+
+- Given：至少 10 道绑定真实 Wiki/面经的题目，覆盖推理或 Transformer 一个领域；
+- When：连续使用至少 5 个 session；
+- Then：可以完成 Wiki、面试、工程三类中的至少两类练习，所有记录可从 private 数据重建。
+
+## 互操作验收
+
+### AC-F008-018 H5P 导出为副本
+
+- Given：通过 v2 validator 的选择题/填空题；
+- When：执行可选 H5P 导出；
+- Then：输出明确标记为副本，列出字段丢失和 license 检查结果；不改变 canonical question，不写回 review state。
+
+### AC-F008-019 Anki 导出为副本
+
+- Given：通过 v2 validator 的题目和允许导出的字段；
+- When：执行可选 Anki 单向导出；
+- Then：导出不成为第二个调度 owner，不回写 MyKnowledge，不携带 private vault 禁止字段到 public target。
+
+## 当前状态
+
+已通过的基础证据主要覆盖 v1 schema、claim 绑定、选择题评分、FSRS adapter、private backup 和 leak gate。AC-F008-007 之后的 v2 题型、session、catalog、concept 聚合和真实垂直切片属于本轮设计后的待实现范围。

@@ -30,7 +30,7 @@
 | F005 Public/Local 索引与检索 | Implemented | [F005](./F005-index-and-retrieval.md) |
 | F006 FastAPI 本地服务与离线降级 | Implemented | [F006](./F006-local-api-and-offline.md) |
 | F007 Astro/Starlight 公共静态 Wiki | Implemented | [F007](./F007-static-wiki-publishing.md) |
-| F008 Question 题型与面试练习 | Accepted | [F008](./F008-question-practice.md) |
+| F008 Question 题型与面试练习 | Implemented（部分） | [F008](./F008-question-practice.md) |
 | F009 Agent Skill 受控读写 | Implemented | [F009](./F009-agent-skill.md) |
 | F010 存量内容迁移和质量清理 | Implemented | [F010](./F010-content-migration.md) |
 | F011 Private Vaults 子仓库（0..N） | Implemented | [F011](./F011-private-vault.md) |
