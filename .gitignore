@@ -23,6 +23,11 @@ rag-index.jsonl
 .venv/
 var/queries/public/index.sqlite3.previous
 
+# 练习进度与可重建质检：题目正文在 content/practice/questions/；
+# reviews 是本机答题/FSRS 状态，quality 可按当前题目 hash 重跑生成。
+content/practice/reviews/
+content/practice/quality/
+
 # frontend 构建产物（Astro/pagefind/dist）
 frontend/node_modules/
 frontend/dist/
