@@ -154,6 +154,26 @@ class VideoAcquirer:
     source_type = "video"
 
     def acquire(self, request: dict, extractor: Extractor) -> AcquireResult:  # noqa: ARG002
+        if request.get("transcript_path"):
+            transcript_path = Path(request["transcript_path"])
+            media_path = Path(request["input_path"])
+            transcript_data, _transcript_stat = read_stable(transcript_path)
+            media_data, media_stat = read_stable(media_path)
+            suffix = transcript_path.suffix.lower() or ".srt"
+            if suffix not in {".vtt", ".srt"}:
+                raise ValueError("transcript_format_unsupported")
+            provenance = dict(request.get("transcript_provenance") or {})
+            provenance.setdefault("kind", "asr")
+            provenance["transcript_input_sha256"] = sha256_bytes(transcript_data)
+            body = render_transcript(parse_subtitles(transcript_data, suffix))
+            return AcquireResult(
+                body=body,
+                extractor="video-transcript/1",
+                media_type="text/markdown",
+                original_hash=sha256_bytes(media_data),
+                original_stat=media_stat,
+                provenance=provenance,
+            )
         if request.get("asr_engine"):
             path = Path(request["input_path"])
             media_data, stat = read_stable(path)
@@ -284,13 +304,16 @@ class SourceIngestor:
             if not body.strip():
                 return {"state": "blocked", "errors": [{"code": "source_empty"}]}
             snapshot_hash = sha256_text(body)
-            target = self.paths.source_file(request["domain"], source_id)
+            target = self.paths.source_file(
+                request["domain"], source_id, request.get("collection")
+            )
             target_hash = sha256_bytes(target.read_bytes()) if target.exists() else None
             payload = {
                 "operation_type": "source_ingest",
                 "target_vault": "public",
                 "source_id": source_id,
                 "domain": request["domain"],
+                "collection": request.get("collection"),
                 "source_type": source_type,
                 "input_path": request.get("input_path"),
                 "input_realpath": (
@@ -317,6 +340,18 @@ class SourceIngestor:
                     else None
                 ),
             }
+            if request.get("transcript_path"):
+                transcript_path = Path(request["transcript_path"])
+                transcript_data, transcript_stat = read_stable(transcript_path)
+                payload["transcript_path"] = str(transcript_path)
+                payload["transcript_realpath"] = str(transcript_path.resolve())
+                payload["transcript_hash"] = sha256_bytes(transcript_data)
+                payload["transcript_stat"] = {
+                    "dev": transcript_stat.st_dev,
+                    "ino": transcript_stat.st_ino,
+                    "size": transcript_stat.st_size,
+                    "mtime_ns": transcript_stat.st_mtime_ns,
+                }
             if source_type == "video":
                 payload["video"] = {
                     "url": request["url"],
@@ -390,10 +425,16 @@ class SourceIngestor:
             input_error = self._revalidate_input(record)
             if input_error is not None:
                 return self._expire(record, input_error, operation_id)
+        if record.get("transcript_path"):
+            transcript_error = self._revalidate_transcript_input(record)
+            if transcript_error is not None:
+                return self._expire(record, transcript_error, operation_id)
 
         snapshot_hash = sha256_text(body)
         source_id = record["source_id"]
-        source_path = self.paths.source_file(record["domain"], source_id)
+        source_path = self.paths.source_file(
+            record["domain"], source_id, record.get("collection")
+        )
         if not self._target_writable(record, source_path, snapshot_hash):
             return self._expire(record, "hash_mismatch", operation_id)
 
@@ -468,6 +509,28 @@ class SourceIngestor:
             return "path_unresolved"
         return None
 
+    def _revalidate_transcript_input(self, record: dict) -> str | None:
+        """Recheck the derived subtitle input paired with a real media input."""
+        path = Path(record["transcript_path"])
+        try:
+            data, stat = read_stable(path)
+        except OSError:
+            return "path_unresolved"
+        except RuntimeError:
+            return "hash_mismatch"
+        expected = record.get("transcript_stat") or {}
+        keys = ("dev", "ino", "size", "mtime_ns")
+        if (
+            sha256_bytes(data) != record.get("transcript_hash")
+            or not all(key in expected for key in keys)
+            or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
+            != tuple(expected[key] for key in keys)
+        ):
+            return "hash_mismatch"
+        if str(path.resolve()) != record.get("transcript_realpath"):
+            return "path_unresolved"
+        return None
+
     def _target_writable(
         self, record: dict, source_path: Path, snapshot_hash: str
     ) -> bool:
@@ -531,7 +594,12 @@ class SourceIngestor:
                 "archive_policy": "transcript-only",
                 "transcript_input_sha256": record.get("input_hash"),
             }
-            metadata["retrieval"]["transcript_source"] = "local-subtitle"
+            metadata["retrieval"]["transcript_source"] = (
+                "local-asr"
+                if (metadata["video"].get("transcript_provenance") or {}).get("kind")
+                == "asr"
+                else "local-subtitle"
+            )
         return metadata
 
     def _attach_originals(
@@ -556,7 +624,10 @@ class SourceIngestor:
             )
             original_filename = f"{record['source_id']}{suffix}"
             original_path = self.paths.source_attachment(
-                record["domain"], record["source_id"], original_filename
+                record["domain"],
+                record["source_id"],
+                original_filename,
+                record.get("collection"),
             )
             original_path.parent.mkdir(parents=True, exist_ok=True)
             original_path.write_bytes(raw)

@@ -79,6 +79,11 @@ class SourceValidator:
                 safe_id(request["source_id"])
             except ValueError:
                 errors.append({"code": "schema_invalid", "path": "source_id"})
+        if request.get("collection"):
+            try:
+                safe_id(request["collection"])
+            except ValueError:
+                errors.append({"code": "schema_invalid", "path": "collection"})
         return errors
 
     @staticmethod

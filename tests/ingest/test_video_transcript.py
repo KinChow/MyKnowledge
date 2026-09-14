@@ -86,6 +86,37 @@ def test_video_preview_apply_writes_transcript_only_source_and_manifest(tmp_path
     assert SourceValidator().validate_source_file(source_path) == []
 
 
+def test_video_collection_places_source_under_explicit_collection(tmp_path: Path):
+    transcript = tmp_path / "lecture.srt"
+    transcript.write_text(
+        "1\n00:00:01,000 --> 00:00:02,000\n集合路径\n", encoding="utf-8"
+    )
+    root = tmp_path / "vault"
+    preview = SourceIngestor(root).preview(
+        {
+            "source_type": "video",
+            "domain": "computer-science",
+            "collection": "course-2026",
+            "source_id": "course-2026-p01-zh",
+            "url": "https://www.bilibili.com/video/BV-test?p=1",
+            "input_path": str(transcript),
+            "archive_policy": "transcript-only",
+        }
+    )
+    assert preview["state"] == "previewed"
+    applied = SourceIngestor(root).apply(preview["operation_id"], confirmed=True)
+    assert applied["state"] == "applied"
+    assert (
+        root
+        / "content"
+        / "sources"
+        / "computer-science"
+        / "course-2026"
+        / "course-2026-p01-zh"
+        / "course-2026-p01-zh.md"
+    ).is_file()
+
+
 def test_video_request_rejects_non_platform_url(tmp_path: Path):
     transcript = tmp_path / "lecture.vtt"
     transcript.write_text(VTT, encoding="utf-8")
