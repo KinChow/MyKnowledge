@@ -83,13 +83,11 @@ pip install -r requirements.txt
 
 ### 2. 本地运行
 
-MkDocs 回退预览已于 2026-08-28 退役（B5）。当前用法：
+MkDocs 回退预览已于 2026-08-28 退役（B5）。日常联调（两个独立进程，顺序不限）：
 
 ```bash
-python -m tools.cli doctor          # 健康自检
-python -m tools.cli projection generate   # 生成 public projection
-cd frontend && MYKNOWLEDGE_CONTENT_MODE=projection MYKNOWLEDGE_ROOT=.. npm run build
-cd dist && python3 -m http.server 8766   # 本地预览
+bash scripts/start-frontend.sh   # Astro    http://127.0.0.1:4321/  知识库可单独浏览
+bash scripts/start-backend.sh    # FastAPI  http://127.0.0.1:8765/api/health  首页才出现练习入口
 ```
 
 frontend 用法（正式 public projection 消费链路，架构见系统设计文档）：
@@ -97,10 +95,11 @@ frontend 用法（正式 public projection 消费链路，架构见系统设计�
 ```bash
 cd frontend
 npm ci
+npm run prepare-content
 npm run dev
 ```
 
-访问 ➡️ [http://127.0.0.1:4321](http://127.0.0.1:4321/)。该模式只用于迁移基线和内容回归。
+访问 ➡️ [http://127.0.0.1:4321](http://127.0.0.1:4321/)。`astro dev` 通过 `/local-api` 代理本机 FastAPI；静态 `dist` 预览不含练习页。
 
 正式 public projection 预览/验证必须显式选择投影输入，并在 manifest、人工确认和 leak gate 全部满足后才可构建：
 
