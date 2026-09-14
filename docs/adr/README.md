@@ -47,6 +47,7 @@ Proposed → Accepted → Superseded
 | ADR-0013 | Accepted | ASR 派生 snapshot 的证据强度上限为 attested | [正文](./0013-asr-derived-snapshot-strength.md) |
 | ADR-0014 | Accepted | 数据分域、五层归属与三条写入通道 | [正文](./0014-layer-domains-and-write-channels.md) |
 | ADR-0015 | Accepted | 审计分歧取 fail，唯一推翻路径是留痕的人工复议 | [正文](./0015-audit-disagreement-and-human-reconsideration.md) |
+| ADR-0016 | Accepted | F008 学习产品边界与成熟组件复用 | [正文](./0016-f008-learning-product-and-component-boundary.md) |
 
 > 状态从各 ADR 正文「- 状态：」行读取；被替代的 ADR 保留不删除（Superseded/Deprecated）。
 > 索引完整性由 `tools.matrix_sync.check_doc_indexes` 机器校验（新增 ADR 必须登记）。
