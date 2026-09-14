@@ -34,11 +34,34 @@ def test_frontend_workbench_contract_exposes_projection_safe_controls():
         "data-favorite-toggle",
         "search-dialog",
         "pagefind",
+        'id="practice-nav"',
+        'id="practice-entry"',
+        "watchLocalApi",
     ):
         assert marker in home
     for marker in ("cytoscape", "global-mode", "local-mode", "graph-export", "focus"):
         assert marker in graph
     assert "wiki/" in graph
+
+
+def test_homepage_practice_entry_is_gated_and_probes_health():
+    home = (FRONTEND / "src/pages/index.astro").read_text(encoding="utf-8")
+    helper = (FRONTEND / "src/lib/local-api.js").read_text(encoding="utf-8")
+    practice = (FRONTEND / "src/pages/practice.astro").read_text(encoding="utf-8")
+    graph = (FRONTEND / "src/pages/graph.astro").read_text(encoding="utf-8")
+    assert "practicePageAvailable" in home
+    assert "watchLocalApi" in home
+    assert "hidden" in home
+    assert "pageExists && health.available" in home
+    assert "/local-api" in helper
+    assert "health/v1" in helper
+    assert "watchLocalApi" in helper
+    assert "visibilitychange" in helper
+    assert "watchLocalApi" in practice
+    assert "start-backend.sh" in practice
+    assert "practice" not in graph
+    assert "question/v1" not in home
+    assert "correct_option_ids" not in home
 
 
 def run_manifest(tmp_path: Path, manifest: dict) -> subprocess.CompletedProcess:

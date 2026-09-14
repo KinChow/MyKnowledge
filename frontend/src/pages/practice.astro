@@ -55,6 +55,7 @@ const base = import.meta.env.BASE_URL;
 			</section>
 		</main>
 		<script>
+			import { localApiStatusText, watchLocalApi } from '../lib/local-api.js';
 			const storageKey = 'myknowledge:practice:connection:v2';
 			const sessionStorageKey = 'myknowledge:practice:session:v1';
 			const state = { items: [], index: 0, answered: false, mode: 'session', sessionId: null };
@@ -282,18 +283,33 @@ const base = import.meta.env.BASE_URL;
 				form.append(feedback);
 				content.append(form);
 			}
+			let catalogConnected = false;
+			let connecting = false;
+			function markDisconnected(health) {
+				catalogConnected = false;
+				status.textContent = '未连接';
+				controlStatus.textContent = `${localApiStatusText(health)}。可稍后启动 bash scripts/start-backend.sh，页面会自动重连。`;
+				showMessage('等待本地 API', '前端已独立运行。题库由本机 FastAPI 提供，后端启动后会自动连接，无需刷新。', 'error');
+			}
 			async function connect() {
+				if (connecting) return;
+				connecting = true;
+				const apiBase = $('api-base').value.trim() || '/local-api';
+				localStorage.setItem(storageKey, JSON.stringify({ base: apiBase }));
 				try {
-					localStorage.setItem(storageKey, JSON.stringify({ base: $('api-base').value.trim() }));
 					const result = await request('/practice/questions', { status: 'enabled' });
+					catalogConnected = true;
 					renderDomains(result.items || []);
 					status.textContent = `已连接 · ${result.total} 道题`;
 					controlStatus.textContent = result.total ? '选择筛选条件后开始练习。' : '题库为空，请先导入题目。';
 					await loadOverview();
 					await resumeSession();
 				} catch (error) {
+					catalogConnected = false;
 					status.textContent = '连接失败';
 					controlStatus.textContent = `连接失败：${error.message}`;
+				} finally {
+					connecting = false;
 				}
 			}
 			async function resumeSession() {
@@ -337,7 +353,13 @@ const base = import.meta.env.BASE_URL;
 			$('start-session').addEventListener('click', startSession);
 			$('load-errors').addEventListener('click', loadErrors);
 			$('settings-toggle').addEventListener('click', () => $('api-base').focus());
-			connect();
+			watchLocalApi((health) => {
+				if (!health.available) {
+					markDisconnected(health);
+					return;
+				}
+				if (!catalogConnected) connect();
+			}, { base: () => $('api-base').value.trim() || '/local-api' });
 		</script>
 	</body>
 </html>

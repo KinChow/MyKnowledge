@@ -60,6 +60,7 @@ const domainOptions = [
 				<nav class="mk-topnav" aria-label="主导航">
 					<a href={base} aria-current="page">知识库</a>
 					<a href={routePath(base, 'graph')}>知识图谱</a>
+					<a id="practice-nav" class="mk-local-only" href={routePath(base, 'practice')} hidden>练习</a>
 				</nav>
 				<div class="mk-top-actions">
 					<button class="mk-search-trigger" id="open-search" type="button" aria-label="打开全文搜索">
@@ -96,6 +97,18 @@ const domainOptions = [
 				<div class="mk-stat"><strong>{domainOptions.length}</strong><span>个知识领域</span></div>
 				<div class="mk-stat"><strong>{tagCounts.size}</strong><span>个主题标签</span></div>
 				<div class="mk-stat"><strong>{relationCount}</strong><span>条图谱关联</span></div>
+			</section>
+
+			<section class="mk-local-entry" id="practice-entry" hidden aria-label="本地题库入口">
+				<div>
+					<p class="mk-kicker">LOCAL PRACTICE</p>
+					<h2>题库练习</h2>
+					<p id="practice-entry-copy">本地 API 已连接，可以直接进入短回合练习。</p>
+				</div>
+				<div class="mk-local-entry-actions">
+					<span class="mk-api-status" id="api-status" data-state="ok" aria-live="polite">本地 API 已连接</span>
+					<a class="mk-search-submit" id="practice-entry-link" href={routePath(base, 'practice')}>打开练习</a>
+				</div>
 			</section>
 
 			<section class="mk-shelves" aria-label="阅读状态">
@@ -194,6 +207,7 @@ const domainOptions = [
 				subscribeToWorkbenchState,
 				toggleFavorite,
 			} from '../lib/workbench-state.js';
+			import { localApiStatusText, practicePageAvailable, watchLocalApi } from '../lib/local-api.js';
 
 			const baseUrl = document.querySelector('.mk-brand')?.getAttribute('href')?.replace(/\/$/, '') || '';
 			const catalog = JSON.parse(document.getElementById('catalog-data').textContent || '{"items":[]}');
@@ -365,6 +379,24 @@ const domainOptions = [
 				try { localStorage.setItem('starlight-theme', next); } catch {}
 			});
 			subscribeToWorkbenchState(renderState);
+			async function syncLocalPracticeEntry() {
+				const nav = document.getElementById('practice-nav');
+				const entry = document.getElementById('practice-entry');
+				const status = document.getElementById('api-status');
+				const copy = document.getElementById('practice-entry-copy');
+				if (!nav || !entry || !status || !copy) return;
+				const pageExists = await practicePageAvailable(baseUrl);
+				watchLocalApi((health) => {
+					const ready = pageExists && health.available;
+					nav.hidden = !ready;
+					entry.hidden = !ready;
+					if (!ready) return;
+					status.textContent = localApiStatusText(health);
+					status.dataset.state = 'ok';
+					copy.textContent = '本地 API 已连接，可以直接进入短回合练习。';
+				});
+			}
+			syncLocalPracticeEntry();
 			const params = new URLSearchParams(location.search);
 			state.query = params.get('q') || ''; state.domain = params.get('domain') || ''; state.kind = params.get('kind') || ''; state.sort = params.get('sort') === 'title' ? 'title' : 'connections';
 			for (const tag of (params.get('tag') || '').split(',').filter(Boolean)) state.tags.add(tag);
