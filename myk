@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# porcelain 人用入口 wrapper：无论从哪个目录调用，都在本仓库根运行
+# `python -m tools.myk`（见 ADR-0021）。把仓库根加入 PATH，或
+# `alias myk=/绝对路径/MyKnowledge/myk`，即可直接用 `myk <名词> [动词]`。
+#
+# 解释器优先用 .venv/bin/python（scripts/bootstrap.sh 保证其存在，与 pre-commit
+# 钩子同一约定）；缺失时回退到 python3。
+set -euo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -x "${here}/.venv/bin/python" ]; then
+  py="${here}/.venv/bin/python"
+else
+  py="python3"
+fi
+cd "${here}"
+exec "${py}" -m tools.myk "$@"
