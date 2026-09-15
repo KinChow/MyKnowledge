@@ -33,6 +33,11 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 | 静态发布 | public projection + leak gate + Astro 构建 | §13 | `tools.cli projection` |
 | 练习（F008） | 面向大模型知识的短回合题目、分类、反馈和 FSRS 复习 | §7 | 独立消费端能力，不改变主链路 |
 
+> **人用入口（porcelain）**：上表 `入口` 列写的是 plumbing 层 `tools.cli`（细粒度，供
+> CI / skill / 测试链式调用）。**人日常操作用 `python -m tools.myk`**——7 个名词
+> `source / wiki / query / build / doctor / backup`（外加透传的 `question`），带人性化默认
+> （actor-id 从 git 自填、`--json` 反选、action 默认打印一行摘要）。分层决策见 ADR-0021。
+
 ### 0.3 怎么开发
 
 完整实现边界、失败处理与测试策略见 [Technical Design](./technical-design/README.md)；验收场景见 [Acceptance](./acceptance/README.md)；功能交付状态见 [Feature List](./feature-list.md)。

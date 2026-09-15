@@ -25,7 +25,7 @@ MyKnowledge/
 ├── frontend/              # Astro/Starlight 静态 Wiki（public projection 消费者）
 ├── backend/               # FastAPI 本地服务（loopback only）
 ├── config/                # schema、policy 和 public + 0..N vault 示例
-├── tools/                 # Source/校验/锚定/发布等工具（python -m tools.cli）
+├── tools/                 # Source/校验/锚定/发布等工具（人用 python -m tools.myk；机器 tools.cli）
 ├── archive/  audit/  release/   # 归档快照、durable 审计与发布确认（F013 批次 3 迁入 ledger/）
 ├── var/                   # 生成物与临时运行态（projection/索引/state）
 ├── scripts/               # bootstrap 与本地启停脚本
@@ -137,14 +137,18 @@ MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection
 
 ## 日常使用
 
+人用入口是 porcelain `myk`（少量名词 + 动词，参照 git/gh）；机器与 agent 用 plumbing `tools.cli`（细粒度，供脚本链式调用）。下面给人的示例都用 `myk`。
+
+> 想直接敲 `myk` 而不是 `python -m tools.myk`：仓库根有一个 `myk` wrapper 脚本，把仓库根加入 `PATH`，或 `alias myk="$(pwd)/myk"`（在仓库根执行）即可。它从任意目录都能运行。浏览类命令默认缩进输出，加 `--json` 看原始结构。
+
 ```bash
-# 健康自检（每天一次即可：projection/索引/QMD/sources/备份一屏可见）
-python -m tools.cli doctor
+# 健康自检（每天一次即可：projection/索引/sources/备份一屏可见）
+python -m tools.myk doctor
 
 # 查询知识（FTS5 索引自动接线；结果含 object_ref/snippet/证据 hash）
-python -m tools.cli query "<关键词>"
-python -m tools.cli read <wiki-id>            # 读已发布 wiki 正文
-python -m tools.cli backlinks <wiki-id>       # 反向引用
+python -m tools.myk query "<关键词>"
+python -m tools.myk query read <wiki-id>          # 读已发布 wiki 正文
+python -m tools.myk query backlinks <wiki-id>     # 反向引用
 ```
 
 ### 写入（一次落盘 → git 审批）
@@ -153,12 +157,11 @@ python -m tools.cli backlinks <wiki-id>       # 反向引用
 
 ```bash
 # 1) 导入外部资料为 Source（url 抓取 / 本地文件 / 个人笔记）
-python -m tools.cli source --url https://... --domain tools --source-id my-doc
-python -m tools.cli source --from-file ./note.md --domain work-methods
+python -m tools.myk source add --url https://... --domain tools --source-id my-doc
+python -m tools.myk source add --from-file ./note.md --domain work-methods
 
-# 2) 写/改 wiki 或任意文件：直接用编辑器编辑 content/ 下的文件，
-#    或走与 Skill / FastAPI 共用的受控落盘通道（一次写到位，无 preview/apply）
-python -m tools.cli skill write --payload p.json   # p.json: {"files": {"content/wiki/xx/yy.md": "正文"}, "vault_id": "public"}
+# 2) 写/改 wiki 或任意文件：直接用编辑器编辑 content/ 下的文件
+#    （agent / FastAPI 走受控落盘通道 python -m tools.cli skill write，一次写到位）
 
 # 3) 审阅 diff 并提交（人工执行；这是唯一的批准动作）
 git diff && git commit
@@ -167,18 +170,19 @@ git diff && git commit
 ### 校验、审计与发布（Source → Wiki → 公开页）
 
 ```bash
-python -m tools.cli anchor <snapshot.md> "<引文>" --source content/sources/<dom>/<id>/<id>.md  # 证据锚定
-python -m tools.cli validate content/wiki/<dom>/<id>.md        # 确定性校验
-python -m tools.cli audit content/wiki/<dom>/<id>.md           # LLM 证据审计（默认复用本机 agent CLI，零配置）
-python -m tools.cli confirm content/wiki/<dom>/<id>.md --actor-id <你>   # 人工审计确认（operation-confirmation/v1，scope: publish）
-# 公开发布（仍然存活，属于发布确认而非已退场的写入门禁）：
-# 先算待签输入，再写 public-release-confirmation/v1 事件
-python -m tools.cli release input   --object-id <wiki-id> --operation-id op_<id>
-python -m tools.cli release confirm --object-id <wiki-id> --operation-id op_<id> \
-  --actor-id <你> --nonce <nonce> --event-id evt-<...> --leak-gate-report-sha256 <hash>
-python -m tools.cli projection generate               # 重建 public projection manifest
-python -m tools.cli index rebuild --index <索引路径>    # 重建 projection SQLite 索引
+python -m tools.myk wiki anchor <snapshot.md> "<引文>" --source content/sources/<dom>/<id>/<id>.md  # 证据锚定
+python -m tools.myk wiki validate content/wiki/<dom>/<id>.md    # 确定性校验
+python -m tools.myk wiki audit    content/wiki/<dom>/<id>.md    # LLM 证据审计（默认复用本机 agent CLI，零配置）
+python -m tools.myk wiki confirm  content/wiki/<dom>/<id>.md    # 人工审计确认（actor-id 自动取 git 身份）
+# 公开发布（发布确认，非已退场的写入门禁）：先算待签输入，再写 public-release-confirmation/v1
+python -m tools.myk wiki publish input   --object-id <wiki-id> --operation-id op_<id>
+python -m tools.myk wiki publish confirm --object-id <wiki-id> --operation-id op_<id> \
+  --nonce <nonce> --event-id evt-<...> --leak-gate-report-sha256 <hash>   # actor-id 自动
+python -m tools.myk build projection               # 重建 public projection manifest
+python -m tools.myk build index --index <索引路径>    # 重建 projection SQLite 索引
 ```
+
+（每条 action 默认打印一行人类摘要，加 `--json` 看完整结构。）
 
 ### 静态站（浏览器）
 
@@ -187,7 +191,7 @@ cd frontend && MYKNOWLEDGE_CONTENT_MODE=projection MYKNOWLEDGE_ROOT=.. npm run b
 cd dist && python3 -m http.server 8766    # http://127.0.0.1:8766/wiki/<id>/
 ```
 
-### 本地 API 与 Agent 通道
+### 本地 API 与 Agent 通道（机器面，plumbing）
 
 ```bash
 python -m backend.server --root . --port 8765   # FastAPI（loopback only，写入需 capability token；无确认事件）
@@ -197,9 +201,9 @@ python -m tools.cli skill <action> --payload p.json   # Agent 受控 action（�
 ### 备份
 
 ```bash
-python -m tools.cli backup manifest --root .          # 生成 durable manifest（写入前校验全库）
-python -m tools.cli backup export-bundle --manifest audit/backup/<id>.json --target /备份盘/bundle
-python -m tools.cli backup restore-bundle --manifest /备份盘/bundle --target /恢复目录 --target-vault-id public
+python -m tools.myk backup manifest --root .          # 生成 durable manifest（写入前校验全库）
+python -m tools.myk backup export-bundle --manifest audit/backup/<id>.json --target /备份盘/bundle
+python -m tools.myk backup restore-bundle --manifest /备份盘/bundle --target /恢复目录 --target-vault-id public
 ```
 
 ### LLM provider（可选；默认零配置）
@@ -208,7 +212,7 @@ python -m tools.cli backup restore-bundle --manifest /备份盘/bundle --target 
 # 路径 A：默认复用本机 agent CLI（ducc/ducx），无需任何配置
 # 路径 B：OpenAI 兼容 API —— cp config/providers.example.yaml config/providers.local.yaml 填好后：
 export MYKNOWLEDGE_LLM_PROFILE=deepseek
-python -m tools.cli audit wiki/... --provider openai
+python -m tools.myk wiki audit content/wiki/<dom>/<id>.md --provider openai
 ```
 
 ## 🤝 参与贡献
@@ -216,7 +220,7 @@ python -m tools.cli audit wiki/... --provider openai
 欢迎提交 Issue 或 PR，请遵循：
 
 1. Fork 项目并创建特性分支
-2. 提交前运行 `python -m pytest` 与 `python -m tools.cli doctor`
+2. 提交前运行 `python -m pytest` 与 `python -m tools.myk doctor`
 3. 使用 Conventional Commits 格式编写提交信息
 
 ------

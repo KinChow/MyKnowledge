@@ -1,6 +1,8 @@
 # F001/F002/F003 工具
 
-这些工具实现 Source 导入、不可变 text snapshot、evidence selector、Wiki 契约校验与 LLM 证据审计。所有写操作都必须先 Preview，再由人工显式确认 Apply（确认/审计记录为 durable audit，不属于两阶段写操作）。
+这些工具实现 Source 导入、不可变 text snapshot、evidence selector、Wiki 契约校验与 LLM 证据审计。写入为一次性直接落盘（无 preview/apply 两阶段），审批由 `git commit` 承担（ADR-0019）；审计/发布确认是独立的 durable 记录。
+
+人日常操作建议走 porcelain 入口 `python -m tools.myk`（少量名词 + 动词）；本文件面向 plumbing 层 `tools.cli`，供脚本/agent 链式调用。
 
 统一入口（在仓库根目录执行）：
 
@@ -18,19 +20,12 @@ python3 -m tools.cli source \
   --media-type text/markdown
 ```
 
-Preview 输出 `operation_id` 后，确认当前 diff、目标 Vault 和 hash，再执行：
+一次性直接写入（无 Preview/Apply），生成：
 
-```bash
-python3 -m tools.cli source --apply op_<id> --confirm --actor-id local-user
-```
-
-Apply 会生成：
-
-- `sources/<domain>/<source-id>.md`
+- `content/sources/<domain>/<source-id>/<source-id>.md`
 - `archive/text/<snapshot_sha256>.md`
 - `archive/manifest.jsonl`
-- `audit/operations/<operation_id>.json`
-- local-file 的 `state/local-sources/public/<source-id>.json`
+- local-file / personal-note 的 `var/state/local-sources/public/<source-id>.json`
 
 ## Evidence 锚定（anchor）
 
@@ -38,21 +33,11 @@ Apply 会生成：
 python3 -m tools.cli anchor \
   archive/text/<snapshot_sha256>.md \
   '原文中的唯一引文' \
-  --source sources/<domain>/<source-id>.md \
+  --source content/sources/<domain>/<id>/<id>.md \
   --root .
 ```
 
-Preview 输出 operation ID 后执行：
-
-```bash
-python3 -m tools.cli anchor \
-  --root . \
-  --apply op_<id> \
-  --confirm \
-  --actor-id local-user
-```
-
-Evidence 使用 Unicode code-point 半开区间、TextQuoteSelector、selector hash 和 quote hash。引文未命中、多重命中、过短或 snapshot hash 漂移都会阻断 Apply。
+一次性直接写入 evidence（批量用 `--from-jsonl <path>`）。Evidence 使用 Unicode code-point 半开区间、TextQuoteSelector、selector hash 和 quote hash。引文未命中、多重命中、过短或 snapshot hash 漂移都会阻断写入。
 
 ## Wiki 确定性校验（validate）
 

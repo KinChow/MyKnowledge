@@ -52,6 +52,7 @@ Proposed → Accepted → Superseded
 | ADR-0018 | Proposed | Claim 粒度 = 小节级、正文模板作为契约、证据映射为派生视图 | [正文](./0018-claim-granularity-and-template-contract.md) |
 | ADR-0019 | Accepted | 门禁收敛 = git 作为审批，只保留能捕获真实缺陷的门禁 | [正文](./0019-gate-reduction-and-git-as-approval.md) |
 | ADR-0020 | Proposed | 内容晋升是转换作业，claim 中间产物是一等输入 | [正文](./0020-promotion-as-transform-job.md) |
+| ADR-0021 | Accepted | 人用入口 = porcelain 层（`tools.myk`），`tools.cli` 保留为 plumbing | [正文](./0021-porcelain-human-cli-over-plumbing.md) |
 
 > 状态从各 ADR 正文「- 状态：」行读取；被替代的 ADR 保留不删除（Superseded/Deprecated）。
 > 索引完整性由 `tools.matrix_sync.check_doc_indexes` 机器校验（新增 ADR 必须登记）。
