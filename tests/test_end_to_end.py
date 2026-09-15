@@ -34,12 +34,10 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
         / "text"
         / f"{applied['snapshot_sha256'].removeprefix('sha256:')}.md"
     )
-    anchor = EvidenceAnchor(tmp_path).preview(
+    anchored = EvidenceAnchor.anchor_evidence(
         source_path, snapshot_path, "可回放的证据正文，包含稳定引用。", min_chars=12
     )
-    assert anchor["state"] == "previewed"
-    anchored = EvidenceAnchor(tmp_path).apply(anchor["operation_id"], confirmed=True)
-    assert anchored["state"] == "applied"
+    assert anchored["evidence_id"].startswith("evidence-")
     source_meta, _ = FrontMatter.parse(source_path.read_text(encoding="utf-8"))
     evidence = source_meta["evidence_items"][0]
 

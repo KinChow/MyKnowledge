@@ -183,11 +183,9 @@ class ResolutionTests(WikiTestCase):
             / "text"
             / f"{strip_sha256_prefix(result['snapshot_sha256'])}.md"
         )
-        anchor_service = EvidenceAnchor(root)
-        evidence = anchor_service.preview(
+        evidence = EvidenceAnchor.anchor_evidence(
             source_path, snapshot_path, QUOTE_EXACT, min_chars=12
         )
-        anchor_service.apply(evidence["operation_id"], confirmed=True)
         # wiki 引用该 source（origin: personal → support: personal）
         wiki = _base_wiki(
             id="integrated-wiki",
@@ -199,13 +197,13 @@ class ResolutionTests(WikiTestCase):
                     "targets": [
                         {
                             "source_id": "integrated-source",
-                            "evidence_id": evidence["evidence"]["evidence_id"],
+                            "evidence_id": evidence["evidence_id"],
                         }
                     ],
                     "support": "personal",
                     "supporting_quotes": [
                         {
-                            "evidence_id": evidence["evidence"]["evidence_id"],
+                            "evidence_id": evidence["evidence_id"],
                             "exact": QUOTE_EXACT,
                         }
                     ],

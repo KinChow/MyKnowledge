@@ -1,7 +1,11 @@
 """Evidence 锚定：在 source 快照中定位引文并生成 W3C selector 与 hash。
 
-对应 AC-F001-011/012：偏移量按 Unicode code point 计算，selector 可复现，
-锚定写入必须经 preview/apply 两阶段与 per-vault 写锁。
+锚定是**幂等派生**，不是审批写操作（ADR-0019）：``anchor()`` 是纯计算，
+``apply_evidence()`` 已实现幂等（同一 ``(snapshot_sha256, position)`` 返回既有
+item），因此**直接落盘**——不经 preview/apply 两阶段、不需人工确认、不取写锁、
+不写 operation 记录。
+
+对应 AC-F001-011/012：偏移量按 Unicode code point 计算，selector 可复现。
 经统一入口调用：``python -m tools.cli anchor ...``
 """
 
@@ -10,7 +14,6 @@ from __future__ import annotations
 import argparse
 import json
 import re
-import time
 import uuid
 from pathlib import Path
 
@@ -18,21 +21,13 @@ from .common import (
     atomic_write,
     canonical_quote,
     hash_canonical,
-    injection_point,
-    sha256_bytes,
     sha256_text,
 )
 from .front_matter import FrontMatter
-from .operation_store import OperationStore
-from .vault_lock import LockBusyError, VaultLock
 
 
 class EvidenceAnchor:
-    """Evidence 锚定服务：定位唯一引文、生成 selector/hash，并两阶段写回 source。"""
-
-    def __init__(self, root: Path) -> None:
-        self.root = root
-        self.store = OperationStore(root)
+    """Evidence 锚定服务：定位唯一引文、生成 selector/hash，并幂等写回 source。"""
 
     @staticmethod
     def anchor(
@@ -121,150 +116,31 @@ class EvidenceAnchor:
         atomic_write(source_path, FrontMatter.render(metadata, body).encode("utf-8"))
         return evidence
 
-    def preview(
-        self,
+    @staticmethod
+    def anchor_evidence(
         source_path: Path,
         snapshot_path: Path,
         exact: str,
         min_chars: int = 12,
         media_fragment: str | None = None,
     ) -> dict:
-        """生成锚定操作（previewed）；source 快照引用与快照不匹配时抛 stale。"""
-        source_bytes = source_path.read_bytes()
+        """锚定一条引文并直接写入 source（幂等）——取代原 preview→apply 两阶段。
+
+        source 声明的 ``snapshot_sha256`` 与快照实际内容不符时抛
+        ``ValueError("stale")``，不落盘。
+        """
         snapshot = snapshot_path.read_text(encoding="utf-8")
-        evidence = self.anchor(
+        evidence = EvidenceAnchor.anchor(
             snapshot, exact, min_chars, media_fragment=media_fragment
         )
-        metadata, _ = FrontMatter.parse(source_bytes.decode("utf-8"))
+        metadata, _ = FrontMatter.parse(source_path.read_text(encoding="utf-8"))
         if metadata.get("snapshot_sha256") != evidence["snapshot_sha256"]:
             raise ValueError("stale")
-        operation = self.store.new(
-            {
-                "operation_type": "anchor_evidence",
-                "target_vault": "public",
-                "source_path": str(source_path.resolve()),
-                "snapshot_path": str(snapshot_path.resolve()),
-                "source_hash": sha256_bytes(source_bytes),
-                "snapshot_sha256": evidence["snapshot_sha256"],
-                "evidence": evidence,
-            }
-        )
-        return {
-            "state": "previewed",
-            "operation_id": operation["operation_id"],
-            "evidence": evidence,
-        }
-
-    def apply(
-        self,
-        operation_id: str,
-        confirmed: bool = False,
-        actor_id: str = "local-user",
-    ) -> dict:
-        """确认并执行锚定操作：TTL/状态在锁内复查，快照漂移返回 stale。"""
-        record, preflight_error = self.store.apply_preflight(
-            operation_id, "anchor_evidence", confirmed
-        )
-        if preflight_error is not None:
-            return preflight_error
-        try:
-            with VaultLock(self.root, "public", operation_id):
-                record, begin_error = self.store.begin_locked(operation_id)
-                if begin_error is not None:
-                    return begin_error
-                source_path = Path(record["source_path"])
-                snapshot_path = Path(record["snapshot_path"])
-                try:
-                    source_bytes = source_path.read_bytes()
-                    snapshot_text = snapshot_path.read_text(encoding="utf-8")
-                except (OSError, UnicodeError):
-                    self.store.update(record, "expired", error_code="path_unresolved")
-                    return {
-                        "state": "expired",
-                        "operation_id": operation_id,
-                        "error_code": "path_unresolved",
-                    }
-                if sha256_text(snapshot_text) != record["snapshot_sha256"]:
-                    self.store.update(record, "expired", error_code="stale")
-                    return {
-                        "state": "expired",
-                        "operation_id": operation_id,
-                        "error_code": "stale",
-                    }
-                if sha256_bytes(source_bytes) != record["source_hash"]:
-                    # 崩溃恢复：evidence 可能已由本操作写入但 state 未提交——
-                    # 若 front matter 已含 (snapshot_sha256, position) 则视为
-                    # 已应用并继续补提交（apply_evidence 幂等返回既有 item），
-                    # 否则按 hash_mismatch 过期
-                    already_written = False
-                    try:
-                        existing_meta, _ = FrontMatter.parse(
-                            source_path.read_text(encoding="utf-8")
-                        )
-                        position = record["evidence"].get("position")
-                        already_written = any(
-                            item.get("snapshot_sha256") == record["snapshot_sha256"]
-                            and item.get("position") == position
-                            for item in existing_meta.get("evidence_items", [])
-                        )
-                    except (OSError, ValueError, UnicodeError, AttributeError):
-                        already_written = False
-                    if not already_written:
-                        self.store.update(record, "expired", error_code="hash_mismatch")
-                        return {
-                            "state": "expired",
-                            "operation_id": operation_id,
-                            "error_code": "hash_mismatch",
-                        }
-                try:
-                    evidence = self.apply_evidence(source_path, record["evidence"])
-                    injection_point("after_evidence")
-                except ValueError as exc:
-                    self.store.update(record, "expired", error_code=str(exc))
-                    return {
-                        "state": "expired",
-                        "operation_id": operation_id,
-                        "error_code": str(exc),
-                    }
-                except (OSError, UnicodeError):
-                    # 写路径 I/O 失败（C002）：与 source_ingestor 对齐为结构化错误
-                    self.store.update(record, "expired", error_code="apply_failed")
-                    return {
-                        "state": "expired",
-                        "operation_id": operation_id,
-                        "error_code": "apply_failed",
-                    }
-                injection_point("before_commit")
-                try:
-                    applied_file = str(
-                        source_path.resolve().relative_to(self.root.resolve())
-                    )
-                except ValueError:
-                    applied_file = str(source_path.resolve())
-                confirmation = {
-                    "actor_type": "human",
-                    "actor_id": actor_id,
-                    "scope": "apply",
-                    "confirmed_at": time.time(),
-                }
-                self.store.update(
-                    record,
-                    "applied",
-                    confirmation=confirmation,
-                    applied_files=[applied_file],
-                )
-                return {
-                    "state": "applied",
-                    "operation_id": operation_id,
-                    "evidence": evidence,
-                }
-        except LockBusyError:
-            return VaultLock.lock_busy_response(operation_id)
+        return EvidenceAnchor.apply_evidence(source_path, evidence)
 
 
 def _batch_main(args: argparse.Namespace) -> int:
     """批量锚定（AC-F001-012 --from-jsonl）：不降低唯一性与长度标准，未解析行进 unresolved。"""
-    anchor_service = EvidenceAnchor(args.root)
     report: dict[str, list[dict]] = {"ok": [], "unresolved": []}
     with args.from_jsonl.open(encoding="utf-8") as handle:
         for line_no, raw_line in enumerate(handle, 1):
@@ -281,7 +157,7 @@ def _batch_main(args: argparse.Namespace) -> int:
                     source = args.root / source
                 if not snapshot.is_absolute():
                     snapshot = args.root / snapshot
-                result = anchor_service.preview(
+                evidence = EvidenceAnchor.anchor_evidence(
                     source,
                     snapshot,
                     exact,
@@ -289,11 +165,7 @@ def _batch_main(args: argparse.Namespace) -> int:
                     item.get("media_fragment"),
                 )
                 report["ok"].append(
-                    {
-                        "line": line_no,
-                        "operation_id": result["operation_id"],
-                        "evidence_id": result["evidence"]["evidence_id"],
-                    }
+                    {"line": line_no, "evidence_id": evidence["evidence_id"]}
                 )
             except (
                 ValueError,
@@ -317,7 +189,10 @@ def _batch_main(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """evidence_anchor CLI：预览/应用锚定操作（单条或 --from-jsonl 批量）。"""
+    """evidence_anchor CLI：定位引文并直接写入 source（单条或 --from-jsonl 批量）。
+
+    不带 ``--source`` 时只做定位计算并打印 evidence（dry run，不落盘）。
+    """
     parser = argparse.ArgumentParser(description="Anchor evidence in a source snapshot")
     parser.add_argument("snapshot", type=Path, nargs="?")
     parser.add_argument("exact", nargs="?")
@@ -326,55 +201,42 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--media-fragment", help="W3C Media Fragments time range, e.g. #t=1450,1520"
     )
-    parser.add_argument("--apply", metavar="OPERATION_ID")
     parser.add_argument("--source", type=Path)
     parser.add_argument("--from-jsonl", type=Path, metavar="PATH")
-    parser.add_argument(
-        "--confirm",
-        action="store_true",
-        help="confirm the operation as the invoking human",
-    )
-    parser.add_argument("--actor-id", default="local-user")
     args = parser.parse_args(argv)
-    anchor_service = EvidenceAnchor(args.root)
     if args.from_jsonl:
         return _batch_main(args)
-    if args.apply:
-        print(
-            json.dumps(
-                anchor_service.apply(
-                    args.apply,
-                    confirmed=args.confirm,
-                    actor_id=args.actor_id,
-                ),
-                ensure_ascii=False,
-                indent=2,
-            )
-        )
-        return 0
+
     if not args.snapshot or args.exact is None:
-        parser.error("snapshot and exact are required for preview")
+        parser.error("snapshot and exact are required")
     try:
         if args.source:
-            result = anchor_service.preview(
+            evidence = EvidenceAnchor.anchor_evidence(
                 args.source,
                 args.snapshot,
                 args.exact,
                 args.min_chars,
                 args.media_fragment,
             )
+            print(
+                json.dumps(
+                    {"state": "applied", "evidence": evidence},
+                    ensure_ascii=False,
+                    indent=2,
+                )
+            )
         else:
-            result = EvidenceAnchor.anchor(
+            evidence = EvidenceAnchor.anchor(
                 args.snapshot.read_text(encoding="utf-8"),
                 args.exact,
                 args.min_chars,
                 media_fragment=args.media_fragment,
             )
+            print(json.dumps(evidence, ensure_ascii=False, indent=2))
     except ValueError as exc:
         print(json.dumps({"state": "blocked", "error_code": str(exc)}))
         return 2
     except OSError:
         print(json.dumps({"state": "blocked", "error_code": "path_unresolved"}))
         return 2
-    print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

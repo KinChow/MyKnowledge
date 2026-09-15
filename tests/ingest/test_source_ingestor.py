@@ -107,18 +107,9 @@ class SourceIngestorTests(unittest.TestCase):
                 / "text"
                 / f"{strip_sha256_prefix(sha256_text(body))}.md"
             )
-            anchor_service = EvidenceAnchor(root)
-            evidence_preview = anchor_service.preview(
+            EvidenceAnchor.anchor_evidence(
                 source_path, snapshot_path, "包含 emoji 😀 和代码", min_chars=12
             )
-            self.assertEqual(
-                anchor_service.apply(evidence_preview["operation_id"])["state"],
-                "awaiting_confirmation",
-            )
-            saved = anchor_service.apply(
-                evidence_preview["operation_id"], confirmed=True
-            )
-            self.assertEqual(saved["state"], "applied")
             self.assertIn("evidence_items:", source_path.read_text(encoding="utf-8"))
 
     def test_local_file_hash_mismatch_blocks_apply(self):
@@ -270,23 +261,6 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(
                 result["errors"][0]["code"], "fetch_blocked:private_network"
             )
-
-    def test_operation_type_mismatch_returns_structured(self):
-        """跨类型操作 ID 返回 operation_type_mismatch 而非崩溃。"""
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            ingestor = SourceIngestor(root)
-            result = ingestor.preview(
-                {
-                    "source_type": "personal-note",
-                    "domain": "tools",
-                    "origin": "personal",
-                    "body": "类型不匹配验证笔记内容",
-                    "source_id": "type-mismatch",
-                }
-            )
-            applied = EvidenceAnchor(root).apply(result["operation_id"], confirmed=True)
-            self.assertEqual(applied["error_code"], "operation_type_mismatch")
 
     def test_manifest_corrupt_line_tolerated(self):
         """AC-F001-006：manifest 存在损坏行时后续 apply 仍成功且不覆盖旧行。"""

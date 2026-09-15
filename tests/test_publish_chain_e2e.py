@@ -121,11 +121,7 @@ def _ingest_and_anchor(root: Path) -> str:
         / "text"
         / f"{applied['snapshot_sha256'].removeprefix('sha256:')}.md"
     )
-    anchor = EvidenceAnchor(root)
-    previewed = anchor.preview(source_path, snapshot, QUOTE, min_chars=12)
-    assert previewed["state"] == "previewed", previewed
-    anchored = anchor.apply(previewed["operation_id"], confirmed=True)
-    assert anchored["state"] == "applied", anchored
+    EvidenceAnchor.anchor_evidence(source_path, snapshot, QUOTE, min_chars=12)
     metadata, _ = FrontMatter.parse(source_path.read_text(encoding="utf-8"))
     return str(metadata["evidence_items"][0]["evidence_id"])
 
