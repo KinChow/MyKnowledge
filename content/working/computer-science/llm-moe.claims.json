@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "MoE 本质上是对 Transformer MLP/FFN 部分的替代方案，而不是对注意力模块的修改；课程明确把它定位为“更高效的 MLP”。",
+    "source_id": "cs336-p04",
+    "exact_quote": "比如混合专家模型只是更高效的MLP"
+  },
+  {
+    "claim": "MoE 的原始动机是以参数为中心：想要更多参数，但又不愿为这些参数付出对应的计算成本。",
+    "source_id": "cs336-p04",
+    "exact_quote": "但又不想为这些参数付出计算成本"
+  },
+  {
+    "claim": "保持总计算量不变、只增加稀疏参数的数量时，模型的表现通常会变得更好，这是 MoE 在大规模模型流行的证据。",
+    "source_id": "cs336-p04",
+    "exact_quote": "那么模型的表现通常会变得更好"
+  },
+  {
+    "claim": "Switch Transformer 显示：活跃参数保持不变、专家数量不断增加时，语言建模的测试损失持续下降。",
+    "source_id": "cs336-p04",
+    "exact_quote": "语言建模的测试损失就一直在下降"
+  },
+  {
+    "claim": "OMO 论文观察到训练 MoE 模型相比稠密模型速度能快两倍左右，能看到稀疏性带来的好处。",
+    "source_id": "cs336-p04",
+    "exact_quote": "训练MoE模型相比稠密模型速度能快两倍左右"
+  },
+  {
+    "claim": "训练时 MoE 也是稀疏的，只有一两个或 k 个专家被激活，因而无法观察未激活专家的表现，这正是 MoE 训练困难的核心原因。",
+    "source_id": "cs336-p04",
+    "exact_quote": "所以你根本不知道其他专家发生了什么情况"
+  },
+  {
+    "claim": "几乎所有 MoE 模型都采用 token 自己选择 top-k 专家的路由方式（token choice），k 个不同专家被选中进入候选池。",
+    "source_id": "cs336-p04",
+    "exact_quote": "几乎所有MOE模型都会让token自己选择topk的路由"
+  },
+  {
+    "claim": "最常见的内积式路由器（每个专家一个向量方向、最接近的被选中）用于经典 Switch Transformer 和 GShard 等早期 Google 论文。",
+    "source_id": "cs336-p04",
+    "exact_quote": "它用于经典Switch Transformer和Gshard"
+  },
+  {
+    "claim": "DeepSeek MoE 把专家切分成更小更细粒度的块，其中一部分被设置为始终开启的共享专家，用来承担通用建模负担。",
+    "source_id": "cs336-p04",
+    "exact_quote": "被设置为始终开启的共享专家"
+  },
+  {
+    "claim": "移除负载均衡损失的影响相当灾难性：没有它时几乎所有 token 都会流向少数两个专家，白白浪费大量参数。",
+    "source_id": "cs336-p04",
+    "exact_quote": "但移除负载均衡损失影响相当灾难性"
+  }
+]

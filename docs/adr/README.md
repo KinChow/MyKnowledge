@@ -48,6 +48,10 @@ Proposed → Accepted → Superseded
 | ADR-0014 | Accepted | 数据分域、五层归属与三条写入通道 | [正文](./0014-layer-domains-and-write-channels.md) |
 | ADR-0015 | Accepted | 审计分歧取 fail，唯一推翻路径是留痕的人工复议 | [正文](./0015-audit-disagreement-and-human-reconsideration.md) |
 | ADR-0016 | Accepted | F008 学习产品边界与成熟组件复用 | [正文](./0016-f008-learning-product-and-component-boundary.md) |
+| ADR-0017 | Proposed | 内容实体模型 = 共享 metadata + 统一动词 + 能力接口探测 | [正文](./0017-content-entity-model-and-capability-layer.md) |
+| ADR-0018 | Proposed | Claim 粒度 = 小节级、正文模板作为契约、证据映射为派生视图 | [正文](./0018-claim-granularity-and-template-contract.md) |
+| ADR-0019 | Proposed | 门禁收敛 = git 作为审批，只保留能捕获真实缺陷的门禁 | [正文](./0019-gate-reduction-and-git-as-approval.md) |
+| ADR-0020 | Proposed | 内容晋升是转换作业，claim 中间产物是一等输入 | [正文](./0020-promotion-as-transform-job.md) |
 
 > 状态从各 ADR 正文「- 状态：」行读取；被替代的 ADR 保留不删除（Superseded/Deprecated）。
 > 索引完整性由 `tools.matrix_sync.check_doc_indexes` 机器校验（新增 ADR 必须登记）。

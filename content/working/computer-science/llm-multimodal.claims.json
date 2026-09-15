@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "全模态模型具备接收文本/图像/音频/视频任意组合输入的能力，是课程的终极目标。",
+    "source_id": "cs336-p17",
+    "exact_quote": "就是可以接收这些模态中的任意组合"
+  },
+  {
+    "claim": "在所有模态上大规模使用时，Transformer 仍是被认为最好的架构，因此必须弄清如何把它用于非文本数据。",
+    "source_id": "cs336-p17",
+    "exact_quote": "Transformer仍然是我们拥有的最好的东西"
+  },
+  {
+    "claim": "ViT 的工作方式是把图像分割成一个个小块，每个小块相当于 Transformer 的一个 token。",
+    "source_id": "cs336-p17",
+    "exact_quote": "你拿一张图像然后把它分割成一个个小块"
+  },
+  {
+    "claim": "CLIP 的对比目标等价于在 N×N 图像-文本相似度矩阵上处理 2N 个 Softmax 分类问题。",
+    "source_id": "cs336-p17",
+    "exact_quote": "这里基本上有2乘以N种不同的Softmax分类问题需要处理"
+  },
+  {
+    "claim": "CLIP 的数据来自互联网抓取的图像-文本配对，最终约四亿对，且该数据集当时未公开发布。",
+    "source_id": "cs336-p17",
+    "exact_quote": "这样一来最终就得到了四亿个图像和文本的配对数据"
+  },
+  {
+    "claim": "2021 年 CLIP 在 ImageNet 上的零样本性能超过了在 120 万张 ImageNet 图像上训练过的有监督 ResNet。",
+    "source_id": "cs336-p17",
+    "exact_quote": "零样本的CIP性能超过了在120万张ImageNet图像上训练过的ResNet"
+  },
+  {
+    "claim": "SigLIP 相比 CLIP 的收益是把 batch size 与损失函数解耦，从而可用更小的 batch 训练。",
+    "source_id": "cs336-p17",
+    "exact_quote": "它有效地将Batch Size与损失函数解有了"
+  },
+  {
+    "claim": "LLaVA 训练的第一阶段称为对齐阶段：冻结视觉编码器和语言模型，只训练投影矩阵 W，把图像映射到与文本 token 嵌入相近的空间。",
+    "source_id": "cs336-p17",
+    "exact_quote": "这就是他们所说的对齐阶段"
+  },
+  {
+    "claim": "AnyRes 处理高分辨率图像的核心思路是裁剪成多个小块分别编码再拼接，而不是降采样。",
+    "source_id": "cs336-p17",
+    "exact_quote": "所以与其做降采样不如直接裁剪图像"
+  },
+  {
+    "claim": "Chameleon 的核心想法是把所有东西都映射成离散 token，让文本与图像以相同方式处理。",
+    "source_id": "cs336-p17",
+    "exact_quote": "如果我们把所有东西都映射成离散的token会怎么样"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "torch.compile 可以把任意 PyTorch 函数编译成功能完全一样的另一个函数（转录 ASR 将 torch.compile 记为 TorchCompare）。",
+    "source_id": "cs336-p06",
+    "exact_quote": "你可以拿任何PyTorch函数"
+  },
+  {
+    "claim": "PyTorch 的计算图里每一个基本操作实际上都是在实现一个核函数，这是直接实现慢的结构性原因。",
+    "source_id": "cs336-p06",
+    "exact_quote": "而计算图里的每一个基本操作"
+  },
+  {
+    "claim": "未融合时多个核函数在 HBM 与 SM 之间反复读写数据：一个核函数算完写回，下一个核函数再把数据取出来写回去，反复进行。",
+    "source_id": "cs336-p06",
+    "exact_quote": "然后下一个核函数再从HPM里把数据取出来再写回去"
+  },
+  {
+    "claim": "编译器之所以能把底层压成单一核函数，是因为它学会了查看计算图并做整体优化。",
+    "source_id": "cs336-p06",
+    "exact_quote": "这是因为编译器学会了查看计算图"
+  },
+  {
+    "claim": "编译版本把 GELU 中的所有操作融合到一个核函数里（转录 ASR 将 GELU 记为 GE6），是算子融合的直接例证。",
+    "source_id": "cs336-p06",
+    "exact_quote": "基本上GE6里的所有操作都被融合到了一个核函数里"
+  },
+  {
+    "claim": "编译出来的核函数实际上是一个 Triton 核函数，即 torch.compile 的融合产物由 Triton 实现。",
+    "source_id": "cs336-p06",
+    "exact_quote": "而且你可以看到编译后的核函数是一个Triton核函数"
+  },
+  {
+    "claim": "本示例中 Triton（编译）核函数并不比内置实现更快，融合并不保证优于手写内核。",
+    "source_id": "cs336-p06",
+    "exact_quote": "Triton核函数并不更快"
+  },
+  {
+    "claim": "编译器会把代码编译成一种叫做 PTX 的中间语言，然后硬件才真正开始执行工作。",
+    "source_id": "cs336-p06",
+    "exact_quote": "它会将其编译成一种叫做PTX的中间语言"
+  },
+  {
+    "claim": "PTX 中仍有很多东西没有明确指定（如操作在哪个 SM 上执行、warp 调度等），这些细节由硬件控制。",
+    "source_id": "cs336-p06",
+    "exact_quote": "PTX中仍然有很多东西没有明确指定"
+  },
+  {
+    "claim": "因为有些内容是惰性编译的，基准测试必须热身，确保那一次编译的时间不会对整体造成太大影响。",
+    "source_id": "cs336-p06",
+    "exact_quote": "这是因为如果有些内容是惰性编译的"
+  }
+]

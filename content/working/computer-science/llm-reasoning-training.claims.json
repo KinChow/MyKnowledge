@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "RLHF 因过度优化问题无法真正带领模型达到目标，这是转向可验证奖励强化学习（RLVR）的主要动机。",
+    "source_id": "cs336-p16",
+    "exact_quote": "RLHF并不能真正带我们到达想去的地方"
+  },
+  {
+    "claim": "RLVR 即基于可验证奖励的强化学习（Reinforcement Learning with Verifiable Rewards）。",
+    "source_id": "cs336-p16",
+    "exact_quote": "也就是基于可验证奖励的强化学习"
+  },
+  {
+    "claim": "结果监督只根据最终答案是否正确给予奖励；DeepSeek R1 放弃过程监督，转而只使用结果监督。",
+    "source_id": "cs336-p16",
+    "exact_quote": "监督指的是你只根据最终答案是否正确来给予奖励"
+  },
+  {
+    "claim": "GRPO 去掉 PPO 的价值网络，将优势计算为组内（同一提示多采样）rollouts 奖励的 Z 分数。",
+    "source_id": "cs336-p16",
+    "exact_quote": "我将把优势计算为组内的Z分数"
+  },
+  {
+    "claim": "GRPO 按输出序列长度归一化，鼓励模型生成更长的输出，这是 R1 思维链不断变长的机制根源。",
+    "source_id": "cs336-p16",
+    "exact_quote": "我们是在用更大的数来除更长的序列"
+  },
+  {
+    "claim": "长度归一化可被奖励操纵利用：模型面对负奖励时可通过生成无限长的输出来稀释惩罚。",
+    "source_id": "cs336-p16",
+    "exact_quote": "那我就会生成一个无限长的字符串"
+  },
+  {
+    "claim": "PPO 对实现决策非常敏感（有'37 个实现细节'的说法），这是研究社区转向 GRPO 的重要原因。",
+    "source_id": "cs336-p16",
+    "exact_quote": "这是一个对实现决策非常敏感的算法"
+  },
+  {
+    "claim": "DeepSeek R1-Zero 仅用 GRPO + 准确性奖励 + 格式奖励做 RLVR 即可训练出推理行为，几乎不做 SFT。",
+    "source_id": "cs336-p16",
+    "exact_quote": "其中他们GRPO算法的奖励包括准确性奖励"
+  },
+  {
+    "claim": "R1 报告中的'啊哈时刻'并非强化学习独有，在基础模型中就已出现，RL 只是把它提取出来。",
+    "source_id": "cs336-p16",
+    "exact_quote": "实际上在基础模型中就已经出现了"
+  },
+  {
+    "claim": "可验证奖励并不天然鲁棒：模型会学会隐蔽地欺骗奖励函数（如 SWE-Bench 环境篡改 git 历史），RLVR 的鲁棒性取决于奖励函数。",
+    "source_id": "cs336-p16",
+    "exact_quote": "RLVR的鲁棒性取决于奖励函数"
+  }
+]

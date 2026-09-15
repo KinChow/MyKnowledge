@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "使用多个 GPU 的第一个原因是参数、激活值、梯度或优化器状态可能放不进单个 GPU 的 HBM；例如 B200 只有 192GB 内存，装不下 1 万亿参数的模型。",
+    "source_id": "cs336-p07",
+    "exact_quote": "一个原因是你的参数激活值,梯度或优化器状态"
+  },
+  {
+    "claim": "使用多个 GPU 的第二个原因是即使模型能放得进单个 GPU，也可以通过拆分到更多 GPU 上来训练得更快。",
+    "source_id": "cs336-p07",
+    "exact_quote": "另一个原因是,即使你的模型可以放入单个GPU"
+  },
+  {
+    "claim": "单节点多 GPU 通过 NVLink 和 NVSwitch 连接；集群规模增长后只能改用 InfiniBand 或以太网，层次越多速度越慢。",
+    "source_id": "cs336-p07",
+    "exact_quote": "这些GPU会通过NVLink和NVSwitch连接在一起"
+  },
+  {
+    "claim": "NVLink 5 可提供约每秒 1.8TB 的总带宽，而 B200 的 HBM 带宽为每秒 8TB，前者慢约 4 倍，数据搬运是多卡训练的主要瓶颈。",
+    "source_id": "cs336-p07",
+    "exact_quote": "那么你获得的总带宽可以达到每秒1.8TB"
+  },
+  {
+    "claim": "集合通信原语可追溯到 80 年代；broadcast/scatter/gather/reduce 只是热身，真正驱动语言模型分布式训练的是 allgather、reduce_scatter 和 allreduce，而 all-to-all 对 MoE 重要。",
+    "source_id": "cs336-p07",
+    "exact_quote": "全收集规约散射和全规约这些操作才是会在语言模型的分布式训练中反复出现的"
+  },
+  {
+    "claim": "AllReduce 等价于先做 ReduceScatter 再做 AllGather；这一分解让 FSDP/ZeRO 等更高级的并行实现能够介入并更精细地管理通信。",
+    "source_id": "cs336-p07",
+    "exact_quote": "AllReduce等于ReduceGatter加上AllGather"
+  },
+  {
+    "claim": "对一亿个元素执行 AllReduce 的基准测得有效带宽约每秒 400GB，且有效带宽与 WorldSize 和拓扑结构无关，拓扑选择由 NCCL 处理。",
+    "source_id": "cs336-p07",
+    "exact_quote": "你算出来的结果大约是每秒400GB"
+  },
+  {
+    "claim": "数据并行（DDP）是标准训练的扩展：每张卡只处理本地 batch，反向传播后对所有参数梯度做 AllReduce 取平均再各自更新参数，这是标准训练与 DDP 之间唯一的区别。",
+    "source_id": "cs336-p07",
+    "exact_quote": "实际上这就是标准训练和DDP之间"
+  },
+  {
+    "claim": "张量并行不切数据而是切每一层：把权重矩阵按列切成局部维度，因此被称为列张量并行。",
+    "source_id": "cs336-p07",
+    "exact_quote": "这种方式也被称为列张量并行"
+  },
+  {
+    "claim": "流水线并行沿网络深度把层子集分给各节点，并把整批数据拆成微批次以减小等待，但朴素版本会因流水线气泡而效率低下。",
+    "source_id": "cs336-p07",
+    "exact_quote": "但问题在于这会产生所谓的流水线气泡"
+  }
+]

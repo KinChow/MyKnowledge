@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "分词器是完成字符串与 token 索引之间往返转换（编码为 token、解码回字符串）的组件，且必须能往返转换才算合格。",
+    "source_id": "cs336-p01",
+    "exact_quote": "分词器基本上就是能完成这个往返过程的东西"
+  },
+  {
+    "claim": "分词的核心好处之一是把很长的原始字节流压缩成数量更少的 token，从而提升计算效率。",
+    "source_id": "cs336-p01",
+    "exact_quote": "它会把一个很长的序列压缩成数量更少的token"
+  },
+  {
+    "claim": "分词的另一个关键好处是支持自适应计算：常见字节块压成单个 token，罕见或更有趣的部分保留为多个 token。",
+    "source_id": "cs336-p01",
+    "exact_quote": "它让你能够进行自适应计算"
+  },
+  {
+    "claim": "压缩比定义为每个 token 对应的字节数；课程示例中 20 字节、8 个 token，压缩比为 2.5（每 token 2.5 字节）。",
+    "source_id": "cs336-p01",
+    "exact_quote": "好的也就是每个token2.5个字结"
+  },
+  {
+    "claim": "压缩比越大意味着序列越短，这很重要，因为 attention 的计算量随序列长度二次方增长。",
+    "source_id": "cs336-p01",
+    "exact_quote": "因为attention的计算量是二次方的"
+  },
+  {
+    "claim": "现代分词器尤其是多语言分词器，词表通常有 10 万到 20 万个不同的 token。",
+    "source_id": "cs336-p01",
+    "exact_quote": "通常都有10万到20万个不同的token"
+  },
+  {
+    "claim": "字符级分词器的词表可达约 15 万（Unicode 字符数量级），这是其可行性的边界之一。",
+    "source_id": "cs336-p01",
+    "exact_quote": "现在大约有15万个Unical字符"
+  },
+  {
+    "claim": "词级分词器按空格或正则切块，其词表大小等于训练数据中不同块的数量，且词表本身可能是没有边界的。",
+    "source_id": "cs336-p01",
+    "exact_quote": "因为词表本身可能是没有边界的"
+  },
+  {
+    "claim": "首篇将 BPE 用于语言模型的论文是 GPT-2（BPE 最初用于数据压缩，后被引入 NLP 神经机器翻译）。",
+    "source_id": "cs336-p01",
+    "exact_quote": "首篇将BPE用于语言模型的论文是GPT2"
+  },
+  {
+    "claim": "BPE 的核心特性是常见的序列用单个 token 表示，而罕见的序列被拆成多个 token，从而避免 unk token。",
+    "source_id": "cs336-p01",
+    "exact_quote": "所以常见的序列可以用一个token来表示"
+  }
+]

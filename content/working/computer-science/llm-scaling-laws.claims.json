@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "缩放定律是把小规模模型的性能外推到大规模行为的简单预测规则，从而可以在小规模上完成超参数优化。",
+    "source_id": "cs336-p09",
+    "exact_quote": "缩放定律就是一些简单的预测规则"
+  },
+  {
+    "claim": "Hestness 与 Kaplan 数据拟合出的神经语言模型缩放定律指数约为 -0.1 到 -0.3，即误差按多项式速率缓慢衰减，比经典统计估计慢得多。",
+    "source_id": "cs336-p09",
+    "exact_quote": "它们大约是-0.1-0.3"
+  },
+  {
+    "claim": "数据受限时，标准训练方法最多重复使用数据约四个周期（epoch），性能不会受损；超过后实际缩放曲线明显劣于使用新鲜数据。",
+    "source_id": "cs336-p09",
+    "exact_quote": "使用标准训练方法最多重复四个周期"
+  },
+  {
+    "claim": "预训练中数据量乘参数量与 FLOPs（辅点运算次数）近似成线性关系，这决定了算力预算可在数据量与模型大小之间分配。",
+    "source_id": "cs336-p09",
+    "exact_quote": "约等于辅点运算次数是线性关系"
+  },
+  {
+    "claim": "Chinchilla 给出现代常用的约 20 tokens per parameter 的训练比例（Token 乘数），此前 GPT-3 每参数仅约 3 个 tokens、训练不足。",
+    "source_id": "cs336-p09",
+    "exact_quote": "Chinchilla给出20个tokens per parameter的现代比例"
+  },
+  {
+    "claim": "miniCPM 采用 muP 初始化后，在一系列不同规模模型上扫描学习率，最小损失基本都落在约 1e-2 这个点上，实现了最优学习率跨规模的稳定性。",
+    "source_id": "cs336-p11",
+    "exact_quote": "最小损失基本上就在A10的-2次方这个点上"
+  },
+  {
+    "claim": "WSD（Warmup-Stable-Decay）学习率调度的价值在于稳定阶段结束后可从任意检查点续训并重新衰减，从而避免重复从头运行数据规模实验。",
+    "source_id": "cs336-p11",
+    "exact_quote": "我们用WSD是因为能在稳定阶段后"
+  },
+  {
+    "claim": "DeepSeek 采取与 miniCPM（muP）相反的路线：直接拟合缩放定律，同时估计最优批次大小与最优学习率随规模的幂律，再外推到大规模训练。",
+    "source_id": "cs336-p11",
+    "exact_quote": "来同时估计最优的批次大小"
+  },
+  {
+    "claim": "StepFun 的大规模网格搜索发现：最优批次大小几乎只依赖训练所用的总数据量，不同模型规模的点落在大致同一条趋势线上。",
+    "source_id": "cs336-p11",
+    "exact_quote": "就是你训练所用的总数据量"
+  },
+  {
+    "claim": "Muon 优化器在 NanoGPT Speedrun 等小规模基准上收益显著，但大规模对比研究显示其收益随规模增大而下降，说明小规模优势未必能迁移到大模型。",
+    "source_id": "cs336-p11",
+    "exact_quote": "MUONG的收益会随着规模增大而下降"
+  }
+]

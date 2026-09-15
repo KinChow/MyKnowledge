@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "原始 Transformer 论文把层归一化放在残差流（残差路径）内部，而不是残差流之外。",
+    "source_id": "cs336-p03",
+    "exact_quote": "层规一化是放在所谓的残差路径上的"
+  },
+  {
+    "claim": "所有现代语言模型都把层归一化移到残差流之外，pre-norm 成为人人遵循的做法。",
+    "source_id": "cs336-p03",
+    "exact_quote": "每个人都把层规一化移到了残叉流之外"
+  },
+  {
+    "claim": "现代大多数模型都使用 RMSNorm 而非 LayerNorm。",
+    "source_id": "cs336-p03",
+    "exact_quote": "你看现在大多数现代模型都是RMSNorm模型"
+  },
+  {
+    "claim": "几乎所有可信的现代语言模型都使用某种门控线性单元（GLU）作为 FFN 激活。",
+    "source_id": "cs336-p03",
+    "exact_quote": "我认为几乎所有可信的现代语言模型"
+  },
+  {
+    "claim": "LLaMA 及其后代模型使用 SwiGLU（转录误写为 SweagU），而 Google 系（Gemma、T5 等）用 GeGLU。",
+    "source_id": "cs336-p03",
+    "exact_quote": "而所有类似LAMA后代的模型都用的是SweagU"
+  },
+  {
+    "claim": "RoPE（旋转位置编码）已成为主流位置嵌入，2024 年之后的大多数模型都使用它。",
+    "source_id": "cs336-p03",
+    "exact_quote": "真正变得相当主流的是这种叫做ROPE的嵌入"
+  },
+  {
+    "claim": "RoPE 通过对词向量按位置旋转，使任意两个嵌入的内积只依赖相对位置差，对绝对位置保持不变（转录误写为“不便”）。",
+    "source_id": "cs336-p03",
+    "exact_quote": "这些内积都将对绝对位置保持不便"
+  },
+  {
+    "claim": "多头注意力的经验法则是：注意力头的维度乘以头的数量等于模型（隐藏）维度。",
+    "source_id": "cs336-p03",
+    "exact_quote": "经验法则就是注意力头的维度乘以头的数量"
+  },
+  {
+    "claim": "GLU 变体比非门控版本多一个矩阵，需把 FFN 维度缩到原来的三分之二以保持总参数与原来 MLP 相同（比率约 2.67）。",
+    "source_id": "cs336-p03",
+    "exact_quote": "这意味着你最终会得到大约2.67这样的数值"
+  },
+  {
+    "claim": "不同规模模型的最优长宽比（模型维度与层数之比）都接近 100 左右。",
+    "source_id": "cs336-p03",
+    "exact_quote": "这些数值大概在100左右"
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "Triton 是由 OpenAI 开发的 GPU 内核 DSL，到课程时已相当标准。",
+    "source_id": "cs336-p06",
+    "exact_quote": "Triton是由OpenAI开发的"
+  },
+  {
+    "claim": "GELU 直接实现（未融合）基准测试约耗时 3.75 毫秒，比内置与编译实现慢得多，是标准库逐算子内核性能不足的例证。",
+    "source_id": "cs336-p06",
+    "exact_quote": "直接实现大概花了3.75毫秒"
+  },
+  {
+    "claim": "PyTorch 直接实现慢的原因是没有做内核融合，导致多个核函数反复从 HBM 读写数据。",
+    "source_id": "cs336-p06",
+    "exact_quote": "这里没有做核融合所以速度很慢"
+  },
+  {
+    "claim": "torch.compile 编译后的 GELU 实现是一个融合后的单一 Triton 核函数。",
+    "source_id": "cs336-p06",
+    "exact_quote": "而且你可以看到编译后的核函数是一个Triton核函数"
+  },
+  {
+    "claim": "Triton 的编程以块为单位：一个块会把数据加载到共享内存，进行操作后再写回全局内存。",
+    "source_id": "cs336-p06",
+    "exact_quote": "一个块会将数据加载到共享内存中"
+  },
+  {
+    "claim": "Triton 不是函数式编程：没有返回值，必须显式分配输出张量并进行读写操作。",
+    "source_id": "cs336-p06",
+    "exact_quote": "你必须显示的进行读写操作"
+  },
+  {
+    "claim": "GPU 共享内存在硬件上被分成 32 个 Bank，这是 Bank 冲突机制的来源。",
+    "source_id": "cs336-p06",
+    "exact_quote": "共享内存被分成了32个Bank"
+  },
+  {
+    "claim": "理想化的矩阵乘法（把整个 A、B 载入共享内存）能使算术强度达到 N 的量级，是期望中的理想情况。",
+    "source_id": "cs336-p06",
+    "exact_quote": "这意味着算术强度达到了N的量级"
+  },
+  {
+    "claim": "分块矩阵乘法把算术强度从常数提升到分块大小的量级，通常无法达到 N 量级。",
+    "source_id": "cs336-p06",
+    "exact_quote": "而这里的算术强度现在提升到了分块大小的量级"
+  },
+  {
+    "claim": "本课预告：学完逐元素、行规约、行求和与矩阵乘法分块内核后，就具备了实现 FlashAttention 所需的全部要素。",
+    "source_id": "cs336-p06",
+    "exact_quote": "FlashAttention所需要的所有要素"
+  }
+]

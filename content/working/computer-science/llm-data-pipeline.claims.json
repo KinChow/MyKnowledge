@@ -1,0 +1,52 @@
+[
+  {
+    "claim": "数据过滤的通用框架：给定目标数据 T 与原始数据 R，目标就是从原始数据里找到一个跟目标数据相似的子集；几乎所有类型的过滤操作都符合这个模式。",
+    "source_id": "cs336-p14",
+    "exact_quote": "目标就是从这些原始数据里找到一个跟目标数据相似的子集"
+  },
+  {
+    "claim": "从 HTML 到文本的处理通常是基于规则的，因为基于规则的处理速度非常快，而且不需要太高的智能。",
+    "source_id": "cs336-p14",
+    "exact_quote": "所以通常情况下 从HTML到文本的处理都是基于规则的"
+  },
+  {
+    "claim": "GPT-3 质量过滤的正样本是 Wikipedia 和 WebText（高赞 Reddit 帖子链接出去的页面）以及一些书籍。",
+    "source_id": "cs336-p14",
+    "exact_quote": "正样本就是Wikipedia和WebText"
+  },
+  {
+    "claim": "两个集合的 Jaccard（转录作 Jackard）系数基本上就是交集大小除以并集大小，介于 0 与 1 之间。",
+    "source_id": "cs336-p14",
+    "exact_quote": "基本上就是交集大小除以并集大小"
+  },
+  {
+    "claim": "MinHash 是一个随机哈希函数，它能让哈希冲突的概率正好等于 Jaccard 相似度，从而在线性时间内近似计算 Jaccard。",
+    "source_id": "cs336-p14",
+    "exact_quote": "min hash其实是一个随机哈希函数"
+  },
+  {
+    "claim": "LSH（局部敏感哈希）把 N 个哈希函数分成 B 个 band、每个 band 有 R 个哈希函数，用 AND-OR 结构锐化碰撞概率。",
+    "source_id": "cs336-p14",
+    "exact_quote": "你把N个哈希函数分成B个band"
+  },
+  {
+    "claim": "去污染（decontamination）是去重的重要延伸，即确保你的测试集没有出现在你的训练集里面。",
+    "source_id": "cs336-p14",
+    "exact_quote": "就是你要确保你的测试集没有出现在你的训练集里面"
+  },
+  {
+    "claim": "数据混合方案本质上就是数据源（转录作数据员）上的一个概率分布。",
+    "source_id": "cs336-p14",
+    "exact_quote": "本质上就是你的数据员上的一个概率分布"
+  },
+  {
+    "claim": "基于回归的混合方法（转录作 ReadMix/DoReadMe，疑为 RegMix/DoReMi）是理解数据混合问题的原则性框架：先用小规模代理运行拟合混合权重到损失的回归模型，再优化求最优混合。",
+    "source_id": "cs336-p14",
+    "exact_quote": "就是这些基于回归的混合方法"
+  },
+  {
+    "claim": "至少在开源社区里，几乎所有的后训练数据大部分都是通过合成方式生成的，由教师模型生成响应。",
+    "source_id": "cs336-p14",
+    "exact_quote": "至少在开源社区里几乎所有的后训练数据"
+  }
+]
