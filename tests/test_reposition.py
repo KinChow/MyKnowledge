@@ -26,7 +26,7 @@ def _ingest_local_file(root: Path, source_id: str, body: str) -> dict:
     original.parent.mkdir(parents=True, exist_ok=True)
     original.write_text(body, encoding="utf-8")
     ingestor = SourceIngestor(root)
-    preview = ingestor.preview(
+    applied = ingestor.ingest(
         {
             "source_type": "local-file",
             "domain": "tools",
@@ -34,8 +34,6 @@ def _ingest_local_file(root: Path, source_id: str, body: str) -> dict:
             "input_path": str(original),
         }
     )
-    assert preview["state"] == "previewed", preview
-    applied = ingestor.apply(preview["operation_id"], confirmed=True)
     assert applied["state"] == "applied", applied
     return applied
 

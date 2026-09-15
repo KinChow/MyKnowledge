@@ -99,7 +99,7 @@ def _ingest_and_anchor(root: Path) -> str:
     source_input = root / "incoming.md"
     source_input.write_text(body, encoding="utf-8")
     ingestor = SourceIngestor(root)
-    preview = ingestor.preview(
+    applied = ingestor.ingest(
         {
             "source_type": "local-file",
             "input_path": str(source_input),
@@ -108,8 +108,6 @@ def _ingest_and_anchor(root: Path) -> str:
             "media_type": "text/markdown",
         }
     )
-    assert preview["state"] == "previewed", preview
-    applied = ingestor.apply(preview["operation_id"], confirmed=True, actor_id=ACTOR)
     assert applied["state"] == "applied", applied
 
     source_path = (

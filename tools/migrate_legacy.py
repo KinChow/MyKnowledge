@@ -199,32 +199,20 @@ def apply_sample(
         "source_id": source_id,
         "media_type": media_type,
     }
-    source_preview = SourceIngestor(root).preview(source_request)
-    if source_preview.get("state") != "previewed":
-        return {
-            "state": "blocked",
-            "stage": "source_preview",
-            "source": source_preview,
-            "writes_applied": False,
-        }
-    source_apply_result = SourceIngestor(root).apply(
-        source_preview["operation_id"], confirmed=True, actor_id="migration"
-    )
-    source_result = {
-        key: value for key, value in source_apply_result.items() if key != "source_path"
-    }
-    source_result["source_path"] = (
-        str(RepoPaths(root).source_file("tools", source_id).relative_to(root))
-        if source_apply_result.get("source_path")
-        else f"content/sources/tools/{source_id}/{source_id}.md"
-    )
+    source_result = SourceIngestor(root).ingest(source_request)
     if source_result.get("state") != "applied":
         return {
             "state": "blocked",
-            "stage": "source_apply",
+            "stage": "source_ingest",
             "source": source_result,
             "writes_applied": False,
         }
+    source_result = {
+        key: value for key, value in source_result.items() if key != "source_path"
+    }
+    source_result["source_path"] = str(
+        RepoPaths(root).source_file("tools", source_id).relative_to(root)
+    )
     wiki_id = item["wiki_target"]["object_id"]
     wiki_path = f"content/wiki/tools/{wiki_id}.md"
     metadata = {

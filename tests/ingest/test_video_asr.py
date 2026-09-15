@@ -110,7 +110,7 @@ def test_video_source_records_asr_provenance_without_raw_media(
 
     monkeypatch.setattr(source_ingestor, "transcribe_whisper_cpp", fake_asr)
     root = tmp_path / "vault"
-    preview = SourceIngestor(root).preview(
+    applied = SourceIngestor(root).ingest(
         {
             "source_type": "video",
             "domain": "computer-science",
@@ -124,11 +124,7 @@ def test_video_source_records_asr_provenance_without_raw_media(
             "asr_threads": 2,
         }
     )
-    assert preview["state"] == "previewed"
-    assert (
-        SourceIngestor(root).apply(preview["operation_id"], confirmed=True)["state"]
-        == "applied"
-    )
+    assert applied["state"] == "applied", applied
     source = root / "content/sources/computer-science/asr-video/asr-video.md"
     text = source.read_text(encoding="utf-8")
     assert "whisper.cpp" in text

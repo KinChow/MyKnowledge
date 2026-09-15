@@ -159,7 +159,7 @@ class ResolutionTests(WikiTestCase):
         root = Path(directory.name)
         # 用 F001 的真实链路构造 source：ingest → anchor
         ingestor = SourceIngestor(root)
-        result = ingestor.preview(
+        ingested = ingestor.ingest(
             {
                 "source_type": "personal-note",
                 "domain": "tools",
@@ -168,7 +168,7 @@ class ResolutionTests(WikiTestCase):
                 "source_id": "integrated-source",
             }
         )
-        ingestor.apply(result["operation_id"], confirmed=True)
+        assert ingested["state"] == "applied", ingested
         source_path = (
             root
             / "content"
@@ -181,7 +181,7 @@ class ResolutionTests(WikiTestCase):
             root
             / "archive"
             / "text"
-            / f"{strip_sha256_prefix(result['snapshot_sha256'])}.md"
+            / f"{strip_sha256_prefix(ingested['snapshot_sha256'])}.md"
         )
         evidence = EvidenceAnchor.anchor_evidence(
             source_path, snapshot_path, QUOTE_EXACT, min_chars=12

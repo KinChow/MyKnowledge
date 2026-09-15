@@ -17,7 +17,7 @@ if str(TESTS_ROOT) not in sys.path:
 
 @pytest.fixture
 def real_import():
-    """真实导入工厂：跑一遍 SourceIngestor preview+apply，返回落盘的 manifest 条目。
+    """真实导入工厂：跑一遍 SourceIngestor.ingest，返回落盘的 manifest 条目。
 
     manifest / archive / source 三者的形态都由生产代码产生——手写 fixture 一旦
     与生产结构漂移，测试会继续通过（伪绿）。
@@ -30,7 +30,7 @@ def real_import():
         from tools.ingest.source_ingestor import SourceIngestor
 
         ingestor = SourceIngestor(root)
-        operation = ingestor.preview(
+        applied = ingestor.ingest(
             {
                 "source_type": "personal-note",
                 "domain": "tools",
@@ -39,7 +39,6 @@ def real_import():
                 "source_id": source_id,
             }
         )
-        applied = ingestor.apply(operation["operation_id"], confirmed=True)
         assert applied["state"] == "applied", applied
         manifest = ArchiveManifest(root)
         return json.loads(

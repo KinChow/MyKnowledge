@@ -47,8 +47,7 @@ ACTION_FIELDS = {
     "backlinks": {"vault_id", "object_id"},
     "write_preview": {"files", "operation_type", "vault_id"},
     "write_apply": {"operation_id", "confirmed", "actor_id", "confirmation"},
-    "source_preview": {"request"},
-    "source_apply": {"operation_id", "confirmed", "actor_id", "confirmation"},
+    "source_ingest": {"request"},
     "wiki_validate": {"wiki_path"},
     "publish_preview": {"wiki_path"},
     "publish_confirm": {"event"},
@@ -229,32 +228,10 @@ def _handle_write_apply(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-def _handle_source_preview(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+def _handle_source_ingest(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """Source 采集：直接写（ADR-0019），无 operation 记录、无确认事件。"""
     request = _require_mapping(payload, "request", "source_request_required")
-    return SourceIngestor(root).preview(request)
-
-
-def _handle_source_apply(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
-    confirmation = payload.get("confirmation")
-    # source op record 尚无 diff_hash（Source writer 未统一迁移，F004 遗留），
-    # 此处做轻校验（human actor + operation 绑定 + 自哈希）；完整 hash 绑定
-    # 随 writer 统一迁移后切 validate_apply_confirmation。
-    if (
-        not isinstance(confirmation, dict)
-        or confirmation.get("actor_type") != "human"
-        or confirmation.get("operation_id") != payload.get("operation_id")
-        or not confirmation.get("event_sha256")
-    ):
-        return {
-            "state": "blocked",
-            "error_code": "skill_confirmation_required",
-            "next_action": CONFIRM_NEXT_ACTION,
-        }
-    return SourceIngestor(root).apply(
-        str(payload.get("operation_id", "")),
-        confirmed=True,
-        actor_id=str(payload.get("actor_id", "local-user")),
-    )
+    return SourceIngestor(root).ingest(request)
 
 
 def _handle_wiki_validate(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -309,6 +286,7 @@ def _handle_question_answer(root: Path, payload: dict[str, Any]) -> dict[str, An
         scoring_mode=scoring_mode,
     )
 
+
 def _handle_question_list(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     status = payload.get("status", "enabled")
     if status not in {"enabled", "disabled", "all"}:
@@ -320,6 +298,7 @@ def _handle_question_list(root: Path, payload: dict[str, Any]) -> dict[str, Any]
         status=status,
     )
 
+
 def _handle_question_session(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).create_session(
         size=payload.get("size", 6),
@@ -329,6 +308,7 @@ def _handle_question_session(root: Path, payload: dict[str, Any]) -> dict[str, A
         skill=payload.get("skill"),
     )
 
+
 def _handle_question_errors(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).error_queue(
         limit=payload.get("limit", 10),
@@ -337,6 +317,7 @@ def _handle_question_errors(root: Path, payload: dict[str, Any]) -> dict[str, An
         concept_id=payload.get("concept_id"),
         skill=payload.get("skill"),
     )
+
 
 def _handle_question_queue(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).review_queue(
@@ -348,14 +329,17 @@ def _handle_question_queue(root: Path, payload: dict[str, Any]) -> dict[str, Any
         include_new=not payload.get("only_due", False),
     )
 
+
 def _handle_question_disable(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).disable(
         str(payload.get("question_id", "")),
         reason=str(payload.get("reason", "manual")),
     )
 
+
 def _handle_question_enable(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).enable(str(payload.get("question_id", "")))
+
 
 def _handle_question_delete(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     return QuestionStore(root).delete(str(payload.get("question_id", "")))
@@ -378,8 +362,7 @@ _HANDLERS: dict[str, Callable[[Path, dict[str, Any]], dict[str, Any]]] = {
     "backlinks": _handle_backlinks,
     "write_preview": _handle_write_preview,
     "write_apply": _handle_write_apply,
-    "source_preview": _handle_source_preview,
-    "source_apply": _handle_source_apply,
+    "source_ingest": _handle_source_ingest,
     "wiki_validate": _handle_wiki_validate,
     "publish_preview": _handle_publish_preview,
     "publish_confirm": _handle_publish_confirm,

@@ -123,7 +123,7 @@ class FetcherTests(unittest.TestCase):
     def test_invalid_port_url_blocked(self):
         """AC-F001-010：非法端口 URL 返回结构化 fetch_blocked 而非崩溃。"""
         with tempfile.TemporaryDirectory() as directory:
-            result = SourceIngestor(Path(directory)).preview(
+            result = SourceIngestor(Path(directory)).ingest(
                 {
                     "source_type": "doc",
                     "domain": "tools",

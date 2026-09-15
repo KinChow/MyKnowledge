@@ -1,7 +1,10 @@
 """Source 导入与归档服务：URL 抓取、local-file/personal-note 导入、不可变 snapshot。
 
-对应 F001 验收标准：所有写操作先 Preview 再由人工确认 Apply，抓取防 SSRF
-（见 fetcher.py），local-file 防竞态，snapshot 与 manifest 追加不可覆盖。
+来源采集是**直接写**，不是审批写操作（ADR-0019）：一次 ``ingest(request)`` 完成
+校验 → 采集 → 落盘（source + snapshot + sidecar + manifest），不经 preview/apply
+两阶段、不写 operation 记录、不取 per-vault 锁、不产生人工确认事件。
+
+抓取防 SSRF（见 fetcher.py），snapshot 与 manifest 追加不可覆盖。
 经统一入口调用：``python -m tools.cli source ...``
 
 设计：依赖倒置（服务依赖 Protocol 抽象）+ 开闭原则（source 类型经策略注册表扩展）。
@@ -32,9 +35,7 @@ from ..common import (
     strip_sha256_prefix,
 )
 from ..front_matter import FrontMatter
-from ..operation_store import OperationStore
 from ..paths import RepoPaths
-from ..vault_lock import LockBusyError, VaultLock
 from .fetcher import URLFetcher
 from .parser import Attachment, DocumentParser, ParseResult, media_suffix
 from .source_validator import SourceValidator
@@ -72,16 +73,6 @@ class Validator(Protocol):
     """请求校验抽象：实现见 SourceValidator。"""
 
     def validate_request(self, request: dict) -> list[dict]: ...
-
-
-class OperationRepository(Protocol):
-    """Operation 仓库抽象：实现见 OperationStore。"""
-
-    def new(self, payload: dict) -> dict: ...
-
-    def load(self, operation_id: str) -> dict: ...
-
-    def update(self, record: dict, state: str, **fields: object) -> dict: ...
 
 
 class AcquireResult(NamedTuple):
@@ -259,7 +250,7 @@ class FetchAcquirer:
 
 
 class SourceIngestor:
-    """Source 导入与归档服务：两阶段（preview → apply）写入 source/snapshot/manifest。
+    """Source 导入与归档服务：一次 ``ingest`` 写入 source/snapshot/sidecar/manifest。
 
     依赖经构造函数注入（依赖倒置），source 类型经策略注册表分派（开闭原则）。
     """
@@ -267,7 +258,6 @@ class SourceIngestor:
     def __init__(self, root: Path) -> None:
         self.root = root
         self.paths = RepoPaths(root)
-        self.store: OperationRepository = OperationStore(root)
         self.manifest = ArchiveManifest(root)
         self.validator: Validator = SourceValidator()
         fetcher: Fetcher = URLFetcher()
@@ -280,8 +270,8 @@ class SourceIngestor:
             FetchAcquirer.source_type: FetchAcquirer(fetcher),
         }
 
-    def preview(self, request: dict) -> dict:
-        """校验并预览导入请求，生成 previewed 操作；底层异常统一转为结构化 blocked。"""
+    def _prepare(self, request: dict) -> dict:
+        """校验请求并采集正文，组装写入所需的 payload；异常统一转为结构化 blocked。"""
         try:
             errors = self.validator.validate_request(request)
             if errors:
@@ -373,185 +363,49 @@ class SourceIngestor:
                 payload["raw_sha256"] = sha256_bytes(acquired.raw_data)
                 payload["raw_suffix"] = raw_suffix
                 payload["attachments"] = [a.to_dict() for a in acquired.attachments]
-            operation = self.store.new(payload)
-            return {
-                "operation_id": operation["operation_id"],
-                "state": "previewed",
-                "source_id": source_id,
-                "snapshot_sha256": snapshot_hash,
-                "input_hash": acquired.original_hash,
-                "extractor": acquired.extractor,
-                "media_type": acquired.media_type,
-                "network_required": operation["network_required"],
-            }
+            return {"state": "ready", "payload": payload}
         except (OSError, RuntimeError, LookupError, zlib.error) as exc:
             return {"state": "blocked", "errors": [{"code": _block_error_code(exc)}]}
 
-    def apply(
-        self,
-        operation_id: str,
-        confirmed: bool = False,
-        actor_id: str = "local-user",
-    ) -> dict:
-        """确认并执行导入操作：preflight → 取锁 → 分阶段执行，失败一律结构化返回。"""
-        _record, preflight_error = self.store.apply_preflight(
-            operation_id, "source_ingest", confirmed
-        )
-        if preflight_error is not None:
-            return preflight_error
-        try:
-            with VaultLock(self.root, "public", operation_id):
-                return self._apply_locked(operation_id, actor_id)
-        except LockBusyError:
-            return VaultLock.lock_busy_response(operation_id)
+    def ingest(self, request: dict) -> dict:
+        """一次完成导入：校验 → 采集 → 落盘，返回结构化结果。
 
-    def _expire(self, record: dict, error_code: str, operation_id: str) -> dict:
-        """把操作标记为 expired 并返回结构化错误（所有前置校验失败的唯一出口）。"""
-        self.store.update(record, "expired", error_code=error_code)
-        return {
-            "state": "expired",
-            "error_code": error_code,
-            "operation_id": operation_id,
-        }
+        取代 preview→apply 两阶段（ADR-0019）：无 operation 记录、无 per-vault
+        锁、无人工确认事件。失败一律结构化返回，不留半成品。
+        """
+        prepared = self._prepare(request)
+        if prepared["state"] != "ready":
+            return prepared
+        return self._commit(prepared["payload"])
 
-    def _apply_locked(self, operation_id: str, actor_id: str) -> dict:
-        """锁内主流程：复查状态/TTL → 复验输入与目标 → 落盘 → 提交。"""
-        record, begin_error = self.store.begin_locked(operation_id)
-        if begin_error is not None:
-            return begin_error
-
-        body = record["body"]
-        if record["input_path"]:
-            input_error = self._revalidate_input(record)
-            if input_error is not None:
-                return self._expire(record, input_error, operation_id)
-        if record.get("transcript_path"):
-            transcript_error = self._revalidate_transcript_input(record)
-            if transcript_error is not None:
-                return self._expire(record, transcript_error, operation_id)
-
+    def _commit(self, payload: dict) -> dict:
+        """落盘主流程：写 source/snapshot/sidecar/manifest，I/O 失败即回滚。"""
+        body = payload["body"]
         snapshot_hash = sha256_text(body)
-        source_id = record["source_id"]
+        source_id = payload["source_id"]
         source_path = self.paths.source_file(
-            record["domain"], source_id, record.get("collection")
+            payload["domain"], source_id, payload.get("collection")
         )
-        if not self._target_writable(record, source_path, snapshot_hash):
-            return self._expire(record, "hash_mismatch", operation_id)
-
         archive_path = self.paths.snapshot_file(snapshot_hash)
-        metadata = self._source_metadata(record, snapshot_hash)
-        original_rel, raw_rel = self._attach_originals(record, metadata)
+        metadata = self._source_metadata(payload, snapshot_hash)
+        original_rel, raw_rel = self._attach_originals(payload, metadata)
         try:
-            self._write_artifacts(record, body, metadata, source_path, archive_path)
+            self._write_artifacts(payload, body, metadata, source_path, archive_path)
         except OSError:
-            self._rollback_uncommitted(record, source_path, source_id)
-            return {
-                "state": "expired",
-                "operation_id": operation_id,
-                "error_code": "apply_failed",
-            }
-        injection_point("before_commit")
-        applied_files = [
-            str(source_path.relative_to(self.root)),
-            str(archive_path.relative_to(self.root)),
-        ]
-        if original_rel:
-            applied_files.append(original_rel)
-        if raw_rel:
-            applied_files.append(raw_rel)
-        self.store.update(
-            record,
-            "applied",
-            confirmation={
-                "actor_type": "human",
-                "actor_id": actor_id,
-                "scope": "apply",
-                "confirmed_at": time.time(),
-            },
-            applied_files=applied_files,
-        )
+            self._rollback_uncommitted(payload, source_path, source_id)
+            return {"state": "blocked", "error_code": "apply_failed"}
         return {
             "state": "applied",
-            "operation_id": operation_id,
             "source_id": source_id,
             "snapshot_sha256": snapshot_hash,
             "source_path": str(source_path),
+            "applied_files": [
+                str(source_path.relative_to(self.root)),
+                str(archive_path.relative_to(self.root)),
+                *([original_rel] if original_rel else []),
+                *([raw_rel] if raw_rel else []),
+            ],
         }
-
-    def _revalidate_input(self, record: dict) -> str | None:
-        """local-file 导入在 apply 时复验来源：内容/stat/realpath 任一漂移即失效。
-
-        返回错误码或 None（通过）。
-        """
-        if record.get("stat") is None:
-            return "record_invalid"
-        try:
-            data, stat = read_stable(Path(record["input_path"]))
-        except OSError:
-            return "path_unresolved"
-        except RuntimeError:
-            return "hash_mismatch"
-        stat_fields = record.get("stat") or {}
-        stat_keys = ("dev", "ino", "size", "mtime_ns")
-        if (
-            sha256_bytes(data) != record["input_hash"]
-            or not all(k in stat_fields for k in stat_keys)
-            or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
-            != tuple(stat_fields[k] for k in stat_keys)
-        ):
-            return "hash_mismatch"
-        if (
-            record.get("input_realpath")
-            and str(Path(record["input_path"]).resolve()) != record["input_realpath"]
-        ):
-            # symlink/hard-link 改指使来源路径不再解析到 preview 时的同一文件
-            # （AC-F001-008 根域逃逸防护），按路径失效处理
-            return "path_unresolved"
-        return None
-
-    def _revalidate_transcript_input(self, record: dict) -> str | None:
-        """Recheck the derived subtitle input paired with a real media input."""
-        path = Path(record["transcript_path"])
-        try:
-            data, stat = read_stable(path)
-        except OSError:
-            return "path_unresolved"
-        except RuntimeError:
-            return "hash_mismatch"
-        expected = record.get("transcript_stat") or {}
-        keys = ("dev", "ino", "size", "mtime_ns")
-        if (
-            sha256_bytes(data) != record.get("transcript_hash")
-            or not all(key in expected for key in keys)
-            or (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns)
-            != tuple(expected[key] for key in keys)
-        ):
-            return "hash_mismatch"
-        if str(path.resolve()) != record.get("transcript_realpath"):
-            return "path_unresolved"
-        return None
-
-    def _target_writable(
-        self, record: dict, source_path: Path, snapshot_hash: str
-    ) -> bool:
-        """目标 source 是否仍与 preview 时一致，或已被本操作写过（可幂等补写）。
-
-        崩溃恢复：apply 在任意中间点崩溃后，source 可能已由本操作写入（front
-        matter snapshot_sha256 一致）——放行并幂等补写，使新建与覆盖导入都可
-        重放恢复（WAL 重放语义）。
-        """
-        current = (
-            sha256_bytes(source_path.read_bytes()) if source_path.exists() else None
-        )
-        if current == record.get("target_hash"):
-            return True
-        try:
-            existing_meta, _ = FrontMatter.parse(
-                source_path.read_text(encoding="utf-8")
-            )
-        except (OSError, ValueError, UnicodeError):
-            return False
-        return existing_meta.get("snapshot_sha256") == snapshot_hash
 
     def _source_metadata(self, record: dict, snapshot_hash: str) -> dict:
         """source front matter（§5.4）：不含 local 段，由 sidecar 写入时补。"""
@@ -763,16 +617,14 @@ class SourceIngestor:
     def _rollback_uncommitted(
         self, record: dict, source_path: Path, source_id: str
     ) -> None:
-        """提交点（store.update applied）之前失败时的清理。
+        """写产物中途 I/O 失败时的清理（不留半成品）。
 
-        仅当本次新建（preview 时目标不存在）才删除已写入的 source；覆盖场景的新
-        内容保留在 source 文件里（atomic_write 已替换旧文件，旧内容不可恢复）。
-        因为 source 是**最后**才写的（见 _write_artifacts），此时账目一定已入账，
-        不会再有"内容已改、manifest 缺条目"的缺口；最坏只是多一条指向已存在快照
-        的 manifest 记录（无害，重放自愈）。operation 已被标记 expired、**不能重放**
-        （apply_preflight 只接受 previewed），需要重做时重新 preview+apply。
-        sidecar 是运行缓存一并清理，archive 内容寻址保留无害。上述语义由
-        after_source / after_manifest 注入点用例逐条断言。
+        仅当本次**新建**（写入前目标不存在，``target_hash is None``）才删除已写入
+        的 source；覆盖场景的新内容保留在 source 文件里（``atomic_write`` 已替换旧
+        文件，旧内容不可恢复）。source 是**最后**才写的（见 ``_write_artifacts``），
+        因此此时账目一定已入账，不会出现"内容已改、manifest 缺条目"的缺口；最坏
+        只是多一条指向已存在快照的 manifest 记录（无害，重放自愈——append-only 且
+        按 record_id 幂等）。sidecar 是运行缓存一并清理，archive 内容寻址保留无害。
         """
         if record.get("target_hash") is None:
             with contextlib.suppress(OSError):
@@ -781,11 +633,10 @@ class SourceIngestor:
             self.paths.state_local_sources("public").joinpath(
                 f"{source_id}.json"
             ).unlink(missing_ok=True)
-        # 清理 raw staging（apply 失败/回滚时原件暂存不应残留）
+        # 清理 raw staging（失败回滚时原件暂存不应残留）
         if record.get("raw_staging"):
             with contextlib.suppress(OSError):
                 (self.root / record["raw_staging"]).unlink(missing_ok=True)
-        self.store.update(record, "expired", error_code="apply_failed")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -832,28 +683,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source-id")
     parser.add_argument("--domain", default="tools")
     parser.add_argument("--media-type", default="text/plain")
-    parser.add_argument("--apply")
-    parser.add_argument(
-        "--confirm",
-        action="store_true",
-        help="confirm the operation as the invoking human",
-    )
-    parser.add_argument("--actor-id", default="local-user")
     args = parser.parse_args(argv)
     ingestor = SourceIngestor(args.root)
-    if args.apply:
-        print(
-            json.dumps(
-                ingestor.apply(
-                    args.apply,
-                    confirmed=args.confirm,
-                    actor_id=args.actor_id,
-                ),
-                ensure_ascii=False,
-                indent=2,
-            )
-        )
-        return 0
     if args.video_asr:
         request = {
             "source_type": "video",
@@ -937,9 +768,7 @@ def main(argv: list[str] | None = None) -> int:
             "source_id": args.source_id,
         }
     else:
-        parser.error(
-            "one of --from-file, --personal-note, --url or --apply is required"
-        )
-    result = ingestor.preview(request)
+        parser.error("one of --from-file, --personal-note or --url is required")
+    result = ingestor.ingest(request)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("state") != "blocked" else 2

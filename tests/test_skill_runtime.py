@@ -340,40 +340,20 @@ def test_skill_status_is_fail_closed_for_canonical_skill(tmp_path: Path):
     assert dispatch("skill_status", {}, root=tmp_path)["state"] == "available"
 
 
-def test_skill_source_preview_and_apply_delegate_to_source_service(tmp_path: Path):
+def test_skill_source_ingest_delegates_to_source_service(tmp_path: Path):
+    """source_ingest 是直接写：单次调用完成采集，无 operation 记录与确认事件（ADR-0019）。"""
     request = {
         "source_type": "personal-note",
         "domain": "tools",
         "source_id": "skill-source",
         "body": "A source body",
     }
-    preview = dispatch("source_preview", {"request": request}, root=tmp_path)
-    assert preview["state"] == "previewed"
-    blocked = dispatch(
-        "source_apply", {"operation_id": preview["operation_id"]}, root=tmp_path
-    )
-    assert blocked["error_code"] == "skill_confirmation_required"
-    # 轻校验：human actor + operation 绑定 + 自哈希（完整 hash 绑定待 writer 统一迁移）
-    event = {
-        "schema_version": "operation-confirmation/v1",
-        "operation_id": preview["operation_id"],
-        "scope": "apply",
-        "actor_type": "human",
-        "actor_id": "human-via-cli",
-        "input_hash": preview.get("input_hash"),
-        "diff_hash": None,
-        "event_sha256": "sha256:opaque",
-    }
-    applied = dispatch(
-        "source_apply",
-        {
-            "operation_id": preview["operation_id"],
-            "confirmed": True,
-            "confirmation": event,
-        },
-        root=tmp_path,
-    )
-    assert applied["state"] == "applied"
+    applied = dispatch("source_ingest", {"request": request}, root=tmp_path)
+    assert applied["state"] == "applied", applied
+    assert applied["source_id"] == "skill-source"
+    assert (
+        tmp_path / "content" / "sources" / "tools" / "skill-source" / "skill-source.md"
+    ).is_file()
 
 
 def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path):

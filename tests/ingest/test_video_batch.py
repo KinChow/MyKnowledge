@@ -8,27 +8,15 @@ from tools.ingest.video_asr import AsrResult
 
 
 class FakeIngestor:
-    def preview(self, request: dict) -> dict:
+    def ingest(self, request: dict) -> dict:
         assert request["source_type"] == "video"
         assert request["transcript_provenance"]["kind"] == "asr"
-        return {
-            "state": "previewed",
-            "operation_id": "op_source",
-            "snapshot_sha256": "sha256:snapshot",
-        }
-
-    def apply(self, operation_id: str, confirmed: bool = False) -> dict:
-        assert operation_id == "op_source" and confirmed
         return {"state": "applied", "snapshot_sha256": "sha256:snapshot"}
 
 
 class FakeFrames:
-    def preview(self, source, media, timestamps, *, executable):  # noqa: ARG002
+    def extract(self, source, media, timestamps, *, executable):  # noqa: ARG002
         assert timestamps == [3.0, 10.0, 20.0]
-        return {"state": "previewed", "operation_id": "op_frames"}
-
-    def apply(self, operation_id: str, confirmed: bool = False) -> dict:
-        assert operation_id == "op_frames" and confirmed
         return {"state": "applied", "frame_count": 3}
 
 

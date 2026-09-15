@@ -82,7 +82,7 @@ def test_remote_video_preview_records_subtitle_provenance(monkeypatch, tmp_path:
 
     monkeypatch.setattr(source_ingestor, "acquire_subtitles", lambda *a, **k: Remote())
     root = tmp_path / "vault"
-    preview = SourceIngestor(root).preview(
+    applied = SourceIngestor(root).ingest(
         {
             "source_type": "video",
             "domain": "tools",
@@ -91,9 +91,7 @@ def test_remote_video_preview_records_subtitle_provenance(monkeypatch, tmp_path:
             "allow_automatic": True,
         }
     )
-    assert preview["state"] == "previewed"
-    applied = SourceIngestor(root).apply(preview["operation_id"], confirmed=True)
-    assert applied["state"] == "applied"
+    assert applied["state"] == "applied", applied
     source = root / "content/sources/tools/remote-video/remote-video.md"
     text = source.read_text(encoding="utf-8")
     assert "automatic" in text

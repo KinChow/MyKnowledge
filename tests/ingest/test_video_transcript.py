@@ -53,7 +53,7 @@ def test_video_preview_apply_writes_transcript_only_source_and_manifest(tmp_path
     transcript.write_text(VTT, encoding="utf-8")
     root = tmp_path / "vault"
     ingestor = SourceIngestor(root)
-    preview = ingestor.preview(
+    applied = ingestor.ingest(
         {
             "source_type": "video",
             "domain": "computer-science",
@@ -63,9 +63,7 @@ def test_video_preview_apply_writes_transcript_only_source_and_manifest(tmp_path
             "archive_policy": "transcript-only",
         }
     )
-    assert preview["state"] == "previewed"
-    applied = ingestor.apply(preview["operation_id"], confirmed=True)
-    assert applied["state"] == "applied"
+    assert applied["state"] == "applied", applied
 
     source_path = (
         root / "content" / "sources" / "computer-science" / "cs336-p01" / "cs336-p01.md"
@@ -92,7 +90,7 @@ def test_video_collection_places_source_under_explicit_collection(tmp_path: Path
         "1\n00:00:01,000 --> 00:00:02,000\n集合路径\n", encoding="utf-8"
     )
     root = tmp_path / "vault"
-    preview = SourceIngestor(root).preview(
+    applied = SourceIngestor(root).ingest(
         {
             "source_type": "video",
             "domain": "computer-science",
@@ -103,9 +101,7 @@ def test_video_collection_places_source_under_explicit_collection(tmp_path: Path
             "archive_policy": "transcript-only",
         }
     )
-    assert preview["state"] == "previewed"
-    applied = SourceIngestor(root).apply(preview["operation_id"], confirmed=True)
-    assert applied["state"] == "applied"
+    assert applied["state"] == "applied", applied
     assert (
         root
         / "content"
@@ -120,7 +116,7 @@ def test_video_collection_places_source_under_explicit_collection(tmp_path: Path
 def test_video_request_rejects_non_platform_url(tmp_path: Path):
     transcript = tmp_path / "lecture.vtt"
     transcript.write_text(VTT, encoding="utf-8")
-    result = SourceIngestor(tmp_path / "vault").preview(
+    result = SourceIngestor(tmp_path / "vault").ingest(
         {
             "source_type": "video",
             "domain": "tools",
@@ -131,26 +127,3 @@ def test_video_request_rejects_non_platform_url(tmp_path: Path):
     )
     assert result["state"] == "blocked"
     assert {error["path"] for error in result["errors"]} == {"url"}
-
-
-def test_video_apply_expires_when_transcript_changes(tmp_path: Path):
-    transcript = tmp_path / "lecture.vtt"
-    transcript.write_text(VTT, encoding="utf-8")
-    root = tmp_path / "vault"
-    ingestor = SourceIngestor(root)
-    preview = ingestor.preview(
-        {
-            "source_type": "video",
-            "domain": "computer-science",
-            "source_id": "cs336-p02",
-            "url": "https://www.youtube.com/watch?v=loZ4xQ5RZuU",
-            "input_path": str(transcript),
-        }
-    )
-    transcript.write_text(VTT.replace("GPU kernel", "changed"), encoding="utf-8")
-    applied = ingestor.apply(preview["operation_id"], confirmed=True)
-    assert applied == {
-        "state": "expired",
-        "operation_id": preview["operation_id"],
-        "error_code": "hash_mismatch",
-    }

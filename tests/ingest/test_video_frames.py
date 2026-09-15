@@ -54,7 +54,7 @@ def test_video_frame_apply_attaches_confirmed_pngs_and_manifest(
     media.write_bytes(b"media fixture")
     root = tmp_path / "vault"
     source_service = SourceIngestor(root)
-    source_preview = source_service.preview(
+    ingested = source_service.ingest(
         {
             "source_type": "video",
             "domain": "tools",
@@ -63,10 +63,7 @@ def test_video_frame_apply_attaches_confirmed_pngs_and_manifest(
             "input_path": str(transcript),
         }
     )
-    assert (
-        source_service.apply(source_preview["operation_id"], confirmed=True)["state"]
-        == "applied"
-    )
+    assert ingested["state"] == "applied", ingested
     source = root / "content/sources/tools/frame-video/frame-video.md"
 
     def fake_run(command, **kwargs):  # noqa: ARG001
@@ -89,10 +86,8 @@ def test_video_frame_apply_attaches_confirmed_pngs_and_manifest(
 
     monkeypatch.setattr("tools.ingest.video_frames.subprocess.run", fake_run)
     frames = VideoFrameService(root)
-    preview = frames.preview(source, media, [1.5], executable="ffmpeg")
-    assert preview["state"] == "previewed"
-    applied = frames.apply(preview["operation_id"], confirmed=True)
-    assert applied["state"] == "applied"
+    applied = frames.extract(source, media, [1.5], executable="ffmpeg")
+    assert applied["state"] == "applied", applied
 
     frame_dir = source.parent / "media" / "frames"
     assert len(list(frame_dir.glob("frame-*.png"))) == 1
@@ -101,10 +96,3 @@ def test_video_frame_apply_attaches_confirmed_pngs_and_manifest(
     assert metadata["frame_manifest"]["path"].endswith("media/frames/manifest.json")
     assert any(item["kind"] == "frame" for item in metadata["attachments"])
     assert "transcript" in body
-
-
-def test_frame_apply_blocks_media_drift(tmp_path: Path):
-    service = VideoFrameService(tmp_path)
-    result = service.apply("op_missing", confirmed=True)
-    assert result["state"] == "blocked"
-    assert result["error_code"] == "operation_not_found"

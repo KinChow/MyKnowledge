@@ -12,7 +12,7 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
     source_input = tmp_path / "note.txt"
     source_input.write_text("可回放的证据正文，包含稳定引用。", encoding="utf-8")
     ingestor = SourceIngestor(tmp_path)
-    preview = ingestor.preview(
+    applied = ingestor.ingest(
         {
             "source_type": "local-file",
             "input_path": str(source_input),
@@ -21,9 +21,7 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
             "media_type": "text/plain",
         }
     )
-    assert preview["state"] == "previewed"
-    applied = ingestor.apply(preview["operation_id"], confirmed=True, actor_id="e2e")
-    assert applied["state"] == "applied"
+    assert applied["state"] == "applied", applied
 
     source_path = (
         tmp_path / "content" / "sources" / "tools" / "e2e-source" / "e2e-source.md"

@@ -70,7 +70,7 @@ class AnchorDirectWriteTests(unittest.TestCase):
         source_dir = root / "content" / "sources" / "tools" / source_id
         source_dir.mkdir(parents=True, exist_ok=True)
         service = SourceIngestor(root)
-        previewed = service.preview(
+        applied = service.ingest(
             {
                 "source_type": "personal-note",
                 "domain": "tools",
@@ -79,7 +79,7 @@ class AnchorDirectWriteTests(unittest.TestCase):
                 "source_id": source_id,
             }
         )
-        service.apply(previewed["operation_id"], confirmed=True)
+        assert applied["state"] == "applied", applied
         snapshot_path = (
             root / "archive" / "text" / f"{strip_sha256_prefix(sha256_text(body))}.md"
         )

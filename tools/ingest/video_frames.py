@@ -5,13 +5,11 @@ from __future__ import annotations
 import math
 import shutil
 import subprocess
-import time
 import uuid
 from pathlib import Path
 
 from ..common import atomic_write, canonical_json, read_stable, sha256_bytes
 from ..front_matter import FrontMatter
-from ..operation_store import OperationStore
 from ..paths import RepoPaths
 
 
@@ -109,14 +107,13 @@ def extract_keyframes(
 
 
 class VideoFrameService:
-    """Preview/apply derived keyframes onto an existing video Source."""
+    """把派生关键帧抽取并附加到一个已存在的 video Source（直接写，ADR-0019）。"""
 
     def __init__(self, root: Path) -> None:
         self.root = Path(root)
         self.paths = RepoPaths(self.root)
-        self.store = OperationStore(self.root)
 
-    def preview(
+    def _prepare(
         self,
         source_path: Path,
         media_path: Path,
@@ -124,74 +121,51 @@ class VideoFrameService:
         *,
         executable: str = "ffmpeg",
     ) -> dict:
+        """校验 source 类型并抽取关键帧到 staging；异常统一转结构化 blocked。"""
         try:
             metadata, _body = FrontMatter.parse(source_path.read_text(encoding="utf-8"))
             if metadata.get("source_type") != "video":
                 return {"state": "blocked", "error_code": "source_not_video"}
-            media_data, stat = read_stable(media_path)
-            operation_id = "frame-" + uuid.uuid4().hex
-            staging = self.paths.frame_staging(operation_id)
+            media_data, _stat = read_stable(media_path)
+            staging = self.paths.frame_staging("frame-" + uuid.uuid4().hex)
             frames, extractor = extract_keyframes(
                 media_path, staging, timestamps, executable=executable
             )
             payload = {
-                "operation_type": "video_frames",
-                "target_vault": "public",
                 "source_path": str(source_path.relative_to(self.root)),
                 "source_id": metadata["id"],
-                "media_path": str(media_path),
                 "media_hash": sha256_bytes(media_data),
-                "media_stat": {
-                    "dev": stat.st_dev,
-                    "ino": stat.st_ino,
-                    "size": stat.st_size,
-                    "mtime_ns": stat.st_mtime_ns,
-                },
                 "staging": str(staging.relative_to(self.root)),
                 "frames": frames,
                 "extractor": extractor,
             }
-            record = self.store.new(payload)
-            return {
-                "state": "previewed",
-                "operation_id": record["operation_id"],
-                "source_id": metadata["id"],
-                "media_hash": payload["media_hash"],
-                "frame_count": len(frames),
-            }
+            return {"state": "ready", "payload": payload}
         except (OSError, RuntimeError, ValueError) as exc:
             return {"state": "blocked", "error_code": str(exc)}
 
-    def apply(self, operation_id: str, confirmed: bool = False) -> dict:
-        record, error = self.store.apply_preflight(
-            operation_id, "video_frames", confirmed
+    def extract(
+        self,
+        source_path: Path,
+        media_path: Path,
+        timestamps: list[float],
+        *,
+        executable: str = "ffmpeg",
+    ) -> dict:
+        """抽取关键帧并附加到 source（ADR-0019：直接写，无 operation/锁/确认）。"""
+        prepared = self._prepare(
+            source_path, media_path, timestamps, executable=executable
         )
-        if error is not None:
-            return error
+        if prepared["state"] != "ready":
+            return prepared
+        return self._commit(prepared["payload"])
+
+    def _commit(self, record: dict) -> dict:
+        """落盘：写关键帧与 manifest、更新 source front matter；失败清理 staging。"""
 
         def expire(error_code: str) -> dict:
             shutil.rmtree(self.root / record["staging"], ignore_errors=True)
-            self.store.update(record, "expired", error_code=error_code)
-            return {
-                "state": "expired",
-                "operation_id": operation_id,
-                "error_code": error_code,
-            }
+            return {"state": "blocked", "error_code": error_code}
 
-        try:
-            media = Path(record["media_path"])
-            data, stat = read_stable(media)
-        except OSError:
-            return expire("frame_media_missing")
-        if sha256_bytes(data) != record["media_hash"] or (
-            stat.st_dev,
-            stat.st_ino,
-            stat.st_size,
-            stat.st_mtime_ns,
-        ) != tuple(
-            record["media_stat"][key] for key in ("dev", "ino", "size", "mtime_ns")
-        ):
-            return expire("hash_mismatch")
         source = self.root / record["source_path"]
         try:
             metadata, body = FrontMatter.parse(source.read_text(encoding="utf-8"))
@@ -234,61 +208,36 @@ class VideoFrameService:
                 "sha256": sha256_bytes(canonical_json(manifest) + b"\n"),
             }
             atomic_write(source, FrontMatter.render(metadata, body).encode("utf-8"))
-            self.store.update(
-                record,
-                "applied",
-                confirmation={
-                    "actor_type": "human",
-                    "actor_id": "local-user",
-                    "scope": "apply",
-                    "confirmed_at": time.time(),
-                },
-                applied_files=applied_files
-                + [str(manifest_path.relative_to(self.root))],
-            )
             shutil.rmtree(staging, ignore_errors=True)
             return {
                 "state": "applied",
-                "operation_id": operation_id,
                 "source_id": record["source_id"],
                 "frame_count": len(record["frames"]),
+                "applied_files": applied_files
+                + [str(manifest_path.relative_to(self.root))],
             }
         except (OSError, ValueError, KeyError):
             return expire("frame_apply_failed")
 
 
 def main(argv: list[str] | None = None) -> int:
-    """CLI for keyframe preview/apply."""
+    """CLI for keyframe extraction onto an existing video Source."""
     import argparse
     import json
 
-    parser = argparse.ArgumentParser(description="Preview/apply video keyframes")
-    parser.add_argument("mode", choices=("preview", "apply"))
+    parser = argparse.ArgumentParser(description="Extract video keyframes")
     parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--source", type=Path)
-    parser.add_argument("--media", type=Path)
-    parser.add_argument("--timestamps", help="comma-separated seconds")
+    parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument("--media", type=Path, required=True)
+    parser.add_argument("--timestamps", required=True, help="comma-separated seconds")
     parser.add_argument("--ffmpeg-path", default="ffmpeg")
-    parser.add_argument("--operation")
-    parser.add_argument("--confirm", action="store_true")
     args = parser.parse_args(argv)
-    service = VideoFrameService(args.root)
-    if args.mode == "preview":
-        if not args.source or not args.media or not args.timestamps:
-            parser.error("preview requires --source, --media and --timestamps")
-        try:
-            timestamps = [float(value.strip()) for value in args.timestamps.split(",")]
-        except ValueError:
-            parser.error("--timestamps must be comma-separated seconds")
-        result = service.preview(
-            args.source,
-            args.media,
-            timestamps,
-            executable=args.ffmpeg_path,
-        )
-    else:
-        if not args.operation:
-            parser.error("apply requires --operation")
-        result = service.apply(args.operation, confirmed=args.confirm)
+    try:
+        timestamps = [float(value.strip()) for value in args.timestamps.split(",")]
+    except ValueError:
+        parser.error("--timestamps must be comma-separated seconds")
+    result = VideoFrameService(args.root).extract(
+        args.source, args.media, timestamps, executable=args.ffmpeg_path
+    )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0 if result.get("state") != "blocked" else 2

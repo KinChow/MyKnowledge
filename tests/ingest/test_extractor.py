@@ -46,7 +46,7 @@ class ExtractorTests(unittest.TestCase):
                 "<html><style>hidden</style><body>Visible 正文<script>secret()</script></body></html>",
                 encoding="utf-8",
             )
-            result = ingestor.preview(
+            applied = ingestor.ingest(
                 {
                     "source_type": "local-file",
                     "domain": "tools",
@@ -55,7 +55,7 @@ class ExtractorTests(unittest.TestCase):
                     "media_type": "text/html",
                 }
             )
-            applied = ingestor.apply(result["operation_id"], confirmed=True)
+            self.assertEqual(applied["state"], "applied", applied)
             snapshot = (
                 root
                 / "archive"

@@ -134,7 +134,7 @@ class VideoBatchRunner:
         transcript = transcript_dir / f"{stem}.srt"
         atomic_write(transcript, asr.data)
         source_id = f"cs336-p{position:02d}"
-        preview = self.ingestor.preview(
+        applied = self.ingestor.ingest(
             {
                 "source_type": "video",
                 "domain": "computer-science",
@@ -145,11 +145,8 @@ class VideoBatchRunner:
                 "transcript_provenance": asr.provenance,
             }
         )
-        if preview.get("state") != "previewed":
-            raise RuntimeError(str(preview.get("errors") or preview))
-        applied = self.ingestor.apply(preview["operation_id"], confirmed=True)
         if applied.get("state") != "applied":
-            raise RuntimeError(str(applied))
+            raise RuntimeError(str(applied.get("errors") or applied))
         frame_count = 0
         if mode == "sample":
             source_path = (
@@ -160,17 +157,12 @@ class VideoBatchRunner:
                 / source_id
                 / f"{source_id}.md"
             )
-            frame_preview = self.frames.preview(
+            frame_extract = self.frames.extract(
                 source_path, media, [3.0, 10.0, 20.0], executable=self.ffmpeg_path
             )
-            if frame_preview.get("state") != "previewed":
-                raise RuntimeError(str(frame_preview))
-            frame_applied = self.frames.apply(
-                frame_preview["operation_id"], confirmed=True
-            )
-            if frame_applied.get("state") != "applied":
-                raise RuntimeError(str(frame_applied))
-            frame_count = frame_applied["frame_count"]
+            if frame_extract.get("state") != "applied":
+                raise RuntimeError(str(frame_extract))
+            frame_count = frame_extract["frame_count"]
         return {
             "source_id": source_id,
             "snapshot_sha256": applied["snapshot_sha256"],
