@@ -55,27 +55,38 @@ def test_doctor_does_not_resolve_applied_files_after_a_layout_move(tmp_path: Pat
     实测结论：doctor 全程不解析 applied_files（唯一消费方是 F010 rollback 的
     前缀白名单与错误响应回显），因此批次 2 不需要额外的容忍代码——但这条断言
     必须存在，否则后续给 doctor 加检查项时很容易顺手去 stat 这些路径。
-    """
-    from tools.operation_store import OperationStore
-    from tools.write_operation import WriteOperation
 
-    service = WriteOperation(tmp_path)
-    preview = service.preview(
-        {
-            "content/wiki/moved.md": "---\nschema_version: wiki/v1\nid: moved\n---\n正文\n"
-        }
+    fixture 直接构造磁盘状态（canonical 文件 + 自哈希的 durable 记录）：原实现借
+    `WriteOperation.preview/apply` 产生该状态，ADR-0019 之后该类不再是任何入口的
+    依赖，用例不得继续挂在它身上。
+    """
+    from tools.common import canonical_json, hash_canonical
+    from tools.paths import RepoPaths
+
+    paths = RepoPaths(tmp_path)
+    paths.wiki_root.mkdir(parents=True)
+    (paths.wiki_root / "moved.md").write_text(
+        "---\nschema_version: wiki/v1\nid: moved\n---\n正文\n", encoding="utf-8"
     )
-    operation_id = preview["operation_id"]
-    applied = service.apply(operation_id, confirmed=True)
-    assert applied["state"] == "applied"
-    assert applied["applied_files"] == ["content/wiki/moved.md"]
+    operation_id = "op_" + "2" * 32
+    record = {
+        "schema_version": "operation/v1",
+        "operation_id": operation_id,
+        "created_at": 0.0,
+        "state": "applied",
+        "operation_type": "write",
+        "target_vault": "public",
+        "applied_files": ["content/wiki/moved.md"],
+    }
+    record["record_sha256"] = hash_canonical(record)
+    audit_path = paths.operation_file(operation_id)
+    audit_path.parent.mkdir(parents=True, exist_ok=True)
+    audit_path.write_bytes(canonical_json(record) + b"\n")
 
     # 模拟一次层间搬移：正文升级/退回到另一层，历史记录保持旧路径
     (tmp_path / "content" / "working").mkdir(parents=True, exist_ok=True)
-    (tmp_path / "content" / "wiki" / "moved.md").rename(
-        tmp_path / "content" / "working" / "moved.md"
-    )
-    assert not (tmp_path / applied["applied_files"][0]).exists()
+    (paths.wiki_root / "moved.md").rename(tmp_path / "content" / "working" / "moved.md")
+    assert not (tmp_path / record["applied_files"][0]).exists()
 
     code, report = _run_doctor(tmp_path)
     assert code == 0, report
@@ -83,14 +94,9 @@ def test_doctor_does_not_resolve_applied_files_after_a_layout_move(tmp_path: Pat
     assert names["pending_operations"]["state"] == "ok"
     assert operation_id not in json.dumps(report, ensure_ascii=False)
 
-    # 审计快照未被任何读取方改写
-    store = OperationStore(tmp_path)
-    assert store.verify_audit(operation_id) is None
-    durable = json.loads(
-        (tmp_path / "audit" / "operations" / f"{operation_id}.json").read_text(
-            encoding="utf-8"
-        )
-    )
+    # 审计快照未被任何读取方改写：`record_sha256` 自证即可覆盖该契约，
+    # 不需要再经 OperationStore.verify_audit（那只是同一重算的另一条调用路径）
+    durable = json.loads(audit_path.read_text(encoding="utf-8"))
     assert durable["applied_files"] == ["content/wiki/moved.md"]
     assert durable["record_sha256"] == _recompute(durable)
 

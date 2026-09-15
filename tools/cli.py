@@ -21,19 +21,14 @@ from tools.ingest.source_ingestor import main as source_main
 from tools.ingest.video_batch import main as video_batch_main
 from tools.ingest.video_frames import main as video_frames_main
 from tools.ingest.video_inventory import main as video_inventory_main
-from tools.inventory_legacy import main as inventory_main
 from tools.matrix_sync import main as matrix_main
-from tools.migrate_legacy import main as migrate_main
 from tools.public_projection import PublicProjectionGenerator
 from tools.question_cli import question_main
 from tools.validation.audit import main as audit_main
 from tools.validation.confirm import main as confirm_main
 from tools.validation.validator import main as validate_main
-from tools.vault_lock import VaultLock
 from tools.vault_registry import VaultRegistry
 from tools.vault_registry import main as vault_main
-from tools.vault_transfer import VaultTransfer
-from tools.write_operation import WriteOperation
 
 
 def _print_json(result: dict, *, compact: bool = False) -> None:
@@ -41,91 +36,6 @@ def _print_json(result: dict, *, compact: bool = False) -> None:
         print(json.dumps(result, ensure_ascii=False, separators=(",", ":")))
     else:
         print(json.dumps(result, ensure_ascii=False, indent=2))
-
-
-def write_main(argv: list[str]) -> int:
-    """Minimal JSON interface for generic F004 write operations."""
-    parser = argparse.ArgumentParser(description="Preview/apply generic writes")
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument(
-        "--files", type=Path, help="JSON object mapping relative paths to UTF-8 content"
-    )
-    parser.add_argument("--apply")
-    parser.add_argument(
-        "--recover",
-        metavar="OPERATION_ID",
-        help="重跑被中断的提交收尾（applied_index_pending 的 projection/索引重建）",
-    )
-    parser.add_argument(
-        "--confirmation",
-        type=Path,
-        help="operation-confirmation/v1 event JSON (see confirm-apply)",
-    )
-    parser.add_argument("--confirm", action="store_true")
-    args = parser.parse_args(argv)
-    service = WriteOperation(args.root)
-    confirmation = (
-        json.loads(args.confirmation.read_text(encoding="utf-8"))
-        if args.confirmation
-        else None
-    )
-    if args.recover:
-        _print_json(service.recover(args.recover))
-    elif args.apply:
-        _print_json(
-            service.apply(args.apply, confirmed=args.confirm, confirmation=confirmation)
-        )
-    elif args.files:
-        _print_json(service.preview(json.loads(args.files.read_text(encoding="utf-8"))))
-    else:
-        parser.error("--files / --apply / --recover is required")
-    return 0
-
-
-def confirm_apply_main(argv: list[str]) -> int:
-    """人工确认事件生成（只读不写；hash 从 durable record 派生）。"""
-    from tools.operation_store import OperationStore, build_apply_confirmation
-
-    parser = argparse.ArgumentParser(
-        description="Generate an operation-confirmation/v1 event for a human to review (prints JSON; never applies)",
-        epilog="信任边界：本命令标记 actor_type=human 的依据是它运行在人的本地交互终端并由人显式执行（与 ADR-0010 同一信任模型，非密码学认证）。不得接入自动化脚本。",
-    )
-    parser.add_argument("operation_id")
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--actor-id", required=True)
-    parser.add_argument(
-        "--scope", choices=["apply", "publish_private"], default="apply"
-    )
-    parser.add_argument("--content-sha256", help="required for publish_private")
-    parser.add_argument("--evidence-sha256", help="required for publish_private")
-    parser.add_argument(
-        "--out", type=Path, help="optional: write event JSON to file instead of stdout"
-    )
-    args = parser.parse_args(argv)
-    event, error = build_apply_confirmation(
-        OperationStore(args.root),
-        args.operation_id,
-        args.actor_id,
-        scope=args.scope,
-        content_sha256=args.content_sha256,
-        evidence_sha256=args.evidence_sha256,
-    )
-    if error is not None:
-        _print_json({"state": "blocked", "error_code": error})
-        return 2
-    payload = json.dumps(event, ensure_ascii=False, indent=2) + "\n"
-    if args.out:
-        args.out.write_text(payload, encoding="utf-8")
-        _print_json(
-            {
-                "state": "created",
-                "path": str(args.out),
-                "event_sha256": event["event_sha256"],
-            }
-        )
-    else:
-        print(payload, end="")
-    return 0
 
 
 def local_projection_main(argv: list[str]) -> int:
@@ -247,20 +157,6 @@ def projection_backlinks_main(argv: list[str]) -> int:
     return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
 
 
-def lock_main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(description="Recover an orphaned vault lock")
-    parser.add_argument("action", choices=["recover"])
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--vault-id", required=True)
-    parser.add_argument("--operation-id", required=True)
-    parser.add_argument("--actor-id", default="local-user")
-    args = parser.parse_args(argv)
-    _print_json(
-        VaultLock.recover(args.root, args.vault_id, args.operation_id, args.actor_id)
-    )
-    return 0
-
-
 def backup_main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Local backup status/manifest")
     parser.add_argument(
@@ -317,55 +213,6 @@ def backup_main(argv: list[str]) -> int:
             result = manager.restore_manifest(args.manifest, args.target)
     _print_json(result)
     return 0
-
-
-def transfer_main(argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(
-        description="Preview/apply explicit cross-vault copy or move"
-    )
-    parser.add_argument("action", choices=["preview", "apply"])
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--manifest", type=Path)
-    parser.add_argument("--source-vault")
-    parser.add_argument("--source-path")
-    parser.add_argument("--target-vault")
-    parser.add_argument("--target-path")
-    parser.add_argument("--operation-id")
-    parser.add_argument("--move", action="store_true")
-    parser.add_argument(
-        "--confirmation", type=Path, help="operation-confirmation/v1 event JSON"
-    )
-    parser.add_argument("--confirm", action="store_true")
-    args = parser.parse_args(argv)
-    service = VaultTransfer(args.root, args.manifest)
-    if args.action == "preview":
-        required = (
-            args.source_vault,
-            args.source_path,
-            args.target_vault,
-            args.target_path,
-        )
-        if any(value is None for value in required):
-            parser.error("preview requires source/target vault and path")
-        result = service.preview(
-            args.source_vault,
-            args.source_path,
-            args.target_vault,
-            args.target_path,
-            move=args.move,
-        )
-    else:
-        if not args.operation_id:
-            parser.error("apply requires --operation-id")
-        result = service.apply(
-            args.operation_id,
-            confirmed=args.confirm,
-            confirmation=json.loads(args.confirmation.read_text(encoding="utf-8"))
-            if args.confirmation
-            else None,
-        )
-    _print_json(result)
-    return 0 if result.get("state") not in {"blocked", "expired"} else 2
 
 
 def projection_main(argv: list[str]) -> int:
@@ -470,36 +317,6 @@ def _failed_reports(root: Path, object_id: str) -> dict:
             }
         )
     return {"object_id": object_id, "hashes": hashes, "reports": items}
-
-
-def reposition_main(argv: list[str]) -> int:
-    """存量 source 的定位判定与改判（classify 只读；apply 需 owner 确认过的清单）。"""
-    from tools.reposition import Thresholds, classify
-    from tools.reposition import apply as reposition_apply
-
-    parser = argparse.ArgumentParser(description="Reposition legacy sources")
-    parser.add_argument("mode", choices=("classify", "apply"))
-    parser.add_argument("--root", type=Path, default=Path.cwd())
-    parser.add_argument("--plan", type=Path, help="apply 模式必填：owner 确认过的清单")
-    parser.add_argument("--final-min-chars", type=int, default=1500)
-    parser.add_argument("--final-min-headings", type=int, default=3)
-    args = parser.parse_args(argv)
-    if args.mode == "classify":
-        _print_json(
-            classify(
-                args.root,
-                Thresholds(
-                    final_min_chars=args.final_min_chars,
-                    final_min_headings=args.final_min_headings,
-                ),
-            )
-        )
-        return 0
-    if not args.plan:
-        parser.error("apply 模式必须提供 --plan")
-    result = reposition_apply(args.root, args.plan)
-    _print_json(result)
-    return 0 if result.get("schema_version") == "reposition-result/v1" else 2
 
 
 def release_main(argv: list[str]) -> int:
@@ -620,24 +437,17 @@ COMMANDS = {
     "audit": audit_main,
     "override": override_main,
     "confirm": confirm_main,
-    "write": write_main,
-    "confirm-apply": confirm_apply_main,
     "vault": vault_main,
     "local-projection": local_projection_main,
     "query": query_main,
     "index": index_main,
     "read": projection_read_main,
     "backlinks": projection_backlinks_main,
-    "lock": lock_main,
     "backup": backup_main,
     "question": question_main,
     "doctor": doctor_main,
-    "inventory": inventory_main,
-    "migrate": migrate_main,
-    "transfer": transfer_main,
     "projection": projection_main,
     "release": release_main,
-    "reposition": reposition_main,
     "matrix": matrix_main,
     "skill": skill_main,
 }
@@ -646,30 +456,24 @@ USAGE = """usage: python -m tools.cli <command> [options...]
 commands:
   source           Source 导入与归档（local-file / personal-note / url）
   video-inventory  Bilibili/YouTube metadata inventory（不下载媒体）
-  video-frames     Preview/apply confirmed video keyframes
+  video-frames     抽取视频关键帧（单次直接写，无 operation/确认）
   video-batch      Resumable per-item video Source batch archive
   anchor           Evidence 锚定（在快照中定位引文生成 selector）
   validate         Wiki 确定性校验（schema + 跨字段规则 + 派生字段）
   audit            LLM 证据审计（provider 调用 + 覆盖义务 + 报告写入）
   confirm          人工审计确认（operation-confirmation/v1 写入）
-  write            通用 Preview/Apply 写入（F004）
-  confirm-apply    人工确认事件生成（operation-confirmation/v1，只读不写）
+  override         人工复议：声明某份 LLM fail 报告为误判（VAL-003，list/write）
   vault            Vault Registry 只读检查（F011）
   local-projection 生成 owner-aware local/private projection（F011）
   query            离线检索 public projection（F005）
   index            重建/恢复 projection SQLite 索引（F005）
   read             从 public projection 读取单个对象（F005）
   backlinks        从 public projection 列出反链（F005）
-  lock             恢复孤儿 vault 锁（F004）
   backup           备份状态与 durable manifest（F012）
   question         Question 创建、作答与复习（F008）
   doctor           健康自检（projection/索引/QMD/sources/备份，ADR-0011 降级显性化）
-  inventory        生成 legacy 内容迁移清单（F010）
-  migrate          legacy 内容迁移（F010）
-  transfer         跨 vault 复制/移动的 preview/apply（F011）
   projection       生成 public projection manifest（F007）
   release          发布输入计算与 public release 人工确认（§6.8/ADR-0010）
-  reposition       存量 source 定位判定与改判（classify / apply，F013）
   matrix           追踪矩阵完成度机器派生（check / sync，勿手改完成度列）
   skill            Agent Skill 受控 action 分发（F009）"""
 

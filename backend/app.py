@@ -27,11 +27,9 @@ from tools.question_quality import QuestionQualityService
 from tools.skill_runtime import dispatch
 from tools.validation.validator import WikiValidator
 from tools.vault_registry import VaultRegistry
-from tools.write_operation import WriteOperation
 
 from .errors import api_error
 from .schemas import (
-    ApplyRequest,
     CitationReplayRequest,
     RetrieveRequest,
     WritePreviewRequest,
@@ -107,7 +105,6 @@ def create_app(
         _persist_capability_token(state)
     state.practice = QuestionStore(state.root)
     state.question_quality = QuestionQualityService(state.root)
-    state.writer = WriteOperation(state.root)
     state.max_request_body_bytes = 1_048_576
     app.middleware("http")(local_origin_guard)
 
@@ -205,47 +202,22 @@ def create_app(
             **replay_citation(req.citation, req.snapshot),
         }
 
-    def _preview(req: WritePreviewRequest, operation_type: str) -> dict:
-        return {
-            "schema_version": "operation-preview/v1",
-            **state.writer.preview(
-                req.files, operation_type=operation_type, vault_id=req.vault_id
-            ),
-        }
-
-    @app.post("/api/source/preview")
-    def source_preview(
+    @app.post("/api/write")
+    def write_object(
         req: WritePreviewRequest,
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
-        return _preview(req, "source")
+        """一次落盘（ADR-0019）：无 operation_id、无 confirmation、无恢复态。
 
-    @app.post("/api/wiki/preview")
-    def wiki_preview(
-        req: WritePreviewRequest,
-        x_myknowledge_capability: str | None = Header(default=None),
-        x_myknowledge_audience: str | None = Header(default=None),
-    ) -> dict:
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
-        return _preview(req, "wiki")
-
-    @app.post("/api/operation/{operation_id}/apply")
-    def operation_apply(
-        operation_id: str,
-        req: ApplyRequest,
-        x_myknowledge_capability: str | None = Header(default=None),
-        x_myknowledge_audience: str | None = Header(default=None),
-    ) -> dict:
+        与 Skill 通道共用同一实现（`skill_runtime` 的 write action），只在 HTTP 层
+        保留写能力门禁——审批由 `git diff` + `git commit` 承担。
+        """
         authorize_write(x_myknowledge_capability, x_myknowledge_audience)
         return {
-            "schema_version": "operation-result/v1",
-            **state.writer.apply(
-                operation_id,
-                confirmed=req.confirmed,
-                actor_id=req.actor_id,
-                confirmation=req.confirmation,
+            "schema_version": "write-result/v1",
+            **dispatch(
+                "write", {"files": req.files, "vault_id": req.vault_id}, root=state.root
             ),
         }
 

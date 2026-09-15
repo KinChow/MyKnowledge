@@ -215,31 +215,53 @@ def test_doctor_flags_owner_record_whose_path_contradicts_its_hash(
 
 
 def test_doctor_flags_a_stranded_projection_rebuild(tmp_path: Path):
-    """canonical 已提交但派生重建失败的 operation 必须被点名（recover 不会自愈）。
+    """历史残留下来的 applied_index_pending 记录必须被点名（report-only）。
 
     实测动机：这种滞留态对其余检查全不可见——projection 与索引一起停在旧版本，
     `fts5_index` 比的是"索引 vs projection"故报 ok，doctor 会说 healthy，而新
-    内容在检索里查不到。next_action 必须是能真正执行的命令。
-    """
-    from tools.write_operation import WriteOperation
+    内容在检索里查不到。
 
-    service = WriteOperation(tmp_path)
-    first = service.preview(
-        {"content/wiki/a.md": "---\nschema_version: wiki/v1\nid: a\n---\n一\n"}
+    ADR-0019 之后该状态不再有生产者（写入是单次落盘，派生重建归 `build`），
+    补救命令 `write --recover` 也一并删除，所以本检查只报告、不给 `next_action`
+    ——不编造一个不存在的命令。
+
+    fixture 直接构造磁盘状态（canonical 文件 + 派生重建 + 滞留的 operation 记录）：
+    原实现借 `WriteOperation(projection_rebuilder=...)` 造这个状态，ADR-0019 之后
+    该类不再是任何入口的依赖，用例不得继续挂在它身上。
+    """
+    from tools.common import canonical_json
+    from tools.indexing import rebuild_default_public_index
+    from tools.paths import RepoPaths
+    from tools.public_projection import PublicProjectionGenerator
+
+    wiki = tmp_path / "content" / "wiki"
+    wiki.mkdir(parents=True)
+    (wiki / "a.md").write_text(
+        "---\nschema_version: wiki/v1\nid: a\n---\n一\n", encoding="utf-8"
     )
-    assert service.apply(first["operation_id"], confirmed=True)["state"] == "applied"
+    PublicProjectionGenerator(tmp_path).generate()
+    rebuild_default_public_index(tmp_path)
     _, baseline = _run(tmp_path)
     assert baseline["state"] == "healthy"  # 基线干净，排除其它噪声
 
-    def boom(_record):
-        raise OSError("index rebuild failed")
-
-    stuck = WriteOperation(tmp_path, projection_rebuilder=boom)
-    second = stuck.preview(
-        {"content/wiki/b.md": "---\nschema_version: wiki/v1\nid: b\n---\n二\n"}
+    # 第二次提交的 canonical 已落盘，派生重建失败（projection/索引停在上一版）
+    (wiki / "b.md").write_text(
+        "---\nschema_version: wiki/v1\nid: b\n---\n二\n", encoding="utf-8"
     )
-    operation_id = second["operation_id"]
-    assert stuck.apply(operation_id, confirmed=True)["state"] == "applied_index_pending"
+    paths = RepoPaths(tmp_path)
+    operation_id = "op_" + "1" * 32
+    record = {
+        "schema_version": "operation/v1",
+        "operation_id": operation_id,
+        "created_at": 0.0,
+        "state": "applied_index_pending",
+        "operation_type": "write",
+        "target_vault": "public",
+        "applied_files": ["content/wiki/b.md"],
+    }
+    state_path = paths.state_operation_file(operation_id)
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    state_path.write_bytes(canonical_json(record) + b"\n")
 
     code, report = _run(tmp_path)
     assert code == 0  # 派生数据滞后是降级，不是内容损坏
@@ -247,12 +269,12 @@ def test_doctor_flags_a_stranded_projection_rebuild(tmp_path: Path):
     assert names["pending_operations"]["state"] == "warning"
     assert names["pending_operations"]["pending"] == [operation_id]
     assert names["fts5_index"]["state"] == "ok"  # 正是这条看不见滞留
-    assert (
-        names["pending_operations"]["next_action"]
-        == f"python -m tools.cli write --recover {operation_id}"
-    )
+    assert "next_action" not in names["pending_operations"]
 
-    assert service.recover(operation_id)["state"] == "applied"
+    # 恢复 = 重跑派生重建 + 状态推进（原 `write --recover` 的全部动作）
+    PublicProjectionGenerator(tmp_path).generate()
+    rebuild_default_public_index(tmp_path)
+    state_path.write_bytes(canonical_json({**record, "state": "applied"}) + b"\n")
     _, healed = _run(tmp_path)
     assert healed["state"] == "healthy"
 

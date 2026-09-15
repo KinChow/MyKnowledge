@@ -30,51 +30,34 @@ def test_skill_runtime_rejects_unknown_and_dangerous_actions(tmp_path: Path):
     )
 
 
-def test_skill_runtime_write_preview_delegates_to_writer(tmp_path: Path):
+def test_skill_runtime_write_is_direct_and_lands_content(tmp_path: Path):
+    """写入是直接落盘（ADR-0019）：无 operation_id、无 preview 态、无确认事件。
+
+    同时锁住新直写路径保留的两条写前约束：越界路径与 `content/working/` 回指
+    （LAY-003，该层唯一的硬约束）——它们都不是审批门禁，不随状态机退场。
+    """
     result = dispatch(
-        "write_preview", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
+        "write", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
     )
-    assert result["state"] == "previewed"
-    assert not (tmp_path / "content" / "wiki" / "item.md").exists()
+    assert result["state"] == "applied"
+    assert result["applied_files"] == ["content/wiki/item.md"]
+    assert "operation_id" not in result
+    assert (tmp_path / "content" / "wiki" / "item.md").read_text(
+        encoding="utf-8"
+    ) == "# Item\n"
 
-
-def _skill_confirmation(root: Path, operation_id: str) -> dict:
-    """经 confirm-apply 生成器产出合法人工确认事件（Agent 不能自证）。"""
-    from tools.operation_store import OperationStore, build_apply_confirmation
-
-    event, error = build_apply_confirmation(
-        OperationStore(root), operation_id, "human-via-cli"
+    assert (
+        dispatch("write", {"files": {"../escape.md": "x"}}, root=tmp_path)["error_code"]
+        == "path_outside_repo"
     )
-    assert error is None, error
-    return event
-
-
-def test_skill_runtime_apply_requires_explicit_confirmation(tmp_path: Path):
-    preview = dispatch(
-        "write_preview", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
+    assert (
+        dispatch(
+            "write", {"files": {"content/working/draft.md": "草稿\n"}}, root=tmp_path
+        )["error_code"]
+        == "schema_invalid"
     )
-    # F009 收紧：Agent 裸 confirmed 不得自证，必须携带人工确认事件
-    blocked = dispatch(
-        "write_apply", {"operation_id": preview["operation_id"]}, root=tmp_path
-    )
-    assert blocked["error_code"] == "skill_confirmation_required"
-    bare = dispatch(
-        "write_apply",
-        {"operation_id": preview["operation_id"], "confirmed": True},
-        root=tmp_path,
-    )
-    assert bare["error_code"] == "skill_confirmation_required"
-    assert not (tmp_path / "content" / "wiki" / "item.md").exists()
-    applied = dispatch(
-        "write_apply",
-        {
-            "operation_id": preview["operation_id"],
-            "confirmed": True,
-            "confirmation": _skill_confirmation(tmp_path, preview["operation_id"]),
-        },
-        root=tmp_path,
-    )
-    assert applied["state"] == "applied"
+    assert not (tmp_path / "escape.md").exists()
+    assert not (tmp_path / "content" / "working" / "draft.md").exists()
 
 
 def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path):
@@ -93,39 +76,35 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
             )
         _, result = await server.call_tool(
             "myknowledge_dispatch",
-            {
-                "action": "write_preview",
-                "payload": {"files": {"content/wiki/mcp.md": "# MCP\n"}},
-            },
+            {"action": "vault_check", "payload": {}},
         )
-        assert result["state"] == "previewed"
+        assert result["schema_version"] == "vault-check/v1"
 
     asyncio.run(exercise())
-    assert not (tmp_path / "content" / "wiki" / "mcp.md").exists()
 
 
 def test_mcp_server_enforces_configured_capability_for_sensitive_actions(
     tmp_path: Path,
 ):
+    """能力令牌门禁只认 token：缺失阻断、正确 token 才到领域服务。
+
+    受测 action 只能是 MCP tool schema 声明过的那个集合（`tools/mcp_server.py`
+    的 Literal 与 `protected_actions`）；ADR-0019 之后该文件尚未把写入 action
+    同步为 `write`，故这里用同属受保护集合的 `vault_check` 承载该边界。
+    """
+
     async def exercise():
         server = create_server(tmp_path, capability_token="mcp-secret")
         _, denied = await server.call_tool(
             "myknowledge_dispatch",
-            {
-                "action": "write_preview",
-                "payload": {"files": {"content/wiki/mcp.md": "# MCP\n"}},
-            },
+            {"action": "vault_check", "payload": {}},
         )
         assert denied["error_code"] == "capability_token_required"
         _, allowed = await server.call_tool(
             "myknowledge_dispatch",
-            {
-                "action": "write_preview",
-                "payload": {"files": {"content/wiki/mcp.md": "# MCP\n"}},
-                "capability_token": "mcp-secret",
-            },
+            {"action": "vault_check", "payload": {}, "capability_token": "mcp-secret"},
         )
-        assert allowed["state"] == "previewed"
+        assert allowed["schema_version"] == "vault-check/v1"
 
     asyncio.run(exercise())
 
@@ -138,15 +117,14 @@ def test_mcp_server_expires_capability_token(tmp_path: Path):
         _, expired = await server.call_tool(
             "myknowledge_dispatch",
             {
-                "action": "write_preview",
-                "payload": {"files": {"content/wiki/expired.md": "# expired\n"}},
+                "action": "vault_check",
+                "payload": {},
                 "capability_token": "short-lived",
             },
         )
         assert expired["error_code"] == "capability_token_expired"
 
     asyncio.run(exercise())
-    assert not (tmp_path / "content" / "wiki" / "expired.md").exists()
 
 
 def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
@@ -174,8 +152,8 @@ def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
                 denied = await session.call_tool(
                     "myknowledge_dispatch",
                     {
-                        "action": "write_preview",
-                        "payload": {"files": {"content/wiki/stdio.md": "# stdio\n"}},
+                        "action": "vault_check",
+                        "payload": {},
                     },
                 )
                 denied_value = json.loads(denied.content[0].text)
@@ -183,16 +161,15 @@ def test_mcp_stdio_transport_lists_and_calls_controlled_tool(tmp_path: Path):
                 allowed = await session.call_tool(
                     "myknowledge_dispatch",
                     {
-                        "action": "write_preview",
-                        "payload": {"files": {"content/wiki/stdio.md": "# stdio\n"}},
+                        "action": "vault_check",
+                        "payload": {},
                         "capability_token": "stdio-secret",
                     },
                 )
                 allowed_value = json.loads(allowed.content[0].text)
-                assert allowed_value["state"] == "previewed"
+                assert allowed_value["schema_version"] == "vault-check/v1"
 
     asyncio.run(exercise())
-    assert not (tmp_path / "content" / "wiki" / "stdio.md").exists()
 
 
 def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):

@@ -561,3 +561,36 @@ class SourceIngestorTests(unittest.TestCase):
                     self.assertIn(request["body"], source_text)
                     # 中间态不需要人工修：doctor 双向检查（archive ↔ manifest）都过
                     self.assertEqual(run_doctor(root)["errors"], 0)
+
+    def test_unsupported_transcript_format_is_blocked_not_raised(self):
+        """回归：采集阶段抛的 ValueError 必须转成结构化 blocked，不得逃逸成 traceback。
+
+        `VideoAcquirer.acquire` 用 `raise ValueError("transcript_format_unsupported")`
+        当错误码载体，而 `_prepare` 的 except 元组原先不含 `ValueError`——schema 合法
+        的请求（合法视频 URL + 非 .vtt/.srt 的字幕文件）会让裸异常冒到 CLI，人被
+        traceback 而不是结构化错误码。此用例钉住"ingest 对所有输入只返回结构化结果"。
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            transcript = root / "subtitle.txt"
+            transcript.write_text(
+                "1\n00:00:00,000 --> 00:00:01,000\nhi\n", encoding="utf-8"
+            )
+            media = root / "clip.mp4"
+            media.write_bytes(b"\x00")
+            result = SourceIngestor(root).ingest(
+                {
+                    "source_type": "video",
+                    "domain": "tools",
+                    "source_id": "bad-transcript-format",
+                    "url": "https://www.bilibili.com/video/BV1xx411c7mD",
+                    "transcript_path": str(transcript),
+                    "input_path": str(media),
+                    "subtitle_mode": "manual",
+                }
+            )
+            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(
+                result["errors"][0]["code"], "transcript_format_unsupported"
+            )
+            self.assertEqual(run_doctor(root)["errors"], 0)

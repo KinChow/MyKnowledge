@@ -12,6 +12,13 @@ from typing import Any, Literal
 from .capability import check_capability
 from .skill_runtime import ALLOWED_ACTIONS, dispatch
 
+# action 签名从 skill_runtime 派生，不手抄：此前这里硬编码了一份 Literal 副本，
+# 与 ALLOWED_ACTIONS 各自演化，删掉两阶段写入后它仍列着 write_preview/write_apply/
+# source_preview/source_apply 四个已不存在的 action，而真正的 write/source_ingest
+# 反而不在——漂移的静默代价是 MCP 面没有可调用的写入能力。
+_ACTIONS = tuple(sorted(ALLOWED_ACTIONS))
+Action = Literal[*_ACTIONS]
+
 
 def create_server(
     root: Path,
@@ -30,10 +37,8 @@ def create_server(
     issued_at = time.time()
     protected_actions = {
         "ask",
-        "write_preview",
-        "write_apply",
-        "source_preview",
-        "source_apply",
+        "write",
+        "source_ingest",
         "wiki_validate",
         "publish_preview",
         "publish_confirm",
@@ -52,7 +57,11 @@ def create_server(
     }
     server = FastMCP(
         "myknowledge",
-        instructions="Controlled MyKnowledge actions; writes require preview and human confirmation.",
+        instructions=(
+            "Controlled MyKnowledge actions. Writes (write/source_ingest) land "
+            "directly in the checkout; approval is the human's git commit, so a "
+            "capability token still gates every mutating action."
+        ),
     )
 
     @server.tool(
@@ -60,34 +69,7 @@ def create_server(
         description="Dispatch one allowlisted MyKnowledge action through the existing domain runtime.",
     )
     def myknowledge_dispatch(
-        action: Literal[
-            "skill_status",
-            "query",
-            "retrieve",
-            "ask",
-            "read",
-            "backlinks",
-            "write_preview",
-            "write_apply",
-            "source_preview",
-            "source_apply",
-            "wiki_validate",
-            "publish_preview",
-            "publish_confirm",
-            "vault_check",
-            "backup_status",
-            "backup_manifest",
-            "question_create",
-            "question_list",
-            "question_session",
-            "question_errors",
-            "question_queue",
-            "question_disable",
-            "question_enable",
-            "question_delete",
-            "question_answer",
-            "question_review",
-        ],
+        action: Action,
         payload: dict[str, Any] | None = None,
         capability_token: str | None = None,
     ) -> dict[str, Any]:

@@ -641,11 +641,14 @@ def test_practice_session_progress_api_persists_progress(tmp_path: Path):
         headers=headers,
     )
     session_id = created.json()["session"]["id"]
-    assert client.post(
-        f"/api/practice/sessions/{session_id}/progress",
-        params={"scope": "local", "current_index": 1},
-        headers=headers,
-    ).json()["session"]["current_index"] == 1
+    assert (
+        client.post(
+            f"/api/practice/sessions/{session_id}/progress",
+            params={"scope": "local", "current_index": 1},
+            headers=headers,
+        ).json()["session"]["current_index"]
+        == 1
+    )
     invalid_completion = client.post(
         f"/api/practice/sessions/{session_id}/progress",
         params={"scope": "local", "current_index": 0, "completed": "true"},
@@ -799,11 +802,14 @@ def test_practice_question_enable_api_restores_enabled_status(tmp_path: Path):
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     headers = {"X-MyKnowledge-Capability": "token"}
     QuestionStore(tmp_path).disable("q-api-enable")
-    assert client.get(
-        "/api/practice/questions",
-        params={"scope": "local"},
-        headers=headers,
-    ).json()["total"] == 0
+    assert (
+        client.get(
+            "/api/practice/questions",
+            params={"scope": "local"},
+            headers=headers,
+        ).json()["total"]
+        == 0
+    )
     assert client.post("/api/practice/q-api-enable/enable").status_code == 401
     enabled = client.post(
         "/api/practice/q-api-enable/enable",
@@ -812,11 +818,14 @@ def test_practice_question_enable_api_restores_enabled_status(tmp_path: Path):
     )
     assert enabled.status_code == 200
     assert enabled.json()["state"] == "enabled"
-    assert client.get(
-        "/api/practice/questions",
-        params={"scope": "local"},
-        headers=headers,
-    ).json()["total"] == 1
+    assert (
+        client.get(
+            "/api/practice/questions",
+            params={"scope": "local"},
+            headers=headers,
+        ).json()["total"]
+        == 1
+    )
 
 
 def test_practice_session_api_is_private_and_persists_safe_items(tmp_path: Path):
@@ -1051,29 +1060,29 @@ def test_request_body_limit_is_fail_closed():
     assert response.json()["detail"]["code"] == "request_too_large"
 
 
-def test_source_and_wiki_preview_apply_require_capability_and_confirmation(
-    tmp_path: Path,
-):
+def test_write_lands_directly_and_requires_capability(tmp_path: Path):
+    """直写（ADR-0019）：能力门禁仍在，落盘一步完成，无 operation / 确认态。
+
+    取代原先的 `test_source_and_wiki_preview_apply_require_capability_and_confirmation`：
+    那条钉的是 "preview 拿 operation_id → apply 返回 awaiting_confirmation →
+    apply(confirmed=true) 才落盘" 的三步协议，其中两步（operation_id、
+    awaiting_confirmation）在终态里已经没有生产者。存活下来的契约只有两条：
+    写能力门禁，以及内容确实按原样落到盘上。
+    """
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     body = {"files": {"content/wiki/api.md": "# API\n"}, "vault_id": "public"}
-    assert client.post("/api/wiki/preview", json=body).status_code == 401
-    preview = client.post(
-        "/api/wiki/preview", headers={"X-MyKnowledge-Capability": "token"}, json=body
+    assert client.post("/api/write", json=body).status_code == 401
+    response = client.post(
+        "/api/write", headers={"X-MyKnowledge-Capability": "token"}, json=body
     )
-    assert preview.status_code == 200
-    operation_id = preview.json()["operation_id"]
-    blocked = client.post(
-        f"/api/operation/{operation_id}/apply",
-        headers={"X-MyKnowledge-Capability": "token"},
-        json={},
-    )
-    assert blocked.json()["state"] == "awaiting_confirmation"
-    applied = client.post(
-        f"/api/operation/{operation_id}/apply",
-        headers={"X-MyKnowledge-Capability": "token"},
-        json={"confirmed": True},
-    )
-    assert applied.json()["state"] == "applied"
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["schema_version"] == "write-result/v1"
+    assert payload["state"] == "applied"
+    assert payload["applied_files"] == ["content/wiki/api.md"]
+    # 两阶段协议的残留字段不得再出现在响应里
+    assert "operation_id" not in payload
+    assert "requires_confirmation" not in payload
     assert (tmp_path / "content" / "wiki" / "api.md").read_text() == "# API\n"
 
 

@@ -45,8 +45,17 @@ from .video_transcript import parse_subtitles, render_transcript
 
 
 def _block_error_code(exc: Exception) -> str:
-    """将捕获的异常映射为结构化错误码（RuntimeError 消息本身即错误码）。"""
-    if isinstance(exc, RuntimeError):
+    """将捕获的异常映射为结构化错误码。
+
+    ``RuntimeError`` / ``ValueError`` 在本域内被当作错误码载体使用
+    （``raise ValueError("transcript_format_unsupported")``），消息本身即错误码。
+    ``UnicodeError`` 是 ``ValueError`` 的子类，但它的消息是解释文本而非错误码
+    （"'utf-8' codec can't decode byte ..."），因此先于 ``ValueError`` 拦下并退回
+    类型名——否则错误码会变成一整句解释。
+    """
+    if isinstance(exc, UnicodeError):
+        return type(exc).__name__
+    if isinstance(exc, (RuntimeError, ValueError)):
         return str(exc)
     if isinstance(exc, zlib.error):
         return "fetch_blocked:decompression_error"
@@ -364,7 +373,7 @@ class SourceIngestor:
                 payload["raw_suffix"] = raw_suffix
                 payload["attachments"] = [a.to_dict() for a in acquired.attachments]
             return {"state": "ready", "payload": payload}
-        except (OSError, RuntimeError, LookupError, zlib.error) as exc:
+        except (OSError, RuntimeError, ValueError, LookupError, zlib.error) as exc:
             return {"state": "blocked", "errors": [{"code": _block_error_code(exc)}]}
 
     def ingest(self, request: dict) -> dict:

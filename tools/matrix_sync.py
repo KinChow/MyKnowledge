@@ -3,8 +3,8 @@
 背景：`docs/traceability-matrix.md` 的「完成度」列此前由人工维护，会随代码
 演进而滞后（2026-09-02 实测：12 条 Designed 实际已实现，另有人工改写引入
 不存在的测试文件引用）。本模块把「完成度」变成机器派生列，人的职责收敛为
-维护两个语义列：「状态」（Designed / Implemented（部分）/ Implemented，粗粒度
-人工判断）与「测试」（描述证据文件，语义性必须人写）。「完成度」四档由
+维护两个语义列：「状态」（Designed / Implemented（部分）/ Implemented / Retired，
+粗粒度人工判断）与「测试」（描述证据文件，语义性必须人写）。「完成度」由
 「状态 × 引用文件存在性」机械派生，任何人工改写都会在下次 check/sync 时被
 纠正。
 
@@ -18,6 +18,7 @@
 | Implemented（部分）        | 有缺失       | 悬空引用（check 报硬错误）      |
 | Implemented               | 全部存在      | 完成                          |
 | Implemented               | 有缺失       | 悬空引用（check 报硬错误）      |
+| Retired                   | 无关         | 已退场（不报悬空、不计 no_refs） |
 +---------------------------+--------------+-------------------------------+
 
 语义边界：完成度列只表达「状态列 × 证据文件是否全部真实存在」这一可机器判定
@@ -244,6 +245,7 @@ NOT_STARTED = "未开始"
 PARTIAL = "部分"
 MOSTLY = "主体完成"
 DONE = "完成"
+RETIRED = "已退场"
 
 _REF_RE = re.compile(r"([\w./-]+\.py)")
 
@@ -347,6 +349,11 @@ def derive_completion(status: str, missing: list[str]) -> str | None:
     """
     if status == "Designed":
         return NOT_STARTED
+    if status == "Retired":
+        # 能力已被 ADR 明确退场并删除：证据文件随之消失是预期结果，不是悬空引用。
+        # 与 Designed 的区别：Designed 是"还没做"，Retired 是"做过又撤了"——保留
+        # 这个区分，是为了让矩阵不删行也能说真话（删行会抹掉曾经实现过的事实）。
+        return RETIRED
     if status == "Implemented":
         return DONE if not missing else None  # 缺失时由调用方报悬空引用
     if status == "Implemented（部分）":
@@ -377,6 +384,18 @@ def _judge_row(root: Path, row: dict) -> list[tuple[str, object]]:
     stale / dangling / drift / no_refs / unknown_status；sync 只消费 stale
     （其 derived 即替换值），其余桶留给 check 报告，天然避免两处重复分支。
     """
+    if row["status"] == "Retired":
+        # 退场行的证据文件按定义随能力一起删除，因此**先于** dangling 判定返回：
+        # 它不是"引用烂了"，是"被引用者按计划撤了"。也不进 no_refs —— 那个桶的
+        # 语义是"测试列是纯描述、无法派生"，与"无证据可引"不是一回事。
+        if row["completion"] != RETIRED:
+            return [
+                (
+                    "stale",
+                    {"id": row["id"], "matrix": row["completion"], "derived": RETIRED},
+                )
+            ]
+        return []
     refs = extract_refs(row["test"])
     resolved = [r for r in refs if resolve_ref(r, root)]
     missing = [r for r in refs if r not in resolved]

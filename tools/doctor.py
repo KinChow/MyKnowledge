@@ -193,13 +193,18 @@ def _check_manifest_records(root: Path) -> tuple[str, dict]:
 
 
 def _check_pending_operations(root: Path) -> tuple[str, dict]:
-    """滞留的 applied_index_pending：canonical 已提交、派生重建失败且无人重跑。
+    """滞留的 applied_index_pending：只可能来自已移除的两阶段写入（ADR-0019）。
 
-    实测（2026-08-29）：这种 operation 对其余检查完全不可见——projection 与
+    实测（2026-08-29）：当时这种 operation 对其余检查完全不可见——projection 与
     索引一起停在旧版本，`fts5_index` 比的是"索引 vs projection"，两者一致所以
     报 ok；`public_projection` 只看 manifest 可读。结果是 canonical 里的新内容
-    在检索/站点里查不到，而 doctor 说 healthy。recover 是显式操作，不会自愈，
-    所以必须在这里点名。
+    在检索/站点里查不到，而 doctor 说 healthy。
+
+    直写（ADR-0019）后该状态不再有生产者：写入是单次落盘，派生重建归 `build`，
+    不再存在"canonical 已提交、派生重建失败、operation 滞留"的中间态。因此本
+    检查现在只点名**历史残留**，且是 report-only——补救命令（原
+    `python -m tools.cli write --recover`）已随两阶段写入一起删除，没有可执行的
+    `next_action` 可以给，不编造一个不存在的命令。
     """
     from .paths import RepoPaths
 
@@ -222,8 +227,7 @@ def _check_pending_operations(root: Path) -> tuple[str, dict]:
         "checked": checked,
         "pending": pending[:10],
         "pending_count": len(pending),
-        "reason": "projection_rebuild_pending",
-        "next_action": f"python -m tools.cli write --recover {pending[0]}",
+        "reason": "legacy_projection_rebuild_pending",
     }
 
 

@@ -3,6 +3,10 @@
 只接受结构化 action 白名单，并把实际工作委托给现有领域服务；不执行
 任意 shell，不接受物理路径写入，也不暴露 capability token。
 
+写入是**直接落盘**（ADR-0019）：``write`` / ``source_ingest`` 一次调用完成，
+不经 operation 状态机、不取 per-vault 锁、不产生人工确认事件；``write`` 同时是
+通用文件写入的唯一收口（写前只剩越界与 `content/working/` 回指两条约束）。
+
 结构：``dispatch`` 只做通道级门禁（白名单 / 禁用键 / 未知字段），每个 action
 一个 ``_handle_*`` 函数，映射表 ``_HANDLERS`` 是唯一的 action 事实来源
 （``ALLOWED_ACTIONS`` 由它派生）。字段级非法一律 ``raise ValueError("<error_code>")``，
@@ -11,20 +15,20 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
 from .backup import BackupManager
-from .common import safe_id
+from .common import atomic_write, safe_id
 from .indexing import Retriever
 from .ingest.source_ingestor import SourceIngestor
+from .layers import working_contract_error
 from .projection import PublicProjectionStore
 from .question import QuestionStore
 from .release_confirmation import write_event
 from .validation.validator import WikiValidator
 from .vault_registry import VaultRegistry
-from .write_operation import WriteOperation
 
 FORBIDDEN_KEYS = frozenset(
     {
@@ -45,8 +49,7 @@ ACTION_FIELDS = {
     "ask": {"query", "scope", "top_k"},
     "read": {"vault_id", "object_id"},
     "backlinks": {"vault_id", "object_id"},
-    "write_preview": {"files", "operation_type", "vault_id"},
-    "write_apply": {"operation_id", "confirmed", "actor_id", "confirmation"},
+    "write": {"files", "vault_id"},
     "source_ingest": {"request"},
     "wiki_validate": {"wiki_path"},
     "publish_preview": {"wiki_path"},
@@ -65,10 +68,6 @@ ACTION_FIELDS = {
     "question_answer": {"question_id", "response", "scoring_mode"},
     "question_review": {"question_id", "rating"},
 }
-CONFIRM_NEXT_ACTION = (
-    "python -m tools.cli confirm-apply <operation_id> --actor-id <you> "
-    "and pass the event as confirmation"
-)
 
 
 def _public_projection_items(root: Path) -> list[dict[str, Any]]:
@@ -201,31 +200,73 @@ def _handle_backlinks(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _handle_write_preview(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+def _vault_root(root: Path, vault_id: str) -> Path:
+    """写入目标的 Vault 根：public 即 checkout 根，其余走 Registry 的 owner checkout。"""
+    if vault_id == "public":
+        return root
+    return VaultRegistry(root).resolve_vault_path(vault_id)
+
+
+def _write_target(vault_root: Path, name: str) -> Path:
+    """解析写入目标：拒绝符号链接路径段、越界路径与共享 inode 的 hard-link。
+
+    这三条是写前唯一与"谁批准"无关的检查（越界写入不可逆），不随 ADR-0019 退场。
+    """
+    current = vault_root
+    for part in Path(name).parts:
+        if part in {"", "."}:
+            continue
+        current = current / part
+        if current.is_symlink():
+            raise ValueError("path_symlink")
+    path = (vault_root / name).resolve()
+    try:
+        path.relative_to(vault_root)
+    except ValueError:
+        raise ValueError("path_outside_repo") from None
+    if path == vault_root:
+        raise ValueError("invalid_target")
+    if path.exists() and path.stat().st_nlink > 1:
+        raise ValueError("path_hardlink")
+    return path
+
+
+def _write_files(root: Path, files: Mapping[str, str], vault_id: str) -> dict[str, Any]:
+    """把 files 直接落盘（ADR-0019）：写前校验 → `atomic_write`，无 operation/锁/确认。
+
+    保留的写前约束只有两条能捕获真实缺陷的：目标必须落在 Vault 根内且各段都不是
+    符号链接（越界写不可逆），`content/working/` 必须回指来源（LAY-003，该层唯一
+    的硬约束）。**不保留** before-hash 比对、多文件回滚与提交收尾状态机：半成品由
+    `git status` 可见、由 git 回滚，这正是"审批 = git"的代价与收益。
+    """
+    if not files:
+        raise ValueError("empty_write")
+    vault_root = _vault_root(root, vault_id)
+    targets: list[tuple[Path, str]] = []
+    for name, content in sorted(files.items()):
+        if not isinstance(content, str):
+            raise ValueError("content_not_string")
+        path = _write_target(vault_root, name)
+        layer_error = working_contract_error(vault_root, str(Path(name)), content)
+        if layer_error:
+            raise ValueError(layer_error)
+        targets.append((path, content))
+    applied_files: list[str] = []
+    for path, content in targets:
+        try:
+            atomic_write(path, content.encode("utf-8"))
+        except OSError:
+            # 逐文件独立提交：已落盘的前几个不做回滚（ADR-0019 把事务边界缩到
+            # "临时文件 + os.replace"，多文件的半成品交给 git 审核与回滚）。
+            raise ValueError("apply_failed") from None
+        applied_files.append(str(path.relative_to(vault_root)))
+    return {"state": "applied", "vault_id": vault_id, "applied_files": applied_files}
+
+
+def _handle_write(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """通用写入：直接落盘（ADR-0019），无 preview/apply 两阶段、无人工确认事件。"""
     files = _require_mapping(payload, "files", "files_required")
-    return WriteOperation(root).preview(
-        files,
-        operation_type=str(payload.get("operation_type", "write")),
-        vault_id=str(payload.get("vault_id", "public")),
-    )
-
-
-def _handle_write_apply(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
-    confirmation = payload.get("confirmation")
-    if not isinstance(confirmation, dict):
-        # F009 收紧：Agent 通道不得自证确认。人工凭据只能来自
-        # confirm-apply CLI 生成的事件（hash 与 durable record 绑定）。
-        return {
-            "state": "blocked",
-            "error_code": "skill_confirmation_required",
-            "next_action": CONFIRM_NEXT_ACTION,
-        }
-    return WriteOperation(root).apply(
-        str(payload.get("operation_id", "")),
-        confirmed=True,
-        actor_id=str(payload.get("actor_id", "local-user")),
-        confirmation=confirmation,
-    )
+    return _write_files(root, files, str(payload.get("vault_id", "public")))
 
 
 def _handle_source_ingest(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -360,8 +401,7 @@ _HANDLERS: dict[str, Callable[[Path, dict[str, Any]], dict[str, Any]]] = {
     "ask": _handle_ask,
     "read": _handle_read,
     "backlinks": _handle_backlinks,
-    "write_preview": _handle_write_preview,
-    "write_apply": _handle_write_apply,
+    "write": _handle_write,
     "source_ingest": _handle_source_ingest,
     "wiki_validate": _handle_wiki_validate,
     "publish_preview": _handle_publish_preview,
