@@ -285,7 +285,7 @@ queries   = 可重建的索引投影，任何手工修改都会在下次生成�
 ``` text
 MyKnowledge/
 ├── tools/  backend/  frontend/  tests/  scripts/  skills/   # 组件：工程根，必须平铺
-├── config/                     # 运行时契约：schemas.yaml / vocab.yaml / policy.yaml / vaults.*.yaml
+├── config/                     # 运行时契约：schemas.yaml / policy.yaml / vaults.*.yaml
 ├── docs/                       # 规范与设计；ruleset 运行时按 (doc, section) 抽取，属组件侧输入
 ├── templates/                  # 正文与 Front Matter 模板
 │
@@ -309,7 +309,7 @@ MyKnowledge/
     └── reports/                #   验收与体检报告
 ```
 
-`<domain>` 取值受 `config/vocab.yaml` 的 `domains` 约束，未知 domain 直接拒绝。`content/` 与 `ledger/` 在每个 vault 内结构一致；`var/` 只在 public checkout 内存在。
+`<domain>` 取值受 `tools/common.py::DOMAINS` 约束，未知 domain 直接拒绝。`content/` 与 `ledger/` 在每个 vault 内结构一致；`var/` 只在 public checkout 内存在。
 
 ### 4.1 目录和元数据的职责
 
@@ -668,7 +668,7 @@ Source Front Matter 的 canonical schema version 是 `source/v1`，其中 `evide
 | id | 是 | 在所属 Vault 内唯一的 kebab-case 标识，写入后不自动重命名；跨 Vault 可以同名 |
 | vault_id | 生成 | 由 Vault Registry 根据实际文件所属仓库注入；写入请求必须明确目标 vault，不能由页面作者伪造 |
 | title | 是 | 非空，作为查询和阅读显示名 |
-| domain | 是 | 必须来自 `config/vocab.yaml`，并与目录领域一致 |
+| domain | 是 | 必须来自 `tools/common.py::DOMAINS`，并与目录领域一致 |
 | origin | 是 | `external` 或 `personal` |
 | source_type | 是 | `blog`、`doc`、`book`、`contest`、`pr`、`local-file`、`personal-note` |
 | confidentiality | 是 | `public` 或 `internal`，缺省 `public`；必须与所在 `vault_id` 等级一致 |

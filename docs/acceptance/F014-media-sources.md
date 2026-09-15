@@ -14,7 +14,7 @@
 
 ## AC-F014-001 新增 source_type 不影响既有 source
 
-- Given：`vocab.yaml` 的 `source_types` 新增 `podcast`、`video`、`talk`、`paper`、`spec`、`software`、`dataset`，既有 7 个取值全部保留；
+- Given：`tools/common.py::SOURCE_TYPES` 新增 `podcast`、`video`、`talk`、`paper`、`spec`、`software`、`dataset`，既有 7 个取值全部保留；
 - When：重算全部既有 source 的 semantic hash；
 - Then：163 篇既有 source 的 `content_sha256` 与语义 hash 全部不变，无需重验；新类型 source 可正常建立；
 - 失败时不变量：**不得重命名或删除既有取值**（`source_type` 位于 `hash_inputs.source_semantic`，改名会触发全库重验）；CSL 对齐只能通过映射表表达；

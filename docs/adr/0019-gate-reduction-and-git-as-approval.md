@@ -116,7 +116,7 @@ release/public-confirmations/   269 个
 - **已落地**：四类确认事件、operation 状态机、TTL、commit-intent、per-vault 锁在**写入通道**上已删除（`source_ingestor` / `video_frames` / `skill_runtime` / `backend` 改为一次落盘，失败即结构化返回）；审批由 `git commit` 承担。
 - **部分落地**：命令面 **29 → 22**。已退场 `write` / `confirm-apply` / `lock` / `inventory` / `migrate` / `transfer` / `reposition`；`anchor` / `validate` / `audit` / `confirm` / `override` / `release` 与 `video-*` 的退场等待 ADR-0017 的 `wiki` / `build` 动词落地 —— 而 ADR-0017 仍为 Proposed，其 7 条命令面里的 `wiki` 与 `build` **尚未实现**。因此"收敛到 7 条"是目标而非现状。
 - **部分落地**：§5「所有校验值字段从 canonical 文件删除」只做了一半。`content_sha256` 确已不落盘；但 **`selector_sha256` 与 `quote_sha256` 仍由 `tools/evidence_anchor.py` 写入 canonical source 的 `evidence_items`**（实测 275 个 source 含这两个字段）—— 它们是"现算可得"的校验值，正属 §5 的删除范围。`snapshot_sha256` 作为定位指针保留（494 个 source），符合"指针落盘、校验值不落盘"。
-- **未落地**：`config/schemas.yaml` 的 `operation` / `human_audit_confirmation` 段与 `config/policy.yaml` 的 `write.operation_ttl_seconds` / `locks` / `validation.human_audit` 段**已无读取方**但尚未删除。另一个需要单独裁决的事实：`config/vocab.yaml` 全份（294 行）**本来就没有任何代码加载它**，其中的错误码/状态词表从未参与运行。
+- **未落地**：`config/schemas.yaml` 的 `operation` / `human_audit_confirmation` 段与 `config/policy.yaml` 的 `write.operation_ttl_seconds` / `locks` / `validation.human_audit` 段**已无读取方**但尚未删除。（`config/vocab.yaml` 全份 294 行本无任何代码加载，已于 2026-09-15 删除——合法取值的单一来源收敛为 `tools/common.py` 的枚举常量与 `config/json-schema/wiki-v1.json` 的 `enum`。）
 - **副作用（实测）**：本 ADR §6 要求修订规范文档，而 `docs/myknowledge-system-design.md` §6 **同时是 LLM 审计的规则集来源**（`tools/validation/ruleset.py`）。因此修订 §6 使 `ruleset_sha256` 变化，把既有的 **1502 条审计结论**统一标记为 `stale_ruleset`。这是设计内的行为（AC-F003-015：可见、不阻断、由重跑 `audit` 刷新），`valid` / `public_publishable` / `confirm` 均不受影响；但它意味着**改规范文档 = 全库审计结论需要重跑**。
 
 ## 重新评估条件
