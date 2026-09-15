@@ -1,7 +1,7 @@
 """MyKnowledge 工具共享基础：hash、canonical JSON、原子写与稳定读。
 
 无状态纯函数工具集，供 tools 包各模块经 ``python -m tools.cli`` 统一入口使用。
-front matter 与 Vault 锁等有状态对象见 front_matter.py / vault_lock.py。
+front matter 等有状态对象见 front_matter.py。
 """
 
 from __future__ import annotations

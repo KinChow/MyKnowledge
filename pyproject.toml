@@ -89,7 +89,6 @@ ignore = [
 "backend/app.py" = ["C901", "PLR0915", "PLR0913", "PLR0917"]
 "tools/backup.py" = ["C901", "PLR0912"]                                   # verify_*/restore_* 四处
 "tools/question.py" = ["C901", "PLR0911", "PLR0912"]                      # answer/_validate_spec
-"tools/migrate_legacy.py" = ["C901", "PLR0912"]                           # rollback_sample
 "tools/validation/derived.py" = ["C901", "PLR0911", "PLR0912"]            # compute_evidence_state
 "tools/validation/rules.py" = ["C901", "PLR0912"]                         # domain_rules
 "tools/validation/corroboration.py" = ["C901", "PLR0912"]                 # compute_corroboration
@@ -98,8 +97,7 @@ ignore = [
 "tools/ingest/fetcher.py" = ["C901"]                                      # fetch
 "tools/ingest/source_validator.py" = ["C901"]                             # validate_source_file
 "tools/evidence_anchor.py" = ["C901", "PLR0911"]                          # apply
-"tools/operation_store.py" = ["PLR0911"]                                  # apply_preflight
-"tools/release_confirmation.py" = ["PLR0911"]                             # validate_event
+"tools/release_confirmation.py" = ["PLR0911"]                            # validate_event
 "tools/cli.py" = ["C901"]                                                 # backup_main 子命令分派
 
 [tool.ruff.lint.mccabe]

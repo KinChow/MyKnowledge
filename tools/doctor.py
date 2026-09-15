@@ -192,45 +192,6 @@ def _check_manifest_records(root: Path) -> tuple[str, dict]:
     }
 
 
-def _check_pending_operations(root: Path) -> tuple[str, dict]:
-    """滞留的 applied_index_pending：只可能来自已移除的两阶段写入（ADR-0019）。
-
-    实测（2026-08-29）：当时这种 operation 对其余检查完全不可见——projection 与
-    索引一起停在旧版本，`fts5_index` 比的是"索引 vs projection"，两者一致所以
-    报 ok；`public_projection` 只看 manifest 可读。结果是 canonical 里的新内容
-    在检索/站点里查不到，而 doctor 说 healthy。
-
-    直写（ADR-0019）后该状态不再有生产者：写入是单次落盘，派生重建归 `build`，
-    不再存在"canonical 已提交、派生重建失败、operation 滞留"的中间态。因此本
-    检查现在只点名**历史残留**，且是 report-only——补救命令（原
-    `python -m tools.cli write --recover`）已随两阶段写入一起删除，没有可执行的
-    `next_action` 可以给，不编造一个不存在的命令。
-    """
-    from .paths import RepoPaths
-
-    directory = RepoPaths(root).state_operations
-    if not directory.is_dir():
-        return "ok", {"checked": 0}
-    pending: list[str] = []
-    checked = 0
-    for path in sorted(directory.glob("*.json")):
-        checked += 1
-        try:
-            record = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, UnicodeError, ValueError):
-            continue  # operation 记录损坏由 apply 侧 fail-closed 处理，不在此重复
-        if record.get("state") == "applied_index_pending":
-            pending.append(str(record.get("operation_id") or path.stem))
-    if not pending:
-        return "ok", {"checked": checked}
-    return "warning", {
-        "checked": checked,
-        "pending": pending[:10],
-        "pending_count": len(pending),
-        "reason": "legacy_projection_rebuild_pending",
-    }
-
-
 def _parse_iso_date(value: object):
     from datetime import date
 
@@ -539,10 +500,6 @@ def run_doctor(root: Path) -> dict:
     add("manifest_coverage", state, **fields)
     state, fields = _check_manifest_records(root)
     add("manifest_records", state, **fields)
-
-    # 4d. 滞留的提交收尾（canonical 已提交、projection/索引未重建）
-    state, fields = _check_pending_operations(root)
-    add("pending_operations", state, **fields)
 
     # 4e. 时间维度的两份 report-only 清单（LAY-003 / WIKI-003）
     state, fields = _check_working_ttl(root)

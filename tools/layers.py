@@ -4,7 +4,7 @@
 唯一的那条约束（§5.9/技术设计"失败流程"：`content/working/` 缺 `source_ref` 拒绝
 写入）。本模块是该约束与枚举口径的单一实现，被三处消费：
 
-- `tools/write_operation.py` 的 preview（唯一写入收口，返回 `schema_invalid`）；
+- `tools/skill_runtime.py` 的 `_write_files`（落盘前的唯一写入收口，返回 `schema_invalid`）；
 - `tools/doctor.py` 的 TTL / `review_by` 到期报告（report-only）；
 - unmanaged 层文本检索命令。
 

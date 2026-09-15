@@ -296,25 +296,8 @@ class RepoPaths:
         return self.state_root / "index"
 
     @property
-    def state_operations(self) -> Path:
-        return self.var_root / "state" / "operations"
-
-    def state_operation_file(self, operation_id: str) -> Path:
-        return self.state_operations / f"{operation_id}.json"
-
-    @property
-    def state_commit_intents(self) -> Path:
-        return self.var_root / "state" / "commit-intents"
-
-    def commit_intent_file(self, operation_id: str) -> Path:
-        return self.state_commit_intents / f"{operation_id}.json"
-
-    @property
     def state_locks(self) -> Path:
         return self.var_root / "state" / "locks"
-
-    def lock_file(self, vault_id: str) -> Path:
-        return self.state_locks / f"{vault_id}.lock"
 
     def state_local_sources(self, vault_id: str) -> Path:
         return self.var_root / "state" / "local-sources" / vault_id

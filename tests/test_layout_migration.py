@@ -56,6 +56,9 @@ def test_doctor_does_not_resolve_applied_files_after_a_layout_move(tmp_path: Pat
     前缀白名单与错误响应回显），因此批次 2 不需要额外的容忍代码——但这条断言
     必须存在，否则后续给 doctor 加检查项时很容易顺手去 stat 这些路径。
 
+    ADR-0019 退役了两阶段写入的 `pending_operations` 检查（无生产者），因此本用例
+    只保留仍然有效的核心不变量：历史 applied_files 路径不得出现在 doctor 报告里。
+
     fixture 直接构造磁盘状态（canonical 文件 + 自哈希的 durable 记录）：原实现借
     `WriteOperation.preview/apply` 产生该状态，ADR-0019 之后该类不再是任何入口的
     依赖，用例不得继续挂在它身上。
@@ -90,8 +93,6 @@ def test_doctor_does_not_resolve_applied_files_after_a_layout_move(tmp_path: Pat
 
     code, report = _run_doctor(tmp_path)
     assert code == 0, report
-    names = {c["name"]: c for c in report["checks"]}
-    assert names["pending_operations"]["state"] == "ok"
     assert operation_id not in json.dumps(report, ensure_ascii=False)
 
     # 审计快照未被任何读取方改写：`record_sha256` 自证即可覆盖该契约，
