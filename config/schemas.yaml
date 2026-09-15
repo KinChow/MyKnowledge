@@ -8,7 +8,6 @@ objects:
   evidence_item: evidence-item/v1
   snapshot_manifest: snapshot-manifest/v1
   local_file_sidecar: local-file-sidecar/v1
-  operation: operation/v1
   public_projection: public-projection/v1
   query_result: query-result/v1
   ask_result: ask-result/v1
@@ -152,47 +151,6 @@ field_contracts:
     scopes: [public-read, local-read, private-read, vault-check, write]
     missing_error: capability_token_required
     invalid_error: capability_token_invalid
-  operation:
-    schema_version: operation/v1
-    required_fields:
-      - operation_id
-      - operation_kind
-      - target_ref
-      - target_vault
-      - state
-      - input_hash
-      - before_hashes
-      - created_at
-      - expires_at
-      - policy_version
-      - schema_version
-    allowed_fields:
-      - operation_id
-      - operation_kind
-      - target_ref
-      - target_vault
-      - source_vault_ids
-      - state
-      - input_hash
-      - before_hashes
-      - after_hashes
-      - diff_sha256
-      - confirmation_event_sha256
-      - public_release_confirmation_ref
-      - confirmation_nonce
-      - confirmation_consumed_at
-      - release_input_sha256
-      - reviewed_content_sha256
-      - reviewed_evidence_sha256
-      - leak_gate_report_sha256
-      - actor_type
-      - actor_id
-      - confirmed_at
-      - created_at
-      - expires_at
-      - policy_version
-      - schema_version
-      - error
   human_audit_confirmation:
     # ADR-0010: the mandatory publish gate. Replaces validation-attestation/v1;
     # it records that a human endorsed this exact content, and what the optional
@@ -767,10 +725,6 @@ audit:
 object_ref:
   key: [vault_id, object_type, object_id]
   id_scope: per-vault
-
-operation:
-  states: [created, previewed, awaiting_confirmation, applied, applied_index_pending, blocked, expired, rejected, failed]
-  projection_pending_is_not_publishable: true
 
 hashes:
   snapshot: sha256(canonical_snapshot_text_utf8)

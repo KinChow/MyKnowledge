@@ -1,16 +1,6 @@
 schema_version: 1
 policy_version: policy-v1
 
-write:
-  require_network: true        # only acquisition=fetch/provider calls; never a blanket wiki/local-file ban
-  network_scope: fetch-and-provider
-  allow_offline_kinds:
-    - local-file
-    - personal-note
-  quote_min_chars: 12
-  operation_ttl_seconds: 1800
-  max_request_body_bytes: 1048576
-
 paths:
   workspace_root: null             # resolved by Vault Registry; see vault manifest layout rules
   local_source_sidecar: var/state/local-sources
@@ -36,11 +26,6 @@ layers:                              # §4.4–§4.5：三个数据域与五层�
     - content/working/
     - content/journal/
     - content/decisions/
-  unmanaged_excluded_from:           # 显式排除，而不是靠"未声明"被忽略
-    - projection_input_tree
-    - leak_gate_input_tree
-    - operation_hashes
-    - query_result
   working:
     # owner 2026-09-01 决策：设为无限。落位后 161 篇长期停在 working 层是**预期
     # 状态**（升级按需、一篇一篇补），按 30 天判滞留会让 doctor 每次输出 161 行
@@ -187,13 +172,6 @@ validation:
     max_reason_chars: 1000
     prompt_boundary: explicit-data-delimiters
     reject_instruction_like_output: false  # output is data; never execute it
-  human_audit:
-    required: true
-    confirmation_event: operation-confirmation/v1
-    binds: [content_sha256, evidence_sha256]
-    llm_pass_substitutes_human_audit: false
-    fail_history_visible: true
-
 security:
   # Built-in loopback/RFC1918/link-local checks are always enabled. These
   # patterns are an additional reviewed allow/deny list and cannot disable
@@ -337,16 +315,6 @@ projection:
     - description
     - draft
     - pagefind
-
-locks:
-  scope: per-vault
-  # 2026-09-01 决策：删除 heartbeat_seconds / stale_after_seconds。锁由 filelock
-  # 的内核锁保证，持锁进程退出（含崩溃）时自动释放，不需要心跳续租；按时间戳
-  # 判活反而多一条"误删活锁"的路径。陈旧 owner sidecar 只能由显式 lock recover
-  # 处理（必须先拿到内核锁），见 tools/vault_lock.py。
-  fencing: true
-  recovery_requires_explicit_command: true
-  recovery_records_audit_event: true
 
 build:
   # 实测实现路径（frontend/scripts/build-release.mjs:7）。原声明写的
