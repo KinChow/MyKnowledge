@@ -48,72 +48,6 @@ review:                              # §6.2：报告项，不是状态轴
   field: review_by
   required: false
 
-retrieval:
-  default: qmd
-  max_query_chars: 4000
-  max_top_k: 50
-  max_vault_ids: 16
-  max_result_snippet_chars: 1200
-  request_timeout_seconds: 10
-  reject_unknown_request_fields: true
-  fallback:
-    - fts5
-    - deterministic-fallback
-  qmd:
-    version: 2.8.3
-    node_major: 22
-    mode: read-only
-    network: false
-    rerank: local-only
-    cache_dir_mode: '0700'
-    cache_must_be_local: true
-    cache_in_git: false
-    max_context_chars: 120000
-
-source:
-  local_file_source_type: local-file
-  local_file_acquisition: local-file
-  personal_note_acquisition: personal-note
-  file_hash: sha256
-  path_ref_prefix: "local-sidecar:"
-
-normalization:
-  snapshot_text: canonical-text-v1
-  quote_matching: quote-normalization-v1
-  offset_space: unicode-code-point
-  interval: half-open
-
-granularity:
-  default:
-    source_body_warn: 8000
-    source_body_block: 16000
-    section_warn: 1500
-    section_block: 3000
-    wiki_claims_warn: 12
-    wiki_claims_block: 20
-  by_kind:
-    reference:
-      source_body_warn: 20000
-      source_body_block: null
-      section_warn: 3000
-      section_block: null
-
-archive:
-  text_max_bytes: 2000000
-  raw_max_bytes: 2000000
-  raw_requires_lfs: true
-  text_compression: zstd
-  text_compression_level: 19
-  external_snapshot_is_supplemental: true
-  include_archive_in_local_rag: false
-  include_archive_in_public: false
-  physical_dedup:
-    enabled: true
-    identity: sha256(canonical_snapshot_text_utf8)
-    owner_key: [vault_id, snapshot_sha256]
-    shared_cache_is_derived: true
-    shared_cache_is_not_backup: true
-
 validation:
   schema_version: wiki-validation/v1
   # ADR-0010: optional layer. No capability negotiation; single call; not_run is
@@ -328,11 +262,3 @@ build:
   advisory_warning_patterns:
     - 'Some chunks are larger than [0-9]+ kB after minification'
     - 'Entry docs.*404 was not found'
-
-frontend:
-  mermaid:
-    security_level: strict
-    max_source_chars: 100000
-    reject_svg_script: true
-    reject_svg_event_handlers: true
-    reject_svg_external_references: true

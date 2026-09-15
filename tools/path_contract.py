@@ -9,9 +9,9 @@
 `tools/indexing.py` 的 root 反推也漏改并且**算出了错的 root 而不报错**。批次 3
 （`archive|audit|release` → `ledger/`）要手工改 config 十余处，漏一处同样无人发现。
 
-表是**显式**的，不从 config 正则扫路径：`field_contracts.operation.required_fields`
-里的 `state` 是字段名、`audit.record_types` 里的 `release` 是记录类型名，扫出来
-只会是噪声。占位符段（`<event_id>` 等）不参与比对——比对的是目录前缀。
+表是**显式**的，不从 config 正则扫路径：`field_contracts.wiki.allowed_fields`
+里的字段名、`audit.record_types` 里的记录类型名，扫出来只会是噪声。占位符段
+（`<event_id>` 等）不参与比对——比对的是目录前缀。
 """
 
 from __future__ import annotations
