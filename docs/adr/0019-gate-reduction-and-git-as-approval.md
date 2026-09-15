@@ -116,8 +116,31 @@ release/public-confirmations/   269 个
 - **已落地**：四类确认事件、operation 状态机、TTL、commit-intent、per-vault 锁在**写入通道**上已删除（`source_ingestor` / `video_frames` / `skill_runtime` / `backend` 改为一次落盘，失败即结构化返回）；审批由 `git commit` 承担。
 - **部分落地**：命令面 **29 → 22**。已退场 `write` / `confirm-apply` / `lock` / `inventory` / `migrate` / `transfer` / `reposition`；`anchor` / `validate` / `audit` / `confirm` / `override` / `release` 与 `video-*` 的退场等待 ADR-0017 的 `wiki` / `build` 动词落地 —— 而 ADR-0017 仍为 Proposed，其 7 条命令面里的 `wiki` 与 `build` **尚未实现**。因此"收敛到 7 条"是目标而非现状。
 - **部分落地**：§5「所有校验值字段从 canonical 文件删除」只做了一半。`content_sha256` 确已不落盘；但 **`selector_sha256` 与 `quote_sha256` 仍由 `tools/evidence_anchor.py` 写入 canonical source 的 `evidence_items`**（实测 275 个 source 含这两个字段）—— 它们是"现算可得"的校验值，正属 §5 的删除范围。`snapshot_sha256` 作为定位指针保留（494 个 source），符合"指针落盘、校验值不落盘"。
-- **进行中（2026-09-15）**：`config/policy.yaml` 的 `write` / `locks` / `validation.human_audit` / `layers.unmanaged_excluded_from` 段已删除（无读取方）；`config/schemas.yaml` 的 `operation` 段已删除。`config/vocab.yaml` 全份 294 行已删（本无任何代码加载）——合法取值的单一来源收敛为 `tools/common.py` 的枚举常量与 `config/json-schema/wiki-v1.json` 的 `enum`。**待定**：`schemas.yaml` 的 `human_audit_confirmation`（活机制的无读者声明）与一批"疑似设计注册表"段（`vault_manifest`/`query_result`/`api`/`events` 等，零读者但可能应由未落地的 `validate:config` 消费），需先回答"对象契约要不要机器校验"再决定删/接线。
+- **进行中（2026-09-15）**：config 死声明四批清理完成。`config/vocab.yaml` 全份 294 行删（合法取值单一来源收敛为 `tools/common.py` 枚举 + `wiki-v1.json` 的 `enum`）；`policy.yaml` 删 `write`/`locks`/`validation.human_audit`/`layers.unmanaged_excluded_from` 与 6 个无读者顶层段（`retrieval`/`source`/`normalization`/`granularity`/`archive`/`frontend`）；`schemas.yaml` 删 `operation` 与 21 个对象契约副本（921→458 行）。清理后 `policy.yaml` 9 段 / `schemas.yaml` 8 段全部有读取方。对象契约的权威确定在代码/jsonschema（wiki→`wiki-v1.json`+jsonschema、source→`source_validator.py`、API→`backend/schemas.py` 的 Pydantic），config 不再放无读者的形状声明。
+- **反模式门禁（2026-09-15）**：上述"把设计说明塞进运行时配置、然后无人读"的模式已复发四批，故加 `tests/test_config_no_dead_sections.py`——AST 扫 `policy_value`/`schemas_value` 调用 + `path_contract` RULES 得"消费集"，断言两个 config 的每个顶层段都在其中。只判**顶层段整段死**，不判段内死子键（后者需键路径级比对，当前仅 `validation` 段一例，留待第二例再上）。检测口径是 AST 非 grep（grep 会因词形碰撞误判，本仓库栽过多次）。
+- **待定（下一轮）**：`schemas.yaml` 的 `validation` 段内死子键（顶层活、90 行子键无读者）；`human_audit_confirmation` 段（活机制的无读者声明，其字段规格权威在 F003/F004 acceptance）。
 - **副作用（实测）**：本 ADR §6 要求修订规范文档，而 `docs/myknowledge-system-design.md` §6 **同时是 LLM 审计的规则集来源**（`tools/validation/ruleset.py`）。因此修订 §6 使 `ruleset_sha256` 变化，把既有的 **1502 条审计结论**统一标记为 `stale_ruleset`。这是设计内的行为（AC-F003-015：可见、不阻断、由重跑 `audit` 刷新），`valid` / `public_publishable` / `confirm` 均不受影响；但它意味着**改规范文档 = 全库审计结论需要重跑**。
+
+## 配置类型化：终态方向（记录，未落地）
+
+死声明门禁（`test_config_no_dead_sections.py`）是**增量解**——事后检测，且只覆盖
+顶层段。**终态解**是"配置即代码"：把运行时读的**设置值**加载进类型化模型，届时
+"没读的字段" = "未用属性"，由 pyright/死代码工具**结构性**暴露，无需专门检测。
+
+- **迁移规模（AST 实测）**：config 的**值访问**只有 **13 处调用 / 11 条唯一键路径**
+  （`policy_value` 7 + `schemas_value` 4 + `config_value` 2），不是大工程。
+- **选型**：`pydantic-settings` 的招牌能力是 env/secrets 多源分层加载，本仓库是
+  单 YAML、无 env 覆盖，用不上——更合身的是普通 `pydantic.BaseModel` 或 stdlib
+  `dataclass`，只取"类型 + 属性访问 + 死字段暴露"。仓库已用 Pydantic（backend），
+  倾向 `BaseModel`。
+- **硬约束（决定成败）**：config 里混着两类东西——(a) 运行时读的**设置值**（11 条，
+  适合建模）与 (b) 给 `path_contract` 对账的**路径声明**（`audit/.../<id>.json` 之类
+  模板）。**(b) 必须留在 YAML**：`path_contract` 的价值是"config 声明路径 ↔
+  `paths.py` 派生路径"**两份独立事实互证**，迁到 pydantic 单一真相会削弱这个有意
+  保留的门禁。所以终态是"(a) 迁 BaseModel、(b) 留 YAML"，不是全迁。
+- **不现在做的理由**：config 低频变更（近期改动全是删死重、非加新键），增量检测
+  （已建的 test）性价比高于终态迁移；且它触及 `path_contract` 的双重事实设计，属
+  独立架构决策，应单独立项并先出设计。此条为方向记录，非承诺。
 
 ## 重新评估条件
 
