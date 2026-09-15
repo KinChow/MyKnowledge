@@ -91,7 +91,7 @@ F014 交付的是可复用的视频 Source 能力，而不是某一门课程的�
 
 `config/vocab.yaml`：`source_types` 新增 `podcast`、`video`、`talk`、`paper`、`spec`、`software`、`dataset`（对齐 CSL / Zotero item type 子集，映射关系写在注释里，不通过改名表达）；`archive_policies` 新增 `transcript-only`。
 
-`evidence_items.locator` 新增可选字段 `media_fragment`（W3C Media Fragments URI 语法，如 `#t=1450,1520`）。它与 `heading_slug` 同性质：只用于阅读定位，不参与 `selector_sha256`、`quote_sha256` 或任何失效轴。
+`evidence_items.locator` 新增可选字段 `media_fragment`（W3C Media Fragments URI 语法，如 `#t=1450,1520`）。它与 `heading_slug` 同性质：只用于阅读定位，不进 selector、不进 `snapshot_sha256` 绑定，也不引入任何新的失效轴（引文指纹 `selector_sha256`/`quote_sha256` 本身已按 ADR-0019 §5 不落盘，`media_fragment` 更没有参与其计算口径的余地）。
 
 `config/policy.yaml` 新增：
 

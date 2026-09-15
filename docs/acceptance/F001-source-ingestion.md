@@ -105,11 +105,11 @@
 - 对应测试：`tests/ingest/test_fetcher.py::test_invalid_port_url_blocked`、`tests/ingest/test_fetcher.py::test_bounded_gzip_rejects_expansion`、`tests/ingest/test_fetcher.py::test_url_policy_rejects_private_and_unsafe_targets`
 - 当前状态：通过。解析全部地址→任一私网即拒→连接直连已校验 IP，Host/SNI 使用原主机名；`test_dns_rebinding_is_reported_separately` 覆盖同 hostname IP 漂移，`test_userinfo_url_is_blocked` 覆盖凭据 URL。重定向到私网按 `private_network` 返回是预期的逐跳目标策略，不影响阻断结论。
 
-## AC-F001-011 Evidence 锚定生成 selector 与 hash
+## AC-F001-011 Evidence 锚定生成 selector 与定位指针
 
 - Given：某 source 已有归档 snapshot；用户在 snapshot 正文中选取一段包含 CJK、emoji 和代码标点的片段；
 - When：执行 `evidence_anchor`（一次落盘，`EvidenceAnchor.anchor()` 纯计算 + `apply_evidence()` 幂等写回）；
-- Then：生成 `TextQuoteSelector`（`exact` 逐字取自 snapshot，`prefix`/`suffix` 各取相邻 32 个 code point）和 `TextPositionSelector`（Unicode code-point 半开区间 `[start, end)`），计算 `selector_sha256` 与 `quote_sha256`，直接幂等写回 source 的 `evidence_items`；
+- Then：生成 `TextQuoteSelector`（`exact` 逐字取自 snapshot，`prefix`/`suffix` 各取相邻 32 个 code point）和 `TextPositionSelector`（Unicode code-point 半开区间 `[start, end)`），连同定位指针 `snapshot_sha256` 直接幂等写回 source 的 `evidence_items`；`selector_sha256`/`quote_sha256` 不落盘（ADR-0019 §5，需要时由 selector/exact 现算）；
 - 失败时不变量：偏移量不得按 UTF-8 字节或 UTF-16 code unit 计算；`prefix`/`suffix` 不得单独作为匹配依据；工具不得改写归档 snapshot；锚定工具不得另取写锁或写 operation 记录（ADR-0019）；
 - 自动化级别：Unit/Integration。
 - 对应测试：`tests/ingest/test_source_ingestor.py::test_personal_note_ingest_and_anchor`（含 emoji 的 code-point 偏移断言）、`tests/anchor/test_evidence_anchor.py::test_anchor_does_not_touch_disk`（`anchor()` 为纯计算，不写盘）、`tests/anchor/test_evidence_anchor.py::test_anchor_evidence_writes_directly_without_operation_record`（直写且无 operation 记录）
@@ -128,12 +128,12 @@
 ## AC-F001-013 锚定工具与验证器共用同一归一实现
 
 - Given：同一 snapshot 与同一 selector；
-- When：`evidence_anchor` 生成 `quote_sha256`，验证器独立重新计算 `quote_sha256`；
-- Then：两个值必须相同；该一致性测试常驻 CI；
+- When：锚定链按 `sha256_text(canonical_quote(exact))` 重算引文摘要，验证器经 `SourceValidator.quote_sha256(exact)` 独立重算同一引文摘要；
+- Then：两个值必须相同，且 evidence item 不含 `selector_sha256`/`quote_sha256`；该一致性测试常驻 CI；
 - 失败时不变量：工具侧不得另写一份 `canonical_quote()`；两份实现漂移时必须由该测试失败暴露，而不是等到引文匹配不上时才发现；
 - 自动化级别：Unit。
-- 对应测试：`tests/ingest/test_source_ingestor.py::test_personal_note_ingest_and_anchor`（`evidence["quote_sha256"] == SourceValidator.quote_sha256(...)` 常驻断言）
-- 当前状态：通过。`canonical_quote()` 为 `tools/common.py` 单一实现；`SourceValidator.quote_sha256` 走独立调用路径重算，锚定与验证两条路径由断言锁死。
+- 对应测试：`tests/ingest/test_source_ingestor.py::test_personal_note_ingest_and_anchor`（`sha256_text(canonical_quote(...)) == SourceValidator.quote_sha256(...)`，外加 `assertNotIn("selector_sha256", evidence)` / `assertNotIn("quote_sha256", evidence)` 两条落盘契约断言）
+- 当前状态：通过。`canonical_quote()` 为 `tools/common.py` 单一实现；`SourceValidator.quote_sha256` 走独立调用路径重算，锚定与验证两条路径由断言锁死。ADR-0019 §5 之后本条改的是载体而非退场——校验值不再落盘，于是锁的对象从「工具生成的字段 == 验证器重算值」换成「两条重算路径互等 + evidence 里没有指纹」；它要防的缺陷（工具侧另写一份归一实现、两份实现静默漂移）没有消失。
 
 ---
 

@@ -598,8 +598,6 @@ evidence_items:
           start: 1204
           end: 1262
           offset_space: unicode-code-point
-    selector_sha256: "sha256:..."
-    quote_sha256: "sha256:..."
 ---
 ```
 
@@ -726,19 +724,17 @@ evidence_items:
           start: 1204
           end: 1268
           offset_space: unicode-code-point
-    selector_sha256: "sha256:..."
-    quote_sha256: "sha256:..."
 ```
 
 `TextQuoteSelector` 和 `TextPositionSelector` 采用 W3C Web Annotation 语义；exact 匹配是 blocking gate，prefix/suffix/position 用于消歧和 UI 恢复。近似匹配只能生成“建议重新锚定”，不得单独使 claim 通过。
 
-`TextPositionSelector.start/end` 使用**规范化 snapshot 文本的 Unicode code-point offset，半开区间 `[start, end)`**，不是 UTF-8 字节偏移、UTF-16 code unit 或压缩文件偏移。生成 selector 前先固定 `normalization_version`；读取、匹配、高亮和 `selector_sha256` 都必须使用同一版本。snapshot hash 计算的是提取后、LF 归一化、未压缩的 canonical text，压缩格式和文件路径不参与 hash：
+`TextPositionSelector.start/end` 使用**规范化 snapshot 文本的 Unicode code-point offset，半开区间 `[start, end)`**，不是 UTF-8 字节偏移、UTF-16 code unit 或压缩文件偏移。生成 selector 前先固定 `normalization_version`；读取、匹配与高亮都必须使用同一版本。snapshot hash 计算的是提取后、LF 归一化、未压缩的 canonical text，压缩格式和文件路径不参与 hash：
 
 ``` text
 snapshot_sha256 = sha256(canonical_snapshot_text_utf8)
-selector_sha256 = sha256(canonical_yaml(selector + normalization_version + snapshot_sha256))
-quote_sha256    = sha256(canonical_quote(exact))
 ```
+
+**`selector_sha256` 与 `quote_sha256` 不再落盘，也不再作为记录字段**（ADR-0019 §5）。判据是"没有它就无法找到数据 → 必须落盘；有它只是为了比对是否被篡改 → 不落盘"：这两个值可由同一记录里的 `selector` / `exact` 现算，属于校验值；而 canonical 被改写这件事由 git 提供可见性。需要指纹时（如校验器消歧）在运行时现算，公式见 `tools/citation.py` 与 `tools/evidence_anchor.py`。`snapshot_sha256` 是定位指针（决定读哪个 archive 文件），保留。
 
 `canonical_yaml` 不是依赖 YAML 原始排版的字符串：实现必须先解析数据，再用 UTF-8、递归排序 key、固定数组顺序和无额外空白的 canonical JSON 序列化后计算 hash；禁止 YAML anchor、隐式类型或浮点格式影响 hash。引文校验同时维护 `normalized_text` 到 canonical snapshot code-point 的 offset map：先在 selector 的 canonical `[start, end)` 范围内截取，再对候选和 `exact` 使用同一 `normalization_version` 归一化，并把唯一匹配映射回 canonical 区间。若归一化后出现多个候选或无法映射，必须返回 `ambiguous_selector`/`selector_unresolved`，不能仅凭近似匹配通过。
 
@@ -845,8 +841,6 @@ evidence_items:
           start: 1204
           end: 1262
           offset_space: unicode-code-point
-    selector_sha256: "sha256:..."
-    quote_sha256: "sha256:..."
 ```
 
 规则：
@@ -977,8 +971,6 @@ evidence_items:
           start: 1204
           end: 1273
           offset_space: unicode-code-point
-    selector_sha256: "sha256:..."
-    quote_sha256: "sha256:..."
 read_status: partial
 evidence_status: source-reported
 ---
@@ -1346,7 +1338,7 @@ evidence:
 
 ### 6.6.1 逻辑 ID 与 hash 的职责边界
 
-`id` 表示可被链接、引用和审计追踪的逻辑对象，创建后保持稳定；`content_sha256` 表示该对象当前内容版本；`snapshot_sha256` 表示不可变证据快照；`evidence_sha256`/`selector_sha256` 表示证据绑定版本。Source 和 Wiki 不使用正文 hash 作为主 ID，因为一次正文修改不应让所有下游引用和路由失效为“指向不存在的对象”。Question 的 ID/hash 规则留给 F008。
+`id` 表示可被链接、引用和审计追踪的逻辑对象，创建后保持稳定；`content_sha256` 表示该对象当前内容版本；`snapshot_sha256` 表示不可变证据快照。证据绑定没有独立 hash 字段：`evidence_id` + `snapshot_sha256` 已足够寻址，引文指纹（`selector_sha256`/`quote_sha256`）按 ADR-0019 §5 不落盘、需要时现算。Source 和 Wiki 不使用正文 hash 作为主 ID，因为一次正文修改不应让所有下游引用和路由失效为“指向不存在的对象”。Question 的 ID/hash 规则留给 F008。
 
 ID 生成规则：用户显式提供的合法 kebab-case ID 优先；需要自动生成时，工具从规范化标题/相对路径生成候选 slug，并在 preview 中报告**同一 Vault、同一 object type**内的冲突。迁移器使用 `slug + stable collision suffix`（由输入路径 hash 的短前缀产生），同一输入重复运行必须得到相同 ID；不同 Vault 的同名对象不冲突，引用解析仍以 owner `vault_id` 为上下文。ID 一旦 Apply 不再自动改名，改名只能走 rename operation 并同步 route、引用和审计记录。
 
@@ -1721,8 +1713,6 @@ evidence_bindings:
     source_id: source-transformer-paper
     evidence_id: e1
     snapshot_sha256: sha256:...
-    selector_sha256: sha256:...
-    quote_sha256: sha256:...
 claims:
 unmapped_claims:
 contradictions:
@@ -1741,7 +1731,7 @@ verdict:
 
 1. wiki 当前 `content_sha256` 等于报告中的 `wiki_content_sha256`；
 2. wiki 当前 `evidence_sha256` 等于报告中的 `wiki_evidence_sha256`；
-3. 报告中每个 evidence binding 的 `snapshot_sha256`、`selector_sha256` 和 `quote_sha256` 等于当前 target；
+3. 报告中每个 evidence binding 的 `snapshot_sha256` 等于当前 target（引文指纹按 ADR-0019 §5 不落盘，因此不参与失效判定——需要时由 `evidence_id` 解析后现算）；
 4. 全部被引 evidence item 和 snapshot 仍然存在，且上游 source 的 `read_status`/`evidence_status`/`origin`/`confidentiality` 重查结果与报告记录一致；
 5. validator、schema 和 prompt 版本仍在 `policy.yaml` 声明的兼容范围内；
 6. 报告 verdict 为 `pass`，且没有 partially supported、unsupported、contradicted 或 unmapped claim。
@@ -2465,7 +2455,7 @@ tools/（按职责划分模块；文件命名是实现细节，不构成契约�
 
 - 共享基础：root、vault 挂载、路径安全、front matter、hash 和页面读取；
 - Source 导入与归档：source 模板、抓取、`local-file` 导入（`--from-file`）、正文提取、压缩、内容寻址写入和 manifest 维护；
-- Evidence 锚定：从已归档 snapshot 交互式选取引文，生成 `TextQuoteSelector`/`TextPositionSelector`（Unicode code-point 半开区间）、`selector_sha256` 和 `quote_sha256`，写回 source 的 `evidence_items`。这是 §5.1 evidence item 与 §6.4 claim target 的唯一落地入口；没有它，claim 只能手写 offset，全部迁移工作量无法开始。详见 [证据锚定实现设计](./technical-design/evidence-anchoring.md)；
+- Evidence 锚定：从已归档 snapshot 交互式选取引文，生成 `TextQuoteSelector`/`TextPositionSelector`（Unicode code-point 半开区间），写回 source 的 `evidence_items`（引文指纹按 ADR-0019 §5 不落盘，需要时现算）。这是 §5.1 evidence item 与 §6.4 claim target 的唯一落地入口；没有它，claim 只能手写 offset，全部迁移工作量无法开始。详见 [证据锚定实现设计](./technical-design/evidence-anchoring.md)；
 - wiki 生命周期：source 检查、claim/evidence、一次落盘（ADR-0019）、ID/路径变更与引用同步、route map、`retire`/`purge` 前置检查；
 - 校验：确定性 schema、引用、链接、状态组合和保密分级校验；LLM adapter、结构化输出、引文逐字校验和报告；
 - 来源巡检：外部链接巡检、归档快照更新和漂移标记；

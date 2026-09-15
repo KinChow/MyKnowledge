@@ -20,7 +20,7 @@ API 只做本地 adapter，领域检索委托 `tools.indexing.Retriever`；对�
 
 本轮启动加载调查（2026-08-30）：Astro/Starlight 的 content collection 与 Pagefind 均以构建期生成物作为只读输入；API 复用同一 `queries/public/manifest.json` projection contract。替代方案是启动时扫描 `wiki/` 或接受任意客户端传入文件路径，会绕过 public allowlist 和 leak gate，明确排除。`create_app(root=...)` 在未注入测试数据时仅加载 schema/projection 正确的 public manifest；manifest 缺失或非法时返回空但可诊断的离线检索，不读取 canonical/private/practice。
 
-citation replay 复用 W3C Web Annotation 的 TextQuote/TextPosition 语义（<https://www.w3.org/TR/annotation-model/>，W3C Recommendation）：`tools.citation.replay` 只读校验 snapshot、Unicode 半开区间、exact 与 hash，不将模型返回的标题/URL 当作证据。替代方案是仅信任模型引用，无法抵抗正文漂移，明确不采用。
+citation replay 复用 W3C Web Annotation 的 TextQuote/TextPosition 语义（<https://www.w3.org/TR/annotation-model/>，W3C Recommendation）：`tools.citation.replay` 只读校验 snapshot 内容 hash、Unicode 半开区间与 `position ↔ exact` 的逐字命中，不将模型返回的标题/URL 当作证据。替代方案是仅信任模型引用，无法抵抗正文漂移，明确不采用。
 
 ## 目标与边界
 
@@ -64,7 +64,7 @@ POST /api/citation/replay
 
 `POST /api/ask` 使用相同的 `scope`/`vault_ids`/`top_k` 请求部分，但返回独立的 `ask-result/v1`：`answer`、`citations[]`、完整 `retrieval` QueryResult、`availability`、`availability_reason`、`confidentiality`、`limits` 和 `warnings`。`AskResult.citations[]` 必须能回到 `QueryItem.object_ref` 和 snapshot/locator；生成答案不能写 canonical、验证状态、发布状态或共享缓存。没有 LLM 或引用校验能力时返回 `availability: unavailable` 和具体原因，不能把检索片段冒充生成答案。
 
-Ask 的 `answer` 在不可用或冲突时为 `null`；每个 citation 必须符合 `citation/v1`，包含 `object_ref`、匹配检索 item 的 `content_sha256` 和 `citation-locator/v1` 的 `locator`。locator 可以从 source/evidence 记录间接引用，也可以内嵌 `TextQuoteSelector`/`TextPositionSelector`，但最终都必须解析到同一 owner Vault 的不可变 `snapshot_sha256`。重放顺序固定为：按完整 ObjectRef 解析对象 -> 按 owner Vault 解压 snapshot -> 重新校验 snapshot hash -> 在同一 normalization version 下验证 quote exact 和 position 的 Unicode code-point 半开区间 -> 校验 `selector_sha256`（若存在）。缺少 snapshot、selector、owner 或 exact 匹配时 citation 无效，不能只返回模型生成的标题、URL 或未绑定的文本片段；近似匹配只能生成重新锚定建议。
+Ask 的 `answer` 在不可用或冲突时为 `null`；每个 citation 必须符合 `citation/v1`，包含 `object_ref`、匹配检索 item 的 `content_sha256` 和 `citation-locator/v1` 的 `locator`。locator 可以从 source/evidence 记录间接引用，也可以内嵌 `TextQuoteSelector`/`TextPositionSelector`，但最终都必须解析到同一 owner Vault 的不可变 `snapshot_sha256`。重放顺序固定为：按完整 ObjectRef 解析对象 -> 按 owner Vault 解压 snapshot -> 重新校验 snapshot hash -> 在同一 normalization version 下验证 quote exact 和 position 的 Unicode code-point 半开区间（命中判定到此为止：引文指纹不落盘、不参与比对，需要时现算）。缺少 snapshot、selector、owner 或 exact 匹配时 citation 无效，不能只返回模型生成的标题、URL 或未绑定的文本片段；近似匹配只能生成重新锚定建议。
 
 检索响应严格按 `query-result/v1` 返回：顶层必须包含 `schema_version`、`items`、`scope`、`method`、`index_version`、`generated_from`、`availability`、`availability_reason`、`degraded`、`confidentiality_max`、`limits` 和 `warnings`；每个 item 必须包含 `object_ref`、`availability`、`availability_reason`、`confidentiality` 和 `content_sha256`（已知 hash 不得因 unavailable 而清空）。混合可用性按索引设计中的固定聚合规则处理，不得把受影响对象静默过滤成“未找到”。写操作响应使用独立的 `write-result/v1`（`state`、`vault_id`、`applied_files` 或 `error_code`），**不含 `operation_id`**——ADR-0019 之后写入没有 operation 身份，不能让调用方以为存在可续做的第二阶段；不能把写操作字段强行塞进 QueryResult。`POST /api/ask` 使用独立的 `ask-result/v1`，顶层包含 `schema_version`、`answer`、`citations`、`retrieval`（完整 QueryResult）、`availability`、`availability_reason`、`confidentiality`、`limits` 和 `warnings`。错误还必须包含 `code`、`stage`、`retryable` 和 `next_action`。对象读取和写入路径必须显式包含 `vault_id`，因为不同 Vault 可以拥有同名 `object_id`；public scope 可提供兼容的省略形式，但只解析保留的 `public` Vault。`local`/`private` scope 缺少 `vault_id` 时只允许查询，不允许单对象 read/backlinks 以 manifest 顺序猜测 owner。写接口拒绝调用方提供的派生字段和物理路径；`vault_id` 必须是请求体字段（不再是 operation 字段）。
 
@@ -90,4 +90,4 @@ Ask 的 `answer` 在不可用或冲突时为 `null`；每个 citation 必须符�
 
 ## 一致性与测试
 
-CLI 和 API 共用领域函数和 QueryResult schema；测试覆盖 GET 别名与 POST 规范接口的逐字段等价、请求字段/长度/top_k/Vault 数量限制、QMD cache 权限和 network-disabled 约束、后端崩溃、旧索引保留、未授权绑定地址、token 文件权限/进程启动轮换/旧 token 失效/错误 scope、缺失/错误 capability token、跨站写请求、private scope 隔离、unavailable 元数据不泄漏正文、citation snapshot 解压重放与 selector hash 校验、`/api/write` 一次落盘（响应不带 `operation_id`）和写失败不留半成品。
+CLI 和 API 共用领域函数和 QueryResult schema；测试覆盖 GET 别名与 POST 规范接口的逐字段等价、请求字段/长度/top_k/Vault 数量限制、QMD cache 权限和 network-disabled 约束、后端崩溃、旧索引保留、未授权绑定地址、token 文件权限/进程启动轮换/旧 token 失效/错误 scope、缺失/错误 capability token、跨站写请求、private scope 隔离、unavailable 元数据不泄漏正文、citation snapshot 解压重放与 `position ↔ exact` 逐字校验、`/api/write` 一次落盘（响应不带 `operation_id`）和写失败不留半成品。

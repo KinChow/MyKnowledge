@@ -18,7 +18,7 @@
 
 ## 流程
 
-解析 Wiki → 确定性 schema 校验 → 在 owner Vault 上下文解析 target(source_id, evidence_id)，扩展为完整 ObjectRef → 按 `(vault_id, snapshot_sha256)` 读取不可变 snapshot → 在 selector 范围内匹配 supporting_quotes → 执行跨 vault 冲突/一致性检查 → 生成验证输入 → （可选）LLM 规范审计 → 人工审计确认 → 保存 semantic/content/evidence/snapshot/selector/hash 绑定报告 → 写入 durable validation attestation → 计算 private/public publishability。
+解析 Wiki → 确定性 schema 校验 → 在 owner Vault 上下文解析 target(source_id, evidence_id)，扩展为完整 ObjectRef → 按 `(vault_id, snapshot_sha256)` 读取不可变 snapshot → 在 selector 范围内匹配 supporting_quotes → 执行跨 vault 冲突/一致性检查 → 生成验证输入 → （可选）LLM 规范审计 → 人工审计确认 → 保存 semantic/content/evidence/snapshot/selector 绑定报告（引文指纹不落盘、不参与失效判定，ADR-0019 §5） → 写入 durable validation attestation → 计算 private/public publishability。
 
 ## 三层发布门禁
 
@@ -53,7 +53,7 @@
 
 - 必须对每个可验证 claim × 每个 target 返回 verdict，缺任何一条即无效；
 - 只给 advisory 而不给 verdict 视为未覆盖；
-- `rationale` 必须引用 target snapshot 内的具体字符区间（`quote_sha256` + offset），泛泛结论不满足 schema；
+- `rationale` 必须引用 target snapshot 内的具体字符区间（`rationale_offsets`：`source_id`/`evidence_id` + `start`/`end` 的 Unicode code-point 半开区间），泛泛结论不满足 schema；
 - `not_run` 只能由运行时观测事实产生（`provider_unavailable` / `offline` / `context_exceeded` / `malformed_output` / `incomplete_coverage`）；模型不能自行声明 `not_run`，操作者选择不跑则不写审计报告（没跑就是没跑，不留「已审」痕迹）。
 
 审计报告 append-only。人工审计界面必须展示本页历史 `fail` 次数与最近一次 `fail` 命中的规则条目——用可见性抑制「重跑刷绿」，不用锁定机制。
@@ -73,7 +73,7 @@
 
 确定性 validator 必须先于 provider 运行，并输出结构化 `DeterministicReport`（canonical schema version `deterministic-validation/v1`）：对象/Vault 解析、selector 范围、quote 匹配、source independence group、版本冲突、有效 confidentiality、当前 hash 和阻断 code。LLM 只能接收已通过确定性检查的 target 上下文，不能新增 target 或放宽 quote 规则。所有 snapshot、wiki 和 claim 都以不可信数据传入显式数据边界；provider request 禁止 tools、外部 URL、浏览和隐式网络，模型输出不能触发文件写入、状态变更或新的引用解析。
 
-Provider adapter 输入固定为 `ValidationRequest`，输出只能是 schema version 声明的 verdict/claim verdict/理由/引用片段；adapter 不得写 canonical 文件。响应经过 JSON schema、claim ID、target ID 和 quote hash 二次校验后才保存 report。多 source 一致只产生 `corroborated` 信号，不等于事实正确；存在版本、前提、数值或结论冲突时设置 `status: review` + `evidence_state: conflicting`。
+Provider adapter 输入固定为 `ValidationRequest`，输出只能是 schema version 声明的 verdict/claim verdict/理由/引用片段；adapter 不得写 canonical 文件。响应经过 JSON schema、claim ID、target ID 和引文逐字校验（`position` 范围 ↔ `exact`，经 `canonical_quote` 归一）后才保存 report。多 source 一致只产生 `corroborated` 信号，不等于事实正确；存在版本、前提、数值或结论冲突时设置 `status: review` + `evidence_state: conflicting`。
 
 Provider 能力不足、不可用、超时或返回 malformed 输出时，结果是 `validation_state: not_run` + 结构化 `not_run_reason`（`provider_unavailable` / `offline` / `context_exceeded` / `malformed_output` / `incomplete_coverage`），**不是** `fail`，也不触发能力协商。这是 LLM 可选化的直接推论：不可用是环境事实，不是审计结论。操作者主动跳过不写审计报告，因此没有 `skipped_by_operator` 这个值。报告只保存 opaque provider identity 与 `not_run_reason`，不保存 endpoint、模型版本、密钥或完整请求响应。
 
@@ -83,7 +83,7 @@ Provider 能力不足、不可用、超时或返回 malformed 输出时，结果
 
 “多个来源都这么写”不能用计数器实现。验证器先把每个 target 变成带 owner 和适用范围的 observation，再做成对比较；任何多数票都不能覆盖一个未解释的冲突。
 
-1. **结构归一**：按 `(vault_id, source_id, evidence_id, snapshot_sha256, selector_sha256)` 去重；同一 source/evidence 的重复 target 只保留一条并记录 `duplicate_target`。`independence_group` 优先取 Source 的声明；缺失或相互矛盾时退回唯一 `source ObjectRef`，并写 `independence_unknown` 告警，不能凭域名推断独立。
+1. **结构归一**：按 `(vault_id, source_id, evidence_id, snapshot_sha256, hash_canonical(selector))` 去重（去重键用 `tools.validation.corroboration.structure_dedup` 现算的 selector canonical hash，不读落盘的 `selector_sha256`——该字段已按 ADR-0019 §5 删除）；同一 source/evidence 的重复 target 只保留一条并记录 `duplicate_target`。`independence_group` 优先取 Source 的声明；缺失或相互矛盾时退回唯一 `source ObjectRef`，并写 `independence_unknown` 告警，不能凭域名推断独立。
 
    独立性判定交给 LLM 规范审计执行（人工无法在规模上逐对核对转载链），但它的举证义务比其他 verdict 更严：**每条独立性结论必须回引 source 的 `provenance` 字段**（`publisher`、`derived_from`、`independence_group`）或引文原文中的转载声明，并给出对应字符区间。**禁止以域名、站点名、URL 相似度、发布时间先后或"看起来像原创"作为独立性依据**——同一机构可以有多个域名，转载站也可以有独立域名，域名与独立性没有可靠映射。无法从 `provenance` 或原文举证时必须输出 `independence_unknown`，按单一 source 处理，不得猜测。
 2. **观察提取**：每次 provider call 必须对已固定的 target 返回 `claim_verdict` 和可选的结构化 observation：`subject`、`predicate`、`object`、`qualifiers`（版本、时间范围、前提、单位）及 `observation_sha256`。这些字段只能描述给定 quote，不能新增 target、URL 或文件路径。无法结构化或 quote 不足时记为 `unmapped`/`unavailable`，不参与 corroboration。

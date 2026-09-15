@@ -10,7 +10,7 @@
 
 主规范 §5.1 要求 source 携带 `evidence_items`，§6.4 要求每条 claim 的 target 指向一个已解析的 evidence item，§6.9 要求 `supporting_quotes.exact` 能在 selector 范围内逐字匹配。这三条都假设「selector 已经存在」，但整套设计里没有任何一处说明 selector 是怎么产生的。
 
-手写不可行：`TextPositionSelector` 是 Unicode code-point 半开区间，人不可能数出正确的 `[start, end)`；`selector_sha256` / `quote_sha256` 也无法手算。缺了这个入口，claim 级证据在实践上不可写——这既是当前设计的最大缺口，也是全部存量迁移工作量的主项。
+手写不可行：`TextPositionSelector` 是 Unicode code-point 半开区间，人不可能数出正确的 `[start, end)`；`prefix`/`suffix` 要各取相邻 32 个 code point，肉眼也截不准。缺了这个入口，claim 级证据在实践上不可写——这既是当前设计的最大缺口，也是全部存量迁移工作量的主项。
 
 ## 目标与非目标
 
@@ -27,7 +27,7 @@ source_id + evidence_id（可选，缺省自动分配）
   -> 交互式定位候选片段（--query 关键字 / --range 行号 / stdin 粘贴）
   -> 用户确认唯一片段
   -> 生成 TextQuoteSelector + TextPositionSelector
-  -> 计算 selector_sha256 / quote_sha256
+  -> 组装 evidence item：position + selector + 定位指针 snapshot_sha256（校验值不落盘）
   -> preview：不带 --source 时只做定位计算并打印 evidence，不改工作树（dry run）
   -> 直接落盘：经 --source 写回 source 的 evidence_items（无两阶段、无写锁、无 operation 记录）
 ```
@@ -46,11 +46,11 @@ source_id + evidence_id（可选，缺省自动分配）
 
 最小长度门槛来自 policy（`normalization` / `granularity` 段）。过短引文（例如单个标识符）会大量误匹配，直接拒绝并提示扩大选区。
 
-## Hash 契约
+## 归一与定位契约
 
-- `quote_sha256`：对 `canonical_quote(exact)` 的结果取 sha256。使用与验证器**同一个** `canonical_quote()` 实现（NFKC → 全角标点归一 → markup projection → 空白折叠，保留大小写与数字），不得在工具侧另写一份归一逻辑——两份实现必然漂移，而漂移的表现是「工具生成的引文验证器匹配不上」。
-- `selector_sha256`：对 `{snapshot_sha256, start, end, exact, prefix, suffix}` 的 canonical JSON 取 sha256。
-- 两个 hash 连同 `snapshot_sha256` 写入 evidence item，构成 §6.6 失效规则的绑定三元组。
+- 工具**不生成也不落盘** `quote_sha256` / `selector_sha256`（ADR-0019 §5：这两个是校验值，可由同一记录里的 `selector` / `exact` 现算；canonical 内容被改写这件事由 git 提供可见性）。需要指纹时在运行时现算，不在 evidence item 里留副本。
+- 归一实现仍然只有一份：`anchor()` 用与验证器**同一个** `canonical_quote()` 实现（NFKC → 全角标点归一 → markup projection → 空白折叠，保留大小写与数字）计算 `exact` 的归一长度并据此执行最小长度门槛，不得在工具侧另写一份归一逻辑——两份实现必然漂移，而漂移的表现是「工具生成的引文验证器匹配不上」。
+- 落盘的是定位指针：`snapshot_sha256` 决定读哪个 archive 文件，`position` 与 `selector.exact` 承担逐字命中判定；`snapshot_sha256` 与 selector 一起构成 §6.6 失效规则的绑定。
 
 snapshot 漂移（重新抓取产生新 `snapshot_sha256`）后，旧 evidence item 不自动迁移：工具报告 `stale`，要求在新 snapshot 上重新锚定。自动迁移偏移量是不安全的——原文可能已经改写了这段话。
 
@@ -81,4 +81,4 @@ snapshot 漂移（重新抓取产生新 `snapshot_sha256`）后，旧 evidence i
 
 覆盖：CJK 与 emoji 的 code-point 偏移正确性、`exact` 唯一/多重命中/未命中、prefix/suffix 恢复、短引文拒绝、跨段落选区、代码块内选区（标点与空白不得被归一掉）、snapshot 漂移后报 `stale`、重复锚定幂等、批量模式的 `unresolved` 报告完整性。
 
-关键一致性测试：本工具生成的 `quote_sha256` 与验证器对同一 snapshot/selector 独立算出的值必须相同。这条测试是防止两份归一实现漂移的唯一保障，必须在 CI 中常驻。
+关键一致性测试：锚定链的 `sha256_text(canonical_quote(exact))` 与验证器 `SourceValidator.quote_sha256(exact)` 对同一引文独立重算出的值必须相同，同时断言 evidence item 不含 `selector_sha256` / `quote_sha256`（`tests/ingest/test_source_ingestor.py::test_personal_note_ingest_and_anchor`）。这条测试是防止两份归一实现漂移的唯一保障，与指纹是否落盘无关，必须在 CI 中常驻。

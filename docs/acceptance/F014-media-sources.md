@@ -25,8 +25,8 @@
 ## AC-F014-002 media_fragment 不参与任何 hash
 
 - Given：一个含 `locator.media_fragment: "#t=1450,1520"` 的 evidence item；
-- When：计算 `selector_sha256`、`quote_sha256` 与 wiki 的 `evidence_sha256`；
-- Then：三者与不含 `media_fragment` 时完全一致；修改 `media_fragment` 不使任何 claim 失效；
+- When：执行锚定，并计算 wiki 的 `evidence_sha256`（selector 指纹需要时由 selector 现算，不落盘）；
+- Then：`selector`/`position`/`snapshot_sha256` 与 `evidence_sha256` 都与不含 `media_fragment` 时完全一致；修改 `media_fragment` 不使任何 claim 失效；
 - 失败时不变量：`media_fragment` 与 §5.5 的章节 locator 同性质，只用于阅读定位，不得引入新的失效轴；
 - 自动化级别：Unit。
 - 对应测试：`tests/anchor/test_evidence_anchor.py`。
