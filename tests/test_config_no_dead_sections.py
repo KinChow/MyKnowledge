@@ -28,6 +28,9 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 # 扫这些目录里对 config 的**值访问**：函数名 → 该调用读的是哪个 config 文件。
+# 假阳性面：只认这两个访问器 + path_contract RULES。若将来有人换第四种方式读
+# config（如 `load_policy(root)["x"]` 直接下标），其读的段会被漏进"死段"误判——
+# 新增读取入口时必须同步 _VALUE_READERS，否则活段会被当死段报红。
 _VALUE_READERS = {"policy_value": "policy", "schemas_value": "schemas"}
 _SCAN_DIRS = ("tools", "backend", "tests", "scripts")
 # 顶层段没有读取方但保留是合法的（列出理由）。当前为空——四批清理后无豁免。
