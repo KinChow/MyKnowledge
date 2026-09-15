@@ -28,6 +28,9 @@ var/queries/public/index.sqlite3.previous
 content/practice/reviews/
 content/practice/quality/
 
+# pilot 批次的工作产物（锚点映射等），可由 scripts/anchor_batch.py 重跑重建
+var/pilot/
+
 # frontend 构建产物（Astro/pagefind/dist）
 frontend/node_modules/
 frontend/dist/
