@@ -24,7 +24,7 @@
 
 本轮 stdio 集成调查（2026-08-30）：官方 MCP Python SDK `ClientSession` + `stdio_client`（MIT，<https://github.com/modelcontextprotocol/python-sdk>）负责 JSON-RPC 初始化、`tools/list` 和 `tools/call` 消息边界；替代方案是直接向子进程写裸 JSON，无法证明协议握手和错误映射兼容。测试通过真实 `python -m tools.mcp_server` 子进程验证单一受控工具、固定 checkout root 与 capability fail-closed；传输异常不执行写入。
 
-本轮查询路由调查（2026-08-27）：Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）和 SQLite FTS5（Public Domain，<https://sqlite.org/fts5.html>）分别作为 public build/search 与本地 fallback；替代方案是 Skill 直接扫描任意 checkout 路径，会绕过 projection allowlist 和 confidentiality 门禁，明确排除。`query`/`read` action 只加载 public manifest 声明的 published/public 条目，local/private 必须转 API 并提供 capability；结果复用 `query-result/v1`，不写入 canonical 或索引。新增 source preview/apply、wiki validate、publish preview 均委托既有领域服务，Skill 不复制校验或直接写文件；离线时依赖本地服务与 operation store，外部 provider 不可用只返回结构化 unavailable/not-run。
+本轮查询路由调查（2026-08-27）：Pagefind 1.4（MIT，<https://github.com/CloudCannon/pagefind>）和 SQLite FTS5（Public Domain，<https://sqlite.org/fts5.html>）分别作为 public build/search 与本地 fallback；替代方案是 Skill 直接扫描任意 checkout 路径，会绕过 projection allowlist 和 confidentiality 门禁，明确排除。`query`/`read` action 只加载 public manifest 声明的 published/public 条目，local/private 必须转 API 并提供 capability；结果复用 `query-result/v1`，不写入 canonical 或索引。写入 action（`source_ingest` / `write`）、`wiki_validate`、`publish_preview` 均委托既有领域服务，Skill 不复制校验、也不直接拼路径写文件；ADR-0019 之后写入是一次调用直接落盘，因此不再依赖 operation store，也没有 source preview/apply 两个 action。离线时依赖本地服务，外部 provider 不可用只返回结构化 unavailable/not-run。
 
 本轮只读能力扩展调查（2026-08-30）：MCP specification 2025-06 的 `tools/list`/`tools/call` 与工具 annotations（MIT 文档，<https://modelcontextprotocol.io/specification/2025-06-18/server/tools>）要求工具声明结构化输入并由宿主执行授权；Typer commands（MIT，<https://typer.tiangolo.com/tutorial/commands/>）建议子命令只做参数解析并共享领域函数。采用 `retrieve`（与 `query` 共用 Retriever）和 `backlinks`（只消费 public projection 的 body/links）两个只读 action；不允许 Skill 传物理路径、scope 扩权或扫描 canonical/private 目录。替代方案是 Skill 自行遍历 `wiki/`，会绕过 public manifest 和 leak gate，明确排除。离线无网络、无写入；MCP capability 保护规则保持不变。
 
@@ -36,14 +36,14 @@ Skill 直接位于本仓库 `skills/myknowledge/`，Codex 或 Claude Code 从当
 
 ## 能力面
 
-Skill 暴露四类当前工作流：
+Skill 暴露四类当前工作流（`tools/skill_runtime.py` 的 `ACTION_FIELDS` 是 action 与字段的唯一事实来源）：
 
 | 能力 | 行为 |
 | --- | --- |
-| `query/read` | 只读检索和证据定位；规范调用 `POST /api/retrieve`，兼容 `GET /api/query` 但走同一领域函数 |
-| `source` | local-file/fetch/personal source preview/apply |
-| `wiki` | claim/evidence preview、验证和 apply |
-| `publish` | private publish 或 public release preview/人工确认/apply |
+| `query` / `retrieve` / `read` / `backlinks` | 只读检索和证据定位；规范调用 `POST /api/retrieve`，兼容 `GET /api/query` 但走同一领域函数 |
+| `source_ingest` | local-file/fetch/personal-note source 导入，一次调用直接落盘（ADR-0019：无 preview/apply 两阶段） |
+| `write` | 通用文件写入（`files` + `vault_id`），一次调用直接落盘；`wiki_validate` 校验写入结果 |
+| `publish_preview` / `publish_confirm` | private publish 或 public release 的预览与人工确认事件写入（这两个 action 仍然存活：发布确认/审计复议不在 ADR-0019 的删除范围内） |
 
 Question 工具暂不暴露，留给 F008 的单选、多选和面试简答设计。
 
@@ -52,12 +52,13 @@ Question 工具暂不暴露，留给 F008 的单选、多选和面试简答设�
 ## 写入协议
 
 ```text
-intent -> preview -> show diff/hash/vault/confidentiality/warnings
-       -> user confirmation(operation_id)
-       -> apply -> recheck registry/hash -> atomic writer
+action(write | source_ingest, payload)
+  -> 领域服务在调用内完成校验与落盘（无 operation 身份、无锁、无确认事件）
+  -> 返回 {state: applied, vault_id, applied_files} 或 {state: blocked, error_code}
+  -> 人在工作区审 git diff，用 git commit 批准（ADR-0019：审批 = git）
 ```
 
-`apply` 只接受同一 `operation_id` 和未过期 precondition。public release preview 默认 `public_release: false`，只有人工通过独立 `public-release-confirmation/v1` event（`actor_type: human`、当前 `release_input_sha256` 匹配）才能继续；Agent 不能代替该动作。internal private publish 必须显示 warning，并要求 `operation-confirmation/v1`（`scope: publish_private`）携带 `warning_code` 与 `warning_text_sha256`。
+Agent 因此**不能**通过 Skill 完成一次"已批准"的写入：工具只负责把变更落到工作区，是否进入历史由人的 `git commit` 决定。public release 仍然默认 `public_release: false`，只有人工通过独立 `public-release-confirmation/v1` event（`actor_type: human`、当前 `release_input_sha256` 匹配）才能派生为 true，Agent 不能代替该动作（`publish_confirm` 只接受结构化 event 并委托 `write_event`，不生成内容）。internal private publish 必须显示 warning，并要求 `operation-confirmation/v1`（`scope: publish_private`）携带 `warning_code` 与 `warning_text_sha256`——这两个确认通道**仍然存活**，被 ADR-0019 删除的只是写入门禁的 `scope: apply`。
 
 ## Provider runtime
 
@@ -65,4 +66,4 @@ Skill runtime 选择 provider 并注入，不把 endpoint、模型版本或密�
 
 ## 错误、权限和测试
 
-返回统一错误：`code`、`operation_id`、`vault_id`、`stage`、`retryable`、`next_action`；不得回显敏感正文。所有 durable operation/validation/release 结果必须能通过单条 `record_sha256` 与 target owner 校验；顺序与篡改证据来自 Git 历史，不自建 audit hash chain，`record_sha256` 不匹配返回 `hash_mismatch`。测试覆盖直接文件写入阻断、scope 越权、capability token 缺失/跨站请求、跨 Vault 引用、未确认 apply、hash 失效、provider unavailable、public release false、query/retrieve 等价和 record 篡改。
+返回统一错误：`state: blocked` + `error_code`（action 白名单或字段白名单失败时另带 `action`/`fields`）；不得回显敏感正文，也**不再有 `operation_id`**——写入没有操作身份可以回填给调用方。所有 durable validation/release/confirmation 结果必须能通过单条 `record_sha256` 与 target owner 校验；顺序与篡改证据来自 Git 历史，不自建 audit hash chain，`record_sha256` 不匹配返回 `hash_mismatch`。测试覆盖 action/字段白名单、直接文件写入阻断、scope 越权、capability token 缺失/跨站请求、跨 Vault 引用、`working_contract_error` 入口约束、hash 失效、provider unavailable、public release false、query/retrieve 等价和 record 篡改。

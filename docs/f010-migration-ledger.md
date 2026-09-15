@@ -16,12 +16,12 @@
 | 规则 | 判定 | 处理 | 依据 |
 | --- | --- | --- | --- |
 | R1 | 工程文档（`acceptance/` `adr/` `technical-design/` `deferred/` + 4 个根级规范文档，共 45 篇） | **留在 `docs/`，不迁移** | 无来源/快照语义，是仓库开发文档；混入 sources 污染 manifest |
-| R2 | `contents.md` 等 index 形态（32 篇） | 不迁移；**全部批次完工后随 B5 删除**（不保留） | 手工导航页是 legacy 腐化源；导航由 projection graph 派生 |
+| R2 | `contents.md` 等 index 形态（inventory v1 计 32 篇；实际删除 71 篇，见 §2 B5） | 不迁移；**全部批次完工后随 B5 删除**（不保留） | 手工导航页是 legacy 腐化源；导航由 projection graph 派生 |
 | R3 | empty 形态（16 篇） | **不丢弃：登记为"待补内容"清单，补充内容后按 R4/R5 迁移** | 空文档多为开了头的知识点占位，有补充价值 |
 | R4 | 含外部 URL 的文章（23 篇） | **优先批**：可回溯出处，`source_type` 可标 `url/doc/book` | 迁移成本低、证据链完整 |
 | R5a | 无外部 URL 的文章 | **先联网检索出处**（标题/关键概念检索）；找到出处的按 R4 处理（`url/doc/book`） | 多数笔记源自学习过的外部资料，只是当时没记链接 |
 | R5b | 检索确认无外部出处的本人总结 | **迁移终点是 wiki 层而非 source 层**：作为个人知识写入 wiki（provenance 标注为本人综合，不伪装外部证据），或先以 `personal-note` 入 sources 再提炼 wiki | 个人总结不是"来源"，是知识本身；corroboration 为空是事实而非缺陷。**待决**：wiki schema 的证据门禁是否接受"本人综合"类 claim（见 §6） |
-| R6 | 一切迁移必须经 SourceIngestor（`tools.cli source`）/ WriteOperation | 禁止 `git mv` 物理搬家 | 迁移的价值在 front matter + snapshot + manifest 登记 |
+| R6 | 一切迁移必须经 SourceIngestor（`tools.cli source`） | 禁止 `git mv` 物理搬家 | 迁移的价值在 front matter + snapshot + manifest 登记；原并列的 WriteOperation 通道已随 ADR-0019 退场（2026-09-15） |
 | R7 | wiki 提炼与 source 迁移解耦 | R4/R5a 走 Source→Wiki 链路；R5b 可直接 wiki | 避免为迁移阻塞在提炼质量上 |
 | R8 | 跨目录同名文件（stem 冲突） | source_id 用 `parent-stem` 消歧（如 `gpu-overview`、`git-commands`）；批量导入前检查 inventory stem 重复组 | B2 执行时 69 篇 contents/互撞暴露；classifier 已修复 contents.md 一律判 index |
 
@@ -34,13 +34,16 @@
 | B2+B3 source 层 | 全部知识域 article（一次执行，原计划分批；机器成本为零） | 218+13 | **Done（source 层）** | 2026-08-28：B1+B2 批量导入时过滤未限域，实际完成 B3 的 source 层；4 篇根级工程文档被 domain 枚举校验天然拦截（R1 防线生效） |
 | B3 大域批（source 层已并入上格） | wiki 提炼与出处检索（R5a）按需分批 | 250 | Pending | source 层已完成；wiki 化按域渐进 |
 | B4 复核批 | R3 的 16 篇 empty：登记"待补内容"清单，**补充内容后**按 R4/R5 迁移 | 16 | Pending | 逐篇补充并迁移；不丢弃 |
-| B5 退役批 | ~~`mkdocs.yml`~~（**已于 2026-08-28 退役**，含 pip 依赖与 README 链路）+ Astro legacy 预览模式退役；**删除 32 篇 `contents.md` 导航页** | — | In Progress | mkdocs 部分完成；剩余前置：F007 projection 链路以真实多页内容验收通过 |
+| B5 退役批 | ~~`mkdocs.yml`~~（**已于 2026-08-28 退役**，含 pip 依赖与 README 链路）+ Astro legacy 预览模式退役；**删除 `docs/` 全部 `contents.md` 导航页** | — | **Done** | mkdocs 2026-08-28 退役；`contents.md` 已删净（实际删除 71 篇，与 inventory v1 的 32 篇分类数不一致的差额来自 B2 实测暴露的 69 篇同名导航页）；F007 projection 已以真实多页内容验收（§8.12）；`docs/` 知识域子目录已全部消失 |
 
 ## 3. 当前实测基线（2026-08-28，inventory v1）
 
 ```bash
 python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 hash 绑定
 ```
+
+> 本节数字是 2026-08-28 的历史基线快照；`inventory` 命令已随 ADR-0019 退场（2026-09-15），
+> 重算该基线已不可能，保留数字仅用于批次回溯。
 
 - 总量 321：知识内容 276（computer-science 250 / work-methods 12 / multimedia 11 / tools 2 / reading-notes 1）+ 工程 45
 - 形态：article 273 / index 32 / empty 16
@@ -56,7 +59,7 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 
 ## 5. 与主线的并行关系
 
-迁移不阻塞 F005/F006 review（主线）；B1 样本批可与 F007 验收互为输入（B1 产出真实 source/wiki 供 F007 projection 验收）。`confirm-apply` CLI 独立小项可插任意空档。
+迁移不阻塞 F005/F006 review（主线）；B1 样本批可与 F007 验收互为输入（B1 产出真实 source/wiki 供 F007 projection 验收）。原「`confirm-apply` CLI 独立小项」已随两阶段写入退场（ADR-0019），不再存在。
 
 ## 6. 待决项
 
@@ -252,3 +255,4 @@ python -m tools.cli inventory --output /tmp/inv.json   # 确定性重算，树 h
 | --- | --- |
 | 2026-09-02 | 章节编号重排为连续（1-9，原 1/2/9/6/7/3/4/5/8/10 乱序）；R8 从批次表移入 §1 判定规则区；执行记录（原 §8/§9/§10）按时间正序合并为 §8；新增本修订记录表。内容零丢失 |
 | 2026-09-02 | 新增头部「生命周期声明」：本文是迁移过程决策记录而非规范，不参与 ruleset 抽取；迁移完成后随 docs/ 退役归档至 `ledger/`，不长期驻留规范目录 |
+| 2026-09-15 | 依 ADR-0019 修正失真：R6 去掉已退场的 WriteOperation 通道、§5 删掉已不存在的 `confirm-apply` CLI 小项、§3 注明 `inventory` 命令已退场（数字为历史基线）、R2 与 B5 对齐 `contents.md` 的实际删除量（71 篇）并把 B5 状态改为 `Done` |

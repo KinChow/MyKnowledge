@@ -9,11 +9,7 @@
 
 ## Question Platform 验收
 
-### AC-F008-000 空题库
-
-- Given：没有任何 Question Package；
-- When：启动本地后端并请求 catalog/session；
-- Then：服务正常启动，catalog 返回 `state: empty` 和 `next_action: import_question_package`；创建 session 返回结构化 `practice_catalog_empty`，不返回 404，不从 Wiki 临时生成题目。
+> 待同步（ADR-0019，2026-09-15）：下节 `AC-F008-020` / `AC-F008-021` 写的是 `question-package/v1` 的 import preview → 人工确认 → import apply 两阶段设计（F008 Question Platform，尚未实现）。ADR-0019 已删除写通道的两阶段协议（`operation_id`/`awaiting_confirmation`/确认事件），**当前已实现的导入路径是一次调用**：`tools/question.py::QuestionStore.import_spec` 直接返回 `imported`/`noop`/`blocked`（`question_id_conflict`），HTTP 侧为单条 `POST /api/practice/import`。若仍要保留包级预览，需按"一次落盘 + 结构化前置报告"重新推导这两条 AC，而不是复活 operation 状态机。
 
 ### AC-F008-020 题目包导入 preview
 

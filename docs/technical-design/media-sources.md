@@ -27,7 +27,7 @@ python -m tools.cli source \
   --source-id cs336-p01 --domain computer-science
 ```
 
-命令只产生 Preview；把返回的 `operation_id` 交给 `source --apply <id> --confirm` 才会写入。VTT/SRT 被规范化为带 `HH:MM:SS.mmm` 时间范围的 Markdown transcript，源文件和 `archive/manifest.jsonl` 同时记录视频 URL、输入字幕 hash、解析器版本及 `archive_policy: transcript-only`。apply 前会重新校验字幕文件的 hash/stat，字幕漂移会返回 `hash_mismatch`。该切片不写 `archive/raw/`，因此不把字幕文件误报为视频原件。
+命令直接落盘（ADR-0019：无 preview/apply 两阶段、无 `operation_id`、无人工确认）。VTT/SRT 被规范化为带 `HH:MM:SS.mmm` 时间范围的 Markdown transcript，源文件和 `archive/manifest.jsonl` 同时记录视频 URL、输入字幕 hash、解析器版本及 `archive_policy: transcript-only`。字幕文件在导入的同一次稳定读取中校验 hash/stat，字幕漂移返回 `hash_mismatch` 且不留半成品。该切片不写 `archive/raw/`，因此不把字幕文件误报为视频原件。
 
 实现入口：`tools/ingest/video_transcript.py`、`tools/ingest/source_ingestor.py`；测试入口：`tests/ingest/test_video_transcript.py`。平台字幕下载、ASR、关键帧和图片附件属于后续切片，不能由本切片的通过结果代替。
 
@@ -44,7 +44,7 @@ python -m tools.cli source --video-subtitles \
   --allow-automatic-subtitles
 ```
 
-该模式同样是 Preview → Apply，且不下载视频、不写 `archive/raw/`。真实探测显示当前
+该模式同样是一次 `source` 导入直接落盘，且不下载视频、不写 `archive/raw/`。真实探测显示当前
 CS336 Bilibili 合集没有公开字幕轨道，因此该任务应进入本地 ASR 路径。
 
 本地 ASR 切片使用 `whisper.cpp` 的 SRT 输出模式：
@@ -66,11 +66,13 @@ python -m tools.cli source --video-asr \
 `--asr-engine openai-whisper --asr-model turbo --asr-model-sha256 <sha256>`；模型 hash
 由独立模型管理流程计算并显式传入，避免把本机缓存路径写入 canonical metadata。
 
-关键帧使用 `video-frames preview` / `video-frames apply`，底层调用成熟的 `ffmpeg`
-单帧 PNG 输出。Preview 只接受显式时间点（秒），去重并排序后把每张图片的 timestamp、
-输入视频 hash、ffmpeg 版本/参数和图片 hash 写入 operation；Apply 经人工确认后才把
-图片和 `media/frames/manifest.json` 放到 Source 目录。媒体漂移、ffmpeg 缺失或抽帧失败
-都会阻断，未确认的 staging 不进入 Source，也不进入 `archive/raw/`。
+关键帧使用 `video-frames --source <source.md> --media <video> --timestamps <秒,秒,...>`
+（实现入口 `tools/ingest/video_frames.py` 的 `VideoFrameService.extract()`），底层调用成熟的
+`ffmpeg` 单帧 PNG 输出，**一次调用直接落盘**（ADR-0019：无 preview/apply、无 `operation_id`、
+无人工确认）。时间点只接受显式秒值，去重并排序后把每张图片的 timestamp、输入视频 hash、
+ffmpeg 版本/参数和图片 hash 写入 `media/frames/manifest.json`，并把附件登记回 Source
+front matter。媒体漂移、ffmpeg 缺失或抽帧失败都会阻断；staging 被清理，不进入 Source，
+也不进入 `archive/raw/`。
 
 ## F014 的功能边界
 

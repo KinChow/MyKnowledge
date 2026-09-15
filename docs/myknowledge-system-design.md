@@ -24,7 +24,7 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 | --- | --- | --- | --- |
 | Source 导入 | url 抓取 / 本地文件 / 个人笔记 → 不可变快照归档 | §5 | `tools.cli source` |
 | 证据锚定 | 在快照中定位引文，生成 W3C selector + hash | §5.5 | `tools.cli anchor` |
-| Wiki 写作 | 综合 source 产出知识页面，claim/evidence 显式映射 | §6 | `tools.cli write` |
+| Wiki 写作 | 综合 source 产出知识页面，claim/evidence 显式映射 | §6 | 编辑器 + `git commit`（受控通道：`POST /api/write` / `skill write`） |
 | 确定性校验 | schema + 跨字段规则 + 引文逐字匹配 | §6.7-§6.9 | `tools.cli validate` |
 | LLM 审计 | 判断 claim 是否被 source 支持（可选层） | §8 | `tools.cli audit` |
 | 人工确认 | 对当前 hash 的人工审计/发布确认 | §9 | `tools.cli confirm` |
@@ -40,14 +40,14 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 **两条主线（开发时对照 §3.2 不变量）**：
 
 ```text
-写入链：source → anchor → validate → audit → confirm → write → release → projection
+写入链：source → anchor → validate → audit → confirm → release → projection（wiki 正文由编辑器或 POST /api/write 落盘，审批由 git commit 承担；ADR-0019）
 读取链：projection → query / read / backlinks → 静态站 / FastAPI / Agent Skill
 ```
 
 **开发纪律**（详见 §15.1）：
 
 - 领域逻辑下沉到 `tools/`，CLI/FastAPI/Skill 只做轻量 glue，不得重复实现规则；
-- 写入必须走 preview → 人工确认 → apply；禁止直接改 `var/queries/`、frontend、backend 源码；
+- 写入一次落盘，没有独立的写入门禁；审批 = `git diff` + `git commit`（ADR-0019），Agent 不得自动 commit/push；禁止直接改 `var/queries/`、frontend、backend 源码；
 - 重构不得改变对外契约（CLI 命令、错误码、审计格式、manifest schema）；
 - 复杂度债台账在 `pyproject.toml`，逐 Feature 清理后删除对应行。
 
@@ -66,7 +66,7 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 | WIKI | Wiki schema、状态和正文契约 | §6 |
 | EVD | Claim、Evidence 和引文 | §6.4、§6.9 |
 | VAL | 确定性校验、LLM 验证和报告失效 | §8 |
-| OPS | Preview/Apply、幂等、锁和对象操作 | §9 |
+| OPS | 写入准入与对象操作（Preview/Apply、幂等、锁已退场，见 §9） | §9 |
 | IDX | 索引、检索和 RAG 边界 | §11 |
 | API | FastAPI 本地后端 | §12 |
 | WEB | Astro 公开静态模式 | §13 |
@@ -82,7 +82,7 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料�
 1. 三层数据模型与三个数据域（`content/`、`ledger/`、`var/`）不改变（LAY-001）；
 2. `kind: knowledge` wiki 必须有 source 与 claim-level evidence（SRC/WIKI/EVD）；
 3. 引文必须在 target 指定的 snapshot selector 范围内逐字匹配（VAL-001）；
-4. 写入必须 preview → 确认 → apply，Agent 不能自确认（OPS-001）；
+4. 写入不再有独立门禁，审批 = 人工 `git commit`，Agent 不得自动 commit/push（OPS-001 已退场，ADR-0019）；
 5. `public_release` 默认 `false`，只有人工事件才能派生 `true`（§6.8）；
 6. `internal` 内容不得进入 public 仓库/构建/泄漏（SEC-002/003）；
 7. 派生字段与 operation-controlled 字段作者/Agent 不得手写（§6.8）。
@@ -119,18 +119,18 @@ MyKnowledge 最初是个人知识博客和前端展示站点。重构后，当�
 | 术语 | 含义 |
 | --- | --- |
 | allowlist | 明确允许进入 public projection 的对象判定集合（§13.1） |
-| applied_index_pending | canonical 已提交但投影/索引未完成的 operation 状态（§9.3） |
+| applied_index_pending | **已退场**（ADR-0019）：原指 canonical 已提交但投影/索引未完成的 operation 状态（§9.3） |
 | availability | 当前 Vault/object/snapshot 是否可读取的轴，不是证据质量判断（§6.2） |
 | body_path | 投影对象正文的物理路径，受 policy 前缀白名单约束（§4.5） |
 | claim | wiki 中可以独立判断真假的核心论断 |
-| commit-intent | apply 时先落盘的意图文件（含旧/新 hash 与恢复动作），崩溃恢复依据（§9.2） |
+| commit-intent | **已退场**（ADR-0019）：原指 apply 时先落盘的意图文件（含旧/新 hash 与恢复动作），崩溃恢复依据（§9.2） |
 | corroboration | 多个独立 source 对同一命题的一致支持（§6.4） |
 | derived field | 工具计算的只读字段（evidence_state 等），作者/Agent 不得手写（§6.8） |
 | durable record | 不可变、append-only 的审计/确认记录，带 record_sha256（§6.8） |
 | evidence item | 绑定 snapshot 的 TextQuote/TextPosition selector，可被确定性解析的证据锚点 |
 | evidence_state | 证据覆盖/一致性轴：missing/partial/supported/corroborated/conflicting/unresolved/stale（§6.2） |
-| fencing token | 锁持有期间不变的随机标识，用于提交点校验（§9.8） |
-| operation | 一次可预览、可确认、可失效、可追踪的写入操作 |
+| fencing token | **已退场**（ADR-0019）：原指锁持有期间不变的随机标识，用于提交点校验（§9.8） |
+| operation | 记录一次人工确认/发布结果的 durable `operation/v1` 记录（§6.8）；不再指“可预览、可 apply 的写入操作”（ADR-0019） |
 | operation-controlled field | 只能由受控操作写入的字段（public_release 等）（§6.8） |
 | projection | 从同一内容库生成的 public 或 local 数据视图 |
 | public_release | public 发布物化字段，默认 false，仅人工确认事件可派生 true（§6.8） |
@@ -1482,12 +1482,12 @@ public/release/public-confirmations/<event_id>.json
 
 - 审计侧：`audit-record/v1`
 - 确认事件（只有两个版本化类型）：
-  - `operation-confirmation/v1`：用 `scope: apply | publish_private` 区分普通 apply 与私有发布；有效保密等级为 internal 时还必须携带 `warning_code` 和 `warning_text_sha256`
+  - `operation-confirmation/v1`：审计确认写 `scope: publish`（落在 `audit/validation/wiki/<id>/`），私有发布确认记在 operation record 的 `confirmation.scope: publish_private`；有效保密等级为 internal 时还必须携带 `warning_code` 和 `warning_text_sha256`。原 `scope: apply` 随两阶段写入退场（ADR-0019）
   - `public-release-confirmation/v1`：public release 独立类型（见下）
 
 **public release 故意不做成一个 scope 值**：它是唯一不可撤销的对外行为，独立类型使"写错一个 scope 就公开了 internal 内容"在 schema 层不可表达。
 
-`event_sha256` 定义为去掉自身字段后的 canonical JSON UTF-8 hash；public-safe event 不能包含 private ID、路径、正文或裸 private hash。一次性 `confirmation_nonce` 只用于 public release：apply 与私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配）。public release 的目标 operation record 固定在 public owner 的 `ledger/audit/operations/<operation_id>.json`；若存在 private lineage，源 owner 的同 operation/audit record 只作为私有审计，不进入 public event。
+`event_sha256` 定义为去掉自身字段后的 canonical JSON UTF-8 hash；public-safe event 不能包含 private ID、路径、正文或裸 private hash。一次性 `confirmation_nonce` 只用于 public release：私有发布的重放已由 hash 绑定挡住（输入一变事件就不再匹配）。public release 的目标 operation record 固定在 public owner 的 `ledger/audit/operations/<operation_id>.json`；若存在 private lineage，源 owner 的同 operation/audit record 只作为私有审计，不进入 public event。
 
 Durable record 的防篡改由 Git 提供，不自建 hash chain。每条记录仍带 `record_sha256`（按去掉自身字段后的 canonical JSON 计算）用于校验单条记录的自完整性，但记录之间不再串 `sequence` / `previous_record_sha256` / `chain_scope`——Git commit 本身就是一条哈希链：每个 commit 摘要覆盖树内容并指向父 commit，篡改历史任一点都会改变后续所有摘要。在 canonical 文件之上再叠一条自建链，是用弱得多的实现（无签名、无分布式见证、与 Git 历史可能不一致）重复一个已经成立的保证。
 
@@ -1517,7 +1517,7 @@ confirmation_nonce: nonce-from-preview
 event_sha256: sha256:...
 ```
 
-`release_input_sha256` 覆盖 public copy 的正文、allowlisted attachments 的相对路径与 hash、允许公开的 metadata、Wiki-to-Wiki links、route、`public_lineage_commitment` 以及 policy/schema 版本；它不是单独的 `content_sha256`。`leak_gate_report_sha256` 在这一事件中只表示输入边界扫描摘要；最终 dist 扫描在确认之后执行，结果写入本次 `build-manifest.json`，不反向修改人工事件。`public_confirmation_sha256` 只是 projection 对当前 public-safe event `event_sha256` 的命名引用，不是第二个独立 hash。writer 在 Apply 前重新计算这些 hash，任一变化就把 `public_release` 视为 false 并使事件失效；只有 `actor_type: human`、安全 pseudonym 格式的 `actor_id`、无 URL/路径/private lineage 的短 `reason`、当前 hash 完全匹配且 `decision: approve` 的事件才可生成 public projection。若事件携带 `target_vault`，其值必须是 `public`。一次性 nonce 的消费结果必须写入 durable operation record。
+`release_input_sha256` 覆盖 public copy 的正文、allowlisted attachments 的相对路径与 hash、允许公开的 metadata、Wiki-to-Wiki links、route、`public_lineage_commitment` 以及 policy/schema 版本；它不是单独的 `content_sha256`。`leak_gate_report_sha256` 在这一事件中只表示输入边界扫描摘要；最终 dist 扫描在确认之后执行，结果写入本次 `build-manifest.json`，不反向修改人工事件。`public_confirmation_sha256` 只是 projection 对当前 public-safe event `event_sha256` 的命名引用，不是第二个独立 hash。发布前重新计算这些 hash，任一变化就把 `public_release` 视为 false 并使事件失效；只有 `actor_type: human`、安全 pseudonym 格式的 `actor_id`、无 URL/路径/private lineage 的短 `reason`、当前 hash 完全匹配且 `decision: approve` 的事件才可生成 public projection。若事件携带 `target_vault`，其值必须是 `public`。一次性 nonce 的消费结果必须写入 durable operation record。
 
 `actor_type: human`、CLI/UI 入口和一次性 nonce 是流程门禁，不是不可伪造的密码学身份认证：普通 JSON 文件本身不能证明是谁点击了确认。因此生产实现必须让非交互/CI 进程不能调用 confirm 子命令，确认命令在消费 nonce 时再次展示 diff/证据/leak 摘要并写 durable audit；代码 review/提交只能作为额外审计，不得替代 writer 的交互确认。若未来需要强身份保证，再单独引入签名或 OS 凭据方案，不把当前字段误称为密码学证明。
 
@@ -1754,25 +1754,28 @@ prompt 或 validator 升级时，`policy.yaml` 必须显式声明兼容策略：
 
 ## 9. 写入操作协议
 
-所有写入必须是两阶段 operation，每次写入生成一条 `operation/v1` 记录作为该次写入的权威凭据：
+> **本节状态（2026-09-15，依据 ADR-0019）**：两阶段写入协议（§9.1 Preview、§9.2 Apply）、
+> operation 状态机与 TTL（§9.3）、per-vault 独占锁（§9.8）**已退场**并从代码中删除
+> （`tools/write_operation.py` / `operation_store.py` / `vault_lock.py` 及其 CLI/API 入口与测试；
+> 命令面已无 `write` / `confirm-apply` / `lock`）。**审批 = `git diff` + `git commit`**
+> （ADR-0019 决策 1–3）。本节保留原始设计原文作为取舍记录；凡出现 `preview` / `apply` /
+> 作为写入凭据的 `operation_id` / 写锁的句子，均按「落盘前校验 + 一次原子落盘」理解。
+> 仍然有效的部分：§9.4 禁止操作、§9.5 写入准入，以及 §9.6/§9.7 的对象退役与改名语义
+> （后两者的命令实现已随 `reposition`/`transfer` 删除，当前无 CLI）。
+
+写入的当前形态是**一次落盘，没有独立门禁**：
 
 ``` text
-preview -> explicit apply
+落盘（工具职责）  一次写到位：临时文件 + os.replace 原子替换，失败即结构化返回
+审批（人的职责）  git diff 审阅 + git commit 批准
 ```
 
-### 9.1 Preview
+派生产物（projection / index）由独立命令生成，不再是写入的提交收尾。
 
-Preview 阶段：
+### 9.1 Preview（已退场）
 
-- 不修改目标文件；
-- 生成候选内容和 diff；
-- 运行确定性校验；
-- wiki 运行 LLM 验证；
-- 生成 operation_id；
-- 生成 diff_sha256；
-- 保存目标文件的 before_sha256。
-
-输出格式：
+**原设计**：写入前先生成候选内容与 diff、运行确定性校验与 LLM 验证、产出 `operation_id` 与
+`diff_sha256`、保存目标文件的 `before_sha256`，不修改目标文件；输出格式：
 
 ``` text
 status: preview
@@ -1784,47 +1787,44 @@ llm_validation:
 confirmation_required: true
 ```
 
-### 9.2 Apply
+**现状**：不再有 preview 阶段，也不再产出可供人工确认的中间产物。落盘前仍执行的检查只有
+§9.5 的写入准入（schema、来源完备性、ID 唯一、保密等级、证据边界）与幂等 key 检查，它们由
+落盘函数直接调用，不满足即结构化返回。审阅改由 `git diff` 承担（ADR-0019 决策 1）。
 
-只有用户明确确认同一个 operation_id 后才能 apply：
+### 9.2 Apply（已退场）
 
-1. 获取目标 Vault 的排他写锁（多 Vault operation 按稳定 `vault_id` 顺序获取全部锁，见 9.8）；
-2. 仅对 `acquisition: fetch` 或需要网络 provider 的 operation 检查网络与归档可达性（`require_network`，见 5.9）；纯 local-file/personal-note operation 不因网络离线失败；
-3. 重新检查目标文件 hash；
-4. 重新检查 source/wiki 输入 hash；
-5. hash 不匹配则 operation 失效；
-6. 在目标 Vault 同一文件系统创建 staging，写入 canonical 文件、durable record、projection 和索引候选；对每个文件计算 after hash；
-7. 对 staging 运行最终 schema、引用、保密、证据和 leak gate 校验，任何失败都只清理 staging；
-8. 写入并 fsync `var/state/operations/<operation_id>.commit-intent.json`（包含旧/新 hash、待替换路径和恢复动作），再原子替换 canonical 文件和 durable record；
-9. 写入 commit marker 并 fsync 目录；启动恢复器若发现 intent 无 marker，按 manifest 恢复旧文件，发现 marker 则补建索引并完成 operation；
-10. 原子替换 projection/index；若此阶段失败，保留旧 projection，operation 进入 `applied_index_pending`，canonical 变更不回滚也不被伪装为全链路成功；
-11. 索引完成后追加 `applied` durable record，清理 intent/staging，释放写锁。
+**原设计**：确认同一个 `operation_id` 后才进入 apply——获取目标 Vault 排他写锁、重校验目标与
+输入 hash、在同一文件系统生成 staging、对 staging 跑最终校验、写 `commit-intent` 并 fsync、
+原子替换 canonical 与 durable record、原子替换 projection/index（失败进入
+`applied_index_pending`）、追加 `applied` record 并释放锁；单 Vault 的原子性由 commit-intent +
+recovery journal 保证，跨 Vault 只提供按 Vault 排序的锁和可补偿的部分成功记录，不声称分布式
+事务。
 
-单 Vault 的“原子”边界因此由 commit-intent + recovery journal 保证，而不是假设多个文件系统 rename 可以组成事务；跨 Vault operation 仍只提供按 Vault 排序的锁和可补偿的部分成功记录，不声称分布式事务。
+**现状**：没有确认步骤，也没有 `operation_id`。落盘是**一次原子替换**（临时文件 +
+`os.replace`），没有 staging 树、`commit-intent`、recovery journal 与 `recover()`。中断恢复
+交由 git（半成品在 `git status` 中可见）；跨进程并发不再由锁串行化，最坏结果是工作区出现半套
+数据——它可见、可回滚，但该保证依赖「发布产物可由已提交内容确定性重建」这一前提
+（ADR-0019 决策 1/3 与「后果」一节）。
 
-### 9.3 Operation 状态和幂等性
+### 9.3 Operation 状态和幂等性（已退场）
 
-``` text
-created
-  -> previewed
-  -> awaiting_confirmation
-  -> applied
-  -> applied_index_pending
+**原设计**：状态机为 `created → previewed → awaiting_confirmation → applied →
+applied_index_pending`，旁支 `blocked`（缺来源/provider/Vault/安全门禁）、`expired`（超 TTL
+或输入 hash 变化）、`rejected`、`failed`。`operation_id` 使用随机 UUID，不以标题或时间戳
+代替；一个 operation 只能应用一次，重复 apply 返回既有结果而不是再次覆盖文件；
+`applied_index_pending` 表示 canonical 与 durable record 已提交但 projection/index 未完成，
+此时对象不能成为新的 `public_publishable`；批量操作必须把每个目标文件、before/after hash 和
+失败阶段写入 manifest。
 
-previewed / awaiting_confirmation
-  -> blocked     (缺少来源、provider、Vault 或安全门禁)
+**现状（ADR-0019 决策 3）**：状态机、TTL、`expired` 与 `applied_index_pending` 全部退场，
+`var/state/operations/` 不再是写入的必经路径；落盘不再需要 `operation_id`、`diff_sha256`
+与 `before_sha256`。
 
-previewed / awaiting_confirmation
-  -> expired       (超过有效期或输入 hash 变化)
-  -> rejected      (用户拒绝)
-  -> failed        (应用或最终校验失败)
-```
-
-`operation_id` 使用随机 UUID，不以标题或时间戳代替。一个 operation 只能应用一次；重复 apply 必须返回既有结果，而不是再次覆盖文件。`blocked` 表示当前前置条件不足，可在条件修复后重新 preview；它不是“暂存后自动继续”。`applied_index_pending` 表示 canonical 文件和 durable record 已安全提交，但 projection/index 尚未完成；在该状态恢复前，相关对象不能成为新的 `public_publishable`，旧 projection 可以继续提供上一版结果。批量操作必须把每个目标文件、before hash、after hash 和失败阶段写入 manifest。幂等 key 必须是字段名明确的 canonical JSON（`kind`、`target_ref`、`input_hash`、`target_vault`、排序后的 `source_vault_ids`、`policy_version`），禁止直接拼接字符串造成碰撞。
+仍然成立的两条事实（与 durable record 有关，不依赖已退场的状态机）：
 
 `operation_id` 的规范形态是 `op_<32 位小写 hex>`；生成端与校验端必须共用同一实现（`tools/common.py::new_operation_id` / `safe_operation_id`），禁止各调用点自行剥前缀再套用其他 ID 词表——`release confirm` 曾因此对每一个真实 operation 都返回 `event_id_invalid`。校验只约束前缀、字符集与长度上限（`operation_id` 会成为审计文件名，要挡的是路径穿越与文件名注入），不复刻生成端的位宽。
 
-幂等命中不是失败：重复提交一条内容完全相同、且已经落盘的 append-only 记录（确认事件、apply 结果）必须返回 `already_applied` 并回带既有记录的 hash 与路径，退出码为成功。只有“同 ID、不同内容”才是冲突，返回 `*_conflict` 并 fail-closed 拒绝覆盖。把这两种情况都报成失败会诱导操作者删除 append-only 记录重跑，等于用删审计换一次“成功”。
+幂等命中不是失败：重复提交一条内容完全相同、且已经落盘的 append-only 记录（确认事件、release 事件）必须返回 `already_applied` 并回带既有记录的 hash 与路径，退出码为成功。只有“同 ID、不同内容”才是冲突，返回 `*_conflict` 并 fail-closed 拒绝覆盖。把这两种情况都报成失败会诱导操作者删除 append-only 记录重跑，等于用删审计换一次“成功”。
 
 ### 9.4 禁止操作
 
@@ -1921,15 +1921,13 @@ retitle  改 title（不影响引用）
 - `move` 改变 domain 时必须重新校验 domain 与目录一致性；
 - `retitle` 只影响显示名，不触发任何重验（title 属于 6.6 的分类字段）。
 
-### 9.8 并发与锁
+### 9.8 并发与锁（已退场）
 
-单用户环境仍然存在三方并发：Agent、本地后端、编辑器。`before_sha256` 检查与原子替换之间存在窗口，两个 apply 交错会造成一方的写入被静默覆盖。
+**原设计**：`apply`、`retire`、`purge`、`rename` 和索引生成必须先获取目标 Vault 的排他锁（`var/state/locks/<vault_id>.lock`，记录持有者、`operation_id`、随机 `lock_token`、fencing token、获取时间和 `heartbeat_file`；心跳写同目录 sidecar 并原子替换），涉及多个 Vault 时按稳定 `vault_id` 顺序获取全部锁以避免死锁；陈旧锁只阻断并要求显式 `lock recover`，恢复动作追加 `lock-recovery` durable audit record；`writer` 在写 canonical、`commit-intent`、projection/index 和释放锁前重读锁文件校验 `lock_token`/`operation_id`。
 
-- 所有 `apply`、`retire`、`purge`、`rename` 和索引生成必须先获取目标 Vault 的排他锁（`var/state/locks/<vault_id>.lock`，记录持有者、operation_id、随机 `lock_token`、fencing token、获取时间和 `heartbeat_file`）；锁主体在持有期间不可变，最新心跳写入同目录 sidecar 并原子替换；涉及多个 Vault 时按稳定 `vault_id` 顺序获取全部锁，避免死锁；锁目录属于临时运行态并被 Git 忽略。
-- 锁只保护写入，查询与 preview 不加锁；
-- 锁必须有超时与陈旧锁清理（记录 PID、进程启动时间、时间戳和 `lock_token`），避免异常退出后永久阻塞。陈旧锁默认只阻断并要求显式 `lock recover`，不能按时间自动删除；恢复前要检查 PID/进程启动时间，恢复动作追加 `lock-recovery` durable audit record。
-- writer 在写 canonical、commit-intent、projection/index 和释放锁前都必须重新读取锁文件并校验 `lock_token`/operation_id；token 不匹配时立即中止并保留旧产物，防止人工恢复旧锁后原进程继续写入。锁恢复不能当作分布式 fencing，只保证同一工作区内的提交点再次校验。
-- 拿不到锁时返回 `blocked` 并说明当前持有者，不排队等待、不强行抢占。
+**现状（ADR-0019 决策 3）**：整套 per-vault 锁（`VaultLock` / `VaultLockGroup`、owner sidecar、`lock recover`、fencing token）已删除，`lock` 命令退场。保留的写原语只有「临时文件 + `os.replace` 原子替换」，它本身即原子操作。
+
+单用户环境仍然存在三方并发：Agent、本地后端、编辑器。删锁之后，API 进程与 CLI 并发写、或改 source 的同时跑 publish，最坏情况是工作区出现半套数据：它可见（`git status`）、可回滚（git）。**该保证依赖「发布产物可重建」这一前提**；若将来引入不可逆的对外发布（例如自动部署到公网），必须重新评估是否需要运行时互斥（ADR-0019「后果」与「重新评估条件」）。
 
 ## 10. 当前三类工作流
 
@@ -2080,7 +2078,7 @@ QMD 自己是否启用向量、rerank 或模型缓存由其运行时能力决定
 | 根据自然语言问题返回相关文档片段 | 是 | QMD 默认；不可用时 FTS5，再回退 Python/SQLite LIKE |
 | 基于多个文档片段生成回答 | 是 | Retriever + LLM + citations |
 | 基于 source 生成 wiki 草稿 | 可使用 | RAG 辅助候选生成，仍须 evidence validation |
-| 根据 wiki 生成题目 | F008 设计后实现 | 由外层 Agent/人工起草，经过 F008 schema、claim/evidence 和 preview/apply 门禁；不在实时练习请求内生成 |
+| 根据 wiki 生成题目 | F008 设计后实现 | 由外层 Agent/人工起草，经过 F008 schema、claim/evidence 门禁；不在实时练习请求内生成 |
 
 RAG 的职责是"找到回答所需的上下文并组织答案"；Evidence Validator 的职责是"判断 wiki claim 是否被 source 支持"。RAG 检索到片段不能直接证明最终论断，也不能直接将页面变为 `published`。
 
@@ -2241,7 +2239,7 @@ POST /api/ask
 }
 ```
 
-Agent Skill 增加 `ask` 模式；`query` 继续负责确定性检索，`synthesize` 可以调用 RAG 生成 wiki draft，但必须进入原有的 source 检查、claim 映射、LLM 验证和 preview/apply 流程。
+Agent Skill 增加 `ask` 模式；`query` 继续负责确定性检索，`synthesize` 可以调用 RAG 生成 wiki draft，但必须进入原有的 source 检查、claim 映射、LLM 验证流程（落盘一次到位，ADR-0019）。
 
 ### 11.9 RAG 分阶段落地
 
@@ -2264,11 +2262,15 @@ GET  /api/backlinks/{vault_id}/{object_type}/{object_id}
 GET  /api/vault/check
 POST /api/retrieve
 POST /api/ask
-POST /api/source/preview
-POST /api/wiki/preview
-POST /api/operation/{operation_id}/apply
+POST /api/write
 POST /api/validate/{vault_id}/{object_type}/{object_id}
 ```
+
+`POST /api/write` 是**唯一**写入路由（ADR-0019）：请求体为 `WritePreviewRequest`
+（`files` + `vault_id`），响应 `schema_version: write-result/v1`；一次落盘，没有
+`operation_id`、`confirmation` 或恢复态，与 Skill 的 `write` action 共用同一实现。
+原 `/api/source/preview`、`/api/wiki/preview`、`/api/operation/{operation_id}/apply`
+三条路由已随两阶段写协议删除。
 
 `POST /api/retrieve` 是结构化检索的唯一规范入口；`GET /api/query` 只是兼容别名，将 `q`/`vault_ids`/`top_k` 归一化为同一个 `RetrieveRequest`，必须返回同一 `query-result/v1`，不能出现独立排序、权限或 fallback 逻辑。请求只允许 `query`、`scope`、`vault_ids`、`top_k`、`include_sources`、`include_archive`；长度、数量、body 和 timeout 上限来自 `config/policy.yaml`，超限返回 `query_limit_exceeded`/`request_too_large`，不得静默截断。`projection` 不是权限 scope，`wiki` 不是合法别名。`POST /api/ask` 是独立生成能力，返回 `AskResult` 和 citations；没有 LLM/引用校验能力时返回 `unavailable`，不能把检索结果伪装成生成回答。
 
@@ -2278,7 +2280,7 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 - 建立 SQLite FTS5；
 - 执行结构化查询；
 - 返回 wiki 和 source 证据；
-- 执行写入 preview/apply；
+- 执行一次落盘写入（`/api/write`）；
 - 调用 LLM 验证器；
 - Question/题目复习能力留给后续 F008；
 - 当前只保存浏览器/本机阅读状态，不把它当作题目复习状态。
@@ -2295,7 +2297,7 @@ POST /api/validate/{vault_id}/{object_type}/{object_id}
 | LLM 输出 | Skill provider adapter 的 structured output | 验证 schema 不绑定供应商，provider identity/capability 由运行时注入 |
 | 复习 | 后续 F008 决定 | 当前版本不引入复习调度依赖 |
 
-后端不是新的内容真相源。它启动时读取仓库文件和生成索引，写入时只通过 operation service 生成 staging 并原子应用；SQLite 只保存检索索引和可重建的本地 metadata，不能直接修改 source/wiki 正文。
+后端不是新的内容真相源。它启动时读取仓库文件和生成索引，写入时一次落盘（临时文件 + 原子替换），审批由 `git diff`/`git commit` 承担（ADR-0019）；SQLite 只保存检索索引和可重建的本地 metadata，不能直接修改 source/wiki 正文。
 
 ### 12.1 离线降级
 
@@ -2392,11 +2394,11 @@ Skill 只负责：
 - 发现 MyKnowledge 根目录；
 - 自然语言模式路由；
 - 调用 FastAPI 或离线 CLI；
-- 强制 preview/apply；
+- 执行一次落盘写入（无 preview/apply 两阶段）；
 - 传递 validation、evidence 和 limits；
 - 把错误以结构化结果返回给 Agent。
 
-Agent 不直接编辑 Markdown、manifest、queries、state 或 Git worktree；所有读写、preview、apply、发布和索引操作都必须经由该 Skill，再由领域工具执行 schema、证据、Vault 和确认门禁。
+Agent 不直接编辑 Markdown、manifest、queries、state 或 Git worktree；所有写入、发布和索引操作都必须经由该 Skill，再由领域工具执行 schema、证据、Vault 和保密门禁；`git commit` 由人执行（ADR-0019）。
 
 ### 14.1 Agent 统一输出契约
 
@@ -2432,25 +2434,25 @@ next_gate: null
 
 `strength` 是 6.7/6.8 定义的证据强度标识（`verified`、`corroborated`、`conflicted`、`partial`、`unresolved`、`attested`、`personal`、`reference`、`index`），查询和阅读结果都必须返回它，让 Agent 在引用知识库内容时能区分"已验证的外部事实"和"我的个人理解"。`evidence_state`、`validation_state`、`availability`/`availability_reason`、`publication_scope`、`publication_warning`、`public_release`、`vault_id` 和 `source_vault_ids` 用于表达多轴状态与 internal 告警；`method`/`degraded`/`warnings` 用于表达检索降级；`pending` 承载 `planned` 条目和待复核项。
 
-查询和阅读操作的 `operation_id`、`diff`、`changed_files` 必须为空；写入 preview 必须包含 `operation_id`、`diff_sha256`、确定性校验和 LLM 校验结果。错误必须说明阻断规则和下一步动作，不能只返回自然语言错误。
+查询和阅读操作的 `operation_id`、`diff`、`changed_files` 必须为空。写入（`write` action）是**一次落盘**，因此结果中不含 `operation_id`、`diff_sha256`，也不存在待确认态；错误必须说明阻断规则和下一步动作，不能只返回自然语言错误。
 
-写入模式的强制决策表（当前只列 Source/Wiki/Index；Question 行属于后续 F008）：
+写入模式的判定表（当前只列 Source/Wiki/Index；Question 行属于后续 F008）：
 
-| 请求 | 无 source | 有 source 但验证失败 | 验证通过未确认 | 同 operation_id 且 hash 未变 |
-| --- | --- | --- | --- | --- |
-| ingest source | 允许创建 source preview | 不适用 | 等待确认 | 允许 apply |
-| synthesize wiki | 拒绝，先提示创建 source | 保持 draft | 等待用户确认 | 允许 apply |
-| index | 只允许调用生成器 | public 生成只接受 `vault_id: public` 且跳过未发布和 internal；private/local 生成保留全部可用 vault、owner 和告警 | 不适用 | 允许生成 |
+| 请求 | 无 source | 有 source 但验证失败 | 通过校验 |
+| --- | --- | --- | --- |
+| ingest source | 拒绝（来源完备性三通道必须满足其一） | 不适用 | 落盘 |
+| synthesize wiki | 拒绝，先提示创建 source | 可落盘，但 `status` 停在 `draft`（审计 `fail` 硬阻 published） | 落盘 |
+| index | 只允许调用生成器 | public 生成只接受 `vault_id: public` 且跳过未发布和 internal；private/local 生成保留全部可用 vault、owner 和告警 | 生成 |
 
-写入 preview 的结果中必须回传 `confidentiality`、有效等级的来源（自身声明还是上游传染）和明确的 `target_vault`，让用户在确认前就能看到这次写入会落到哪个 vault。保密等级只能约束可选范围，不能替代目标选择；当存在多个等级足够的 private vault 时，用户或调用方必须显式选择稳定 `vault_id`，Agent 不能自选物理路径或默认使用某个名字。
+写入结果必须回传 `confidentiality`、有效等级的来源（自身声明还是上游传染）和明确的 `target_vault`。保密等级只能约束可选范围，不能替代目标选择；当存在多个等级足够的 private vault 时，用户或调用方必须显式选择稳定 `vault_id`，Agent 不能自选物理路径或默认使用某个名字。
 
-Skill 不根据对话上下文猜测用户确认范围；“确认”必须能解析为当前 `operation_id`。用户修改 source 或 wiki 后，旧 operation 自动失效，必须重新 preview。
+Skill 不根据对话上下文猜测用户授权范围：写入范围由 `files` 显式列出、vault 由 `vault_id` 显式指定；落盘后没有可再“确认”的中间态，回退方式是改文件或 `git checkout`（ADR-0019）。
 
 ## 15. 工具模块边界
 
 ``` text
 tools/（按职责划分模块；文件命名是实现细节，不构成契约）
-├── 共享基础：hash、canonical JSON、front matter、原子写、Vault 锁
+├── 共享基础：hash、canonical JSON、front matter、原子写
 ├── Source 导入与归档：抓取、local-file/personal-note 导入、正文提取、snapshot 与 manifest
 ├── Evidence 锚定：selector/hash 生成与写回
 ├── 校验：请求/已发布文件 schema、页面、证据与引用校验
@@ -2462,9 +2464,9 @@ tools/（按职责划分模块；文件命名是实现细节，不构成契约�
 建议职责：
 
 - 共享基础：root、vault 挂载、路径安全、front matter、hash 和页面读取；
-- Source 导入与归档：source 模板、抓取、`local-file` 导入（`--from-file`）、正文提取、压缩、内容寻址写入、preview/apply 和 manifest 维护；
+- Source 导入与归档：source 模板、抓取、`local-file` 导入（`--from-file`）、正文提取、压缩、内容寻址写入和 manifest 维护；
 - Evidence 锚定：从已归档 snapshot 交互式选取引文，生成 `TextQuoteSelector`/`TextPositionSelector`（Unicode code-point 半开区间）、`selector_sha256` 和 `quote_sha256`，写回 source 的 `evidence_items`。这是 §5.1 evidence item 与 §6.4 claim target 的唯一落地入口；没有它，claim 只能手写 offset，全部迁移工作量无法开始。详见 [证据锚定实现设计](./technical-design/evidence-anchoring.md)；
-- wiki 生命周期：source 检查、claim/evidence、preview/apply、ID/路径变更与引用同步、route map 和原子回滚、`retire`/`purge` 前置检查；
+- wiki 生命周期：source 检查、claim/evidence、一次落盘（ADR-0019）、ID/路径变更与引用同步、route map、`retire`/`purge` 前置检查；
 - 校验：确定性 schema、引用、链接、状态组合和保密分级校验；LLM adapter、结构化输出、引文逐字校验和报告；
 - 来源巡检：外部链接巡检、归档快照更新和漂移标记；
 - 索引与检索：public/local 索引原子生成；规范化分块、Embedding 和本地向量索引；FTS、向量和混合召回；可选候选重排；
@@ -2688,9 +2690,11 @@ computer-science
 
 ### 17.6 可观测性和审计
 
-每次 query、preview、apply、validate、index 和 publish 操作记录结构化事件：`operation_id`、模式、输入 hash、目标 ID、Vault ID、状态、失败阶段和耗时。运行日志只保存必要的诊断信息，source 正文、API key、Authorization header 和用户隐私字段不得写入日志。临时日志和派生索引可以清理或重建；已被确认、审计、恢复和 purge 引用的 durable audit/event record 必须按 append-only 规则保留，若做分卷/归档只能连同 manifest 和恢复索引迁移，并保留对应 Git 历史，不能删除或改写后再声称当前校验有效。
+每次写入、validate、audit、index 和 publish 操作记录结构化事件：输入 hash、目标 ID、Vault ID、状态、失败阶段和耗时；`operation_id` 只出现在 §6.8 的 durable 记录（审计确认、public release）中，写入本身不再产生它（ADR-0019 决策 3）。运行日志只保存必要的诊断信息，source 正文、API key、Authorization header 和用户隐私字段不得写入日志。临时日志和派生索引可以清理或重建；已被确认、审计、恢复和 purge 引用的 durable audit/event record 必须按 append-only 规则保留，若做分卷/归档只能连同 manifest 和恢复索引迁移，并保留对应 Git 历史，不能删除或改写后再声称当前校验有效。
 
 ## 18. 实施阶段
+
+> **状态（2026-09-15）**：本节的阶段划分保留为**历史实施顺序**，不再描述当前门禁。阶段二「受控写入」原计划的 operation preview/apply、before/diff hash、commit-intent、逐 Vault 排他锁与 fencing token 已由 ADR-0019 退场并从代码删除；当前写入为一次落盘 + `git` 审批（§9）。下文出现的 `preview`/`apply`/`锁` 字样按此理解。
 
 ### 阶段零：垂直切片
 
@@ -2795,7 +2799,7 @@ computer-science
 - local 后端可查询 source、wiki；
 - Question/复习属于独立 F008 完成标准；目标是大模型知识的短回合单选、多选、填空、面试表达要点和工程场景练习；
 - Agent Skill 支持 query/read、ask、source、wiki、publish、index、audit 等模式（归并为查询、写入、发布、索引四类能力），写入不可绕过规范；
-- preview/apply 可追踪、可失效、可回滚；
+- 写入一次落盘，改动全部在 `git diff` 中可追踪、可用 `git checkout` 回滚（原 preview/apply 的“可失效”语义随 ADR-0019 退场）；
 - 旧内容迁移有清单、route map 和明确的 completed/pending 边界。
 
 完成标准按三类证据验收：
@@ -2814,8 +2818,8 @@ source 先行
   -> wiki 候选
   -> claim 显式映射
   -> LLM 证据验证
-  -> 用户确认
-  -> 原子写入
+  -> 人工审计确认
+  -> 一次落盘 + git 审批（diff / commit）
   -> 自动索引
   -> public/private published projection
   -> 静态展示 / 本地查询 / Agent 查询
@@ -2876,7 +2880,7 @@ source 先行
 | WIKI | Wiki schema、状态和正文契约 | §6 |
 | EVD | Claim、Evidence 和引文 | §6.4、§6.9 |
 | VAL | 确定性校验、LLM 验证和报告失效 | §8 |
-| OPS | Preview/Apply、幂等、锁和对象操作 | §9 |
+| OPS | 写入准入与对象操作（Preview/Apply、幂等、锁已退场，见 §9） | §9 |
 | IDX | 索引、检索和 RAG 边界 | §11 |
 | API | FastAPI 本地后端 | §12 |
 | WEB | Astro 公开静态模式 | §13 |
@@ -2902,7 +2906,7 @@ source 先行
 - `WIKI-001`：知识型 Wiki 必须符合 schema、状态和正文契约。
 - `EVD-001`：知识型 Wiki 的可验证 Claim 必须显式映射 Evidence。
 - `VAL-001`：`supporting_quotes.exact` 必须在 target 指定的 snapshot selector 范围内逐字匹配。
-- `OPS-001`：所有写操作必须经过 Preview、用户确认和 Apply。
+- `OPS-001`：**已退场**（ADR-0019 决策 1–3，2026-09-15）。原为「所有写操作必须经过 Preview、用户确认和 Apply」；现行为：写入一次落盘，审批 = `git diff` + `git commit`。ID 保留以维持下游引用。
 - `IDX-002`：本地自然语言/混合检索默认使用 QMD；SQLite FTS5 是必选确定性 fallback，QMD/FTS5 不可用时再回退 Python/SQLite LIKE，任何降级都必须明确标记。
 - `API-001`：FastAPI、离线 CLI 和 Agent Skill 共用同一 QueryResult/错误契约；读取路径在 local scope 必须显式带 `vault_id`。
 - `API-002`：FastAPI、LLM、QMD 或 private vault 不可用时必须返回明确 `unavailable`/`degraded`，不能伪造写入、验证或生成式回答成功。
@@ -2913,7 +2917,7 @@ source 先行
 - `OPS-002`：多个 private vault 的挂载、ID 合并、unavailable、冲突、逐 vault 备份和 submodule 恢复必须可诊断、可回滚且不自动 reset/push。
 - `ARC-004`：相同 snapshot 只能在物理 blob 层去重；每个 `(vault_id, snapshot_sha256)` owner record、权限、备份和发布状态必须独立保留。
 - `VAL-002`：provider 必须提供 `provider-capability/v1` 的协议与 data-handling capability；缺少必需能力时 fail-closed，不能解释为模型质量判断。
-- `OPS-004`：single-Vault apply 使用 commit-intent/recovery journal；projection 失败进入 `applied_index_pending`，不得伪造完整成功。
+- `OPS-004`：**已退场**（ADR-0019 决策 3，2026-09-15）。原为「single-Vault apply 使用 commit-intent/recovery journal；projection 失败进入 `applied_index_pending`」；现行为：中断恢复交由 git，projection/index 由独立命令生成。ID 保留以维持下游引用。
 - `WEB-003`：正式 Astro build 只接受 `public-projection/v1` manifest；legacy docs adapter 只能用于 validation baseline。
 - `VAL-003`：同一内容 hash 下多份审计报告分歧时取 `fail`；唯一推翻路径是 owner 签署的 `validation-override/v1` 复议记录（human 签署、reason 必填、逐条覆盖全部非 supported claim、绑定当前 hash、record 自证），复议后无可用 verdict 报告时回落 `not_run`。
 

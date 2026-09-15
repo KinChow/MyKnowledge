@@ -22,7 +22,7 @@
 ## Action schema 增量证据（2026-08-27）
 
 - `tools.skill_runtime.dispatch` 为每个受控 action 建立显式字段白名单；`tests/test_skill_runtime.py::test_skill_runtime_rejects_unknown_and_dangerous_actions` 验证 query 携带未审计 `provider_url` 时返回 `skill_payload_unknown_field`，不会进入 Retriever 或 provider。
-- 该边界复用 MCP Python SDK 的结构化 tool input 思路（MIT）；Skill 仍保留 MyKnowledge 自己的 writer、Vault、confirmation 和 public leak 门禁。
+- 该边界复用 MCP Python SDK 的结构化 tool input 思路（MIT）；Skill 仍保留 MyKnowledge 自己的 writer、Vault、分域（`content/working/` 回指）与 public leak 门禁。写通道不再有 confirmation 事件（ADR-0019）。
 
 - `tests/test_skill_runtime.py::test_skill_question_answer_preserves_scoring_mode_boundary` 验证 Skill 入口透传 `manual`/`deterministic`/`llm` 评分模式，并拒绝未知模式；实际评分仍由 `QuestionStore` 执行，Skill 不创建 provider、不直接写入 practice 文件。
 
@@ -33,8 +33,10 @@
 
 ## 本轮证据（2026-08-28）
 
-- AC-F009-001/002/006：`tests/test_skill_runtime.py::test_skill_runtime_write_preview_delegates_to_writer` 和 `test_skill_runtime_apply_requires_explicit_confirmation` 验证 Skill 只能通过现有 writer 生成 preview，Apply 未确认时返回 `awaiting_confirmation` 且工作树不变。
+- AC-F009-001/002/006：`tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content` 验证 Skill 的 `write` action 一次落盘——`state: applied` + `applied_files`，响应中不含 `operation_id`/`requires_confirmation`，同时保留两条写前约束（越界路径 `path_outside_repo`、`content/working/` 无回指 `schema_invalid`）。
 - AC-F009-006/010：`test_skill_runtime_rejects_unknown_and_dangerous_actions` 验证未知 action 和 shell/command 等危险字段返回结构化 `skill_action_not_allowed`/`skill_payload_forbidden`。
+
+> 已失效（ADR-0019，2026-09-15）：本节原引用的 `test_skill_runtime_write_preview_delegates_to_writer` 与 `test_skill_runtime_apply_requires_explicit_confirmation` 已删除——`write_preview`/`write_apply` 两个 action 合并为 `write`，`awaiting_confirmation` 不再产生。
 
 这些测试证明的是 runtime 安全边界和委托关系，不等同于 MCP transport、token 生命周期、provider 保密策略或完整发布流程已 Accepted。
 
@@ -42,8 +44,8 @@
 
 - Given：Codex/Claude Code 从当前仓库 `skills/myknowledge/` 加载 MyKnowledge Skill；
 - When：执行 source/wiki/query/validate/publish 工作流；
-- Then：Skill 只能调用领域 CLI/API，所有写入经过 preview、confirmation、hash 和 writer；
-- 失败时不变量：Skill 不直接编辑 Markdown、manifest、queries 或 state。
+- Then：Skill 只能调用领域 CLI/API，写入委托给同一 writer 一次落盘（`write` / `source_ingest`），并保留 hash、分域与 capability 门禁；
+- 失败时不变量：Skill 不直接编辑 Markdown、manifest、queries 或 state；审批由 `git diff` + `git commit` 承担（ADR-0019）。
 - 对应测试：`tests/test_skill_contract.py::test_canonical_skill_exists_and_routes_through_tools`；当前状态：通过。
 
 ## AC-F009-007 Canonical Skill 来源
@@ -54,12 +56,11 @@
 - 失败时不变量：不能回退到未审计的同名外部 Skill。
 - 对应测试：`tests/test_skill_contract.py::test_canonical_skill_exists_and_routes_through_tools`；当前状态：通过。
 
-## AC-F009-002 Preview 与 Apply 门禁
-
-- Given：存在未确认或 hash 已变化的 operation；
-- When：Skill 请求 Apply；
-- Then：操作被拒绝并返回阻断原因；确认只绑定当前 operation；
-- 失败时不变量：不产生部分写入。
+## AC-F009-002 写入门禁
+- Given：Skill 收到一次写入请求（`write` 的文件映射或 `source_ingest` 的采集请求）；
+- When：Skill 执行该 action；
+- Then：一次调用完成落盘并返回 `state: applied` + `applied_files`；被拒绝时返回结构化阻断原因（`path_outside_repo`/`schema_invalid`）；
+- 失败时不变量：不产生部分写入；写入不携带 `operation_id`、`awaiting_confirmation` 或确认事件（ADR-0019）。
 
 ## AC-F009-003 Vault 与保密边界
 
@@ -104,7 +105,7 @@
 
 - Given：操作失败、被拒绝或需要人工确认；
 - When：Skill 返回结果；
-- Then：返回 operation_id、错误 code、下一步动作和安全摘要，不返回凭据或敏感正文。
+- Then：返回错误 code、下一步动作和安全摘要，不返回凭据或敏感正文。写入通道已无 operation 状态机，故不再返回 `operation_id`（ADR-0019）；需要人签字的只剩 public release（`publish_confirm` → `public-release-confirmation/v1`）。
 
 ## AC-F009-010 Canonical Skill 文件存在性
 
@@ -125,18 +126,18 @@
 
 ## 本轮领域路由证据（2026-08-27）
 
-- `tests/test_skill_runtime.py::test_skill_source_preview_and_apply_delegate_to_source_service` 验证 source preview/apply 委托 `SourceIngestor`，未确认时保持 `awaiting_confirmation`，确认后才写入。
+- `tests/test_skill_runtime.py::test_skill_source_ingest_delegates_to_source_service` 验证 source 导入委托 `SourceIngestor`，`source_ingest` 单次调用完成采集与落盘（`state: applied`），无 operation 记录与确认事件。
 - `tests/test_skill_runtime.py::test_skill_wiki_validate_and_publish_preview_are_domain_only` 验证 wiki 校验和 publish preview 委托 `WikiValidator`，路径越界返回 `path_invalid`，发布预览不会直接编辑 Markdown。
 - F009 仍为 Implemented（部分）：token 生命周期、完整 publish confirmation、provider capability 和全量 API parity 尚未闭合。
 
 ## MCP capability 增量证据（2026-08-30）
 
 - `create_server(..., capability_token=...)` 对写入、校验、备份和练习 action 启用恒时 token 校验；public query/read 在未配置 token 时仍可运行。
-- `tests/test_skill_runtime.py::test_mcp_server_enforces_configured_capability_for_sensitive_actions` 验证敏感 action 缺少或使用错误 token 时阻断，正确 token 才进入既有 writer。该边界不替代 operation confirmation/hash 门禁。
+- `tests/test_skill_runtime.py::test_mcp_server_enforces_configured_capability_for_sensitive_actions` 验证敏感 action 缺少或使用错误 token 时阻断，正确 token 才进入既有 writer。该边界不替代 public release 的人工确认门禁（ADR-0019 后写通道已无 confirmation 事件）。
 
 ## 真实 stdio transport 增量证据（2026-08-30）
 
-- `tests/test_skill_runtime.py::test_mcp_stdio_transport_lists_and_calls_controlled_tool` 使用官方 SDK `ClientSession`/`stdio_client` 启动真实 `tools.mcp_server` 子进程，验证 `tools/list` 只暴露 `myknowledge_dispatch`，`tools/call` 缺少 token 返回 `capability_token_invalid`，正确 token 仅生成 preview、不会直接写入 checkout。
+- `tests/test_skill_runtime.py::test_mcp_stdio_transport_lists_and_calls_controlled_tool` 使用官方 SDK `ClientSession`/`stdio_client` 启动真实 `tools.mcp_server` 子进程，验证 `tools/list` 只暴露 `myknowledge_dispatch`，`tools/call` 缺少 token 返回 `capability_token_invalid`，正确 token 才执行 action（该用例用只读的 `vault_check` 作为放行样本）。
 
 ## Canonical Skill runtime 门禁证据（2026-08-27）
 
@@ -161,6 +162,7 @@
 
 ## F009 review 增量证据（2026-08-28）
 
-- 真实 root 冒烟：skill_status/query（FTS5 命中 aar）/read/write_preview 全通；危险字段（shell）`skill_payload_forbidden`。
-- **Agent 通道确认收紧（语义变更）**：`write_apply` 此前接受裸 `confirmed=true`（Agent 可自证）；现强制要求 `operation-confirmation/v1` 事件（`validate_apply_confirmation` 完整 hash 绑定），缺失返回 `skill_confirmation_required` 并引导 confirm-apply。`source_apply` 同样要求事件，但为轻校验（human actor + operation 绑定 + 自哈希）——source op record 尚无 `diff_hash`，完整绑定随 Source writer 统一迁移（F004 遗留项）后切换。SKILL.md 契约同步更新。测试：`test_skill_runtime_apply_requires_explicit_confirmation`（裸 confirmed 拒绝 + 事件放行）。
+- 真实 root 冒烟：skill_status/query（FTS5 命中 aar）/read/write 全通；危险字段（shell）`skill_payload_forbidden`。
+- ~~**Agent 通道确认收紧（语义变更）**：`write_apply` 此前接受裸 `confirmed=true`（Agent 可自证）；现强制要求 `operation-confirmation/v1` 事件（`validate_apply_confirmation` 完整 hash 绑定），缺失返回 `skill_confirmation_required` 并引导 confirm-apply。`source_apply` 同样要求事件，但为轻校验（human actor + operation 绑定 + 自哈希）——source op record 尚无 `diff_hash`，完整绑定随 Source writer 统一迁移（F004 遗留项）后切换。SKILL.md 契约同步更新。测试：`test_skill_runtime_apply_requires_explicit_confirmation`（裸 confirmed 拒绝 + 事件放行）。~~
+  > 已失效（ADR-0019，2026-09-15）：`write_apply`/`source_apply` 与 `write_preview`/`source_preview` 已合并为 `write`/`source_ingest`，`operation-confirmation/v1` 在写通道上不再被消费，`validate_apply_confirmation`/`skill_confirmation_required` 与 `test_skill_runtime_apply_requires_explicit_confirmation` 均已删除。存活的门禁只有 capability token（MCP）与 HTTP 侧写能力校验。
 - provider profile 管理：`config/providers.local.yaml`（gitignored）+ `MYKNOWLEDGE_LLM_PROFILE` 选择，优先级 env > profile > 默认 agent-cli；设计参考 cc-switch 的多 profile 切换（不引入外部工具）。示例文件 `config/providers.example.yaml`。

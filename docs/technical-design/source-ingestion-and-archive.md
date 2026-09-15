@@ -17,12 +17,12 @@
 - `evidence_builder`：从 snapshot 生成 TextQuote/TextPosition selector，并记录 extractor/normalization 版本；
 - `vault_registry`：从 `public + 0..N` 个 vault 中解析明确的 target `vault_id`，阻止 internal 写入允许 public projection 的 vault，并返回逐 vault 可用性/备份状态；
 - `source_validator`：确定性规则校验；
-- `operation_store`：保存 preview/apply 状态。
+- 写入通道：`SourceIngestor.ingest()` 在一次调用内完成「校验 → 采集 → 落盘」，失败结构化返回且不留半成品（ADR-0019 已删除 preview/apply 两阶段、operation 记录与 per-vault 锁）。
 
 ## 本轮垂直切片方案复核（2026-08-27）
 
 - W3C Web Annotation TextQuote/TextPosition（<https://www.w3.org/TR/annotation-vocab/>，W3C 文档）与 Hypothes.is anchoring（<https://github.com/hypothesis/client>，BSD-2-Clause）均采用 quote + position 的可回放边界；替代方案是只保存行号或 URL，无法抵抗 Unicode、换行和快照版本变化。
-- Git content-addressed objects（GPL-2.0，<https://git-scm.com/docs>）与 LakeFS commit/branch model（Apache-2.0，<https://github.com/treeverse/lakeFS>）提供不可变版本/回滚思路；本项目复用 hash-addressed snapshot 和 append-only manifest，但保留 Source/Wiki/claim 的领域 owner 与 confirmation 门禁，不引入外部服务。
+- Git content-addressed objects（GPL-2.0，<https://git-scm.com/docs>）与 LakeFS commit/branch model（Apache-2.0，<https://github.com/treeverse/lakeFS>）提供不可变版本/回滚思路；本项目复用 hash-addressed snapshot 和 append-only manifest，但保留 Source/Wiki/claim 的领域 owner 与仍存活的发布确认门禁（source/wiki 写入侧的 confirmation 已随 ADR-0019 删除），不引入外部服务。
 - 本轮实际垂直切片验证 `SourceIngestor` → `EvidenceAnchor` → `WikiValidator` 的接口闭包；public confirmation/projection 仍是独立发布层，不由 Source 导入自动触发。
 
 ## Canonical 数据契约
@@ -33,8 +33,7 @@
 
 ```python
 class SourceIngestor(Protocol):
-    def preview(self, request: SourceRequest) -> SourcePreview: ...
-    def apply(self, operation_id: str, confirmation: Confirmation) -> ApplyResult: ...
+    def ingest(self, request: SourceRequest) -> IngestResult: ...
 
 class SourceRequest(TypedDict):
     target_vault: str
@@ -45,14 +44,14 @@ class SourceRequest(TypedDict):
     read_range: str | None          # provenance only; never an evidence selector
 
 # `source_type: personal-note` uses `retrieval.acquisition: personal-note` and
-# snapshots the canonical note body before Apply; it is not an unarchived bypass.
+# snapshots the canonical note body at ingest time; it is not an unarchived bypass.
 ```
 
-Preview 必须返回 `operation_id`、target Vault、input/file hash、`snapshot_sha256`、extractor/version/options hash、normalization version、evidence item 数量、network requirement 和阻断原因；Apply 重新读取并比较这些 preconditions。`snapshot_sha256` 始终指向 canonical 未压缩文本，不使用 `text_sha256` 作为第二个权威字段。
+`ingest` 一次完成导入：成功返回 `state: applied`、`source_id`、`snapshot_sha256` 与 `applied_files`，失败返回 `state: blocked` + `error_code`/`errors`，不留半成品。它不返回 `operation_id`，也没有「Apply 重新读取并比较 preview precondition」这一步（ADR-0019）——采集与校验发生在同一次读取内，落盘紧接其后。extractor/version/options hash、normalization version、network requirement 与 evidence item 数量仍是 snapshot manifest 的内容，不作为第二份权威状态。`snapshot_sha256` 始终指向 canonical 未压缩文本，不使用 `text_sha256` 作为第二个权威字段。
 
 ## 流程与失败处理
 
-解析来源 → 判断 `fetch`/`local-file`/`personal-note` → 获取或读取正文 → 保存不可变 text snapshot → 按需保存 raw → 生成 evidence item/selector → 计算 hash → schema 校验 → 生成 Preview。输入是本机路径时强制 `source_type: local-file`；原始网页类型只能写入 provenance。
+解析来源 → 判断 `fetch`/`local-file`/`personal-note` → 获取或读取正文 → 保存不可变 text snapshot → 按需保存 raw → 生成 evidence item/selector → 计算 hash → schema 校验 → 原子落盘（source + snapshot + sidecar + manifest）。输入是本机路径时强制 `source_type: local-file`；原始网页类型只能写入 provenance。
 
 抓取失败、来源不完整、selector 无法绑定、vault 不可用、raw 超过 `raw_max_bytes` 或 raw 的 LFS 前置检查失败时，不得产生可发布 Source；允许的 text-only 降级必须记录原因，且不影响 snapshot 作为权威证据载体。`personal-note` 也必须从 canonical note body 生成 snapshot；它可以离线，但不能用可变 Markdown 正文替代快照。
 
@@ -62,7 +61,7 @@ URL 抓取只接受用户明确给出的单个 URL，且只允许 `http`/`https`
 
 ### 本地文件一致性与竞态
 
-local-file preview/apply 必须在同一次读取中记录 `file_sha256`、字节数、设备/inode（仅本机 precondition）和读取开始/结束时间；Apply 重新打开并重新计算 hash，发现文件替换、大小或 hash 变化即 `hash_mismatch`，不能继续使用 preview 结果。读取前后都要检查 realpath、symlink 和 hard-link 是否仍在允许范围内；不把用户提供的路径直接拼接进 archive 路径。sidecar 只保存 `vault_id + source_id` 到本机绝对路径的映射，canonical Source 只保留 `path_ref`（以 `local-sidecar:` 开头）、hash、媒体类型和读取范围。若 `input_path` 存在，`source_type` 必须是 `local-file`；不能用 `doc`/`blog` 等原始类型绕过统一入口。
+local-file 必须在**同一次稳定读取**中记录 `file_sha256`、字节数、设备/inode（仅本机 precondition）和读取开始/结束时间（读取前后各 stat 一次）；发现文件替换、大小或 hash 变化即 `hash_mismatch`，本次导入整体失败、不保留半成品。ADR-0019 之后不存在「先 preview、再由 Apply 重新打开重算 hash」的第二次机会，因此漂移必须在这一次读取内被抓住。读取前后都要检查 realpath、symlink 和 hard-link 是否仍在允许范围内；不把用户提供的路径直接拼接进 archive 路径。sidecar 只保存 `vault_id + source_id` 到本机绝对路径的映射，canonical Source 只保留 `path_ref`（以 `local-sidecar:` 开头）、hash、媒体类型和读取范围。若 `input_path` 存在，`source_type` 必须是 `local-file`；不能用 `doc`/`blog` 等原始类型绕过统一入口。
 
 ### Local-file sidecar 契约
 
@@ -84,7 +83,7 @@ sidecar 是本机解析层，不是 Source 的第二个事实源。默认写入�
 }
 ```
 
-sidecar 文件和父目录必须由当前用户拥有、不可被 symlink 替换，文件权限为 `0600`（目录 `0700`）；加载时校验 schema、`vault_id/source_id`、路径 realpath、device/inode、大小和 hash，任一不匹配返回 `path_unresolved`/`hash_mismatch`。sidecar 内容绝不进入 Git、共享 audit、日志、QueryResult 或 public leak-gate 输入；跨机器迁移只能重新绑定路径并重新 Preview，不能复制绝对路径或复用旧 inode precondition。Apply 使用“打开后 stat -> 读取 -> 再 stat/realpath -> hash”顺序，竞态时丢弃本次读取并保留旧 snapshot。
+sidecar 文件和父目录必须由当前用户拥有、不可被 symlink 替换，文件权限为 `0600`（目录 `0700`）；加载时校验 schema、`vault_id/source_id`、路径 realpath、device/inode、大小和 hash，任一不匹配返回 `path_unresolved`/`hash_mismatch`。sidecar 内容绝不进入 Git、共享 audit、日志、QueryResult 或 public leak-gate 输入；跨机器迁移只能重新绑定路径并重新导入，不能复制绝对路径或复用旧 inode precondition。读取使用“打开后 stat -> 读取 -> 再 stat/realpath -> hash”顺序，竞态时丢弃本次读取、整体失败并保留旧 snapshot。
 
 ## 测试策略
 
@@ -96,4 +95,4 @@ sidecar 文件和父目录必须由当前用户拥有、不可被 symlink 替换
 
 对扫描 PDF 或 OCR 输出，若抽取器无法提供稳定文本和页级 provenance，Source 必须保持 `read_status: partial` 或 `evidence_status: metadata-only`，不能把 OCR 低置信度文本自动当作权威 claim 证据；人工确认后仍以归档的 canonical text snapshot 和 selector 为准。原始 PDF 的页码、区域框和 OCR 置信度可作为补充元数据，但不改变 snapshot/hash 规则。
 
-该通道允许离线 apply，但仍必须经过 source schema、snapshot、evidence selector 和 hash 校验；`url_status: unknown` 不代表证据缺失。
+该通道允许离线导入，但仍必须经过 source schema、snapshot、evidence selector 和 hash 校验；`url_status: unknown` 不代表证据缺失。

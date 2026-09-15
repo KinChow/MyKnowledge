@@ -2,12 +2,13 @@
 
 - Feature：F005
 - 相关规范：IDX、SEC
-- 状态：Implemented（2026-08-29；projection/SQLite FTS5/fallback 基础能力，QMD 与完整恢复验收待补）
+- 状态：Implemented（2026-08-29；projection/SQLite FTS5/fallback 基础能力，完整恢复验收待补）
 - 实现证据：`tools/indexing.py`、`tests/test_indexing.py`
+- 修订（ADR-0017，2026-09-15）：QMD 适配器已退役（`tools/indexing.py:411`），降级链为 FTS5（simple/unicode61）→ LIKE。本文件中所有「QMD 待补 / QMD cache / 向量与 RRF 质量」的表述均已失效，保留仅为历史记录；实体检索能力以 FTS5 → LIKE 为准。
 
 ## 本轮证据（2026-08-29）
 
-- AC-F005-001/002/006：`tests/test_indexing.py::IndexingTests::test_retriever_prefers_persistent_fts5_when_available` 验证持久索引存在且 scope 匹配时返回 `method: fts5`，并明确 `qmd_unavailable` 降级告警。
+- AC-F005-001/002/006：`tests/test_indexing.py::IndexingTests::test_retriever_prefers_persistent_fts5_when_available` 验证持久索引存在且 scope 匹配时返回 `method: fts5` 且 `warnings: []`、`degraded: false`（FTS5 已是主路径，不是降级路径）。QMD 适配器已退役（`tools/indexing.py:411`，见 ADR-0017），原先的 `qmd_unavailable` 告警已无生产者。
 - scope 隔离：SQLite 索引记录自身 scope；不匹配时不读取索引，回退确定性路径，避免 public 查询误读 local/private 内容。
 
 完整 QMD cache 权限、损坏索引保留旧版本和 unavailable 对象状态元数据仍待后续验收。
@@ -31,7 +32,7 @@
 
 ## QMD runtime 增量证据（2026-08-30）
 
-- AC-F005-006：`tests/test_indexing.py::IndexingTests::test_qmd_cache_probe_is_fail_closed` 验证缺少 QMD 可执行程序返回 `provider_unavailable`，cache 非 0700 返回 `cache_permissions`；adapter 不发起网络或下载。
+> 已失效（ADR-0017，2026-09-15）：QMD 适配器退役，`IndexingTests::test_qmd_cache_probe_is_fail_closed` 已删除。QMD cache 权限与网络边界不再是本条的验收对象。
 
 ## AC-F005-001 Projection 隔离与可重建
 
@@ -44,14 +45,16 @@
 
 ## AC-F005-002 检索 fallback 契约
 
+> 已修订（ADR-0017，2026-09-15）：QMD 适配器已退役，降级链由「QMD → FTS5 → LIKE」变为 **FTS5（simple/unicode61）→ LIKE**；凡本文件提及 `qmd` 的断言均视为历史记录。
+
 ## Private scope 隔离增量证据（2026-08-27）
 
 - `tests/test_indexing.py::IndexingTests::test_private_scope_excludes_public_owner` 验证 IndexBuilder 与 Retriever 共用 scope 过滤，`scope=private` 不把 public owner 混入 QMD/FTS5/LIKE 候选；public allowlist 与 private owner 边界在 provider 之前生效。
 - `test_vault_allowlist_is_applied_before_retrieval_result_generation` 验证显式 `vault_ids` 在 Retriever 内部过滤，调用方不再依赖检索完成后的结果裁剪来表达 owner 权限。
 
-- Given：QMD、SQLite FTS5 或 LIKE fallback 依次可用/不可用；
+- Given：SQLite FTS5 或 LIKE fallback 依次可用/不可用；
 - When：执行相同查询；
-- Then：按 QMD → FTS5 → LIKE 顺序降级，返回相同 QueryResult schema，并明确 `degraded` 状态；
+- Then：按 FTS5 → LIKE 顺序降级，返回相同 QueryResult schema，并明确 `degraded` 状态（降级告警为 `fts5_unavailable`/`index_scope_mismatch` 等，不再是 `qmd_unavailable`）；
 - 失败时不变量：检索降级不改变 Wiki 状态和发布门禁。
 
 ## AC-F005-003 结果可追溯
@@ -78,19 +81,23 @@
 - 失败时不变量：不能把故障对象当成不存在、把同名对象或同 hash 的另一 owner 代替，或将 unavailable 内容送入 RAG/public cache；
 - 自动化级别：Unit/Integration/Security。
 
-## AC-F005-006 查询资源、QMD cache 与网络边界
+## AC-F005-006 查询资源、缓存与网络边界
 
-- Given：查询包含未知字段、超长文本、超大 `top_k`/Vault 列表，或 QMD cache 位于非 `0700` 目录、尝试联网或写入 canonical；
-- When：执行 QMD/FTS5/LIKE 路由；
-- Then：请求超限返回 `query_limit_exceeded`/`request_too_large`；QMD 仅读取 local projection，在权限为 `0700` 的本机 cache 中运行且 network-disabled；不满足条件时降级到 FTS5/LIKE，并保留统一 QueryResult；
-- 失败时不变量：不能静默截断、扩大 scope、把 QMD 结果写回 canonical 或把 cache/内部正文提交到 public Git；
+> 已修订（ADR-0017，2026-09-15）：原条文包含的 QMD cache（0700、network-disabled）断言随 QMD 适配器退役而失效。存活的不变量是**查询资源上限**与**不写 canonical/不联网**，见下。
+
+- Given：查询包含未知字段、超长文本、超大 `top_k`/Vault 列表；
+- When：执行 FTS5/LIKE 路由；
+- Then：请求超限返回 `query_limit_exceeded`/`request_too_large`；检索只读取本机 projection（`queries/public`、`queries/local`）与 `state/index/` 下的 SQLite 索引，不联网、不写 canonical；不满足条件时降级到 LIKE，并保留统一 QueryResult；
+- 失败时不变量：不能静默截断、扩大 scope、把检索结果写回 canonical 或把 cache/内部正文提交到 public Git；
 - 自动化级别：Unit/Security/Integration。
-- 对应测试：`tests/test_indexing.py::IndexingTests::test_fallback_search_and_limits`；当前状态：基础 fallback 通过。
+- 对应测试：`tests/test_indexing.py::IndexingTests::test_fallback_search_and_limits`、`::test_retriever_enforces_vault_id_limit_before_provider`；当前状态：基础 fallback 与资源上限通过。
 
 ## 本轮 QMD adapter 证据（2026-08-27）
 
-- `tests/test_indexing.py::IndexingTests::test_qmd_results_are_normalized_and_projection_allowlisted` 使用注入式 QMD provider 验证候选结果必须重新映射到当前 projection allowlist，private/未知 owner 不会进入 public QueryResult。
-- `QMDAdapter.search` 仅调用本地 `qmd search ... --json`，检查 cache 权限和 Git 边界；命令失败、schema 无效或 provider 不可用时继续 FTS5/LIKE，不能伪造 qmd 成功。
+> 已失效（ADR-0017，2026-09-15）：`QMDAdapter` 与 `IndexingTests::test_qmd_results_are_normalized_and_projection_allowlisted` 均已删除，QMD 不再参与检索路由。该节仅作历史记录。
+
+- ~~`tests/test_indexing.py::IndexingTests::test_qmd_results_are_normalized_and_projection_allowlisted` 使用注入式 QMD provider 验证候选结果必须重新映射到当前 projection allowlist，private/未知 owner 不会进入 public QueryResult。~~
+- ~~`QMDAdapter.search` 仅调用本地 `qmd search ... --json`，检查 cache 权限和 Git 边界；命令失败、schema 无效或 provider 不可用时继续 FTS5/LIKE，不能伪造 qmd 成功。~~
 - 边界：真实 QMD 安装、向量模型和 RRF 质量仍属于环境验收，当前不标记 F005 Accepted。
 
 ## 本轮 Registry projection 接入证据（2026-08-30）
@@ -120,6 +127,7 @@
 
 ## F005 review 增量证据（2026-08-28）
 
-- **FTS5 默认接线（修复关键缺口）**：review 发现 CLI query / FastAPI / Skill 三个入口构造 `Retriever` 时均未传 `index_path`——FTS5 索引可构建但无消费者，真实查询永远走 LIKE 降级（AC-F005-002 的 QMD→FTS5→LIKE 链路此前只在注入式测试中成立）。现约定默认索引路径 `state/index/public.sqlite3`（`indexing.default_public_index_path`），三入口自动接线（存在即用，陈旧/损坏仍自动降级 LIKE）；public apply 后由 `public_projection_rebuilder` 自动重建索引，失败与 projection 失败同语义（`applied_index_pending` + 显式 recover）。对应测试：`F005WiringTests`、`IndexAutoRebuildTests`；真实 checkout 演练：`index rebuild` 后 `query` 返回 `method: fts5` 并命中 aar。
+- **FTS5 默认接线（修复关键缺口）**：review 发现 CLI query / FastAPI / Skill 三个入口构造 `Retriever` 时均未传 `index_path`——FTS5 索引可构建但无消费者，真实查询永远走 LIKE 降级（AC-F005-002 的降级链路此前只在注入式测试中成立）。现约定默认索引路径 `state/index/public.sqlite3`（`indexing.default_public_index_path`），三入口自动接线（存在即用，陈旧/损坏仍自动降级 LIKE）。对应测试：`F005WiringTests`；真实 checkout 演练：`index rebuild` 后 `query` 返回 `method: fts5` 并命中 aar。
+  > 已失效（ADR-0019，2026-09-15）：原文"public apply 后由 `public_projection_rebuilder` 自动重建索引，失败与 projection 失败同语义（`applied_index_pending` + 显式 recover）"随写通道退场——`public_projection_rebuilder`、`IndexAutoRebuildTests` 与 `applied_index_pending` 均已删除。当前索引重建是**显式动作**：`python -m tools.cli index rebuild`（`projection generate` 不重建索引），写通道的失败语义只剩 `state: blocked` + 结构化错误码。
 - **FTS5 特殊字符查询修复**：用户查询现按 FTS5 短语字面量包裹（双引号转义）；裸 MATCH 语法此前把 `c++`/`a-b`/引号当语法符号抛 OperationalError 并静默降级，真实技术查询永远用不上 FTS5。
-- 边界不变：真实 QMD 安装、向量/RRF 质量、CJK 分词（unicode61 无中文分词器，跨词短语依赖 QMD）仍属环境验收；F005 维持 Implemented（部分）。
+- 边界不变：CJK 分词（unicode61 无中文分词器）仍属环境验收；QMD 已退役（ADR-0017），F005 维持 Implemented（部分）。

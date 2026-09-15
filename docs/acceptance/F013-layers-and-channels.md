@@ -63,32 +63,34 @@
 
 ## AC-F013-006 降级落位不产生 wiki 对象
 
-- Given：一批被误登记为 source 的加工文档（`content/sources/<domain>/<id>.md`），以及它们在 `archive/` 中的快照与 manifest 行；
-- When：执行整批降级落位到 `content/working/<domain>/<id>.md`；
-- Then：落位文件只保留 `legacy_path`、`snapshot_sha256`、`domain`、`title`，以及**清单携带且非空时**才写入的 `legacy_first_commit_at`；不再带 `schema_version: source/v1`；不产生任何 wiki 对象与 `object_ref`；`archive/` 快照与 `manifest.jsonl` 逐字节不动；整批只写一条 CDR（绑 plan hash 与全部 `source_id`）；
-- 失败时不变量：降级不得删除或改写 append-only 归档（曾经导入过是事实）；不得为落位文件伪造 object 身份；不得逐篇写 CDR 制造"每篇都被单独决策过"的假象；时间事实取不到时不得写空值或用落位时间冒充（清单的 `legacy_time_unresolved` 必须显式计数）；`apply` 不得自行推断时间（只落位清单里的值，保证可复核）；
+> 已退场（ADR-0019，2026-09-15）：本条由 `tools/reposition.py` 与 CLI `reposition` 实现，两者已随写通道退场（连同 `tests/test_reposition.py`）。降级落位是一次性动作，已经完成（161 篇落位在 `content/working/`），其"不产生 wiki 对象 / 不改写 append-only 归档 / 整批一条 CDR"的不变量**没有代码载体，也没有替代工具** —— 若将来需要再落位，应按 ADR-0017 的统一动词重写。正文保留以记录曾经实现过的语义。
+
+- ~~Given：一批被误登记为 source 的加工文档（`content/sources/<domain>/<id>.md`），以及它们在 `archive/` 中的快照与 manifest 行；~~
+- ~~When：执行整批降级落位到 `content/working/<domain>/<id>.md`；~~
+- ~~Then：落位文件只保留 `legacy_path`、`snapshot_sha256`、`domain`、`title`，以及**清单携带且非空时**才写入的 `legacy_first_commit_at`；不再带 `schema_version: source/v1`；不产生任何 wiki 对象与 `object_ref`；`archive/` 快照与 `manifest.jsonl` 逐字节不动；整批只写一条 CDR（绑 plan hash 与全部 `source_id`）；~~
+- ~~失败时不变量：降级不得删除或改写 append-only 归档（曾经导入过是事实）；不得为落位文件伪造 object 身份；不得逐篇写 CDR 制造"每篇都被单独决策过"的假象；时间事实取不到时不得写空值或用落位时间冒充（清单的 `legacy_time_unresolved` 必须显式计数）；`apply` 不得自行推断时间（只落位清单里的值，保证可复核）；~~
 - 自动化级别：Unit + Integration。
-- 对应测试：`tests/test_reposition.py::test_apply_relocates_every_category_into_the_working_layer`、`::test_relocation_carries_the_legacy_git_time_when_the_plan_has_it`、`::test_apply_requires_the_public_vault_write_lock`
-- 当前状态：代码通过；161 篇真实落位等 owner 确认清单（Task 9.7）。
+- ~~对应测试：`tests/test_reposition.py::test_apply_relocates_every_category_into_the_working_layer`、`::test_relocation_carries_the_legacy_git_time_when_the_plan_has_it`、`::test_apply_requires_the_public_vault_write_lock`~~
+- 当前状态：工具已删除。161 篇真实落位已完成（Task 9.7），随附的 write 锁要求已失效。
 
 ## AC-F013-007 working 层无法晋级与外泄
 
 - Given：一个 `content/working/` 下的文件；
-- When：尝试让它进入 projection、出现在另一篇 wiki 的 `evidence.targets`、进入 `before_hashes`/`after_hashes`、或出现在 `query-result/v1` 中；
-- Then：全部不发生——`projection.body_path_prefixes` 未列出该前缀使其物理上无法成为 `body_path`；它没有 `object_ref`，`evidence.targets` 解析必然 fail-closed；unmanaged 路径不进 operation hash；RAG 召回不包含它；
+- When：尝试让它进入 projection、出现在另一篇 wiki 的 `evidence.targets`、出现在写入响应的 `applied_files`、或出现在 `query-result/v1` 中；
+- Then：全部不发生——`projection.body_path_prefixes` 未列出该前缀使其物理上无法成为 `body_path`；它没有 `object_ref`，`evidence.targets` 解析必然 fail-closed；unmanaged 路径不进写入结果（原 `before_hashes`/`after_hashes` 随 operation 状态机退场，ADR-0019）；RAG 召回不包含它；
 - 失败时不变量：出口封锁是安全边界，不得由作者字段覆写；不存在"批量把 working 升级为 wiki"的路径，升级只能逐篇走通道 A 全流程；
 - 自动化级别：Unit。
-- 对应测试：`tests/test_write_operation.py`（working 层入口约束返回 `schema_invalid`）；projection/hash 隔离断言待补。
-- 当前状态：待实现（部分）。
+- 对应测试：`tools/skill_runtime.py::_write_files` 调用 `tools/layers.py::working_contract_error` 强制该约束，证据为 `tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content`（`content/working/draft.md` 无回指 → `schema_invalid`，文件不落盘）；projection/hash 隔离断言待补。
+- 当前状态：待实现（部分）。入口约束已由直写路径保留（ADR-0019：分域约束不是审批门禁，不随状态机退场）；原 `tests/test_write_operation.py::UnmanagedLayerContractTests` 已删除。
 
 ## AC-F013-008 review_by 不改变任何 hash 与确认
 
 - Given：两篇真实 published wiki（hash 不变性取 `content/wiki/reading-notes/how-to-read-a-book.md`；确认不变性取带真实发布确认、`public_publishable: true` 的 `content/wiki/work-methods/aar.md`），fixture 使用其真实 hash，不构造假 hash；
 - When：为它增加或修改 `review_by`；
-- Then：`content_sha256` 与 `evidence_sha256` 逐字节不变；既有 `operation-confirmation` 仍有效；`status` 与全部 `*_state` 不变；
+- Then：`content_sha256` 与 `evidence_sha256` 逐字节不变；既有 public release 确认仍有效（派生状态全等）；`status` 与全部 `*_state` 不变；
 - 失败时不变量：若续期作废人工确认，说明 `hash_inputs.excluded_from_content_hash` 未同步更新，必须阻断合入；
 - 自动化级别：Unit。
-- 对应测试：`tests/test_review_by.py`。
+- 对应测试：`tests/test_review_by.py`（其中 `test_adding_review_by_keeps_the_existing_confirmation_and_every_state` 断言 `derived` 与 `hashes` 全等）。
 - 当前状态：已实现。
 
 ## AC-F013-009 review_by 到期只产生报告
@@ -108,14 +110,14 @@
 - Then：前者被拒绝并返回 `schema_invalid`；后者出现在到期清单中且文件未被删除；
 - 失败时不变量：工具永不自动删除 `content/working/` 内容；不存在"来源待补"的中间状态；
 - 自动化级别：Unit。
-- 对应测试：`tests/test_write_operation.py::UnmanagedLayerContractTests`、`tests/test_doctor.py::test_doctor_lists_overdue_working_notes_and_never_touches_them`。
-- 当前状态：已实现（TTL 时间基准优先 `created_at`，缺失时退到 mtime 并在报告里标明 `basis`）。
+- 对应测试：`tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content`（经 `tools/skill_runtime.py::_write_files` → `tools/layers.py::working_contract_error` 返回 `schema_invalid`）、`tests/test_doctor.py::test_doctor_lists_overdue_working_notes_and_never_touches_them`。
+- 当前状态：已实现（TTL 时间基准优先 `created_at`，缺失时退到 mtime 并在报告里标明 `basis`）。原 `tests/test_write_operation.py::UnmanagedLayerContractTests` 已随 ADR-0019 删除，入口约束改由直写路径承担。
 
 ## AC-F013-011 unmanaged 层不进入四类边界
 
 - Given：`content/working/`、`content/journal/`、`content/decisions/` 下存在内容；
-- When：生成 projection、执行 leak gate 输入扫描、执行一次 apply、调用 `retrieve`；
-- Then：四者的输出中均不包含 unmanaged 层的路径或正文；apply 的 `before_hashes`/`after_hashes` 不含它们；`query-result/v1` 的 items 不含它们；
+- When：生成 projection、执行 leak gate 输入扫描、执行一次写入、调用 `retrieve`；
+- Then：四者的输出中均不包含 unmanaged 层的路径或正文；写入响应（`write-result/v1`）的 `applied_files` 不含它们（原 `before_hashes`/`after_hashes` 随 operation 状态机退场，ADR-0019）；`query-result/v1` 的 items 不含它们；
 - 失败时不变量：`projection.body_path_prefixes` 不得包含 unmanaged 前缀（回归锁定）；不得为可检索性给 unmanaged 层伪造 `object_ref`；
 - 自动化级别：Unit + Integration。
 - 对应测试：待实现。

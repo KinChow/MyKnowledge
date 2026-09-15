@@ -495,13 +495,11 @@ Wiki/面经选择
   -> QuestionValidator 校验 schema
   -> Claim/evidence identity 和 hash 校验
   -> answer_key/feedback/分类校验
-  -> preview
-  -> 人工确认
-  -> apply 到 private vault
+  -> 直接写入 private vault（QuestionStore.create / import_spec，一次落盘）
   -> refresh / projection leak gate
 ```
 
-外层 Agent 可以生成候选题目，但不能跳过 preview/apply，也不能把生成结果直接当成 verified fact。题目批量生成不在实时练习请求内完成。
+外层 Agent 可以生成候选题目，但不能把生成结果直接当成 verified fact：写入本身是一次落盘、没有人工确认关口（ADR-0019 已删除写入门禁），审核在人的 `git diff` / `git commit` 阶段完成；题目批量生成不在实时练习请求内完成。
 
 ## 12. 实施阶段
 
@@ -528,7 +526,7 @@ Wiki/面经选择
 
 - `question/v1` 到 `question/v2` 兼容迁移；
 - 多 claim 绑定；
-- Preview/Apply 题目写入；
+- 题目写入的批量导入与 revision 迁移（直接落盘 + git 审批，不复用已删除的 preview/apply 两阶段）；
 - question revision 和失效迁移；
 - 备份恢复完整回归；
 - local-only Astro 练习页面。

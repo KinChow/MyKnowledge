@@ -15,7 +15,7 @@
 - `release/public-confirmations/` 下存在 1 个确认事件；`queries/public/manifest.json` 中 `body_path: wiki/work-methods/aar.md`，`route: /wiki/aar`。
 - `audit/operations/` 下 264 条记录中 254 条含 `applied_files` 的历史相对路径。
 - `state/`、`queries/local/` 已整体 Git 忽略；`specs/` 为空且未被 Git 跟踪。
-- 硬编码路径字面量：生产代码约 6 处，测试约 45 处（集中在 `tests/test_skill_runtime.py`、`test_api.py`、`test_write_operation.py`）。
+- 硬编码路径字面量：生产代码约 6 处，测试约 45 处（集中在 `tests/test_skill_runtime.py`、`test_api.py`；原 `tests/test_write_operation.py` 已随写入门禁删除）。
 
 ## 模块边界
 
@@ -23,7 +23,7 @@
 | --- | --- | --- |
 | 路径解析 | `tools/paths.py` | 唯一改动点；新增 `working_root`、`journal_dir`、`decisions_root` |
 | 域声明与阈值 | `config/policy.yaml` 的 `layers:` 段 | `unmanaged_paths`、`working.ttl_days`、`review` |
-| working 层入口约束 | `tools/layers.py` | `working_contract_error()`：缺 `source_ref`/`legacy_path` 返回 `schema_invalid`（唯一实现点，写操作侧消费） |
+| working 层入口约束 | `tools/layers.py` | `working_contract_error()`：缺 `source_ref`/`legacy_path` 返回 `schema_invalid`（唯一实现点，由 `tools/skill_runtime.py::_write_files` 在落盘前调用） |
 | 到期报告 | `tools/doctor.py` | 两项新报告（`working_ttl`、`review_due`），按域分组输出 |
 
 ## 数据模型
@@ -59,9 +59,9 @@ review:
 
 **批次 3**：`git mv archive audit release ledger/`；改 `paths.py` 6 个属性、`schemas.yaml` 的 `durable_records` 4 项、`policy.yaml` 的 `release.public_confirmation_path`/`durable_audit_path`/`public_release_authority.*_path`/`backup.durable_manifest_path`，以及跨 vault 模板 `source_lineage_operation_path`。
 
-**降级落位**：`content/sources/` 下被误登记的加工文档 → 写 `content/working/<domain>/<id>.md`，front matter 只留 `legacy_path`、`snapshot_sha256`、`domain`、`title`，外加取得到时才写的 `legacy_first_commit_at` → 归档与 manifest 不动 → 整批一条 CDR。它不产生 object 身份，因此不走 preview/apply 的对象协议，只受 `working_contract_error()` 的入口约束。
+**降级落位**：`content/sources/` 下被误登记的加工文档 → 写 `content/working/<domain>/<id>.md`，front matter 只留 `legacy_path`、`snapshot_sha256`、`domain`、`title`，外加取得到时才写的 `legacy_first_commit_at` → 归档与 manifest 不动 → 整批一条 CDR。它不产生 object 身份，因此不走对象写入协议（写入本身已不再有 preview/apply 两阶段，见 ADR-0019），只受 `working_contract_error()` 的入口约束。
 
-`legacy_first_commit_at` 是 `legacy_path` 首次进入 Git 的作者时间，由 `classify` 求得写进清单、`apply` 原样落位不重算。它**不叫 `created_at`**：实测 161 篇里 156 篇同属 2025-07-06 的一次批量导入，叫 `created_at` 会把导入日误读成创作日。不用 mtime 的原因是 mtime 已成噪声——存量原文与副本的 mtime 全被迁移重写成同一天，落位还会再重写一次。取不到时不写该键（空值假装有时间比缺键更糟），清单的 `legacy_time_unresolved` 显式给出篇数。`content/working/` 的 TTL 判定仍按文件 mtime，不改用该字段：否则落位当天 161 篇会同时"超期"，报告失去筛选力。
+`legacy_first_commit_at` 是 `legacy_path` 首次进入 Git 的作者时间，由 `classify` 求得写进清单、`apply` 原样落位不重算（`classify`/`apply` 属已退场的 legacy 迁移工具，见 [存量内容迁移与质量清理](./content-migration.md)）。它**不叫 `created_at`**：实测 161 篇里 156 篇同属 2025-07-06 的一次批量导入，叫 `created_at` 会把导入日误读成创作日。不用 mtime 的原因是 mtime 已成噪声——存量原文与副本的 mtime 全被迁移重写成同一天，落位还会再重写一次。取不到时不写该键（空值假装有时间比缺键更糟），清单的 `legacy_time_unresolved` 显式给出篇数。`content/working/` 的 TTL 判定仍按文件 mtime，不改用该字段：否则落位当天 161 篇会同时"超期"，报告失去筛选力。
 
 **升级**：`content/working/` → `content/wiki/` 是**逐篇人工重写**，不是移动：需补齐八段正文、claim/evidence 映射，并走通道 A 的确定性校验 + 人工确认。不存在批量升级实现。
 
@@ -76,7 +76,7 @@ review:
 
 ## 幂等与并发
 
-unmanaged 层不进入 `before_hashes`/`after_hashes`，因此手工编辑 `content/working/` 与后台 apply 的路径集不相交，`locks.scope: per-vault` 无需扩展。`git mv` 是一次性操作，不属于 operation 协议，执行期间不得有未完成的 operation（先跑 `doctor` 确认无 `awaiting_confirmation`/`applied_index_pending`）。
+unmanaged 层不进入任何写入门禁的 hash 账本，因此手工编辑 `content/working/` 与其它写入的路径集不相交，ADR-0019 之后已不存在 per-vault 写锁，也无从扩展。`git mv` 是一次性操作，不属于任何工具协议，执行前只需确认工作区没有半成品（`git status`；原 `doctor` 的 `awaiting_confirmation`/`applied_index_pending` 查询已随 operation 状态机删除，见 ADR-0019）。
 
 ## 安全边界
 

@@ -31,7 +31,7 @@
 - YAML manifest：复用 PyYAML safe loader 和版本化 manifest；路径经过 realpath、workspace containment 和不重叠检查，不把绝对路径写入共享报告。
 - 最小权限原则：采用显式声明而非自动扫描 `../vaults`；不存在的 optional vault 只影响自身状态。
 
-本轮结论：`tools/vault_registry.py` 先交付只读 `VaultCheckReport` 与 `vault check`，对象合并、跨 Vault 写锁、备份恢复和 projection generator 作为后续增量，不伪造 F011 Accepted。
+本轮结论：`tools/vault_registry.py` 先交付只读 `VaultCheckReport` 与 `vault check`，对象合并、跨 Vault 写锁、备份恢复和 projection generator 作为后续增量，不伪造 F011 Accepted。（2026-09-15 更正：其中「跨 Vault 写锁」一项后来确实落地、又随 ADR-0019 的写入门禁收敛一并删除；对象合并、备份恢复和 projection generator 仍在运行。）
 
 本轮增量调查（2026-08-30）：Git worktree/submodule 的 owner 边界继续作为挂载基线；参考 Git object namespace 和显式 registry 的做法，在每个可用 Vault 内扫描 `wiki/` 与 `sources/` 的稳定 ID。跨 Vault 相同 `(object_type, object_id)` 不冲突；同一 Vault 重复 ID 形成阻断级 `duplicate_object_id`。扫描报告只输出 ObjectRef 与计数，不输出物理路径，降低 public/共享日志泄漏风险。
 
@@ -45,9 +45,9 @@
 
 本轮冲突投影调查（2026-08-30）：Git index/merge 的 unresolved conflict 采用 fail-closed，必须先解决冲突才能生成可消费树；本项目复用该边界，在 `local-projection/v1` 中跳过同一 Vault 重复 owner triple，仅在 `vault check` 保留冲突诊断。替代方案是按路径排序或多数版本选择一个，会静默改变知识事实；不采用。跨 Vault 同名对象仍按 owner triple 独立保留。
 
-本轮跨 Vault copy/move 调查（2026-08-30）：Git `mv`（Git 2.45.2，GPL-2.0，<https://git-scm.com/docs/git-mv>）保证单一工作树内移动成功后再更新 index，但不提供跨独立仓库事务或 owner 语义；git-annex（10.x，GPL-3.0，<https://git-annex.branchable.com/>）以 repository owner 和内容可用性分离传输/路径，适合离线内容复制但会引入远端配置和更复杂的对象协议。采用 `tools.vault_transfer.VaultTransfer` 的本地受控方案：显式 source/target Vault 与相对路径、source hash precondition、目标不存在、internal 内容不得降级到 public、`VaultLockGroup` 按稳定 Vault ID 顺序获取双锁；copy 只写目标，move 在目标 hash 验证后删除源，任一失败只清理本次目标文件并保留源。直接使用 `shutil.copy` 或按全局 `object_id` 猜 owner 会绕过确认、锁和 confidentiality，明确排除。离线运行不访问网络；操作记录只保留 operation/hash/owner 元数据，不写 private 路径到 durable audit，升级需重跑跨 Vault failure-injection 测试。
+本轮跨 Vault copy/move 调查（2026-08-30）：Git `mv`（Git 2.45.2，GPL-2.0，<https://git-scm.com/docs/git-mv>）保证单一工作树内移动成功后再更新 index，但不提供跨独立仓库事务或 owner 语义；git-annex（10.x，GPL-3.0，<https://git-annex.branchable.com/>）以 repository owner 和内容可用性分离传输/路径，适合离线内容复制但会引入远端配置和更复杂的对象协议。采用 `tools.vault_transfer.VaultTransfer` 的本地受控方案：显式 source/target Vault 与相对路径、source hash precondition、目标不存在、internal 内容不得降级到 public、`VaultLockGroup` 按稳定 Vault ID 顺序获取双锁；copy 只写目标，move 在目标 hash 验证后删除源，任一失败只清理本次目标文件并保留源。直接使用 `shutil.copy` 或按全局 `object_id` 猜 owner 会绕过确认、锁和 confidentiality，明确排除。离线运行不访问网络；操作记录只保留 operation/hash/owner 元数据，不写 private 路径到 durable audit，升级需重跑跨 Vault failure-injection 测试。**（2026-09-15 更正：`tools/vault_transfer.VaultTransfer` 与 `VaultLockGroup` 已随 `transfer`/`lock` CLI 一并删除（ADR-0019），本段的双锁、operation 记录与「copy/move 由工具执行」不再成立；跨 Vault copy/move 改由人工在 git 层完成，owner 与 confidentiality 仍由 Vault Registry 只读校验，但不再有工具层的事务/锁保护。）**
 
-本轮 staging 故障恢复调查（2026-08-27）：Restic 0.17.x restore（BSD-2-Clause，<https://restic.readthedocs.io/en/stable/050_restore.html>）和 Borg 1.4 extract/check（BSD-3-Clause，<https://borgbackup.readthedocs.io/en/stable/usage/extract.html>）都把目标写入与源 snapshot 保留分开，失败不会删除来源；Git worktree（GPL-2.0，<https://git-scm.com/docs/git-worktree>）为独立 checkout 提供 owner 边界，但不提供跨仓库原子事务。替代方案是写入目标后立即删除源或依赖调用者清理，故障会留下丢失或双份状态。MyKnowledge 保留“目标原子写入并校验 hash，最后删除源”的顺序，并用故障注入验证源删除失败时目标回滚、源保留、双 Vault 锁释放；离线行为、operation 格式与 confidentiality 规则不变。
+本轮 staging 故障恢复调查（2026-08-27）：Restic 0.17.x restore（BSD-2-Clause，<https://restic.readthedocs.io/en/stable/050_restore.html>）和 Borg 1.4 extract/check（BSD-3-Clause，<https://borgbackup.readthedocs.io/en/stable/usage/extract.html>）都把目标写入与源 snapshot 保留分开，失败不会删除来源；Git worktree（GPL-2.0，<https://git-scm.com/docs/git-worktree>）为独立 checkout 提供 owner 边界，但不提供跨仓库原子事务。替代方案是写入目标后立即删除源或依赖调用者清理，故障会留下丢失或双份状态。MyKnowledge 保留“目标原子写入并校验 hash，最后删除源”的顺序，并用故障注入验证源删除失败时目标回滚、源保留、双 Vault 锁释放（该 copy/move 通道与「双 Vault 锁」已随 ADR-0019 删除，见上一条更正；此处保留为当时的机制记录）；离线行为、operation 格式与 confidentiality 规则不变。
 - Backstage Software Catalog（v1.32.0，Apache-2.0，<https://backstage.io/docs/features/software-catalog/descriptor-format>）：复用显式实体 ref/owner manifest、稳定排序和缺失实体可诊断的思路；限制是 Catalog 面向服务元数据，不提供 Markdown 正文保密或 public projection，因此只借用 manifest 形状，不引入其运行时。
 - 替代方案：按 `object_id` 做全局字典覆盖，或把 private 内容复制到 public projection 后再过滤。两者在同名对象、Vault 故障和日志导出时都会读错 owner 或产生泄漏，明确排除。
 
@@ -192,8 +192,8 @@ class VaultCheckReport(TypedDict):
 
 ```python
 class PublicProjectionGenerator(Protocol):
-    def preview(self, registry: VaultCheckReport) -> PublicProjectionPreview: ...
-    def apply(self, operation_id: str, confirmation: PublicConfirmation) -> PublicProjectionManifest: ...
+    def release_candidate(self, object_id: str) -> tuple[dict | None, str | None]: ...
+    def generate(self, output: Path | None = None) -> dict: ...
 ```
 
 实现步骤固定为：
@@ -204,7 +204,7 @@ class PublicProjectionGenerator(Protocol):
 4. 生成前执行对象/路径/附件/active-content 校验；生成后由 `prepare-content`、graph、Pagefind 和最终 dist leak gate 再验证。任一 registry conflict、cross-vault reference、attestation 缺失、confirmation 失效或 leak finding 都使该 item 不进入 manifest；若命令要求全局一致性则整个 operation blocked，默认不把 private 缺失伪装成“没有页面”。
 5. 输出 `queries/public/manifest.json` 及其 `manifest_sha256`。manifest 只含 public-safe 字段；private lineage 只在 generator 所属 private audit 中保留不可逆 commitment，不能写 `source_vault_ids`、private ID、snapshot exact 或路径。
 
-Generator 的 preview 必须返回被纳入/排除的 ObjectRef、每个排除原因、registry report hash、输入 leak 摘要和人工确认 nonce；apply 再读取 registry report/hash，避免在挂载集合变化后复用旧 preview。它不执行 commit/push、不会自动初始化 submodule，也不会为了生成 public 页面读取 private 正文。
+Generator 的 `release_candidate()` 必须返回被纳入条目的确定性材料（ObjectRef、正文 hash、evidence hash、附件与链接），不满足条件时返回 `None` + 排除原因；`generate()` 每次都重新扫描 public-owned 文件与 `release/public-confirmations/` 后再写 manifest，因此没有「复用旧 preview」这一步（ADR-0019 已删除 preview/apply 两阶段与 `PublicProjectionPreview`/`PublicProjectionManifest` 两个对象）。确认 hash 的绑定由 `release.public_release_authority.required_match_fields`（含 `release_input_sha256`、`reviewed_content_sha256`、`reviewed_evidence_sha256`、`leak_gate_report_sha256`、`target_ref`、`operation_id`、`confirmation_nonce`）逐项比对承担。它不执行 commit/push、不会自动初始化 submodule，也不会为了生成 public 页面读取 private 正文。
 
 ## 4. 对象空间与引用解析
 
@@ -249,9 +249,9 @@ Registry 的确定性合并步骤固定为：
 1. 读取 manifest，拒绝重复 `vault_id`、缺少保密等级、未知 `type`/`provider_policy` 和除唯一 `public` 外的 public projection owner；
 2. 按 Unicode/ASCII 稳定排序后的 `vault_id` 逐个检查路径、Git HEAD、schema、dirty 状态和备份状态；某一步失败只写入该 vault 的 `VaultStatus`，不短路扫描其他 vault；
 3. 对可扫描 vault 建立临时 object/snapshot owner 表，只有同一 `(vault_id, object_type, object_id)` 重复时才生成 `conflict`；发现相同 snapshot hash 时合并内容地址但追加 owner；
-4. 解析引用时校验 source/target owner `vault_id` 必须一致；发现 private-to-private 或 public-to-private 引用时拒绝 canonical operation 并保留诊断，不把它改写成 missing；
+4. 解析引用时校验 source/target owner `vault_id` 必须一致；发现 private-to-private 或 public-to-private 引用时拒绝该次写入/校验并保留诊断，不把它改写成 missing；
 5. 先生成 local/private projection，再用只允许 `vault_id == public` 的独立 allowlist 生成 public projection。任何 registry error、冲突或跨 Vault public 引用都只能阻断受影响对象，除非命令明确要求全局一致性；
-6. 输出 `VaultCheckReport`：包含逐 vault 状态、冲突清单、受影响对象集合、`backup_summary.unverified_vault_ids` 和可继续执行的 scope。报告 hash 作为后续 operation 的 precondition，防止在 vault 集合变化后复用旧 preview。
+6. 输出 `VaultCheckReport`：包含逐 vault 状态、冲突清单、受影响对象集合、`backup_summary.unverified_vault_ids` 和可继续执行的 scope。报告 hash 用于识别 vault 集合是否变化（旧 preview 不再可复用）；ADR-0019 之后它不再以 operation precondition 的形式被校验。
 
 ### 4.2 未挂载和不可读
 
@@ -292,13 +292,11 @@ revision_mismatch/dirty/conflict -> available (用户修复并重新 check)
 validate_vault_manifest
   -> inspect worktree / HEAD / submodule status
   -> build merged object index
-  -> preview operation (显示 vault、hash、confidentiality)
-  -> user confirms
-  -> writer 在目标 vault 内原子写入
-  -> 用户自行 commit/push
+  -> writer 在目标 vault 内原子写入（显式 vault_id + 临时文件 + os.replace）
+  -> 用户自行 git diff / commit / push（审批 = git，ADR-0019 后不再有 preview/precondition 阶段）
 ```
 
-用户执行一个或多个 submodule clone/update 后，再运行 `vault check`；工具按 `vault_id` 分组报告当前路径（仅本机诊断）、HEAD、期望 ref、dirty files、schema、对象数量和可用性。dirty private worktree 不阻断只读查询，但阻断会覆盖该 vault 已有文件的 apply，除非 operation 明确列出该 vault 并得到确认。
+用户执行一个或多个 submodule clone/update 后，再运行 `vault check`；工具按 `vault_id` 分组报告当前路径（仅本机诊断）、HEAD、期望 ref、dirty files、schema、对象数量和可用性。dirty private worktree 不阻断只读查询，也不再阻断任何工具写入——写入不再做「覆盖该 vault 已有文件」的门禁判断，改由 `git diff` 在提交前暴露冲突。
 
 恢复策略：
 
@@ -306,10 +304,10 @@ validate_vault_manifest
 | --- | --- | --- | --- |
 | 某 vault 目录不存在 | public 和其他可用 vault 可读，该 vault 对象 unavailable | 该 vault 写入阻断；无关 vault 不受影响 | 挂载/修正该 vault 的 local manifest |
 | 某 submodule 未初始化 | 同上，给出该 vault 的 `git submodule update --init` 建议 | 该 vault 阻断 | 用户执行命令后重新 check |
-| 某 vault HEAD 与 expected_commit 不同 | 该 vault 可读但标记 revision mismatch，其他 vault 可用 | 该 vault 写入/发布阻断 | 用户选择更新 manifest 或 checkout |
-| 某 vault dirty worktree | 该 vault 可读 | 覆盖该 vault 相关文件阻断 | 用户提交、清理或显式确认冲突处理 |
+| 某 vault HEAD 与 expected_commit 不同 | 该 vault 可读但标记 revision mismatch，其他 vault 可用 | 工具写入不因 revision mismatch 阻断（ADR-0019）；该 vault 的发布派生保持 fail-closed | 用户选择更新 manifest 或 checkout |
+| 某 vault dirty worktree | 该 vault 可读 | 工具写入不阻断（ADR-0019 已删除「覆盖前门禁」）；覆盖风险改由 `git diff`/`git commit` 审核 | 用户提交、清理或显式确认冲突处理 |
 | 某 Git 仓库损坏 | 不读取该 vault 正文，其他 vault 正常 | 该 vault 阻断 | 若该 vault 已配置并验证，从其 remote/备份恢复；未配置时报告无恢复目标，工具不 reset |
-| 同一 vault 内 ID 冲突 | 冲突对象不进入合并投影，无关对象仍可读；不同 vault 的同名对象保留各自 owner | 阻断所有引用冲突对象的 apply | rename/migrate 后重建索引 |
+| 同一 vault 内 ID 冲突 | 冲突对象不进入合并投影，无关对象仍可读；不同 vault 的同名对象保留各自 owner | 校验与 projection 对冲突对象 fail-closed（不再有「apply 门禁」这一层） | rename/migrate 后重建索引 |
 | 任意 vault remote/backup 未配置 | 本地 vault 可读，逐 vault 标记恢复能力 unavailable | 对受影响 vault 的 `purge` 和覆盖式恢复阻断 | 先为该 vault 配置目标、验证连通性并完成恢复演练 |
 
 ## 6. Private projection 与发布告警
@@ -322,7 +320,7 @@ private/local projection 的每条记录必须包含：`vault_id`、`object_id`�
 
 ### 6.2 Internal private publish operation
 
-发布请求不能只改 front matter。`publish_private` operation 的 preview 至少展示：
+发布请求不能只改 front matter。人工按下确认键之前必须能看到以下材料（由 `wiki validate` / Skill 的 `publish_preview` 与页面告警文案给出；ADR-0019 之后不再有独立的 operation preview 阶段）：
 
 ```yaml
 operation: publish_private
@@ -340,7 +338,7 @@ requires_confirmation: true
 requires_warning_ack: true
 ```
 
-Apply 必须要求同一 operation id 的 `operation-confirmation/v1`，且 `scope: publish_private`；有效保密等级为 `internal` 时该事件还必须携带 `warning_code` 与 `warning_text_sha256`。`target_vault` 必须明确、可用、满足 policy 并等于对象 owner `vault_id`；不能默认填入 `internal`。首次创建或跨 Vault 迁移时由 source/wiki write 或显式 copy/move operation 选择 owner，不能用 publish operation 隐式复制。持久事件写入目标 private vault 的 `audit/operations/<operation_id>.json`，并保存 `target_ref`、当前 content/evidence hash、confirmation event hash 和 `after_sha256`；完整临时响应可写入被忽略的 `state/operations/`，但不能只保留后者。页面、API、Agent 查询结果使用 `publication_warning: internal` 和醒目文案，并返回实际 `vault_id`；不把 warning 当成"已安全"的证明。
+发布必须要求一条绑定当前 `(content_sha256, evidence_sha256)` 的 `operation-confirmation/v1`，且 `scope: publish_private`——**该确认通道仍然存活**（由 `cli confirm` 写入，被删除的只是写入门禁的 `scope: apply`）；有效保密等级为 `internal` 时该记录还必须携带 `warning_code` 与 `warning_text_sha256`。`target_vault` 必须明确、可用、满足 policy 并等于对象 owner `vault_id`；不能默认填入 `internal`。首次创建或跨 Vault 迁移时由 source/wiki 写入或人工 `git mv` 选择 owner，不能用发布动作隐式复制。确认记录以 `operation/v1` 形式落盘到 `audit/operations/<operation_id>.json`（这里的 `operation_id` 是发布确认的留痕标识，与已删除的写入 operation 状态机无关），保存 `target_ref`、当前 content/evidence hash、confirmation 字段与 `record_sha256`；ADR-0019 之后不再有 `state/operations/` 这类临时 operation 状态，也没有 `after_sha256`。页面、API、Agent 查询结果使用 `publication_warning: internal` 和醒目文案，并返回实际 `vault_id`；不把 warning 当成"已安全"的证明。
 
 ### 6.3 Public release 与人工审核
 
@@ -349,7 +347,7 @@ Apply 必须要求同一 operation id 的 `operation-confirmation/v1`，且 `sco
 状态机如下：
 
 ```text
-prepared -> public_release: false -> human sets true -> apply -> public projection
+prepared -> public_release: false -> human sets true -> projection generate -> public projection
                          |                         |
                          +-- output hash changed -> false
 ```
@@ -374,9 +372,9 @@ operation_id: "op_..."
 
 上面的 `source_vault_ids` 只存在私有 operation/audit record；生成 public-safe event 或 projection 时必须删除该字段并重新跑 allowlist/leak gate。`public_confirmation_sha256` 始终等于 public-safe event 的 `event_sha256`，不能填另一份未落盘的摘要。
 
-`public-release-confirmation/v1` 是 append-only 事件，至少包含 `event_id`、`operation_id`、`target_ref`（必须是 public-owned object）、`actor_type: human`、符合安全 pseudonym 格式的 `actor_id`、`decision: approve`、`release_input_sha256`、`reviewed_content_sha256`、`reviewed_evidence_sha256`、`leak_gate_report_sha256`、`confirmed_at`、不含 URL/路径/private lineage 的短 `reason`、`confirmation_nonce` 和 `event_sha256`；若出现 `target_vault` 必须为 `public`。nonce 必须由 preview 生成并且只允许消费一次；消费结果（operation、nonce、event hash、`consumed_at`）必须写入 durable operation record，不能只依赖可清理的 state。事件文件不能由 Agent/LLM/CI 自动创建。public-safe 事件可以提交到 public repo，但必须经过同一人工作流的人工 code review/commit，不能把“对象字段被改成 true”视为确认事件。该约束是流程门禁，不是密码学身份认证；非交互/CI 进程必须被 confirm 命令阻断。
+`public-release-confirmation/v1` 是 append-only 事件，至少包含 `event_id`、`operation_id`、`target_ref`（必须是 public-owned object）、`actor_type: human`、符合安全 pseudonym 格式的 `actor_id`、`decision: approve`、`release_input_sha256`、`reviewed_content_sha256`、`reviewed_evidence_sha256`、`leak_gate_report_sha256`、`leak_gate_report_scope`、`confirmed_at`、不含 URL/路径/private lineage 的短 `reason`、`confirmation_nonce` 和 `event_sha256`；若出现 `target_vault` 必须为 `public`。nonce 由人工在 confirm 时显式提供并只允许使用一次——实现上是扫描 `release/public-confirmations/*.json` 拒绝同一 nonce 复用，而不是另写一条消费记录；nonce 不来自任何 preview 阶段（ADR-0019 已删除写入 preview）。检查与写入在同一把 filelock 内完成（check-then-act），不能只依赖可清理的 state。事件文件不能由 Agent/LLM/CI 自动创建。public-safe 事件可以提交到 public repo，但必须经过同一人工作流的人工 code review/commit，不能把“对象字段被改成 true”视为确认事件。该约束是流程门禁，不是密码学身份认证；非交互/CI 进程必须被 confirm 命令阻断。
 
-只有明确的人类操作者可以为当前 `release_input_sha256` 产生可派生为 true 的 confirmation；Agent、LLM、CI 和 leak gate 只能生成待审材料。最简单的实现是由人工执行一次 `public-release confirm --operation-id ...`（或等价 UI 操作），writer 在同一个 apply 中写入 `actor_type: human`、确认时间、确认事件 hash 和 `public_confirmation_sha256`，projection 再根据 durable record 派生 `public_release`。Apply 前重新比较 release/content/evidence/leak-gate hash，并要求该事件仍匹配；任一 hash 变化时自动重置为 `false`，不得部分发布。完整审核记录写入源 private vault 的 `audit/operations/<operation_id>.json`；public-owned 的脱敏确认事件写入 public repo 的 `release/public-confirmations/<event_id>.json`，字段只包含 operation/release hash、人工 actor、时间、理由摘要、event hash 和 decision，不包含 private ID、路径或正文。public artifact 只保留 `public_lineage_commitment` 和 `public_confirmation_sha256`。
+只有明确的人类操作者可以为当前 `release_input_sha256` 产生可派生为 true 的 confirmation；Agent、LLM、CI 和 leak gate 只能生成待审材料。最简单的实现是由人工执行一次 `release confirm --object-id ... --operation-id ...`（或等价 UI 操作），writer 在同一个原子写入中记录 `actor_type: human`、确认时间、确认事件 hash 和 `public_confirmation_sha256`，projection 再根据 durable record 派生 `public_release`。写入前重新比较 release/content/evidence/leak-gate hash，并要求该事件仍匹配；任一 hash 变化时自动重置为 `false`，不得部分发布。完整审核记录写入源 private vault 的 `audit/operations/<operation_id>.json`；public-owned 的脱敏确认事件写入 public repo 的 `release/public-confirmations/<event_id>.json`，字段只包含 operation/release hash、人工 actor、时间、理由摘要、event hash 和 decision，不包含 private ID、路径或正文。public artifact 只保留 `public_lineage_commitment` 和 `public_confirmation_sha256`。
 
 审核前的准备仍必须：
 
@@ -420,11 +418,11 @@ class VaultRegistry:
 - public CI 不 checkout private submodule，不读取 private credentials；
 - public leak gate 在输入、staging 和 dist 三处扫描；命中 internal front matter、内网域名、private path 或 private hash 均失败；
 - 归档原文只存 private vault，Wayback 和 public archive provider 明确拒绝 internal；
-- 所有写入 preview 显示目标 vault 和 confidentiality 来源，避免用户误以为写入 public。
+- 写入必须显式给出目标 vault（Skill/API 的 `vault_id` 字段），响应回显实际 `vault_id` 与写入文件清单，避免用户误以为写入 public；ADR-0019 之后不再有「写入 preview」阶段。
 
 ## 10. 幂等、并发和失败恢复
 
-operation key = `sha256(canonical_json({kind, target_ref, input_hash, target_vault, source_vault_ids: sorted(...), policy_version}))`。同一 key 重试返回原结果；hash 变化生成新 operation。每个 vault 各自持有写锁；涉及多个 vault 的 operation 按稳定 `vault_id` 升序获取锁，避免死锁。跨 vault 操作不做伪事务：先在 staging 生成并校验全部相关 manifest，再由用户确认，任何一边 apply 失败都保留 staging、已成功 vault 列表和恢复说明，不自动回滚另一仓库的用户变更。
+operation key = `sha256(canonical_json({kind, target_ref, input_hash, target_vault, source_vault_ids: sorted(...), policy_version}))`。同一 key 重试返回原结果；hash 变化生成新记录。**（2026-09-15 更正：ADR-0019 已删除 per-vault 写锁、多 vault 锁排序与「跨 vault 伪事务 + staging 保留/已成功 vault 列表」这套并发模型。现在的写原语只有逐文件的原子替换（临时文件 + `os.replace`），跨 vault 操作最坏留下的是 `git status` 可见、可回滚的半成品；一致性保证从运行时互斥转移给 git，其前提是发布产物可由已提交文件确定性重建。）**
 
 索引和 projection 采用临时目录 + fsync + 原子 rename。失败时保留上一版本及其 manifest/hash；不得删除旧 dist、旧 local index 或 private backup。
 
@@ -446,7 +444,7 @@ operation key = `sha256(canonical_json({kind, target_ref, input_hash, target_vau
 - public release 重新 hash/验证，经过人工审核且不能从 internal 直接投影；
 - public release 的人工开关、操作者、时间、理由和 hash 绑定记录可回放；
 - 每个 vault remote/backup 未配置时产生带 `vault_id` 的 `backup_not_configured` 告警，只有相关 vault 配置并验证后才可通过恢复验收；
-- 幂等 apply、按稳定 vault ID 排序的并发锁、跨 vault staging 失败和旧索引保留；
+- 幂等重放、跨 vault 冲突诊断、单 vault 不可用隔离和旧索引保留；
 - 从备份恢复后 object/snapshot hash 与原 manifest 一致。
 
 ## 13. 迁移与回滚

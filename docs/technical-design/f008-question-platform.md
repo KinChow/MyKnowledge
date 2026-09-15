@@ -289,7 +289,7 @@ POST /api/practice/sessions/{session_id}/review
 GET  /api/practice/stats
 ```
 
-所有内容管理写操作遵循项目既有 `preview -> human confirmation -> apply`；answer/review 是用户学习事件，不走内容写入审批，但必须使用 local/private capability。
+所有内容管理写操作**直接落盘**（ADR-0019 已删除项目级的 `preview -> human confirmation -> apply` 写入协议，审核由 `git diff` / `git commit` 承担）；answer/review 是用户学习事件，不走内容写入审批，但必须使用 local/private capability。上文 §4.2 的“导入 preview”因此只能作为校验报告存在，不能作为写入的必经关口。
 
 ## 9. 空题库行为
 

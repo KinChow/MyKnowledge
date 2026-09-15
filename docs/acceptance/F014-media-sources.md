@@ -65,9 +65,9 @@
 ## AC-F014-007a transcript-only 本地字幕切片（已实现）
 
 - Given：`source_type: video`、可访问的视频 URL，以及本地 `.vtt` 或 `.srt` 字幕文件；
-- When：执行 `SourceIngestor.preview` → 人工确认 `apply`；
+- When：执行 `SourceIngestor.ingest`（一次落盘，ADR-0019）；
 - Then：字幕被规范化为带时间范围的 Markdown snapshot，Source 与 manifest 记录视频 URL、字幕输入 hash、`video-transcript/1` 和 `archive_policy: transcript-only`；不写 `archive/raw/`；
-- 失败时不变量：preview 后字幕文件发生内容或 stat 漂移，apply 返回 `hash_mismatch`；空字幕、反向时间或不支持后缀被阻断；
+- 失败时不变量：采集期间字幕文件发生内容或 stat 漂移，`read_stable` 返回 `hash_mismatch` 且不落盘；空字幕、反向时间或不支持后缀被阻断；
 - 自动化级别：Unit + integration；
 - 对应测试：`tests/ingest/test_video_transcript.py`；
 - 当前状态：已实现并独立环境验证通过。
@@ -89,15 +89,15 @@
 - Then：读取 ASR CLI 生成的 SRT，转为 canonical transcript，并记录引擎版本、模型名/hash、语言、线程参数和媒体输入 hash；
 - 失败时不变量：媒体、模型或 ASR 运行时缺失时结构化阻断；模型权重和媒体不写入仓库的 `archive/raw/`；
 - 自动化级别：Unit + integration；
-- 对应测试：`tests/ingest/test_video_asr.py`；真实 CS336 P1 30 秒样本使用 OpenAI Whisper Turbo 跑通，P9/P10 full transcript 使用 whisper.cpp 跑通并完成 canonical Apply。
+- 对应测试：`tests/ingest/test_video_asr.py`；真实 CS336 P1 30 秒样本使用 OpenAI Whisper Turbo 跑通，P9/P10 full transcript 使用 whisper.cpp 跑通并完成 canonical Source 落盘（`ingest`）。
 - 当前状态：已实现并独立环境验证通过；ASR strength gate 由 `tests/validation/test_video_strength.py` 覆盖。
 
-## AC-F014-008a 关键帧 manifest 与确认落位（已实现）
+## AC-F014-008a 关键帧 manifest 与一次落盘（已实现）
 
 - Given：已存在的 `video` Source、本地媒体文件和人工选择的时间点；
-- When：执行 `video-frames preview` 后人工确认 `video-frames apply`；
+- When：执行 `python -m tools.cli video-frames --source <source> --media <file> --timestamps <秒列表>`（`VideoFrameService.extract`，一次落盘，无 operation/确认）；
 - Then：ffmpeg 生成 PNG，Source 的 `media/frames/` 和 manifest 记录视频 hash、时间戳、ffmpeg 版本/参数及图片 hash；
-- 失败时不变量：媒体漂移、ffmpeg 缺失、抽帧失败或未确认不得把图片写入 Source；图片不能脱离视频 hash 单独成为事实证据；
+- 失败时不变量：媒体漂移、ffmpeg 缺失或抽帧失败时结构化阻断且不把图片写入 Source；图片不能脱离视频 hash 单独成为事实证据；
 - 自动化级别：Unit + integration；
 - 对应测试：`tests/ingest/test_video_frames.py`；
 - 当前状态：已实现并独立环境验证通过。

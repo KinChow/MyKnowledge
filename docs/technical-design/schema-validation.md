@@ -43,7 +43,7 @@ Domain rule layer 不修改输入；它输出 `DeterministicReport`，写入/发
 ## 运行和迁移
 
 1. CI 与本地工具先执行 registry/policy 校验，再加载 executable schemas。
-2. Preview、prepare、validation、projection 和 API 共享同一 validator facade，不能各自复制一套字段检查。
+2. `prepare`（frontend content 预处理）、validation、projection 和 API 共享同一 validator facade，不能各自复制一套字段检查（原先并列在此的写入 Preview 阶段已随 ADR-0019 删除）。
 3. 新 schema 版本并行加载；旧 durable record 继续按其 `$id` 重放，不能静默用新规则解释旧报告。
 4. 在 executable schemas 和 domain rule tests 完成前，F002/F003/F004/F007 只能保持 Designed/Not Implemented；POC fixture 通过不构成领域契约验收。
 

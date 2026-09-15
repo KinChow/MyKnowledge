@@ -1,11 +1,11 @@
 # ADR-0019：门禁收敛 = git 作为审批，只保留能捕获真实缺陷的门禁
 
-- 状态：Proposed
+- 状态：Accepted
 - 日期：2026-09-14
 - 相关规范：OPS、VAL、SEC、WIKI、CHN
 - 相关 Feature：F003、F004、F007、F011、F012
 - 相关 ADR：ADR-0006、ADR-0010、ADR-0015、ADR-0017
-- 取代目标：本 ADR Accepted 时，ADR-0006（Preview/Apply 写协议）、ADR-0010（发布门禁三层，第 3 层人工审计）、ADR-0015（审计复议）标记 Superseded
+- 取代目标：标记 **ADR-0006**（Preview/Apply 写协议）为 Superseded —— 该协议已在代码中完全删除（`tools/write_operation.py` / `operation_store.py` / `vault_lock.py` 及其 CLI/API 入口与测试，2026-09-15）。**ADR-0010 / ADR-0014 / ADR-0015 本次不标 Superseded**：它们的实现仍在运行（`audit` / `confirm` / `release` / `override` 命令与 `release_confirmation.py` / `release_input.py`；`tools/layers.py` 的分域约束；`tools/validation/override.py`），标为 Superseded 会与代码相反。待"命令面收敛"在该三份 ADR 覆盖的范围内落地后再标。
 
 ## 背景
 
@@ -110,6 +110,14 @@ release/public-confirmations/   269 个
 - **一致性保证发生转移而非消失**：删锁之后，API 进程与 CLI 并发写、或改 source 的同时跑 publish，最坏情况是工作区出现半套数据。它可见（`git status`）、可回滚（git），但**该保证依赖"发布产物可重建"这一前提**——即 `publish` 纯函数门禁必须成立。若将来引入不可逆的对外发布动作（例如自动部署到公网），必须重新评估是否需要运行时互斥。
 - 变更面（实测）：16 个测试文件引用确认/状态机（`test_write_operation.py` 10 处、`test_public_projection.py` 8 处、`test_frontend_projection.py` 6 处等）、traceability 中 52 条 AC 约 20 条、4 份 ADR。
 - 失去的能力：无法再从持久化记录中回答"谁在何时批准了哪个 hash"。替代答案是 git 的 commit author 与时间戳；因此 **`git commit` 必须是人工执行且 message 应携带对象标识**，这一点从"工作流习惯"上升为契约要求。
+
+## 实现状态（2026-09-15）
+
+- **已落地**：四类确认事件、operation 状态机、TTL、commit-intent、per-vault 锁在**写入通道**上已删除（`source_ingestor` / `video_frames` / `skill_runtime` / `backend` 改为一次落盘，失败即结构化返回）；审批由 `git commit` 承担。
+- **部分落地**：命令面 **29 → 22**。已退场 `write` / `confirm-apply` / `lock` / `inventory` / `migrate` / `transfer` / `reposition`；`anchor` / `validate` / `audit` / `confirm` / `override` / `release` 与 `video-*` 的退场等待 ADR-0017 的 `wiki` / `build` 动词落地 —— 而 ADR-0017 仍为 Proposed，其 7 条命令面里的 `wiki` 与 `build` **尚未实现**。因此"收敛到 7 条"是目标而非现状。
+- **部分落地**：§5「所有校验值字段从 canonical 文件删除」只做了一半。`content_sha256` 确已不落盘；但 **`selector_sha256` 与 `quote_sha256` 仍由 `tools/evidence_anchor.py` 写入 canonical source 的 `evidence_items`**（实测 275 个 source 含这两个字段）—— 它们是"现算可得"的校验值，正属 §5 的删除范围。`snapshot_sha256` 作为定位指针保留（494 个 source），符合"指针落盘、校验值不落盘"。
+- **未落地**：`config/schemas.yaml` 的 `operation` / `human_audit_confirmation` 段与 `config/policy.yaml` 的 `write.operation_ttl_seconds` / `locks` / `validation.human_audit` 段**已无读取方**但尚未删除。另一个需要单独裁决的事实：`config/vocab.yaml` 全份（294 行）**本来就没有任何代码加载它**，其中的错误码/状态词表从未参与运行。
+- **副作用（实测）**：本 ADR §6 要求修订规范文档，而 `docs/myknowledge-system-design.md` §6 **同时是 LLM 审计的规则集来源**（`tools/validation/ruleset.py`）。因此修订 §6 使 `ruleset_sha256` 变化，把既有的 **1502 条审计结论**统一标记为 `stale_ruleset`。这是设计内的行为（AC-F003-015：可见、不阻断、由重跑 `audit` 刷新），`valid` / `public_publishable` / `confirm` 均不受影响；但它意味着**改规范文档 = 全库审计结论需要重跑**。
 
 ## 重新评估条件
 

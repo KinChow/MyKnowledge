@@ -1,16 +1,24 @@
 # 存量内容迁移与质量清理实现设计
 
-- 状态：Implemented（2026-08-28；legacy inventory 基础能力）
+- 状态：Retired（2026-09-15；迁移工具已删除，见 ADR-0019）
 - 相关 Feature：F010
 - 相关规范：MIG、SRC、WIKI、EVD、WEB
 - 相关 ADR：ADR-0001、ADR-0005、ADR-0009
 - 相关验收：[F010](../acceptance/F010-content-migration.md)
 
+> **退场说明（2026-09-15）**：本设计描述的是一座一次性通道，任务已完成、通道已拆除。
+> `tools/inventory_legacy.py`、`tools/migrate_legacy.py` 与 `inventory` / `migrate` CLI 已随
+> ADR-0019 删除（追踪矩阵 MIG-001 = Retired），它们委派的 `WriteOperation` 两阶段写入也已一并删除；
+> 存量迁移本身早已跑完（`content/working/` 层由 `7a7bef6` 整层删除，155 篇全部消费进 wiki）。
+> 下文出现的 `apply_sample` / `apply_batch` / `rollback_sample`、operation 记录、写锁与
+> `awaiting_confirmation` 均已不存在，保留为当时的机制设计记录。今天的写入通道见
+> [Source 导入与归档](./source-ingestion-and-archive.md) 与 [分层布局与写入通道](./layers-and-channels.md)。
+
 ## 迁移原则
 
 本轮成熟方案调查（2026-08-28）：Quartz（<https://github.com/jackyzha0/quartz>，MIT）和 Dendron（<https://github.com/dendronhq/dendron>，AGPL-3.0）分别提供 route/backlink 图谱与层级迁移经验；本轮只复用 route map/幂等清单思想，避免直接采用会扫描整个工作树的默认导入器。Trafilatura（<https://github.com/adbar/trafilatura>，Apache-2.0）和 Docling（<https://github.com/docling-project/docling>，MIT）可作为 HTML/PDF 抽取器，但其网络/二进制依赖和抽取不确定性不适合直接写 canonical；当前迁移按扩展名识别 Markdown/HTML/TXT/PDF，复用 `TextExtractor` 的 Trafilatura/pypdf/UTF-8 handler，Office/Docling 仍保持待定。
 
-本轮代表性样本调查（2026-08-27）：继续复用 Quartz v4（MIT）的 content pipeline、Dendron（AGPL-3.0）的层级/链接迁移清单、Trafilatura 2.2+（Apache-2.0）与 Docling 2.x（MIT）的抽取器候选。`apply_sample` 使用现有 SourceIngestor 的 local-file 稳定读取、snapshot/hash 和 manifest，再用 WriteOperation 生成 `status: draft` Wiki；直接复制 `docs/` 到 `wiki/` 会绕过 Source/evidence/confirmation，明确排除。抽取器缺失、输入竞态或写入失败均保持 pending/blocked，旧 docs 永不改写。
+本轮代表性样本调查（2026-08-27）：继续复用 Quartz v4（MIT）的 content pipeline、Dendron（AGPL-3.0）的层级/链接迁移清单、Trafilatura 2.2+（Apache-2.0）与 Docling 2.x（MIT）的抽取器候选。`apply_sample` 使用现有 SourceIngestor 的 local-file 稳定读取、snapshot/hash 和 manifest，再用 WriteOperation 生成 `status: draft` Wiki（`apply_sample` 与 `WriteOperation` 均已删除，见文头退场说明）；直接复制 `docs/` 到 `wiki/` 会绕过 Source/evidence/confirmation，明确排除。抽取器缺失、输入竞态或写入失败均保持 pending/blocked，旧 docs 永不改写。
 
 本轮迁移幂等调查（2026-08-30）：Dendron 的迁移清单/稳定 ID（AGPL-3.0，<https://github.com/dendronhq/dendron>）与 Quartz 的 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）都把输入路径和内容摘要作为可重放边界；替代方案是每次重复执行底层 writer，虽然文件最终可能相同，却无法证明同一迁移意图，也会重复触发 Source/provider。采用 owner-local `audit/migrations` durable record，以 `legacy_path + body_sha256 + migration_version` 为幂等键；命中时直接重放既有结果，输入 hash 改变则生成新记录并重新经过 Source-first 门禁。记录不包含绝对路径或正文。
 
@@ -20,7 +28,7 @@
 
 本轮确认竞态调查（2026-08-27）：Quartz 的 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）与 Dendron migration workspace（AGPL-3.0，<https://github.com/dendronhq/dendron>）都把输入清单/树摘要作为阶段边界；替代方案是只要求布尔 `confirmed`，无法证明用户确认的内容仍是 preview 内容。故 `apply_batch` 支持调用方回传 `expected_preview_sha256`，Apply 前重新生成 inventory/route plan 并逐字节比较 preview hash；hash 不一致返回 `input_changed` 且不调用任何 Source/Wiki writer。该门禁离线运行，升级只影响批次调用契约，不改写原 `docs/`。
 
-本轮 rollback 调查（2026-08-27）：Dendron 的迁移清单/稳定 ID（AGPL-3.0，<https://github.com/dendronhq/dendron>）用于精确定位一次迁移产物，Quartz v4 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）保留源内容并允许重新生成输出；Git 的对象/工作树 hash（GPL-2.0）提供“只撤销未漂移生成物”的 precondition 思路。替代方案是 `rm -rf wiki/ sources/` 或全库 reset，会删除无关用户工作和 immutable evidence，明确排除。`rollback_sample` 从已自校验的 `migration-record/v1` 读取仓库相对 Source/Wiki 路径及完成时 hash，先生成 purge preview，人工确认后委托 `WriteOperation`；旧 `docs/`、content-addressed archive、manifest 和 audit 均保留。任何输出漂移、缺失或 symlink 均 fail-closed；成功写入 `migration-rollback-record/v1` 并可幂等重放。离线无网络，不执行 Git reset/commit/push。
+本轮 rollback 调查（2026-08-27）：Dendron 的迁移清单/稳定 ID（AGPL-3.0，<https://github.com/dendronhq/dendron>）用于精确定位一次迁移产物，Quartz v4 content pipeline（MIT，<https://github.com/jackyzha0/quartz>）保留源内容并允许重新生成输出；Git 的对象/工作树 hash（GPL-2.0）提供“只撤销未漂移生成物”的 precondition 思路。替代方案是 `rm -rf wiki/ sources/` 或全库 reset，会删除无关用户工作和 immutable evidence，明确排除。`rollback_sample` 从已自校验的 `migration-record/v1` 读取仓库相对 Source/Wiki 路径及完成时 hash，先生成 purge preview，人工确认后委托 `WriteOperation`（`rollback_sample` 与 `WriteOperation` 均已删除，见文头退场说明）；旧 `docs/`、content-addressed archive、manifest 和 audit 均保留。任何输出漂移、缺失或 symlink 均 fail-closed；成功写入 `migration-rollback-record/v1` 并可幂等重放。离线无网络，不执行 Git reset/commit/push。
 
 DOCX 仅通过 Docling handler 处理；未安装时返回 `extractor_unavailable:docling`，禁止退回二进制 UTF-8 解码。
 

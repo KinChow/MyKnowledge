@@ -7,6 +7,13 @@
 - 任务验收：[CS336 课程归档任务验收](../acceptance/cs336-course-archive-task.md)
 - 通用设计：[音视频与视频来源](./media-sources.md)
 
+> **口径说明（2026-09-15）**：本任务记录于 ADR-0019 之前，文中反复出现的「Preview / 人工确认 /
+> Apply」是**当时**的写入协议。该协议已在 2026-09-15 从代码中整体删除（见 ADR-0019）：今天的
+> `source` / `video-frames` 都是一次调用直接落盘，审批由 `git diff` + `git commit` 承担。
+> 因此文中「已 Apply」「必须通过 Preview」「经过 Preview/人工确认/Apply 才写入」等表述应读作
+> **历史记录**，不是当前仍需满足的门禁；任务报告里的 `source-preview.json` / `evidence-preview.json`
+> 也只是当时的 task workspace 产物名。
+
 ## 任务目标
 
 使用真实的 Bilibili CS336 合集中的 18 个中文分 P 和 Stanford 官方 CS336 资料，验证 F014 是否能完成：来源发现、语言筛选、平台字幕/ASR、关键帧、官方资料归档、版本 hash、Evidence 锚定、失败恢复和 public/private 隔离。

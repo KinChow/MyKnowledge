@@ -28,8 +28,8 @@ source_id + evidence_id（可选，缺省自动分配）
   -> 用户确认唯一片段
   -> 生成 TextQuoteSelector + TextPositionSelector
   -> 计算 selector_sha256 / quote_sha256
-  -> preview：输出待写入的 evidence item 与 diff，不改工作树
-  -> apply：经 operation 协议写回 source 的 evidence_items
+  -> preview：不带 --source 时只做定位计算并打印 evidence，不改工作树（dry run）
+  -> 直接落盘：经 --source 写回 source 的 evidence_items（无两阶段、无写锁、无 operation 记录）
 ```
 
 工具**只读** snapshot，永不改写归档；snapshot 是不可变内容寻址对象。
@@ -56,7 +56,7 @@ snapshot 漂移（重新抓取产生新 `snapshot_sha256`）后，旧 evidence i
 
 ## 与写入协议的关系
 
-写回 source 走 §9 的 preview/apply 两阶段与 per-vault 排他锁，和 `source_ingestor.py`（Source 导入与归档）完全一致：preview 不改工作树、apply 原子写入并记录 operation record。它不是「小改动所以可以直接写文件」的例外。
+写回 source **直接落盘**，与 `source_ingestor.py`（Source 导入与归档）当前的做法一致：`anchor` 是幂等派生而不是审批写操作，因此不走 preview/apply、不取写锁、不写 operation 记录（ADR-0019 已删除这三样）。它保留的唯一门禁是幂等与一致性：`anchor()` 是纯计算（snapshot 漂移抛 `stale`），`apply_evidence()` 对同一 `(snapshot_sha256, position)` 返回既有 item，写入用 `atomic_write` 原子替换调用方显式给出的 `--source` 路径。审批由 `git diff` + `git commit` 承担；它不是「小改动所以可以随便写文件」的例外，而是「派生写操作不需要人的签名」的直接推论。
 
 同一 `(source_id, snapshot_sha256, start, end)` 重复锚定时返回既有 `evidence_id`，不产生重复条目。
 

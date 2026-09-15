@@ -1,9 +1,10 @@
 # ADR-0006：Preview/Apply 写协议
 
-- 状态：Accepted
+- 状态：Superseded（被 ADR-0019 取代，2026-09-15）
 - 日期：2026-08-25
 - 相关规范：OPS
 - 相关 Feature：F004
+- 取代说明：Preview/Apply 及其配套的 operation 状态机、per-vault 锁、TTL、commit-intent 已从代码中删除（`tools/write_operation.py` / `operation_store.py` / `vault_lock.py` 与其 CLI/API 入口、测试，2026-09-15）。写入改为一次落盘，审批由 `git commit` 承担（ADR-0019）。本 ADR 保留作为历史取舍记录。
 
 ## 决策
 

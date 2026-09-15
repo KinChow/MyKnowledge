@@ -78,10 +78,10 @@
 
 ## Durable operation 校验增量证据（2026-08-30）
 
-- AC-F012-006：`tests/test_write_operation.py::WriteOperationTests::test_tampered_durable_audit_blocks_apply` 验证 durable operation audit 的单条 `record_sha256` 不匹配时写入被阻断；顺序与删除证据仍由 Git 历史提供，不引入自建链。
+> 部分失效（ADR-0019，2026-09-15）：本节前两条依赖 `WriteOperation` 与 `VaultLock`，二者与 `tests/test_write_operation.py` 已删除。**存活**的 durable record 家族是 `audit/operations/`（现由 `tools/validation/confirm.py` 在 private publish 确认时写入）、`audit/validation/`、`audit/backup/` 与 `release/public-confirmations/`；`record_sha256` 自校验由备份链与 release confirmation 消费。
 
-- AC-F012-006：`VaultLock.recover` 的恢复测试验证陈旧 owner sidecar 清理前先获取内核锁，并追加 `record_type: lock-recovery`、`record_sha256` 的 durable record；活锁不会被删除。
-
+- ~~AC-F012-006：`tests/test_write_operation.py::WriteOperationTests::test_tampered_durable_audit_blocks_apply` 验证 durable operation audit 的单条 `record_sha256` 不匹配时写入被阻断；顺序与删除证据仍由 Git 历史提供，不引入自建链。~~ 改写为：`audit/operations` 记录在写入前无 `apply` 门禁可阻断（写通道已无 apply），但备份/发布链仍会因 `record_sha256` 不匹配而拒绝，见下条。
+- ~~AC-F012-006：`VaultLock.recover` 的恢复测试验证陈旧 owner sidecar 清理前先获取内核锁，并追加 `record_type: lock-recovery`、`record_sha256` 的 durable record；活锁不会被删除。~~（锁体系与 `lock-recovery` 记录已整体退场；AC-F012-006 中"锁恢复必须有 `lock-recovery` 记录"这一失败不变量随之作废）
 - AC-F012-006/008：`tests/test_vault_registry.py::VaultRegistryTests::test_backup_rejects_manifest_with_rehashed_tampered_durable_record` 验证同时篡改 durable operation、entry hash 和 manifest hash 仍被 `durable_record_hash_mismatch` 阻断；release confirmation entries 还必须通过 `event_sha256` 校验。
 
 ## Practice owner 增量证据（2026-08-27）
@@ -116,7 +116,7 @@
 
 ## AC-F012-004 持久审计与临时状态分离
 
-- Given：public release、private publish、验证和 purge 操作完成，或本机 `state/` 被清理；
+- Given：public release、private publish、验证操作完成（原 `purge` 随 ADR-0019 退场，已无 `purge` 工具路径），或本机 `state/` 被清理；
 - When：在干净 checkout 重新执行 check/projection；
 - Then：owner vault 的 `audit/operations/`、`audit/validation/` 和 public-safe `release/public-confirmations/` 足以验证当前 hash/确认状态；临时 state 丢失只触发重新生成，不改变事实记录；
 - 失败时不变量：不能用被忽略的 state 缓存或日志声称人工确认、验证或可恢复性存在；
@@ -145,7 +145,7 @@
 - Given：某 private Vault 依次处于无 target、配置一个 target、完成验证、target 身份变化、验证过期和恢复失败；
 - When：执行 backup、restore 和 `vault check`；
 - Then：状态严格按 `unconfigured -> configured -> verified`，失败进入 `failed`，target 变化/过期回到 `configured`，删除所有 target 回到 `unconfigured`；`verified` 只允许在所有已配置 target 的 manifest integrity、audit chain 和隔离空仓恢复都通过后产生；
-- 失败时不变量：不能因为 shared blob cache、最近一次成功上传或作者手写字段把 Vault 标为 `verified`，未验证 Vault 的 purge/覆盖式恢复仍被阻断；
+- 失败时不变量：不能因为 shared blob cache、最近一次成功上传或作者手写字段把 Vault 标为 `verified`，未验证 Vault 的覆盖式恢复仍被阻断（原 `purge` 已随 ADR-0019 退场）；
 - 自动化级别：Unit/Integration/Recovery。
 
 ## AC-F012-008 Durable backup manifest 与密钥引用
@@ -160,5 +160,5 @@
 
 - **解耦（F004 review P3 落地）**：`BackupManager` 不再 import question 模块——领域语义校验改为注入钩子（`extra_verifiers`，DIP：协议在备份、实现归领域、组装在 CLI 入口）；`practice_integrity_check` 迁至 `tools/question.py`。备份不再知道题库的存在。
 - **真实仓库备份演练（首次全链）**：`manifest`（645 entries）→ `verify: verified` → `export-bundle` → `restore-bundle` 到隔离目录 → `wiki/work-methods/aar.md` 恢复内容**逐字节一致**；doctor 综合状态 degraded（仅 QMD 环境告警）。
-- **修复（durable record 契约违反）**：`confirm.py`（F003 人工确认）写 `publish_wiki` 审计记录时绕过 OperationStore 提交协议、缺少 `record_sha256`（§1239 必填），导致备份 verify `durable_record_hash_mismatch`——真实备份演练首次抓到（此前无消费者校验）。已修生成方并补齐 2 条历史缺陷记录（内容不变，仅加完整性字段），旧 manifest 保留为修复前快照。
+- **修复（durable record 契约违反）**：`confirm.py`（F003 人工确认）写 `publish_wiki` 审计记录时缺少 `record_sha256`（§1239 必填），导致备份 verify `durable_record_hash_mismatch`——真实备份演练首次抓到（此前无消费者校验）。已修生成方并补齐 2 条历史缺陷记录（内容不变，仅加完整性字段），旧 manifest 保留为修复前快照。**注**：当时的修复路径是让记录满足 `OperationStore` 的提交协议，该模块已随 ADR-0019 删除，但 `record_sha256` 契约仍由 `confirm.py` 写入时直接满足，备份侧校验不变。
 - 边界不变：真实远端传输（BOS/rsync 等）、加密备份 target、跨 Vault 全量重建仍属环境级验收。

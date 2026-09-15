@@ -20,12 +20,15 @@
 
 ```bash
 MyKnowledge/
-├── docs/                  # 迁移中的原始内容与设计文档
-├── frontend/              # Astro/Starlight 静态 Wiki（public projection 消费者；已临时移除，规划中）
-├── sources/               # 目标 Source 层（实现后创建）
-├── wiki/                  # 目标 Wiki 层（实现后创建）
+├── content/               # 内容层：sources/、wiki/（canonical 知识对象）
+├── docs/                  # 治理层：系统设计、ADR、Technical Design、Acceptance、Feature List
+├── frontend/              # Astro/Starlight 静态 Wiki（public projection 消费者）
+├── backend/               # FastAPI 本地服务（loopback only）
 ├── config/                # schema、policy 和 public + 0..N vault 示例
-├── tools/                 # Source/校验/锚定等工具（python -m tools.cli）
+├── tools/                 # Source/校验/锚定/发布等工具（python -m tools.cli）
+├── archive/  audit/  release/   # 归档快照、durable 审计与发布确认（F013 批次 3 迁入 ledger/）
+├── var/                   # 生成物与临时运行态（projection/索引/state）
+├── scripts/               # bootstrap 与本地启停脚本
 ├── requirements.txt       # Python 依赖列表
 └── README.md              # 项目说明
 ```
@@ -113,9 +116,9 @@ MYKNOWLEDGE_CONTENT_MODE=projection npm run dev
 
 ### 3. 内容创作
 
-1. 通过 Source-first 工具导入或创建 `sources/` 记录；不要把无来源正文直接标记为 published。
-2. 通过 Wiki writer 创建 claim/evidence target，并经过 deterministic/LLM 验证和 Preview/Apply。
-3. 公开站点只消费 `public_publishable` projection；`public_release` 默认是 `false`，只有人工对当前 hash 改为 `true` 并完成 public confirmation 才能发布；internal 内容写入用户明确选择的 private vault，并在私有发布时显示告警。
+1. 通过 Source-first 工具导入或创建 `content/sources/` 记录；不要把无来源正文直接标记为 published。
+2. 综合 source 写出 `content/wiki/` 页面与 claim/evidence 映射，跑确定性校验与 LLM 审计；落盘一次到位，审批由 `git diff` + `git commit` 承担（ADR-0019）。
+3. 公开站点只消费 `public_publishable` projection；`public_release` 默认是 `false`，只有人工对当前 hash 完成 public release confirmation（`python -m tools.cli release confirm`）才派生为 `true`；internal 内容写入用户明确选择的 private vault，并在私有发布时显示告警。
 
 ### 4. 部署发布
 
@@ -144,31 +147,37 @@ python -m tools.cli read <wiki-id>            # 读已发布 wiki 正文
 python -m tools.cli backlinks <wiki-id>       # 反向引用
 ```
 
-### 写入（三步：preview → 人工确认 → apply）
+### 写入（一次落盘 → git 审批）
+
+写入没有独立的审批关口：工具只负责把变更落到工作区，审核由 `git diff` 承担、批准由 `git commit` 承担（ADR-0019）。`write` / `confirm-apply` / `lock` 命令已退场。
 
 ```bash
 # 1) 导入外部资料为 Source（url 抓取 / 本地文件 / 个人笔记）
 python -m tools.cli source --url https://... --domain tools --source-id my-doc
 python -m tools.cli source --from-file ./note.md --domain work-methods
 
-# 2) 写/改 wiki 或任意文件（preview 只读不动工作区）
-python -m tools.cli write --files spec.json          # spec.json: {"wiki/xx/yy.md": "正文"}
-python -m tools.cli rename <旧路径> <新路径> | retire <路径>（保留原文+durable marker）
+# 2) 写/改 wiki 或任意文件：直接用编辑器编辑 content/ 下的文件，
+#    或走与 Skill / FastAPI 共用的受控落盘通道（一次写到位，无 preview/apply）
+python -m tools.cli skill write --payload p.json   # p.json: {"files": {"content/wiki/xx/yy.md": "正文"}, "vault_id": "public"}
 
-# 3) 人工确认后应用（Agent 通道必须带事件；本地 CLI 可 --confirm）
-python -m tools.cli confirm-apply <operation_id> --actor-id <你> --out event.json
-python -m tools.cli write --apply <operation_id> --confirm --confirmation event.json
+# 3) 审阅 diff 并提交（人工执行；这是唯一的批准动作）
+git diff && git commit
 ```
 
 ### 校验、审计与发布（Source → Wiki → 公开页）
 
 ```bash
-python -m tools.cli anchor <snapshot.md> "<引文>" --source sources/<dom>/<id>.md  # 证据锚定
-python -m tools.cli validate wiki/<dom>/<id>.md        # 确定性校验
-python -m tools.cli audit wiki/<dom>/<id>.md           # LLM 证据审计（默认复用本机 agent CLI，零配置）
-python -m tools.cli confirm wiki/<dom>/<id>.md --actor-id <你>   # 人工审计确认
-# 公开发布：写 public-release-confirmation/v1 事件（脚本见 ADR-0012/系统设计 §release）
-python -m tools.cli projection generate               # 重建 public manifest + FTS5 索引
+python -m tools.cli anchor <snapshot.md> "<引文>" --source content/sources/<dom>/<id>/<id>.md  # 证据锚定
+python -m tools.cli validate content/wiki/<dom>/<id>.md        # 确定性校验
+python -m tools.cli audit content/wiki/<dom>/<id>.md           # LLM 证据审计（默认复用本机 agent CLI，零配置）
+python -m tools.cli confirm content/wiki/<dom>/<id>.md --actor-id <你>   # 人工审计确认（operation-confirmation/v1，scope: publish）
+# 公开发布（仍然存活，属于发布确认而非已退场的写入门禁）：
+# 先算待签输入，再写 public-release-confirmation/v1 事件
+python -m tools.cli release input   --object-id <wiki-id> --operation-id op_<id>
+python -m tools.cli release confirm --object-id <wiki-id> --operation-id op_<id> \
+  --actor-id <你> --nonce <nonce> --event-id evt-<...> --leak-gate-report-sha256 <hash>
+python -m tools.cli projection generate               # 重建 public projection manifest
+python -m tools.cli index rebuild --index <索引路径>    # 重建 projection SQLite 索引
 ```
 
 ### 静态站（浏览器）
@@ -181,8 +190,8 @@ cd dist && python3 -m http.server 8766    # http://127.0.0.1:8766/wiki/<id>/
 ### 本地 API 与 Agent 通道
 
 ```bash
-python -m backend.server --root . --port 8765   # FastAPI（loopback only，写入需 token/确认事件）
-python -m tools.cli skill <action> --payload p.json   # Agent 受控 action（写入强制人工确认事件）
+python -m backend.server --root . --port 8765   # FastAPI（loopback only，写入需 capability token；无确认事件）
+python -m tools.cli skill <action> --payload p.json   # Agent 受控 action（写入为一次落盘，审批走 git）
 ```
 
 ### 备份

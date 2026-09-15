@@ -54,7 +54,7 @@ Feature 按**两个正交轴**归类，任何新 Feature 必须且只能落在�
 | F001 | Source 导入、来源完备性和快照归档 | 核心链路 | P0 | 规范 | [F001](./acceptance/F001-source-ingestion.md) |
 | F002 | Wiki schema、状态机和内容契约 | 核心链路 | P0 | F001 | [F002](./acceptance/F002-wiki-contract.md) |
 | F003 | Claim/Evidence 与证据验证门禁 | 核心链路 | P0 | F001, F002 | [F003](./acceptance/F003-evidence-validation.md) |
-| F004 | Preview/Apply、幂等、锁、移动和废弃 | 核心链路 | P0 | F001–F003 | [F004](./acceptance/F004-write-operation.md) |
+| F004 | 写入落盘与审批（原「Preview/Apply、幂等、锁、移动和废弃」已由 ADR-0019 退场） | 核心链路 | P0 | F001–F003 | [F004](./acceptance/F004-write-operation.md) |
 | F005 | Public/Local 索引与检索 | 核心链路 | P1 | F001–F004 | [F005](./acceptance/F005-index-and-retrieval.md) |
 | F006 | FastAPI 本地服务与离线降级 | 消费端 | P1 | F005 | [F006](./acceptance/F006-local-api-and-offline.md) |
 | F007 | Astro/Starlight 公共静态 Wiki 和发布门禁 | 消费端 | P1 | F002, F003, F005, F011（public projection） | [F007](./acceptance/F007-static-wiki-publishing.md) |
@@ -101,7 +101,7 @@ Feature 按**两个正交轴**归类，任何新 Feature 必须且只能落在�
 - 前置依赖、交付物和完成定义；
 - 当前状态和可复核证据。
 
-当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 已进入 `Implemented`（2026-08-28 补齐：operation-confirmation/v1 确认事件绑定（AC-006/011）、双进程并发一致性（AC-003）、public apply 默认真实 projection 重建（AC-004-009 部分）；此前已有通用 writer、retire/purge 门禁和 private owner-root 路径绑定；跨 Vault staging 与领域 writer 统一迁移未闭合）；F005 已进入 `Implemented`（projection、SQLite FTS5、fallback 与 Registry owner-aware projection 接入，QMD/完整恢复验收未闭合）；F006 已进入 `Implemented`（FastAPI retrieve/query/ask 基础能力，完整 API 验收未闭合）；F007 已进入 `Implemented`（Astro 工程骨架、静态 graph、确定性 sitemap 与 leak gate，真实 projection/浏览器验收未闭合）；F008 已进入 `Implemented`（题目 schema、绑定、评分和 FSRS adapter 基础能力，完整验收未闭合）；F009 已进入 `Implemented`（canonical Skill 基础契约，完整运行验收未闭合）；F010 已进入 `Implemented`（legacy inventory 基础能力，Source-first 迁移未闭合）；F011 已进入 `Implemented`（Registry、owner-aware local projection，完整 Vault 写入/恢复验收未闭合）；F012 已进入 `Implemented`（状态、manifest、隔离恢复与 durable restore marker，外部 target 验收未闭合）。以上均不等同于 `Accepted`。
+当前与本次方案直接相关的状态：F001/F002/F003 已实现（2026-08-27，F003 LLM 证据审计链路 + corroboration-v1 + 人工确认写入完成）；F004 的写入门禁已 `Retired`（ADR-0019，2026-09-15）：Preview/Apply 协议、operation 状态机、commit-intent 与 per-vault 锁从代码中删除（OPS-001/003/004 在追踪矩阵标 Retired），写入改为一次落盘、审批由 `git commit` 承担；存活的 `confirm`/`release`/`override` 属发布确认与审计复议，不是写入门禁；此前已有通用 writer、retire/purge 门禁和 private owner-root 路径绑定；跨 Vault staging 与领域 writer 统一迁移未闭合；F005 已进入 `Implemented`（projection、SQLite FTS5、fallback 与 Registry owner-aware projection 接入，QMD/完整恢复验收未闭合）；F006 已进入 `Implemented`（FastAPI retrieve/query/ask 基础能力，完整 API 验收未闭合）；F007 已进入 `Implemented`（Astro 工程骨架、静态 graph、确定性 sitemap 与 leak gate，真实 projection/浏览器验收未闭合）；F008 已进入 `Implemented`（题目 schema、绑定、评分和 FSRS adapter 基础能力，完整验收未闭合）；F009 已进入 `Implemented`（canonical Skill 基础契约，完整运行验收未闭合）；F010 的迁移工具已 `Retired`（ADR-0019，2026-09-15）：`tools/inventory_legacy.py` / `migrate_legacy.py` 与 `inventory` / `migrate` 命令已删除，MIG-001 在追踪矩阵标 Retired——迁移本身早已跑完（`content/working` 层整层删除并全部消费进 wiki）；F011 已进入 `Implemented`（Registry、owner-aware local projection，完整 Vault 写入/恢复验收未闭合）；F012 已进入 `Implemented`（状态、manifest、隔离恢复与 durable restore marker，外部 target 验收未闭合）。以上均不等同于 `Accepted`。
 
 F008 已转入独立 Feature，不改变 Source → Wiki → Evidence 主链路。它包含一个独立的 Question Platform：题目像 Wiki 一样是可插拔内容域，可通过 `question-package/v1` 导入，支持题目版本、启用/禁用、撤回和删除；运行面再提供按 domain/topic/concept/skill 分类的短回合学习、确定性评分和 FSRS 调度。题目可以绑定 Wiki，也可以来自面经、个人题目或外部题包；不强制所有题目先有 Wiki。Deep-ML 仅作为竞品和能力覆盖参考。现有 `question/v1` 仅代表基础后端能力。
 
@@ -116,7 +116,7 @@ F001 → F002 → F003 → F004
              F012（audit/backup） ───┴→ F004–F011 的恢复与观测门
 ```
 
-F011 与 F001–F004 同一套 schema/hash/operation 实现；F007 只消费 F011 生成的 public projection，不 checkout 或读取任何 private vault。F011 的 private projection 和 internal LLM provider 不得成为 public build 依赖；实现必须支持 0..N 个外挂仓库、逐 vault 状态和独立备份。
+F011 与 F001–F004 同一套 schema/hash/落盘实现；F007 只消费 F011 生成的 public projection，不 checkout 或读取任何 private vault。F011 的 private projection 和 internal LLM provider 不得成为 public build 依赖；实现必须支持 0..N 个外挂仓库、逐 vault 状态和独立备份。
 
 F011 与 F012 是横向基础能力：F011 为 F005/F006/F007/F009 提供 Vault Registry、owner/ref 和逐 vault availability；F012 为 F004/F005/F006/F009/F011 提供 durable audit、备份状态、恢复演练和可观测性。它们不能被实现顺序图中的单一路径遗漏，未配置 remote/backup 时只能报告 `unconfigured`，不能标记为已恢复。
 
@@ -158,3 +158,4 @@ F013 会改写下游 Technical Design 与 Acceptance 中的历史路径字面量
 | 日期 | 变更 |
 | --- | --- |
 | 2026-09-02 | 引入四象限正交分类轴（核心链路/横向基础/消费端/演进独立域），总览表新增「分类」列；新增「新增 Feature 流程」与「新增条目必须包含」表，明确编号不回收与正交约束 |
+| 2026-09-15 | 依 ADR-0019 修正 F004 与 F010 的交付状态：F004 的写入门禁（Preview/Apply、operation 状态机、commit-intent、per-vault 锁）与 F010 的迁移工具（`inventory`/`migrate`）均已退场，对应规范 ID 在追踪矩阵标 `Retired`；F004 行名与 F011 的「operation 实现」表述同步更新 |

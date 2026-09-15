@@ -4,7 +4,7 @@
 - 相关规范：API、IDX、SEC
 - 状态：Implemented（2026-08-28；retrieve/query/ask/read/backlinks 基础能力，完整 API 验收待补）
 - 实现证据：`backend/app.py`、`tests/test_api.py`、`requirements.txt`
-- 当前边界：read/backlinks/source/wiki preview/apply、token 生命周期、Origin/Host、citation replay 和完整 offline integration 尚未完成。
+- 当前边界：read/backlinks、写入端点（`POST /api/write`）、token 生命周期、Origin/Host、citation replay 和完整 offline integration 尚未全部完成。
 
 ## GET/POST 参数闭包增量证据（2026-08-27）
 
@@ -171,10 +171,12 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 - 失败时不变量：不能用当前 source Markdown、压缩 blob hash、标题或 URL 替代权威 snapshot/selector，也不能把无效 citation 作为生成答案依据；
 - 自动化级别：Unit/Integration/Security。
 
-## AC-F006-011 Source/Wiki preview 与 operation apply
+## AC-F006-011 写入端点与 capability 门禁
 
-- Given：调用方提交 source 或 wiki 文件变更；When：调用 preview、未确认 apply、确认 apply；Then：缺 capability 被拒绝，preview 只生成 operation/hash 不改工作树，未确认返回 `awaiting_confirmation`，确认后通过同一 writer 原子应用；`GET /api/vault/check` 同样要求 capability。
-- 对应测试：`tests/test_api.py::test_source_and_wiki_preview_apply_require_capability_and_confirmation`、`test_vault_check_requires_capability`；当前状态：通过。
+> 已修订（ADR-0019，2026-09-15）：原条文钉的是 `POST /api/source/preview` + `POST /api/wiki/preview` + `POST /api/operation/{id}/apply` 三步协议（含 `operation_id`、`awaiting_confirmation`、确认 apply）。三条路由已合并为**一条 `POST /api/write`**，与 Skill 的 `write` action 共用 `skill_runtime` 实现，一次落盘、失败即结构化返回；审批由 `git diff` + `git commit` 承担。
+
+- Given：调用方提交 source 或 wiki 文件变更（`{files: {<vault-relative path>: <content>}, vault_id}`）；When：调用 `POST /api/write`；Then：缺 capability 返回 401，携带有效 capability 时一次落盘并返回 `write-result/v1`（`state: applied` + `applied_files`），响应中**不含** `operation_id`/`requires_confirmation`；越界路径返回 `path_outside_repo`、`content/working/` 无回指返回 `schema_invalid`；`GET /api/vault/check` 同样要求 capability。
+- 对应测试：`tests/test_api.py::test_write_lands_directly_and_requires_capability`、`test_vault_check_requires_capability`；当前状态：通过。
 
 ## AC-F006-012 Private owner read/backlinks
 
@@ -202,13 +204,13 @@ Origin/Host allowlist、audience/scope token registry、优雅退出清理和 ci
 ## F006 专项 API 验收报告（2026-08-27）
 
 - 专项覆盖：`tests/test_api.py` 全部 API/CLI/真实 Uvicorn runner/capability 测试，以及 `tests/test_citation.py` 全部 replay 测试。
-- 结果：相关测试通过，覆盖 GET `/api/query` 与 POST `/api/retrieve` parity、scope/vault allowlist、token TTL/audience、Origin/Host、请求体上限、preview/apply confirmation、private owner read/backlinks、离线 ask 和 citation replay。
-- 成熟方案边界：直接复用 FastAPI/Pydantic/Starlette/Uvicorn 的 schema、ASGI middleware 和 graceful shutdown；scope、Vault owner、confirmation、projection 与 unavailable 语义由 MyKnowledge 保留。
+- 结果：相关测试通过，覆盖 GET `/api/query` 与 POST `/api/retrieve` parity、scope/vault allowlist、token TTL/audience、Origin/Host、请求体上限、`POST /api/write` 直写与 capability 门禁、private owner read/backlinks、离线 ask 和 citation replay。
+- 成熟方案边界：直接复用 FastAPI/Pydantic/Starlette/Uvicorn 的 schema、ASGI middleware 和 graceful shutdown；scope、Vault owner、projection 与 unavailable 语义由 MyKnowledge 保留。
 - 边界：真实跨平台部署、长时间运行和外部 provider 仍需环境验收；专项报告不将 TestClient 或离线 provider unavailable 误报为 `Accepted`。
 
 ## F006 review 增量证据（2026-08-28）
 
-- **真实 root 冒烟**：health ok；`/api/query` 经默认 FTS5 索引返回 `method: fts5` 命中 aar；`/api/read/public/wiki/aar` projection-only 返回正文；未发布 canonical（transformer wiki 不存在/未发布）返回 404；preview→未确认 apply→`awaiting_confirmation` 门禁正确；`/api/ask` 显式 `unavailable/provider_unavailable`（AC-F006-004 合规）。
+- **真实 root 冒烟**：health ok；`/api/query` 经默认 FTS5 索引返回 `method: fts5` 命中 aar；`/api/read/public/wiki/aar` projection-only 返回正文；未发布 canonical（transformer wiki 不存在/未发布）返回 404；`POST /api/write` 缺 capability 返回 401、带 capability 一次落盘且响应无 `operation_id`/`requires_confirmation`（ADR-0019）；`/api/ask` 显式 `unavailable/provider_unavailable`（AC-F006-004 合规）。
 - **修复（静默参数）**：`include_sources`/`include_archive` 是 §12 已定义契约，此前被接受但被忽略——`include_sources=true` 现为命中 wiki 附带 front matter 的 sources/related 引用；`include_archive=true` 在 warnings 显式 `archive_recall_not_available`（未生效能力显性化，不静默）。测试：`test_include_sources_attaches_references_not_silently_ignored`。
 - **修复（同名歧义）**：非 public vault 的 `object_path` rglob 多匹配时原取 `matches[0]` 按目录序猜对象（违反 AC-F006-003 字面），现返回 409 `object_id_ambiguous`。
 - **ADR-0012（2026-08-28）**：ask 的 LLM provider 接线从待办改为**设计排除**——调用方向是外层 Agent 经 Skill 调 MyKnowledge，生成式回答由外层 Agent 完成（retrieve → Agent LLM → citation replay 校验），MyKnowledge 保持零生成式内置。`/api/ask` 永久返回显式 `unavailable` 是合规终态。

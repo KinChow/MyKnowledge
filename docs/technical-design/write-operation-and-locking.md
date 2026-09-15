@@ -1,10 +1,28 @@
 # 写操作与锁实现设计
 
-- 状态：Implemented（2026-08-27；通用 writer 与基础验收已落地）
+- 状态：Retired（2026-09-15；机制已整体删除，见 ADR-0019）
 - 相关 Feature：F004
 - 相关规范：OPS、SEC
 - 相关 ADR：ADR-0006
 - 相关验收：[F004](../acceptance/F004-write-operation.md)
+
+> **退场说明（2026-09-15）**：本文描述的机制**整体退场**，不是局部失真。`tools/write_operation.py`、
+> `tools/operation_store.py`、`tools/vault_lock.py` 与 `write` / `confirm-apply` / `lock` CLI 及对应 API
+> 入口已按 [ADR-0019](../adr/0019-gate-reduction-and-git-as-approval.md) 全部删除（追踪矩阵
+> OPS-001/003/004 = Retired）：Preview → 用户确认 → Apply 两阶段、operation 状态机
+> （`previewed`/`expired`/`applied_index_pending`/`applied`）、TTL、`commit-intent` 与 `recover()`、
+> per-vault 排他锁（`VaultLock`/`VaultLockGroup`/owner sidecar/`lock recover`）、`scope: apply` 的
+> `operation-confirmation/v1` 都不再存在。
+>
+> 保留的写原语只有「临时文件 + `os.replace` 原子替换」（`tools/common.py::atomic_write`）；审批改由
+> `git diff` + `git commit` 承担，中断恢复交由 `git status` 可见的半成品。（发布确认路径上另有一把
+> 独立的 `release-confirmations.lock` filelock，用于 nonce 的 check-then-act，不属于本文的
+> per-vault 写锁体系。）今天的写入通道见
+> [分层布局与写入通道](./layers-and-channels.md)。注意：私有发布的告警确认
+> （`operation-confirmation/v1`、`scope: publish_private`）、人工审计确认（`scope: publish`）与
+> public release 的 `public-release-confirmation/v1` **仍然存活**，不在本次退场范围内，见
+> [Private Vaults 子仓库](./private-vault-submodule.md) 与 [Wiki Claim 验证](./wiki-claim-validation.md)。
+> 本文保留为历史设计记录，与已标 Superseded 的 ADR-0006 对照阅读。
 
 ## 本轮 commit intent 完整性调查（2026-08-27）
 

@@ -2,21 +2,37 @@
 
 - Feature：F004
 - 相关规范：OPS、SEC
-- 状态：Implemented（2026-08-28；确认事件绑定、并发一致性、真实 projection 重建已补齐；跨 Vault staging 与领域 writer 统一迁移仍待后续验收）
-- 实现证据：`tools/write_operation.py`、`tools/operation_store.py`（`validate_apply_confirmation`）、`tools/vault_lock.py`、`tests/test_write_operation.py`（31 项）
-- 当前边界：Source/Evidence 既有 writer 尚未统一迁移到通用 writer；跨 Vault apply/恢复、SQLite index 生产重建仍需后续验收。
+- 状态：Retired（ADR-0019，2026-09-15）——本文件描述的全部机制（`WriteOperation` / `OperationStore` / `VaultLock` / operation 状态机 4 态 / TTL 1800s / commit-intent 恢复 / `confirm-apply` / 多 Vault 锁排序与 fencing）已从代码中删除，审批改由 `git diff` + `git commit` 承担。保留正文是为了记录"曾经实现过"的事实，**下方断言除标注为「不变量存活」的两条外均已失效**，不得作为验收依据。
+- 退场依据：ADR-0019（Accepted）§3 删除清单；ADR-0006（Preview/Apply 写协议）随之 Superseded。实测退场约 1,975 行公共模块与 1,968 条 operation / 2,341 条 audit 记录所承载的状态机负担，这些机制未捕获过任何实际缺陷。
+- 已删除模块：`tools/write_operation.py`、`tools/operation_store.py`、`tools/vault_lock.py`；已删除测试：`tests/test_write_operation.py`。
+- 仍存活（不属于本条，写入通道之外的发布/验证链）：`tools/release_confirmation.py`、`tools/release_input.py`、`tools/validation/{audit,confirm,override}.py`；`audit/operations/<operation_id>.json` 记录仍由 `tools/validation/confirm.py` 写入，并被 public release lineage 与 `derived.has_private_confirmation` 消费。
+- 当前边界：本条不再是验收对象。若将来需要重新引入运行时互斥或写前确认，触发条件见 ADR-0019「重新评估条件」。
+
+## 退场说明
+
+本文件的 AC 分为三类，逐条在节内标注：
+
+1. **已失效**（多数）：机制与测试均已删除，断言无对象。
+2. **不变量存活**：结论仍成立，但实现与证据已迁出写通道 —— `AC-F004-011`（public release 不可被冒充）、`AC-F004-012`（确认事件幂等命中与 `operation_id` 口径统一），两者现由 `tools/release_confirmation.py` + `tools/common.py::safe_operation_id` 与 F007/F011 的 public release 通道承载。
+3. **随协议一并消失的中间态**：`previewed`/`expired`/`applied_index_pending`/`applied`、`operation_id`、`awaiting_confirmation`、per-vault 锁、TTL、commit-intent —— 这些词在写入通道上已无生产者，`ingest`/`write`/`extract` 一次落盘，失败即结构化返回。
 
 ## Rename source precondition 增量证据（2026-08-27）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - `WriteOperation.rename()` 记录源文件 `source_before_hash`；Apply 在锁内先校验源 hash，再写目标和删除源。
 - `tests/test_write_operation.py::WriteOperationTests::test_rename_source_drift_blocks_without_deleting_source` 验证 Preview 后源文件被用户修改时返回 `hash_mismatch`，源内容保留且目标不存在。
 
 ## 路径竞态增量证据（2026-08-30）
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - `tests/test_write_operation.py::WriteOperationTests::test_apply_path_race_returns_structured_failure` 在 Preview 后把父目录替换为 symlink，验证 Apply 回滚、返回 `expired/apply_failed` 与 `path_symlink` 诊断，且 symlink 指向目录没有被写入。
 - 本轮增量：已增加 Vault fencing sidecar 与提交点校验；多 Vault 锁排序、projection/index 恢复和 retire 领域状态仍需后续验收。
 
 ## 本轮证据（2026-08-29）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - AC-F004-010：`tests/test_write_operation.py::WriteOperationTests::test_fencing_token_rejects_replaced_owner` 验证 owner sidecar 被替换后 `assert_owner()` 返回 `LockBusyError`，旧持有者不能继续提交。
 - AC-F004-005：全量 `tests/test_write_operation.py` 仍通过多文件失败回滚，fencing 检查位于每次文件替换之前。
@@ -28,6 +44,8 @@
 
 ## AC-F004-001 未确认不得 Apply
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - Given：存在 Preview 但没有用户确认；
 - When：执行 Apply；
 - Then：操作被拒绝且目标文件不变；
@@ -36,6 +54,8 @@
 - 当前状态：通过。
 
 ## AC-F004-002 重复 Apply 幂等
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - Given：同一 operation 已成功 Apply；
 - When：重复执行 Apply；
@@ -46,6 +66,8 @@
 
 ## AC-F004-003 并发写入保持一致
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - Given：两个写操作同时获取仓库写锁；
 - When：并发执行；
 - Then：只有一个持有锁，另一个可重试或明确失败，仓库不出现半成品；
@@ -54,6 +76,8 @@
 - 当前状态：通过。
 
 ## AC-F004-004 blocked 与 hash 失效
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - Given：Preview 缺少来源、Vault/provider 不可用，或 Apply 前输入/registry hash 发生变化；
 - When：执行 Apply；
@@ -65,6 +89,8 @@
 
 ## AC-F004-005 原子多文件 Apply 与恢复
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - Given：rename/move/retire/purge 或多 Vault operation 在写临时文件或索引阶段中断；
 - When：注入进程崩溃、跨设备 staging 或单 Vault Apply 失败；
 - Then：同一文件系统内要么全部原子完成，要么旧文件/旧索引保持不变；跨 Vault 失败保留 staging、成功列表和恢复说明，不自动回滚用户变更；
@@ -72,6 +98,8 @@
 - 自动化级别：Failure injection/Integration。
 
 ## AC-F004-006 确认事件绑定
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - Given：存在同一 operation 的 `operation-confirmation/v1` 事件与 precondition hashes；
 - When：执行 Apply 或重复消费事件；
@@ -83,6 +111,8 @@
 
 ## AC-F004-007 Durable record 与一次性 nonce
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - Given：Apply 使用 `operation-confirmation/v1` 与当前 precondition hashes；public release 另用带一次性 nonce 的 `public-release-confirmation/v1`；`state/` 可被清理；
 - When：完成 Apply、重复消费事件，或删除临时 state 后重新检查；
 - Then：owner vault 的 `audit/operations/<operation_id>.json` 保留结果、event hash 和 after hashes，public release 另存 nonce 的 `consumed_at`；重复消费返回原结果，不能再次写入；
@@ -91,15 +121,19 @@
 
 ## AC-F004-011 确认事件 3 → 2 合并后的边界
 
+> 不变量存活，实现已迁出写通道：`operation-confirmation/v1` 的 `apply`/`publish_private` 双 scope 与「public release 不可被冒充」仍成立，现由 `tools/release_confirmation.py`（`public-release-confirmation/v1` 独立事件类型）与 `tools/validation/confirm.py`（`scope: publish_private`）承载；`ConfirmationBoundaryTests` 已随 `tests/test_write_operation.py` 删除，存活证据为 `tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade` 与 `tests/validation/test_wiki_derived.py::test_internal_publish_requires_warning_ack`。
+
 - Given：确认事件只有 `operation-confirmation/v1`（`scope: apply | publish_private`）与 `public-release-confirmation/v1`；分别构造：缺 `content_sha256`/`evidence_sha256`/`target_vault` 的 `scope: publish_private`、缺 `warning_code`/`warning_text_sha256` 的 internal 私有发布、`scope: public_release`、以及用 `operation-confirmation/v1` 冒充 public release；
 - When：校验事件并执行 Apply / public release；
 - Then：前两种按缺字段拒绝；`public_release` 不是合法 scope 值，词表校验直接拒绝；public release 只接受 `public-release-confirmation/v1`；
 - 失败时不变量：**public release 不得被表达为 `operation-confirmation/v1` 的任何 scope 值**——它是唯一不可撤销的对外行为，独立事件类型使"写错一个 scope 值就公开了 internal 内容"在 schema 层不可表达；internal 告警确认虽已并入私有发布事件，仍必须展示且不可静默跳过；
 - 自动化级别：Unit/Security。
-- 对应测试：`ConfirmationBoundaryTests` + `tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade`
-- 当前状态：通过。
+- 对应测试（存活部分）：`tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade`、`tests/validation/test_wiki_derived.py::DerivedTests::test_internal_publish_requires_warning_ack`；~~`ConfirmationBoundaryTests`~~ 已删除。
+- 当前状态：部分通过（存活不变量）。`scope: apply` 一侧随写通道退场，`scope: publish_private` 一侧仍由 `tools/validation/confirm.py` 强制。
 
 ## AC-F004-012 幂等命中与 operation_id 口径统一
+
+> 不变量存活，实现已迁出写通道：确认事件的幂等命中（`already_applied`/`event_id_conflict`/`event_unreadable`）与 `operation_id` 生成/校验口径仍由 `tools/release_confirmation.py` 与 `tools/common.py::new_operation_id`/`safe_operation_id` 承担，对应测试全部保留在 `tests/test_release_confirmation.py`。本节中与 Apply/operation 状态机绑定的措辞已失效。
 
 - Given：一条已落盘的 `public-release-confirmation/v1`；再构造三种输入：内容完全一致的重复提交、同 `event_id` 但 `reason` 不同的提交、真实生成的 `op_<32 位 hex>` 与畸形 `operation_id`（`op_`、`op_ABC`、`../op-one`、`op_one/two`、`one`）；
 - When：调用 `release_confirmation.write_event()` / `validate_event()` 与 `tools.common.safe_operation_id()`；
@@ -111,6 +145,8 @@
 
 ## AC-F004-008 多 Vault 锁顺序
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - Given：operation 同时涉及两个或更多 Vault，另一个 operation 以不同输入顺序并发执行；
 - When：获取锁并 Apply；
 - Then：所有 operation 按排序后的 `vault_id` 获取 `state/locks/<vault_id>.lock`，不会死锁；失败保留 staging 和成功列表；
@@ -118,6 +154,8 @@
 - 自动化级别：Integration/Failure injection。
 
 ## AC-F004-009 Canonical 提交与索引失败恢复
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - Given：单 Vault operation 已通过最终校验，但 projection/index 写入阶段被故障注入中断；或进程在 commit-intent 与 commit marker 之间退出；
 - When：重启 writer/recovery 并执行同一 operation 的状态查询；
@@ -127,6 +165,8 @@
 
 ## AC-F004-010 陈旧锁恢复与 fencing token
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - Given：writer 持有某 Vault 锁后进程挂起或退出，另一个进程执行显式 `lock recover`，旧进程随后尝试继续写入；
 - When：恢复锁、重试 commit-intent/canonical/projection 替换和释放；
 - Then：恢复动作先检查 PID/进程启动时间并写入 `lock-recovery` durable audit；新锁生成新的 `lock_token`，旧进程在任一提交点因 token 不匹配被拒绝；默认不按超时自动删除；
@@ -134,6 +174,8 @@
 - 自动化级别：Security/Integration/Failure injection。
 
 ## Commit-intent 恢复增量证据（2026-08-27）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - `test_failed_apply_keeps_intent_for_explicit_recovery` 验证多文件 apply 故障回滚后不会静默删除 commit-intent；旧 canonical 保持不变，显式 `recover()` 返回 `recovery_required`，等待人工/上层决定继续或重做。
 
@@ -143,35 +185,49 @@
 
 ## Projection/index pending 恢复增量证据（2026-08-30）
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - `tests/test_write_operation.py::WriteOperationTests::test_projection_failure_keeps_canonical_and_recovers` 注入 projection rebuild 失败，验证 canonical 文件已原子完成、operation 状态为 `applied_index_pending`、返回 `projection_failed`/`recover_projection`，不会伪造完整 `applied`。
 - 使用同一 operation 显式 `recover()` 重跑 rebuild 后，状态才变为 `applied`，commit-intent 被清理；无 rebuild hook 时返回 `projection_rebuilder_unavailable`，不猜测恢复结果。
 - 该增量闭合 AC-F004-009 的通用 writer 状态边界；真实 public projection/index 生产重建和跨 Vault staging 仍为环境级 pending。
 
 ## Commit intent 完整性增量证据（2026-08-27）
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - `commit-intent/v1` 现在包含 canonical `intent_sha256`，覆盖 operation、vault 及每个文件的 before/after hash；`WriteOperation.recover()` 在恢复前校验自哈希、operation_id 和 target vault。
 - `tests/test_write_operation.py::WriteOperationTests::test_recover_rejects_tampered_commit_intent` 验证 intent 被篡改时返回 `recovery_invalid`，不会把未验证状态标记为 applied；`test_recover_commit_intent_marks_fully_written_files_applied` 验证完整 intent 仍可重放。
 
 ## Retire marker 增量证据（2026-08-27）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - `test_rename_and_retire_have_distinct_operation_types` 现在执行 retire Apply，并验证 owner Vault 生成 `audit/retire/<operation_id>.json`（`retire-marker/v1`、目标相对路径和内容 hash）。原文件保留，便于回放和恢复，不执行不可逆删除。
 - 边界：purge、projection/index 消费 retired 状态及跨 Vault staging 仍待后续验收。
 
 ## Symlink/hard-link target 增量证据（2026-08-27）
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - `tests/test_write_operation.py::WriteOperationTests::test_symlink_and_hardlink_targets_are_rejected` 验证 preview 阶段拒绝仓库内 symlink 和共享 inode hard-link；apply 阶段也会再次检查 hard-link，避免路径或 inode 竞态绕过原子写入边界。
 
 ## Purge 备份前置证据（2026-08-27）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - `test_purge_requires_verified_owner_backup` 验证未达到 owner Vault `backup_state=verified` 时，`purge()` 返回 `backup_not_verified`，目标文件保持不变。
 - Apply 仅接受通过该前置创建的 `purge` operation；删除前仍在锁内复查 hash，失败回滚恢复原文件。外部 target 未配置时不会伪造 verified。
 
 ## Private Vault 路径绑定增量证据（2026-08-30）
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - `WriteOperation.preview/apply/recover/rename/retire/purge` 现在将文件路径和 `vault_id` 绑定到同一 owner checkout；private operation 不再把相对路径解析到 public root。
 - `tests/test_write_operation.py::test_private_vault_write_uses_owner_checkout_root` 验证 private 文件只写入 private checkout，public checkout 不出现同名目标；现有 public 故障注入和回滚测试仍保持通过。
 
 ## 确认事件与验收补齐（2026-08-28）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - AC-F004-006：`OperationStore.validate_apply_confirmation`（`tools/operation_store.py`）实现 `operation-confirmation/v1` 严格校验——`actor_type` 必须为 `human`、scope ∈ {apply, publish_private}、`input_hash`/`diff_hash` 与当前 operation 完全绑定、`event_sha256` canonical 复核；`WriteOperation.apply(confirmation=...)`、Skill `write_apply` 与 API `/api/operation/{id}/apply` 均透传消费。`ApplyConfirmationTests` 验证成功路径（durable audit 记录事件 hash）、伪造 hash fail-closed 不写目标、agent actor 拒绝；重复消费由状态机幂等返回原结果。
 - AC-F004-011：`ConfirmationBoundaryTests` 验证 `public_release` 不是合法 scope（schema 层不可冒充）；`publish_private` 缺 `content_sha256`/`evidence_sha256`/`target_vault` 时拒绝；`tests/test_release_confirmation.py::test_public_release_rejects_operation_confirmation_masquerade` 验证 public release 只接受 `public-release-confirmation/v1`。
@@ -181,12 +237,16 @@
 
 ## confirm-apply 人工确认生成入口（2026-08-28）
 
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
+
 - `tools.cli confirm-apply <operation_id> --actor-id`：从 durable record 派生 `operation-confirmation/v1` 事件（`input_hash`/`diff_hash` 取自 `state/operations`，人不可能确认错 hash），`event_sha256` 生成后经 `validate_apply_confirmation` 自校验；只读不写，不触发 apply。
 - fail-closed：非 `previewed` / 过期 / 非法 actor / `publish_private` 缺 content/evidence hash 均拒绝生成。
 - `tools.cli write --apply --confirmation <event.json>` 消费事件；信任边界（本地交互终端、非密码学认证）写入命令 epilog 与规范。
 - 对应测试：`ConfirmApplyCliTests`（端到端生成→消费、过期拒绝）。
 
 ## 真实 checkout 端到端演练证据（2026-08-28，commit eb5c214）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 在真实 MyKnowledge checkout 上执行完整链路（sandbox 文件 `wiki/f004-drill.md`，演练后 rename 至 gitignore 的 `state/` 清理）：
 
@@ -199,6 +259,8 @@
 - 剩余 `Accepted` 阻断不变：跨 Vault staging、领域 writer 统一迁移、SQLite index 生产重建（F005）。
 
 ## 复审修复（2026-08-28）
+
+> 已失效（ADR-0019，2026-09-15）：本节所述机制、实现模块与测试均已删除，仅作历史记录，不作为验收依据。
 
 - F-1（状态翻转缺陷）：applied 之后的 commit-intent 清理失败不再把 operation 翻回 `expired/apply_failed`，改为保持 `applied` 并在结果暴露 `warnings: [intent_cleanup_failed]`（`WriteOperation._finalize` / `_cleanup_intent_after_applied`）。对应测试：`ReviewFixTests::test_intent_cleanup_failure_keeps_applied_state_with_warning`。
 - F-2（契约收紧）：`operation-confirmation/v1` 的 `event_sha256` 必填且必须匹配 canonical hash，durable audit 中的确认事件始终可独立复核。对应测试：`ReviewFixTests::test_confirmation_without_event_sha256_is_rejected`。

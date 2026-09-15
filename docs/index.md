@@ -15,21 +15,20 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料 
 | [系统设计](./myknowledge-system-design.md) | 总纲领：架构、数据模型、不变量、Agent 索引（§0.4） | 所有人/Agent 必读 |
 | [Feature List](./feature-list.md) | 功能四象限分类、交付状态、新增 Feature 流程 | 排期与功能地图 |
 | [追踪矩阵](./traceability-matrix.md) | 规范 ID ↔ Feature ↔ ADR ↔ 设计 ↔ 验收 ↔ 测试 映射 | 查证约束实现状态 |
-| [ADR](./adr/README.md) | 长期架构决策与取舍原因（15 条） | 理解"为什么这样设计" |
-| [Technical Design](./technical-design/README.md) | 各能力实现边界、失败处理、测试策略（16 篇） | 实现开发 |
-| [Acceptance](./acceptance/README.md) | 各 Feature 验收场景与通过规则（14 篇） | 验收门禁 |
+| [ADR](./adr/README.md) | 长期架构决策与取舍原因 | 理解"为什么这样设计" |
+| [Technical Design](./technical-design/README.md) | 各能力实现边界、失败处理、测试策略 | 实现开发 |
+| [Acceptance](./acceptance/README.md) | 各 Feature 验收场景与通过规则 | 验收门禁 |
+
+> 篇目不在此处硬计数：各目录的 `README.md` 索引由 `matrix check` 双向校验
+> （README 必须覆盖目录内全部文档，链接必须指向真实文件），以那边为准。
 
 > 机器校验：治理层索引与状态由 `python -m tools.cli matrix check` 统一校验
 > （pre-commit 自动执行），改动治理文档后如提交被拦，先跑该命令看差异。
 
 ## 内容域（知识）
 
-内容域当前是迁移中的 legacy 目录（`docs/` 是迁移输入，正式内容落位
-`content/sources/` 与 `content/wiki/`，见系统设计 §4.6）；以下入口仅用于迁移
-基线与回溯，B5 退役后由 `content/` 取代。
-
-- [计算机科学](./computer-science/contents.md)
-- [工作方法](./work-methods/contents.md)
-- [多媒体](./multimedia/contents.md)
-- [工具](./tools/contents.md)
-- [读书笔记](./reading-notes/how-to-read-a-book.md)（迁移输入）
+`docs/` 已不再承载知识内容：原知识域目录（`computer-science/`、`work-methods/`、
+`multimedia/`、`tools/`、`reading-notes/`）及其 `contents.md` 导航页随 F010 迁移与
+B5 退役删净（导航由 projection graph 派生），正文与快照落位 `content/sources/` 与
+`content/wiki/`（见系统设计 §4.6）。迁移过程决策与批次基线见
+[F010 迁移台账](./f010-migration-ledger.md)。`docs/` 现在只保留治理层文档。

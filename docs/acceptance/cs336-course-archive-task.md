@@ -1,7 +1,7 @@
 # CS336 课程归档任务验收
 
 - 类型：F014 首个真实任务
-- 状态：Partial（P1-P18 full transcript 已 Apply；P18 官方 lecture 映射仍 ambiguous；T6/T7 已验证）
+- 状态：Partial（P1-P18 full transcript 已落盘；P18 官方 lecture 映射仍 ambiguous；T6/T7 已验证）
 - 日期：2026-09-07
 - 所属 Feature：[F014 音视频与转录来源](./F014-media-sources.md)
 - 任务设计：[CS336 课程归档演练](../technical-design/cs336-course-archive-task.md)
@@ -26,13 +26,13 @@
 - 失败时不变量：不能下载全量视频冒充 inventory，不能丢失英文 18 个，也不能把前 18 个误当成中文 18 个；
 - 自动化级别：Integration；
 - 测试：已完成一次真实 inventory：36 项、中文选中 18 项、英文排除 18 项，inventory hash 为 `sha256:366a72576d4fe1c166e4fc87e776e616bcc9f12222baa26c119dbc2d07e57614`；
-- 当前状态：验证通过；18 项 full transcript Source 已 canonical Apply；无用的 bounded 关键帧已移除；P18 官方 lecture 映射仍需人工复核。
+- 当前状态：验证通过；18 项 full transcript Source 已完成 canonical 落盘（`SourceIngestor.ingest`，ADR-0019 后为一次写入）；无用的 bounded 关键帧已移除；P18 官方 lecture 映射仍需人工复核。
 
 ## TASK-CS336-003 中文 18 项筛选
 
 - Given：inventory 为 36 项，其中中文 18 项、英文 18 项；
-- When：按 `language=zh` 生成 scope manifest 并执行 Preview；
-- Then：选中 18 个中文 P，英文 18 个保留为 `excluded`，每项有 `excluded_reason`；语言无法判定的条目阻断 Preview；
+- When：按 `language=zh` 生成 scope manifest 并执行批次归档（`python -m tools.cli video-batch <inventory> --task-dir <dir> --mode full`）；
+- Then：选中 18 个中文 P，英文 18 个保留为 `excluded`，每项有 `excluded_reason`；语言无法判定的条目阻断该条目进入归档；
 - 失败时不变量：不得按序号选前 18 个，不得把英文 P 处理成中文 transcript，也不得丢失被排除项的 inventory 记录；
 - 自动化级别：Integration + Human spot check；
 - 测试：已完成真实标题标记筛选；代码单测覆盖显式 `[中文]`/`[英文]` 标记和排除理由；
@@ -66,7 +66,7 @@
 - 失败时不变量：`.vtt` 后缀不能证明人工字幕；ASR transcript 支撑的 claim 不能派生 `verified`；
 - 自动化级别：Integration；
 - 测试：待实现；
-- 当前状态：部分完成；P1-P18 前 30 秒使用 OpenAI Whisper Turbo 真实跑通并记录模型 hash，P1-P18 已使用 whisper.cpp 完成 full transcript 并 Apply；ASR provenance 和媒体 hash 已记录。
+- 当前状态：部分完成；P1-P18 前 30 秒使用 OpenAI Whisper Turbo 真实跑通并记录模型 hash，P1-P18 已使用 whisper.cpp 完成 full transcript 并完成 canonical 落盘；ASR provenance 和媒体 hash 已记录。
 
 ## TASK-CS336-007 官方资料与视频证据关系
 
@@ -86,7 +86,7 @@
 - 失败时不变量：抽帧图片不能脱离视频 hash/时间戳单独作为事实证据；抽帧全量不能自动进入 public attachment；
 - 自动化级别：Integration；
 - 测试：待实现；
-- 当前状态：按任务范围完成；原先的 54 个 bounded PNG 被人工判定为无用并已移除；F014 的关键帧 Preview/Apply 能力仍由独立测试覆盖，本课程不把无用帧作为归档资料。
+- 当前状态：按任务范围完成；原先的 54 个 bounded PNG 被人工判定为无用并已移除；F014 的关键帧抽取能力（`VideoFrameService.extract`，一次落盘）仍由独立测试覆盖，本课程不把无用帧作为归档资料。
 
 ## TASK-CS336-009 幂等、漂移和部分失败
 

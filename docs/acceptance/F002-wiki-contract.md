@@ -27,7 +27,7 @@
 ## AC-F002-003 派生字段和 hash 由工具计算
 
 - Given：作者手写 `vault_id`、`content_sha256`、`semantic_sha256`、`evidence_sha256`、`validation_state` 或 `public_publishable`；
-- When：执行 schema/preview 校验；
+- When：执行 schema 校验；
 - Then：拒绝不可信的派生字段或以 canonical 计算结果覆盖并报告差异；正文、语义字段和 evidence 的 hash 结果可复现；
 - 失败时不变量：不能让手写状态或 hash 使未验证对象进入 published/projection；
 - 自动化级别：Unit/Integration。
@@ -57,7 +57,7 @@
 ## AC-F002-006 派生字段与发布组合拒绝
 
 - Given：Wiki 手写 `public_release: true`、`public_publishable`、`private_publishable`，或组合 `status: published + publication_scope: none`、`public_release: true + owner != public`；
-- When：执行 schema/preview 校验；
+- When：执行 schema 校验；
 - Then：返回字段级 `derived_field_mismatch`/`invalid_public_release`，不改变 canonical 文件和 projection；
 - 失败时不变量：任何手写派生字段、发布开关或不合法组合都不能绕过 durable validation、confirmation 和 Vault 门禁；
 - 自动化级别：Unit/Integration/Security。

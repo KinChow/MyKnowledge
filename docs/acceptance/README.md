@@ -20,7 +20,7 @@
 | F001 Source 导入与归档 | Implemented | [F001](./F001-source-ingestion.md) |
 | F002 Wiki 契约 | Implemented | [F002](./F002-wiki-contract.md) |
 | F003 证据验证 | Implemented | [F003](./F003-evidence-validation.md) |
-| F004 写操作 | Implemented | [F004](./F004-write-operation.md) |
+| F004 写操作 | Retired（ADR-0019） | [F004](./F004-write-operation.md) |
 | F013 分层布局与写入通道 | Designed（未实现） | [F013](./F013-layers-and-channels.md) |
 
 ## P1/P2 验收
@@ -32,7 +32,7 @@
 | F007 Astro/Starlight 公共静态 Wiki | Implemented | [F007](./F007-static-wiki-publishing.md) |
 | F008 Question 题型与面试练习 | Implemented（部分） | [F008](./F008-question-practice.md) |
 | F009 Agent Skill 受控读写 | Implemented | [F009](./F009-agent-skill.md) |
-| F010 存量内容迁移和质量清理 | Implemented | [F010](./F010-content-migration.md) |
+| F010 存量内容迁移和质量清理 | Retired（ADR-0019） | [F010](./F010-content-migration.md) |
 | F011 Private Vaults 子仓库（0..N） | Implemented | [F011](./F011-private-vault.md) |
 | F012 备份、恢复和可观测性 | Implemented | [F012](./F012-backup-and-observability.md) |
 | F014 音视频与转录来源 | In progress | [F014](./F014-media-sources.md) |
@@ -46,3 +46,10 @@
 > 状态从各验收文档「- 状态：」行读取；`Implemented` 不等于 `Accepted`（需
 > P0 阻断级场景全部通过）。索引完整性由 `tools.matrix_sync.check_doc_indexes`
 > 机器校验（新增验收文档必须登记）。
+>
+> `Retired`（ADR-0019，2026-09-15）表示该 Feature 的机制已从代码中删除，
+> 文档保留为"曾经实现过"的历史记录。当前退场：**F004 写操作**（整个
+> WriteOperation/OperationStore/VaultLock/operation 状态机）、**F010 存量内容迁移**
+> （整个 inventory/migrate/reposition 工具链）。F011/F013 中涉及跨 Vault
+> copy/move、reposition 与写锁的 AC 段在文内单独标注退场，Feature 状态不变。
+

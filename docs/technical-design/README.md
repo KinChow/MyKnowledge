@@ -24,7 +24,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 | 证据锚定（evidence_anchor） | Draft | [正文](./evidence-anchoring.md) |
 | Wiki Claim 验证 | Draft | [正文](./wiki-claim-validation.md) |
 | 可执行 Schema Validator | Draft | [正文](./schema-validation.md) |
-| 写操作与锁 | Implemented | [正文](./write-operation-and-locking.md) |
+| 写操作与锁 | Retired | [正文](./write-operation-and-locking.md) |
 
 ## 发布与运行面设计
 
@@ -34,7 +34,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 | FastAPI 本地服务与离线降级 | Implemented | [正文](./local-api-and-offline.md) |
 | Agent Skill 受控读写 | Implemented | [正文](./agent-skill.md) |
 | Question 可插拔题目域与大模型学习练习 | Implemented（部分） | [运行面](./question-and-practice.md)；[平台](./f008-question-platform.md)；[Deep-ML 对齐](./f008-deep-ml-interview-mapping.md) |
-| 存量内容迁移与质量清理 | Implemented | [正文](./content-migration.md) |
+| 存量内容迁移与质量清理 | Retired | [正文](./content-migration.md) |
 | 音视频与转录来源 | （正文无状态行） | [正文](./media-sources.md) |
 | F014 首个真实任务：CS336 课程归档演练 | Partial | [正文](./cs336-course-archive-task.md) |
 | 备份、恢复与可观测性 | Implemented | [正文](./backup-and-observability.md) |
@@ -42,5 +42,5 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 | Astro/Starlight 静态 Wiki 发布 | Implemented | [正文](./static-wiki-publishing.md) |
 | 2026-08-26 系统 Review 记录 | 历史快照（无状态行） | [正文](./system-review-2026-08-26.md) |
 
-> 状态从各设计正文「- 状态：」行读取并简化为 Implemented/Draft；正文无状态行的
-> 文档在此显式标注。索引完整性由 `tools.matrix_sync.check_doc_indexes` 机器校验。
+> 状态从各设计正文「- 状态：」行读取并简化为 Implemented/Draft/Retired；正文无状态行的
+> 文档在此显式标注。索引完整性与状态列一致性由 `tools.matrix_sync.check_doc_indexes` 机器校验。

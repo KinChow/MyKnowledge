@@ -73,7 +73,7 @@
 
 - Given：Wiki 正文、语义字段、evidence、source semantic hash 或 target selector 发生变化，或仅有临时 provider report 而没有 durable 人工审计记录；
 - When：尝试复用报告并发布；
-- Then：报告与人工审计确认同时失效并保持 draft/review；只有当前 hash 绑定的 `operation-confirmation/v1`（`scope: publish`、`decision: approve`）写入 owner `audit/validation/` 后才能进入 private/public publishability；确认记录必须包含两个内容 hash、`DeterministicReport` 摘要 hash、LLM 审计状态（`not_run`/`pass`/`fail`/`stale_ruleset` 及其 `ruleset_sha256`）与历史 fail 次数；
+- Then：报告与人工审计确认同时失效并保持 draft/review；只有当前 hash 绑定的 `operation-confirmation/v1`（`scope: publish_private`、`decision: approve`，见 `config/policy.yaml` `release.private_publish_confirmation_scope`）写入 owner `audit/validation/` 后才能进入 private publishability（public 侧另由 `public-release-confirmation/v1` 放行）；确认记录必须包含两个内容 hash、`DeterministicReport` 摘要 hash、LLM 审计状态（`not_run`/`pass`/`fail`/`stale_ruleset` 及其 `ruleset_sha256`）与历史 fail 次数；
 - 失败时不变量：不能因 `state/llm-validation/` 缓存存在就声称可复现验证；不能只有 LLM 结论而无人工确认；
 - 自动化级别：Integration/Repository。
 

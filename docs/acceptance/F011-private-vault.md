@@ -40,18 +40,22 @@
 
 - AC-F011-010：`tests/test_vault_registry.py::VaultRegistryTests::test_reference_rejects_cross_vault_even_when_target_exists` 验证目标 vault 可用且对象 ID 合法时，owner=`public` 指向 `private` 仍返回 `cross_vault_reference`，不会按全局 ID 猜测 owner。
 - AC-F011-010/012：`VaultRegistry.effective_confidentiality` 对 owner 与 upstream 取最高等级；public 上游包含 internal 时结果为 `internal`，全 public 保持 `public`。该结果仅用于派生门禁，不改变 canonical 事实。
-- 边界：本轮未实现跨 vault copy/move、private projection 合并和恢复演练，F011 仍为 Implemented（部分）。
+- 边界：跨 vault copy/move 能力随 ADR-0019 退场（不再是"未实现"），private projection 合并和恢复演练仍待补，F011 仍为 Implemented（部分）。
 
 ## 跨 Vault copy/move 增量证据（2026-08-30）
 
-- `tests/test_vault_transfer.py::test_private_to_public_transfer_is_blocked_before_write` 验证 internal 内容迁移到 public Vault 时返回 `confidentiality_downgrade`，public 目标不会创建。
-- `tests/test_vault_transfer.py::test_cross_vault_copy_and_move_use_explicit_owner_and_locks` 验证 public → private 的 copy/move 必须先 Preview/确认，Apply 使用双 Vault 稳定排序锁、源 hash 复查和目标 hash 校验；copy 保留源，move 在目标成功后删除源。
-- CLI 入口 `python -m tools.cli transfer preview|apply` 只委托 `VaultTransfer`，不直接写 Markdown。完整跨 Vault staging 失败恢复和 private projection 重建仍待补，F011 仍为 Implemented（部分）。
+> 已失效（ADR-0019，2026-09-15）：`tools/vault_transfer.py`、CLI `transfer`、`tests/test_vault_transfer.py` 已全部删除——跨 Vault copy/move 作为写通道的一部分随 operation 状态机与 per-vault 锁一并退场。跨 Vault 引用的**阻断**（`cross_vault_reference`）仍存活，见 AC-F011-010；**搬运**能力当前不存在。
+
+- ~~`tests/test_vault_transfer.py::test_private_to_public_transfer_is_blocked_before_write` 验证 internal 内容迁移到 public Vault 时返回 `confidentiality_downgrade`，public 目标不会创建。~~
+- ~~`tests/test_vault_transfer.py::test_cross_vault_copy_and_move_use_explicit_owner_and_locks` 验证 public → private 的 copy/move 必须先 Preview/确认，Apply 使用双 Vault 稳定排序锁、源 hash 复查和目标 hash 校验；copy 保留源，move 在目标成功后删除源。~~
+- ~~CLI 入口 `python -m tools.cli transfer preview|apply` 只委托 `VaultTransfer`，不直接写 Markdown。~~ 完整跨 Vault staging 失败恢复和 private projection 重建仍待补，F011 仍为 Implemented（部分）。
 
 ## Staging failure recovery 增量证据（2026-08-27）
 
-- `VaultTransfer.apply()` 保持“目标写入并 hash 校验后才删除源”的顺序；源删除失败时清理本次目标文件并释放双 Vault 锁，源内容保持不变。
-- `tests/test_vault_transfer.py::test_cross_vault_move_rolls_back_target_when_source_delete_fails` 注入源删除异常，验证返回 `apply_failed`、目标不存在且 public/private lock owner 文件均已释放。
+> 已失效（ADR-0019，2026-09-15）：`VaultTransfer.apply()` 与 `tests/test_vault_transfer.py::test_cross_vault_move_rolls_back_target_when_source_delete_fails` 均已删除，"目标写入成功后才删除源"的回滚语义随 transfer 通道退场。
+
+- ~~`VaultTransfer.apply()` 保持"目标写入并 hash 校验后才删除源"的顺序；源删除失败时清理本次目标文件并释放双 Vault 锁，源内容保持不变。~~
+- ~~`tests/test_vault_transfer.py::test_cross_vault_move_rolls_back_target_when_source_delete_fails` 注入源删除异常，验证返回 `apply_failed`、目标不存在且 public/private lock owner 文件均已释放。~~
 
 ## Local projection materialization 增量证据（2026-08-27）
 
@@ -98,8 +102,8 @@
 ## AC-F011-003 同 Vault ID 冲突阻断
 
 - Given：同一 vault 出现重复 `(object_type, object_id)`，或同一 object 的 evidence binding 不可解释；另有两个 private vault 各自拥有相同 ID；
-- When：构建合并对象空间或执行写入 preview；
-- Then：同 Vault 重复键报告 `vault_id`、路径和 hash，冲突对象不进入合并 projection，阻断相关校验、索引和 apply；不同 vault 的同名对象分别进入 local projection 并保留 owner；无关对象仍可处理；
+- When：构建合并对象空间或执行写入；
+- Then：同 Vault 重复键报告 `vault_id`、路径和 hash，冲突对象不进入合并 projection，阻断相关校验、索引和写入；不同 vault 的同名对象分别进入 local projection 并保留 owner；无关对象仍可处理；
 - 失败时不变量：不得在同一 vault 内覆盖或静默选择多数版本，也不得把不同 vault 的独立知识对象误合并；
 - 自动化级别：Unit/Integration。
 
@@ -113,11 +117,14 @@
 
 ## AC-F011-005 Internal private publish 告警和目标选择
 
-- Given：internal Wiki 已通过 deterministic/LLM 或 exemption 验证，且请求 `publication_scope: private`；manifest 中存在多个 private vault；
-- When：执行 `publish_private` Preview/Apply；
-- Then：Preview 要求并明确显示实际 `target_vault`（且必须等于对象 owner）、有效保密等级、hash、告警文本和 `requires_warning_ack`；Apply 只有在目标 vault 可用、publish confirmation 与 warning ack 均存在时成功，并生成该 owner vault 的 `private_publishable`；未指定、指定不存在或与 owner 不同的目标必须 blocked，不能默认使用名为 `internal` 的 vault；跨 Vault 需要另行 copy/move operation；
-- 失败时不变量：缺少任一确认不得改变 status、projection 或索引；
+> 已修订（ADR-0019，2026-09-15）：原条文的 `publish_private` Preview/Apply 两阶段已不存在。人签字的入口是 `python -m tools.cli confirm`，它写入 `operation-confirmation/v1`（`scope: publish_private`、`decision: approve`，绑定 `content_sha256`/`evidence_sha256`）到 owner `audit/validation/` 与 `audit/operations/op_*.json`。跨 Vault copy/move 能力已退场。
+
+- Given：internal Wiki 已通过 deterministic/LLM 验证，且 `publication_scope: private`；manifest 中存在多个 private vault；
+- When：执行 `tools.cli confirm`（人工审计确认）；
+- Then：`effective_confidentiality` 为 `internal` 时，确认记录必须携带 `warning_code` 与 `warning_text_sha256` 才能派生该 owner vault 的 `private_publishable`（`tools/validation/derived.py::has_private_confirmation`）；确认还必须绑定当前 `content_sha256`/`evidence_sha256` 与目标对象（`scope: publish_private`、`decision: approve`、`target_ref` 匹配），内容相同的两个 Wiki 不得互相复用确认；未指定或与 owner 不同的目标不得默认使用名为 `internal` 的 vault；
+- 失败时不变量：缺少确认或告警字段不得改变 status、projection 或索引；跨 Vault 搬运当前无工具路径（原 copy/move 已退场）；
 - 自动化级别：Integration/Manual confirmation。
+- 对应测试：`tests/validation/test_wiki_derived.py::DerivedTests::test_private_publishable_with_confirmation`、`tests/validation/test_wiki_derived.py::DerivedTests::test_internal_publish_requires_warning_ack`
 
 ## AC-F011-006 Internal 不进入 public projection
 
@@ -138,7 +145,7 @@
 ## AC-F011-008 Submodule 和 revision 独立恢复
 
 - Given：多个 private repo 以 submodule 挂载，其中任一 vault 出现未初始化、HEAD 不匹配、dirty worktree 或仓库损坏；
-- When：执行 vault check、只读查询和 apply；
+- When：执行 vault check、只读查询和写入；
 - Then：按 `vault_id` 输出明确原因和恢复建议；只读能力只对受影响对象降级，覆盖/发布只对受影响 vault 阻断，工具不自动 reset/push；恢复该 vault 到期望 commit 后重新 check 可解除对应阻断；
 - 失败时不变量：不丢失用户修改、不删除旧索引或备份；
 - 自动化级别：Integration/Manual recovery。
@@ -162,7 +169,7 @@
 ## AC-F011-011 Remote/backup 尚未配置的逐 Vault 告警
 
 - Given：两个 private vault 各自的 `private_git_remote: null`、`encrypted_backup_target: null`、`backup_state: unconfigured`，且状态可能不同；
-- When：执行 `vault check`、private publish preview、会话结束检查或 `purge`/覆盖式恢复；
+- When：执行 `vault check`、private publish 的确认前置检查、会话结束检查或 `purge`/覆盖式恢复；
 - Then：前 3 类操作逐一报告带 `vault_id` 的醒目 `backup_not_configured` 风险且不声称已备份；只要高风险操作涉及任一未验证 vault，就被阻断；普通读取和可逆编辑以及不相关 vault 的操作仍可用；
 - 失败时不变量：不得生成假 remote、假备份时间或“可恢复”结论；
 - 自动化级别：Integration/Manual。
@@ -170,24 +177,24 @@
 ## AC-F011-012 Public release 等待人工审核
 
 - Given：public release 已生成脱敏/重新分类输出、当前 `release_input_sha256`、content/evidence hash、lineage、`source_vault_ids` 和 leak-gate 报告；
-- When：执行 `public_release` preview；
-- Then：Preview 生成 `public_release: false`，展示 diff、证据绑定、有效保密等级和报告 hash；只有人工通过独立 confirmation event（`actor_type: human`、一次性 nonce）将当前 `release_input_sha256` 绑定为 `true` 并完成 public confirmation 后才能 Apply 或进入 `queries/public`；public-safe 事件必须写入 `release/public-confirmations/`，公开投影仅保留不可逆的 `public_lineage_commitment` 和事件 hash；
-- 失败时不变量：LLM、Agent、CI 或自动 leak gate 不得把 `public_release` 改为 `true`；
+- When：执行 `python -m tools.cli release input`（只读核对材料）→ `python -m tools.cli release confirm`（人工写入事件）→ `python -m tools.cli projection generate`；
+- Then：`release input` 打印参与 `release_input_sha256` 的全部材料与结果，未确认前派生出的 `public_release` 恒为 `false`；只有人工通过 `public-release-confirmation/v1`（`actor_type: human`、一次性 nonce）把当前 `release_input_sha256` 绑定并写入 `release/public-confirmations/` 后，`projection generate` 才会派生出 `public_release: true` 并让对象进入 `queries/public`；公开投影仅保留不可逆的 `public_lineage_commitment` 和事件 hash；
+- 失败时不变量：LLM、Agent、CI 或自动 leak gate 不得把 `public_release` 改为 `true`；写通道已无 preview/apply 两阶段，public release 从来不经它（ADR-0019）；
 - 自动化级别：Integration/Manual review。
 
 ## AC-F011-013 Public release 人工开关保持关闭
 
 - Given：操作生成 `public_release: false`；
 - When：人工不确认或明确保持关闭；
-- Then：不生成 public projection，操作可继续修改并重新 preview；
+- Then：不生成 public projection，操作可继续修改并重新执行 `release input` + `projection generate`；
 - 失败时不变量：false 不能进入 public 文件、Pagefind 或 sitemap；
 - 自动化级别：Manual review/Integration。
 
 ## AC-F011-014 Public release 开关 hash 失效
 
-- Given：人工已对当前 `release_input_sha256` 确认 `public_release: true`，但输出正文、metadata、evidence 或 leak-gate 报告 hash 在 Apply 前发生变化；
-- When：执行 Apply；
-- Then：Apply 被拒绝，`public_release` 自动重置为 `false`，必须对新 hash 重新人工确认后才能继续；
+- Given：人工已对当前 `release_input_sha256` 确认 `public_release: true`，但输出正文、metadata、evidence 或 leak-gate 报告 hash 随后发生变化；
+- When：执行 `python -m tools.cli projection generate`；
+- Then：generator 拒绝复用旧 event，派生出的 `public_release` 回落为 `false`（`config/policy.yaml` `release.reset_on_hash_change: true`），旧事件 append-only 保留，必须对新 hash 重新人工确认才能再次进入 `queries/public`；
 - 失败时不变量：不产生部分 public 文件、不复用旧批准；
 - 自动化级别：Integration。
 
@@ -201,10 +208,12 @@
 
 ## AC-F011-016 跨 Vault 写锁和 staging 失败
 
-- Given：一次 operation 同时读取或写入多个明确的 `source_vault_ids`/`target_vault`；
-- When：并发执行 preview/apply，或其中一个 vault 在 apply 阶段失败；
-- Then：锁按稳定 `vault_id` 顺序获取；失败时保留 staging、已成功 vault 列表、precondition hash 和恢复说明，不自动回滚另一仓库的用户变更；
-- 失败时不变量：不得死锁、静默覆盖、伪造全局事务成功或删除旧 projection；
+> 已失效（ADR-0019，2026-09-15）：per-vault 锁体系（`VaultLock`/`VaultLockGroup`/owner sidecar/`lock recover`）与跨 Vault transfer/staging 已整体删除。写通道只剩"临时文件 + `os.replace` 原子替换"，并发一致性的兜底是 `git status` 可见 + git 可回滚，触发条件与代价见 ADR-0019「后果」。本条不再有验收对象。
+
+- ~~Given：一次 operation 同时读取或写入多个明确的 `source_vault_ids`/`target_vault`；~~
+- ~~When：并发执行 preview/apply，或其中一个 vault 在 apply 阶段失败；~~
+- ~~Then：锁按稳定 `vault_id` 顺序获取；失败时保留 staging、已成功 vault 列表、precondition hash 和恢复说明，不自动回滚另一仓库的用户变更；~~
+- ~~失败时不变量：不得死锁、静默覆盖、伪造全局事务成功或删除旧 projection；~~
 - 自动化级别：Integration/Failure injection。
 
 ## AC-F011-017 Manifest 路径布局与隔离
@@ -217,14 +226,16 @@
 
 ## AC-F011-018 Public release durable record
 
-- Given：public-owned 脱敏 Wiki 已生成 release preview，且 `public_release: false`；
-- When：人工确认并 Apply，随后清理临时 state 或修改任一输入 hash；
+- Given：public-owned 脱敏 Wiki 已由 `release input` 生成待确认材料，且 `public_release: false`；
+- When：人工确认后由 `python -m tools.cli projection generate` 派生，随后清理临时 state 或修改任一输入 hash；
 - Then：确认事件写入 `release/public-confirmations/<event_id>.json`，owner operation record 写入 `audit/operations/<operation_id>.json`；清理 state 不影响可回放，hash 变化使开关回到 false；
 - 失败时不变量：不能仅修改 Front Matter 的 true、复用 nonce/旧 event、将 private lineage/ID/hash 写入 public-safe event，或在 record 缺失时发布；
 - 自动化级别：Repository/Security/Manual review。
 
 ## F011 review 增量证据（2026-08-28）
 
-- **真实挂载演练（首次）**：superproject 布局 + 2 个独立 Git private vault——registry `check`（available/object_count/scopes）、local projection 同名对象按 `(vault_id, object_id)` owner 合并、`scope=private` 不含 public、**owner-scoped 写入**（`WriteOperation` + 注入 resolver：文件落 secret-one、public 无残留、确认事件校验通过）、跨 vault 引用 `cross_vault_reference` 阻断、嵌套路径 `path_overlap` 防护、`VaultTransfer` copy 真实落盘——全部通过。
-- **修复（确认一致性缺口）**：`VaultTransfer.apply` 此前不接受 confirmation 事件（跨 vault 迁移是高敏感操作，确认语义落后于 write 通道）；现与 write 同语义（`validate_apply_confirmation` 完整校验，伪造 hash fail-closed），CLI `transfer --confirmation` 透传。测试：`test_transfer_confirmation_event_is_validated`。
-- 边界不变：真实远程 vault（`private_git_remote`）、加密备份 target、跨 Vault staging 恢复仍属环境级验收（F012 交叉）。
+> 部分失效（ADR-0019，2026-09-15）：本节点名的 `WriteOperation`、`VaultTransfer`、`transfer --confirmation`、`validate_apply_confirmation` 与 `test_transfer_confirmation_event_is_validated` 均已删除。仍然成立的只有 **Registry 侧的只读能力**：`check`、local projection 同名对象 owner 合并、`scope=private` 不含 public、`cross_vault_reference` 阻断、嵌套路径 `path_overlap` 防护。
+
+- ~~**真实挂载演练（首次）**：... **owner-scoped 写入**（`WriteOperation` + 注入 resolver：文件落 secret-one、public 无残留、确认事件校验通过）... `VaultTransfer` copy 真实落盘——全部通过。~~ 保留结论：Registry `check`、local projection owner 合并、private scope 隔离、`cross_vault_reference` 阻断、`path_overlap` 防护。
+- ~~**修复（确认一致性缺口）**：`VaultTransfer.apply` 此前不接受 confirmation 事件……CLI `transfer --confirmation` 透传。测试：`test_transfer_confirmation_event_is_validated`。~~（transfer 通道已整体退场）
+- 边界不变：真实远程 vault（`private_git_remote`）、加密备份 target、跨 Vault staging 恢复仍属环境级验收（F012 交叉）；跨 Vault 写锁与 staging 恢复的验收对象已随 ADR-0019 删除。
