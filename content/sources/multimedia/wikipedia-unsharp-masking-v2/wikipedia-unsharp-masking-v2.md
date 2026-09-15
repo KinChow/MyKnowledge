@@ -14,7 +14,6 @@ evidence_items:
     end: 158
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:3e9103e95312c461bfcae09af953117a57c98514c4e3cdcc01227f9f76a2ccab
   selector:
     exact: Unsharp masking (USM) is an image sharpening technique, first implemented
       in darkroom photography, but now commonly used in digital image processing software.
@@ -23,7 +22,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:084afbf8e9cf2930a45d8e16d3d1b71734d955402d15e00c19cf364cf9b2d64b
   snapshot_sha256: sha256:655530017799a76cd1c3de73ce857a1ae5736f9b37c64ba868e8710af4316352
 extractor: utf8/1
 id: wikipedia-unsharp-masking-v2
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/655530017799a76cd1c3de73ce857a1ae5736f9b37c64ba868e8710af4316352.txt
-  sha256: sha256:655530017799a76cd1c3de73ce857a1ae5736f9b37c64ba868e8710af4316352
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -8,7 +8,6 @@ evidence_items:
     end: 1567
     start: 1549
     type: TextPositionSelector
-  quote_sha256: sha256:f41f0f94bff835b9b87bfe86f0f75238ee3d8c4ee9b7ed367bd6bf2886944f02
   selector:
     exact: '### 一个底线原则
 
@@ -37,14 +36,12 @@ evidence_items:
 
       ####'
     type: TextQuoteSelector
-  selector_sha256: sha256:a99d2380c1771713aa845dfadea510f6a8790d111a1026e6bebc3920e7ff1fe8
   snapshot_sha256: sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f
 - evidence_id: evidence-4ce9c0a5885e
   position:
     end: 1073
     start: 919
     type: TextPositionSelector
-  quote_sha256: sha256:a5550729b00e0c31ed4bd501b9f97c151e5a2b9cdbbd44b39a3d131c30bb6ae1
   selector:
     exact: "### 四种工作模式\n\n* Deep dive洞察（深）\n    * SP C2、细分市场洞察、战略专题洞察、CSPA\n* 热点洞察（快）\n
       \   * XX展会（如MWC）洞察、热点事件洞察\n* 例行洞察（新）\n    * 宏观洞察月报、XX专题洞察月报\n* 本质规律洞察（透）\n    *
@@ -68,14 +65,12 @@ evidence_items:
 
       * 选题（提出问题）'
     type: TextQuoteSelector
-  selector_sha256: sha256:7b5bb6f9b47c883c36739752228523ed78f1e299e9206ffe23054636e6efa954
   snapshot_sha256: sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f
 - evidence_id: evidence-d5067fbc11b5
   position:
     end: 1271
     start: 1077
     type: TextPositionSelector
-  quote_sha256: sha256:a11120c9b505b674efa3594ab390d246dc18fc4d631247d82b9231f3893471dc
   selector:
     exact: "### 洞察项目运作的三阶九步法\n\n* 选题（提出问题）\n    *   确定洞察问题（目标）\n    *   确定项目计划\n    *
       \  开发假设、分解问题（框架/模型）\n* 解题（分析问题）\n    *   收集信息（数据＋事实）\n    *   提炼信息（结构＋逻辑）\n
@@ -83,14 +78,12 @@ evidence_items:
     prefix: "报\n* 本质规律洞察（透）\n    * 本质+趋势+价值\n\n\n\n"
     suffix: "\n    * 内外部交流\n        *  决策者汇报\n  "
     type: TextQuoteSelector
-  selector_sha256: sha256:2fb0183de58b615c59ef20c55850c3da1ed807a163b43465078f0469ac3f94e7
   snapshot_sha256: sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f
 - evidence_id: evidence-4b36706b2c12
   position:
     end: 1545
     start: 1443
     type: TextPositionSelector
-  quote_sha256: sha256:03591ef89568663e7397392f9e25678617a9454ab905c11aa96cf5468cbffc61
   selector:
     exact: '### 产生洞察观点的两个核心逻辑
 
@@ -128,7 +121,6 @@ evidence_items:
 
       ### 如何'
     type: TextQuoteSelector
-  selector_sha256: sha256:6660f189537afbb3e3d8b7f27a1e00f921acd8b2ba299b2d188dad10a6f5d89f
   snapshot_sha256: sha256:849e8ca19a7cec8c9dc487441468f7ee808da1de5e9aa592f8e09aebcd11ec3f
 extractor: personal-note/1
 id: working-work-methods-insight

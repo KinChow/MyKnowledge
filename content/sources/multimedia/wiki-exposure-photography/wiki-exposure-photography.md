@@ -14,7 +14,6 @@ evidence_items:
     end: 318
     start: 87
     type: TextPositionSelector
-  quote_sha256: sha256:6172a3b4428846e377c1595658852f0067e498d7edc61b1df1c6c17410ed4183
   selector:
     exact: Exposure is a combination of the length of time and the illuminance at
       the photosensitive material. Exposure time is controlled in a camera by shutter
@@ -25,14 +24,12 @@ evidence_items:
       '
     suffix: ' Slower shutter speeds (exposing'
     type: TextQuoteSelector
-  selector_sha256: sha256:ee7b2f23df4bd734899061e0fcf05bff20df52ae73b5213643cf0cb97d49b450
   snapshot_sha256: sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472
 - evidence_id: evidence-445f3cce2365
   position:
     end: 596
     start: 495
     type: TextPositionSelector
-  quote_sha256: sha256:533a5fab44b7a2f1f30bf7e64ced4b620f7f76ae7ee93c5db9706b019c88887f
   selector:
     exact: Faster film, that is, film with a higher ISO rating, requires less exposure
       to make a readable image.
@@ -42,14 +39,12 @@ evidence_items:
       '
     suffix: ' Digital cameras usually have va'
     type: TextQuoteSelector
-  selector_sha256: sha256:9de67906c7c4c14536827f70aee19ba3bdfacd56b0c3de4c5f7851f29438df18
   snapshot_sha256: sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472
 - evidence_id: evidence-733c5ff57fe0
   position:
     end: 1106
     start: 913
     type: TextPositionSelector
-  quote_sha256: sha256:790ff23bf9b971202cc9962a5d26adc5af1f4f28d1d05ef3a023430fb54a4ae7
   selector:
     exact: A photograph may be described as underexposed when it has a loss of shadow
       detail, that is, when important dark areas are "muddy" or indistinguishable
@@ -62,7 +57,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:de0368bdae2c0e5eb6a9cc6cf5b7d9d7c285d8f8627a8bd224477eb59c93ec01
   snapshot_sha256: sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472
 extractor: utf8/1
 id: wiki-exposure-photography
@@ -73,7 +67,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472.txt
-  sha256: sha256:f36362e04d2017f28563e68c3ac6cabf2f3abb0f95f148827cf0a200acd29472
 read_status: retrieved
 retrieval:
   acquisition: local-file

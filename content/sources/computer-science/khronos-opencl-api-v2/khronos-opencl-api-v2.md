@@ -14,13 +14,11 @@ evidence_items:
     end: 113285
     start: 113219
     type: TextPositionSelector
-  quote_sha256: sha256:6cf8c6cadb7138b7a98ea900b96b596fe12df1c7990a723be3b4df4875627934
   selector:
     exact: <enum value="0x1005"        name="CL_DEVICE_MAX_WORK_ITEM_SIZES"/>
     prefix: "_MAX_WORK_GROUP_SIZE\"/>\n        "
     suffix: "\n        <enum value=\"0x1005\"   "
     type: TextQuoteSelector
-  selector_sha256: sha256:8023af35e511152e3904c9dcc68083aa2493e9cadffebd4554645e95f09945a0
   snapshot_sha256: sha256:26ac1b0470f965a447193bb64c3638af5028a815a237becd09cd5b2634b7b64e
 extractor: utf8/1
 id: khronos-opencl-api-v2
@@ -31,7 +29,6 @@ media_type: application/xml
 origin: external
 raw_ref:
   path: archive/raw/26ac1b0470f965a447193bb64c3638af5028a815a237becd09cd5b2634b7b64e.bin
-  sha256: sha256:26ac1b0470f965a447193bb64c3638af5028a815a237becd09cd5b2634b7b64e
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -14,7 +14,6 @@ evidence_items:
     end: 441
     start: 113
     type: TextPositionSelector
-  quote_sha256: sha256:171198795476c478d05b64fc8255b155db2de8e8bb0d3e707522a8e706ac83a4
   selector:
     exact: Android 9 introduced API support for multi-camera devices through a new
       logical camera device composed of two or more physical camera devices pointing
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: ' Apps can optionally access and '
     type: TextQuoteSelector
-  selector_sha256: sha256:33cca5f3ce4b45c4c538f918d82b0360f4f120718ef829b6184ec57448ed7224
   snapshot_sha256: sha256:0e586bcdd84f6ddc992c2d753009dd41ceb57dd69a0bd22bb4dc72537cac6f10
 extractor: utf8/1
 id: aosp-camera-multi-camera
@@ -37,7 +35,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/0e586bcdd84f6ddc992c2d753009dd41ceb57dd69a0bd22bb4dc72537cac6f10.txt
-  sha256: sha256:0e586bcdd84f6ddc992c2d753009dd41ceb57dd69a0bd22bb4dc72537cac6f10
 read_status: retrieved
 retrieval:
   acquisition: local-file

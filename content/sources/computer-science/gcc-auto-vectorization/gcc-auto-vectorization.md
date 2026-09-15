@@ -8,21 +8,18 @@ evidence_items:
     end: 3601
     start: 3513
     type: TextPositionSelector
-  quote_sha256: sha256:766783cbcf75536b701b6d5c6a1e236445af89e41f6a6a6d8f71474f07ddb6ba
   selector:
     exact: "    Vectorization is enabled by the flag\n    -ftree-vectorize and by
       default\n    at -O3."
     prefix: "i/VectorizationTasks.\n    \n    \n"
     suffix: " To allow vectorization on\n    p"
     type: TextQuoteSelector
-  selector_sha256: sha256:d38fb8b919e568404efe5f17753c75277cb836f5c952f616de6ea184eb27c28b
   snapshot_sha256: sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8
 - evidence_id: evidence-641d09298325
   position:
     end: 3822
     start: 3746
     type: TextPositionSelector
-  quote_sha256: sha256:c07c2b2ccb4f9f498a70b9bdcd9e27dcf8f9d11c2061a59eef479f15c04cb4c9
   selector:
     exact: "    of floating point reductions use -ffast-math or \n    -fassociative-math."
     prefix: '-msse2. To enable vectorization
@@ -30,14 +27,12 @@ evidence_items:
       '
     suffix: "\n    The vectorizer\n    test cas"
     type: TextQuoteSelector
-  selector_sha256: sha256:56e173e4eaf64899944f4cfa531ef88d1382199966f84bf058a450e480650c96
   snapshot_sha256: sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8
 - evidence_id: evidence-0784aafedc2e
   position:
     end: 4909
     start: 4658
     type: TextPositionSelector
-  quote_sha256: sha256:256a04e1784e5992b1963a3ffb8ef22c6a25860145617721a6d4ce24601a9323
   selector:
     exact: "    Basic block vectorization, aka SLP, is enabled by the flag \n    -ftree-slp-vectorize,
       and requires the same platform dependent flags \n    as loop vectorization.
@@ -48,14 +43,12 @@ evidence_items:
       '
     suffix: "\n \n    \n    \"feature\" indicates\n"
     type: TextQuoteSelector
-  selector_sha256: sha256:69a049bdb9287c5d85faeb9cf9f02a8af9837e446cbf5f641125eb3ea12dda2e
   snapshot_sha256: sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8
 - evidence_id: evidence-978b9fdc3358
   position:
     end: 4103
     start: 3995
     type: TextPositionSelector
-  quote_sha256: sha256:127695fe6e9a887862d176c6e97605187ee080367d616a9018ff1da7cf35164d
   selector:
     exact: "    loops were or were not vectorized and why, can be obtained\n    using
       the flag -ftree-vectorizer-verbose."
@@ -64,14 +57,12 @@ evidence_items:
       '
     suffix: " For details\n    see \n          "
     type: TextQuoteSelector
-  selector_sha256: sha256:13d17068ad1f7a9d971df7d025bff5e60fc148edeb4e0826fbaf39e9d6362426
   snapshot_sha256: sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8
 - evidence_id: evidence-b44e2c328ac6
   position:
     end: 3822
     start: 3683
     type: TextPositionSelector
-  quote_sha256: sha256:e4e84e63dc34bdb397ffd0f1f8bf6085af733bf987a9dbd76f7338b0d1f254a6
   selector:
     exact: "    x86_64 platforms use -msse/-msse2. To enable vectorization\n    of
       floating point reductions use -ffast-math or \n    -fassociative-math."
@@ -80,7 +71,6 @@ evidence_items:
       '
     suffix: "\n    The vectorizer\n    test cas"
     type: TextQuoteSelector
-  selector_sha256: sha256:653c27a3a11ac56e7c17744c56cce598f37c31a3f2e16d83dbf27b8e6e69db96
   snapshot_sha256: sha256:2dff06141250b4ab2b70f8aa87acca2613c04b683eaacb2c0641b8f4e1f645d8
 extractor: trafilatura/2.2.0
 id: gcc-auto-vectorization

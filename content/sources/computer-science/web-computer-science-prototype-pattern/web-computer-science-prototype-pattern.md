@@ -14,7 +14,6 @@ evidence_items:
     end: 206
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:950c21bdfa9c6d9ee6599e86b06cfcfa5c63fe1d0addcbc4662e4b97e7c1b533
   selector:
     exact: The prototype pattern is a creational design pattern in software development.
       It is used when the types of objects to create is determined by a prototypical
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: ' This pattern is used to avoid s'
     type: TextQuoteSelector
-  selector_sha256: sha256:8035c3f04c5eccfb0f4c4ce649fb3db282912c958723622cb9d580054cecf43b
   snapshot_sha256: sha256:07375e6de6c5ed1522e5e7b53e98a01eb3b66fae949a4d0f29749f0515f8942a
 extractor: utf8/1
 id: web-computer-science-prototype-pattern
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/07375e6de6c5ed1522e5e7b53e98a01eb3b66fae949a4d0f29749f0515f8942a.txt
-  sha256: sha256:07375e6de6c5ed1522e5e7b53e98a01eb3b66fae949a4d0f29749f0515f8942a
 read_status: retrieved
 retrieval:
   acquisition: local-file

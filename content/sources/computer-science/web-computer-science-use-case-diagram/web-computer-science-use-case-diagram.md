@@ -14,7 +14,6 @@ evidence_items:
     end: 226
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:fe005f3b52795844f887ac25ae514fb1aece4d1ad06ce5f27830a72ba440632d
   selector:
     exact: "New! Render PlantUML diagrams directly inside GitHub\n        with our
       official browser extension —\n        No server. No tokens. No tracking. Zero
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: "\n    \n    \n用例图\n- 文本输入，图形输出。 用几行代"
     type: TextQuoteSelector
-  selector_sha256: sha256:acd85497d87faafb015dc9eb50793862765d8b9a1f00778bf5c3a631812f9da9
   snapshot_sha256: sha256:5d4caaee9ff531777b6b95a971e9d43f687eb63ff46bba978e3779bfc6df8738
 extractor: trafilatura/2.2.0
 id: web-computer-science-use-case-diagram
@@ -30,7 +28,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/dbd6cb5062092d6c51df7a97023a5c394fb561bcd24771b0e016e82d7841f29e.html
-  sha256: sha256:dbd6cb5062092d6c51df7a97023a5c394fb561bcd24771b0e016e82d7841f29e
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -8,7 +8,6 @@ evidence_items:
     end: 344
     start: 92
     type: TextPositionSelector
-  quote_sha256: sha256:a2ed2e1ed18cbbadea457277453bb287a611615fb8bab27cb3cefe1f6d8c425d
   selector:
     exact: 标准库算子在性能上"不足"的真正原因不是单次计算慢，而是**每个 PyTorch 算子都会单独启动一个 CUDA kernel，数据被迫在 HBM
       里反复进出**（无内核融合）；Triton 是 OpenAI 开发的、介于 CUDA（逐线程）与高层框架（整操作）之间的 GPU 内核 DSL，让你**以"线程块"为单位思考**：把一个计算任务拆成多个块，每个块把数据装入共享内存、做计算（矩阵乘法等"大块"运算可当原子操作）、再写回全局内存，而
@@ -22,7 +21,6 @@ evidence_items:
       '
     suffix: 课程从"为什么写 kernel"（基准测试/性能分析/内核融合）
     type: TextQuoteSelector
-  selector_sha256: sha256:762a3002fc1d668f05992c322354f541f5d684ae711dbd1805c5eb99c929af49
   snapshot_sha256: sha256:9994be737d497c4d1cf5a67351ded8330c3dafe70be871e973885764b65fcaf4
 extractor: personal-note/1
 id: working-computer-science-llm-triton-kernels

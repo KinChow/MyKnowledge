@@ -8,7 +8,6 @@ evidence_items:
     end: 141
     start: 51
     type: TextPositionSelector
-  quote_sha256: sha256:592ad12f78993b3e92e6e39971ba6b299a5b923e4dacf2dfa4233254771cafc5
   selector:
     exact: '* 洞察：通过各种渠道收集信息，对数据和信息进行分析整理，形成关键发现并给出可执行建议。
 
@@ -35,7 +34,6 @@ evidence_items:
 
       * '
     type: TextQuoteSelector
-  selector_sha256: sha256:aef6fd793b2611ab1a5490a7d55a7bd8fd5f1cf164fc85b61ff466bc528313cb
   snapshot_sha256: sha256:701ee3bf1126263e75203f2ac7d5c91313e962594691dc951f9462c8949cc143
 extractor: personal-note/1
 id: working-work-methods-report

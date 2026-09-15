@@ -14,7 +14,6 @@ evidence_items:
     end: 457
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:4cbca84699a691d23fa9a5e6566843feca26233523c3489d0f4cce4c07df53a2
   selector:
     exact: 'LLVM’s Analysis and Transform Passes#
 
@@ -34,7 +33,6 @@ evidence_items:
     prefix: ''
     suffix: ' The table below divides the pas'
     type: TextQuoteSelector
-  selector_sha256: sha256:c45608c022224ebb064e5da3a19a4270f32a7760e0d2221651a12648fe2402d0
   snapshot_sha256: sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad
 extractor: trafilatura/2.2.0
 id: web-computer-science-statement-optimization
@@ -42,7 +40,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/474c86d4a9a7eb2a2b2b990cf700451bcad1831a2459aff3cd5d662447ae2a3e.html
-  sha256: sha256:474c86d4a9a7eb2a2b2b990cf700451bcad1831a2459aff3cd5d662447ae2a3e
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -14,7 +14,6 @@ evidence_items:
     end: 500
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:efa584493613a29724b40830c3204dc294aa484de7672c093a2aae06f556b3cd
   selector:
     exact: 'List of Examples
 
@@ -27,7 +26,6 @@ evidence_items:
     prefix: ''
     suffix: esuper Expression
     type: TextQuoteSelector
-  selector_sha256: sha256:4ca902bae2970134d5b289b11cce2f9c54d4825a4bc3ef6c9b9f4dbdeeb847bc
   snapshot_sha256: sha256:d7a545a0f16d7bea1809e28c561a8de74103b651cde5578d8014d78005e00d8a
 extractor: trafilatura/2.2.0
 id: web-computer-science-c-vs-java
@@ -35,7 +33,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/607a803eac612407f9133ca1b17211c0c9af66ff2da64bd632763e1c0a85c74b.html
-  sha256: sha256:607a803eac612407f9133ca1b17211c0c9af66ff2da64bd632763e1c0a85c74b
 read_status: retrieved
 retrieval:
   acquisition: fetch

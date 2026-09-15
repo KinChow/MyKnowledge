@@ -14,7 +14,6 @@ evidence_items:
     end: 21609
     start: 21387
     type: TextPositionSelector
-  quote_sha256: sha256:55509a3d9cae9840f4b8eec22a37efec2858bf6824f6422fccb921d5755ae699
   selector:
     exact: '- RAW Data Hazards: An instruction depends on a data value produced by
       an earlier instruction
@@ -29,14 +28,12 @@ evidence_items:
 
       - Structural Hazards: An instru'
     type: TextQuoteSelector
-  selector_sha256: sha256:db9d8fdce708145c8d19a03b3f63b84cf5874bfc53ad2f1996e5dadd9d4cc480
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
 - evidence_id: evidence-65f81b23e6e9
   position:
     end: 21729
     start: 21481
     type: TextPositionSelector
-  quote_sha256: sha256:dc049882d2b1b0ee89d3f1ebd0a6b97b0252b62d12c6100eba7de457cfa4e84d
   selector:
     exact: '- Control Hazards: Whether or not an instruction should be executed depends
       on a control decision made by an earlier instruction
@@ -50,14 +47,12 @@ evidence_items:
 
       - WAW and WAR Name Hazards: An '
     type: TextQuoteSelector
-  selector_sha256: sha256:845109fcd9d5268122f20f7eaada0cede050b9a825cedc8d121e2268383499f4
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
 - evidence_id: evidence-9188927f56e6
   position:
     end: 21883
     start: 21730
     type: TextPositionSelector
-  quote_sha256: sha256:35653fad11030dca0eb2a010ca983282f169843238921afeab0546781cbf4a12
   selector:
     exact: '- WAW and WAR Name Hazards: An instruction in the pipeline is writing
       a register that an earlier instruction in the pipeline is either writing or
@@ -70,14 +65,12 @@ evidence_items:
 
       #### **Stalling and squashing '
     type: TextQuoteSelector
-  selector_sha256: sha256:8bb675cdc67b009c456d2ef63381f53192e36a088615d217d27143474d2affab
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
 - evidence_id: evidence-68c51faacee8
   position:
     end: 26693
     start: 26469
     type: TextPositionSelector
-  quote_sha256: sha256:d94f7482b305abcd9c52dc972a68c8722aefc412083ec828b85653fc9d3aa119
   selector:
     exact: RAW data hazards occur when one instruction depends on a data value produced
       by a preceding instruction still in the pipeline. We use architectural dependency
@@ -91,14 +84,12 @@ evidence_items:
 
       addiu r1, r2, 1 addiu r3, r1, '
     type: TextQuoteSelector
-  selector_sha256: sha256:1ee6740a285cc825a5c1e6d53f0efaaa637b3bfa899e67b2717530dc86df5f38
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
 - evidence_id: evidence-542c880e2f2d
   position:
     end: 27421
     start: 27275
     type: TextPositionSelector
-  quote_sha256: sha256:3fe59e175fac1e7308a19bd26d58eaf98ff876dea093802702ef7ab02a985254
   selector:
     exact: '- Hardware Scheduling: Hardware dynamically schedules instructions to
       avoid RAW hazards, potentially allowing instructions to execute out of order'
@@ -109,7 +100,6 @@ evidence_items:
 
       - Hardware Stalling: Hardware i'
     type: TextQuoteSelector
-  selector_sha256: sha256:fc720d5e47f117956cbf5b8b67c35c3624d0fe3bec4606aa7a2d1280a30d5fc9
   snapshot_sha256: sha256:d4d1d51d1a6cd061d67eee79053c756723ee16f452b8c9dd3e2803660f034ac5
 extractor: marker/2.0.0
 id: cornell-processor-microarchitecture
@@ -117,7 +107,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/f52bf88b3f7076b8dab832cebbd979276c0417b9347a5335d3c48660f2b1e12c.pdf
-  sha256: sha256:f52bf88b3f7076b8dab832cebbd979276c0417b9347a5335d3c48660f2b1e12c
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -14,7 +14,6 @@ evidence_items:
     end: 348
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:dedfa059d5bd1210ad24fd9dafabf512c2d2196839c0473e23dcae4e8d36caf4
   selector:
     exact: 'RAII
 
@@ -28,7 +27,6 @@ evidence_items:
 
       RAII guarantees that the resour'
     type: TextQuoteSelector
-  selector_sha256: sha256:03f52960ec9df6ffa23fb7252ea709d5246b9c08217a7e9d72c6c4c1d144efcc
   snapshot_sha256: sha256:359ff95622ed2db2f75e0df801a22e1fbf41ec2ffb2f415a3cd7587f67d5da30
 extractor: trafilatura/2.2.0
 id: web-computer-science-c-class-and-raii
@@ -36,7 +34,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/de9324c60d732a47e77eef1e8327a001ce956f8580ff8b3752fb81b71ef48c88.html
-  sha256: sha256:de9324c60d732a47e77eef1e8327a001ce956f8580ff8b3752fb81b71ef48c88
 read_status: retrieved
 retrieval:
   acquisition: fetch

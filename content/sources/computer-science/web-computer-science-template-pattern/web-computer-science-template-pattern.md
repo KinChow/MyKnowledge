@@ -14,7 +14,6 @@ evidence_items:
     end: 311
     start: 149
     type: TextPositionSelector
-  quote_sha256: sha256:34645dc8932dba3593653f9327598c1d5ece668b29c4ecd45b35e5d1e3cf9013
   selector:
     exact: The template method is a method in a superclass, usually an abstract superclass,
       and defines the skeleton of an operation in terms of a number of high-level
@@ -22,7 +21,6 @@ evidence_items:
     prefix: 'l. in the book Design Patterns. '
     suffix: . These steps are themselves imp
     type: TextQuoteSelector
-  selector_sha256: sha256:aee796a3a822f503e800554a9bfd67913d6f81426865b8309af32302a9bc2f71
   snapshot_sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
 extractor: utf8/1
 id: web-computer-science-template-pattern
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062.txt
-  sha256: sha256:20ec4321c745e9f8c6543f9f2d504eb550370c22f45e862095ee34f370074062
 read_status: retrieved
 retrieval:
   acquisition: local-file

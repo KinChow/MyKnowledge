@@ -8,7 +8,6 @@ evidence_items:
     end: 218
     start: 55
     type: TextPositionSelector
-  quote_sha256: sha256:acf88fab76a86efc22725c6399b8ed41d525d546746e91a4588756a214dc56ec
   selector:
     exact: 通常，global work size可以是任意，local work size受硬件设备所约束。在谈到local work size和global
       work size的限制时，一般是说local work size的限制。但是，global work size的每一个维度必须是local work
@@ -24,7 +23,6 @@ evidence_items:
 
       如果CL_DEVICE_MAX_WORK_ITEM_SI'
     type: TextQuoteSelector
-  selector_sha256: sha256:96aa37532cdcdfcd8f37af9b66e51fb466b5f57301b109817329b1de23d59046
   snapshot_sha256: sha256:205b1052a32765b5f661f9d4bd153a2523d7382869dcdf628665a179c8e66cbb
 extractor: personal-note/1
 id: working-computer-science-limitations-of-local-work-size-and-global-work-size

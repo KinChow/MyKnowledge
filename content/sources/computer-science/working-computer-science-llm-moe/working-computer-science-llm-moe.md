@@ -8,7 +8,6 @@ evidence_items:
     end: 235
     start: 72
     type: TextPositionSelector
-  quote_sha256: sha256:42c824a7cfd43a32f234dee37c53a61f166ec0b3ea657aabbf530504b3add4f5
   selector:
     exact: MoE（Mixture of Experts，混合专家）是 Transformer 中 MLP/FFN 部分的更高效替代方案：把原本那个很大的前馈网络切分成多个专家（Expert），由一个非常轻量的路由器/门控在
       token 级别选出 top-k 个专家来激活，从而拥有多个 FFN 的参数量、却只付一个 FFN 的计算成本。
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: 证据显示在保持总计算量不变、只增加稀疏参数数量时"那么模型的表现
     type: TextQuoteSelector
-  selector_sha256: sha256:5d13af2dbe6a98160b049dd75e3fd56050e9c3567a90b67f2b032302ee93512c
   snapshot_sha256: sha256:d625ad4254ae7673c4003181fde83f219110f9b7169ac1f8d0be651a6ed8f21c
 extractor: personal-note/1
 id: working-computer-science-llm-moe

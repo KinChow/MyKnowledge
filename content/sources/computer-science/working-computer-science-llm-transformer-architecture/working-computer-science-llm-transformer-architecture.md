@@ -8,7 +8,6 @@ evidence_items:
     end: 209
     start: 88
     type: TextPositionSelector
-  quote_sha256: sha256:f7aa2f09e692e9d27441e2750686b26b9e8e453482c33e53b25b6a31767d11bd
   selector:
     exact: 现代"密集注意力"Transformer 的骨架高度收敛：一个**残差流**（residual stream）贯穿整个网络，每个 block
       依次执行层归一化 → 多头注意力 → 加回残差流 → 层归一化 → FFN/GLU → 加回残差流。
@@ -24,7 +23,6 @@ evidence_items:
       '
     suffix: 相比原始 Transformer，现代模型几乎一致地做出三处改变
     type: TextQuoteSelector
-  selector_sha256: sha256:7e7061940dc702436681c343373c85256d9a466ec0a8fc953ba65aea95f781e3
   snapshot_sha256: sha256:5b4b1af6853464a4027ab8611af6c67ba24be898559f648b5a672eb9bb1459ff
 extractor: personal-note/1
 id: working-computer-science-llm-transformer-architecture

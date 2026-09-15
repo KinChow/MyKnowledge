@@ -8,7 +8,6 @@ evidence_items:
     end: 123
     start: 58
     type: TextPositionSelector
-  quote_sha256: sha256:1f5446f2c31b8f4901e2982492a239cdd099d04771db2f7ea68469c1bc1da357
   selector:
     exact: '31 general-purpose registers, R0 to R30. Each can be accessed as:'
     prefix: 'e visible at EL0 using AArch64:
@@ -18,14 +17,12 @@ evidence_items:
 
       A 64-bit general-purpose regist'
     type: TextQuoteSelector
-  selector_sha256: sha256:b9be2e70a8bf621970a8dfe683234288e0b0583c5cb55eba3f8439489dad8874
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
 - evidence_id: evidence-1061d87ee77e
   position:
     end: 174
     start: 124
     type: TextPositionSelector
-  quote_sha256: sha256:874ccbe59a9550fe66ec633b8ebbc6d1ed16d9a5f7180eb7ec5fbdba897beb8d
   selector:
     exact: A 64-bit general-purpose register named X0 to X30.
     prefix: 'o R30. Each can be accessed as:
@@ -35,14 +32,12 @@ evidence_items:
 
       A 32-bit general-purpose regist'
     type: TextQuoteSelector
-  selector_sha256: sha256:7f3158896c18dbe34cd4f6173338f0895ce15e11f40a0bfdb50c59d9535afbd8
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
 - evidence_id: evidence-8c92e4905685
   position:
     end: 225
     start: 175
     type: TextPositionSelector
-  quote_sha256: sha256:322510c365f2310196a478ec85c9d84636339dcf4b4e756ece666ea6c679b207
   selector:
     exact: A 32-bit general-purpose register named W0 to W30.
     prefix: 'rpose register named X0 to X30.
@@ -52,14 +47,12 @@ evidence_items:
 
       The X30 general-purpose registe'
     type: TextQuoteSelector
-  selector_sha256: sha256:e0b3910cceb720f83f460534306aca46bf751bc3aa3d1edd36c0b86285e6c91e
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
 - evidence_id: evidence-c1301b51c8bc
   position:
     end: 442
     start: 304
     type: TextPositionSelector
-  quote_sha256: sha256:95e5d3f617b6cc0565fea806464dddbe17d56f3ce12329bcddc7984f82ed646e
   selector:
     exact: A 64-bit dedicated Stack Pointer register. The least significant 32 bits
       of the stack pointer can be accessed using the register name WSP.
@@ -70,14 +63,12 @@ evidence_items:
 
       The use of SP as an operand in '
     type: TextQuoteSelector
-  selector_sha256: sha256:baf1f0bcca0e1caf2b06f0fb7e71b0f4b7d94bc3a7be8b9290e4a8b37f6beaaf
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
 - evidence_id: evidence-6d7187d33635
   position:
     end: 779
     start: 707
     type: TextPositionSelector
-  quote_sha256: sha256:fd3dc1fc02ebc8676515aedce8ae6cd3a850e100ca9df1a0476ee385756fa91a
   selector:
     exact: A 64-bit Program Counter holding the address of the current instruction.
     prefix: 'or the Arm 64-bit Architecture.
@@ -87,7 +78,6 @@ evidence_items:
 
       Software cannot write directly '
     type: TextQuoteSelector
-  selector_sha256: sha256:e2be07152429a98ae1e4ffc89ceebe8d756e6adfd5faf45c13b73558ca1fbbc0
   snapshot_sha256: sha256:0c1115f2e56a5721746e54218d904b1ded258bbfe6b44c9d8e19094e7dc196f4
 extractor: trafilatura/2.2.0
 id: arm-ddi0487-aarch64-registers

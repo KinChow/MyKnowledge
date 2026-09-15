@@ -14,7 +14,6 @@ evidence_items:
     end: 580
     start: 40
     type: TextPositionSelector
-  quote_sha256: sha256:d0f9966d03562cc590c295273b5a0191fcfcb0f44886324ba85505a5be033ffc
   selector:
     exact: Intrinsics are functions whose precise implementation is known to a compiler.
       The Neon intrinsics are a set of C and C++ functions defined in arm_neon.h which
@@ -26,7 +25,6 @@ evidence_items:
     prefix: "use Neon intrinsics?\n \n    \n    "
     suffix: ".  \n     \n     See the Neon Intr"
     type: TextQuoteSelector
-  selector_sha256: sha256:e84976b6da32ed87b18c0e7e48b5fb97519412b87e7d4943dc82939144c8cef5
   snapshot_sha256: sha256:289696a6de76c6d4e11c321bb08efcecd13f759fe4dfa55ce4d08c26002d8c38
 extractor: utf8/1
 id: arm-neon-why-intrinsics
@@ -37,7 +35,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/289696a6de76c6d4e11c321bb08efcecd13f759fe4dfa55ce4d08c26002d8c38.txt
-  sha256: sha256:289696a6de76c6d4e11c321bb08efcecd13f759fe4dfa55ce4d08c26002d8c38
 read_status: retrieved
 retrieval:
   acquisition: local-file

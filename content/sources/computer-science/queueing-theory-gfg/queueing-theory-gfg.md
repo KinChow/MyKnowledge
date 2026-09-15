@@ -8,7 +8,6 @@ evidence_items:
     end: 3100
     start: 2795
     type: TextPositionSelector
-  quote_sha256: sha256:9eb471a467d7f828088778b23528813cb2f0681ff3c8c9e811e7db2930809b9a
   selector:
     exact: 'Steps to Use Queuing Theory
 
@@ -24,7 +23,6 @@ evidence_items:
 
       3. Select a Queuing Model: Choo'
     type: TextQuoteSelector
-  selector_sha256: sha256:80d81181c1706e66e4ac9bf844bb31680311938ed85451f0018be19f6e89c503
   snapshot_sha256: sha256:1126bc6e6e69c86428b3165a88a8b4d15284cd83a146be3e4f2adc19dc475514
 extractor: trafilatura/2.2.0
 id: queueing-theory-gfg

@@ -14,7 +14,6 @@ evidence_items:
     end: 113
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:dafc86407a526c47dfa54e5ed77657f67d2f2b6438c8053d4fbe2c11793f7f17
   selector:
     exact: An image sensor or imager is a sensor used for imaging. It detects and
       conveys information used to form an image.
@@ -23,7 +22,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:c543a0e06f2e22abb81758b57c51f914cb20a1ecaf57ab6483d68f31d1dbd4ad
   snapshot_sha256: sha256:b70107b87587c720d549cbd4660f33220a9dffd31d370f98ce24a17dee75a31d
 extractor: utf8/1
 id: wikipedia-image-sensor-v2
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/b70107b87587c720d549cbd4660f33220a9dffd31d370f98ce24a17dee75a31d.txt
-  sha256: sha256:b70107b87587c720d549cbd4660f33220a9dffd31d370f98ce24a17dee75a31d
 read_status: retrieved
 retrieval:
   acquisition: local-file

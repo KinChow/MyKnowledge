@@ -8,7 +8,6 @@ evidence_items:
     end: 285
     start: 78
     type: TextPositionSelector
-  quote_sha256: sha256:033e10e52b08e3e9f82477eb7617a461a042ec4cb59dc41ff491e8a8a9bee8eb
   selector:
     exact: 专家并行（Expert Parallelism，EP）是把混合专家（MoE）模型里的各个专家网络整体分片到不同设备上，靠 all-to-all（全对全）式调度把
       token 路由到对应专家，是 MoE 模型下比张量并行（TP）更受青睐的模型并行原语；它与 DP、TP、PP 组合成所谓"三维或四维并行"（DP×TP×PP×EP），编排准则是"尽可能多用数据并行、张量并行保持在
@@ -33,7 +32,6 @@ evidence_items:
 
       - **专家并行（EP）**：把专家网络分'
     type: TextQuoteSelector
-  selector_sha256: sha256:8ba6b9efdcba5b0ab2b694ceacb3234cb4e2801ba49f5872ee884718241909a3
   snapshot_sha256: sha256:0d87b580a0c252ccc77231a354ab4d67c03677f394838c2e70fbf172f44cd3f7
 extractor: personal-note/1
 id: working-computer-science-llm-expert-parallel

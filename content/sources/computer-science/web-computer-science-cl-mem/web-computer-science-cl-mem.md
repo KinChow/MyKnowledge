@@ -14,21 +14,18 @@ evidence_items:
     end: 1080
     start: 957
     type: TextPositionSelector
-  quote_sha256: sha256:ac3a669d2e6badd444a400391870f1dd07b167ae7ae4a90e50b1f98cf41b8d02
   selector:
     exact: "This extension adds a new function that allows for direct memory import
       into\n    OpenCL via the clImportMemoryARM function."
     prefix: "d in OpenCL 1.2.\n\nOverview\n\n    "
     suffix: "\n\n    Memory imported through th"
     type: TextQuoteSelector
-  selector_sha256: sha256:7379ef15f6ac511e87d56e45ec53c173850f283fe4595a4f03d422678162a38d
   snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
 - evidence_id: evidence-19828ea5873f
   position:
     end: 8564
     start: 8394
     type: TextPositionSelector
-  quote_sha256: sha256:de5c267617c99b915de7a2954589668f068d69e3141e59114d5a0229782f412a
   selector:
     exact: "If the extension string cl_arm_import_memory_host is exposed then importing\n
       \     from normal userspace allocations (such as those created via malloc) is\n
@@ -36,21 +33,18 @@ evidence_items:
     prefix: " CL_IMPORT_TYPE_HOST_ARM\n\n      "
     suffix: "\n\n      If the host OS is linux "
     type: TextQuoteSelector
-  selector_sha256: sha256:b2e9a5ebb7509c97079bce59d486a19242f61e6bcc66151085daff2f2b19cf5d
   snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
 - evidence_id: evidence-bab64f7cf6c5
   position:
     end: 10546
     start: 10389
     type: TextPositionSelector
-  quote_sha256: sha256:2464f88c84983d68052b1a08fdf8cefafcef3a919f63cb492f24d6c8c6926488
   selector:
     exact: "If the extension string cl_arm_import_memory_protected is exposed then\n
       \     using CL_IMPORT_TYPE_PROTECTED_ARM in the list of <properties> is\n      allowed."
     prefix: "w.\n\n    Protected memory\n\n      "
     suffix: ' If the property''s value is set '
     type: TextQuoteSelector
-  selector_sha256: sha256:aec1d6e74b0524ae68edb73eebce4967a684fefaadc02003a996230b43daf9d4
   snapshot_sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
 extractor: utf8/1
 id: web-computer-science-cl-mem
@@ -58,7 +52,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4.txt
-  sha256: sha256:214fb6d0a86a9823045c8349b4e05db1b884f08edcfd8405810c6d1fdf4165e4
 read_status: retrieved
 retrieval:
   acquisition: fetch

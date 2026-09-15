@@ -14,7 +14,6 @@ evidence_items:
     end: 287
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:9c091ae29215e78834a8f8c0708a65949deb8680fcdd2b949ede1c10a745e3da
   selector:
     exact: 'OpenCV documentation#
 
@@ -25,7 +24,6 @@ evidence_items:
     prefix: ''
     suffix: ' These can be used to detect and'
     type: TextQuoteSelector
-  selector_sha256: sha256:e9ab3f7e064186bd1bc49f2d63a13049aad25926f39947d84fa2884b6b0c8d88
   snapshot_sha256: sha256:0a0221fc82e90f9017e097dfbf9ac952e269d04f29899da3da12f71f59f5571a
 extractor: trafilatura/2.2.0
 id: web-multimedia-opencv
@@ -33,7 +31,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/46cfce64675433f62618e520e774b897b45da59f2c716f987abc770265403ce5.html
-  sha256: sha256:46cfce64675433f62618e520e774b897b45da59f2c716f987abc770265403ce5
 read_status: retrieved
 retrieval:
   acquisition: fetch

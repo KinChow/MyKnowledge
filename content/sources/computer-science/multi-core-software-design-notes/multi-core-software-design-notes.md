@@ -8,7 +8,6 @@ evidence_items:
     end: 682
     start: 621
     type: TextPositionSelector
-  quote_sha256: sha256:96b7e76356dbb3bda4db8002acd70bd3867f43345bcc3de2c709c9b50fe7ebaa
   selector:
     exact: ISA（instruction set architecture）是计算机的抽象模式，执行ISA所定义指令的设备称为其实现
     prefix: '        * 一致性策略
@@ -24,27 +23,23 @@ evidence_items:
       '
     suffix: "\n\n\n\n### 指令集分类\n\n* 精简指令集（RISC）\n   "
     type: TextQuoteSelector
-  selector_sha256: sha256:fad894e34776d1f0d320256615cdc73a800cab48745fc0a9e9694e1cf1ba61c7
   snapshot_sha256: sha256:7801f83250d8140dc66c5b3b2b53f21dbf0f89b94b9019d009dc5e73114dae0e
 - evidence_id: evidence-217e752c1835
   position:
     end: 757
     start: 717
     type: TextPositionSelector
-  quote_sha256: sha256:de93081858c5e8134f4c5013d9c79aaed605064c486bf0e4420e41fce3086faf
   selector:
     exact: 以MIPS、ARM为代表，一条指令完成一个基本动作，多条指令组合完成一个复杂功能
     prefix: "\n### 指令集分类\n\n* 精简指令集（RISC）\n    * "
     suffix: "\n* 复杂指令集（CISC）\n    * 以x86为代表，一条指"
     type: TextQuoteSelector
-  selector_sha256: sha256:bc26015559a2c83f956c66dbbf64675048264937e8989ae1493bddc5a34398bf
   snapshot_sha256: sha256:7801f83250d8140dc66c5b3b2b53f21dbf0f89b94b9019d009dc5e73114dae0e
 - evidence_id: evidence-c44339832298
   position:
     end: 798
     start: 778
     type: TextPositionSelector
-  quote_sha256: sha256:d96e8f470320c0d7fb67fbb6abb4f2f574bc5b7a4c66b302d07c9ff5a8bb6ec6
   selector:
     exact: 以x86为代表，一条指令完成一个复杂功能
     prefix: "令组合完成一个复杂功能\n* 复杂指令集（CISC）\n    * "
@@ -55,7 +50,6 @@ evidence_items:
 
       |                | 复杂指令集（CIS'
     type: TextQuoteSelector
-  selector_sha256: sha256:93acdf765c8f76f447d32f4197f31cd99e82d1b7546c7d042c8d9e08541dcbdc
   snapshot_sha256: sha256:7801f83250d8140dc66c5b3b2b53f21dbf0f89b94b9019d009dc5e73114dae0e
 extractor: personal-note/1
 id: multi-core-software-design-notes

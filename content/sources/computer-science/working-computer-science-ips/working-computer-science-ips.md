@@ -8,7 +8,6 @@ evidence_items:
     end: 242
     start: 219
     type: TextPositionSelector
-  quote_sha256: sha256:3a5737723f3d3979b72f59f70b1b35dc28daaef3343b1f6cb8f7e5953c79d07a
   selector:
     exact: camera3内的pipeline由HAL控制
     prefix: '在
@@ -26,7 +25,6 @@ evidence_items:
 
       主要用于接收处理系统外部（Camera'
     type: TextQuoteSelector
-  selector_sha256: sha256:3e6408870575f34243f97500e861f91dc0c9f5bc48a5504654653fabc23ec6aa
   snapshot_sha256: sha256:ef3cf03ee3d7dcabcf97f8577e09abc6feec226d1f99656863ce7b736e482fe0
 extractor: personal-note/1
 id: working-computer-science-ips

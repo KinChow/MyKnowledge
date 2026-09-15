@@ -8,7 +8,6 @@ evidence_items:
     end: 298
     start: 70
     type: TextPositionSelector
-  quote_sha256: sha256:095eb58d8e04226fff7e69474394de1ddc85db912b31d2fdcf9efa74c46baed0
   selector:
     exact: 数据处理流水线把"并非从天上掉下来"的原始网络数据加工成可训练的 token 语料，核心四步：**转换**（HTML/PDF → 文本，规则为主、有损线性化）→
       **过滤**（用少量目标数据训练轻量分类器，从原始数据中筛出相似子集，顺带做语言/质量/毒性筛选）→ **去重**（精确去重 + MinHash/LSH
@@ -27,7 +26,6 @@ evidence_items:
       '
     suffix: 此外后训练数据在开源社区"大部分都是通过合成方式生成的"。整条流
     type: TextQuoteSelector
-  selector_sha256: sha256:b51bc52f10039b9d114ddcc262fbf221d3bf6d4bbfa53938e36e09175fd0e61b
   snapshot_sha256: sha256:e4505ef7ae854b9de24015a0fc71e2559db9abd8cbecefd79797f9cabfc3a05f
 extractor: personal-note/1
 id: working-computer-science-llm-data-pipeline

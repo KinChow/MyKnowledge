@@ -14,7 +14,6 @@ evidence_items:
     end: 192
     start: 21
     type: TextPositionSelector
-  quote_sha256: sha256:cb201681a61d09a8a547a19bd48935cb8a5194fee562850f55616e60074187a6
   selector:
     exact: 'Implicit conversions are performed whenever an expression of some type
       T1 is used in context that does not accept that type, but accepts some other
@@ -26,7 +25,6 @@ evidence_items:
 
       - when the expression is used a'
     type: TextQuoteSelector
-  selector_sha256: sha256:b3df4d963b6fd950fa665ca162197d512d8c7418e3ba8f14ed1b6f6d7fb76e3d
   snapshot_sha256: sha256:ae845acaa818b3f43cf7a15d11dff737e9695e92d5627a29695fba5e1f1991b2
 extractor: trafilatura/2.2.0
 id: cppreference-cpp-conversion-v2
@@ -37,7 +35,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/5165680ac35a8488b118dc2eb83107bd2237332d82ace7884cb66c25b1b9126a.html
-  sha256: sha256:5165680ac35a8488b118dc2eb83107bd2237332d82ace7884cb66c25b1b9126a
 read_status: retrieved
 retrieval:
   acquisition: local-file

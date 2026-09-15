@@ -14,7 +14,6 @@ evidence_items:
     end: 357
     start: 73
     type: TextPositionSelector
-  quote_sha256: sha256:46e6c2bef8ab895f4e8e9073506335c8356776867a1abfe0688ab4bfb1c19646
   selector:
     exact: We consider here a famous and very useful law in queueing theory called
       Little's Law, also known as l = λw, which asserts that the time average number
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: ' For example, in a four-year col'
     type: TextQuoteSelector
-  selector_sha256: sha256:161219d8b2fcf0b28e3de09c8edfd23160a755ae6a014172d0b6a7248e3c220c
   snapshot_sha256: sha256:408794bd88c35946641905060169edf0e5172666a9e9857fe60c520676ff9159
 extractor: marker/2.0.0
 id: little-law-columbia
@@ -34,7 +32,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/bbc88a996da9ffaad473b073d46dafab1e54ace4f3e173b3a83cf34c9d6f734c.pdf
-  sha256: sha256:bbc88a996da9ffaad473b073d46dafab1e54ace4f3e173b3a83cf34c9d6f734c
 read_status: retrieved
 retrieval:
   acquisition: fetch

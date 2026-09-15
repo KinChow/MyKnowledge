@@ -14,7 +14,6 @@ evidence_items:
     end: 627
     start: 270
     type: TextPositionSelector
-  quote_sha256: sha256:171db05e6e3f7b49015eaba1311e8727f811d133777060b78d51b1db344c42db
   selector:
     exact: The relationship of recommended photographic exposure to a scene's average
       luminance is given by the camera exposure equation A^2/T = B*Sx/K, where A is
@@ -30,14 +29,12 @@ evidence_items:
 
       Taking base-2 logarithms of bo'
     type: TextQuoteSelector
-  selector_sha256: sha256:291915ca898561de18662bc096ccbc80bcdf825615487168bd293220edd08900
   snapshot_sha256: sha256:60753153f1014ee0c963fb98cd8e4b913e63b1c77595ee25ad243a63481219ed
 - evidence_id: evidence-94fb33e0def3
   position:
     end: 968
     start: 629
     type: TextPositionSelector
-  quote_sha256: sha256:76672017e688b1d56398201eea16d871e3f77a067f1d61f659d2babf276ae6bd
   selector:
     exact: 'Taking base-2 logarithms of both sides of the exposure equation and separating
       numerators and denominators reduces exposure calculation to a matter of addition:
@@ -52,7 +49,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:850a0997ba9ad73178189d45f17b6e0d36bf325f6b6fe1fe4394dbabef440c68
   snapshot_sha256: sha256:60753153f1014ee0c963fb98cd8e4b913e63b1c77595ee25ad243a63481219ed
 extractor: utf8/1
 id: wiki-apex-system
@@ -63,7 +59,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/60753153f1014ee0c963fb98cd8e4b913e63b1c77595ee25ad243a63481219ed.txt
-  sha256: sha256:60753153f1014ee0c963fb98cd8e4b913e63b1c77595ee25ad243a63481219ed
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -8,7 +8,6 @@ evidence_items:
     end: 156
     start: 70
     type: TextPositionSelector
-  quote_sha256: sha256:776cbe7d83eb4b8baac654b553022b78b678a94379afca61a994a13c06f25a07
   selector:
     exact: 把语言模型部署成服务，本质是"把这些东西从电力转化成Token再转化成智能"：请求进来先被调度、查 KV 缓存、再执行核心 ML 代码（prefill
       与 decode）。
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: prefill（预填充）是算力密集的"大输入小输出"操作，dec
     type: TextQuoteSelector
-  selector_sha256: sha256:83a5eff8f9202f29e730ea218a7474c1b0edaf582a45b521d85c7d46bfa61ef7
   snapshot_sha256: sha256:12aa532ac981b0e2c10a4c91d316269c276e8ca7332623bfd4b80973b244d248
 extractor: personal-note/1
 id: working-computer-science-llm-inference-deployment

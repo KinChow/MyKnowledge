@@ -14,7 +14,6 @@ evidence_items:
     end: 495
     start: 329
     type: TextPositionSelector
-  quote_sha256: sha256:54ab4ca3ab9e0c7b7daf98d18573a1fb76feeda70dab1ee97ec52bfb9108e672
   selector:
     exact: Most of this information is a static property of the camera subsystem and
       can therefore be queried before configuring any output pipelines or submitting
@@ -25,14 +24,12 @@ evidence_items:
 
       In addition, manual control of'
     type: TextQuoteSelector
-  selector_sha256: sha256:4dd428b8f20ceebd47fc8bf4491090ea1c75cd0d3c2a2a9137f9c099e4b2872d
   snapshot_sha256: sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a
 - evidence_id: evidence-ccd5ac3651b7
   position:
     end: 1499
     start: 1246
     type: TextPositionSelector
-  quote_sha256: sha256:b0ea99e1d013e49f40c54b5370273fd57ba13eedf2eda94572990999672ca677
   selector:
     exact: the new camera API adds a substantial amount of dynamic metadata to each
       captured frame. This includes the requested and actual parameters used for the
@@ -44,14 +41,12 @@ evidence_items:
 
       For most settings, the expecta'
     type: TextQuoteSelector
-  selector_sha256: sha256:5bf435efc9292c9ce5dac5ba7fcb08c3194da9b2ae266f6f434dd44198eb7508
   snapshot_sha256: sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a
 - evidence_id: evidence-5fc4b7551293
   position:
     end: 1653
     start: 1501
     type: TextPositionSelector
-  quote_sha256: sha256:2b7ae9b08681db8d13405d07923735e4f8ef8ce7ca5e9d6407b3203336b24411
   selector:
     exact: For most settings, the expectation is that they can be changed every frame,
       without introducing significant stutter or delay to the output frame stream.
@@ -61,7 +56,6 @@ evidence_items:
       '
     suffix: ' Ideally, the output frame rate '
     type: TextQuoteSelector
-  selector_sha256: sha256:053506ed4373aeaae3c43361b1e4fb3b17201ea2dab38eaa8320d01ce5ee1543
   snapshot_sha256: sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a
 extractor: utf8/1
 id: aosp-camera-metadata
@@ -72,7 +66,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a.txt
-  sha256: sha256:fa6fc0f34df798eb3778d189bc634c84eee14db0dda752823f9e3d63877cf37a
 read_status: retrieved
 retrieval:
   acquisition: local-file

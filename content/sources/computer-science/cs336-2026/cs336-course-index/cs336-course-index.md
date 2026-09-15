@@ -17,7 +17,6 @@ media_type: text/markdown
 origin: external
 raw_ref:
   path: archive/raw/5bf2bad9f2ece940db7744b9a5cce475b4a32cf0bc9008c67ebacc6fb4daf307.txt
-  sha256: sha256:5bf2bad9f2ece940db7744b9a5cce475b4a32cf0bc9008c67ebacc6fb4daf307
 read_status: retrieved
 retrieval:
   acquisition: local-file

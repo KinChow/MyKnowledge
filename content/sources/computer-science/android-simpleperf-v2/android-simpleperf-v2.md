@@ -14,7 +14,6 @@ evidence_items:
     end: 145
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:f9770332d5bc8e1cf20c9c6e2619fb255377c6479947bfeb2908cff0a75310cd
   selector:
     exact: If you prefer to use the command line, Simpleperf is a versatile command-line
       CPU profiling tool included in the NDK for Mac, Linux, and Windows.
@@ -24,7 +23,6 @@ evidence_items:
 
       For full documentation, start '
     type: TextQuoteSelector
-  selector_sha256: sha256:3f1723389a00fd3c7710d4561223e61c6705c7cc571146ae769bbf7ae1beb31d
   snapshot_sha256: sha256:6540368820500846673bc1968dc8a6aeccab0948337e6327f6d29b115a4a637a
 extractor: utf8/1
 id: android-simpleperf-v2
@@ -35,7 +33,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/6540368820500846673bc1968dc8a6aeccab0948337e6327f6d29b115a4a637a.txt
-  sha256: sha256:6540368820500846673bc1968dc8a6aeccab0948337e6327f6d29b115a4a637a
 read_status: retrieved
 retrieval:
   acquisition: local-file

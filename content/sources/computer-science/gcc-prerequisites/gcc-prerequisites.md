@@ -14,7 +14,6 @@ evidence_items:
     end: 8130
     start: 8060
     type: TextPositionSelector
-  quote_sha256: sha256:e7069697b5128d83d12fcae2a57bc7fffb36362ea42a46c7e544a6024cddfafe
   selector:
     exact: Necessary to build GCC. It can be downloaded from https://gmplib.org/.
     prefix: 't way to install the libraries.
@@ -22,14 +21,12 @@ evidence_items:
       '
     suffix: ' If a GMP source distribution is'
     type: TextQuoteSelector
-  selector_sha256: sha256:6d1d0c90525937c04262cd2a8c438a1aaf235584c86dfa59564993ac07993434
   snapshot_sha256: sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316
 - evidence_id: evidence-afe64130d587
   position:
     end: 8619
     start: 8548
     type: TextPositionSelector
-  quote_sha256: sha256:bd517e65fcf9a2b9cfc796faf749c73ce241cfdd0905df3c989ee00cb92658d7
   selector:
     exact: Necessary to build GCC. It can be downloaded from https://www.mpfr.org.
     prefix: 'ownload_prerequisites installs.
@@ -37,14 +34,12 @@ evidence_items:
       '
     suffix: ' If an MPFR source distribution '
     type: TextQuoteSelector
-  selector_sha256: sha256:3f228e406c952542b2549035e6850b6697fd7dd640dc86317be43ec967c56e2d
   snapshot_sha256: sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316
 - evidence_id: evidence-60b61915a72e
   position:
     end: 9122
     start: 9036
     type: TextPositionSelector
-  quote_sha256: sha256:0d8847386ef8548f5d22a06b113b14b33d5cb65388542d5d47b7b3de4ef280df
   selector:
     exact: Necessary to build GCC. It can be downloaded from https://www.multiprecision.org/mpc/.
     prefix: 'ownload_prerequisites installs.
@@ -52,7 +47,6 @@ evidence_items:
       '
     suffix: ' If an MPC source distribution i'
     type: TextQuoteSelector
-  selector_sha256: sha256:a764b3e0cbe1b9d7ea634abc6755fc596b01fbca4e8db0a257b41fe5427ff7de
   snapshot_sha256: sha256:feec2a80c4acb4b3f9d496751c45199c69e4d68f8320a47f8740d43365102316
 extractor: trafilatura/2.2.0
 id: gcc-prerequisites
@@ -60,7 +54,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/c758be6ae6656d10e4173d1328c2e05b47ba3d2ca85e313ca7b0dcdfca03bfdf.html
-  sha256: sha256:c758be6ae6656d10e4173d1328c2e05b47ba3d2ca85e313ca7b0dcdfca03bfdf
 read_status: retrieved
 retrieval:
   acquisition: fetch

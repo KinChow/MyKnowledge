@@ -14,7 +14,6 @@ evidence_items:
     end: 478
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:7e0cb5e306a6e380b1783e6e68bd765bdf81e9045ea268941f0a7497db56ba32
   selector:
     exact: In photography and image processing, color balance is the global adjustment
       of the intensities of the colors (typically red, green, and blue primary colors).
@@ -25,7 +24,6 @@ evidence_items:
     prefix: ''
     suffix: ' Generalized versions of color b'
     type: TextQuoteSelector
-  selector_sha256: sha256:cf612ddbccdad335d3126825fb5bcdebd7837c5c0abcb207e12637375f5c1dce
   snapshot_sha256: sha256:80e333e65c05394fb50eab84820fbaef6369f4f80d145d36fca57377d73bf175
 extractor: trafilatura/2.2.0
 id: web-multimedia-auto-white-balance
@@ -33,7 +31,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/02a71ac8fbaf8297e3511a58c0ffad726e5a006f5c7af7207b4026f28f4c064e.html
-  sha256: sha256:02a71ac8fbaf8297e3511a58c0ffad726e5a006f5c7af7207b4026f28f4c064e
 read_status: retrieved
 retrieval:
   acquisition: fetch

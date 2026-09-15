@@ -14,7 +14,6 @@ evidence_items:
     end: 193
     start: 119
     type: TextPositionSelector
-  quote_sha256: sha256:f970509b3e17802874a6d84ed316d749e2ae04c532c0f85b4086c98de6597af5
   selector:
     exact: Most tests in VTS are GTest-style tests that check the HAL implementation.
     prefix: 'ructure, retrieved 2026-09-04)
@@ -23,7 +22,6 @@ evidence_items:
       '
     suffix: ' The test is written in C++ and '
     type: TextQuoteSelector
-  selector_sha256: sha256:a4f423777b2072a4de9874407e4970972c78abc43eacba4a0714ff8c7e1556a7
   snapshot_sha256: sha256:baf5fc8575c835a6cb12f631e0934ec3d1e6545928915481af5145ba38dbda81
 extractor: utf8/1
 id: aosp-vts
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/baf5fc8575c835a6cb12f631e0934ec3d1e6545928915481af5145ba38dbda81.txt
-  sha256: sha256:baf5fc8575c835a6cb12f631e0934ec3d1e6545928915481af5145ba38dbda81
 read_status: retrieved
 retrieval:
   acquisition: local-file

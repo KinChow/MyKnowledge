@@ -14,7 +14,6 @@ evidence_items:
     end: 96
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:a3a6b782c2922a57783a449667baaeae1a3359c7b103b07144830e500fd283de
   selector:
     exact: A union is a special class type that can hold only one of its non-static
       data members at a time.
@@ -24,21 +23,18 @@ evidence_items:
 
       The class specifier for a unio'
     type: TextQuoteSelector
-  selector_sha256: sha256:e062106f09d74ecc30b98abfcca4bccf6bf88cb62bddff8f3f6af1f9fbead155
   snapshot_sha256: sha256:40a0fce62cf1f8956ecbc54f56618c3445bc65d200ca913bf3dc73daf467994c
 - evidence_id: evidence-33493e72bb98
   position:
     end: 780
     start: 684
     type: TextPositionSelector
-  quote_sha256: sha256:68cd953243fe3ed50a42658c82db37dc1da2cf85c2696271383d9e40cc0db872
   selector:
     exact: It is undefined behavior to read from the member of the union that wasn't
       most recently written.
     prefix: ' members have the same address. '
     suffix: ' Many compilers implement, as a '
     type: TextQuoteSelector
-  selector_sha256: sha256:a0369c37ddd93fce95ec59d6be6beb61993d1f4c076af76b744a399bdc798365
   snapshot_sha256: sha256:40a0fce62cf1f8956ecbc54f56618c3445bc65d200ca913bf3dc73daf467994c
 extractor: utf8/1
 id: web-computer-science-cpp-union
@@ -49,7 +45,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/40a0fce62cf1f8956ecbc54f56618c3445bc65d200ca913bf3dc73daf467994c.txt
-  sha256: sha256:40a0fce62cf1f8956ecbc54f56618c3445bc65d200ca913bf3dc73daf467994c
 read_status: retrieved
 retrieval:
   acquisition: local-file

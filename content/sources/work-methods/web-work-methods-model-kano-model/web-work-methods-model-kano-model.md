@@ -14,7 +14,6 @@ evidence_items:
     end: 512
     start: 314
     type: TextPositionSelector
-  quote_sha256: sha256:9c22b81cf1a2aeb89064b2bcb0ce5f93658e0daf583c4a16d09e0f603375216f
   selector:
     exact: 'According to the Kano model, customer preferences are classified into
       five distinct categories: Must-be Quality, One-dimensional Quality, Attractive
@@ -24,7 +23,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:b9b228ce6d06f51bb3f8072bba039ea3b760782626102d250acd4619f0dba6fb
   snapshot_sha256: sha256:642a3dd044e1920677df415d2bc5b6283cd0c2fc09a99708b56ebbdbf45f73ba
 extractor: utf8/1
 id: web-work-methods-model-kano-model
@@ -35,7 +33,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/642a3dd044e1920677df415d2bc5b6283cd0c2fc09a99708b56ebbdbf45f73ba.txt
-  sha256: sha256:642a3dd044e1920677df415d2bc5b6283cd0c2fc09a99708b56ebbdbf45f73ba
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -14,7 +14,6 @@ evidence_items:
     end: 234
     start: 139
     type: TextPositionSelector
-  quote_sha256: sha256:bf7617733a5dc7635d7bd35c394397b98b7979781f6f919b31c94b6737ea858f
   selector:
     exact: The software requirements are description of features and functionalities
       of the target system.
@@ -25,7 +24,6 @@ evidence_items:
       '
     suffix: ' Requirements convey the expecta'
     type: TextQuoteSelector
-  selector_sha256: sha256:bed8ad9f8b38eeef7182a450137936140bee1c26eb21e6f3295d7341b54bae24
   snapshot_sha256: sha256:7f50c89d65f6132928adcec2f95921654998653308014b80a4b807bd964f71a5
 extractor: trafilatura/2.2.0
 id: tutorialspoint-software-requirements-v2
@@ -36,7 +34,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/00d79b176a3eb59d3683b49e969d81b9e9899c4ab2612421d87a136e6c600187.html
-  sha256: sha256:00d79b176a3eb59d3683b49e969d81b9e9899c4ab2612421d87a136e6c600187
 read_status: retrieved
 retrieval:
   acquisition: local-file

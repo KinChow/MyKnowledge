@@ -8,7 +8,6 @@ evidence_items:
     end: 151
     start: 56
     type: TextPositionSelector
-  quote_sha256: sha256:56edf318ad1d7164bb0c61cbfa7a16920783e99730d20718eab3f9b842d8ed91
   selector:
     exact: '1. 站会owner，成员轮流担任
 
@@ -51,7 +50,6 @@ evidence_items:
 
       预先将S'
     type: TextQuoteSelector
-  selector_sha256: sha256:a41a84af8c6d3aad8f706a443edacd686d0c79278fabc2dbac982c70af7ba001
   snapshot_sha256: sha256:f72a14c819e2f621da0dcd6e55d1c37f9fa7ad3b9970206aa58b7e1af7c2bdf8
 extractor: personal-note/1
 id: working-work-methods-a-day-of-a-programmer

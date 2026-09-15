@@ -14,14 +14,12 @@ evidence_items:
     end: 149
     start: 32
     type: TextPositionSelector
-  quote_sha256: sha256:bd20a657d58cf0d66db7dc34b38908c0669cea4fc50c556448073697d4a66e46
   selector:
     exact: the singleton pattern is a software design pattern that restricts the instantiation
       of a class to a singular instance
     prefix: 'In object-oriented programming, '
     suffix: . It is one of the well-known "G
     type: TextQuoteSelector
-  selector_sha256: sha256:996aa64a4333970a878d21907faa6df38d83de368dbe7f30c26ecf33ce167cd4
   snapshot_sha256: sha256:fa1fba9176ed21232eeedd6b2717026b473d0ce065e60aa6fd7a992549a16332
 extractor: utf8/1
 id: web-computer-science-singleton-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/fa1fba9176ed21232eeedd6b2717026b473d0ce065e60aa6fd7a992549a16332.txt
-  sha256: sha256:fa1fba9176ed21232eeedd6b2717026b473d0ce065e60aa6fd7a992549a16332
 read_status: retrieved
 retrieval:
   acquisition: local-file

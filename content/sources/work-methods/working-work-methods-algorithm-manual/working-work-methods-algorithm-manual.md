@@ -8,7 +8,6 @@ evidence_items:
     end: 85
     start: 9
     type: TextPositionSelector
-  quote_sha256: sha256:e486dd5ebcd47e165b3c604732afbc392a5f00b00fdd73744db1a2861812540d
   selector:
     exact: 算法说明书（Algorithm Manual）是描述软件算法模块从需求到交付全流程的设计文档模板，覆盖简介、概要设计、详细设计、测试用例、问题总结与附录
     prefix: '# 算法说明书
@@ -17,7 +16,6 @@ evidence_items:
       '
     suffix: "，作为算法开发者编写设计文档的统一规范。\n\n* 简介\n    *"
     type: TextQuoteSelector
-  selector_sha256: sha256:6bf4770b04988e4366870ac83965810ec182a7bff3facf25366dcc7a3d28dea3
   snapshot_sha256: sha256:1849422188e7f44aebcc0b6b987212a128249100220f1cd3ddba171a6bbffefd
 extractor: personal-note/1
 id: working-work-methods-algorithm-manual

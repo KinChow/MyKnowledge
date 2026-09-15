@@ -14,14 +14,12 @@ evidence_items:
     end: 167
     start: 25
     type: TextPositionSelector
-  quote_sha256: sha256:1144c51c6f9787c33115bc0eb99306961a7d538e5d790f79abdf020977bade23
   selector:
     exact: the strategy pattern (also known as the policy pattern) is a behavioral
       software design pattern that enables selecting an algorithm at runtime
     prefix: 'In computer programming, '
     suffix: . Instead of implementing a sing
     type: TextQuoteSelector
-  selector_sha256: sha256:8aa632580eaa914dd516ea20ac196c87c6b764ff61d6a37875170b8844321d0a
   snapshot_sha256: sha256:596a0973d1870e20092c67be12715b073b04ed1434b0e12b805a06877367664f
 extractor: utf8/1
 id: web-computer-science-strategy-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/596a0973d1870e20092c67be12715b073b04ed1434b0e12b805a06877367664f.txt
-  sha256: sha256:596a0973d1870e20092c67be12715b073b04ed1434b0e12b805a06877367664f
 read_status: retrieved
 retrieval:
   acquisition: local-file

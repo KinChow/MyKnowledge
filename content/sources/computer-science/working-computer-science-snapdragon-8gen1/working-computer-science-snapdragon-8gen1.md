@@ -8,7 +8,6 @@ evidence_items:
     end: 1512
     start: 1477
     type: TextPositionSelector
-  quote_sha256: sha256:3f42cba0b46163f42470bbd14beba2c9b89848e3f1783f1448ed5bd7f318f606
   selector:
     exact: 'CL_DEVICE_NAME: QUALCOMM Adreno(TM)'
     prefix: '1000
@@ -22,7 +21,6 @@ evidence_items:
 
       CL_D'
     type: TextQuoteSelector
-  selector_sha256: sha256:abbbc9eaae524211ed40e5593f89f3bc69db087d9877c792f6468906740666c7
   snapshot_sha256: sha256:8f9f24cb12362cb17df95e4f7fd28100f4c5e64ba24de14b251edc0adf86a382
 extractor: personal-note/1
 id: working-computer-science-snapdragon-8gen1

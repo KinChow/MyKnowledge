@@ -14,7 +14,6 @@ evidence_items:
     end: 226
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:fe005f3b52795844f887ac25ae514fb1aece4d1ad06ce5f27830a72ba440632d
   selector:
     exact: "New! Render PlantUML diagrams directly inside GitHub\n        with our
       official browser extension —\n        No server. No tokens. No tracking. Zero
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: "\n    \n    \n对象图\n对象的定义\nobject\n关键字定"
     type: TextQuoteSelector
-  selector_sha256: sha256:0e56239efb854bc652a53f6d0d53adcf04c33237ff136bb0bb97931491c120f5
   snapshot_sha256: sha256:44be215de8311ca4fa778ef0f365e41eb8b447c6a7db78f9f0524f0604cafb27
 extractor: trafilatura/2.2.0
 id: web-computer-science-object-diagram
@@ -30,7 +28,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/c1c16e886246f0701120b52980d69950908cc50a682cd1b6743ab017663a6cad.html
-  sha256: sha256:c1c16e886246f0701120b52980d69950908cc50a682cd1b6743ab017663a6cad
 read_status: retrieved
 retrieval:
   acquisition: fetch

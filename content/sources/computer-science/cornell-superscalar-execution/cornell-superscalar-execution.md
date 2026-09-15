@@ -14,7 +14,6 @@ evidence_items:
     end: 1113
     start: 1011
     type: TextPositionSelector
-  quote_sha256: sha256:e22e4e64897bb147d313330d22eab43b5cfd58ba8fd9519e3dabb045b3a40675
   selector:
     exact: '- Superscalar processors enable CPI < 1 (i.e., IPC > 1) by executing multiple
       instructions in parallel'
@@ -25,14 +24,12 @@ evidence_items:
 
       - Can have both in-order and ou'
     type: TextQuoteSelector
-  selector_sha256: sha256:e1f0dbdf871822995a12c6c18aa629621d2c37eaeb03b42332107ae8b62d8b0e
   snapshot_sha256: sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c
 - evidence_id: evidence-e9edfbabf635
   position:
     end: 1219
     start: 1114
     type: TextPositionSelector
-  quote_sha256: sha256:755c67e88d55bfaae93d206ca5524d1bf0b532c3979c25204eb5ff45d8c779d3
   selector:
     exact: '- Can have both in-order and out-of-order superscalar processors, but
       we will start by exploring in-order'
@@ -47,7 +44,6 @@ evidence_items:
 
       -'
     type: TextQuoteSelector
-  selector_sha256: sha256:4d1ba41b6c0eb0e30ab6561192b88767701e2f148efa40595dfb1cc5dd324eaa
   snapshot_sha256: sha256:114cc1cb712199990c95a187ed34798a42f3c6876bca89cbac9c269ab07e639c
 extractor: marker/2.0.0
 id: cornell-superscalar-execution
@@ -55,7 +51,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/c0504e599b8e6bc70cbaa096f1931f5a2014f3a7c7b2947d94137e263b837375.pdf
-  sha256: sha256:c0504e599b8e6bc70cbaa096f1931f5a2014f3a7c7b2947d94137e263b837375
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -21,7 +21,7 @@ import subprocess
 import time
 from pathlib import Path
 
-from ..common import atomic_write, canonical_quote, hash_canonical, sha256_text
+from ..common import atomic_write, hash_canonical
 from ..paths import RepoPaths
 from ..policy import policy_value
 from . import corroboration, ruleset
@@ -622,22 +622,15 @@ def _build_report(
     for target in resolution.get("resolved_targets", []):
         source_id = target["source_id"]
         evidence_id = target["evidence_id"]
-        source = resolution.get("sources", {}).get(source_id)
-        item = source["evidence_items"].get(evidence_id) if source is not None else None
         bindings.append(
             {
                 "resolved_object_ref": target.get("resolved_object_ref", {}),
                 "source_id": source_id,
                 "evidence_id": evidence_id,
+                # ADR-0019 §5：不再向报告里夹带校验值指纹 —— `selector_sha256` 原先
+                # 是从 canonical source 抄来的，`quote_sha256` 现算，两者都可由
+                # `evidence_id` + `snapshot_sha256`（定位指针）解析后重算。
                 "snapshot_sha256": target.get("snapshot_sha256"),
-                "selector_sha256": (
-                    item.get("selector_sha256") if item is not None else None
-                ),
-                "quote_sha256": (
-                    sha256_text(canonical_quote(target.get("supporting_quote", "")))
-                    if target.get("supporting_quote")
-                    else None
-                ),
             }
         )
     history = fail_history(object_id, paths)

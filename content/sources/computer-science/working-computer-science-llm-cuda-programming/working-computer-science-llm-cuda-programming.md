@@ -8,7 +8,6 @@ evidence_items:
     end: 283
     start: 74
     type: TextPositionSelector
-  quote_sha256: sha256:5bb57c6f003e104a8cad0790bee011e02a09ab8ff685adfe152ce2e9293be835
   selector:
     exact: CS336 第 5 讲以"程序员视角"讲 GPU 编程模型：把 GPU 看作一台由大量轻量级线程（组织为 thread → block → warp
       三级）执行 SIMT 指令的**吞吐量机器**；内存呈层次（寄存器/本地 → 共享内存 → 全局内存），"一旦你超出了共享内存的范围"操作就会急剧变慢，因此写高效算子的全部要义就是**减少全局内存移动**——通过合并访问、分块复用、算子融合、重计算、低精度等手段实现。
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: 课程几乎不教裸 CUDA API（未出现 threadIdx/b
     type: TextQuoteSelector
-  selector_sha256: sha256:adce834645bcf9ee1427e4cf19f6f46509644918d67624de6f2cfbb339f429fa
   snapshot_sha256: sha256:790fd0e8a8c02769e3952980659335c0b7d51e62ca7228639f8d1b5355e766a2
 extractor: personal-note/1
 id: working-computer-science-llm-cuda-programming

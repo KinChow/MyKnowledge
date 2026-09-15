@@ -14,7 +14,6 @@ evidence_items:
     end: 169
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:cc5ab24dd8e4af53029a95c8806c5ad6a1884b1c6bbaa4d01ecde477f6ffd4c4
   selector:
     exact: '"You aren''t gonna need it" (YAGNI) is a principle which arose from extreme
       programming (XP) that states a programmer should not add functionality until
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: ' Other forms of the phrase inclu'
     type: TextQuoteSelector
-  selector_sha256: sha256:b27cf973c5580be6bb1683bf5b3f93ac4f16f9fef5b0f6f241a50a0bface1306
   snapshot_sha256: sha256:781568ca05d4284ca0c58b286dc0c3ea3a49eb8ce8a8528f8eaadeffdd7f2931
 extractor: utf8/1
 id: web-computer-science-yagni
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/781568ca05d4284ca0c58b286dc0c3ea3a49eb8ce8a8528f8eaadeffdd7f2931.txt
-  sha256: sha256:781568ca05d4284ca0c58b286dc0c3ea3a49eb8ce8a8528f8eaadeffdd7f2931
 read_status: retrieved
 retrieval:
   acquisition: local-file

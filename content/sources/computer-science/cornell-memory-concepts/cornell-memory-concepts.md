@@ -15,7 +15,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/df700af894a7010163ea65ebe358afb4b5fdb9d54e0d365b4a25f49c9c51e80f.pdf
-  sha256: sha256:df700af894a7010163ea65ebe358afb4b5fdb9d54e0d365b4a25f49c9c51e80f
 read_status: retrieved
 retrieval:
   acquisition: fetch

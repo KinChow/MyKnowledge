@@ -14,7 +14,6 @@ evidence_items:
     end: 373
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:93aacdf83ed90a8fd83fdfeac02f10b1e1d3bf4902989a9b6b051a9e99ec7023
   selector:
     exact: 'A template is a C++ entity that defines one of the following: a family
       of classes (class template), which may be nested classes; a family of functions
@@ -27,14 +26,12 @@ evidence_items:
 
       Templates are parameterized by'
     type: TextQuoteSelector
-  selector_sha256: sha256:2efdeec468c66983cf62b97daf3a0f87bb974112f44d9f78997a759ab7862e5a
   snapshot_sha256: sha256:0233647a3ddc9a4fbb0dc89c064267d0eaf44a9d9dec62ab4088927d43d97638
 - evidence_id: evidence-a709323bd176
   position:
     end: 544
     start: 375
     type: TextPositionSelector
-  quote_sha256: sha256:8f6aa372fccd9b7fccdf88748084ba895cba55db6651668c837a9602fc068331
   selector:
     exact: 'Templates are parameterized by one or more template parameters, of three
       kinds: type template parameters, non-type template parameters, and template
@@ -48,7 +45,6 @@ evidence_items:
 
       When template arguments are pr'
     type: TextQuoteSelector
-  selector_sha256: sha256:8b1b4297832f03a3fbdcfc230c2670a50346b2022af848bf16047ff825c344d6
   snapshot_sha256: sha256:0233647a3ddc9a4fbb0dc89c064267d0eaf44a9d9dec62ab4088927d43d97638
 extractor: utf8/1
 id: web-computer-science-cpp-template
@@ -59,7 +55,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/0233647a3ddc9a4fbb0dc89c064267d0eaf44a9d9dec62ab4088927d43d97638.txt
-  sha256: sha256:0233647a3ddc9a4fbb0dc89c064267d0eaf44a9d9dec62ab4088927d43d97638
 read_status: retrieved
 retrieval:
   acquisition: local-file

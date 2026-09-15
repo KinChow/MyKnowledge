@@ -8,7 +8,6 @@ evidence_items:
     end: 1206
     start: 1188
     type: TextPositionSelector
-  quote_sha256: sha256:53a641c8342bd5a5b2d2a619953c5ba778fa4c8083a2c2066dda49641d3426bf
   selector:
     exact: little定律的等式为：L=λ*W
     prefix: '进程数以及进程需等待多久。
@@ -22,14 +21,12 @@ evidence_items:
       '
     suffix: 。其中变量的意思是L 表示在一段时间内排队系统中的平均任务或项目
     type: TextQuoteSelector
-  selector_sha256: sha256:6beee8d34ca1b6fadd72b5d3d421471fb58754a0deb4e15c6db8d08568e92dc7
   snapshot_sha256: sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6
 - evidence_id: evidence-c7bd2ab17520
   position:
     end: 1475
     start: 1447
     type: TextPositionSelector
-  quote_sha256: sha256:1674e487032443a9bec2aae2057725d3466a0e04bd250e7281538b2dc48bceee
   selector:
     exact: 概要形式是以汇总或者平均值的形式来展示一段时间的程序信息
     prefix: '
@@ -46,20 +43,17 @@ evidence_items:
       '
     suffix: ，必须等待一段时间来获取信息，是比较费时的。其特点是比较适合掌握
     type: TextQuoteSelector
-  selector_sha256: sha256:cab83939eb5396a6fbc42efd0ed066f073f5a96a3b8728caa7859c97f1fc9240
   snapshot_sha256: sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6
 - evidence_id: evidence-72311733bcc6
   position:
     end: 1022
     start: 1001
     type: TextPositionSelector
-  quote_sha256: sha256:23567330c25c6bb533ae91c079bd5e0a8a9f64f3c02d1fcae13b62f8280a1cad
   selector:
     exact: 分段查找是常用定位程序分析代码段的方法之一
     prefix: 首先定位导致程序性能瓶颈产生的原因，才能针对性的开展后续的优化。
     suffix: ，可以在时间或空间层面进行，主要思想是根据需要获取某段代码的执行
     type: TextQuoteSelector
-  selector_sha256: sha256:ea0373f293e1e8ea3548c80c8a0b64064a29a82d634c02a3152efd07bcb42e07
   snapshot_sha256: sha256:ed87ad2c5c416cf0f197e4a44197faa34d608668d281a4e0fa226ddeae8b78e6
 extractor: personal-note/1
 id: program-performance-analysis-notes

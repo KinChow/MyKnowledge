@@ -14,28 +14,24 @@ evidence_items:
     end: 268
     start: 126
     type: TextPositionSelector
-  quote_sha256: sha256:ea6c68e4ef849869240ba81504ad63a559cd4dfef3a0c2501ee0cbda93cd847c
   selector:
     exact: The dominant sequence transduction models are based on complex recurrent
       or convolutional neural networks in an encoder-decoder configuration.
     prefix: "erimental)\n            Abstract:"
     suffix: ' The best performing models also'
     type: TextQuoteSelector
-  selector_sha256: sha256:932206aee846213ae69d28a57c9db3f5442712b7ca6ec0e05d70f8858444756a
   snapshot_sha256: sha256:4d129544139195919bb231863be8978995e85901cb246675d79b23acd9e493a1
 - evidence_id: evidence-edeba6920028
   position:
     end: 519
     start: 365
     type: TextPositionSelector
-  quote_sha256: sha256:ed7631200a18f20fc81a069dbaec1e4780737fd416877c9496ab815a38eb1fd7
   selector:
     exact: We propose a new simple network architecture, the Transformer, based solely
       on attention mechanisms, dispensing with recurrence and convolutions entirely.
     prefix: 'through an attention mechanism. '
     suffix: ' Experiments on two machine tran'
     type: TextQuoteSelector
-  selector_sha256: sha256:b4d978d4936334db299e1abcd70aaa26b051f58c37982211eeca83431a7912ce
   snapshot_sha256: sha256:4d129544139195919bb231863be8978995e85901cb246675d79b23acd9e493a1
 extractor: trafilatura/2.2.0
 id: arxiv-transformer-v2
@@ -46,7 +42,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/29e42a996471db9c019f1122825cdac0e6d64c96767d9ee5c0b8891de6204bee.html
-  sha256: sha256:29e42a996471db9c019f1122825cdac0e6d64c96767d9ee5c0b8891de6204bee
 read_status: retrieved
 retrieval:
   acquisition: local-file

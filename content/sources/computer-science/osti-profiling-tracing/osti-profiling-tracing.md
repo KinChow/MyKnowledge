@@ -14,7 +14,6 @@ evidence_items:
     end: 43582
     start: 43376
     type: TextPositionSelector
-  quote_sha256: sha256:dc4976bd209c8bfdcbb0114be87a414f7a57e7428207a22bb4b3aff23c89df58
   selector:
     exact: Profilers provide a summary of execution statistics and/or events. They
       give an overview of the overall performance of the program, often broken down
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ' tools – profilers and tracers. '
     suffix: ' They often use periodic samplin'
     type: TextQuoteSelector
-  selector_sha256: sha256:baa598f5e1057fdf9bc2ce80c2868995cbb452de48f15aeb86c15b77126450e7
   snapshot_sha256: sha256:06cd5ce56031d25b57b1fe30c994f37a75d7e9865024cc49fec0342109d3bb02
 extractor: marker/2.0.0
 id: osti-profiling-tracing
@@ -30,7 +28,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/880c7fdad509a4f7574b2c74fd9dcae7874f49ab123780987883d825b4f67bd8.pdf
-  sha256: sha256:880c7fdad509a4f7574b2c74fd9dcae7874f49ab123780987883d825b4f67bd8
 read_status: retrieved
 retrieval:
   acquisition: fetch

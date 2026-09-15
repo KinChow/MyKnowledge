@@ -14,7 +14,6 @@ evidence_items:
     end: 104
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:e7d8c87bb9229ad07c2a98021d9e2f59cf456c8add9409011140a8ddae4ac77f
   selector:
     exact: If you haven't installed Visual Studio and the Microsoft C and C++ tools
       yet, here's how to get started.
@@ -25,14 +24,12 @@ evidence_items:
 
       Welc'
     type: TextQuoteSelector
-  selector_sha256: sha256:69a4a2066d97ac0dd80d05571196b9aec515a61077fa3808e07fc0488cc89040
   snapshot_sha256: sha256:0d240c94368e51e61feb1cd2b694ee6bee39d8688663c13b5ae2abc6d84f74c7
 - evidence_id: evidence-24363ada65c6
   position:
     end: 390
     start: 325
     type: TextPositionSelector
-  quote_sha256: sha256:4e638579a4fa60f50238f7cd32a35e6e3f9bdc0a084b6a0ca090148ddc133f1b
   selector:
     exact: This article applies to installation of Visual Studio on Windows.
     prefix: 'd with less system impact.
@@ -42,7 +39,6 @@ evidence_items:
       '
     suffix: ' Visual Studio Code is a lightwe'
     type: TextQuoteSelector
-  selector_sha256: sha256:58d3d43e2c7b96cc0a5eedf87a003dafb85727a066ee04d7b6012c218eb3e277
   snapshot_sha256: sha256:0d240c94368e51e61feb1cd2b694ee6bee39d8688663c13b5ae2abc6d84f74c7
 extractor: trafilatura/2.2.0
 id: microsoft-vs-cpp-install-v2
@@ -53,7 +49,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/713ea0432bc39b9481edbc972015794794f457152103f7a04a2339277522d584.html
-  sha256: sha256:713ea0432bc39b9481edbc972015794794f457152103f7a04a2339277522d584
 read_status: retrieved
 retrieval:
   acquisition: local-file

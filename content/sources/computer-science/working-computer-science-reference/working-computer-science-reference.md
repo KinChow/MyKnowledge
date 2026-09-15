@@ -8,7 +8,6 @@ evidence_items:
     end: 265
     start: 37
     type: TextPositionSelector
-  quote_sha256: sha256:feb7e9fb337f3674673b2f58bee4383d6861e607e7d8be1b05190cbe3fe4a959
   selector:
     exact: "* 中文字幕版，2017年度课程\n    * https://www.bilibili.com/video/BV1nJ411z7fe/\n*
       英文版，2016年度课程，讲师：Andrej Karpathy（后任职 Tesla Al Senior Director）\n    * https://www.youtube.com/watch?v=NfWJUyUJYU&list=PLkt2uSq6rBVctENoVBg1TpCC70Qi31A|C&index=1"
@@ -29,7 +28,6 @@ evidence_items:
 
       【deeplearning.ai】机器学习&深度学习课程'
     type: TextQuoteSelector
-  selector_sha256: sha256:8bf6d9d158439556b8a4bf5f7d1b6049ef444d556f4be64ad1052397b20d6381
   snapshot_sha256: sha256:a82c40373baec0e73e2e2a4ce705f1f06fdb66d92a43e7b2de5405d9654cef0e
 extractor: personal-note/1
 id: working-computer-science-reference

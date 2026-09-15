@@ -14,7 +14,6 @@ evidence_items:
     end: 226
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:fe005f3b52795844f887ac25ae514fb1aece4d1ad06ce5f27830a72ba440632d
   selector:
     exact: "New! Render PlantUML diagrams directly inside GitHub\n        with our
       official browser extension —\n        No server. No tokens. No tracking. Zero
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: "\n    \n    \nThis editor runs enti"
     type: TextQuoteSelector
-  selector_sha256: sha256:b798ee0c1b231f39ff56f1f50c05984a49feeeb8002f01089f4632fdefaab1a2
   snapshot_sha256: sha256:87b7aae71e90ad1466588e3cee8094f17683a329d774e6c17cb3ff5ca210d9e8
 extractor: trafilatura/2.2.0
 id: web-computer-science-uml
@@ -30,7 +28,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/05fa554b7d2f1ca28d4eabd6bd24d197ef2cbdd8b3c2bb62488114312138dab5.html
-  sha256: sha256:05fa554b7d2f1ca28d4eabd6bd24d197ef2cbdd8b3c2bb62488114312138dab5
 read_status: retrieved
 retrieval:
   acquisition: fetch

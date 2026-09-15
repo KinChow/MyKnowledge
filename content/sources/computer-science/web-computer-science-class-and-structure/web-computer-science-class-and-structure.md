@@ -14,7 +14,6 @@ evidence_items:
     end: 110
     start: 46
     type: TextPositionSelector
-  quote_sha256: sha256:333f97fc05e2ebd4d172d6db8dbc26499d611221c34b9e11d7b80e65d9591eba
   selector:
     exact: 当位于类成员列表前面时，public 关键字指定这些成员可从任何函数访问。 这适用于声明到下一个访问指示符或类的末尾的所有成员。
     prefix: '[member-list]
@@ -26,14 +25,12 @@ evidence_items:
 
       当位于基类名称前面时，public 关键字指定基类的公共和受保'
     type: TextQuoteSelector
-  selector_sha256: sha256:59f6db3796aff18f8edb10a5b5626ad62155cd49260c93b8273993c45e5033d1
   snapshot_sha256: sha256:b9adeaf81ecdc9862dd46b52a9e72e6ddbcd73e74ca9593de8bd40dfa90b6f96
 - evidence_id: evidence-8c85a56b407c
   position:
     end: 163
     start: 111
     type: TextPositionSelector
-  quote_sha256: sha256:29c56dd5292343706e215913032b95a2346629c52e3e9ae9adb9c12c64c372eb
   selector:
     exact: 当位于基类名称前面时，public 关键字指定基类的公共和受保护成员分别是派生类的公共成员和受保护成员。
     prefix: '数访问。 这适用于声明到下一个访问指示符或类的末尾的所有成员。
@@ -43,14 +40,12 @@ evidence_items:
 
       类中成员的默认访问是私有的。 结构或联合中成员的默认访问是公共'
     type: TextQuoteSelector
-  selector_sha256: sha256:42a1e44c3b62ff1806b41924f187bb0e35edd1848cc332fa346dd74d12327265
   snapshot_sha256: sha256:b9adeaf81ecdc9862dd46b52a9e72e6ddbcd73e74ca9593de8bd40dfa90b6f96
 - evidence_id: evidence-5cd118805b9e
   position:
     end: 197
     start: 164
     type: TextPositionSelector
-  quote_sha256: sha256:b4d6ab8fca6eba3f8873e2c6ebf4493fa9d70d598634490a5a455f58e31f334e
   selector:
     exact: 类中成员的默认访问是私有的。 结构或联合中成员的默认访问是公共的。
     prefix: '指定基类的公共和受保护成员分别是派生类的公共成员和受保护成员。
@@ -60,14 +55,12 @@ evidence_items:
 
       基类的默认访问对于类是私有的，而对于结构是公共的。 联合不能具'
     type: TextQuoteSelector
-  selector_sha256: sha256:6a24740d39c44d4690028be33fe03323d3e470497889377fc6395353ba42e4bf
   snapshot_sha256: sha256:b9adeaf81ecdc9862dd46b52a9e72e6ddbcd73e74ca9593de8bd40dfa90b6f96
 - evidence_id: evidence-776668d876d8
   position:
     end: 233
     start: 198
     type: TextPositionSelector
-  quote_sha256: sha256:996090b970748390fd2e8b1fbf091339eada516d88e769e112b6f046542c8497
   selector:
     exact: 基类的默认访问对于类是私有的，而对于结构是公共的。 联合不能具有基类。
     prefix: '成员的默认访问是私有的。 结构或联合中成员的默认访问是公共的。
@@ -77,7 +70,6 @@ evidence_items:
 
       有关详细信息，请参阅 private、protected、fr'
     type: TextQuoteSelector
-  selector_sha256: sha256:2ca5c9e9aaaf814e5081ea5328d2284fd6137a9cd943de661abf42f92881bc62
   snapshot_sha256: sha256:b9adeaf81ecdc9862dd46b52a9e72e6ddbcd73e74ca9593de8bd40dfa90b6f96
 extractor: trafilatura/2.2.0
 id: web-computer-science-class-and-structure
@@ -85,7 +77,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/5c6af998ee0a76d6da7baa2f641a0fed6d91bae9e6dff38b1d6fc291da9a475f.html
-  sha256: sha256:5c6af998ee0a76d6da7baa2f641a0fed6d91bae9e6dff38b1d6fc291da9a475f
 read_status: retrieved
 retrieval:
   acquisition: fetch

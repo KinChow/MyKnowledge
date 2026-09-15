@@ -8,7 +8,6 @@ evidence_items:
     end: 198
     start: 28
     type: TextPositionSelector
-  quote_sha256: sha256:f780c2ad4d32ed62c0bc6427bbfc4a200e74b49930b4aaf7f92cdd8389b7406e
   selector:
     exact: '- **书名**：
 
@@ -24,7 +23,6 @@ evidence_items:
     prefix: "# 读书笔记模版\n\n### **\U0001F4D6 书籍基本信息**\n\n"
     suffix: "\n\n------\n\n### **\U0001F50D 检视阅读（快速概览）**\n\n"
     type: TextQuoteSelector
-  selector_sha256: sha256:3d1224bf2d2a9de59e16643f6deb85c2da3369302685129cdaccf213ba528731
   snapshot_sha256: sha256:fefbafff239a61368fe6826e40d2a33e3bb9120da8e0881141c38f6fe01aa864
 extractor: personal-note/1
 id: working-work-methods-reading-notes

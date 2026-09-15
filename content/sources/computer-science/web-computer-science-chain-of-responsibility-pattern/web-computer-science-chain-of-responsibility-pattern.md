@@ -14,14 +14,12 @@ evidence_items:
     end: 170
     start: 27
     type: TextPositionSelector
-  quote_sha256: sha256:a93e04e37a4977c3b10641aaa71377e07fe9642c682c222c2f04fa0b37eaa159
   selector:
     exact: the chain-of-responsibility pattern is a behavioral design pattern consisting
       of a source of command objects and a series of processing objects
     prefix: 'In object-oriented design, '
     suffix: . Each processing object contain
     type: TextQuoteSelector
-  selector_sha256: sha256:7bbf875d724a512f043e4943e7ed1c889094624f22a42ce15f8d46372d5e9c6c
   snapshot_sha256: sha256:897a8a2b41966ae13e8d1b2851baf0bee166d85e861501e8b083a67b62dbe1bb
 extractor: utf8/1
 id: web-computer-science-chain-of-responsibility-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/897a8a2b41966ae13e8d1b2851baf0bee166d85e861501e8b083a67b62dbe1bb.txt
-  sha256: sha256:897a8a2b41966ae13e8d1b2851baf0bee166d85e861501e8b083a67b62dbe1bb
 read_status: retrieved
 retrieval:
   acquisition: local-file

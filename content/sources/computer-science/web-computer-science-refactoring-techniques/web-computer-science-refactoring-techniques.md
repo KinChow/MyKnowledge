@@ -14,7 +14,6 @@ evidence_items:
     end: 468
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:f3b3811e8090e836cb3feb5dd39a11df9c8dd986d7026ae412fdc369825f12de
   selector:
     exact: 'Refactoring
 
@@ -32,7 +31,6 @@ evidence_items:
 
       Performing refactoring step-by-'
     type: TextQuoteSelector
-  selector_sha256: sha256:ae81b619ea105969e7ec09db745854d5af475ebb1481726a418783365d7cbcbf
   snapshot_sha256: sha256:8adb74ecc3531a2dc944b141ceb9d3fbea004ed8b2e1913fcbc86a6a5506c7cb
 extractor: trafilatura/2.2.0
 id: web-computer-science-refactoring-techniques
@@ -40,7 +38,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/5a8312e1662addca2d5b4cbfe13947967117e15142ee53009d699a6296c1e7b0.html
-  sha256: sha256:5a8312e1662addca2d5b4cbfe13947967117e15142ee53009d699a6296c1e7b0
 read_status: retrieved
 retrieval:
   acquisition: fetch

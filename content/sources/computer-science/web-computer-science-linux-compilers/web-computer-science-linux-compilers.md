@@ -14,7 +14,6 @@ evidence_items:
     end: 494
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:3199290d805e5c34024cffd9c2a7ce103407a3a93f25458654bbc5a25ca59b26
   selector:
     exact: "GCC mirror sites\nOur releases are available on the\nGNU download server
       and its\nmirrors.\nIn addition the following sites mirror gcc.gnu.org\n(Phoenix,
@@ -28,7 +27,6 @@ evidence_items:
 
       -'
     type: TextQuoteSelector
-  selector_sha256: sha256:d8517083077c9cd056e7c46f29c2cd39496154c44417588052995c89e6eea139
   snapshot_sha256: sha256:548216fc043de1deaacba1bfd6af05abd8cfb8804a1f527246a27ef9923e92d8
 extractor: trafilatura/2.2.0
 id: web-computer-science-linux-compilers
@@ -36,7 +34,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/7235342adb022666828ad687490b18008a9206ad024a01b88e20807c22d6425b.html
-  sha256: sha256:7235342adb022666828ad687490b18008a9206ad024a01b88e20807c22d6425b
 read_status: retrieved
 retrieval:
   acquisition: fetch

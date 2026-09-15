@@ -14,7 +14,6 @@ evidence_items:
     end: 136
     start: 27
     type: TextPositionSelector
-  quote_sha256: sha256:74e22ed3e0e16f798076db7d4f4efb37e80f9ddaf5c12b39960f55cb75303719
   selector:
     exact: The “Test Pyramid” is a metaphor that tells us to group software tests
       into buckets of different granularity.
@@ -23,7 +22,6 @@ evidence_items:
       '
     suffix: ' It also gives an idea of how ma'
     type: TextQuoteSelector
-  selector_sha256: sha256:1f8ff81a199b517c4418b27c32d422334bbfba0a7c3c438c538c8360130b5968
   snapshot_sha256: sha256:30fcd25f20bf5e192030cf8514ea6bec149ce70566abef0b9940ca96f4abbb98
 extractor: trafilatura/2.2.0
 id: martin-fowler-test-pyramid-v2
@@ -34,7 +32,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/5b3a505139d6f48afaa9b90755e0c074d9985b99d8029bf7359f04f735c0359d.html
-  sha256: sha256:5b3a505139d6f48afaa9b90755e0c074d9985b99d8029bf7359f04f735c0359d
 read_status: retrieved
 retrieval:
   acquisition: local-file

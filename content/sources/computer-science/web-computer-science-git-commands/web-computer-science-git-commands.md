@@ -14,7 +14,6 @@ evidence_items:
     end: 474
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:6540db3aec84e188dd7cc8a0f2325e0565c7182e4b2e53d61bc0959401f14c34
   selector:
     exact: 'Book
 
@@ -31,7 +30,6 @@ evidence_items:
     prefix: ''
     suffix: " \n    \n      \n  - 1.1 About Vers"
     type: TextQuoteSelector
-  selector_sha256: sha256:13bc97ebf281e58510c5ebd845629ad43b88c640cf105d3b9eb95fbb99118ea4
   snapshot_sha256: sha256:bf975cc2f502b976f516a76dd029e93db373899c03c19a0b0a07e67527a30875
 extractor: trafilatura/2.2.0
 id: web-computer-science-git-commands
@@ -39,7 +37,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/c639257b2ab9424dee3fd6214ea856a6888ba79b74a4ae2def6e8cc082dfc6dd.html
-  sha256: sha256:c639257b2ab9424dee3fd6214ea856a6888ba79b74a4ae2def6e8cc082dfc6dd
 read_status: retrieved
 retrieval:
   acquisition: fetch

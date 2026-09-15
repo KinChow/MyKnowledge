@@ -14,7 +14,6 @@ evidence_items:
     end: 229
     start: 29
     type: TextPositionSelector
-  quote_sha256: sha256:c78618f4b75b363589036c325d459c7166d7fdabaa8ee21979f08319899bb4ad
   selector:
     exact: flyweight software design pattern refers to an object that minimizes memory
       usage by sharing some of its data with other similar objects. The flyweight
@@ -22,7 +21,6 @@ evidence_items:
     prefix: 'In computer programming, the '
     suffix: ns. The flyweight pattern is use
     type: TextQuoteSelector
-  selector_sha256: sha256:70ca86c05271527289e0d97fd207d71f294b85535d774c3d3dad5a3bb92a3a68
   snapshot_sha256: sha256:31c16b4fbb2f23903830a9265b7f32e7d892d9654682c8362c9a0ed6b5d33b68
 extractor: utf8/1
 id: web-computer-science-flyweight-pattern
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/31c16b4fbb2f23903830a9265b7f32e7d892d9654682c8362c9a0ed6b5d33b68.txt
-  sha256: sha256:31c16b4fbb2f23903830a9265b7f32e7d892d9654682c8362c9a0ed6b5d33b68
 read_status: retrieved
 retrieval:
   acquisition: local-file

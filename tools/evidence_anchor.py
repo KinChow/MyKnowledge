@@ -20,7 +20,6 @@ from pathlib import Path
 from .common import (
     atomic_write,
     canonical_quote,
-    hash_canonical,
     sha256_text,
 )
 from .front_matter import FrontMatter
@@ -61,23 +60,14 @@ class EvidenceAnchor:
             "suffix": snapshot[end : end + 32],
         }
         position = {"type": "TextPositionSelector", "start": start, "end": end}
-        selector_hash = hash_canonical(
-            {
-                "snapshot_sha256": snapshot_hash,
-                "start": start,
-                "end": end,
-                "exact": exact,
-                "prefix": selector["prefix"],
-                "suffix": selector["suffix"],
-            }
-        )
+        # ADR-0019 §5：`selector_sha256` / `quote_sha256` 是**校验值**而非指针——
+        # 它们与同一记录里的 `selector` / `exact` 冗余（可由后者现算），因此不落盘。
+        # 改 canonical 内容这件事由 git 提供篡改可见性，不需要记录内自带的指纹。
         evidence = {
             "evidence_id": "evidence-" + uuid.uuid4().hex[:12],
             "snapshot_sha256": snapshot_hash,
             "selector": selector,
             "position": position,
-            "selector_sha256": selector_hash,
-            "quote_sha256": sha256_text(canonical_quote(exact)),
         }
         if media_fragment is not None:
             evidence["locator"] = {"media_fragment": media_fragment}

@@ -8,7 +8,6 @@ evidence_items:
     end: 324
     start: 145
     type: TextPositionSelector
-  quote_sha256: sha256:75f08bd198d845aa262d19272a7fa3077c036a348891937e9b3ccabb5e0fe252
   selector:
     exact: This document describes PTX, a low-level parallel thread execution virtual
       machine and instruction set architecture (ISA). PTX exposes the GPU as a data-parallel
@@ -20,14 +19,12 @@ evidence_items:
 
       Driven by the insatiable market'
     type: TextQuoteSelector
-  selector_sha256: sha256:defa81596034f0caae66ff8450a2720d651fdee0e02ff914643cc36e6a6421c7
   snapshot_sha256: sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f
 - evidence_id: evidence-924fdf3f14ca
   position:
     end: 2143
     start: 1957
     type: TextPositionSelector
-  quote_sha256: sha256:1d41023348507287cd240671726f9f4444bf17feef1b8ce87349fa2b5b2000af
   selector:
     exact: PTX programs are translated at install time to the target hardware instruction
       set. The PTX-to-GPU translator and driver enable NVIDIA GPUs to be used as programmable
@@ -39,7 +36,6 @@ evidence_items:
 
       PTX provides '
     type: TextQuoteSelector
-  selector_sha256: sha256:46d7e563a97735bb72d43dc6f97db2a41a366d01fb63912530aef6dcf0689a5c
   snapshot_sha256: sha256:4199503d3b53c4f64cb24fe9c8c91808e27a455b8a7feb39dac76157de24560f
 extractor: trafilatura/2.2.0
 id: nvidia-ptx-isa

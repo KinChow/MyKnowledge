@@ -28,8 +28,10 @@ class AnchorComputationTests(unittest.TestCase):
         media = EvidenceAnchor.anchor(
             snapshot, exact, min_chars=6, media_fragment="#t=1450,1520"
         )
-        self.assertEqual(plain["selector_sha256"], media["selector_sha256"])
-        self.assertEqual(plain["quote_sha256"], media["quote_sha256"])
+        # ADR-0019 §5：校验值不落盘，改断言 selector/position 本身相同 ——
+        # media_fragment 只进 locator，不得影响锚定结果。
+        self.assertEqual(plain["selector"], media["selector"])
+        self.assertEqual(plain["position"], media["position"])
         self.assertEqual(media["locator"], {"media_fragment": "#t=1450,1520"})
 
     def test_media_fragment_is_strictly_validated(self):

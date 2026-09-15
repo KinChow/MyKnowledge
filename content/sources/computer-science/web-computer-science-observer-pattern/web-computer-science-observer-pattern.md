@@ -14,14 +14,12 @@ evidence_items:
     end: 133
     start: 45
     type: TextPositionSelector
-  quote_sha256: sha256:2b1cbac77c34283ee38c2b1399e7538bfded2cd5a9b5968e005b51f447d6ade9
   selector:
     exact: the observer pattern is a software design pattern in which an object, called
       the subject
     prefix: 'esign and software engineering, '
     suffix: ' (also known as event source or '
     type: TextQuoteSelector
-  selector_sha256: sha256:de3afadb7931493f7ac8a5855f6050ea994b8bddeb191f87d048d2a1ebf26334
   snapshot_sha256: sha256:dd2323c1caac5dace33f47a6cf5c8242931812b65fb0ca502da8a0435b29e05f
 extractor: utf8/1
 id: web-computer-science-observer-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/dd2323c1caac5dace33f47a6cf5c8242931812b65fb0ca502da8a0435b29e05f.txt
-  sha256: sha256:dd2323c1caac5dace33f47a6cf5c8242931812b65fb0ca502da8a0435b29e05f
 read_status: retrieved
 retrieval:
   acquisition: local-file

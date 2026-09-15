@@ -14,7 +14,6 @@ evidence_items:
     end: 275
     start: 241
     type: TextPositionSelector
-  quote_sha256: sha256:a385459208871cf2f8dc8dd6c302bb5341970b7d02be9b5d69d6ec930cfea1e1
   selector:
     exact: if、repeat、fork 等关键字来表达控制流。图形会自动生成。
     prefix: "w what you think!\n    \n    \n活动图\n"
@@ -24,14 +23,12 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:25eba3ec338595faf586709eb87e4949ba8cc8c8affcab214b966f89b55fb25a
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 - evidence_id: evidence-04b2f317c9df
   position:
     end: 306
     start: 278
     type: TextPositionSelector
-  quote_sha256: sha256:c02212577b56a1410c823c74ff1563b54c418dcf7ef78b5289baf9d754d5de1c
   selector:
     exact: 文本输入，图形输出。 自上而下描述流程，包括分支和循环。
     prefix: 'peat、fork 等关键字来表达控制流。图形会自动生成。
@@ -43,14 +40,12 @@ evidence_items:
 
       - 易于重组'
     type: TextQuoteSelector
-  selector_sha256: sha256:8f3dc5839b62ba72f5b40caf5630997af8110dc70592e6f9aa695731f606bfe0
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 - evidence_id: evidence-8fbad3b3ad66
   position:
     end: 331
     start: 309
     type: TextPositionSelector
-  quote_sha256: sha256:070985ec8cd24c24e55aedc6905862d236c149b2d25042b4b7eb4fc3debaac79
   selector:
     exact: 自上而下阅读。 文本中的顺序就是图中的顺序。
     prefix: ' 文本输入，图形输出。 自上而下描述流程，包括分支和循环。
@@ -60,14 +55,12 @@ evidence_items:
 
       - 易于重组。 调整步骤顺序或添加分支，只需编辑文本，无需重画'
     type: TextQuoteSelector
-  selector_sha256: sha256:de7ca27e85f8b5ebcf528f37c53f9a6efc0979ee2b5ff31095629af8e7be448f
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 - evidence_id: evidence-5c3c8af9f968
   position:
     end: 387
     start: 371
     type: TextPositionSelector
-  quote_sha256: sha256:9c7e458a26f39428ade2cfc4a51aee2394abb2a95d57594a283448ae9d52c80b
   selector:
     exact: '活动标签以: 开始，以; 结束。'
     prefix: ' 调整步骤顺序或添加分支，只需编辑文本，无需重画。
@@ -81,14 +74,12 @@ evidence_items:
 
       Other simple action'
     type: TextQuoteSelector
-  selector_sha256: sha256:8e0d14df720f6f0f394643f22c56f061cbfe65b4a67c0f9b8d0962926d5895eb
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 - evidence_id: evidence-93c134859d4a
   position:
     end: 306
     start: 289
     type: TextPositionSelector
-  quote_sha256: sha256:15499d519a0aca52dd5e6967527487b4b9a5557658b361b72900b01abb32ab01
   selector:
     exact: 自上而下描述流程，包括分支和循环。
     prefix: '关键字来表达控制流。图形会自动生成。
@@ -100,14 +91,12 @@ evidence_items:
 
       - 易于重组'
     type: TextQuoteSelector
-  selector_sha256: sha256:ee604257882c2bbf9a265d4cc38425d0a1bd4e12d3fca160ed2f8463473b11e6
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 - evidence_id: evidence-431fdcd364db
   position:
     end: 331
     start: 317
     type: TextPositionSelector
-  quote_sha256: sha256:2651e5665a74dd217c38c5ca2ae6bc1032c2c862fa1875894c6c48446e8630d4
   selector:
     exact: 文本中的顺序就是图中的顺序。
     prefix: '输出。 自上而下描述流程，包括分支和循环。
@@ -117,14 +106,12 @@ evidence_items:
 
       - 易于重组。 调整步骤顺序或添加分支，只需编辑文本，无需重画'
     type: TextQuoteSelector
-  selector_sha256: sha256:ca98bdc40c4a7c3e612cc877dbbd9eefa19c666e560c60db1a4c04bd9894004f
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 - evidence_id: evidence-b6462ea735be
   position:
     end: 364
     start: 340
     type: TextPositionSelector
-  quote_sha256: sha256:8aeff40d9111397278693c4aa6db6bbff0235c4bce746d35dab8563a682de948
   selector:
     exact: 调整步骤顺序或添加分支，只需编辑文本，无需重画。
     prefix: ' 自上而下阅读。 文本中的顺序就是图中的顺序。
@@ -138,7 +125,6 @@ evidence_items:
 
       克里奥尔语的维基'
     type: TextQuoteSelector
-  selector_sha256: sha256:610d84637cb6e3148b7482ed0d90e38c9c39e59f34f0c6dfba9425bdff90579e
   snapshot_sha256: sha256:8a3e9839217bcb35ad83065f9cc330c9312bf429edcf3fb84520330cf9e571b3
 extractor: trafilatura/2.2.0
 id: web-computer-science-activity-diagram
@@ -146,7 +132,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/3cb4e756c572b660da732dab33956b342573f7181fd72e78b7307b13b55a3950.html
-  sha256: sha256:3cb4e756c572b660da732dab33956b342573f7181fd72e78b7307b13b55a3950
 read_status: retrieved
 retrieval:
   acquisition: fetch

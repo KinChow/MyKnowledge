@@ -14,7 +14,6 @@ evidence_items:
     end: 475
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:b96fada67e66c427156bbb2bc99468fa0f58b6ec42bbb719aa84bef3c69301fd
   selector:
     exact: 'A circular linked list is a data structure where the last node points
       back to the first node, forming a closed loop.
@@ -34,14 +33,12 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:792ff3b4b0b1e3e7715f7d55c0f9dd36b5c0e8b0afcb3fa582bca47ccc74c971
   snapshot_sha256: sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785
 - evidence_id: evidence-355e5aff8fbb
   position:
     end: 116
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:465a59183bfe2d5d4b876eb9a44a4cb62c2cdd2ac9a63451c11afa2a0afe1f4d
   selector:
     exact: A circular linked list is a data structure where the last node points back
       to the first node, forming a closed loop.
@@ -50,14 +47,12 @@ evidence_items:
 
       - Structure: All nodes are conn'
     type: TextQuoteSelector
-  selector_sha256: sha256:6414abf6d9f57fff2fd49299b7664aa72ee6665db05099ab688b72852d83c5e4
   snapshot_sha256: sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785
 - evidence_id: evidence-b089d48016e4
   position:
     end: 1093
     start: 989
     type: TextPositionSelector
-  quote_sha256: sha256:5d51e60703332d785537afa12735be04a7a4fb03ad566b0e157bdeb1b987bad3
   selector:
     exact: In circular doubly linked list, each node has two pointers prev and next,
       similar to doubly linked list.
@@ -66,14 +61,12 @@ evidence_items:
       '
     suffix: ' The prev pointer points to the '
     type: TextQuoteSelector
-  selector_sha256: sha256:86d0a236bec4d18d74a3f2bde42b4e94ce7143e2d4756ca458d4b6bced4de2ff
   snapshot_sha256: sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785
 - evidence_id: evidence-0348bb935fa5
   position:
     end: 1311
     start: 1177
     type: TextPositionSelector
-  quote_sha256: sha256:faac88ccd3d36e61a65387235c51c399e429e2d4f7b04f6981783032a659dab2
   selector:
     exact: Here, in addition to the last node storing the address of the first node,
       the first node will also store the address of the last node.
@@ -82,7 +75,6 @@ evidence_items:
 
       Note: Here, we will use the sin'
     type: TextQuoteSelector
-  selector_sha256: sha256:1d24429e7ddddb5b2c95a3d6ddf036b40356843b19076f512123615420d04d76
   snapshot_sha256: sha256:2962ff2a04f3a4e867cc2ed3671d54dff23ec5788223fd64c2e47b0953b49785
 extractor: trafilatura/2.2.0
 id: web-computer-science-doubly-circular-linked-list
@@ -90,7 +82,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/b36957d5615919653ccdbf8e381814eae8a25bcc9aca79d50d1c555a19f14f95.html
-  sha256: sha256:b36957d5615919653ccdbf8e381814eae8a25bcc9aca79d50d1c555a19f14f95
 read_status: retrieved
 retrieval:
   acquisition: fetch

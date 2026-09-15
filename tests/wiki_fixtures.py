@@ -10,7 +10,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.common import canonical_quote, sha256_text, strip_sha256_prefix
+from tools.common import sha256_text, strip_sha256_prefix
 from tools.front_matter import FrontMatter
 from tools.validation import WikiValidator
 
@@ -119,8 +119,6 @@ def _evidence_item(evidence_id: str, body: str, exact: str) -> dict:
             "start": start,
             "end": start + len(exact),
         },
-        "selector_sha256": sha256_text(exact),
-        "quote_sha256": sha256_text(canonical_quote(exact)),
     }
 
 

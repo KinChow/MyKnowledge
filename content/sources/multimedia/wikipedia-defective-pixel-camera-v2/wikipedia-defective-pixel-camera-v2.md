@@ -14,7 +14,6 @@ evidence_items:
     end: 147
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:447242262e256f34b0811c4c1e5bbe0ee82f00098ee9f6f3bc17266ea96c3383
   selector:
     exact: In these devices, defective pixels fail to sense light levels correctly,
       whereas defective pixels in LCDs fail to reproduce light levels correctly.
@@ -23,7 +22,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:76db9bb99ed0334db742b54b5695b0cc6754a5c88e19922b58b78e822bb072ee
   snapshot_sha256: sha256:c76f2b06633e6e72eb13426015a7056db897cf844ffd474069d083eef9cd712d
 extractor: utf8/1
 id: wikipedia-defective-pixel-camera-v2
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/c76f2b06633e6e72eb13426015a7056db897cf844ffd474069d083eef9cd712d.txt
-  sha256: sha256:c76f2b06633e6e72eb13426015a7056db897cf844ffd474069d083eef9cd712d
 read_status: retrieved
 retrieval:
   acquisition: local-file

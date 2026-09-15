@@ -8,7 +8,6 @@ evidence_items:
     end: 1031
     start: 6
     type: TextPositionSelector
-  quote_sha256: sha256:9aea8dad270fe9a21c0cdb5414943a48f5ba6030e5aa02e04e72d8e2d8662a16
   selector:
     exact: '|  缩写   |                             全称                             |
 
@@ -45,7 +44,6 @@ evidence_items:
 
       |  MCTF   | Motion Compensation'
     type: TextQuoteSelector
-  selector_sha256: sha256:ce81ca2751636c070f77dff17ae5cfc9bd9306bd6e2ec414d8bacb07ab50db55
   snapshot_sha256: sha256:e3d5a3007bf2c03f83b688ea3d7b5bab584bf610b46640ae541b1afa744686ba
 extractor: personal-note/1
 id: working-multimedia-terminology

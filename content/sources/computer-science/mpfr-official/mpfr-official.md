@@ -14,7 +14,6 @@ evidence_items:
     end: 553
     start: 501
     type: TextPositionSelector
-  quote_sha256: sha256:633ddaed7a8004622e0257ce2d5281b67c77187a0fe9ffd89ac80f30d15a2868
   selector:
     exact: MPFR is based on the GMP multiple-precision library.
     prefix: 'y; see more on the credit page. '
@@ -22,14 +21,12 @@ evidence_items:
 
       The main goal of MPFR is to pro'
     type: TextQuoteSelector
-  selector_sha256: sha256:e08687317849c6bbaa16929166b283dcd505d17c52dbc30518d47d641d5ab50c
   snapshot_sha256: sha256:e213b2ccebe27e9eeedbda250699fd57a6461e19bb03c1413769d81101f2631b
 - evidence_id: evidence-6c9248d75616
   position:
     end: 552
     start: 175
     type: TextPositionSelector
-  quote_sha256: sha256:4fc68704a993a56de8e36b6735b442b3b65f580837eb679c9a5985d268d08ee5
   selector:
     exact: The MPFR library is a C library for multiple-precision floating-point computations
       with correct rounding. MPFR has continuously been supported by the INRIA and
@@ -45,7 +42,6 @@ evidence_items:
 
       The main goal of MPFR is to pr'
     type: TextQuoteSelector
-  selector_sha256: sha256:0e874f16c0ff4c4d58f757cc590d0582dc09aacb7d36d33e1c796b35b39d4e52
   snapshot_sha256: sha256:e213b2ccebe27e9eeedbda250699fd57a6461e19bb03c1413769d81101f2631b
 extractor: trafilatura/2.2.0
 id: mpfr-official
@@ -53,7 +49,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/90d669e7ce306371fc9facfb2bba05d7935c1bda766b2a90540c5826a9beed34.html
-  sha256: sha256:90d669e7ce306371fc9facfb2bba05d7935c1bda766b2a90540c5826a9beed34
 read_status: retrieved
 retrieval:
   acquisition: fetch

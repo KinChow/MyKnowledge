@@ -14,7 +14,6 @@ evidence_items:
     end: 365
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:ebf8b9457fea92e9398405b180a324d7b27bc3f1a224bccc6a2e762ff6b58d97
   selector:
     exact: '设计模式
 
@@ -32,7 +31,6 @@ evidence_items:
     prefix: ''
     suffix: ''
     type: TextQuoteSelector
-  selector_sha256: sha256:a822072cf117b842e502dcbd1c318fefae00c824b0670d4144cc3c603e20a8bf
   snapshot_sha256: sha256:86b8da23b999382b48fd9147fa575b57c29f406344d7c901f6fa5fedfdf75e4b
 extractor: trafilatura/2.2.0
 id: web-computer-science-software-design
@@ -40,7 +38,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/d5c029aef3ab3dfe6b7a3eedb7d752a2fe9f890d48e8e01dca63ce34d30ff585.html
-  sha256: sha256:d5c029aef3ab3dfe6b7a3eedb7d752a2fe9f890d48e8e01dca63ce34d30ff585
 read_status: retrieved
 retrieval:
   acquisition: fetch

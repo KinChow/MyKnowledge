@@ -14,7 +14,6 @@ evidence_items:
     end: 275
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:1684850b55921bdc1874c76b788a1e22b68e05e4a056a7b93851992ae3a204de
   selector:
     exact: In strategic planning and strategic management, SWOT analysis (also known
       as the SWOT matrix, TOWS, WOTS, WOTS-UP, and situational analysis)[1] is a decision-making
@@ -25,7 +24,6 @@ evidence_items:
 
       SWOT analysis evaluates the str'
     type: TextQuoteSelector
-  selector_sha256: sha256:6ba74a2e14728e3299824dd6fdec00e5df42da2a8a935950e94cdd23d9a0eee1
   snapshot_sha256: sha256:f0240af8dd8d2225c36825ed7a1fe6947b9bc622fa1ff328c4bbd01f43e26761
 extractor: trafilatura/2.2.0
 id: web-work-methods-model-swot-v2
@@ -36,7 +34,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/db08056c02871b815075116e7368c7dbd715962a6a1911e827bfb2a44a7401b8.html
-  sha256: sha256:db08056c02871b815075116e7368c7dbd715962a6a1911e827bfb2a44a7401b8
 read_status: retrieved
 retrieval:
   acquisition: local-file

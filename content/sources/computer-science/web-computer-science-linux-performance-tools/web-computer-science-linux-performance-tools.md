@@ -14,7 +14,6 @@ evidence_items:
     end: 257
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:221d180c612011b787d21bdf48d64750a146f46261f33aa676c157ddc84741fe
   selector:
     exact: 'linux 自身有很多性能分析工具。并且提供了详细的输出格式。熟练掌握这些工具可以帮助我们更快的发现性能瓶颈，为性能调优提供思路。
 
@@ -44,7 +43,6 @@ evidence_items:
 
       TIME进程使用的总 CPU 时间（从'
     type: TextQuoteSelector
-  selector_sha256: sha256:6f6abb6d9107fcc8a0334b9d51a7b6659dfb3d973a7b3f3d15a4c28710ed35d3
   snapshot_sha256: sha256:c9d8d88e9b01c2576a70cf7146220cec02627023c153451c587b5748de5d767d
 extractor: trafilatura/2.2.0
 id: web-computer-science-linux-performance-tools
@@ -52,7 +50,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/9aaed79234b5058ff42ff8e936153b5870641ca9ffc73123a65cc802c266836e.html
-  sha256: sha256:9aaed79234b5058ff42ff8e936153b5870641ca9ffc73123a65cc802c266836e
 read_status: retrieved
 retrieval:
   acquisition: fetch

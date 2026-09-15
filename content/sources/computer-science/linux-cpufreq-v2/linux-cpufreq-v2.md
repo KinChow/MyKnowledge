@@ -14,7 +14,6 @@ evidence_items:
     end: 376
     start: 164
     type: TextPositionSelector
-  quote_sha256: sha256:7f7daa9dc5f61e905879c1efecd2d6dde71ef017d57bd1154853d5179dd23b10
   selector:
     exact: The majority of modern processors are capable of operating in a number
       of different clock frequency and voltage configurations, often referred to as
@@ -24,7 +23,6 @@ evidence_items:
       '
     suffix: ' As a rule, the higher the clock'
     type: TextQuoteSelector
-  selector_sha256: sha256:7b678969a7910268de4b8bbd681e208804f3de43361dfdcb5c8dbad289092e16
   snapshot_sha256: sha256:92b91791b119fb35111fe37c96ac253af1c3e1a8caadd4452769ced214e67f58
 extractor: trafilatura/2.2.0
 id: linux-cpufreq-v2
@@ -35,7 +33,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/b42218c70d66bddff1208956e891b06b00e076f5d7fa3c7198b42c73067fee53.html
-  sha256: sha256:b42218c70d66bddff1208956e891b06b00e076f5d7fa3c7198b42c73067fee53
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -14,7 +14,6 @@ evidence_items:
     end: 10682
     start: 10554
     type: TextPositionSelector
-  quote_sha256: sha256:b4377a61443aa68c136b280d68453c76d1a6c3b3926dccf9696f30609e51f5a2
   selector:
     exact: "- Reorder buffer (ROB)\n  - allocated in-order in D stage\n  - updated
       out-of-order in W stage\n  - deallocated in-order in C stage"
@@ -25,27 +24,23 @@ evidence_items:
 
       - WAW hazards are possible, whi'
     type: TextQuoteSelector
-  selector_sha256: sha256:f0de03666926938af85afab1d5978379d7c6f52379a771dcfa53663cbcde653a
   snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
 - evidence_id: evidence-09b58cd6677b
   position:
     end: 11147
     start: 11099
     type: TextPositionSelector
-  quote_sha256: sha256:aecdfb18b186f44e2757738430246b8f03e15b0a37a030cb0b85546d8e0d31d0
   selector:
     exact: '- new instructions allocated ROB entries at tail'
     prefix: "lemented with circular buffer\n  "
     suffix: "\n  - instructions update pending"
     type: TextQuoteSelector
-  selector_sha256: sha256:f30157ad791e0d5ad9d3e2b4d9169698a05d2dc5628a9931c2d01022ccc38816
   snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
 - evidence_id: evidence-38824228f5d4
   position:
     end: 11255
     start: 11199
     type: TextPositionSelector
-  quote_sha256: sha256:7231413ca66b9b732559d1cb9e626411b2a3f9251cdb82812492030e7d8456a7
   selector:
     exact: '- commit stage waits for pending bit of head to be clear'
     prefix: "date pending bit out-of-order\n  "
@@ -54,7 +49,6 @@ evidence_items:
 
       #### **Example Execution Diagr'
     type: TextQuoteSelector
-  selector_sha256: sha256:267d02c6d48419b077f4c784f8abc8570c494c8ae3e8edd04e12af6b2bd5aa09
   snapshot_sha256: sha256:d3695f04addc8b3cbd864b1cf1b23dcbc32869cdf3982b3d39968ed191870463
 extractor: marker/2.0.0
 id: cornell-out-of-order-execution
@@ -62,7 +56,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/db3761d4c16e4b0339a01a365ab1e8b95b15fb76642bb4bccecfaefa02fff364.pdf
-  sha256: sha256:db3761d4c16e4b0339a01a365ab1e8b95b15fb76642bb4bccecfaefa02fff364
 read_status: retrieved
 retrieval:
   acquisition: fetch

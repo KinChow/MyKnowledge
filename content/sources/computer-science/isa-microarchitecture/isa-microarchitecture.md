@@ -8,7 +8,6 @@ evidence_items:
     end: 507
     start: 358
     type: TextPositionSelector
-  quote_sha256: sha256:df438a180a53ca753698241c60389f6e44c76c3f3a5801ef74715cbfe214e0e9
   selector:
     exact: ISA is the language of the CPU that tells it what operations it can perform,
       such as adding numbers, loading data, or jumping to another instruction.
@@ -17,14 +16,12 @@ evidence_items:
       '
     suffix: "\n It defines how software commun"
     type: TextQuoteSelector
-  selector_sha256: sha256:9d21cea39cd2b4935bcd140c098d8f2c4d755aa4a632c62f651413637a349a60
   snapshot_sha256: sha256:3f7d5b603b80e4012d65d109a817d42edad672e2e8548664808843b181e99080
 - evidence_id: evidence-2dd3071e634f
   position:
     end: 2317
     start: 2192
     type: TextPositionSelector
-  quote_sha256: sha256:2d4cc319aa85fedce3ddd9cf4089fd1aef6f2d3703b24eb538ba74d2849b9b86
   selector:
     exact: ISA defines what a CPU can do, while microarchitecture is how the CPU is
       designed internally to carry out those instructions.
@@ -37,7 +34,6 @@ evidence_items:
 
       1. Foundation'
     type: TextQuoteSelector
-  selector_sha256: sha256:22a7b95d151c46b99ef4642b0b63e8c0bdf04c62db90919dac5a0f2f8d54007a
   snapshot_sha256: sha256:3f7d5b603b80e4012d65d109a817d42edad672e2e8548664808843b181e99080
 extractor: trafilatura/2.2.0
 id: isa-microarchitecture

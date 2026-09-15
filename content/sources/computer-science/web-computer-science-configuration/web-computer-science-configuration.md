@@ -14,7 +14,6 @@ evidence_items:
     end: 443
     start: 13
     type: TextPositionSelector
-  quote_sha256: sha256:1cec253704ce6c7a5129a4de9afe528564b8d88c2b42a93c31f49603d8351be9
   selector:
     exact: "- 1.1 About Version Control\n  - 1.2 A Short History of Git\n  - 1.3 What
       is Git?\n  - 1.4 The Command Line\n  - 1.5 Installing Git\n  - 1.6 First-Time
@@ -25,7 +24,6 @@ evidence_items:
     prefix: "- \n  \n    \n  "
     suffix: " \n  \n    \n  - 3.1 Branches in a "
     type: TextQuoteSelector
-  selector_sha256: sha256:c366cc0788f53822acb5fecf8e71083ff30ed6bef21c3b4007ec0bdb032a137c
   snapshot_sha256: sha256:5a329593954d0948560fe8ade2be47e98ac4ffa3abb5abb6d3bab9cf818b78e9
 extractor: trafilatura/2.2.0
 id: web-computer-science-configuration
@@ -33,7 +31,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/b387139b1aa728de8d2c606bec7db6af9ad8c7689462335e03685c27f6221656.html
-  sha256: sha256:b387139b1aa728de8d2c606bec7db6af9ad8c7689462335e03685c27f6221656
 read_status: retrieved
 retrieval:
   acquisition: fetch

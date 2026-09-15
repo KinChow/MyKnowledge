@@ -14,7 +14,6 @@ evidence_items:
     end: 284
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:f7ae0c4f15ff319f14728c8f14cd90c40c07f9c9c7dd9c425fed366d97db2852
   selector:
     exact: "UML® — Unified Modeling Language\nA specification defining a graphical
       language for visualizing, specifying, constructing, and documenting the artifacts
@@ -23,7 +22,6 @@ evidence_items:
     prefix: ''
     suffix: "1\n- Document Status:\n- \n        "
     type: TextQuoteSelector
-  selector_sha256: sha256:a98ed24a0ac2b4ce015f1dc3314ee33000a61d5f702e970371580c4b11f7d8f4
   snapshot_sha256: sha256:cd0b9ab1bc04e08733ef2f457c72cf3c3a3748d3392a6bf696482ca2aaabda9b
 extractor: trafilatura/2.2.0
 id: web-computer-science-software-modeling
@@ -31,7 +29,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/80ac1d31963c4561309a8242678d6ab5352b4d0896772cea89bbb68654c01585.html
-  sha256: sha256:80ac1d31963c4561309a8242678d6ab5352b4d0896772cea89bbb68654c01585
 read_status: retrieved
 retrieval:
   acquisition: fetch

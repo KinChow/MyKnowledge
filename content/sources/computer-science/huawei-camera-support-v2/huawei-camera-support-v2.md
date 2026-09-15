@@ -14,7 +14,6 @@ evidence_items:
     end: 366
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:cdd0add3f8458484684b4991e8954b98489aae478e55db5371eb31c0b3e9dc72
   selector:
     exact: 'Portrait mode lets you apply beauty, lighting, and blur effects to your
       photos to shoot stunning portraits.
@@ -31,7 +30,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:bb85735bb87afa44dc193559cd17bd246464ecc6be2f6743274ac53a1bd0f47f
   snapshot_sha256: sha256:1dd146e0916b6089356f70402642e089e6121d969e85cd0b95af20117528486a
 extractor: utf8/1
 id: huawei-camera-support-v2
@@ -42,7 +40,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/1dd146e0916b6089356f70402642e089e6121d969e85cd0b95af20117528486a.txt
-  sha256: sha256:1dd146e0916b6089356f70402642e089e6121d969e85cd0b95af20117528486a
 read_status: retrieved
 retrieval:
   acquisition: local-file

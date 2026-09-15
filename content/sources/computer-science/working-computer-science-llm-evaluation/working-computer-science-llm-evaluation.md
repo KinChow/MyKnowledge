@@ -8,7 +8,6 @@ evidence_items:
     end: 360
     start: 204
     type: TextPositionSelector
-  quote_sha256: sha256:8644523a9b23f7f1a83380d9a29f0c3b1799e2593f0f6759aeb3584307e0fd44
   selector:
     exact: 评估没有放之四海而皆准的单一指标——它的本质是把「我的模型好」这个抽象概念转化为由具体提示环境驱动的可测量指标（转录："而评估实际上就是将这些抽象概念"+"转化为具体指标的过程"），并且任何基准都不得不在**难度、真实性（生态效度）、免受数据污染**三者之间做出有意的取舍（"实际上并没有一种评估能一统天下"）。
     prefix: '[llm-scaling-laws]]。
@@ -26,7 +25,6 @@ evidence_items:
 
       - **评估（Evaluation）**：'
     type: TextQuoteSelector
-  selector_sha256: sha256:6a1183e716adba89897d9ada5719d55e5420a8d6119b953dc8f530266c09c6e8
   snapshot_sha256: sha256:1f0b08866555380f11546412118e204264d1fa371c0ee3a676cefee785a9a200
 extractor: personal-note/1
 id: working-computer-science-llm-evaluation

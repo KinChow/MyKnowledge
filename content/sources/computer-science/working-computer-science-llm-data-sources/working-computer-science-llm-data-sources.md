@@ -8,7 +8,6 @@ evidence_items:
     end: 183
     start: 68
     type: TextPositionSelector
-  quote_sha256: sha256:f2880af527582009a6f096fec4c2478f72f214eaebaadd8a44cac5ea9f82150a
   selector:
     exact: 预训练数据的**来源、组成与规模**是语言模型的真正核心竞争力：大多数模型都采用大致相同的 transformer 架构，但数据从哪里来、如何组合直接决定模型最终质量（cs336-p13："数据是区分不同语言模型的关键性要素"）。
     prefix: '预训练数据源
@@ -25,7 +24,6 @@ evidence_items:
       '
     suffix: 数据不是"从天上掉下来的"，最上层是互联网——它由分布全球的实时
     type: TextQuoteSelector
-  selector_sha256: sha256:6ff550838566507c7c83067771cb6eb16855ec951c05ca503fe67793864a666f
   snapshot_sha256: sha256:fecb682d265871de751fbff7582f35cb3b229cbf812b2f0b150f5f6b7f94af4a
 extractor: personal-note/1
 id: working-computer-science-llm-data-sources

@@ -14,14 +14,12 @@ evidence_items:
     end: 123
     start: 25
     type: TextPositionSelector
-  quote_sha256: sha256:9fe66dc8deeebeeee302c38cb61733d66b47de415a689279f7f807757616169f
   selector:
     exact: the interpreter pattern is a design pattern that specifies how to evaluate
       sentences in a language
     prefix: 'In computer programming, '
     suffix: . The basic idea is to have a cl
     type: TextQuoteSelector
-  selector_sha256: sha256:94ac5c488f54a18c2afc097dd8926d788993d38f5f18b5d66261ad16fec27b1a
   snapshot_sha256: sha256:c347edd8da7bd990f93e44a73d7073b07cc24abf4c37dcce065dab628c7c2d92
 extractor: utf8/1
 id: web-computer-science-interpreter-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/c347edd8da7bd990f93e44a73d7073b07cc24abf4c37dcce065dab628c7c2d92.txt
-  sha256: sha256:c347edd8da7bd990f93e44a73d7073b07cc24abf4c37dcce065dab628c7c2d92
 read_status: retrieved
 retrieval:
   acquisition: local-file

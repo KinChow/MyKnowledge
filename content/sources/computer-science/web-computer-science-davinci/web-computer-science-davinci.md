@@ -14,7 +14,6 @@ evidence_items:
     end: 500
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:30194ce633a080e3cd76ed08ef92f0a884570d89f1f50ec4f294f30f5dc0c4e6
   selector:
     exact: '文章目录
 
@@ -44,7 +43,6 @@ evidence_items:
     prefix: ''
     suffix: " \n  \n  - Cube\n  - Vector\n  - Sca"
     type: TextQuoteSelector
-  selector_sha256: sha256:7d8ec68694c569dc08ca724d4688cae9ffc005cd771518336b87fea0f1bad261
   snapshot_sha256: sha256:8f401417428c1fd18544adfaffd9ed6c6a97597a615ab153459ed8ade8ff586f
 extractor: trafilatura/2.2.0
 id: web-computer-science-davinci
@@ -52,7 +50,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/a315284e6e0213bd6132c11408ec049c9cf87dcddf230bd675925ad1485d93e1.html
-  sha256: sha256:a315284e6e0213bd6132c11408ec049c9cf87dcddf230bd675925ad1485d93e1
 read_status: retrieved
 retrieval:
   acquisition: fetch

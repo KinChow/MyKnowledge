@@ -14,7 +14,6 @@ evidence_items:
     end: 316
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:c78c40696eb8d86e27187f92adb097886546cf5bcbf71a1f2f42facf6e04f9dc
   selector:
     exact: 'The Python Tutorial¶
 
@@ -29,7 +28,6 @@ evidence_items:
     prefix: ''
     suffix: ' Python’s elegant syntax and dyn'
     type: TextQuoteSelector
-  selector_sha256: sha256:d95e95a655879a13d639d44428b040287632209294397c58d1da22e242a6eb70
   snapshot_sha256: sha256:f5d45b53c3afd182fa15a1ad355969bc85a7cf1d1bd741e29fdf022789fa540e
 extractor: trafilatura/2.2.0
 id: web-computer-science-c-vs-python
@@ -37,7 +35,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/7e5a33551ea5a4192a07b4d90d985c8d1b0dc276746bc51062c82491e97e55e4.html
-  sha256: sha256:7e5a33551ea5a4192a07b4d90d985c8d1b0dc276746bc51062c82491e97e55e4
 read_status: retrieved
 retrieval:
   acquisition: fetch

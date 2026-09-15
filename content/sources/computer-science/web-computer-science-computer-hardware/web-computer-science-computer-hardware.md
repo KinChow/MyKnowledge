@@ -14,7 +14,6 @@ evidence_items:
     end: 292
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:0a33d86607387c60078b14befb92f952a1b062658ce6ffdac92d09e4dfabe193
   selector:
     exact: Computer hardware includes the physical parts of a computer, such as the
       central processing unit (CPU), random access memory (RAM), motherboard, computer
@@ -26,14 +25,12 @@ evidence_items:
 
       At least one CPU (central proc'
     type: TextQuoteSelector
-  selector_sha256: sha256:587cbdac31be9653d6f193cf55e956bca315e58f6cede84b5fc984f7dff9b3f8
   snapshot_sha256: sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7
 - evidence_id: evidence-84a42a7dca80
   position:
     end: 691
     start: 294
     type: TextPositionSelector
-  quote_sha256: sha256:83a64b154b9b7d7fe1771abe1c7838cc0a1daca28c56eb2c4dc2de8b7c86a678
   selector:
     exact: At least one CPU (central processing unit), which performs the majority
       of computational tasks required for a computer to operate. Often described informally
@@ -49,14 +46,12 @@ evidence_items:
 
       Most personal computer power s'
     type: TextQuoteSelector
-  selector_sha256: sha256:b14f3ea02a6330639f2c5ea0dcc5ee7b85c0044d369e7169cbe4e395cc151b63
   snapshot_sha256: sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7
 - evidence_id: evidence-9da6093a732a
   position:
     end: 935
     start: 693
     type: TextPositionSelector
-  quote_sha256: sha256:7a61dd6b098f3d8938f744df6880f3b94cf88bd30f165260bac58517c0dd814c
   selector:
     exact: 'Most personal computer power supply units meet the ATX standard and convert
       from alternating current (AC) at between 120 and 277 volts provided from a power
@@ -71,14 +66,12 @@ evidence_items:
 
       The internal bus connects the '
     type: TextQuoteSelector
-  selector_sha256: sha256:9b205ceb62d49547708ffdb3a284523bc15dbc8006fcfa8b6a8727acc76627d2
   snapshot_sha256: sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7
 - evidence_id: evidence-06bce453287a
   position:
     end: 1680
     start: 937
     type: TextPositionSelector
-  quote_sha256: sha256:7498d353e636c00737402c0e9cdefd55dae53e62f66e0b9835578f17afa16031
   selector:
     exact: The internal bus connects the CPU to main memory via multiple communication
       lines—typically 50 to 100—divided into address, data, and control buses, each
@@ -99,7 +92,6 @@ evidence_items:
 
       An expansion card in computing'
     type: TextQuoteSelector
-  selector_sha256: sha256:357d4e1d7ca76cd0bb92727a92c8ca9299f638e5e098b7c9eed4c7789355ac1f
   snapshot_sha256: sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7
 extractor: utf8/1
 id: web-computer-science-computer-hardware
@@ -110,7 +102,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7.txt
-  sha256: sha256:ad2ae5f7d9ee2a2320f0475c1437e8ef5ba08a989065edaa32864fefd85c92a7
 read_status: retrieved
 retrieval:
   acquisition: local-file

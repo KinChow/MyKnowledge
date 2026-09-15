@@ -76,15 +76,16 @@ class SourceIngestorTests(unittest.TestCase):
                 evidence["position"]["end"],
                 body.index("包含 emoji 😀 和代码") + len("包含 emoji 😀 和代码"),
             )
+            # AC-F001-013：锚定链与验证器必须共用同一 `canonical_quote` 实现。
+            # 校验值不落盘（ADR-0019 §5）后，这条锁改成直接对两条重算路径比对 ——
+            # 它要防的仍然是"有人另写第二份归一实现"，与是否落盘无关。
             self.assertEqual(
-                evidence["quote_sha256"],
                 sha256_text(canonical_quote("包含 emoji 😀 和代码")),
-            )
-            self.assertEqual(
-                evidence["quote_sha256"],
                 SourceValidator.quote_sha256("包含 emoji 😀 和代码"),
             )
-            self.assertTrue(evidence["selector_sha256"].startswith("sha256:"))
+            # §5 的落盘契约：证据项不带校验值指纹
+            self.assertNotIn("selector_sha256", evidence)
+            self.assertNotIn("quote_sha256", evidence)
             source_path = (
                 root
                 / "content"

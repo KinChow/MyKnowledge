@@ -14,7 +14,6 @@ evidence_items:
     end: 201
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:314fa3f12d8efa9040946fc9ca475a05de1e592941a881b8abd1fd1755fc04b0
   selector:
     exact: KISS ("Keep it simple, stupid") is a design principle first noted by the
       U.S. Navy in 1960. First seen partly in American English by at least 1938, KISS
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: ' The phrase has been associated '
     type: TextQuoteSelector
-  selector_sha256: sha256:4fab84bdb2fd49f08e4294b7830f68202d5a09b2b0048b9984ae145c803fa284
   snapshot_sha256: sha256:142193c8b60c26d7c0012e402ede666f81dab2263ecf811e06b6535689f6bec0
 extractor: utf8/1
 id: web-computer-science-kiss
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/142193c8b60c26d7c0012e402ede666f81dab2263ecf811e06b6535689f6bec0.txt
-  sha256: sha256:142193c8b60c26d7c0012e402ede666f81dab2263ecf811e06b6535689f6bec0
 read_status: retrieved
 retrieval:
   acquisition: local-file

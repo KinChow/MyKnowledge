@@ -8,7 +8,6 @@ evidence_items:
     end: 658
     start: 504
     type: TextPositionSelector
-  quote_sha256: sha256:3b58861a370927569c3dbd0589eeb009ce579a4ff27bf52dc733967619f2bee9
   selector:
     exact: To perform more fine-grained optimization of in-memory algorithms, we have
       to start taking into account the many specific details of the CPU cache system.
@@ -17,14 +16,12 @@ evidence_items:
       '
     suffix: ' And instead of studying loads o'
     type: TextQuoteSelector
-  selector_sha256: sha256:fb25848e3625ed50a8c6c13a20468c2f4c1fbfdb7564885d5cc2ac9ea3451a93
   snapshot_sha256: sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f
 - evidence_id: evidence-44856c2dbd94
   position:
     end: 1704
     start: 1633
     type: TextPositionSelector
-  quote_sha256: sha256:8364aa44b3c1b1cc5ffe7350bd4af4f9d20a24bd1caa8cb2bf1fe81ba5330b99
   selector:
     exact: Not all conclusions will generalize to every CPU platform in existence.
     prefix: ' the CPU on WikiChip and 7-CPU. '
@@ -32,7 +29,6 @@ evidence_items:
 
       Due to difficulties in preventi'
     type: TextQuoteSelector
-  selector_sha256: sha256:29d1d7a5b28fa1278a102a0f3b29c9efccc11f44075da306829f4e399f465856
   snapshot_sha256: sha256:d51a32369b41d5409972d53eac29ea4886c21f5783a95a707e058225d711ff8f
 extractor: trafilatura/2.2.0
 id: algorithmica-cpu-cache

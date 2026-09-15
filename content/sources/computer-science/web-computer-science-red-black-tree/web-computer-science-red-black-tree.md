@@ -14,7 +14,6 @@ evidence_items:
     end: 441
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:d3f2c3faf30e1c4c522515a5cee146a1286ed8fd5172bdc526a2bf72602697db
   selector:
     exact: 'A Red-Black Tree is a self-balancing binary search tree with a height
       limit of O(logN), enabling efficient search, insertion, and deletion operations
@@ -32,14 +31,12 @@ evidence_items:
 
       A'
     type: TextQuoteSelector
-  selector_sha256: sha256:10fdf22a8f5bac4f16ce72d93389def6213b8051c5a2ce7548437390245eaf0d
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-fe34e8b4d9cb
   position:
     end: 228
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:6bf5176d63940f3210ff8717ea852c1a7b6d5345cafa47d938ba4cf41ffe4af9
   selector:
     exact: A Red-Black Tree is a self-balancing binary search tree with a height limit
       of O(logN), enabling efficient search, insertion, and deletion operations in
@@ -49,14 +46,12 @@ evidence_items:
 
       - Each node has an additional a'
     type: TextQuoteSelector
-  selector_sha256: sha256:fbdd4a0f24459c20dd4200964c3c777c81ca880eb4ed06708f76f8d90a400fb2
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-70d3bddd4fb5
   position:
     end: 566
     start: 521
     type: TextPositionSelector
-  quote_sha256: sha256:82df058ccedf70f094e1a1201253614e7e636ae77ea064ef24523c7232046317
   selector:
     exact: 'Node Color: Each node is either red or black.'
     prefix: 'has the following properties:
@@ -66,14 +61,12 @@ evidence_items:
 
       - Root Property: The root of th'
     type: TextQuoteSelector
-  selector_sha256: sha256:66231f3b100ad7036764c510d518fa093056fd20a18755f9bef5d9ba388d6a7c
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-0d5d6b70154b
   position:
     end: 621
     start: 569
     type: TextPositionSelector
-  quote_sha256: sha256:eb42943e3ecc57dfbecb7ab6d3bf815e3338cff9f6d3e7b4781fce6d573e857e
   selector:
     exact: 'Root Property: The root of the tree is always black.'
     prefix: ' node is either red or black.
@@ -83,14 +76,12 @@ evidence_items:
 
       - Red Node Property: Red nodes '
     type: TextQuoteSelector
-  selector_sha256: sha256:554e5e473a660466befe9babbe0af17e1ef27c67279e4984f7477cc74fcdf52b
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-96b26ae2b99c
   position:
     end: 709
     start: 624
     type: TextPositionSelector
-  quote_sha256: sha256:e3a28eea642fbe26c77991a4aab1f158c24c45c199015775a30efa9d4070b373
   selector:
     exact: 'Red Node Property: Red nodes cannot have red children (Red nodes cannot
       be adjacent).'
@@ -101,14 +92,12 @@ evidence_items:
 
       - Black Node Property: Every pa'
     type: TextQuoteSelector
-  selector_sha256: sha256:86f38772947271cd5f500548650cb6b01bdda25f62e94b463cf958827616e627
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-0cb659e294c6
   position:
     end: 822
     start: 712
     type: TextPositionSelector
-  quote_sha256: sha256:c15242bebaaabad640f559d3d79bded99ca20cdabb63952869f1fd7991c4797e
   selector:
     exact: 'Black Node Property: Every path from a node to its descendant leaves must
       have the same number of black nodes.'
@@ -119,14 +108,12 @@ evidence_items:
 
       - Leaf Property: All leaves (NI'
     type: TextQuoteSelector
-  selector_sha256: sha256:8eec3e0f2f15ad32719a9e2ba1edb5ea96de6bc8ca3813f01b11177577d29734
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-53b7c761e0ab
   position:
     end: 873
     start: 825
     type: TextPositionSelector
-  quote_sha256: sha256:6141e611668c624c1ec206a179ea9da3291993fe58ca75a07403193a447c7265
   selector:
     exact: 'Leaf Property: All leaves (NIL nodes) are black.'
     prefix: 'e same number of black nodes.
@@ -136,14 +123,12 @@ evidence_items:
 
       These properties (no two consec'
     type: TextQuoteSelector
-  selector_sha256: sha256:ba7d665bdfa9f80e92a0660585c16b0fd9a186968107a0cf7cfed9a14e051f73
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-9ab60d16945e
   position:
     end: 1103
     start: 874
     type: TextPositionSelector
-  quote_sha256: sha256:c14fe41e4f917dedb004d3afa50646b4fdac273156333287f142ec3cbd395441
   selector:
     exact: These properties (no two consecutive reds and same black height) ensure
       that the longest path from the root to any leaf is no more than twice as long
@@ -157,14 +142,12 @@ evidence_items:
 
       A simple example to u'
     type: TextQuoteSelector
-  selector_sha256: sha256:d0b154c7523c80273add6e98b4ad8848fda650d72b3b83a65e4d23daa740c013
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-6acfc182afc6
   position:
     end: 1718
     start: 1593
     type: TextPositionSelector
-  quote_sha256: sha256:f1d27e37267d7ddd74bf2bb088dcf1712b64678ff3aeb819f142414acc259a4e
   selector:
     exact: 'Insertion: Inserting a new node involves a two-step process: BST insertion,
       followed by fixing Red-Black property violations.'
@@ -175,14 +158,12 @@ evidence_items:
 
       - If the parent of th'
     type: TextQuoteSelector
-  selector_sha256: sha256:6db198339c29a55dd31861b4b24e337e70adfe3e301e7a3612be7318ddf18a0e
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-cbddd783092e
   position:
     end: 2046
     start: 1945
     type: TextPositionSelector
-  quote_sha256: sha256:209ab95fe843301b4d9afd22dca07d54eb7303452a060cd967170fa99541b2fc
   selector:
     exact: 'Case 1 (Uncle is Red): Recolor parent and uncle to black, grandparent
       to red. Then, move up the tree.'
@@ -193,14 +174,12 @@ evidence_items:
 
       - Case 2 (Uncle is Black): If n'
     type: TextQuoteSelector
-  selector_sha256: sha256:2e91c2b2afddceaae72af62441e69147fa11c01e6168ffad428328a0a0fc6239
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-60331b073563
   position:
     end: 2224
     start: 2049
     type: TextPositionSelector
-  quote_sha256: sha256:e4a3858c3df895c70b9207ef49d1205299c520f6cad8e6451bb50860485d2636
   selector:
     exact: 'Case 2 (Uncle is Black): If node is a right child, perform a left rotation
       on the parent. If the node is a left child, perform a right rotation on the
@@ -212,14 +191,12 @@ evidence_items:
 
       2. Searching: Searching in Red-'
     type: TextQuoteSelector
-  selector_sha256: sha256:92a227a90d39efeb17dd10beaf21e378e4f7491807fcd2dd56cf34b2e000a467
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-c83b40239805
   position:
     end: 2290
     start: 2228
     type: TextPositionSelector
-  quote_sha256: sha256:1c2f94da883f08a4e2ee4207227861fbe8d679f66da72be8b25b11d005d71965
   selector:
     exact: 'Searching: Searching in Red-Black Trees mirrors BST searching.'
     prefix: 'the grandparent and recolor.
@@ -229,14 +206,12 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:9dd2af085c17d26f7e9c558fb163f1a4784b6c3af1e54a3d37b4cb31dfb69843
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-6724bb114559
   position:
     end: 2629
     start: 2588
     type: TextPositionSelector
-  quote_sha256: sha256:9769b978bb659e9b2c732bcd6d36845448a67d3090296005ee016ff41ad75d55
   selector:
     exact: Remove the node using standard BST rules.
     prefix: 'ollowed by fixing violations.
@@ -246,14 +221,12 @@ evidence_items:
 
       - If a black node is deleted, a'
     type: TextQuoteSelector
-  selector_sha256: sha256:ce43eecf7f44a58a6b836bcebfc5d6aec300160827fee29eaf176db555ec7621
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-0c72d8fee0ea
   position:
     end: 2730
     start: 2632
     type: TextPositionSelector
-  quote_sha256: sha256:5e7843b0578bf09f0cfab1be2848da2133de89e5b479ba31b61f04bea58ff7e5
   selector:
     exact: If a black node is deleted, a "double black" condition might arise, which
       requires specific fixes.
@@ -264,14 +237,12 @@ evidence_items:
 
       When deleting a black node, res'
     type: TextQuoteSelector
-  selector_sha256: sha256:b908f149823812c71a77de2929e85f1b59c9f51102af16213c5dc8b61e640588
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-61a045cc5983
   position:
     end: 3573
     start: 3452
     type: TextPositionSelector
-  quote_sha256: sha256:cef087bb6aed7924045afa06f637df6a491046ee822e4e02fde05d55a4a4fcac
   selector:
     exact: 'Left Rotation: A left rotation at node x pivots the tree to the left,
       promoting its right child y to x''s former position.'
@@ -280,14 +251,12 @@ evidence_items:
       i. '
     suffix: ' The Transformation Steps are as'
     type: TextQuoteSelector
-  selector_sha256: sha256:1a7bbd92384ef6a7b034649e961014a37df4522ba8b7bc866d05ce8b4fa8f338
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-d9751cdd107c
   position:
     end: 4723
     start: 4600
     type: TextPositionSelector
-  quote_sha256: sha256:93c40ba92e041fee3ec89ef83877609381a29ffde589969f5fa918ec4f246435
   selector:
     exact: 'Right Rotation: A right rotation at node x pivots the tree to the right,
       promoting its left child y to x’s former position.'
@@ -296,14 +265,12 @@ evidence_items:
 
       - Detach Subtree: Move y’s righ'
     type: TextQuoteSelector
-  selector_sha256: sha256:8ef5777566bd25b9ba0abf9cda9a8f1ed873807d2aa50032c9d0414af9b2503b
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-46854131a1bf
   position:
     end: 28522
     start: 28368
     type: TextPositionSelector
-  quote_sha256: sha256:2bd8c822bcf66dfcb0fc63e5e8affbb9beaf51e0f67dee2560e5b230ee8d7cfa
   selector:
     exact: Because of their self-balancing property, they offer high efficiency in
       searching, insertion, and deletion, with a worst-case time complexity of O(log
@@ -313,14 +280,12 @@ evidence_items:
 
       - Red-Black Trees have straight'
     type: TextQuoteSelector
-  selector_sha256: sha256:09c4d9d4f64bb906768e942da2e30ffca4587a417747e5325c860c850fe4a003
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-adb4ade9ca09
   position:
     end: 28647
     start: 28525
     type: TextPositionSelector
-  quote_sha256: sha256:4d7481ae955dd7e19e0bb8d1a3fc04af34db4ae433c649df42739076dd63129c
   selector:
     exact: Red-Black Trees have straightforward rules for insertion, deletion, and
       balance, making them relatively easy to implement.
@@ -331,14 +296,12 @@ evidence_items:
 
       - Suitable for use in maps, set'
     type: TextQuoteSelector
-  selector_sha256: sha256:6f356a57aa47ed881e60a20c85827b9af384f3dd3ed3570cb854b7ad463a6791
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-0420728272cc
   position:
     end: 28702
     start: 28650
     type: TextPositionSelector
-  quote_sha256: sha256:715fd3aa999a34e4c60c9f76da6da046cbcf141357a3e53f95efee75bb232e10
   selector:
     exact: Suitable for use in maps, sets, and priority queues.
     prefix: 'relatively easy to implement.
@@ -350,14 +313,12 @@ evidence_items:
 
       - Red-Black Trees'
     type: TextQuoteSelector
-  selector_sha256: sha256:4bc942a60f5d5c066d3e30b24bb9b31780dfe32fd7bdcfd97db874e6e6496ac7
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-8c7950f5de01
   position:
     end: 28834
     start: 28719
     type: TextPositionSelector
-  quote_sha256: sha256:31df9aab403fbd29e59605714ad3f1b05ccba6345f97f9d0ea2c5c17460fe590
   selector:
     exact: Red-Black Trees have more intricate insertion and deletion rules compared
       to simpler balanced trees like AVL trees.
@@ -370,14 +331,12 @@ evidence_items:
 
       - Maintaining the Red-Black Tre'
     type: TextQuoteSelector
-  selector_sha256: sha256:6484b948cedd7e1a9e5e0ba6381f266453c5739b01efd349f46c2d1487fc6c48
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-f63611b667a8
   position:
     end: 28948
     start: 28837
     type: TextPositionSelector
-  quote_sha256: sha256:df43ca6726f216ce95ed4b16db16e84054aeed57f54fe2a842fc6ef77fa0edf3
   selector:
     exact: Maintaining the Red-Black Tree properties introduces a minor overhead during
       insertion and deletion operations.
@@ -388,14 +347,12 @@ evidence_items:
 
       Applications of Red-Black Trees'
     type: TextQuoteSelector
-  selector_sha256: sha256:254410b4fba26dee161e61b86f7245a867e52ffe911544986c8ea17072112ca5
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-f5427bc1aaa0
   position:
     end: 29066
     start: 28984
     type: TextPositionSelector
-  quote_sha256: sha256:c638fe500187f8ae99220addd97c83eba52ae59bf88f0c4ac36a08e3c734496d
   selector:
     exact: Powers high-performance containers such as map and set in C++ and TreeMap
       in Java.
@@ -406,14 +363,12 @@ evidence_items:
 
       - In operating systems, it enab'
     type: TextQuoteSelector
-  selector_sha256: sha256:2a8aca250654116bd18b5fa9f54207af9d8a6e857dad60863ff45f6cff6f8354
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-f362a701ea73
   position:
     end: 29176
     start: 29069
     type: TextPositionSelector
-  quote_sha256: sha256:c59f3605299264c4824446acd11303edf0ded46abb8b14a57dd0a025cdfbedbe
   selector:
     exact: In operating systems, it enables efficient process scheduling (e.g., Linux
       CFS) and virtual memory mapping.
@@ -424,14 +379,12 @@ evidence_items:
 
       - It organizes directory struct'
     type: TextQuoteSelector
-  selector_sha256: sha256:2f87819cad349137abd5b88d2906abb6b45387580cc0cc8ceaa26463a2660b6f
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 - evidence_id: evidence-4bfb3ccb8bd6
   position:
     end: 29270
     start: 29179
     type: TextPositionSelector
-  quote_sha256: sha256:5605f9f5ad7d378028fe7086b3ffed89312cc292731ae1a6d91f75756fc5bcca
   selector:
     exact: It organizes directory structures and tracks disk blocks in file systems
       like XFS and Ext4.
@@ -442,7 +395,6 @@ evidence_items:
 
       - It also handles high-speed pa'
     type: TextQuoteSelector
-  selector_sha256: sha256:6d3fb90998b28532f840c0b1e10e78492d9bec08391bcfceb6210f6feefa08de
   snapshot_sha256: sha256:6d3ec93b28c20f1d6c6ed715f5d74f3bb9926711504984be17e6cef7464bb9ea
 extractor: trafilatura/2.2.0
 id: web-computer-science-red-black-tree
@@ -450,7 +402,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/bc36a2b5aa751836d5d188717df9608a64af7c705ab77cb87f235a2e78c77bc2.html
-  sha256: sha256:bc36a2b5aa751836d5d188717df9608a64af7c705ab77cb87f235a2e78c77bc2
 read_status: retrieved
 retrieval:
   acquisition: fetch

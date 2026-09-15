@@ -14,7 +14,6 @@ evidence_items:
     end: 3221
     start: 3003
     type: TextPositionSelector
-  quote_sha256: sha256:9e6483f99a9b9aadb69121a4b5237e5ace74a09616a2fbeefb623ce3f7483b3c
   selector:
     exact: The main types of UML diagrams include Class diagrams, Object diagrams,
       Use case diagrams, Sequence diagrams, Collaboration diagrams, Activity diagrams,
@@ -26,7 +25,6 @@ evidence_items:
 
       The types of relationships in U'
     type: TextQuoteSelector
-  selector_sha256: sha256:387c87bd93c1238676332eb42fb2e2f296af8f0f690c9dcb2a21e5a3084eb4d8
   snapshot_sha256: sha256:239d734d1b4a8dc5c841b733a486c306e3a4ec3be3bf0ba4af988d068226a0de
 extractor: trafilatura/2.2.0
 id: web-computer-science-collaboration-diagram
@@ -34,7 +32,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/31bc6336a57f489ca360916bc033d232af3e26fcb0ef3ebfe4f837390e6c8ef3.html
-  sha256: sha256:31bc6336a57f489ca360916bc033d232af3e26fcb0ef3ebfe4f837390e6c8ef3
 read_status: retrieved
 retrieval:
   acquisition: fetch

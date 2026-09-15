@@ -14,21 +14,18 @@ evidence_items:
     end: 1364
     start: 1287
     type: TextPositionSelector
-  quote_sha256: sha256:0f8e3927a56c936b621778806ad1d2fd2845778bf905f9231ed363c6d6c9c0e9
   selector:
     exact: "data types \n      baseWxL_t vector data types \n      baseWxLxN_t vector
       array"
     prefix: "s: \n      \n      baseW_t scalar "
     suffix: " data types \n      \n     Where: "
     type: TextQuoteSelector
-  selector_sha256: sha256:35ef06ca27c56e85631def42615d030a563e4f4beab8fbcc68231d26795d3a1d
   snapshot_sha256: sha256:1bcc9b9ae1f357e0a69a33499eb547ce025902b487872248b83f0d3009f5e7e7
 - evidence_id: evidence-83f47882ed36
   position:
     end: 1375
     start: 1159
     type: TextPositionSelector
-  quote_sha256: sha256:68c06994d1abbc5fd5762f046ecf11ed70d9bba960a3018a9a7c3d2f4171c586
   selector:
     exact: "There are three major categories of data type available in arm_neon.h
       which follow these patterns: \n      \n      baseW_t scalar data types \n      baseWxL_t
@@ -36,7 +33,6 @@ evidence_items:
     prefix: "   \n     \n     ### Types\n \n     "
     suffix: " \n      \n     Where: \n      \n   "
     type: TextQuoteSelector
-  selector_sha256: sha256:c324a449adc8e956af0ee74788d3ea86b9e33bb77cea01956c5aca3c4537a7ff
   snapshot_sha256: sha256:1bcc9b9ae1f357e0a69a33499eb547ce025902b487872248b83f0d3009f5e7e7
 extractor: utf8/1
 id: arm-neon-conventions
@@ -47,7 +43,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/1bcc9b9ae1f357e0a69a33499eb547ce025902b487872248b83f0d3009f5e7e7.txt
-  sha256: sha256:1bcc9b9ae1f357e0a69a33499eb547ce025902b487872248b83f0d3009f5e7e7
 read_status: retrieved
 retrieval:
   acquisition: local-file

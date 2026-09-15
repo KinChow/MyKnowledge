@@ -14,7 +14,6 @@ evidence_items:
     end: 447
     start: 236
     type: TextPositionSelector
-  quote_sha256: sha256:ed3546702827164fce6d549a3ad98a0ff00a3c76db4f8b7b71b372a4f37da106
   selector:
     exact: The crucial task of localizing such regressions can be achieved using bisection,
       which attempts to find the bug-introducing commit using binary search. This
@@ -22,7 +21,6 @@ evidence_items:
     prefix: 'lity of a software application. '
     suffix: ', but it is an inherently heuris'
     type: TextQuoteSelector
-  selector_sha256: sha256:2d00942820cfd1804d5061ec291983fd076e453e0fd9b05afd452c3adfaf64ba
   snapshot_sha256: sha256:2ec07aa0984f44c73043dd3c1beb9aa73d89f211f1c47e6d7076c3e8d96c6dab
 extractor: marker/2.0.0
 id: bisect-performance-regression
@@ -30,7 +28,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/3da6d7c719e685b7ca172fa042c7c18cb081b8e2acbf218bf80fdddbe8630201.pdf
-  sha256: sha256:3da6d7c719e685b7ca172fa042c7c18cb081b8e2acbf218bf80fdddbe8630201
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -14,7 +14,6 @@ evidence_items:
     end: 204
     start: 32
     type: TextPositionSelector
-  quote_sha256: sha256:e522222e60fa65d7bdd1ca8b2f94dac13ed35205dfafe0a4e116de2d527025f4
   selector:
     exact: the command pattern is a behavioral design pattern in which an object is
       used to encapsulate all information needed to perform an action or trigger an
@@ -22,7 +21,6 @@ evidence_items:
     prefix: 'In object-oriented programming, '
     suffix: '. This information includes the '
     type: TextQuoteSelector
-  selector_sha256: sha256:0b1c75fa8545788d158093ea65aed4c41a891050e88e919ab691818cec9265ff
   snapshot_sha256: sha256:b230788fadc1ccad47836514a8f4bd24c4817bd7a4110ec930f8df9dd478b68c
 extractor: utf8/1
 id: web-computer-science-command-pattern
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/b230788fadc1ccad47836514a8f4bd24c4817bd7a4110ec930f8df9dd478b68c.txt
-  sha256: sha256:b230788fadc1ccad47836514a8f4bd24c4817bd7a4110ec930f8df9dd478b68c
 read_status: retrieved
 retrieval:
   acquisition: local-file

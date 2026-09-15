@@ -14,7 +14,6 @@ evidence_items:
     end: 226
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:fe005f3b52795844f887ac25ae514fb1aece4d1ad06ce5f27830a72ba440632d
   selector:
     exact: "New! Render PlantUML diagrams directly inside GitHub\n        with our
       official browser extension —\n        No server. No tokens. No tracking. Zero
@@ -22,14 +21,12 @@ evidence_items:
     prefix: ''
     suffix: "\n    \n    \n部署图\n声明元素\n[] 放置长描述文本。\n"
     type: TextQuoteSelector
-  selector_sha256: sha256:db5b1b493b24c7e7ff003c838eab25c94c5e10df3207d6213baec9e8f9fe76b4
   snapshot_sha256: sha256:590fefff4e7ab03abb9be8464fc0952d11cf68805a9570627d3797a2092fb209
 - evidence_id: evidence-aa3141cb7913
   position:
     end: 257
     start: 237
     type: TextPositionSelector
-  quote_sha256: sha256:ea092b3dee14bc84c910633dcfbac7d05e148f9cecc61967f349da6e3869144c
   selector:
     exact: '部署图
 
@@ -43,7 +40,6 @@ evidence_items:
 
        This translation need '
     type: TextQuoteSelector
-  selector_sha256: sha256:a3e6f28e5adadd3802cb926befd7f5f6fb86d1d59ca1f1db1afecda5a369e161
   snapshot_sha256: sha256:590fefff4e7ab03abb9be8464fc0952d11cf68805a9570627d3797a2092fb209
 extractor: trafilatura/2.2.0
 id: web-computer-science-deployment-diagram
@@ -51,7 +47,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/1023f7e56005a0c4db4fd39e1524fc11b4a4faf59cd523de67d44e74112ec8e9.html
-  sha256: sha256:1023f7e56005a0c4db4fd39e1524fc11b4a4faf59cd523de67d44e74112ec8e9
 read_status: retrieved
 retrieval:
   acquisition: fetch

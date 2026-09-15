@@ -14,7 +14,6 @@ evidence_items:
     end: 160
     start: 13
     type: TextPositionSelector
-  quote_sha256: sha256:1e03f811bb4f29dade8d65557a8df60d2a71ccc7d990e7248025ba4ccd96c270
   selector:
     exact: This is a list of reserved keywords in C++. Since they are used by the
       language, these keywords are not available for re-definition or overloading.
@@ -23,7 +22,6 @@ evidence_items:
       '
     suffix: ' As an exception, they are not c'
     type: TextQuoteSelector
-  selector_sha256: sha256:b1ba234d4765b7783dd21116d17b4bff730428c336b7ad3cf6921e2fa2365d30
   snapshot_sha256: sha256:437bd2ca5d9ec849f3a9fbf3b5930f1951215b1eea897a98b387e7029cc8e241
 extractor: trafilatura/2.2.0
 id: cppreference-cpp-keywords-v2
@@ -34,7 +32,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/f40639d418eb8d8e966f97cb50c0bcf924b1d5301565187dc6e6e0a49818eac0.html
-  sha256: sha256:f40639d418eb8d8e966f97cb50c0bcf924b1d5301565187dc6e6e0a49818eac0
 read_status: retrieved
 retrieval:
   acquisition: local-file

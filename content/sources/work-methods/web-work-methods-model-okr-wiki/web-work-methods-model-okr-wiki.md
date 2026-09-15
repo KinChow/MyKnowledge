@@ -14,7 +14,6 @@ evidence_items:
     end: 178
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:16ce5f1126f00fe5c3c074f7674c00f4bc4142246635a07fefa47a70505ab96f
   selector:
     exact: Objectives and key results (OKR, alternatively OKRs) is a goal-setting
       framework used by individuals, teams, and organizations to define measurable
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: . The development of OKR is gene
     type: TextQuoteSelector
-  selector_sha256: sha256:e8213a401f1ec1b297c2a937d480fd0ccf0474a1fa0ce0bf7b60996fdd467b10
   snapshot_sha256: sha256:1cf5795b548a132fa4f35b651cae47b208b5bd4ace06f429bf08bb5aa550d0c6
 extractor: utf8/1
 id: web-work-methods-model-okr-wiki
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/1cf5795b548a132fa4f35b651cae47b208b5bd4ace06f429bf08bb5aa550d0c6.txt
-  sha256: sha256:1cf5795b548a132fa4f35b651cae47b208b5bd4ace06f429bf08bb5aa550d0c6
 read_status: retrieved
 retrieval:
   acquisition: local-file

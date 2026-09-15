@@ -14,7 +14,6 @@ evidence_items:
     end: 400
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:5db99db62f854c47158626cb8c523a210505d1610b493b6b2f86556effaf1df7
   selector:
     exact: 'ENIAC (//; Electronic Numerical Integrator and Computer)[1][2] was the
       first programmable, electronic, general-purpose digital computer, completed
@@ -26,7 +25,6 @@ evidence_items:
     prefix: ''
     suffix: ' Presper Eckert to calculate art'
     type: TextQuoteSelector
-  selector_sha256: sha256:216e6f0c6d23d5b62b57abbfc78cadb26b22330e7fb1ba4edfec0ac17e830db3
   snapshot_sha256: sha256:9d3038f2063b210708a5bdb5f7b1f7be9bedb9f74e90abcc512cf13a7e702ee7
 extractor: trafilatura/2.2.0
 id: web-computer-science-history
@@ -34,7 +32,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/987935da465c08f161d2167f726a473caecff8999d3c7eb3ab6d6cffd130e6b4.html
-  sha256: sha256:987935da465c08f161d2167f726a473caecff8999d3c7eb3ab6d6cffd130e6b4
 read_status: retrieved
 retrieval:
   acquisition: fetch

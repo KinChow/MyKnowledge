@@ -8,7 +8,6 @@ evidence_items:
     end: 287
     start: 110
     type: TextPositionSelector
-  quote_sha256: sha256:cb77b981d6e8de9aa00d1f9c00e838f671845cc6782b5d922f481c076d0501b6
   selector:
     exact: 编译优化（以 XLA / torch.compile 一类"计算图编译器"为代表）的核心收益是**算子融合（kernel fusion）**：编译器查看计算图，把图中多个基本操作编译进一个核函数，把原本在多个核函数之间反复往返
       HBM（高带宽内存）的读写，压缩为"从 HBM 读一次 → 算完 → 每元素写一次"，从而把性能瓶颈从内存带宽转移到计算本身。
@@ -21,7 +20,6 @@ evidence_items:
       '
     suffix: 需注意：cs336-p06 转录全文**并未直接命名 XLA**
     type: TextQuoteSelector
-  selector_sha256: sha256:1f30c1b1bab9299fbcfd3e1ffda0ce53623da391ee184f866e98df6711c69cd9
   snapshot_sha256: sha256:5f8bc90d9ac0f5e8293b192d2aaccaa5b22b670b6ff13c9b7d1ea9ae35c94691
 extractor: personal-note/1
 id: working-computer-science-llm-compiler-optimization

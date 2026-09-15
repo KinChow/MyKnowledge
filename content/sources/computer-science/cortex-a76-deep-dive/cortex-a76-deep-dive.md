@@ -14,7 +14,6 @@ evidence_items:
     end: 2629
     start: 2518
     type: TextPositionSelector
-  quote_sha256: sha256:428a35c161ea43a694f971c6e7187aa3be78b113d14271d3e87e8540f056828b
   selector:
     exact: moves over to a 4-instruction/cycle decode path rising to eight 16-bit
       instructions, up from three with the A75
@@ -23,14 +22,12 @@ evidence_items:
       The Cortex-A76 also '
     suffix: ' and 2 with the A73. This means '
     type: TextQuoteSelector
-  selector_sha256: sha256:e77851deaef25b484228b32c79abc2cc62394b679a39e9547aff6cfd3e2acda6
   snapshot_sha256: sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9
 - evidence_id: evidence-620cb82ae63b
   position:
     end: 3575
     start: 3505
     type: TextPositionSelector
-  quote_sha256: sha256:b03f2e8f46dbb7e684bf437af4a7085a3dbafbe314eb8fc4a94a8d4beb7d2358
   selector:
     exact: the same 64KB, 4-way set associative L1 cache and 256-512KB private L2
     prefix: ' improvements here too.
@@ -38,14 +35,12 @@ evidence_items:
       There’s '
     suffix: ' as before, but the decoupled ad'
     type: TextQuoteSelector
-  selector_sha256: sha256:464f5bdf7cc58356da2c70f3781939b647cf8a75481c893482664cfe74c0564b
   snapshot_sha256: sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9
 - evidence_id: evidence-5649ac82db63
   position:
     end: 1684
     start: 1519
     type: TextPositionSelector
-  quote_sha256: sha256:db6dbf5e12694c1fe8cf25e700559b04789cc839a1c8b7d93d01b1d2bbaef1a8
   selector:
     exact: paired up with two SIMD NEON execution pipelines, only one of which can
       handle floating-point divide and multiply-accumulate instructions. Both of these
@@ -55,7 +50,6 @@ evidence_items:
       This is '
     suffix: ' pipes offer twice the bandwidth'
     type: TextQuoteSelector
-  selector_sha256: sha256:be8189966814ccccc8f3f018f66fad1e0b0726ebe0603fc9ed98c1c7571b8e10
   snapshot_sha256: sha256:c9cd27101cb5da7a657a4deb4b8f3206c2d2ec030d1be9c853182ad0a2160cf9
 extractor: trafilatura/2.2.0
 id: cortex-a76-deep-dive
@@ -63,7 +57,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/a84a55da6bded7231f8043c0c2c9bad6dcd1c899b2086b054275f4410ff8adc9.html
-  sha256: sha256:a84a55da6bded7231f8043c0c2c9bad6dcd1c899b2086b054275f4410ff8adc9
 read_status: retrieved
 retrieval:
   acquisition: fetch

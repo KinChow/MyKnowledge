@@ -14,7 +14,6 @@ evidence_items:
     end: 319
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:a907548b6ade9900c3c03f8e267f4619db91322941cd3cf2863d026f4a9a579d
   selector:
     exact: While OpenCV was designed for use in full-scale applications and can be
       used within functionally rich UI frameworks (such as Qt*, WinForms*, or Cocoa*)
@@ -24,7 +23,6 @@ evidence_items:
     prefix: ''
     suffix: "\n      \n \n#include <opencv2/high"
     type: TextQuoteSelector
-  selector_sha256: sha256:780c98deed2a67b3099982408dea19a8b3628e702e4a5691af639dabcdd3103b
   snapshot_sha256: sha256:593c75d03c74d764b8f6860ed54be10cf86b0d0fdcb998c78ed18a11b89cbd0c
 extractor: trafilatura/2.2.0
 id: web-multimedia-highgui
@@ -32,7 +30,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/7e3eb0631240c15568b04777635dadd550460b6f8f0b7ee28dd6f9313377383f.html
-  sha256: sha256:7e3eb0631240c15568b04777635dadd550460b6f8f0b7ee28dd6f9313377383f
 read_status: retrieved
 retrieval:
   acquisition: fetch

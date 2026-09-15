@@ -14,7 +14,6 @@ evidence_items:
     end: 359
     start: 29
     type: TextPositionSelector
-  quote_sha256: sha256:ee40eeb7c1eb9a35ef7bb0cb5626a2986e6635d1f8beec2d4a1e64d058a8ccdb
   selector:
     exact: "Neon is the implementation of Arm’s Advanced SIMD architecture.  \n     \n
       \    The purpose of Neon is to accelerate data manipulation by providing: \n
@@ -24,14 +23,12 @@ evidence_items:
     prefix: "### What is Neon?\n \n    \n    "
     suffix: ". \n      \n     Applications that"
     type: TextQuoteSelector
-  selector_sha256: sha256:3559b7f6327b0723cedb2d28565c7a4de5e2f7e324d54e61a8d576db13ec5ec2
   snapshot_sha256: sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c
 - evidence_id: evidence-1a3104fe62bf
   position:
     end: 1250
     start: 590
     type: TextPositionSelector
-  quote_sha256: sha256:75f831da9d0edbf2c598610452b95594fb9f8f880413e4707227f3fc8b279caa
   selector:
     exact: "As a programmer, there are a number of ways you can make use of Neon technology:
       \n      \n      Neon-enabled open source libraries such as the Arm Compute Library
@@ -45,14 +42,12 @@ evidence_items:
     prefix: " performance is critical. \n     "
     suffix: ". \n      \n     In this guide we "
     type: TextQuoteSelector
-  selector_sha256: sha256:d3767b88ade81289253d1061bf8a547ab19b102fe3802ee7c82741a1cb7e5c6e
   snapshot_sha256: sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c
 - evidence_id: evidence-27de5474a249
   position:
     end: 583
     start: 374
     type: TextPositionSelector
-  quote_sha256: sha256:4f9b019e32ecad8f927599dd916c0442944b2f8416962fbca0f47a93de202a88
   selector:
     exact: Applications that can benefit from Neon technology include multimedia and
       signal processing, 3D graphics, speech, image processing, or other applications
@@ -60,7 +55,6 @@ evidence_items:
     prefix: "ple lanes of data. \n      \n     "
     suffix: " \n     As a programmer, there ar"
     type: TextQuoteSelector
-  selector_sha256: sha256:cffa86c4175ede7ec1c40cea9349aeca72507f1e871f9054cc78446a303a9b69
   snapshot_sha256: sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c
 extractor: utf8/1
 id: arm-neon-intro
@@ -71,7 +65,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c.txt
-  sha256: sha256:33cde106b16f9f0fe18c1e65dd7dea285757d2d415889ddabaccbda40736609c
 read_status: retrieved
 retrieval:
   acquisition: local-file

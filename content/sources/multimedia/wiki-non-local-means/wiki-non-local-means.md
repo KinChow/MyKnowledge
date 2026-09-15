@@ -14,7 +14,6 @@ evidence_items:
     end: 244
     start: 80
     type: TextPositionSelector
-  quote_sha256: sha256:40dfdee05efff8ac62e9328d93db2ae1bf4b97a93ee111aa07e84c769200c8bf
   selector:
     exact: The computational complexity of the non-local means algorithm is quadratic
       in the number of pixels in the image, making it particularly expensive to apply
@@ -25,7 +24,6 @@ evidence_items:
       '
     suffix: ' Several techniques were propose'
     type: TextQuoteSelector
-  selector_sha256: sha256:07957fc41246f231d8bb790b9f2b52a1d96fbda92cde35b184cedb7906f2a2bd
   snapshot_sha256: sha256:1ecf5024d2368a37e5535883705ace1132f96606f5c61f01345740b0485b6e68
 extractor: utf8/1
 id: wiki-non-local-means
@@ -36,7 +34,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/1ecf5024d2368a37e5535883705ace1132f96606f5c61f01345740b0485b6e68.txt
-  sha256: sha256:1ecf5024d2368a37e5535883705ace1132f96606f5c61f01345740b0485b6e68
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -14,7 +14,6 @@ evidence_items:
     end: 160
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:e3dc1b4b46a6badcd6f4f5327ae15dcc5163f5de5412c17e107f5a89be56b504
   selector:
     exact: 'The following types are collectively called fundamental types: (possibly
       cv-qualified) void; std::nullptr_t (since C++11); integral types; floating-point
@@ -25,14 +24,12 @@ evidence_items:
 
       void is a type with an empty s'
     type: TextQuoteSelector
-  selector_sha256: sha256:84a5273bd094370ce39512029e5ee7e14611feb58aa5f8d9a0f2b4417a1ad022
   snapshot_sha256: sha256:5ec71696d60af3df617c396e4f1eb5f256188a5267f04d3930f9f7fc3f29b55b
 - evidence_id: evidence-760eedda3335
   position:
     end: 1935
     start: 1783
     type: TextPositionSelector
-  quote_sha256: sha256:855927ea2183db112c79b4b9292adcea380e9f7666432a25500e9224fe819d87
   selector:
     exact: Besides the minimal bit counts, the C++ Standard guarantees that 1 == sizeof(char)
       <= sizeof(short) <= sizeof(int) <= sizeof(long) <= sizeof(long long).
@@ -42,7 +39,6 @@ evidence_items:
       '
     suffix: ' Note: this allows the extreme c'
     type: TextQuoteSelector
-  selector_sha256: sha256:c37414ad63b5d8f7a5095b5e33cd4e51b6f0a216bf703c43260398653f3a1f29
   snapshot_sha256: sha256:5ec71696d60af3df617c396e4f1eb5f256188a5267f04d3930f9f7fc3f29b55b
 extractor: utf8/1
 id: web-computer-science-cpp-fundamental-types
@@ -53,7 +49,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/5ec71696d60af3df617c396e4f1eb5f256188a5267f04d3930f9f7fc3f29b55b.txt
-  sha256: sha256:5ec71696d60af3df617c396e4f1eb5f256188a5267f04d3930f9f7fc3f29b55b
 read_status: retrieved
 retrieval:
   acquisition: local-file

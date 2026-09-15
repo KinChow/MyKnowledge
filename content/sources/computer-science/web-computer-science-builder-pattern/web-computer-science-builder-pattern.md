@@ -14,14 +14,12 @@ evidence_items:
     end: 232
     start: 142
     type: TextPositionSelector
-  quote_sha256: sha256:0c1ad5f0f090ab1c9bc13a644df6faddef19cccac3bba0d52710dce594583a0e
   selector:
     exact: The builder pattern separates the construction of a complex object from
       its representation
     prefix: 'in object-oriented programming. '
     suffix: . It is one of the 23 classic de
     type: TextQuoteSelector
-  selector_sha256: sha256:ec41ff349ea485bee38a9be3ded54c104d09a6aeef62085c7bddfc448f820987
   snapshot_sha256: sha256:dab1bcc21bdd3b493f250c8bed5c858a9d61d850053f3007740bec4c75333bcc
 extractor: utf8/1
 id: web-computer-science-builder-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/dab1bcc21bdd3b493f250c8bed5c858a9d61d850053f3007740bec4c75333bcc.txt
-  sha256: sha256:dab1bcc21bdd3b493f250c8bed5c858a9d61d850053f3007740bec4c75333bcc
 read_status: retrieved
 retrieval:
   acquisition: local-file

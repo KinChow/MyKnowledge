@@ -8,7 +8,6 @@ evidence_items:
     end: 185
     start: 84
     type: TextPositionSelector
-  quote_sha256: sha256:32dea2c178b7d446c9fd90d2622c95183bdfa9eae26a7f883837547882a360bf
   selector:
     exact: 多卡并行的根本动机只有两个：一是参数、激活值、梯度、优化器状态放不进单卡 HBM（例如 B200 只有 192GB 内存，装不下 1 万亿参数的模型），二是即便放得下也希望通过拆开所有东西来训练得更快。
     prefix: '--
@@ -23,7 +22,6 @@ evidence_items:
       '
     suffix: 三种经典并行方式按不同维度切分模型：**数据并行（DP）** 只
     type: TextQuoteSelector
-  selector_sha256: sha256:f45ab1fab05979b075ecdc9c7ab88a9d75df5c175bd6c51284e057a4eb9e7f86
   snapshot_sha256: sha256:3fcca5da298116e817b48f096393f30d198e47b12674ee9e345845e074d82521
 extractor: personal-note/1
 id: working-computer-science-llm-parallel-training

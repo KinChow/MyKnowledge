@@ -14,7 +14,6 @@ evidence_items:
     end: 278
     start: 246
     type: TextPositionSelector
-  quote_sha256: sha256:99164e16aa1d740170ba6adc6d29ddd37bf11ab6dcb39720e2082c98d742cb0e
   selector:
     exact: 使用 PlantUML，您可以使用简单直观的文本描述来创建组件图
     prefix: "t you think!\n    \n    \n组件图\n- 简单："
@@ -22,14 +21,12 @@ evidence_items:
 
       - 集成：PlantUML 可* 与'
     type: TextQuoteSelector
-  selector_sha256: sha256:0954e7afb74cf58a107bce8f4ee881ebe6968ae31bc8d3a6db5bdf3af11a2073
   snapshot_sha256: sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9
 - evidence_id: evidence-0d168b7dd5c5
   position:
     end: 423
     start: 395
     type: TextPositionSelector
-  quote_sha256: sha256:f63763bbc4b2a5b9c74c09b0ffaca79cf3f8930c50f95d19c26b67bb00637401
   selector:
     exact: 组件必须用中括号括起来。component定义一个组件。
     prefix: '讨论、分享和寻求图表帮助的平台，从而培养了一个协作社区。
@@ -43,14 +40,12 @@ evidence_items:
 
       这个别名可以在稍后定'
     type: TextQuoteSelector
-  selector_sha256: sha256:3f7f80c1366a303b84470d917cc6d24112fe5705e6483b99d3ce021cf5905345
   snapshot_sha256: sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9
 - evidence_id: evidence-b66f23103eae
   position:
     end: 464
     start: 424
     type: TextPositionSelector
-  quote_sha256: sha256:f7ef5e57de46d2ae236f520310c19bb62dc24f45ba32d29d012119ceeed45e79
   selector:
     exact: '并且可以用关键字as给组件定义一个别名。
 
@@ -66,14 +61,12 @@ evidence_items:
 
       注意，以$ 开头的组件名以后不能隐藏或删除，因为hi'
     type: TextQuoteSelector
-  selector_sha256: sha256:3b8c054672af985bc1244c4b700680bf256ae7a41efb76ff95196d0eb6eaf163
   snapshot_sha256: sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9
 - evidence_id: evidence-3c6199ce1cd9
   position:
     end: 610
     start: 572
     type: TextPositionSelector
-  quote_sha256: sha256:abcf7667067e362a0f28b1ce4531e391ef8bceac9b2115b42ab28fce5b20a878
   selector:
     exact: 'interface关键字来定义接口。
 
@@ -93,7 +86,6 @@ evidence_items:
 
       ..)、直线'
     type: TextQuoteSelector
-  selector_sha256: sha256:e2d55236ca1a664f5f135e7f784f4031f1587058a76fc6f86b50ac19c2cb5789
   snapshot_sha256: sha256:d2fb54f5bf689d8e5e8531c7189a4bccc287510e81983e2a23222d3bf171e7c9
 extractor: trafilatura/2.2.0
 id: web-computer-science-component-diagram
@@ -101,7 +93,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/da656228103edc7c5d65438940faf9e149de9b61e58f87f6be64d4737914a14a.html
-  sha256: sha256:da656228103edc7c5d65438940faf9e149de9b61e58f87f6be64d4737914a14a
 read_status: retrieved
 retrieval:
   acquisition: fetch

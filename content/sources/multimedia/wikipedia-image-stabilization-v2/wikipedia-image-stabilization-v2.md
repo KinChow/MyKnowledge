@@ -14,7 +14,6 @@ evidence_items:
     end: 151
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:9279211c5370cc8399a383e7263f4ec21dfd5df86cebbad72ed19fca89b33165
   selector:
     exact: Image stabilization (IS) is a family of techniques that reduce blurring
       associated with the motion of a camera or other imaging device during exposure.
@@ -23,7 +22,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:005b7a5660659aac41c6298570c0713128b913a1ef1bd7cba0b27e0fbb8507e0
   snapshot_sha256: sha256:1be70c01706665edb7476a79d91b3f0e1f0141736b2b2955418916a263320c18
 extractor: utf8/1
 id: wikipedia-image-stabilization-v2
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/1be70c01706665edb7476a79d91b3f0e1f0141736b2b2955418916a263320c18.txt
-  sha256: sha256:1be70c01706665edb7476a79d91b3f0e1f0141736b2b2955418916a263320c18
 read_status: retrieved
 retrieval:
   acquisition: local-file

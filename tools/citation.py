@@ -4,11 +4,11 @@ from __future__ import annotations
 
 from typing import Any
 
-from .common import canonical_quote, hash_canonical, sha256_text
+from .common import sha256_text
 
 
 def replay(citation: dict[str, Any], snapshot: str) -> dict[str, Any]:
-    """Verify snapshot hash, TextQuote/TextPosition and selector hash."""
+    """Verify snapshot hash and TextQuote/TextPosition 逐字命中。"""
     try:
         expected_snapshot = citation["snapshot_sha256"]
         if sha256_text(snapshot) != expected_snapshot:
@@ -33,22 +33,9 @@ def replay(citation: dict[str, Any], snapshot: str) -> dict[str, Any]:
         exact = selector.get("exact")
         if not isinstance(exact, str) or snapshot[start:end] != exact:
             raise ValueError("selector_unresolved")
-        if citation.get("quote_sha256") and citation["quote_sha256"] != sha256_text(
-            canonical_quote(exact)
-        ):
-            raise ValueError("selector_hash_mismatch")
-        computed = hash_canonical(
-            {
-                "snapshot_sha256": expected_snapshot,
-                "start": start,
-                "end": end,
-                "exact": exact,
-                "prefix": selector.get("prefix", ""),
-                "suffix": selector.get("suffix", ""),
-            }
-        )
-        if citation.get("selector_sha256") and citation["selector_sha256"] != computed:
-            raise ValueError("selector_hash_mismatch")
+        # ADR-0019 §5：不再比对落盘的 `quote_sha256` / `selector_sha256`——校验值不
+        # 落盘。命中判定完全由上一行的 position↔exact 逐字比对承担；指纹自证是冗余
+        # 的（指纹可由 exact/selector 现算，canonical 被篡改由 git 暴露）。
         return {
             "state": "valid",
             "snapshot_sha256": expected_snapshot,

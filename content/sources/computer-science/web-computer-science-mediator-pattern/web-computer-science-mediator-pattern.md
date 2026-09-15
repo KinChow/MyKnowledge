@@ -14,14 +14,12 @@ evidence_items:
     end: 111
     start: 25
     type: TextPositionSelector
-  quote_sha256: sha256:898d71b55b00a8c3a554b04a3408d2d9ccc2ea36358981aeb1c91de123865ec3
   selector:
     exact: the mediator pattern defines an object that encapsulates how a set of objects
       interact
     prefix: 'In software engineering, '
     suffix: '. This pattern is considered to '
     type: TextQuoteSelector
-  selector_sha256: sha256:f8585aa305b428d2ba6a733c4a90d3e53d0d8f3468ce47249a97c39687e19b25
   snapshot_sha256: sha256:52700d5734943b551e457a664348a234339c27d5debec90c856e830fac33c7f7
 extractor: utf8/1
 id: web-computer-science-mediator-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/52700d5734943b551e457a664348a234339c27d5debec90c856e830fac33c7f7.txt
-  sha256: sha256:52700d5734943b551e457a664348a234339c27d5debec90c856e830fac33c7f7
 read_status: retrieved
 retrieval:
   acquisition: local-file

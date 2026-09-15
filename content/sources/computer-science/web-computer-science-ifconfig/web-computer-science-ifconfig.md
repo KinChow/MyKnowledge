@@ -14,7 +14,6 @@ evidence_items:
     end: 471
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:598ef0e973c196fa4cf6d84fb10b6ff41835fd6890bb946fe07454f1fb175c87
   selector:
     exact: "IFCONFIG(8)        Linux System Administrator's Manual        IFCONFIG(8)\n
       \      ifconfig - configure a network interface\n       ifconfig [-v] [-a] [-s]
@@ -26,7 +25,6 @@ evidence_items:
     prefix: ''
     suffix: "\n       If no arguments are give"
     type: TextQuoteSelector
-  selector_sha256: sha256:48b4c712414791146c9bd954b7277dda346a73503b714f6b9bd8f7c0f738b70c
   snapshot_sha256: sha256:ad6fa4ac495fec0ee1ed0fa58ef35013f442db3c4cb4e91cbf27aff251c62f5a
 extractor: trafilatura/2.2.0
 id: web-computer-science-ifconfig
@@ -34,7 +32,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/f27d2e5bb91ba46fca6411933e56963bd0392c0547f57114691eb698483226f4.html
-  sha256: sha256:f27d2e5bb91ba46fca6411933e56963bd0392c0547f57114691eb698483226f4
 read_status: retrieved
 retrieval:
   acquisition: fetch

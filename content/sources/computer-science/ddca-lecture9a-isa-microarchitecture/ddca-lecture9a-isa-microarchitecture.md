@@ -14,7 +14,6 @@ evidence_items:
     end: 14527
     start: 14170
     type: TextPositionSelector
-  quote_sha256: sha256:3380320bff8bd31a0382c750bac92fc5b0f886a5e7ed0ff65ad2a4217288d251
   selector:
     exact: '❑ Programmer sees a dataflow execution order ◼ Microarchitecture: How
       the **underlying implementation actually executes** instructions ❑ Microarchitecture
@@ -27,14 +26,12 @@ evidence_items:
 
       #### Let''s Get Back to the von'
     type: TextQuoteSelector
-  selector_sha256: sha256:60d7a8b6df7f0750418e7d9caf182b1942c062e2d159a534a6574abd22d775f3
   snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
 - evidence_id: evidence-962563aa0e01
   position:
     end: 17844
     start: 17211
     type: TextPositionSelector
-  quote_sha256: sha256:9a155cf5c8656bb4d74d595bee434207e9437aae52662bb455acd1b8cb9a9790
   selector:
     exact: '◼ A specific **implementation** of the ISA ◼ How do we implement the ISA?
       ❑ We will discuss this for many lectures ◼ There can be many implementations
@@ -59,7 +56,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:a21949a274c84976e6d7c4e5f333878015094f5c06ef514470ab2cc9d57b7655
   snapshot_sha256: sha256:1dbffebf15f7207b7dacd72198b4839e727f0bc560151afa8bdadbe92d9ce1b8
 extractor: marker/2.0.0
 id: ddca-lecture9a-isa-microarchitecture
@@ -67,7 +63,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/a5e3aa45dc7fc68e53679300647c0f2dd79bf3bd3c9f729e4dd081355f4fd201.pdf
-  sha256: sha256:a5e3aa45dc7fc68e53679300647c0f2dd79bf3bd3c9f729e4dd081355f4fd201
 read_status: retrieved
 retrieval:
   acquisition: fetch

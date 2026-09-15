@@ -14,7 +14,6 @@ evidence_items:
     end: 14859
     start: 14788
     type: TextPositionSelector
-  quote_sha256: sha256:d822270f276a9576682e65888e0f843bfbb4ba8e650b4cab7dbb7915adecabcd
   selector:
     exact: Android 系统的日志分为两部分，底层的 Linux 内核日志输出到 /proc/kmsg，Android 的日志输出到 /dev/log
     prefix: 'xt hello
@@ -32,27 +31,23 @@ evidence_items:
 
       [adb] logcat '
     type: TextQuoteSelector
-  selector_sha256: sha256:4d236d7c4dc513c9032298b12ed8b0f87b8cbabee4f9bf7f31e42db7264473a1
   snapshot_sha256: sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867
 - evidence_id: evidence-471cae011964
   position:
     end: 13604
     start: 13533
     type: TextPositionSelector
-  quote_sha256: sha256:7a5d3122dbf855653cfbd33ff36972141c66273dc50389418fc9b936fc44d9d2
   selector:
     exact: 'keyevent [--longpress] <key code number or name> ... (Default: keyboard'
     prefix: "g> (Default: touchscreen)\n      "
     suffix: ")\n      tap <x> <y> (Default: to"
     type: TextQuoteSelector
-  selector_sha256: sha256:19c451536e08dbbfa8af368965c8f68c642700a21bca41e1edeef382fc99ce12
   snapshot_sha256: sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867
 - evidence_id: evidence-72d22a4cbce3
   position:
     end: 6654
     start: 6593
     type: TextPositionSelector
-  quote_sha256: sha256:2a0e580735b9873615126414077ef7497514841aa7bb73f0fe5af86529950ac6
   selector:
     exact: adb shell dumpsys activity activities | grep mResumedActivity
     prefix: '0 手机卫士的数据和缓存。
@@ -68,14 +63,12 @@ evidence_items:
 
       mResumedActivity: Activit'
     type: TextQuoteSelector
-  selector_sha256: sha256:68de743f34e49936c74f0b53674097aa07974c5786ad577edb07fa9c546b9667
   snapshot_sha256: sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867
 - evidence_id: evidence-3c61753783ab
   position:
     end: 4815
     start: 4728
     type: TextPositionSelector
-  quote_sha256: sha256:e74e82c092ef94796220db6b5474b00ac34b82327d91bf86a4e26460e6b380a7
   selector:
     exact: adb shell pm list packages [-f] [-d] [-e] [-s] [-3] [-i] [-u] [--user USER_ID]
       [FILTER]
@@ -92,7 +85,6 @@ evidence_items:
 
       即在 adb shell pm list packages 的'
     type: TextQuoteSelector
-  selector_sha256: sha256:2c175ccca19b8bd39d97b01b64f6c42b2940f89fe830358d4fbe600b9c47e912
   snapshot_sha256: sha256:e8f60b681f385b2807e2cf9561c51842aed8ec2ffd3b4a44cfd038f88772e867
 extractor: trafilatura/2.2.0
 id: adb-juejin-guide
@@ -100,7 +92,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/85c92b6758f0ac340fa958b64c3e1143be85d2e5537b55cb988e0c0f2a7f6938.html
-  sha256: sha256:85c92b6758f0ac340fa958b64c3e1143be85d2e5537b55cb988e0c0f2a7f6938
 read_status: retrieved
 retrieval:
   acquisition: fetch

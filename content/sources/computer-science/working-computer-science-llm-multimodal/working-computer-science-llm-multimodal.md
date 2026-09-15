@@ -8,7 +8,6 @@ evidence_items:
     end: 669
     start: 308
     type: TextPositionSelector
-  quote_sha256: sha256:1d0bc5e9fdcdc5f184568371c90f948085d38121647805defd9f1dd20e21ab60
   selector:
     exact: 要让 Transformer 处理图像等非文本模态，核心是把图像"Token 化"（离散或连续 token），主流做法是「预训练视觉编码器（CLIP/SigLIP
       的 ViT）+ 投影器/适配器 + 预训练 LLM」的拼接式 VLM：训练分阶段，先冻结视觉编码器与 LLM、只训练投影器把图像嵌入映射进文本嵌入空间（即"对齐阶段"），再逐步放开训练；图像分辨率用
@@ -29,7 +28,6 @@ evidence_items:
 
       - **全模态模型（Omnimodal）*'
     type: TextQuoteSelector
-  selector_sha256: sha256:f527e64e40d3bc96187ce2c07027915df93d09c061864871251f8fa916dc0fb1
   snapshot_sha256: sha256:192d0c83709ee1b8118ce0985dcf89b1a698fd7adcc87f8bc2f1adac8ce00da0
 extractor: personal-note/1
 id: working-computer-science-llm-multimodal

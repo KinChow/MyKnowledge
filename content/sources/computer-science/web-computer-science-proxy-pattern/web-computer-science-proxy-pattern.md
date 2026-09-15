@@ -14,7 +14,6 @@ evidence_items:
     end: 299
     start: 25
     type: TextPositionSelector
-  quote_sha256: sha256:11eda962120991eedc4ad5ce4852104aa7cf903122d5f5a961ca0209423b17f2
   selector:
     exact: 'the proxy pattern is a software design pattern which is a class functioning
       as an interface to something else. The proxy could interface to anything: a
@@ -23,7 +22,6 @@ evidence_items:
     prefix: 'In computer programming, '
     suffix: ' In short, a proxy is a wrapper '
     type: TextQuoteSelector
-  selector_sha256: sha256:7a3fdf539cf4a9c41672b5a54338778205e476665c2ca3810063f700f858c373
   snapshot_sha256: sha256:08b9a33f69952eba1e2ee096f5950da973b6f839cf546dcb77826d649605ce2d
 extractor: utf8/1
 id: web-computer-science-proxy-pattern
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/08b9a33f69952eba1e2ee096f5950da973b6f839cf546dcb77826d649605ce2d.txt
-  sha256: sha256:08b9a33f69952eba1e2ee096f5950da973b6f839cf546dcb77826d649605ce2d
 read_status: retrieved
 retrieval:
   acquisition: local-file

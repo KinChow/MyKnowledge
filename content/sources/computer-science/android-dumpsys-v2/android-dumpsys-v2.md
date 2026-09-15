@@ -14,14 +14,12 @@ evidence_items:
     end: 94
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:b98b5cbccbf4150febc799842cecfe0805a28720786717060f52b6d15b4ee634
   selector:
     exact: dumpsys is a tool that runs on Android devices and provides information
       about system services.
     prefix: ''
     suffix: ' Call dumpsys from the command l'
     type: TextQuoteSelector
-  selector_sha256: sha256:74ee00e1ea503cd051b10ffc1d3da5bddd731324f88b03f8d42d90f9964e398c
   snapshot_sha256: sha256:e86ac672adbf214253697c26e7e424508ffa3c00ee059c228b46e1ffb8345f93
 extractor: utf8/1
 id: android-dumpsys-v2
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/e86ac672adbf214253697c26e7e424508ffa3c00ee059c228b46e1ffb8345f93.txt
-  sha256: sha256:e86ac672adbf214253697c26e7e424508ffa3c00ee059c228b46e1ffb8345f93
 read_status: retrieved
 retrieval:
   acquisition: local-file

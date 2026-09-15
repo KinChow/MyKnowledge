@@ -14,61 +14,52 @@ evidence_items:
     end: 457
     start: 322
     type: TextPositionSelector
-  quote_sha256: sha256:c0aeef93334f8beac644b5b218b789fed9bd59ffae976a604d68ffdde38db359
   selector:
     exact: Optimizations are implemented as Passes that traverse some portion of a
       program to either collect information or transform the program.
     prefix: 'on features that LLVM provides. '
     suffix: ' The table below divides the pas'
     type: TextQuoteSelector
-  selector_sha256: sha256:eefec438b85be40f75985cc3038c25f15f3fa3f501d9815f764b410864d0fb3d
   snapshot_sha256: sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad
 - evidence_id: evidence-0cbb21662389
   position:
     end: 534
     start: 458
     type: TextPositionSelector
-  quote_sha256: sha256:afe8419492ca1b0e304b77f69b068ee08a71b16bb0942a8b9368ac7367963490
   selector:
     exact: The table below divides the passes that LLVM provides into three categories.
     prefix: 'ation or transform the program. '
     suffix: ' Analysis passes compute informa'
     type: TextQuoteSelector
-  selector_sha256: sha256:04f5e09b4dd8b12dc06dfe3c075bd5280ac40d3f4808145b1b0b627b4288cd0a
   snapshot_sha256: sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad
 - evidence_id: evidence-39f1806db90e
   position:
     end: 648
     start: 535
     type: TextPositionSelector
-  quote_sha256: sha256:2226dfea22386c9b4adce151854a35e9a11fecad6468c6b2452f298dfd748490
   selector:
     exact: Analysis passes compute information that other passes can use or for debugging
       or program visualization purposes.
     prefix: 'provides into three categories. '
     suffix: ' Transform passes can use (or in'
     type: TextQuoteSelector
-  selector_sha256: sha256:e00fa33fdd6cc24e84e90debefa24d2f4ab13430e2364a32a90f1ed2d9495652
   snapshot_sha256: sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad
 - evidence_id: evidence-0cfd414d87c7
   position:
     end: 763
     start: 711
     type: TextPositionSelector
-  quote_sha256: sha256:7537cc3dafd62ff80ecfcae7462f6dc0406e1ad413c43c0920e7595b73af8a2e
   selector:
     exact: Transform passes all mutate the program in some way.
     prefix: 'nvalidate) the analysis passes. '
     suffix: ' Utility passes provide some uti'
     type: TextQuoteSelector
-  selector_sha256: sha256:db90e69e616de2f7b9a43047ecdaa277849eb2d4982b925ddce179dd7aa746ef
   snapshot_sha256: sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad
 - evidence_id: evidence-f0fb707195ca
   position:
     end: 839
     start: 458
     type: TextPositionSelector
-  quote_sha256: sha256:819da4cb7b2b4302777140b5ed0f883535924bc0cc284294c6405f009fb843f5
   selector:
     exact: The table below divides the passes that LLVM provides into three categories.
       Analysis passes compute information that other passes can use or for debugging
@@ -78,7 +69,6 @@ evidence_items:
     prefix: 'ation or transform the program. '
     suffix: ' For example, passes to extract '
     type: TextQuoteSelector
-  selector_sha256: sha256:e427b71bc737865f5da17b60984e99ade2ea311f5286d41b3c48dacf665a3d9f
   snapshot_sha256: sha256:9bf4cabc773039b1b228021b815299aa7b2a0ceee4709494dc750e3f860d34ad
 extractor: trafilatura/2.2.0
 id: web-computer-science-compilation-and-runtime-optimization
@@ -86,7 +76,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/474c86d4a9a7eb2a2b2b990cf700451bcad1831a2459aff3cd5d662447ae2a3e.html
-  sha256: sha256:474c86d4a9a7eb2a2b2b990cf700451bcad1831a2459aff3cd5d662447ae2a3e
 read_status: retrieved
 retrieval:
   acquisition: fetch

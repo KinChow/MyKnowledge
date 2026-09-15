@@ -8,7 +8,6 @@ evidence_items:
     end: 211
     start: 20
     type: TextPositionSelector
-  quote_sha256: sha256:10bd094789732c61f56bbc07e84086799101005b5c1fa06de4c9fdee665af333
   selector:
     exact: IPD拉通从路标规划、Charter开发、产品开发到生命周期管理的端到端管理过程，它以市场需求为驱动，将产品开发作为一项投资来管理，及时交付有竞争力的、高质量的产品包和解决方案。IPD流程是分阶段的、各阶段间用门槛分开的结构化流程，从商业角度保证产品投资和产品开发取得成功，Charter和DCP是IPD的最基本管理手段，能够保证减少产品投资的浪费，有效地保证产品投资收益的最大化。
     prefix: '# IPD
@@ -28,7 +27,6 @@ evidence_items:
 
       *   提高决策评审的质量'
     type: TextQuoteSelector
-  selector_sha256: sha256:142544720ceefc131d7df5d17a52cf028e704acc6c8469ba142052e77fa9b00e
   snapshot_sha256: sha256:202718277fbcc2f3ba736dd003084b3b436f11fc3d8607303882f89787ed08f0
 extractor: personal-note/1
 id: working-work-methods-ipd

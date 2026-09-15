@@ -14,14 +14,12 @@ evidence_items:
     end: 133
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:e35a647a4c6a0f27a74051ce86715256226d07d1f4d1f61bc2ab5aa87eff4a08
   selector:
     exact: The state pattern is a behavioral software design pattern that allows an
       object to alter its behavior when its internal state changes
     prefix: ''
     suffix: . This pattern is close to the c
     type: TextQuoteSelector
-  selector_sha256: sha256:7038284c19ec4a4771ab11270acf82e075b4c84728d2f9c9a7eb08755eaa5ff8
   snapshot_sha256: sha256:895e29c1236e9a83509576a67608661c6a2ff35ba30cb965daa1a6b81bbe5768
 extractor: utf8/1
 id: web-computer-science-state-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/895e29c1236e9a83509576a67608661c6a2ff35ba30cb965daa1a6b81bbe5768.txt
-  sha256: sha256:895e29c1236e9a83509576a67608661c6a2ff35ba30cb965daa1a6b81bbe5768
 read_status: retrieved
 retrieval:
   acquisition: local-file

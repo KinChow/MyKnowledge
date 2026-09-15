@@ -14,7 +14,6 @@ evidence_items:
     end: 427
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:1c63c1fcaed6c9f713ab07e203e37fbb32c544e91b0d9104090dd85941c9a601
   selector:
     exact: 'fastboot常用命令
 
@@ -46,7 +45,6 @@ evidence_items:
 
       解锁Bootloader：fastboot oem un'
     type: TextQuoteSelector
-  selector_sha256: sha256:eff70449cfcda9819018f6bc75238f9dc7809eadb6e6f2c15c015cc9536d966a
   snapshot_sha256: sha256:d892e5ed148e58381caddb84f39400ac0770d9ff976afe93e1af6c273a8b53db
 extractor: trafilatura/2.2.0
 id: web-computer-science-fastboot
@@ -54,7 +52,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/7fa0a7c5152915ce4b40c2828e111293419c170e9e7a2f0e0fb85b8c50fa10dc.html
-  sha256: sha256:7fa0a7c5152915ce4b40c2828e111293419c170e9e7a2f0e0fb85b8c50fa10dc
 read_status: retrieved
 retrieval:
   acquisition: fetch

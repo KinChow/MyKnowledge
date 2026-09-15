@@ -14,7 +14,6 @@ evidence_items:
     end: 361
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:c5830f74d78e6177479251d33c0c78d0adb4a6dee5b9748bc8c91ee8c4fede78
   selector:
     exact: "pthreads(7)          Miscellaneous Information Manual         pthreads(7)\n
       \      pthreads - POSIX threads\n       POSIX.1 specifies a set of interfaces
@@ -24,7 +23,6 @@ evidence_items:
     prefix: ''
     suffix: "  These threads share the\n      "
     type: TextQuoteSelector
-  selector_sha256: sha256:f5bbb109ce6edcf956b8811d87c9148fb79d5efde9b9d96c217edfc3cb1acdec
   snapshot_sha256: sha256:1aebc66707c233e44e81cd7e151247025213cd28cf2d8b2788066790f99194c1
 extractor: trafilatura/2.2.0
 id: web-computer-science-process-and-thread
@@ -32,7 +30,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/a8a623643af4cdd92779cfaa6d6829dc99a6efea8bec4d55e1f752cfb9f04b4a.html
-  sha256: sha256:a8a623643af4cdd92779cfaa6d6829dc99a6efea8bec4d55e1f752cfb9f04b4a
 read_status: retrieved
 retrieval:
   acquisition: fetch

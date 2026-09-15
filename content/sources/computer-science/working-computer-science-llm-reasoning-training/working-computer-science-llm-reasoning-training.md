@@ -8,7 +8,6 @@ evidence_items:
     end: 278
     start: 90
     type: TextPositionSelector
-  quote_sha256: sha256:01e80028e7f825ccc18db3a0ca289413ccbcdcfecafdc60389dbe43bd3be0e63
   selector:
     exact: RLVR（基于可验证奖励的强化学习，Reinforcement Learning with Verifiable Rewards）把"答案是否正确"这类可自动化验证的客观信号当作奖励，用
       GRPO 等算法对模型做强化学习，绕开 RLHF"过度优化"的瓶颈——"我们只是想要更难以被钻控制的奖励""这样我们才能真正投入更多的算力"——从而让模型涌现出长思维链（CoT）推理能力。
@@ -23,7 +22,6 @@ evidence_items:
       '
     suffix: DeepSeek R1/R1-Zero、Kimi K1.5、Qw
     type: TextQuoteSelector
-  selector_sha256: sha256:71b3c8b0c3f4e839c2f4ec0e0a81401377646ab2117830652120d2e9d34fc2e1
   snapshot_sha256: sha256:d388513730d86659b681fa20520283579a56185fb269593508e2a38275ee9b83
 extractor: personal-note/1
 id: working-computer-science-llm-reasoning-training

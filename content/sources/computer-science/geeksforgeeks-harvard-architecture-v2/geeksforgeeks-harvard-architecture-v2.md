@@ -14,7 +14,6 @@ evidence_items:
     end: 164
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:21e936887782ad902a3be64d1ac259db9e9df7968d7794072cae818adcca4f95
   selector:
     exact: Harvard architecture is a computer design model where program instructions
       and data are stored in separate memory units that are accessed through independent
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: ' This separation allows the proc'
     type: TextQuoteSelector
-  selector_sha256: sha256:4308a64e2815792871d5c422a8b7b2883064a189ad3d9d9935354f40c9c417bf
   snapshot_sha256: sha256:d3e824b788d7572bdf12e205dfeb67b027e4e40e571b7157bb1c6999a7dcc79f
 extractor: trafilatura/2.2.0
 id: geeksforgeeks-harvard-architecture-v2
@@ -33,7 +31,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/1831f0be079f6d493ef00bdab912cb1d24c1b1e00f48f28f4a1b060ce20ae5bd.html
-  sha256: sha256:1831f0be079f6d493ef00bdab912cb1d24c1b1e00f48f28f4a1b060ce20ae5bd
 read_status: retrieved
 retrieval:
   acquisition: local-file

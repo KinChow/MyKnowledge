@@ -14,7 +14,6 @@ evidence_items:
     end: 472
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:fa55949c7ded6fc009c140c867bf90ef4a3bca49ebd2d8cc15346d846e3d041e
   selector:
     exact: 'Classes, Objects, and Methods
 
@@ -36,7 +35,6 @@ evidence_items:
 
       generated '
     type: TextQuoteSelector
-  selector_sha256: sha256:b70017bf7b6fcbfd9656c4a8c339338f70d538945552f6f6d908b61d2aaaf308
   snapshot_sha256: sha256:2e5d8f17114d0cb3852376730bcd4e41e706549536366ddcc0ea1500c830eea8
 extractor: trafilatura/2.2.0
 id: web-computer-science-object-oriented
@@ -44,7 +42,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/1c2b4fc84758955984443360dd626e2b39a3bac161c2087fd3bea1baf242bcc7.html
-  sha256: sha256:1c2b4fc84758955984443360dd626e2b39a3bac161c2087fd3bea1baf242bcc7
 read_status: retrieved
 retrieval:
   acquisition: fetch

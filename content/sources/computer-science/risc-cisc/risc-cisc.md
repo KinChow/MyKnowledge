@@ -8,7 +8,6 @@ evidence_items:
     end: 235
     start: 101
     type: TextPositionSelector
-  quote_sha256: sha256:1f4848b39e1e498c1cdf250e258526782dd8593adbb392f0f8cd14dd3bd9d5a8
   selector:
     exact: '- RISC uses a small set of simple, fixed-length instructions and follows
       a load/store approach, enabling efficient and fast execution.'
@@ -19,14 +18,12 @@ evidence_items:
 
       - CISC uses a larger set of com'
     type: TextQuoteSelector
-  selector_sha256: sha256:72f999df7bed14b21cd0827815461678982d57caed599fbe191b1179e9a43dca
   snapshot_sha256: sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7
 - evidence_id: evidence-a1d5f1e8c5ff
   position:
     end: 378
     start: 236
     type: TextPositionSelector
-  quote_sha256: sha256:428c6ad66ff67650e2d9f703a79c75181274fdacffe97db02764ce15223ba6ca
   selector:
     exact: '- CISC uses a larger set of complex, variable-length instructions that
       can perform multiple operations, often requiring multiple clock cycles.'
@@ -37,7 +34,6 @@ evidence_items:
 
       Reduced Instruction Set Archite'
     type: TextQuoteSelector
-  selector_sha256: sha256:3a2a7ee4faa6f223a1b7b2e8cdc7f6f897adcfdfd6430f22ca115788ade73c9c
   snapshot_sha256: sha256:ce9e46de2805ccea541a0684c3954f94a13e7e1cd11751dc4c921202350a7fd7
 extractor: trafilatura/2.2.0
 id: risc-cisc

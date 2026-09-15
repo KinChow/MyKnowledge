@@ -14,7 +14,6 @@ evidence_items:
     end: 417
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:93003a89f4d43ddc173c7e521f3d7755aaae9855b7bee44bf9f56739c79cb232
   selector:
     exact: 'Pseudo-random number generation
 
@@ -29,7 +28,6 @@ evidence_items:
     prefix: ''
     suffix: ' uniform, normal, or poisson dis'
     type: TextQuoteSelector
-  selector_sha256: sha256:529f324d9486abfbe1afcc388aad52f5b82750365f7e40c789a123c3826b934f
   snapshot_sha256: sha256:3510cf0f907b24232e1161f2de85f639b3f5702434c21b32fed6c709ba236c84
 extractor: trafilatura/2.2.0
 id: web-computer-science-random
@@ -37,7 +35,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/2b1d19c2f5fbf618a01b1ccbb73d8c003e9e7d9ffcb3e196c9e85908f8c4be98.html
-  sha256: sha256:2b1d19c2f5fbf618a01b1ccbb73d8c003e9e7d9ffcb3e196c9e85908f8c4be98
 read_status: retrieved
 retrieval:
   acquisition: fetch

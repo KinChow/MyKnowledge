@@ -8,7 +8,6 @@ evidence_items:
     end: 635
     start: 413
     type: TextPositionSelector
-  quote_sha256: sha256:05da964a801133e56647563ca0338fc4b5ef73744e1538409a1e14b374a66fb8
   selector:
     exact: 预训练的一个训练步骤（前向 + 反向 + 优化）从系统角度看，计算量约等于 **6 × 数据点（token）数 × 参数量**（即常说的 6ND），其中反向传播恰好是前向的两倍、因为要分别计算关于参数与关于输入的两个梯度；内存方面则要同时装下参数、梯度、优化器状态和激活值四类张量（Adam
       每参数约 2+2+4+4=12 字节），因此批量大小、精度选择（bf16 混合精度）、梯度累积与激活检查点共同决定了能否把模型塞进显存、以及训练有多快。
@@ -21,7 +20,6 @@ evidence_items:
       '
     suffix: 这节课是后续讲缩放定律（p09）与并行（p07/p08）的算力/
     type: TextQuoteSelector
-  selector_sha256: sha256:af27c12960b75896499097dd5017fad2ce9224ef8e19d098967702253b9f6817
   snapshot_sha256: sha256:056b2a6533948d0a71226684540f0947fed0d29a420b6c710a22021a8c112222
 extractor: personal-note/1
 id: working-computer-science-llm-training-systems

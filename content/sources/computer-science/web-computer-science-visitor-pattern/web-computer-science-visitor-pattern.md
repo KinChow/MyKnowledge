@@ -14,14 +14,12 @@ evidence_items:
     end: 101
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:85c5072071f47f221659fc6b34b0c81f164dba240e1fec2140bd2d5cb6f3a49c
   selector:
     exact: A visitor pattern is a software design pattern that separates the algorithm
       from the object structure
     prefix: ''
     suffix: . Because of this separation, ne
     type: TextQuoteSelector
-  selector_sha256: sha256:de97a3cd29063d41249f93082f620b519ec25dfab89a568c2e3e0360f542f2b4
   snapshot_sha256: sha256:73ebdc3edcb780bc89cc94ba9cdee5e59aa46908598487de749348f87ed6a87e
 extractor: utf8/1
 id: web-computer-science-visitor-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/73ebdc3edcb780bc89cc94ba9cdee5e59aa46908598487de749348f87ed6a87e.txt
-  sha256: sha256:73ebdc3edcb780bc89cc94ba9cdee5e59aa46908598487de749348f87ed6a87e
 read_status: retrieved
 retrieval:
   acquisition: local-file

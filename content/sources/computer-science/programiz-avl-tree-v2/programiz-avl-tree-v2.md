@@ -14,7 +14,6 @@ evidence_items:
     end: 153
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:2ad9e870e8a1d5f5c9da94909e3cadd6c87e15dc27cd548491648b6c8eea2d45
   selector:
     exact: AVL tree is a self-balancing binary search tree in which each node maintains
       extra information called a balance factor whose value is either -1, 0 or +1.
@@ -23,14 +22,12 @@ evidence_items:
 
       AVL tree got its name after its'
     type: TextQuoteSelector
-  selector_sha256: sha256:f1e2e5102e2f02b11030fb6121ca3d33079a71b8c529827b06d42c9f48c3ac34
   snapshot_sha256: sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e
 - evidence_id: evidence-6e44ce038439
   position:
     end: 384
     start: 244
     type: TextPositionSelector
-  quote_sha256: sha256:8eeab488e7e8c6f18217c7a5f9f3958d0d9defcd6ff34a0db2281509c2eea3f6
   selector:
     exact: Balance factor of a node in an AVL tree is the difference between the height
       of the left subtree and that of the right subtree of that node.
@@ -43,14 +40,12 @@ evidence_items:
 
       Balance Factor = (Height of Lef'
     type: TextQuoteSelector
-  selector_sha256: sha256:01180763782935445de5fdb0cf7781b3d915b8e4d7091b699d9d9e622f177448
   snapshot_sha256: sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e
 - evidence_id: evidence-74bd0caab81a
   position:
     end: 644
     start: 507
     type: TextPositionSelector
-  quote_sha256: sha256:3507859a1e42db690586e0add98a1c75fe3af4c7720570fdab625f7f3edbbecf
   selector:
     exact: The self balancing property of an avl tree is maintained by the balance
       factor. The value of balance factor should always be -1, 0 or +1.
@@ -61,14 +56,12 @@ evidence_items:
 
       An example of a balanced avl tr'
     type: TextQuoteSelector
-  selector_sha256: sha256:1e971f8a7a201db2f40d1597269d32173f526d0cec8a56f8fb84de85d19df05a
   snapshot_sha256: sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e
 - evidence_id: evidence-83331771a789
   position:
     end: 887
     start: 807
     type: TextPositionSelector
-  quote_sha256: sha256:1cfbd2357acfed6150536442031cbb70fa541aac4ccdee329a02e6b78f949f30
   selector:
     exact: In rotation operation, the positions of the nodes of a subtree are interchanged.
     prefix: 'ing the subtrees in an AVL Tree
@@ -78,14 +71,12 @@ evidence_items:
 
       There are two types of rotation'
     type: TextQuoteSelector
-  selector_sha256: sha256:db6d6866e5497f56e2000c75a75681a1804305102f6eda534aee644771288804
   snapshot_sha256: sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e
 - evidence_id: evidence-e31977e17e30
   position:
     end: 23820
     start: 23781
     type: TextPositionSelector
-  quote_sha256: sha256:b4a1f1637e71c8a68fe365930014a745a7a7ec6c91129c2893e7bd762e6a0395
   selector:
     exact: For indexing large records in databases
     prefix: 'VL Tree
@@ -97,14 +88,12 @@ evidence_items:
 
       - For searching in large databa'
     type: TextQuoteSelector
-  selector_sha256: sha256:b179147dd5b2d7ef8ea3ebd5a91e859f6eab9e49f823a2ac32695e045854b863
   snapshot_sha256: sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e
 - evidence_id: evidence-9a0d9ef9c838
   position:
     end: 23855
     start: 23823
     type: TextPositionSelector
-  quote_sha256: sha256:4e202ad41a53acc3cf3416063031fa0ef0ce231db0d5ea1beca19dd112abecda
   selector:
     exact: For searching in large databases
     prefix: 'ng large records in databases
@@ -112,7 +101,6 @@ evidence_items:
       - '
     suffix: ''
     type: TextQuoteSelector
-  selector_sha256: sha256:44d1d5948b3b82b9fa7f10665db9f3f30ccdec06507d2f29ab2253b56e9490b2
   snapshot_sha256: sha256:685b2ef38cc1658bd097d86e571037d71dbd0ad0802c037003a6959f788b136e
 extractor: trafilatura/2.2.0
 id: programiz-avl-tree-v2
@@ -123,7 +111,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/9b3597e6cf289b9ca4067b114697897e6aa66084fff76d697a20686b25fc8c38.html
-  sha256: sha256:9b3597e6cf289b9ca4067b114697897e6aa66084fff76d697a20686b25fc8c38
 read_status: retrieved
 retrieval:
   acquisition: local-file

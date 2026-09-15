@@ -14,7 +14,6 @@ evidence_items:
     end: 142
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:9b0a789350cea022ad8d80b954de9e83e64219069ab5fb167f656992a6b95e39
   selector:
     exact: In photography and optics, vignetting is a reduction of an image's brightness
       or saturation toward the periphery compared to the image center.
@@ -23,7 +22,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:7dcf4129afbe8cc4397bf1860089ba66247b90268d07b3cc471a48ae6dadfb76
   snapshot_sha256: sha256:896317a6687daeaee2c49f331e55677f76e1c82654f4bb46e7d2f50dc789ab9b
 extractor: utf8/1
 id: wikipedia-vignetting-v2
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/896317a6687daeaee2c49f331e55677f76e1c82654f4bb46e7d2f50dc789ab9b.txt
-  sha256: sha256:896317a6687daeaee2c49f331e55677f76e1c82654f4bb46e7d2f50dc789ab9b
 read_status: retrieved
 retrieval:
   acquisition: local-file

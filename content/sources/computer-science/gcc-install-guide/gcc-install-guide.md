@@ -14,7 +14,6 @@ evidence_items:
     end: 788
     start: 728
     type: TextPositionSelector
-  quote_sha256: sha256:b8734386f9b2a7056c850ebd367d24d864bfc63ecf4c56958d15f39f1a4670c9
   selector:
     exact: The installation procedure itself is broken into five steps.
     prefix: 'nstructions before you proceed.
@@ -24,14 +23,12 @@ evidence_items:
 
       Please note that GCC does not s'
     type: TextQuoteSelector
-  selector_sha256: sha256:a9706b73f9b92c0a8fa105c7c9ef0d89aff658acaa7a115791d198f3d86e490e
   snapshot_sha256: sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8
 - evidence_id: evidence-abe77873564d
   position:
     end: 1085
     start: 932
     type: TextPositionSelector
-  quote_sha256: sha256:ef1ab2929c3a55988cacb26abb8091af5ca10f4d664680840be102a1ba284d2c
   selector:
     exact: we suggest that you install GCC into a directory of its own and simply
       remove that directory when you do not need that specific version of GCC any
@@ -39,14 +36,12 @@ evidence_items:
     prefix: 'd open a can of worms. Instead, '
     suffix: ', and, if shared libraries are i'
     type: TextQuoteSelector
-  selector_sha256: sha256:1442a670ef5e70ca04f94d7f3eeb95156074903d3b218910ee73d379031124da
   snapshot_sha256: sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8
 - evidence_id: evidence-84712bc48f88
   position:
     end: 1085
     start: 789
     type: TextPositionSelector
-  quote_sha256: sha256:39d532b0fa4cc4c447201b5058fb506dc0a35a9eab719643bfa84146456a6357
   selector:
     exact: Please note that GCC does not support ‘make uninstall’ and probably won’t
       do so in the near future as this would open a can of worms. Instead, we suggest
@@ -57,7 +52,6 @@ evidence_items:
       '
     suffix: ', and, if shared libraries are i'
     type: TextQuoteSelector
-  selector_sha256: sha256:6443f69902827dc8eb94210a20901e090fc96aab940434102ab5c93c99686230
   snapshot_sha256: sha256:5fdea27e58380c3fe7411ef661e8497305116732e2872da00ad9b49b27ba34c8
 extractor: trafilatura/2.2.0
 id: gcc-install-guide
@@ -65,7 +59,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/816b026ae6443789ea7493988387043a6136cbd439a273863ab2e6fcb164923f.html
-  sha256: sha256:816b026ae6443789ea7493988387043a6136cbd439a273863ab2e6fcb164923f
 read_status: retrieved
 retrieval:
   acquisition: fetch

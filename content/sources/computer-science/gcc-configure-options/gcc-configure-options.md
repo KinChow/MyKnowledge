@@ -14,7 +14,6 @@ evidence_items:
     end: 48608
     start: 48513
     type: TextPositionSelector
-  quote_sha256: sha256:41eb97904c611aaf7fad37ed5275330229c39d1ed353f93ecebaaf5c195ac30b
   selector:
     exact: 'Specify that only a particular subset of compilers and
 
@@ -24,14 +23,12 @@ evidence_items:
       '
     suffix: '  For a list of valid values for'
     type: TextQuoteSelector
-  selector_sha256: sha256:9cb4c092fc4c959748b4ed7878f559ecac01e7736b3f5e1ea24e1b1f9aacb715
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 - evidence_id: evidence-d0174128ad8a
   position:
     end: 20443
     start: 20320
     type: TextPositionSelector
-  quote_sha256: sha256:b244e5093ac1a5bc2793a3625a6c20c69dd2a83df85e925377c356d1689c9b60
   selector:
     exact: Specify that multiple target libraries to support different target variants,
       calling conventions, etc. should not be built.
@@ -42,14 +39,12 @@ evidence_items:
       '
     suffix: ' The default is to build a prede'
     type: TextQuoteSelector
-  selector_sha256: sha256:ac81c9439f4dfdcb03f871ecb7b5dcd38f05e9a34247acbab24519ff4d66fecb
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 - evidence_id: evidence-bd395148b2f9
   position:
     end: 63697
     start: 63347
     type: TextPositionSelector
-  quote_sha256: sha256:9fae3ca331bed7bbad075da39c856c41cb892c3b69895d17ae66cd4efd194b7e
   selector:
     exact: 'If you want to build GCC but do not have the GMP library, the MPFR
 
@@ -71,14 +66,12 @@ evidence_items:
 
       --with-gmp=gmpinstalldir o'
     type: TextQuoteSelector
-  selector_sha256: sha256:29dbd27b8f58820a95fa413ec6f12101992c501c5d4b9775d022232f0e755eaf
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 - evidence_id: evidence-b4d83f460536
   position:
     end: 6351
     start: 6258
     type: TextPositionSelector
-  quote_sha256: sha256:0ad413f5897b3007ddf367cbd9c5189b25ffe3b2c001fb695b0c0da66b4a9e2a
   selector:
     exact: 'We highly recommend against dirname being the same or a
 
@@ -90,14 +83,12 @@ evidence_items:
 
       bene'
     type: TextQuoteSelector
-  selector_sha256: sha256:2556f7c06f9f7530e04f2445d30f93d8d901b88c9f7c064b0501895bd043bf62
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 - evidence_id: evidence-052a9cc37b85
   position:
     end: 48607
     start: 48474
     type: TextPositionSelector
-  quote_sha256: sha256:db3c40807ad5717641c1890b1e49df0384d8cf4b20985fd4a8a69df517307a4a
   selector:
     exact: '--enable-languages=[^]lang1,[^]lang2,…
 
@@ -109,14 +100,12 @@ evidence_items:
       '
     suffix: .  For a list of valid values fo
     type: TextQuoteSelector
-  selector_sha256: sha256:7ca859fcdf92c290384883fcc6a1600e906f25e4c3918d1bc7f95f9bf14a826f
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 - evidence_id: evidence-fb605de0897a
   position:
     end: 20442
     start: 20301
     type: TextPositionSelector
-  quote_sha256: sha256:3dadfae89cf55ea0a9f71264140c4fce27be5475211082b6d34f0f7c3ce166ef
   selector:
     exact: '--disable-multilib
 
@@ -127,14 +116,12 @@ evidence_items:
       '
     suffix: . The default is to build a pred
     type: TextQuoteSelector
-  selector_sha256: sha256:41b2936c414ba0775b120d5946ae7f04db2164b64432fe3fe2a31f8cbbc704f6
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 - evidence_id: evidence-1ddd3b797392
   position:
     end: 6350
     start: 6046
     type: TextPositionSelector
-  quote_sha256: sha256:1f692d6152b06bf60873884e94a40c6077d26ab1168b19d7422c25f9a88491a3
   selector:
     exact: '--prefix=dirname
 
@@ -152,7 +139,6 @@ evidence_items:
 
       ben'
     type: TextQuoteSelector
-  selector_sha256: sha256:238d7ea632b70a8c18627cfef5d286d3557760f076a2a136d3a51582c2ed3e70
   snapshot_sha256: sha256:a4573e801a544775767608a700ae244d6d2a0a7008ca09d02a4a5e1893d6b5d8
 extractor: trafilatura/2.2.0
 id: gcc-configure-options
@@ -160,7 +146,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/4c1bbd16c144849b25a8c49130db00c75543fb54fa08e812dec37fd85c1cfa4b.html
-  sha256: sha256:4c1bbd16c144849b25a8c49130db00c75543fb54fa08e812dec37fd85c1cfa4b
 read_status: retrieved
 retrieval:
   acquisition: fetch

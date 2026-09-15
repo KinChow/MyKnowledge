@@ -14,7 +14,6 @@ evidence_items:
     end: 122
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:809aeacd4b9aebb3a702cfff9232ed92c472152d393fe4fe939a81c3d767960d
   selector:
     exact: Classes are user-defined types, defined by class-specifier, which appears
       in decl-specifier-seq of the declaration syntax.
@@ -24,14 +23,12 @@ evidence_items:
 
       The class specifier has the fo'
     type: TextQuoteSelector
-  selector_sha256: sha256:67885d623ca5e8977b166ccc03469c3f3e9413978f09a8ed75b4cb116e62a47e
   snapshot_sha256: sha256:36e90a879b087577270dfd55bc4a9867898e1c59f428677428253422a87a53bc
 - evidence_id: evidence-0d439ba9d56a
   position:
     end: 435
     start: 275
     type: TextPositionSelector
-  quote_sha256: sha256:717f1557da1bf712192e914e33f9981a0e950f97c21049b59cca07dd8b5b0fd4
   selector:
     exact: class-key is one of class, struct and union. The keywords class and struct
       are identical except for the default member access and the default base class
@@ -39,7 +36,6 @@ evidence_items:
     prefix: 'onal) { member-specification }. '
     suffix: ' If it is union, the declaration'
     type: TextQuoteSelector
-  selector_sha256: sha256:3e37432c1f707664b746255e7c9fe213037667c60969d5267291d3b285043e81
   snapshot_sha256: sha256:36e90a879b087577270dfd55bc4a9867898e1c59f428677428253422a87a53bc
 extractor: utf8/1
 id: web-computer-science-cpp-class-and-struct
@@ -50,7 +46,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/36e90a879b087577270dfd55bc4a9867898e1c59f428677428253422a87a53bc.txt
-  sha256: sha256:36e90a879b087577270dfd55bc4a9867898e1c59f428677428253422a87a53bc
 read_status: retrieved
 retrieval:
   acquisition: local-file

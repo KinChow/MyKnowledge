@@ -8,7 +8,6 @@ evidence_items:
     end: 200
     start: 61
     type: TextPositionSelector
-  quote_sha256: sha256:1206468cce4ef05897518afd0897c568a0667a36d84a9909e409d5f4e08f464a
   selector:
     exact: AArch64 state supports a single instruction set, called A64. This is a
       fixed-length instruction set that uses 32-bit instruction encodings.
@@ -19,7 +18,6 @@ evidence_items:
 
       For information on the A64 inst'
     type: TextQuoteSelector
-  selector_sha256: sha256:2732216738e216838d25d5c2dc4c2bb8421a80b2aa4a6ef032a630b40c4496a8
   snapshot_sha256: sha256:ccf816fe505c04568f1a42673f567e9003ac679a45fa433e5432c6ed63c39578
 extractor: trafilatura/2.2.0
 id: arm-ddi0487-instruction-sets

@@ -14,7 +14,6 @@ evidence_items:
     end: 415
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:d243a5d53e9c5896ff1b435348b95caee9715c4973aa410b500d9b99c3eaf6fe
   selector:
     exact: "《100个gdb小技巧》\n作者：hellogcc\n来源：100-gdb-tips\n一个关于gdb使用小技巧的文档。100，在这里可能只是表明很多；具体的数目取决于您的参与和贡献。\n如何参与\n直接发PULL
       REQUEST，或与我们联系。\n增加一个小技巧的步骤：\n- 在src目录下新增一个md文件，参照现有文件的格式风格，编写一个小技巧\n markdown语法参见
@@ -24,7 +23,6 @@ evidence_items:
     prefix: ''
     suffix: ''
     type: TextQuoteSelector
-  selector_sha256: sha256:395fb065d69b1b6f9041d94b86f52188b1580b6e45912f1385b405f942faefa0
   snapshot_sha256: sha256:d09f2aa2fe5e8c1b0abce26a347b3ab744c40702c3270ee5a77404646cc3878d
 extractor: trafilatura/2.2.0
 id: web-computer-science-gdb
@@ -32,7 +30,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/62296a32270e9b0cf4969e66cbc67dde9e49f3150fc95145e28fe537182ef51b.html
-  sha256: sha256:62296a32270e9b0cf4969e66cbc67dde9e49f3150fc95145e28fe537182ef51b
 read_status: retrieved
 retrieval:
   acquisition: fetch

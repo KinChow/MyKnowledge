@@ -44,7 +44,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from tools.common import canonical_quote, hash_canonical, sha256_text  # noqa: E402
+from tools.common import canonical_quote, sha256_text  # noqa: E402
 from tools.front_matter import FrontMatter  # noqa: E402
 
 # 归一化口径下的已知失败基线 = 0。
@@ -123,7 +123,7 @@ def _failure(
 
 
 def _check_source_evidence(root, source_records, snapshot_cache):
-    """检查 (b)(c)(e)：source evidence_items 的 selector 能否命中其声明快照，且哈希自证。"""
+    """检查 (b)(c)：source evidence_items 的 selector 能否命中其声明快照。"""
     failures = []
     checked = 0
     for source_id, (path, metadata) in source_records.items():
@@ -215,71 +215,7 @@ def _check_source_evidence(root, source_records, snapshot_cache):
                         "source", source_id, rel, None, evidence_id, "suffix_mismatch"
                     )
                 )
-
-            # (e) 哈希重算（抽出为独立函数以控制本函数复杂度）。
-            failures.extend(
-                _check_evidence_hashes(
-                    source_id, rel, evidence_id, item, text, start, exact, digest
-                )
-            )
     return checked, failures
-
-
-def _check_evidence_hashes(
-    source_id, rel, evidence_id, item, text, start, exact, digest
-):
-    """检查 (e)：selector_sha256 / quote_sha256 必须与快照内容一致。
-
-    公式与写入侧 ``tools/evidence_anchor.py:69-85`` 逐字相同，且 prefix/suffix 取
-    【快照派生值】而非声明值——这样才能同时暴露"声明值被篡改"与"哈希被篡改"
-    两种情形。2026-09-15 复核发现此前的实现从不重算哈希，故这两类篡改完全漏报。
-
-    ``end`` 由 ``start + len(exact)`` 现算：它是冗余信息，单独传参会触发 PLR0913。
-    """
-    end = start + len(exact)
-    failures = []
-    recomputed_selector = hash_canonical(
-        {
-            "snapshot_sha256": digest,
-            "start": start,
-            "end": end,
-            "exact": exact,
-            "prefix": text[max(0, start - CONTEXT_CHARS) : start],
-            "suffix": text[end : end + CONTEXT_CHARS],
-        }
-    )
-    if item.get("selector_sha256") != recomputed_selector:
-        failures.append(
-            _failure(
-                "source",
-                source_id,
-                rel,
-                None,
-                evidence_id,
-                "selector_sha256_mismatch",
-                detail={
-                    "declared": item.get("selector_sha256"),
-                    "recomputed": recomputed_selector,
-                },
-            )
-        )
-    recomputed_quote = sha256_text(canonical_quote(exact))
-    if item.get("quote_sha256") != recomputed_quote:
-        failures.append(
-            _failure(
-                "source",
-                source_id,
-                rel,
-                None,
-                evidence_id,
-                "quote_sha256_mismatch",
-                detail={
-                    "declared": item.get("quote_sha256"),
-                    "recomputed": recomputed_quote,
-                },
-            )
-        )
-    return failures
 
 
 def _check_wiki_quotes(root, evidence_owner, snapshot_cache):

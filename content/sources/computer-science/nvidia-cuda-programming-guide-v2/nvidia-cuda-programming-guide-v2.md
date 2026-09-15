@@ -14,7 +14,6 @@ evidence_items:
     end: 232
     start: 60
     type: TextPositionSelector
-  quote_sha256: sha256:49efd235593e631503279aa798864883e28a6d20e8faff72775c25b51a2463b0
   selector:
     exact: CUDA is a parallel computing platform and programming model developed by
       NVIDIA that enables dramatic increases in computing performance by harnessing
@@ -24,7 +23,6 @@ evidence_items:
       '
     suffix: ' It allows developers to acceler'
     type: TextQuoteSelector
-  selector_sha256: sha256:2191ee7342a26c0e62e12391d42cafb27e1c772128d0c05c4236af20a9fbb8c5
   snapshot_sha256: sha256:19240c8229bdc716b8f594b5c2f02db066ff0612874556ef1e62da0fb14fd023
 extractor: trafilatura/2.2.0
 id: nvidia-cuda-programming-guide-v2
@@ -35,7 +33,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/cf96d69dc20a22e77e9d6508f269a489fee20732635a1e41fc3bb892c3499a8f.html
-  sha256: sha256:cf96d69dc20a22e77e9d6508f269a489fee20732635a1e41fc3bb892c3499a8f
 read_status: retrieved
 retrieval:
   acquisition: local-file

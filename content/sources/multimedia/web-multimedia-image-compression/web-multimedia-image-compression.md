@@ -14,14 +14,12 @@ evidence_items:
     end: 166
     start: 23
     type: TextPositionSelector
-  quote_sha256: sha256:dded379923463b50218e880be422e2700802a450d52eb79165f4895e502ef54b
   selector:
     exact: data compression, source coding, or bit-rate reduction is the process of
       encoding information using fewer bits than the original representation
     prefix: 'In information theory, '
     suffix: '. Any particular compression is '
     type: TextQuoteSelector
-  selector_sha256: sha256:d0742ece8a59b8b7c973913ef6cb19abb032ed9c9659868a4c07f120b727bfbf
   snapshot_sha256: sha256:ff1127e3af5768db5ca311ee439099850dd0c74e651c6a3c3b59860fa28d66a7
 extractor: utf8/1
 id: web-multimedia-image-compression
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/ff1127e3af5768db5ca311ee439099850dd0c74e651c6a3c3b59860fa28d66a7.txt
-  sha256: sha256:ff1127e3af5768db5ca311ee439099850dd0c74e651c6a3c3b59860fa28d66a7
 read_status: retrieved
 retrieval:
   acquisition: local-file

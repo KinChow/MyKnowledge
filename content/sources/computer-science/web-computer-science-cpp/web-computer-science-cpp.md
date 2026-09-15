@@ -14,7 +14,6 @@ evidence_items:
     end: 2593
     start: 2497
     type: TextPositionSelector
-  quote_sha256: sha256:c5bbf92540c946a8ff16593c59cc8885a6505139e58b0cb46a4212a49182b10f
   selector:
     exact: '1. Pointers
 
@@ -32,14 +31,12 @@ evidence_items:
 
       * [Lecture notes](week05/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:793e249e683f013286deaf4d5636c8c3c6bfef14cb81793859c13e383e99bc5b
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-d0091d2e6b0c
   position:
     end: 2847
     start: 2755
     type: TextPositionSelector
-  quote_sha256: sha256:cdb4b41ff21d4248187cfee34bf7b4abfb7bcb7ab62b4ac13d68092c28f8771e
   selector:
     exact: '1. Functions
 
@@ -59,14 +56,12 @@ evidence_items:
 
       * [Lecture notes](week06/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:35b61f6056663c4005fb503861df0a4c2322543ef23782024ffd4d40e511994d
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-737abe1aa181
   position:
     end: 4278
     start: 4179
     type: TextPositionSelector
-  quote_sha256: sha256:0850ccc73ca8876b9fd46e3a5ed7d1d6bbbca6f52187f84c6ad13f7dbec0943c
   selector:
     exact: '1. An example with dynamic memory
 
@@ -86,14 +81,12 @@ evidence_items:
 
       * [Lecture notes](week11/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:618d02a7a3c8cdc553c644dbb0297a8262f085222efa9cd96d994be91962ad17
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-4eaf855d0d80
   position:
     end: 4863
     start: 4764
     type: TextPositionSelector
-  quote_sha256: sha256:e0fa1b46b733684fc8fd754bd6c31205e8cc68bb6abb13d6828ed7f3f440071a
   selector:
     exact: '1. Class template
 
@@ -111,14 +104,12 @@ evidence_items:
 
       * [Lecture notes](week13/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:0230d551bd117616416f9e5a79dbb4710c6d9a177680f2d70f3e65b32ac4897d
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-837090c8d766
   position:
     end: 2593
     start: 2443
     type: TextPositionSelector
-  quote_sha256: sha256:46ec9541fc88a12e0d9af304b6c383bf2262f56ef2844e7d79935a7e9a72828b
   selector:
     exact: '## [Chapter 5: Memory and Pointer](week05/README.md)
 
@@ -141,14 +132,12 @@ evidence_items:
 
       * [Lecture notes](week05/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:46e61cef6f55aad09b11db157d5fb62fbab00436798d94c88b1b59dba0a14a52
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-7b102c6d4c89
   position:
     end: 2847
     start: 2700
     type: TextPositionSelector
-  quote_sha256: sha256:bf2972b0d7cf88e609db45efaee4b0b789474b6e009ea255ae647526f5ad472c
   selector:
     exact: '## [Chapter 6: Basics of Functions](week06/README.md)
 
@@ -173,14 +162,12 @@ evidence_items:
 
       * [Lecture notes](week06/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:abd3eee65b96ba71752e5361f4bc78fa2410cb855dafcda864956dd8f12da79d
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-a570371fba3c
   position:
     end: 4278
     start: 4079
     type: TextPositionSelector
-  quote_sha256: sha256:9fff99dfed383523f59bcbef4fa42a493d46096f85790cd01b0678f62c00d166
   selector:
     exact: '## [Chapter 11: Dynamic Memory Management in Classes](week11/README.md)
 
@@ -205,14 +192,12 @@ evidence_items:
 
       * [Lecture notes](week11/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:6b66e0796cc330d18cd676ddf96fdd5b2a1f473246bf1703b075453e94f334c0
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 - evidence_id: evidence-efb5df69e163
   position:
     end: 4863
     start: 4696
     type: TextPositionSelector
-  quote_sha256: sha256:8e7ea2eae8e648ec111653240e122467fb2f286d7cbba74e251fe87b30f2f51a
   selector:
     exact: '## [Chapter 13: Class Templates and std Library](week13/README.md)
 
@@ -235,7 +220,6 @@ evidence_items:
 
       * [Lecture notes](week13/Lectu'
     type: TextQuoteSelector
-  selector_sha256: sha256:d44237f3adfdb8618fe15033def88b5c83023202d2eb4eeda73792128e4f0206
   snapshot_sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 extractor: utf8/1
 id: web-computer-science-cpp
@@ -243,7 +227,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d.txt
-  sha256: sha256:3c989bd4001c094213f4114a51f90723dbcc3c27d7e0c21dbd89a066fadc2f0d
 read_status: retrieved
 retrieval:
   acquisition: fetch

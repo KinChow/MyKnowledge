@@ -14,7 +14,6 @@ evidence_items:
     end: 463
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:aa5facd67a58878a7740ccb84fe18ba28426de3a359bfbb29c764e469cd79976
   selector:
     exact: 'These options control various sorts of optimizations.
 
@@ -29,7 +28,6 @@ evidence_items:
 
       Turning on optimization flags m'
     type: TextQuoteSelector
-  selector_sha256: sha256:8508464abd1998e7fe628e34fedf9624d19a28c471919c1b7611995f9b5fe775
   snapshot_sha256: sha256:959d25592d98aa41cc339966359f8d1798cdab394071dc0308462f76e839f2e1
 extractor: trafilatura/2.2.0
 id: web-computer-science-process-optimization
@@ -37,7 +35,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/97b20ce89e74e5caeedccc602be3b1facd53d41648626635ce6d8c69cd7ada4f.html
-  sha256: sha256:97b20ce89e74e5caeedccc602be3b1facd53d41648626635ce6d8c69cd7ada4f
 read_status: retrieved
 retrieval:
   acquisition: fetch

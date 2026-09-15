@@ -14,7 +14,6 @@ evidence_items:
     end: 4201
     start: 3682
     type: TextPositionSelector
-  quote_sha256: sha256:fe410f2cbda50b9c371a787503d111488337afd03b406f09cfd9fd4166ac92b4
   selector:
     exact: '◼ The ISA is the interface between what the software commands and what
       the hardware carries out ◼ The ISA specifies ❑ The memory organization ◼ Address
@@ -35,14 +34,12 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:ad2f2f397c4e4c7130b2f3efb8d2750e656581349461d2f6804f905eb670971b
   snapshot_sha256: sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246
 - evidence_id: evidence-fa9a29315420
   position:
     end: 33568
     start: 33252
     type: TextPositionSelector
-  quote_sha256: sha256:66a5a480224c673ee6e4daa8cb4cf327a2d0b643aa2666feb26e67f9823c1ada
   selector:
     exact: ◼ **Traditional (ISA-only) definition:** "The term architecture is used
       here to describe the attributes of a system as seen by the programmer, i.e.,
@@ -51,7 +48,6 @@ evidence_items:
     prefix: 'cost, and other specific goals. '
     suffix: '" Gene Amdahl, IBM Journal of R&'
     type: TextQuoteSelector
-  selector_sha256: sha256:ff96745b8d936d96a55fab0baf9a86456442a1509e4d09c2c5f09337ab71abaf
   snapshot_sha256: sha256:fddb6f54728133fc75239a5ef5b621e2f2768ba604c8ebd057a57e155042e246
 extractor: marker/2.0.0
 id: ddca-lecture8-isa-ii
@@ -59,7 +55,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/e9e3e5194e646960b8725a21069c8a968007075e22a0bda16b98f964b8b0be3c.pdf
-  sha256: sha256:e9e3e5194e646960b8725a21069c8a968007075e22a0bda16b98f964b8b0be3c
 read_status: retrieved
 retrieval:
   acquisition: fetch

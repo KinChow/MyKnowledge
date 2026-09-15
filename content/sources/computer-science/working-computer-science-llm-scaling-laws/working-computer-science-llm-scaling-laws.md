@@ -8,7 +8,6 @@ evidence_items:
     end: 188
     start: 74
     type: TextPositionSelector
-  quote_sha256: sha256:a05eba0e17a5d6bf4b23c3da3b82ecf8c9ef8432798a6795661ffc5f600fe693
   selector:
     exact: 缩放定律（Scaling Laws）是一类经验幂律：在对数坐标下，语言模型的损失随计算量、参数量、数据量的增加近似线性下降，因此可以用一批精心挑选的小模型实验，把性能外推到大规模训练上（p09
       反复强调这是"简单的预测规则"）。
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: 其最重要的工程结论是**计算最优（Chinchilla）训练**
     type: TextQuoteSelector
-  selector_sha256: sha256:cf4297fa753e701b7567a3f45c1771faefb754eeb838d3acf21fe11ed07d36ed
   snapshot_sha256: sha256:029a829ce0531e2b44f5451ca172675e0fe37a4ab37ca7b4669826f1ad2861c1
 extractor: personal-note/1
 id: working-computer-science-llm-scaling-laws

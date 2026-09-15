@@ -14,14 +14,12 @@ evidence_items:
     end: 161
     start: 32
     type: TextPositionSelector
-  quote_sha256: sha256:11618b4cdea65ebe78f55d291b4e4a473ac10e5901b32634813b18f730afd570
   selector:
     exact: the iterator pattern is a design pattern in which an iterator is used to
       traverse a container and access the container's elements
     prefix: 'In object-oriented programming, '
     suffix: . The iterator pattern decouples
     type: TextQuoteSelector
-  selector_sha256: sha256:c272a0e23da40639a5e1efa07a9b02631667041441f5ccf849db6e5fd74a47df
   snapshot_sha256: sha256:9f88098e2da58e286aa113ea3b41d6065d92f3416a87c38fe6fbe8f95a03288b
 extractor: utf8/1
 id: web-computer-science-iterator-pattern
@@ -32,7 +30,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/9f88098e2da58e286aa113ea3b41d6065d92f3416a87c38fe6fbe8f95a03288b.txt
-  sha256: sha256:9f88098e2da58e286aa113ea3b41d6065d92f3416a87c38fe6fbe8f95a03288b
 read_status: retrieved
 retrieval:
   acquisition: local-file

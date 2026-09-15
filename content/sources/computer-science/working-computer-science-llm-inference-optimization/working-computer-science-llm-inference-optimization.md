@@ -8,7 +8,6 @@ evidence_items:
     end: 248
     start: 68
     type: TextPositionSelector
-  quote_sha256: sha256:60ff9b9c08c442d93bbfa7b33fd2f9e7f1bdd651001fdc65334301b678815452
   selector:
     exact: 自回归解码使推理无法沿序列维度并行，导致生成（decode）阶段受 HBM 显存带宽限制而非算力限制；因此本课全部推理优化技术都指向同一个原则——**在不大幅损害准确率的前提下减少
       KV 缓存（与参数）占用的内存**，包括 GQA/MLA/跨层注意力/滑动窗口等架构手段、量化与模型瘦身，以及投机解码、动态批处理（连续批处理/选择性批处理）等算法与系统级技术。
@@ -32,7 +31,6 @@ evidence_items:
 
       - **自回归推理（autoregress'
     type: TextQuoteSelector
-  selector_sha256: sha256:e4daecd6d6112d6ba5a492b3c194523d5cdef4b28488547ae53aef6ce61f62a8
   snapshot_sha256: sha256:bf7613f5912159f62e2d88d33cb0613b9a33faf7372cb24c2b1bac12b3505315
 extractor: personal-note/1
 id: working-computer-science-llm-inference-optimization

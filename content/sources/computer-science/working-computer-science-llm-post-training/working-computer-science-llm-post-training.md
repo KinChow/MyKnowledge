@@ -8,7 +8,6 @@ evidence_items:
     end: 285
     start: 68
     type: TextPositionSelector
-  quote_sha256: sha256:6f62c5ecd9efae8f8f987f9d167a070b8a1223f952bdcf3ca0f39710225787fc
   selector:
     exact: 后训练（post-training）是从预训练基础模型走向可用的 ChatGPT 式系统的必要步骤：先用指令数据做 SFT，把预训练里已经存在但未被引出的行为提取成可遵循指令的输出；再用
       RLHF（人类偏好 + 奖励模型 + PPO）或更简单的 DPO 对输出做对齐；而当奖励可以自动化验证（数学、代码）时，RLVR 用可验证奖励替代脆弱的人类奖励模型，让强化学习可以持续投入算力而不被"过度优化"卡住，从而涌现出长思维链的推理能力。
@@ -32,7 +31,6 @@ evidence_items:
 
       - **后训练（Post-training'
     type: TextQuoteSelector
-  selector_sha256: sha256:241cb5de253a25d807df8cb304941b1589841e5dbfb250fd6edfea2fff2f4e40
   snapshot_sha256: sha256:69608883c34d0198d76beff28a386cd06fd59d3be2a6e34ae629033b7071d2f9
 extractor: personal-note/1
 id: working-computer-science-llm-post-training

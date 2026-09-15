@@ -14,7 +14,6 @@ evidence_items:
     end: 151
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:354d48435772554bf88d090b2c57b8b931238751408726660d8f300c757ad6fc
   selector:
     exact: In computer science, algorithmic efficiency is a property of an algorithm
       which relates to the amount of computational resources used by the algorithm.
@@ -23,7 +22,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:1b3c5f2c5405c4b29a75627d8ad39df80f53cbc55eb6d65e340317ac5454e7ce
   snapshot_sha256: sha256:6eecb0a1ad8c88902c550ce296cf0bd6fa7ae1c57db52924f55bb01f00da1265
 extractor: utf8/1
 id: wikipedia-algorithmic-efficiency-v2
@@ -34,7 +32,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/6eecb0a1ad8c88902c550ce296cf0bd6fa7ae1c57db52924f55bb01f00da1265.txt
-  sha256: sha256:6eecb0a1ad8c88902c550ce296cf0bd6fa7ae1c57db52924f55bb01f00da1265
 read_status: retrieved
 retrieval:
   acquisition: local-file

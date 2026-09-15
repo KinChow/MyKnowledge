@@ -138,8 +138,6 @@ class ResolutionTests(WikiTestCase):
                     "id": "e1",
                     "snapshot_sha256": sha256_text(SOURCE_BODY),
                     "selector": {"type": "TextQuoteSelector", "exact": QUOTE_EXACT},
-                    "selector_sha256": "sha256:x",
-                    "quote_sha256": "sha256:y",
                     # 无 position
                 }
             ],

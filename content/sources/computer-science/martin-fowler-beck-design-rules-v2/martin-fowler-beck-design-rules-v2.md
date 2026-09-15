@@ -14,7 +14,6 @@ evidence_items:
     end: 1284
     start: 1190
     type: TextPositionSelector
-  quote_sha256: sha256:9af3e158a10d94c6c265fa02155f84933ec5213288f46a30880a36890b9d4989
   selector:
     exact: The rules are in priority order, so “passes the tests” takes priority over
       “reveals intention”
@@ -27,7 +26,6 @@ evidence_items:
 
       The most important of the rules'
     type: TextQuoteSelector
-  selector_sha256: sha256:165a0fe4a820f77c97d041de7968223ffe49ee01527fdcd1751cf6d93584ec7a
   snapshot_sha256: sha256:74027de0848476e741d3cd83a8845eeb659190d1163599607893bf2e5dffbddb
 extractor: trafilatura/2.2.0
 id: martin-fowler-beck-design-rules-v2
@@ -35,7 +33,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/018b4a4df8f058d5f70e64db98180e62c1e0dea9d3519a97ee43a3d18fa9816c.html
-  sha256: sha256:018b4a4df8f058d5f70e64db98180e62c1e0dea9d3519a97ee43a3d18fa9816c
 read_status: retrieved
 retrieval:
   acquisition: fetch

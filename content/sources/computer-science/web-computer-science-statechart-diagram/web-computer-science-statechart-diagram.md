@@ -14,7 +14,6 @@ evidence_items:
     end: 226
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:fe005f3b52795844f887ac25ae514fb1aece4d1ad06ce5f27830a72ba440632d
   selector:
     exact: "New! Render PlantUML diagrams directly inside GitHub\n        with our
       official browser extension —\n        No server. No tokens. No tracking. Zero
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: "\n    \n    \n状态图\n- 基于文本的语言：快速定义并可视"
     type: TextQuoteSelector
-  selector_sha256: sha256:539d52de8458db18451ea52890222da25e915e1e5754615bbd25610972e40882
   snapshot_sha256: sha256:695e9056ac81b30b507133d0a6a3b4254a5303d7ce8f1a0c5cb7b22b61bbf19a
 extractor: trafilatura/2.2.0
 id: web-computer-science-statechart-diagram
@@ -30,7 +28,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/2e94cb4a9eb461c42eed508d6685f1a4e05c844a19b0d39bb6bde71d09dc400a.html
-  sha256: sha256:2e94cb4a9eb461c42eed508d6685f1a4e05c844a19b0d39bb6bde71d09dc400a
 read_status: retrieved
 retrieval:
   acquisition: fetch

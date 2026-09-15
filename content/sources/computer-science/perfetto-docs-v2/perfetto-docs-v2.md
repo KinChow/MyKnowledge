@@ -14,7 +14,6 @@ evidence_items:
     end: 272
     start: 191
     type: TextPositionSelector
-  quote_sha256: sha256:03d51d9ebb6598eb03293cd98168bfe07139fdebafb075ce07277f75e09ed673
   selector:
     exact: 'Perfetto is an open-source suite of SDKs, daemons and tools which use
 
@@ -27,14 +26,12 @@ evidence_items:
       '
     suffix: ' to help developers understand t'
     type: TextQuoteSelector
-  selector_sha256: sha256:45947461995bfae99022814ee7168abb58e5cdf7e72afa0983bef6487c4498ea
   snapshot_sha256: sha256:6440a0be1072b1946edd42d8bb65c06e863ef3823c18b5ae08c81b69af22d932
 - evidence_id: evidence-d4591ed4b8fa
   position:
     end: 418
     start: 191
     type: TextPositionSelector
-  quote_sha256: sha256:621ae4d00f52662530a179c1a7de42c62d34a8fff6a9ed11eafbb8b38cb0fad5
   selector:
     exact: 'Perfetto is an open-source suite of SDKs, daemons and tools which use
 
@@ -55,7 +52,6 @@ evidence_items:
 
       - **High-perf'
     type: TextQuoteSelector
-  selector_sha256: sha256:7368a0ee03f43092deb96143b15a4fb13a53a72b07005f135fd0da88a0a5efe1
   snapshot_sha256: sha256:6440a0be1072b1946edd42d8bb65c06e863ef3823c18b5ae08c81b69af22d932
 extractor: utf8/1
 id: perfetto-docs-v2
@@ -66,7 +62,6 @@ media_type: text/markdown
 origin: external
 raw_ref:
   path: archive/raw/6440a0be1072b1946edd42d8bb65c06e863ef3823c18b5ae08c81b69af22d932.txt
-  sha256: sha256:6440a0be1072b1946edd42d8bb65c06e863ef3823c18b5ae08c81b69af22d932
 read_status: retrieved
 retrieval:
   acquisition: local-file

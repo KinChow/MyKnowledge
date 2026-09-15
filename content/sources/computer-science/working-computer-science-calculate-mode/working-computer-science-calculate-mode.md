@@ -8,7 +8,6 @@ evidence_items:
     end: 575
     start: 175
     type: TextPositionSelector
-  quote_sha256: sha256:ab05bf7faed39542075cce20832e79e373efbd072bf5beb5e713f1215752b181
   selector:
     exact: "* 全连接 Fully Connected Layer\n  * Feed forward, fully connected\n  * Multilayer
       Perceptron (MLP)\n* 卷积层 Convolutional Layer\n  * Feed forward, sparsely-connected,
@@ -27,7 +26,6 @@ evidence_items:
       '
     suffix: "Layer\n  * Attention (matrix mult"
     type: TextQuoteSelector
-  selector_sha256: sha256:1b3bf7626d76b8584c3af95986b676de00ee9301a3b6535a29274eff5787356b
   snapshot_sha256: sha256:d876720adb8b30c5ea60b15b39e2d8290937dea2a819880ac7c12d689d42f1bc
 extractor: personal-note/1
 id: working-computer-science-calculate-mode

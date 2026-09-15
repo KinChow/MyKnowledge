@@ -14,7 +14,6 @@ evidence_items:
     end: 274
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:9a02465ccb69a251380f7c436260834dde73572784f7d4acd88817256de800c0
   selector:
     exact: '"Don''t repeat yourself" (DRY) is a principle of software development
       aimed at reducing repetition of information which is likely to change, replacing
@@ -26,14 +25,12 @@ evidence_items:
 
       The DRY principle is stated as'
     type: TextQuoteSelector
-  selector_sha256: sha256:e19ef985e1b30d196e405504356bfc435ffbc16e2e8dd0937cd33a2bdf1da602
   snapshot_sha256: sha256:bedfa360a7ea40e91575708fbef84f8fae9fff219f6c43f854ccbcf340d9a59d
 - evidence_id: evidence-66159e87920c
   position:
     end: 515
     start: 276
     type: TextPositionSelector
-  quote_sha256: sha256:0f1e5e7a7a6303b5cbac64b3e98c497661733c57798ecb5f0977c298085b1d05
   selector:
     exact: The DRY principle is stated as "Every piece of knowledge must have a single,
       unambiguous, authoritative representation within a system". The principle has
@@ -44,7 +41,6 @@ evidence_items:
       '
     suffix: ' They apply it quite broadly to '
     type: TextQuoteSelector
-  selector_sha256: sha256:68c70da4f68a346dc69c1aa56cde090be98438ec241fca2ed9bd88de6c2cd4b4
   snapshot_sha256: sha256:bedfa360a7ea40e91575708fbef84f8fae9fff219f6c43f854ccbcf340d9a59d
 extractor: utf8/1
 id: web-computer-science-dry
@@ -55,7 +51,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/bedfa360a7ea40e91575708fbef84f8fae9fff219f6c43f854ccbcf340d9a59d.txt
-  sha256: sha256:bedfa360a7ea40e91575708fbef84f8fae9fff219f6c43f854ccbcf340d9a59d
 read_status: retrieved
 retrieval:
   acquisition: local-file

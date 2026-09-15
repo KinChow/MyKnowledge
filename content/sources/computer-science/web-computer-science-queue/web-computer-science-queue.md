@@ -14,7 +14,6 @@ evidence_items:
     end: 196
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:77893bead1a3c620ea50bb284e7d3130a6d2a50f1518aea63b1a9804fb9e125a
   selector:
     exact: 'FIFO is an abbreviation for first in, first out. It is a method for handling
       data structures where the first element is processed first and the newest element
@@ -28,14 +27,12 @@ evidence_items:
 
       In this example, following th'
     type: TextQuoteSelector
-  selector_sha256: sha256:d302b3c8a4d5162dcc0f801b2c62235ced317298801dd8e65f6d740ff396cd9b
   snapshot_sha256: sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477
 - evidence_id: evidence-8ff2ed221c43
   position:
     end: 177
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:8743d4ddda183683be0dcdd52cabca2c13c5a4c9487de3f3da0fe139259c3f1b
   selector:
     exact: FIFO is an abbreviation for first in, first out. It is a method for handling
       data structures where the first element is processed first and the newest element
@@ -49,28 +46,24 @@ evidence_items:
 
       In this ex'
     type: TextQuoteSelector
-  selector_sha256: sha256:e4263a6e70aab4005df07812114ad85cc6cf6c00349ad1916e3dc7bd58374e71
   snapshot_sha256: sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477
 - evidence_id: evidence-9dee8b7f3fce
   position:
     end: 985
     start: 883
     type: TextPositionSelector
-  quote_sha256: sha256:8e77fd6a420df8aebb5c60bf4d63c1b52a9fd16a952ec573029a760bc3967f17
   selector:
     exact: Certain data structures like Queue and other variants of Queue uses FIFO
       approach for processing data.
     prefix: "FO used:\n- Data Structures:\n  - "
     suffix: "\n- Disk scheduling:\n  - Disk con"
     type: TextQuoteSelector
-  selector_sha256: sha256:2e718a9ca6681d347ed96070862d953d296cf390d386dc2a415030d43dca7864
   snapshot_sha256: sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477
 - evidence_id: evidence-5a69eff1293e
   position:
     end: 1135
     start: 1009
     type: TextPositionSelector
-  quote_sha256: sha256:fe4f6d8c6a127082a4b0f1a034a6b083435aeb6908633fe40b963d72d546f44e
   selector:
     exact: Disk controllers can use the FIFO as a disk scheduling algorithm to determine
       the order in which to service disk I/O requests.
@@ -79,14 +72,12 @@ evidence_items:
 
       - Communications and networking'
     type: TextQuoteSelector
-  selector_sha256: sha256:989c3402ec061303ce13cca813a43cd334da5dc5cea527caf76d3963838b68ae
   snapshot_sha256: sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477
 - evidence_id: evidence-e63039c54202
   position:
     end: 1317
     start: 1173
     type: TextPositionSelector
-  quote_sha256: sha256:5d03445fb5683cd64c1c317330cf1750a2f24676f9785a3474d315b548cba83a
   selector:
     exact: Communication network bridges, switches and routers used in computer networks
       use FIFOs to hold data packets en route to their next destination.
@@ -97,7 +88,6 @@ evidence_items:
 
       Progr'
     type: TextQuoteSelector
-  selector_sha256: sha256:5226eb9ce242ad9708ed695374f230f2180e45daf844985d4718dda8816cd68f
   snapshot_sha256: sha256:94fd1cbaeabf32db07a479884495c724dc7832e5913b3b701ed68ba94aac7477
 extractor: trafilatura/2.2.0
 id: web-computer-science-queue
@@ -105,7 +95,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/2ede4dc52ae3d89c237eaf0ad74f532e157aa2db0c64422a8af9d2f18899c2db.html
-  sha256: sha256:2ede4dc52ae3d89c237eaf0ad74f532e157aa2db0c64422a8af9d2f18899c2db
 read_status: retrieved
 retrieval:
   acquisition: fetch

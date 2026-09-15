@@ -8,7 +8,6 @@ evidence_items:
     end: 303
     start: 223
     type: TextPositionSelector
-  quote_sha256: sha256:c5d1a03a67331d130f43520860b8ca979d962c7290660f48ffb52b8d2f24f2a1
   selector:
     exact: 分词器是语言模型的数据入口：把原始文本（字符串/字节）编码成 token 索引序列——语言模型正是在这种序列上定义概率分布——也能把 token
       解码回字符串。
@@ -21,7 +20,6 @@ evidence_items:
       '
     suffix: 模型不能直接处理原始字节，计算效率太低，所以主流做法是子词分词：
     type: TextQuoteSelector
-  selector_sha256: sha256:147daa937cc1dbc56f7296bb1fada270a2a9a76f5a449536467407b57c0f0e0d
   snapshot_sha256: sha256:09691c3597978e987a8c11e2b704db68d212e978cbfa784cfc4a6855643d9057
 extractor: personal-note/1
 id: working-computer-science-llm-tokenization

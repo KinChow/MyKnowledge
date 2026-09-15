@@ -14,7 +14,6 @@ evidence_items:
     end: 5398
     start: 4974
     type: TextPositionSelector
-  quote_sha256: sha256:61960fe0719bde9588188ea11aff6171b55729287d6574710d4f3ae91a6c2122
   selector:
     exact: '**Pipelining doesn''t help latency of single instruction it helps throughput
       of entire workload Pipeline rate limited by slowest pipeline stage Potential
@@ -37,7 +36,6 @@ evidence_items:
 
       - Limi'
     type: TextQuoteSelector
-  selector_sha256: sha256:389b639aeae853f28831009ecfddd462d7cbdaf425d9e19d4d66e8233bfcd09f
   snapshot_sha256: sha256:b57021f3ebe49ea8aca788c1fbc9b766f6263ed3cda18354d71900d7dfd58755
 extractor: marker/2.0.0
 id: imperial-pipelines
@@ -45,7 +43,6 @@ media_type: application/pdf
 origin: external
 raw_ref:
   path: archive/raw/b184422264dbb8bd2d6ca13fac1e90c65d00d67f94d81e0645763eb9232d8453.pdf
-  sha256: sha256:b184422264dbb8bd2d6ca13fac1e90c65d00d67f94d81e0645763eb9232d8453
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -8,7 +8,6 @@ evidence_items:
     end: 163
     start: 76
     type: TextPositionSelector
-  quote_sha256: sha256:b021eb966e0cb04fbe08bce1f34882cf07e4fd0a9326de257c506c6efbf2f5d4
   selector:
     exact: 标准自注意力的 Q·Kᵀ 全连接交互使复杂度为 O(N²·d_k)，而 N（上下文长度）可达数百万 token，因此随序列变长，注意力成本会迅速压过线性增长的
       FFN 成本。
@@ -26,7 +25,6 @@ evidence_items:
       '
     suffix: 课程给出两条应对路线：一是系统工程/常数因子优化（FlashAt
     type: TextQuoteSelector
-  selector_sha256: sha256:233ec5f31b745d5f9faf3549def3a182f06f6475ff3e5073e848d841714df2cd
   snapshot_sha256: sha256:bf60d862ea23e938e0bae24ea54a86958b9448452f6597075387a8f083f85dec
 extractor: personal-note/1
 id: working-computer-science-llm-attention-evolution

@@ -14,7 +14,6 @@ evidence_items:
     end: 141
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:44d6b62ecb90d4b2fd33b39adbb691b846a8c68b616d7b8af1d07a291e557bda
   selector:
     exact: Consciously or not, the leaders who truly inspire people do so by following
       a naturally occurring pattern that Simon calls The Golden Circle.
@@ -23,7 +22,6 @@ evidence_items:
 
       The Golden Circle provides comp'
     type: TextQuoteSelector
-  selector_sha256: sha256:c0007934c8f303efa3b8917f0386852ceb680aa68bc96529d94e35f9796b8a40
   snapshot_sha256: sha256:f94f88fac0ba5712bed3ee3ced35f0be1b397c2ab1a8ffaff6bcd37946822e02
 extractor: trafilatura/2.2.0
 id: web-work-methods-model-golden-circle-v2
@@ -34,7 +32,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/080b22c57d26ecefc758362eb4fbd2292bbcb9b14f221838d45abb8225389b3c.html
-  sha256: sha256:080b22c57d26ecefc758362eb4fbd2292bbcb9b14f221838d45abb8225389b3c
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -14,7 +14,6 @@ evidence_items:
     end: 938
     start: 796
     type: TextPositionSelector
-  quote_sha256: sha256:ea04468846430ecbeb619e37d502e5f299d464bf6f9eea6d55146942705dbff2
   selector:
     exact: Connects to the ADB Server via its smart socket interface. Allows sending
       requests, receives responses and manages lifecycle of the adb server
@@ -27,14 +26,12 @@ evidence_items:
 
       Tasks are performed via comman'
     type: TextQuoteSelector
-  selector_sha256: sha256:1517f55c839e9f442ff0e3ea2f6837a01230e36be35ebb2d5e1bffa591915679
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-f54fa20e67c1
   position:
     end: 1103
     start: 974
     type: TextPositionSelector
-  quote_sha256: sha256:7431c98beadb9b01590e04fcda779f032848f3ee3dc33af6dfcc2ac7366f532b
   selector:
     exact: Some commands are fulfilled directly by the server while others are “forwarded
       over to the adbd(ADB daemon) running on the device
@@ -47,14 +44,12 @@ evidence_items:
 
       - Listen o'
     type: TextQuoteSelector
-  selector_sha256: sha256:189940a78b27b9bd45a0d1d4c43cd11281903fb44ac117d88bcb9cda3e7278ba
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-fc90a2d45789
   position:
     end: 1904
     start: 1869
     type: TextPositionSelector
-  quote_sha256: sha256:e3b241e4cafe17bf9432af908bd008e31f2a679c911dd518d0d99f5215ffe394
   selector:
     exact: devices [-l] List connected devices
     prefix: 'out is closed.
@@ -68,14 +63,12 @@ evidence_items:
 
       track-devi'
     type: TextQuoteSelector
-  selector_sha256: sha256:5fcc5cb35c3dc2641a6c44a1a91986dc04fb458a17812614672063eab60c5c7e
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-ffe377f53faf
   position:
     end: 4026
     start: 3939
     type: TextPositionSelector
-  quote_sha256: sha256:7681e1b50d0fd71afa2e2ab174c2a03d08031f24a67f0de75b89abc0e00d9a11
   selector:
     exact: push [–sync] [-z ALGORITHM] [-Z] LOCAL... REMOTE Copy local files/directories
       to device
@@ -88,14 +81,12 @@ evidence_items:
 
       –sync Only push files that are'
     type: TextQuoteSelector
-  selector_sha256: sha256:b1695f807f08e9db0b3805598c61325fdb46b65685a72afe395052906c068fdc
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-ac9d97596664
   position:
     end: 4336
     start: 4263
     type: TextPositionSelector
-  quote_sha256: sha256:619be0416199ede1a85e524a3351d1bca5f037e641bcae87944bb99e392cea06
   selector:
     exact: pull [-a] [-z ALGORITHM] [-Z] REMOTE... LOCAL Copy files/dirs from device
     prefix: '/zstd).
@@ -107,14 +98,12 @@ evidence_items:
 
       -a preserve file timestamp and '
     type: TextQuoteSelector
-  selector_sha256: sha256:25b1187a9ac15f70be6105e4d8fb3f69031d0ad9af035b23a26a815d1af31754
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-a45ee5354880
   position:
     end: 5381
     start: 5294
     type: TextPositionSelector
-  quote_sha256: sha256:c95a6292682948c1214fd487ba98371da17cf2a42eb629d5376cd0775ec3be7d
   selector:
     exact: install [-lrtsdg] [–instant] PACKAGE Push a single package to the device
       and install it
@@ -125,14 +114,12 @@ evidence_items:
 
       install-multiple [-lrtsdpg] [–i'
     type: TextQuoteSelector
-  selector_sha256: sha256:c7d3814f3b7833e9b6e54f09d862d92b4d2dc43bd0186be770639770bc27ad55
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-a5342d654f4e
   position:
     end: 1384
     start: 1315
     type: TextPositionSelector
-  quote_sha256: sha256:d6e1211e17e235fe0ebf98b74d38671a461e11cb19fec5a114fac18dd368f619
   selector:
     exact: '-s SERIAL
 
@@ -146,14 +133,12 @@ evidence_items:
 
       - Use device with given'
     type: TextQuoteSelector
-  selector_sha256: sha256:35fc581e9b602164c5b4d2b3eda27fea504963b8cf6e1d0da509ec9fc9bc8b04
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-89d257d47bde
   position:
     end: 1545
     start: 1498
     type: TextPositionSelector
-  quote_sha256: sha256:2f4b981ccabbfae03681b3a6618ec2197aa5d9cdeddc46529050ee1ae763506b
   selector:
     exact: Smart socket PORT of adb server [default=5037].
     prefix: 'ault=localhost].
@@ -167,14 +152,12 @@ evidence_items:
 
       - Listen on given s'
     type: TextQuoteSelector
-  selector_sha256: sha256:764ce4158ec832bd522ca1e63bfce3a77df97c17c423ca8ffaad74ab0864d3dd
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 - evidence_id: evidence-a6e6d0e8e1a3
   position:
     end: 5659
     start: 5626
     type: TextPositionSelector
-  quote_sha256: sha256:9963bf4a0dc7490af1c1fd9208bbe0001e7f2b9a2ff7f38f5ee2286b727cde04
   selector:
     exact: '-r: Replace existing application.'
     prefix: 'ice and install them atomically
@@ -186,7 +169,6 @@ evidence_items:
 
       -d Allo'
     type: TextQuoteSelector
-  selector_sha256: sha256:c691bfbef04c0f0d0346546c1fe9b529ba10ea066967f024065ea5708f35569b
   snapshot_sha256: sha256:1fbdfbfc4a3140d02abe4c978f650427bfd4a6ce7cdd2703bc209eb8bcf0b66d
 extractor: trafilatura/2.2.0
 id: adb-man-page
@@ -194,7 +176,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/840ae95020ad4d1f896bc41f54c1c926abca1664a00d6900fba62c91c01fada9.html
-  sha256: sha256:840ae95020ad4d1f896bc41f54c1c926abca1664a00d6900fba62c91c01fada9
 read_status: retrieved
 retrieval:
   acquisition: fetch

@@ -14,7 +14,6 @@ evidence_items:
     end: 393
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:138cf4ab34e76b63dc2de4fcc45054ccfdf423e61d3adce52b134d24de1ea4ca
   selector:
     exact: 'Jun 14, 2026
 
@@ -28,7 +27,6 @@ evidence_items:
     prefix: ''
     suffix: ' We make this project available '
     type: TextQuoteSelector
-  selector_sha256: sha256:49379b3e74b42b71dd5861295df591aa7ddd19c77e3c17921ffd71815b73021d
   snapshot_sha256: sha256:d1eaca22d657ace42c65806d0cf4d711d60b911292c9533c7eff097ef1cfbc78
 extractor: trafilatura/2.2.0
 id: web-computer-science-cpp-overview
@@ -36,7 +34,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/ba777a34713d7bc694da2974ee50964c7b9464d0e3207a8b87361d6ad6a44176.html
-  sha256: sha256:ba777a34713d7bc694da2974ee50964c7b9464d0e3207a8b87361d6ad6a44176
 read_status: retrieved
 retrieval:
   acquisition: fetch

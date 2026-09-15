@@ -14,7 +14,6 @@ evidence_items:
     end: 297
     start: 89
     type: TextPositionSelector
-  quote_sha256: sha256:3ea8501302f87def0c40cf99471b5fd71a91bb25d7c2aaf2dac4c4a4b7bd71ed
   selector:
     exact: "The architecture defines four Exception levels: EL0, EL1, EL2, and EL3.
       \n      \n     \n    \n   \n   \n    \n     \n     R \n     VPSDB \n     \n
@@ -22,7 +21,6 @@ evidence_items:
     prefix: "FYTFG \n     \n     \n      \n      "
     suffix: '. Therefore, EL3 is higher than '
     type: TextQuoteSelector
-  selector_sha256: sha256:748bf33b32ce6e33d2424841620c17073db53323c6ab74491450638be611a2d7
   snapshot_sha256: sha256:e0874b85f90d0cfa1dcca7ab40b2e992f10050afe29e8f030c2f79d0fa4d3772
 extractor: utf8/1
 id: arm-d1-exception-levels
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/e0874b85f90d0cfa1dcca7ab40b2e992f10050afe29e8f030c2f79d0fa4d3772.txt
-  sha256: sha256:e0874b85f90d0cfa1dcca7ab40b2e992f10050afe29e8f030c2f79d0fa4d3772
 read_status: retrieved
 retrieval:
   acquisition: local-file

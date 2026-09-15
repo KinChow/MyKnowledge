@@ -14,7 +14,6 @@ evidence_items:
     end: 766
     start: 482
     type: TextPositionSelector
-  quote_sha256: sha256:423860224523d79b6dfb0a2488cc9d28939a28587bd2fae6b9031ee7d9acffdb
   selector:
     exact: 'It classifies business units into four categories: stars (high market
       share in a fast-growing industry), cash cows (high market share in a slow-growing
@@ -25,7 +24,6 @@ evidence_items:
 
       '
     type: TextQuoteSelector
-  selector_sha256: sha256:5fe70e9955f2bd6496b14358cdb85f0cdba46dcdd5cb2c9232663690c60edfd8
   snapshot_sha256: sha256:af8b34a59514d2054e4354b6988ef61ea3ec7a6844bd536cb315f9f81356ab9d
 extractor: utf8/1
 id: web-work-methods-model-growth-share-matrix
@@ -36,7 +34,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/af8b34a59514d2054e4354b6988ef61ea3ec7a6844bd536cb315f9f81356ab9d.txt
-  sha256: sha256:af8b34a59514d2054e4354b6988ef61ea3ec7a6844bd536cb315f9f81356ab9d
 read_status: retrieved
 retrieval:
   acquisition: local-file

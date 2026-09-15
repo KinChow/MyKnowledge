@@ -14,7 +14,6 @@ evidence_items:
     end: 342
     start: 4
     type: TextPositionSelector
-  quote_sha256: sha256:e9bf7c52eedf55266321fa2ed53a72e7488445c362401b2796895468a8742e32
   selector:
     exact: Minto Pyramid Principle, originated by Barbara Minto, is adopted in management
       consulting to assist in presenting complex information. The principle suggests
@@ -24,7 +23,6 @@ evidence_items:
     prefix: 'The '
     suffix: ', each of which is derived from '
     type: TextQuoteSelector
-  selector_sha256: sha256:ae61adadfebbfa83b5c482ce66775ea27e3df8f82cc71feb02f2d75ef34d236b
   snapshot_sha256: sha256:feb0bd713d36882e8af0527a44470ddddd34f94e79cb2cdf906e6d054b20afe0
 extractor: utf8/1
 id: web-work-methods-model-pyramid-principle
@@ -35,7 +33,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/feb0bd713d36882e8af0527a44470ddddd34f94e79cb2cdf906e6d054b20afe0.txt
-  sha256: sha256:feb0bd713d36882e8af0527a44470ddddd34f94e79cb2cdf906e6d054b20afe0
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -8,7 +8,6 @@ evidence_items:
     end: 1888
     start: 1861
     type: TextPositionSelector
-  quote_sha256: sha256:1f15db3cfd3c0c8203b9622916a23f0329460e87db7e0c9c6f5d9efd25786d94
   selector:
     exact: 'CL_DEVICE_NAME: Maleoon 910'
     prefix: '1000
@@ -22,7 +21,6 @@ evidence_items:
 
       CL_DRI'
     type: TextQuoteSelector
-  selector_sha256: sha256:fcbf7a19ed2e2dc6b817b761ca3414d819514e71fa23d600ce003cb1a4ee7cd2
   snapshot_sha256: sha256:42fb4736c38ba04ee23ec85fd584c6f72babfa551c90551d677809bd1e9608aa
 extractor: personal-note/1
 id: working-computer-science-kirin-9000s

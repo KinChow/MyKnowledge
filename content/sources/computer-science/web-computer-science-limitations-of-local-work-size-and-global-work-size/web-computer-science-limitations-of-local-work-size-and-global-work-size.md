@@ -14,7 +14,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/5d4b374c06cfff69c699cdb84b6320ad928b0168cf8d0c1e067dc03c5edf584b.html
-  sha256: sha256:5d4b374c06cfff69c699cdb84b6320ad928b0168cf8d0c1e067dc03c5edf584b
 read_status: retrieved
 retrieval:
   acquisition: fetch

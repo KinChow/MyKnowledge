@@ -14,21 +14,18 @@ evidence_items:
     end: 347
     start: 238
     type: TextPositionSelector
-  quote_sha256: sha256:b3a5c74b1d2140153fe6afb172c6e8801d0b68808a8c4961c503a853199ec795
   selector:
     exact: hardware devices are modelled as an oriented graph of building blocks called
       entities connected through pads.
     prefix: 'dia framework. To achieve this, '
     suffix: ' An entity is a basic media hard'
     type: TextQuoteSelector
-  selector_sha256: sha256:fb72a6e5ba8c388222726d6385aabbcd9f2bab4413b59c93e893511ad9f38b5c
   snapshot_sha256: sha256:2d76c8af4d05637a2678f0ebdc5b5383ebf7876930efd12f5da0a9cfd37cc6dd
 - evidence_id: evidence-0267a563245f
   position:
     end: 644
     start: 348
     type: TextPositionSelector
-  quote_sha256: sha256:3256e5593070c6a650c56d7a16663f8311166ee5a22ee72ec3929307506e7722
   selector:
     exact: An entity is a basic media hardware building block. It can correspond to
       a large variety of logical blocks such as physical hardware devices (CMOS sensor
@@ -37,7 +34,6 @@ evidence_items:
     prefix: 'ntities connected through pads. '
     suffix: ' A pad is a connection endpoint '
     type: TextQuoteSelector
-  selector_sha256: sha256:9a23069b089e76a185f15d6c2940c30146239bc64dd408a84dc1ad994b9b14e6
   snapshot_sha256: sha256:2d76c8af4d05637a2678f0ebdc5b5383ebf7876930efd12f5da0a9cfd37cc6dd
 extractor: utf8/1
 id: kernel-v4l2-mc
@@ -48,7 +44,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/2d76c8af4d05637a2678f0ebdc5b5383ebf7876930efd12f5da0a9cfd37cc6dd.txt
-  sha256: sha256:2d76c8af4d05637a2678f0ebdc5b5383ebf7876930efd12f5da0a9cfd37cc6dd
 read_status: retrieved
 retrieval:
   acquisition: local-file

@@ -14,7 +14,6 @@ evidence_items:
     end: 464
     start: 394
     type: TextPositionSelector
-  quote_sha256: sha256:c4fac18bd4f84039aa032b2624640d898abcd5c3625cfcc6259610d1bbfb76f0
   selector:
     exact: The library is built upon and follows the same principles as GNU MPFR.
     prefix: 'ecision is a major design goal.
@@ -22,14 +21,12 @@ evidence_items:
       '
     suffix: ' It is written by Andreas Enge, '
     type: TextQuoteSelector
-  selector_sha256: sha256:f0d2dc736a0aa0e31ac44e3f2c8a41875c7e2d833ba7679a42571ce67b4a1621
   snapshot_sha256: sha256:b1e1638deedda65076f74716e40c50d622f1f0fc42df5c9f1fec0474322757c9
 - evidence_id: evidence-949c1e14484a
   position:
     end: 463
     start: 13
     type: TextPositionSelector
-  quote_sha256: sha256:be4d56d3fbe43630baf4e10a23c140c9086e1509fb55ef0b046e50e2ac0a825c
   selector:
     exact: 'GNU MPC is a C library for the arithmetic of complex numbers with arbitrarily
       high precision and correct rounding of the result. It extends the principles
@@ -43,7 +40,6 @@ evidence_items:
       '
     suffix: . It is written by Andreas Enge,
     type: TextQuoteSelector
-  selector_sha256: sha256:0346c11099763584a96126e811083c645e590b9592b80f32860c8a96a4dfc6e9
   snapshot_sha256: sha256:b1e1638deedda65076f74716e40c50d622f1f0fc42df5c9f1fec0474322757c9
 extractor: trafilatura/2.2.0
 id: mpc-official
@@ -51,7 +47,6 @@ media_type: text/html
 origin: external
 raw_ref:
   path: archive/raw/4a18c27628ce5777d9f4c4a2f854e60439b61695677c7b9d8fc05023ab585020.html
-  sha256: sha256:4a18c27628ce5777d9f4c4a2f854e60439b61695677c7b9d8fc05023ab585020
 read_status: retrieved
 retrieval:
   acquisition: fetch

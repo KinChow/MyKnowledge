@@ -8,7 +8,6 @@ evidence_items:
     end: 128
     start: 80
     type: TextPositionSelector
-  quote_sha256: sha256:621c2ca26834a60c985c2670fe0614286712a2f612c2aecc97c37ae59fd0efca
   selector:
     exact: 现代 LLM 加速器（GPU/TPU）的性能故事，与其说"算得多快"，不如说"数据搬得有多省"。
     prefix: '
@@ -25,7 +24,6 @@ evidence_items:
       '
     suffix: 硬件层最核心的事实是：**算力（FLOPS）的增长远超内存带宽与
     type: TextQuoteSelector
-  selector_sha256: sha256:b23f18d6086d1a8b3e9787479db9d712716ca1108ffa47a2ea48b6bc04f68910
   snapshot_sha256: sha256:96a53433f52db064de448d1044af271146a08130704b54583a38a9421b2e4187
 extractor: personal-note/1
 id: working-computer-science-llm-gpu-hardware

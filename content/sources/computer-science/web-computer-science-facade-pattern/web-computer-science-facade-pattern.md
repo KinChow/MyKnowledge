@@ -14,7 +14,6 @@ evidence_items:
     end: 388
     start: 188
     type: TextPositionSelector
-  quote_sha256: sha256:cbfb051d82da8a9f23cb4c51f88c77375ae9b0aece3faa997a8e796658309b8f
   selector:
     exact: front-facing interface masking more complex underlying or structural code.
       This pattern hides the complexities of the larger system and provides a simpler
@@ -22,7 +21,6 @@ evidence_items:
     prefix: 't is an object that serves as a '
     suffix: s a single wrapper class that co
     type: TextQuoteSelector
-  selector_sha256: sha256:a4c9834ff1d7e3232153aaa34e1c79293bb53e0dee405fada0915dd0830348ef
   snapshot_sha256: sha256:ade8bb6bd1dc996f9a8159a0f77737f7795760d8b4216346e51ab374357c9f52
 extractor: utf8/1
 id: web-computer-science-facade-pattern
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/ade8bb6bd1dc996f9a8159a0f77737f7795760d8b4216346e51ab374357c9f52.txt
-  sha256: sha256:ade8bb6bd1dc996f9a8159a0f77737f7795760d8b4216346e51ab374357c9f52
 read_status: retrieved
 retrieval:
   acquisition: local-file

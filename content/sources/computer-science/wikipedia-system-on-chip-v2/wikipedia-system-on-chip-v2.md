@@ -14,7 +14,6 @@ evidence_items:
     end: 170
     start: 0
     type: TextPositionSelector
-  quote_sha256: sha256:cc42cedfc83f9e3f61ce0d776951f8145dbedc6bebd35d34ac786868a34f5a02
   selector:
     exact: A system on a chip, or system on chip (SoC), is an integrated circuit that
       combines most or all key components of a computer or electronic system onto
@@ -22,7 +21,6 @@ evidence_items:
     prefix: ''
     suffix: ' Typically, an SoC includes a ce'
     type: TextQuoteSelector
-  selector_sha256: sha256:da8502acc0126d755076a6e461ac0a3287795d17bfc5a216041d8b8c1109c90e
   snapshot_sha256: sha256:1b1b9ba991bbf188aabd8057c213714217335bbf6b9641ee145c488bf41b8375
 extractor: utf8/1
 id: wikipedia-system-on-chip-v2
@@ -33,7 +31,6 @@ media_type: text/plain
 origin: external
 raw_ref:
   path: archive/raw/1b1b9ba991bbf188aabd8057c213714217335bbf6b9641ee145c488bf41b8375.txt
-  sha256: sha256:1b1b9ba991bbf188aabd8057c213714217335bbf6b9641ee145c488bf41b8375
 read_status: retrieved
 retrieval:
   acquisition: local-file
