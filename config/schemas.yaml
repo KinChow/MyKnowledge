@@ -104,8 +104,8 @@ field_contracts:
       - evidence_sha256
   evidence_item:
     schema_version: evidence-item/v1
-    required_fields: [id, snapshot_sha256, locator, selector_sha256, quote_sha256]
-    allowed_fields: [id, snapshot_sha256, locator, selector_sha256, quote_sha256]
+    required_fields: [id, snapshot_sha256, locator]
+    allowed_fields: [id, snapshot_sha256, locator, selector, position]
   citation:
     schema_version: citation/v1
     required_fields: [object_ref, content_sha256, locator]
@@ -118,7 +118,6 @@ field_contracts:
       - verify_snapshot_sha256_after_decompression
       - verify_text_quote_selector
       - verify_text_position_selector
-      - verify_selector_sha256_when_present
     locator_common_fields: [type, object_ref, snapshot_sha256, selectors]
     selector_collection:
       required_types: [TextQuoteSelector, TextPositionSelector]
@@ -128,7 +127,7 @@ field_contracts:
     source_form:
       required_fields: [type, object_ref, snapshot_sha256, source_locator, selectors]
     evidence_form:
-      required_fields: [type, object_ref, evidence_ref, snapshot_sha256, selector_sha256]
+      required_fields: [type, object_ref, evidence_ref, snapshot_sha256]
     text_quote_form:
       required_fields: [type, object_ref, snapshot_sha256, selectors]
     text_position_form:
@@ -455,7 +454,7 @@ validation:
   sampling: temperature-zero-single-call
   wiki_verdicts: [pass, fail]
   claim_verdicts: [supported, partially_supported, unsupported, contradicted, unmapped]
-  claim_verdict_required_fields: [applied_rule_refs, quote_sha256, quote_offsets]
+  claim_verdict_required_fields: [applied_rule_refs, quote_offsets]
   ruleset:
     # Rules are referenced, never copied: extraction reads the spec section at
     # run time so there is no second hand-maintained rule table to drift.
