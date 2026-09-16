@@ -29,18 +29,21 @@ QMD 已提供 hash 增量索引、BM25、向量、RRF、LLM rerank、CJK normali
 
 采用“QMD 默认只读适配器 + SQLite FTS5 必选确定性基线 + 明确 fallback”的完整能力包。第一阶段不实现自有 `EmbeddingRetriever`/`HybridRetriever`/独立 FAISS 索引；如未来需要，只能作为兼容 adapter 接入，不得改变或删除 FTS5/LIKE 基线：
 
-本地运行时的默认策略固定为：
+本地运行时的默认策略（**2026-09-15 已 superseded**，见顶部"实现状态"）：
 
 ```yaml
+# 实现现状：QMD 二进制不可获得、从未落地，default 实为 fts5，
+# 降级链收敛为 fts5 -> deterministic-fallback(LIKE)。
 retrieval:
-  default: qmd
-  fallback: [fts5, deterministic-fallback]
-  qmd:
-    version: 2.8.3
-    mode: read-only
+  default: fts5              # tokenize='simple' + wangfenjin/simple 中文分词
+  fallback: [deterministic-fallback]
+# ↓ 原决策（historical，已 superseded，QMD 从未落地）：
+#   default: qmd
+#   fallback: [fts5, deterministic-fallback]
+#   qmd: {version: 2.8.3, mode: read-only}
 ```
 
-`default: qmd` 只影响本地自然语言/混合查询；精确 ID、标题和反向索引仍可走确定性直达。配置缺失、QMD 健康检查失败或 QMD 只具备关键词能力时，路由器按 `fallback` 顺序切换并在 `QueryResult.degraded`/`limits` 中说明原因；不能把没有向量能力的 QMD 报告为自有 hybrid/semantic 实现。
+（**2026-09-15 已取代**：`default` 实为 `fts5`，QMD 从未落地，见顶部实现状态。）`default` 只影响本地自然语言/混合查询的默认引擎；精确 ID、标题和反向索引仍可走确定性直达。索引损坏或默认引擎不可用时，路由器按 `fallback` 顺序切换并在 `QueryResult.degraded`/`limits` 中说明原因；不把无向量能力的引擎报告为自有 hybrid/semantic 实现。
 
 1. `IndexBuilder` 从 `sources/`、`wiki/` 和当前版本允许索引的对象 projection 生成 canonical `queries/local` 和 SQLite FTS5 数据库；public projection 只从 `public_publishable` Wiki 生成 Pagefind 输入。索引均可删除后从权威内容重建。
 2. FTS5 表使用 external-content 或普通 content 表均可，但同步由 MyKnowledge application 负责；每条记录携带 `object_ref={vault_id, object_type, object_id}`、`confidentiality`、`status`、`source_ref`、`content_sha256` 和 `schema_version`。更新使用 content hash 增量，删除使用 tombstone/事务同步，不能只更新索引文本而不更新 metadata。
