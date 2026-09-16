@@ -10,7 +10,7 @@
 | :------------- | :----------------------------------------------------------- |
 | **多格式记录** | 支持 Markdown、图片、视频、PDF 等多种格式，满足全场景知识记录需求 |
 | **智能分类**   | 通过标签系统和目录树实现三维分类，支持自定义分类维度         |
-| **全文检索**   | 本地自然语言/混合检索默认使用 QMD；不可用时回退 FTS5 和 SQLite LIKE |
+| **全文检索**   | 本地检索默认 SQLite FTS5（simple 分词）索引，不可用时回退 SQLite LIKE |
 | **版本与同步** | public repo 使用 Git 管理；private Git remote 和加密备份位置当前待配置，不默认声称已同步或已备份 |
 | **版本控制**   | 内置 Git 版本管理，随时回溯历史版本                          |
 
@@ -68,7 +68,7 @@ MyKnowledge-workspace/
 
 - Python 3.11+
 - Git 2.20+
-- Node.js 22+（frontend 重建后所需；本地自然语言/混合检索默认使用 QMD，QMD 不可用时自动回退 SQLite FTS5，再回退 SQLite LIKE）
+- Node.js 22+（frontend 重建后所需；本地检索用 SQLite FTS5（simple 分词），不可用时回退 SQLite LIKE）
 
 ### 1. 环境配置
 

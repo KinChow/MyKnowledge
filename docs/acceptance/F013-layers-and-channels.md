@@ -80,8 +80,8 @@
 - Then：全部不发生——`projection.body_path_prefixes` 未列出该前缀使其物理上无法成为 `body_path`；它没有 `object_ref`，`evidence.targets` 解析必然 fail-closed；unmanaged 路径不进写入结果（原 `before_hashes`/`after_hashes` 随 operation 状态机退场，ADR-0019）；RAG 召回不包含它；
 - 失败时不变量：出口封锁是安全边界，不得由作者字段覆写；不存在"批量把 working 升级为 wiki"的路径，升级只能逐篇走通道 A 全流程；
 - 自动化级别：Unit。
-- 对应测试：`tools/skill_runtime.py::_write_files` 调用 `tools/layers.py::working_contract_error` 强制该约束，证据为 `tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content`（`content/working/draft.md` 无回指 → `schema_invalid`，文件不落盘）；projection/hash 隔离断言待补。
-- 当前状态：待实现（部分）。入口约束已由直写路径保留（ADR-0019：分域约束不是审批门禁，不随状态机退场）；原 `tests/test_write_operation.py::UnmanagedLayerContractTests` 已删除。
+- 对应测试：`content/working/` 层文件无 `object_ref`，`evidence.targets` 解析必然 fail-closed；`projection.body_path_prefixes` 不含该前缀。证据见 `tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content`（越界路径 fail-closed；无回指草稿直接落盘=A1-深）；projection/targets fail-closed 隔离断言待补。
+- 当前状态：待实现（部分）。出口封锁（projection/targets/query-result 隔离）断言待补；入口出处门已于 A1-深删除（ADR-0014 决策 4），出处校验归晋升关口。
 
 ## AC-F013-008 review_by 不改变任何 hash 与确认
 
@@ -103,15 +103,15 @@
 - 对应测试：`tests/test_review_by.py::test_doctor_lists_due_review_without_changing_any_state`。
 - 当前状态：已实现。
 
-## AC-F013-010 working 层入口约束与 TTL 报告
+## AC-F013-010 working 层入口无出处门与 TTL 报告
 
-- Given：向 `content/working/` 写入一条无 `source_ref` 也无 `legacy_path` 的内容，以及一条已超过 `ttl_days` 的内容；
+- Given：向 `content/working/` 写入一条无 `source_ref` 也无 `legacy_path` 的草稿，以及一条已超过 `ttl_days` 的内容；
 - When：执行写入与 `doctor`；
-- Then：前者被拒绝并返回 `schema_invalid`；后者出现在到期清单中且文件未被删除；
-- 失败时不变量：工具永不自动删除 `content/working/` 内容；不存在"来源待补"的中间状态；
+- Then：前者**直接落盘**（A1-深，2026-09-15：入口无出处门，出处校验归晋升关口）；后者出现在到期清单中且文件未被删除；
+- 失败时不变量：工具永不自动删除 `content/working/` 内容；入口不再以"缺回指/来源待补"拒绝写入（出处门已删除，见 ADR-0014 决策 4）；
 - 自动化级别：Unit。
-- 对应测试：`tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content`（经 `tools/skill_runtime.py::_write_files` → `tools/layers.py::working_contract_error` 返回 `schema_invalid`）、`tests/test_doctor.py::test_doctor_lists_overdue_working_notes_and_never_touches_them`。
-- 当前状态：已实现（TTL 时间基准优先 `created_at`，缺失时退到 mtime 并在报告里标明 `basis`）。原 `tests/test_write_operation.py::UnmanagedLayerContractTests` 已随 ADR-0019 删除，入口约束改由直写路径承担。
+- 对应测试：`tests/test_skill_runtime.py::test_skill_runtime_write_is_direct_and_lands_content`（无回指草稿直接落盘）、`tests/test_doctor.py::test_doctor_lists_overdue_working_notes_and_never_touches_them`。
+- 当前状态：已实现（A1-深删除入口出处门；TTL 时间基准优先 `created_at`，缺失时退到 mtime 并在报告里标明 `basis`）。`tools/layers.py::working_contract_error` 与 `config/policy.yaml` 的 `require_source_ref` 已删除。
 
 ## AC-F013-011 unmanaged 层不进入四类边界
 

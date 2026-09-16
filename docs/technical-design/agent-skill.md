@@ -66,4 +66,4 @@ Skill runtime 选择 provider 并注入，不把 endpoint、模型版本或密�
 
 ## 错误、权限和测试
 
-返回统一错误：`state: blocked` + `error_code`（action 白名单或字段白名单失败时另带 `action`/`fields`）；不得回显敏感正文，也**不再有 `operation_id`**——写入没有操作身份可以回填给调用方。所有 durable validation/release/confirmation 结果必须能通过单条 `record_sha256` 与 target owner 校验；顺序与篡改证据来自 Git 历史，不自建 audit hash chain，`record_sha256` 不匹配返回 `hash_mismatch`。测试覆盖 action/字段白名单、直接文件写入阻断、scope 越权、capability token 缺失/跨站请求、跨 Vault 引用、`working_contract_error` 入口约束、hash 失效、provider unavailable、public release false、query/retrieve 等价和 record 篡改。
+返回统一错误：`state: blocked` + `error_code`（action 白名单或字段白名单失败时另带 `action`/`fields`）；不得回显敏感正文，也**不再有 `operation_id`**——写入没有操作身份可以回填给调用方。所有 durable validation/release/confirmation 结果必须能通过单条 `record_sha256` 与 target owner 校验；顺序与篡改证据来自 Git 历史，不自建 audit hash chain，`record_sha256` 不匹配返回 `hash_mismatch`。测试覆盖 action/字段白名单、直接文件写入阻断、scope 越权、capability token 缺失/跨站请求、跨 Vault 引用、hash 失效、provider unavailable、public release false、query/retrieve 等价和 record 篡改。

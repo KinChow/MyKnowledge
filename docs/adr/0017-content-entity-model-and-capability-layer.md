@@ -94,8 +94,8 @@ archive 的两层分离（`raw/` 原始字节含 PDF + `text/` 归一化文本�
 **配套修订（本 ADR 的直接后果）**：
 
 - `config/schemas.yaml` 的 `field_contracts` 必须按实测重写，删除上述 12 个幽灵字段。
-- `IDX-002` 仍描述"默认使用 QMD"，而 QMD 适配器已退役（`tools/indexing.py:411`），降级链实为 FTS5（simple/unicode61）→ LIKE；`cli.py:666` 与 `doctor.py:6` 的文案同样漂移，需一并修正。
-- `CHN-001`/`LAY-003` 关于 `content/working/` 的"唯一硬约束是 `source_ref` 或 `legacy_path` 非空"与事实不符（实测 20/20 的 working 文件两者皆无）；`CHN-001` 另声称 working 派生文档"不得出现在任何 wiki 的 `evidence.targets`"，但实测有 145 个 `working-*` source 且被 wiki 引用 145 次——规范与其最大的一条数据通路冲突，需修订或对那批 source 重新定性。
+- `IDX-002` 仍描述"默认使用 QMD"，而 QMD 适配器已退役（`tools/indexing.py:411`），降级链实为 FTS5（simple/unicode61）→ LIKE；`cli.py:666` 与 `doctor.py:6` 的文案同样漂移，需一并修正。（**2026-09-15 已处理**：`cli.py`/`doctor.py`/README 文案已修正；`IDX-002`、系统设计 §11.2 与规范条目 25、追踪矩阵、ADR-0007 已改为"默认 FTS5(simple)→LIKE"并标注 QMD 从未落地；后续语义检索改走嵌入式 sqlite-vec + 价值函数前置门。）
+- `CHN-001`/`LAY-003` 关于 `content/working/` 的"唯一硬约束是 `source_ref` 或 `legacy_path` 非空"与事实不符（实测 20/20 的 working 文件两者皆无）；`CHN-001` 另声称 working 派生文档"不得出现在任何 wiki 的 `evidence.targets`"，但实测有 145 个 `working-*` source 且被 wiki 引用 145 次——规范与其最大的一条数据通路冲突，需修订或对那批 source 重新定性。（**2026-09-15 已处理**：入口约束按 A1-深删除——出处校验归晋升关口，见 ADR-0014 决策 4；而"145 working-* 进 `evidence.targets`"经核查是误读——那 145 个是 `content/sources/` 里 id 前缀为 `working-` 的合法 source，非 `content/working/` 层文件，`CHN-001` 未被违反，仅补一句措辞澄清。）
 
 ## 后果
 

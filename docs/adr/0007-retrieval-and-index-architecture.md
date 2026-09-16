@@ -5,6 +5,8 @@
 - 相关规范：IDX、SEC、WEB
 - 相关 Feature：F005、F006、F007、F009
 
+> **实现状态（2026-09-15 修订）**：本 ADR 原定 `default: qmd`（[github.com/tobi/qmd](https://github.com/tobi/qmd) · `@tobilu/qmd 2.8.3`）**从未落地**——该二进制在本机环境不可获得（brew 无包），曾加过一个 fail-closed 探测 adapter（commit `c0cfa62`）、随即因"每次查询都探测一个永远拿不到的 QMD、报无法消解的 warning"退役（commit `416ab2b`，spec 1808 修订）。`QmdRetriever` 类从未存在（git 历史 `-S "class QmdRetriever"` 为空）。**实际实现的默认检索是 SQLite FTS5（`tokenize='simple'`，中文经 wangfenjin/simple + `jieba_query()`）→ SQLite LIKE 窄 fallback**。下文 §背景/§候选/§决策/§统一接口中关于 QMD 的部分保留为**当时的决策记录**；`default: qmd`、"QMD 默认适配器"与"三条降级链"已被 `FTS5(simple)→LIKE` 两条链取代。语义/混合检索仍是有价值的后续增强，但**不再走 QMD**——见 §重新评估条件的 2026-09-15 修订。
+
 ## 背景
 
 系统同时需要公开静态搜索、本地 source/wiki 检索和自然语言/混合检索。公开构建必须可复现，本地模式默认尝试使用 QMD；QMD 内部是否启用向量/RRF 取决于本机已安装能力，不把独立 Embedding/FAISS 服务作为第一阶段依赖。系统必须在 QMD 不可用时离线可用；索引不能成为内容真相源，也不能决定 Wiki 的验证或发布状态。
@@ -66,4 +68,4 @@ class Retriever(Protocol):
 
 ## 重新评估条件
 
-当语料规模、并发、召回质量或权限需求超过 SQLite/QMD 组合边界，或需要多人共享索引时，再评估 OpenSearch/Qdrant/pgvector 等独立服务；迁移仍必须实现同一 `Retriever` 契约和 FTS5 fallback。
+当语料规模、并发、召回质量或权限需求超过单机 SQLite 边界，或需要多人共享索引时，才评估独立服务。**语义/混合检索的后续路径不再走 QMD**（依赖不可获得 + Node 运行时 + 不可控契约，见顶部实现状态），改为**嵌入式 `sqlite-vec` + 本地 embedding（如 bge-m3，中文友好）+ RRF 融合**：实现同一 `Retriever` 契约的可插拔 adapter，与现有 FTS5 同库、无需起服务。**前置门（价值函数）**：先用 query fixture 实测 FTS5(simple) 的召回缺口（"知道库里有、换个说法却搜不到"的命中率），证明缺口成立再引入，不为"可能用得上"预埋向量系统。规模再超单机时才评估 OpenSearch/Qdrant/pgvector 等独立服务；任何路径都必须保留 FTS5→LIKE 基线并实现同一 `Retriever` 契约。

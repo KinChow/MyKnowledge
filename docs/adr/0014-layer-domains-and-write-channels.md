@@ -30,7 +30,7 @@
 **中间层是否受 schema 管**
 
 - G. 给 unmanaged 层建 object schema：可统一检索，但写一条随手笔记要走 preview → confirm → apply 三步协议。这正是导致产出停滞的同类失效模式。
-- H.（选定）不建 schema：唯一硬约束是 `source_ref` 或 `legacy_path` 非空；检索由编辑器与 grep 承担，不伪造 object 身份。原计划的"独立文本匹配命令"于 2026-09-01 取消：一个不产生 `object_ref`、不进索引、不进 `query-result/v1` 的检索出口没有增量价值，只多一个要维护的入口。
+- H.（选定）不建 schema：入口只余"不伪造 object 身份"；检索由编辑器与 grep 承担。原计划的"独立文本匹配命令"于 2026-09-01 取消：一个不产生 `object_ref`、不进索引、不进 `query-result/v1` 的检索出口没有增量价值，只多一个要维护的入口。（**2026-09-15 修订（A1-深）**：候选 H 原含"唯一硬约束是 `source_ref` 或 `legacy_path` 非空"，该入口出处门已删除，见决策 4。）
 
 **低摩擦入口的形态**
 
@@ -42,7 +42,7 @@
 1. **三个数据域**：`content/`（人写、可编辑、不可重建）、`ledger/`（机器写、append-only、路径被派生规则引用）、`var/`（机器写、可重建）。归属由 §4.4 的五条判据判定，不允许无归属目录。组件平铺在根是生态约束下的正解。
 2. **`ledger/archive/` 不进 `content/`**：它是"来源的副本"，但机器抓取、内容寻址、人不可编辑，且 manifest 是 append-only。**`docs/` 不进 `content/`**：LLM 审计 ruleset 在运行时抽取其原文算 `extract_sha256`，它是运行时输入。
 3. **五层与 vault 归属**：见候选 F。unmanaged 层不进 projection、leak gate 输入树、`before_hashes`/`after_hashes` 与 `query-result/v1`。
-4. **三条写入通道**：主链路（不变）、**降级落位通道**（写 `content/working/`，唯一硬约束 `source_ref` 或 `legacy_path` 非空，不产生 wiki 对象）、日志通道（零门槛，无出口）。**2026-09-01 修订**：原"五字段快速 wiki 条目"取消（候选 J 替代 I）。理由是它与 `content/working/` 语义重叠，且会让 `content/wiki/` 同时装"已验证知识"和"随手记"；`content/wiki/` 的准入因此收紧为**逐篇人工升级**，降级则是批量动作（一次降级一条 CDR）。降级/升级不对称是有意的：批量升级等于批量伪造证据链。
+4. **三条写入通道**：主链路（不变）、**降级落位通道**（写 `content/working/`，不产生 wiki 对象）、日志通道（零门槛，无出口）。**2026-09-01 修订**：原"五字段快速 wiki 条目"取消（候选 J 替代 I）。理由是它与 `content/working/` 语义重叠，且会让 `content/wiki/` 同时装"已验证知识"和"随手记"；`content/wiki/` 的准入因此收紧为**逐篇人工升级**，降级则是批量动作（一次降级一条 CDR）。降级/升级不对称是有意的：批量升级等于批量伪造证据链。**2026-09-15 修订（A1-深）**：`content/working/` 的入口出处门（`source_ref`/`legacy_path` 非空）删除——实测 20/20 working 文件均不满足、该约束从未生效（见 ADR-0019），且把出处门放在暂存入口与该层"低摩擦"目的相悖。出处校验统一归晋升关口（通道 A 的 wiki 确定性校验 + LLM 审计）；working 入口只余越界路径安全检查。`config/policy.yaml` 的 `layers.working.require_source_ref` 与 `tools/layers.py::working_contract_error` 一并删除。
 5. **`review_by` 是报告项不是状态轴**：进 `excluded_from_content_hash`，到期只产生 `doctor` 清单，不改变任何 `*_state`。理由见 §6.2。
 6. **迁移分三批且不重写历史**：对象身份与路径解耦（`target_ref` 是 `object_ref`，`record_sha256` 不含路径）使搬移可行；但 `applied_files` 中的历史路径是事实，`audit.append_only` 禁止重写，读取侧必须容忍历史路径形态。`body_path` 属于 `release_input_fields`，批次 2 会让已发布页面的 `public_release` 自动回落 `false`，需重新人工确认一次——这是既有机制的正常行为，不是异常。
 

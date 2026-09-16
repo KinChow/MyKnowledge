@@ -6,6 +6,8 @@
 - 相关 ADR：ADR-0007
 - 相关验收：[F005](../acceptance/F005-index-and-retrieval.md)
 
+> **实现现状（2026-09-15）**：下文以 QMD 2.8.3 为默认适配器描述架构，属**历史设计**。QMD（[tobi/qmd](https://github.com/tobi/qmd)）二进制不可获得、从未落地，探测 adapter 已退役（见 [ADR-0007](../adr/0007-retrieval-and-index-architecture.md) 实现状态）。**实际实现的默认检索是 SQLite FTS5（`tokenize='simple'` + wangfenjin/simple 中文分词）→ SQLite LIKE 窄 fallback**；凡以 QMD 为"默认"处均以此为准。语义/混合检索的后续路径改为嵌入式 `sqlite-vec` adapter，须先过召回缺口价值函数门。
+
 ## 目标与边界
 
 本轮成熟方案调查（2026-08-29）：SQLite FTS5 官方 BM25/highlight/external-content 设计（<https://www.sqlite.org/fts5.html>，public domain）用于持久确定性索引；QMD 2.8.3（<https://github.com/tobi/qmd>，MIT）作为本地 BM25/vector/RRF 默认适配器；SQLite/LIKE 纯文本扫描零依赖但排序和规模能力有限，只作为最终 fallback。实现直接复用 FTS5 external-content + BM25，记录 index scope 防止跨 scope 复用；QMD 缺失不会伪装成成功。

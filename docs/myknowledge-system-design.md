@@ -214,8 +214,8 @@ flowchart TD
 
     B --> I[local 索引]
     E --> I
-    I --> J[QMD 检索]
-    J -->|不可用| K[SQLite FTS5]
+    I --> J[SQLite FTS5 检索]
+    J -->|不可用| K[SQLite LIKE]
     I --> K
     K --> L[FastAPI 本地后端]
     J --> L
@@ -270,7 +270,7 @@ flowchart TD
 22. 契约一次性定稿：接口、fallback、失败恢复必须在同一契约内实现，不以先做临时版本再重写为交付方式。实现允许按垂直切片推进（见 18 阶段零）——收窄覆盖面是允许的，降级为临时接口不是。
 23. `public_release` 默认必须为 `false`；只有明确的人类操作才能为当前 hash 创建 confirmation，使 projection 派生 `public_release: true`，自动化、LLM、Agent 和 leak gate 不能代替该操作。
 24. 每个 private vault 的 Git remote 与加密备份目标当前均为 `null`，各自 `backup_state` 为 `unconfigured`；工具必须逐 vault 告警，不得把任一仅有本地副本描述为已备份或可恢复。
-25. 本地自然语言/混合检索默认使用 QMD；SQLite FTS5 是必选确定性 fallback，QMD 不可用时再回退 FTS5，FTS5 不可用时回退 Python/SQLite LIKE；公开 Astro 构建不依赖 QMD。
+25. 本地检索默认 **SQLite FTS5**（`tokenize='simple'` + wangfenjin/simple 中文分词）→ Python/SQLite LIKE 窄 fallback，任何降级都必须明确标记；公开 Astro 构建不依赖后端检索。（原定 QMD 默认从未落地、已取代——QMD 二进制不可获得，见 §11.2 与 [ADR-0007](./adr/0007-retrieval-and-index-architecture.md) 实现状态；语义/混合检索的后续路径改为 sqlite-vec 嵌入式 adapter，须先过召回缺口价值函数门。）
 26. Canonical Source/Wiki 的内容引用必须在同一 owner Vault 内解析；任何 public-to-private 或 private-to-private 内容引用在写入/校验阶段直接拒绝。跨 Vault 的 `source_vault_ids` 只能出现在私有 lineage/audit，不是内容依赖。
 
 ### 3.3 三层数据的所有权
@@ -514,12 +514,12 @@ Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS
 三条写入通道，门禁强度与出口封锁各不相同：
 
 - **通道 A 主链路**：`source → snapshot → evidence item → claim → 确定性校验 → LLM 审计 → 人工确认 → published → public release`，产出 `strength ∈ {verified, corroborated, attested}`。规范见 §5–§9，不因本节改变。
-- **通道 B 降级落位**：写入 `content/working/`，唯一硬约束是 `source_ref` 或 `legacy_path` 非空。它**不产生 wiki 对象**，因此不存在"五字段快速 wiki 条目"这种入口（原快速通道设计已取消，理由见 ADR-0014 决策 4）。存量误登记为 source 的加工文档整批降级到这一层；`content/wiki/` 只能**逐篇人工升级**进入，升级即走通道 A 全流程。安全性由出口封锁保证：不进任何 projection、不出现在任何 wiki 的 `evidence.targets`、不进 RAG 召回。
+- **通道 B 暂存草稿**：写入 `content/working/`，**入口无出处门**（A1-深，2026-09-15：出处校验统一归晋升关口，不放在暂存入口；见 ADR-0014 决策 4 的 2026-09-15 修订）。它**不产生 wiki 对象**，因此不存在"五字段快速 wiki 条目"这种入口（原快速通道设计已取消）。存量误登记为 source 的加工文档也落到这一层；`content/wiki/` 只能**逐篇人工升级**进入，升级即走通道 A 全流程。安全性由出口封锁保证：`content/working/` 层文件不进任何 projection、不出现在任何 wiki 的 `evidence.targets`、不进 RAG 召回。
 - **通道 C 日志**：写入 `journal/`，零门槛，不产生对象，永不升级。
 
 降级与升级不对称是有意的：降级是**批量**动作（承认"它本来就不是 source"这一事实，一条 CDR 记录整批理由即可），升级是**逐篇**动作（八段正文 + claim/evidence 映射 + 引文逐字校验 + 人工确认，无法批量代劳）。任何"把 working 批量升级进 wiki"的路径都不存在——批量升级等于批量伪造证据链。
 
-层间 gate：进入 `working/` 的唯一硬约束是 `source_ref` 或 `legacy_path` 非空；`working/` 到期由 `doctor` 报告，人工在「升级 / 转 journal / 删除」三者中选择，工具永不自动删除。`wiki` 执行 retire 或 deprecate 时必须在 `decisions/` 留一条 CDR 记录理由，判定值沿用 §16.2 `content_verdict` 的四值语义。
+层间 gate：进入 `working/` **无出处门**（A1-深，2026-09-15：出处校验归晋升关口）；`working/` 到期由 `doctor` 报告，人工在「升级 / 转 journal / 删除」三者中选择，工具永不自动删除。`wiki` 执行 retire 或 deprecate 时必须在 `decisions/` 留一条 CDR 记录理由，判定值沿用 §16.2 `content_verdict` 的四值语义。
 
 unmanaged 层不参与 operation 协议：它们不进入 `before_hashes`/`after_hashes`，手工编辑与后台 apply 的路径集不相交，`locks.scope: per-vault` 无需扩展。它们也没有 `object_ref`，因此不能进入 `query-result/v1`；检索由独立的文本匹配命令提供，不伪造 object 身份。
 
@@ -2040,11 +2040,12 @@ wiki.public_publishable == true
 
 ### 11.2 Local index
 
+> **实现现状（2026-09-15）**：本节以 QMD 为默认检索描述本地检索架构，属**历史设计**。QMD（[tobi/qmd](https://github.com/tobi/qmd)）二进制不可获得、**从未落地**，其探测 adapter 已退役（见下方 2026-08-28 决策与 [ADR-0007](./adr/0007-retrieval-and-index-architecture.md) 实现状态）。**实际默认检索是 SQLite FTS5（`tokenize='simple'`）→ Python/SQLite LIKE**；下文凡以 QMD 为"默认"的描述均以此为准。语义/混合检索的后续路径改为嵌入式 `sqlite-vec` adapter，须先过召回缺口价值函数门。
+
 ``` text
 sources + wiki
   -> var/queries/local
-  -> QMD (default local natural-language/hybrid retriever)
-  -> SQLite FTS5 fallback
+  -> SQLite FTS5 (default; tokenize='simple' + wangfenjin/simple 中文分词)
   -> Python/SQLite LIKE deterministic fallback
   -> FastAPI
   -> 本地前端 / Agent Skill
@@ -2052,7 +2053,7 @@ sources + wiki
 
 第一阶段的基础检索不引入 Elasticsearch、独立向量数据库或 LangChain。知识规模、部署形态和个人查询需求优先要求确定性、可解释、可离线运行。RAG 作为本地自然语言问答和知识综合能力接入，但不改变 source/wiki 的内容真相源。
 
-规模假设是"最终会很大"，但第一阶段不因此预埋一套自研向量系统。第一阶段的硬契约是 `QMD（若本机可用） -> SQLite FTS5 -> Python/SQLite LIKE`：
+规模假设是"最终会很大"，但第一阶段不因此预埋一套自研向量系统。**实现的硬契约是 `SQLite FTS5（tokenize='simple'）-> Python/SQLite LIKE`**——原设计的 QMD 前置从未落地、已取代（理由见下条 + [ADR-0007](./adr/0007-retrieval-and-index-architecture.md) 实现状态）：
 
 **检索分词与替代方案决策（2026-08-28 修订，均经联网核验）**：
 
@@ -2891,9 +2892,9 @@ source 先行
 - `SRC-002`：`source_type` 只允许新增取值，不允许重命名或删除既有取值（它位于 `hash_inputs.source_semantic`，改名会触发全库重验）；口头与私聊材料不得新增独立来源类型。
 - `LAY-001`：数据侧只有 `content/`、`ledger/`、`var/` 三个域，新增目录必须按 §4.4 的五条判据归入其中之一；组件目录平铺在仓库根。
 - `LAY-002`：managed 层（`content/sources/`、`content/wiki/`）必须 per-vault；unmanaged 层（`working/`、`journal/`、`decisions/`）无 object 身份，只需单例，且不得进入 projection、leak gate 输入树、operation hash 集合与 `query-result/v1`。
-- `LAY-003`：`content/working/` 到期只产生 `doctor` 报告，工具不得自动删除内容；进入该层的唯一硬约束是 `source_ref` 或 `legacy_path` 非空。
+- `LAY-003`：`content/working/` 到期只产生 `doctor` 报告，工具不得自动删除内容；进入该层**无出处门**（A1-深，2026-09-15：working 曾要求 `source_ref`/`legacy_path` 非空，实测 20/20 从未生效，出处校验统一归晋升关口 §5/§9）。
 - `LAY-004`：目录迁移不得重写历史 durable record；`applied_files` 中的历史路径是事实，读取侧必须容忍历史路径形态。
-- `CHN-001`：`content/working/` 的唯一入口约束是 `source_ref` 或 `legacy_path` 非空；该层不产生 wiki 对象，不得进入任何 projection、不得出现在任何 wiki 的 `evidence.targets`、不得进入 RAG 召回。存量误登记为 source 的加工文档整批降级至该层（一次降级一条 CDR），`content/wiki/` 只能逐篇人工升级进入，不存在批量升级路径。
+- `CHN-001`：进入 `content/working/` **无出处门**（A1-深，2026-09-15：出处校验归晋升关口，不放在暂存入口）；该层不产生 wiki 对象，其**层内文件**不得进入任何 projection、不得出现在任何 wiki 的 `evidence.targets`、不得进入 RAG 召回。**注意区分**：`content/sources/` 里 id 前缀为 `working-` 的旧 source 是合法对象（旧迁移遗留命名），被 `evidence.targets` 引用属正常，与本层无关。存量误登记为 source 的加工文档整批降级至该层（一次降级一条 CDR），`content/wiki/` 只能逐篇人工升级进入，不存在批量升级路径。
 - `WIKI-003`：`review_by` 是选填的报告项：不进 content hash、不改变任何 `*_state` 或 `status`，到期只出现在 `doctor` 清单中。
 - `ARC-005`：ASR 派生 snapshot 支撑的 claim 强度上限为 `attested`，不得派生 `verified`；解除上限需人工逐字校对该片段并标注。
 - `ARC-001`：网络来源必须保存可复核的本地文本快照。
@@ -2902,7 +2903,7 @@ source 先行
 - `EVD-001`：知识型 Wiki 的可验证 Claim 必须显式映射 Evidence。
 - `VAL-001`：`supporting_quotes.exact` 必须在 target 指定的 snapshot selector 范围内逐字匹配。
 - `OPS-001`：**已退场**（ADR-0019 决策 1–3，2026-09-15）。原为「所有写操作必须经过 Preview、用户确认和 Apply」；现行为：写入一次落盘，审批 = `git diff` + `git commit`。ID 保留以维持下游引用。
-- `IDX-002`：本地自然语言/混合检索默认使用 QMD；SQLite FTS5 是必选确定性 fallback，QMD/FTS5 不可用时再回退 Python/SQLite LIKE，任何降级都必须明确标记。
+- `IDX-002`：本地检索默认 **SQLite FTS5**（`tokenize='simple'` + wangfenjin/simple 中文分词）→ Python/SQLite LIKE 窄 fallback，任何降级都必须明确标记。（原定 QMD 默认从未落地、已取代，见 §11.2 与 [ADR-0007](./adr/0007-retrieval-and-index-architecture.md) 实现状态；后续语义/混合检索走 sqlite-vec 嵌入式 adapter，须先过召回缺口价值函数门。）
 - `API-001`：FastAPI、离线 CLI 和 Agent Skill 共用同一 QueryResult/错误契约；读取路径在 local scope 必须显式带 `vault_id`。
 - `API-002`：FastAPI、LLM、QMD 或 private vault 不可用时必须返回明确 `unavailable`/`degraded`，不能伪造写入、验证或生成式回答成功。
 - `WEB-001`：public build 只能消费 `public_publishable` projection，并通过 catalog/graph/Pagefind/leak gate。

@@ -23,7 +23,7 @@
 | --- | --- | --- |
 | 路径解析 | `tools/paths.py` | 唯一改动点；新增 `working_root`、`journal_dir`、`decisions_root` |
 | 域声明与阈值 | `config/policy.yaml` 的 `layers:` 段 | `unmanaged_paths`、`working.ttl_days`、`review` |
-| working 层入口约束 | `tools/layers.py` | `working_contract_error()`：缺 `source_ref`/`legacy_path` 返回 `schema_invalid`（唯一实现点，由 `tools/skill_runtime.py::_write_files` 在落盘前调用） |
+| working 层报告与枚举 | `tools/layers.py` | `working_ttl_days()` / `review_field()` / `iter_unmanaged_files()`：TTL 阈值、复习字段与枚举口径。**入口出处门已删除**（A1-深，2026-09-15，见 ADR-0014 决策 4），此模块不再有写前约束 |
 | 到期报告 | `tools/doctor.py` | 两项新报告（`working_ttl`、`review_due`），按域分组输出 |
 
 ## 数据模型
@@ -37,7 +37,7 @@ layers:
   derived_roots:       [var/queries/, var/state/, var/reports/]
   unmanaged_paths:     [content/working/, content/journal/, content/decisions/]
   unmanaged_excluded_from: [projection_input_tree, leak_gate_input_tree, operation_hashes, query_result]
-  working: {ttl_days: 30, require_source_ref: true, ttl_action: report-only}
+  working: {ttl_days: 30, ttl_action: report-only}           # A1-深：删除 require_source_ref 入口门
   journal: {path_pattern: "content/journal/<YYYY>/<MM>/", append_only: true}
   decisions: {id_prefix: CDR, required_on: [retire, deprecate, downgrade]}
 review:
@@ -59,7 +59,7 @@ review:
 
 **批次 3**：`git mv archive audit release ledger/`；改 `paths.py` 6 个属性、`schemas.yaml` 的 `durable_records` 4 项、`policy.yaml` 的 `release.public_confirmation_path`/`durable_audit_path`/`public_release_authority.*_path`/`backup.durable_manifest_path`，以及跨 vault 模板 `source_lineage_operation_path`。
 
-**降级落位**：`content/sources/` 下被误登记的加工文档 → 写 `content/working/<domain>/<id>.md`，front matter 只留 `legacy_path`、`snapshot_sha256`、`domain`、`title`，外加取得到时才写的 `legacy_first_commit_at` → 归档与 manifest 不动 → 整批一条 CDR。它不产生 object 身份，因此不走对象写入协议（写入本身已不再有 preview/apply 两阶段，见 ADR-0019），只受 `working_contract_error()` 的入口约束。
+**降级落位**：`content/sources/` 下被误登记的加工文档 → 写 `content/working/<domain>/<id>.md`，front matter 只留 `legacy_path`、`snapshot_sha256`、`domain`、`title`，外加取得到时才写的 `legacy_first_commit_at` → 归档与 manifest 不动 → 整批一条 CDR。它不产生 object 身份，因此不走对象写入协议（写入本身已不再有 preview/apply 两阶段，见 ADR-0019）；入口无出处门（A1-深，2026-09-15），出处校验归晋升关口。
 
 `legacy_first_commit_at` 是 `legacy_path` 首次进入 Git 的作者时间，由 `classify` 求得写进清单、`apply` 原样落位不重算（`classify`/`apply` 属已退场的 legacy 迁移工具，见 [存量内容迁移与质量清理](./content-migration.md)）。它**不叫 `created_at`**：实测 161 篇里 156 篇同属 2025-07-06 的一次批量导入，叫 `created_at` 会把导入日误读成创作日。不用 mtime 的原因是 mtime 已成噪声——存量原文与副本的 mtime 全被迁移重写成同一天，落位还会再重写一次。取不到时不写该键（空值假装有时间比缺键更糟），清单的 `legacy_time_unresolved` 显式给出篇数。`content/working/` 的 TTL 判定仍按文件 mtime，不改用该字段：否则落位当天 161 篇会同时"超期"，报告失去筛选力。
 
@@ -70,7 +70,7 @@ review:
 ## 失败流程
 
 - 批次 2/3 之后 `public_release` 派生为 `false` 是**预期行为**（`hash_change_behavior: retain-old-event-but-derive-false`），不得当作故障处理，也不得通过直写 Front Matter 绕过。
-- `content/working/` 缺少 `source_ref` 且缺少 `legacy_path` → 拒绝写入，返回 `schema_invalid`；不允许"来源待补"的中间状态，与 §5.9 一致。
+- `content/working/` 入口无出处门（A1-深，2026-09-15）：无 `source_ref`/`legacy_path` 的草稿直接落盘；出处校验统一在晋升到 `content/wiki/` 时由通道 A（确定性校验 + LLM 审计）执行，不放在暂存入口。
 - `content/working/` 下的文件被写进某篇 wiki 的 `evidence.targets` → 该 target 没有 `object_ref`，resolution fail-closed，页面无法进入 `review`。
 - `doctor` 遇到历史 `applied_files` 中已不存在的路径 → 必须报告为「历史路径」而不是 stranded/缺失。这是 LAY-004 的直接要求。
 
