@@ -471,7 +471,7 @@ commands:
   backlinks        从 public projection 列出反链（F005）
   backup           备份状态与 durable manifest（F012）
   question         Question 创建、作答与复习（F008）
-  doctor           健康自检（projection/索引/QMD/sources/备份，ADR-0011 降级显性化）
+  doctor           健康自检（projection/索引/sources/备份，ADR-0011 降级显性化）
   projection       生成 public projection manifest（F007）
   release          发布输入计算与 public release 人工确认（§6.8/ADR-0010）
   matrix           追踪矩阵完成度机器派生（check / sync，勿手改完成度列）

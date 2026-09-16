@@ -3,7 +3,6 @@
 检查项全部复用现有探测与校验器，不引入新逻辑：
 - projection manifest 可用性与条目数；
 - 默认 FTS5 索引存在性/新鲜度（generated_from vs 当前 items hash）；
-- QMD 可用性（fail-closed 探测）；
 - sources 全量 schema/snapshot 一致性校验；
 - archive 快照自证（文件名 == 正文 sha256，任何外部改写都在此暴露）；
 - archive manifest 账目双向一致（source 的 snapshot 有 owner record；record 指向的快照在盘上）；
