@@ -32,7 +32,6 @@ layers:                              # §4.4–§4.5：三个数据域与五层�
     # 全是预期项的清单，淹没真正需要注意的几篇。恢复筛选力的做法是改判据
     # （只对显式标了 review_by 的篇目催办），不是调大天数。
     ttl_days: unlimited
-    require_source_ref: true
     ttl_action: report-only          # 工具永不自动删除
   journal:
     path_pattern: content/journal/<YYYY>/<MM>/

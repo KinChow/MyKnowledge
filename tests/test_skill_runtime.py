@@ -33,8 +33,8 @@ def test_skill_runtime_rejects_unknown_and_dangerous_actions(tmp_path: Path):
 def test_skill_runtime_write_is_direct_and_lands_content(tmp_path: Path):
     """写入是直接落盘（ADR-0019）：无 operation_id、无 preview 态、无确认事件。
 
-    同时锁住新直写路径保留的两条写前约束：越界路径与 `content/working/` 回指
-    （LAY-003，该层唯一的硬约束）——它们都不是审批门禁，不随状态机退场。
+    直写路径只保留一条写前约束：越界路径（越界写不可逆）。`content/working/` 的出处
+    门已删除（A1-深，2026-09-15）——无回指的草稿现在直接落盘，出处校验归晋升关口。
     """
     result = dispatch(
         "write", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
@@ -50,14 +50,16 @@ def test_skill_runtime_write_is_direct_and_lands_content(tmp_path: Path):
         dispatch("write", {"files": {"../escape.md": "x"}}, root=tmp_path)["error_code"]
         == "path_outside_repo"
     )
-    assert (
-        dispatch(
-            "write", {"files": {"content/working/draft.md": "草稿\n"}}, root=tmp_path
-        )["error_code"]
-        == "schema_invalid"
-    )
     assert not (tmp_path / "escape.md").exists()
-    assert not (tmp_path / "content" / "working" / "draft.md").exists()
+
+    # A1-深：working 层无回指约束，草稿直接落盘（低摩擦，出处门在晋升）
+    working = dispatch(
+        "write", {"files": {"content/working/draft.md": "草稿\n"}}, root=tmp_path
+    )
+    assert working["state"] == "applied"
+    assert (tmp_path / "content" / "working" / "draft.md").read_text(
+        encoding="utf-8"
+    ) == "草稿\n"
 
 
 def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path):

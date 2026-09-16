@@ -23,7 +23,6 @@ from .backup import BackupManager
 from .common import atomic_write, safe_id
 from .indexing import Retriever
 from .ingest.source_ingestor import SourceIngestor
-from .layers import working_contract_error
 from .projection import PublicProjectionStore
 from .question import QuestionStore
 from .release_confirmation import write_event
@@ -234,10 +233,11 @@ def _write_target(vault_root: Path, name: str) -> Path:
 def _write_files(root: Path, files: Mapping[str, str], vault_id: str) -> dict[str, Any]:
     """把 files 直接落盘（ADR-0019）：写前校验 → `atomic_write`，无 operation/锁/确认。
 
-    保留的写前约束只有两条能捕获真实缺陷的：目标必须落在 Vault 根内且各段都不是
-    符号链接（越界写不可逆），`content/working/` 必须回指来源（LAY-003，该层唯一
-    的硬约束）。**不保留** before-hash 比对、多文件回滚与提交收尾状态机：半成品由
-    `git status` 可见、由 git 回滚，这正是"审批 = git"的代价与收益。
+    保留的写前约束只有一条能捕获真实缺陷的：目标必须落在 Vault 根内且各段都不是
+    符号链接（越界写不可逆）。`content/working/` 的出处门已删除（A1-深，2026-09-15）：
+    出处校验统一归晋升关口（通道 A 的 wiki 校验/审计），不放在暂存入口。**不保留**
+    before-hash 比对、多文件回滚与提交收尾状态机：半成品由 `git status` 可见、由
+    git 回滚，这正是"审批 = git"的代价与收益。
     """
     if not files:
         raise ValueError("empty_write")
@@ -247,9 +247,6 @@ def _write_files(root: Path, files: Mapping[str, str], vault_id: str) -> dict[st
         if not isinstance(content, str):
             raise ValueError("content_not_string")
         path = _write_target(vault_root, name)
-        layer_error = working_contract_error(vault_root, str(Path(name)), content)
-        if layer_error:
-            raise ValueError(layer_error)
         targets.append((path, content))
     applied_files: list[str] = []
     for path, content in targets:
