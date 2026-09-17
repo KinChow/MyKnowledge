@@ -1,0 +1,1747 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.18. Compute Fabric Transport &#8212; CUDA Programming Guide</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/nvidia-sphinx-theme.css?v=933278ad" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=767de534" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=0bf25c72" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript"
+  data-document-language="true" charset="UTF-8" data-domain-script="3e2b62ff-7ae7-4ac5-87c8-d5949ecafff5">
+</script>
+<script type="text/javascript">
+  function OptanonWrapper() {
+    var event = new Event('bannerLoaded');
+    window.dispatchEvent(event);
+  }
+</script>
+<script src="https://images.nvidia.com/aem-dam/Solutions/ot-js/ot-custom.js" type="text/javascript">
+</script>
+
+
+    <script rel="preload" src="../_static/modal-table.js"></script>
+    <script src="../_static/documentation_options.js?v=532923de"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scrollspy-patch.js?v=edc4054a"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=65e89d2a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04-special-topics/compute-fabric-transport';</script>
+    <script src="../_static/version-patch.js?v=3e13fdd2"></script>
+
+<script type="text/javascript" src="https://assets.adobedtm.com/5d4962a43b79/c1061d2c5e7b/launch-191c2462b890.min.js"></script>
+
+    <link rel="icon" href="../_static/favicon.ico"/>
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.19. Extended GPU Memory" href="extended-gpu-memory.html" />
+    <link rel="prev" title="4.17. Virtual Memory Management" href="virtual-memory-management.html" />
+
+<link rel="preload" as="image" href="https://www.nvidia.com/content/dam/1x1-00000000.png">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Sep 09, 2026"/>
+
+
+  </head>
+
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+<img src="https://www.nvidia.com/content/dam/1x1-00000000.png" width="1" height="1" style="display:none;" alt="country_code">
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../contents.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="CUDA Programming Guide - Home"/>
+    <img src="../_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark pst-js-only" alt="CUDA Programming Guide - Home"/>
+  
+  
+    <p class="title logo__title">CUDA Programming Guide</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+
+<div>
+  <ul class="bd-navbar-elements navbar-nav">
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>v13.4 |</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://docs.nvidia.com/cuda/cuda-programming-guide/pdf/cuda-programming-guide.pdf">PDF</a>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>|</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://developer.nvidia.com/cuda-toolkit-archive">Archive</a>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../contents.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="CUDA Programming Guide - Home"/>
+    <img src="../_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark pst-js-only" alt="CUDA Programming Guide - Home"/>
+  
+  
+    <p class="title logo__title">CUDA Programming Guide</p>
+  
+</a>
+
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+
+<div>
+  <ul class="bd-navbar-elements navbar-nav">
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>v13.4 |</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://docs.nvidia.com/cuda/cuda-programming-guide/pdf/cuda-programming-guide.pdf">PDF</a>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>|</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://developer.nvidia.com/cuda-toolkit-archive">Archive</a>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Table of Contents">
+  <p class="bd-links__title" role="heading" aria-level="1">Table of Contents</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">CUDA Programming Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part1.html">1. Introduction to CUDA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../01-introduction/introduction.html">1.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-introduction/programming-model.html">1.2. Programming Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-introduction/cuda-platform.html">1.3. The CUDA platform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part2.html">2. Programming GPUs in CUDA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/intro-to-cuda-cpp.html">2.1. Intro to CUDA C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/intro-to-cuda-python.html">2.2. Intro to CUDA Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/writing-cuda-kernels.html">2.3. Writing SIMT Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/writing-tile-kernels.html">2.4. Writing Tile Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/asynchronous-execution.html">2.5. Asynchronous Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/understanding-memory.html">2.6. Unified and System Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/nvcc.html">2.7. NVCC: The NVIDIA CUDA Compiler</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part3.html">3. Advanced CUDA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/advanced-host-programming.html">3.1. Advanced CUDA APIs and Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/advanced-kernel-programming.html">3.2. Advanced Kernel Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/driver-api.html">3.3. The CUDA Driver API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/multi-gpu-systems.html">3.4. Programming Systems with Multiple GPUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/feature-survey.html">3.5. A Tour of CUDA Features</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../part4.html">4. CUDA Features</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="unified-memory.html">4.1. Unified Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cuda-graphs.html">4.2. CUDA Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stream-ordered-memory-allocation.html">4.3. Stream-Ordered Memory Allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cooperative-groups.html">4.4. Cooperative Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="programmatic-dependent-launch.html">4.5. Programmatic Dependent Launch and Synchronization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="green-contexts.html">4.6. Green Contexts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="locality-domains.html">4.7. Locality Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lazy-loading.html">4.8. Lazy Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="error-log-management.html">4.9. Error Log Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="async-barriers.html">4.10. Asynchronous Barriers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelines.html">4.11. Pipelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="async-copies.html">4.12. Asynchronous Data Copies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster-launch-control.html">4.13. Work Stealing with Cluster Launch Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2-cache-control.html">4.14. L2 Cache Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memory-sync-domains.html">4.15. Memory Synchronization Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inter-process-communication.html">4.16. Interprocess Communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-memory-management.html">4.17. Virtual Memory Management</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">4.18. Compute Fabric Transport</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extended-gpu-memory.html">4.19. Extended GPU Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-parallelism.html">4.20. CUDA Dynamic Parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics-interop.html">4.21. CUDA Interoperability with APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-entry-point-access.html">4.22. Driver Entry Point Access</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part5.html">5. Technical Appendices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/compute-capabilities.html">5.1. Compute Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/environment-variables.html">5.2. CUDA Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cpp-language-support.html">5.3. C++ Language Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cpp-language-extensions.html">5.4. C/C++ Language Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/mathematical-functions.html">5.5. Floating-Point Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/device-callable-apis.html">5.6. Device-Callable APIs and Intrinsics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cuda-cpp-memory-model.html">5.7. CUDA C++ Memory Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cuda-cpp-execution-model.html">5.8. CUDA C++ Execution model</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../notices.html">6. Notices</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../contents.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">CUDA Programming Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../part4.html" class="nav-link"><span class="section-number">4. </span>CUDA Features</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><span class="section-number">4.18. </span>Compute Fabric Transport</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+<div class="header-article-item">
+  <div class="d-flex justify-content-end w-100">
+    <a href="https://surveys.hotjar.com/4904bf71-6484-47a7-83ff-4715cceabdb5" id="openPopupButton">Is this page helpful?</a>
+  </div>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="compute-fabric-transport">
+<span id="id1"></span><h1><span class="section-number">4.18. </span>Compute Fabric Transport<a class="headerlink" href="#compute-fabric-transport" title="Link to this heading">#</a></h1>
+<p>Compute fabric transport provides large-scale GPU-to-GPU communication over the NVLink fabric for communication libraries such as NCCL and NVSHMEM, through the <a class="reference external" href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/usage/deviceapi.html">NCCL Device API</a> and <a class="reference external" href="https://docs.nvidia.com/nvshmem/api/index.html">NVSHMEM</a>. Most developers should prefer those libraries when they match the needed communication pattern. Compute fabric transport is primarily intended for developers writing such communication libraries, or for applications that need fine-grained control when the pattern is not well captured by those libraries. Authors of custom communication kernels can also combine fabric operations with the NCCL and NVSHMEM device APIs when they need even more direct access than those device APIs alone provide.</p>
+<p>The <a class="reference internal" href="virtual-memory-management.html#unicast-memory-sharing"><span class="std std-ref">Unicast</span></a> and
+<a class="reference internal" href="virtual-memory-management.html#multicast-obj-mem"><span class="std std-ref">Multicast</span></a> memory sharing APIs let an application
+access GPU memory across the NVLink fabric by mapping remote physical memory
+into a local virtual address space. Once a peer allocation is mapped and given
+access rights, kernels access it like local memory using loads and stores
+(plus <code class="docutils literal notranslate"><span class="pre">multimem</span></code> instructions for multicast mappings). That model is both
+<em>address-centric</em> and <em>memory-centric</em>: the unit of sharing is a
+virtual-to-physical mapping, and every byte a kernel touches on a peer must be
+reachable through an address that the issuing process has reserved and mapped.</p>
+<p>On a large NVLink fabric, this model has two limitations, and both affect how an
+application is written.</p>
+<p>Virtual addresses provide no error propagation channel. When a kernel
+issues a load or store to a peer address, the hardware delivers either the data
+or a memory fault — there is no intermediate result that the issuing thread can
+inspect to detect and programmatically handle a failure.
+On large fabric systems, transient errors such as
+packet loss or link resets are a possibility, and at sufficient scale they
+become a consideration for resilient application design. A fabric error
+encountered during a remote access typically faults the access or terminates
+the process, and a GPU kernel has no way to respond to such a failure: no path
+to retry or reroute.</p>
+<p>Virtual addresses also name only memory. A mapping is defined in terms of
+physical memory, so a resource on the fabric that is not memory cannot be
+reached through a mapping at all.</p>
+<p>Compute fabric transport provides a complementary, <em>resource-centric</em> model
+for GPUs connected by the NVLink fabric. Instead of importing a peer’s
+memory into a local address space, an application creates a <strong>logical
+endpoint</strong>: a named transport object that represents a resource reachable over
+the fabric. A logical endpoint is identified by a 32-bit integer, a <strong>logical
+endpoint id</strong>, and a target within it is named by that id together with a
+64-bit offset rather than by a virtual address. Because the id names the
+resource itself, the model is not tied to memory, though memory is currently
+the only kind of resource that logical endpoints expose.</p>
+<p>An imported endpoint also remains valid when the owner changes the endpoint’s
+backing memory. A peer imports the endpoint, associates it with one of its own
+reserved endpoint ids, and does not import the owner’s allocation. The owner can
+therefore grow, shrink, or replace the buffer behind the endpoint by rebinding
+it locally, and the peer can keep using its local endpoint id without
+re-importing the endpoint. The owner and its peers must still synchronize
+across the rebind so that peers do not access the endpoint while the owner is
+rebinding it to the new memory.
+Additionally, issuing an operation that lands outside the currently bound
+range is undefined behavior. By contrast, a VMM IPC import maps a specific
+allocation, so resizing that allocation on the owner side requires the peer to
+import and map the new one.</p>
+<p>Once an endpoint has been created, shared with the peers that need it, and
+backed by a resource, asynchronous fabric operations — put, get, atomics, and reductions — can be
+issued against a peer’s logical endpoint id and offset. Unlike a load or store to
+a mapped peer address, a fabric operation reports an explicit completion status
+that the issuing code can inspect. On failure, the application can retry, reroute, or
+take other recovery action instead of faulting the process.</p>
+<section id="prerequisites-and-scope">
+<span id="cft-prerequisites-scope"></span><h2><span class="section-number">4.18.1. </span>Prerequisites and Scope<a class="headerlink" href="#prerequisites-and-scope" title="Link to this heading">#</a></h2>
+<p>Using logical endpoints has the following requirements:</p>
+<ul class="simple">
+<li><p><strong>CUDA driver API.</strong> The logical endpoint APIs are part of the low-level
+<a class="reference internal" href="../03-advanced/driver-api.html#driver-api"><span class="std std-ref">CUDA Driver API</span></a>.</p></li>
+<li><p><strong>NVLink fabric connectivity and device support.</strong> The participating GPUs
+must be able to reach one another over an NVLink fabric. Whether a device
+supports logical endpoints depends on its architecture, the driver, and the
+system configuration, so an application should determine support by querying
+the device attributes described in <a class="reference internal" href="#cft-query-for-support"><span class="std std-numref">Section 4.18.2.2</span></a> rather than
+inferring it from the hardware present.</p></li>
+<li><p><strong>IMEX daemon and channels.</strong> Sharing an endpoint between processes uses
+fabric IPC handles, which require the NVIDIA IMEX daemon to be running and
+IMEX channels to be configured.</p></li>
+</ul>
+<p>Endpoints can be shared with processes on the same node or on different nodes
+within the same NVLink fabric. The fabric IPC handle mechanism is similar to the one
+used by the VMM APIs. See <a class="reference internal" href="virtual-memory-management.html#virtual-memory-management"><span class="std std-ref">Virtual Memory Management</span></a> for details on fabric handles and IMEX channels.</p>
+</section>
+<section id="preliminaries">
+<h2><span class="section-number">4.18.2. </span>Preliminaries<a class="headerlink" href="#preliminaries" title="Link to this heading">#</a></h2>
+<p>The following definitions establish the key objects and operations used in the
+rest of this section.</p>
+<section id="definitions">
+<h3><span class="section-number">4.18.2.1. </span>Definitions<a class="headerlink" href="#definitions" title="Link to this heading">#</a></h3>
+<p><strong>Logical Endpoint Id:</strong>
+A logical endpoint id (<code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointId</span></code>) is a 32-bit value that names a
+logical endpoint within a process. Endpoint ids are process-local: each process
+reserves its own range with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdReserve</span></code> and chooses which
+reserved id to associate with a given endpoint. Fabric operations address an
+endpoint by this id together with an offset. A single endpoint id names one
+endpoint, but multiple ids may name the same endpoint. An endpoint id is
+associated with an endpoint through <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> or
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>. This association must be removed with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointDestroy</span></code> before the endpoint id is released with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdRelease</span></code>. Releasing an endpoint id while it remains
+associated with an endpoint is undefined behavior. A later reservation may
+reuse a released id. <a class="reference internal" href="#cft-logical-endpoint-ids"><span class="std std-numref">Section 4.18.6</span></a> describes the lifecycle of a logical
+endpoint id.</p>
+<p><strong>Logical Endpoint:</strong>
+A logical endpoint is a transport object that represents a resource reachable
+over the NVLink fabric, exposed as a bounded offset space. Creating the endpoint
+allocates resources used to route fabric operations addressed to it. The
+application must then explicitly bind a target resource to one or more ranges of the
+endpoint’s offset space. Fabric operations name their target using an associated endpoint id together
+with an offset into that space. An endpoint is associated with a reserved id
+when the process creates it with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> or imports a peer
+endpoint with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>. Destroying an endpoint association
+before explicitly unbinding its resources unbinds those resources but does not
+destroy the resources themselves. Destroying the resources before unbinding
+them from the endpoint is undefined behavior. <a class="reference internal" href="#cft-api-overview"><span class="std std-numref">Section 4.18.3</span></a>
+outlines an endpoint’s lifecycle.</p>
+<p><strong>Unicast Logical Endpoint:</strong>
+A unicast logical endpoint represents a point-to-point transport target. It has
+a single owner device, specified when the endpoint is created, on which the
+endpoint’s bound memory resides. Peer devices issue put or get operations
+against the endpoint id to move data into or out of the owner’s bound memory.</p>
+<p><strong>Multicast Logical Endpoint:</strong>
+A multicast logical endpoint represents a transport target that exposes
+multiple resources at each offset. Before binding its resource, each
+participating process must add that resource to the multicast endpoint. The
+process then binds the resource to the endpoint. Together, these bindings
+create one replica per team member. Fabric operations targeting the multicast
+endpoint access the corresponding offset in every replica. A multicast logical
+endpoint is the compute fabric transport counterpart of the VMM multicast
+object described in <a class="reference internal" href="virtual-memory-management.html#multicast-obj-mem"><span class="std std-ref">Multicast Memory Sharing</span></a>.</p>
+<p><strong>Compute Fabric Transport Handle:</strong>
+A compute fabric transport handle is a resource-centric alternative to a
+traditional pointer. It is the pair of a logical endpoint id and an offset: the
+logical endpoint id selects a destination on the NVLink fabric — a unicast
+endpoint’s owner device or a multicast team — and the offset selects a location
+within that destination’s bound memory. Fabric operations use this handle in
+place of a peer virtual address.</p>
+<p><strong>Logical Endpoint Clique:</strong>
+A logical endpoint clique is a dynamic group of GPUs that are mutually reachable over Compute Fabric Transport operations at a required level of capability.
+The <em>clique type</em> describes the desired level of capability.
+There are two logical endpoint clique types: <code class="docutils literal notranslate"><span class="pre">CU_CLIQUE_TYPE_UNICAST_LOGICAL_ENDPOINT</span></code> and <code class="docutils literal notranslate"><span class="pre">CU_CLIQUE_TYPE_MULTICAST_LOGICAL_ENDPOINT</span></code>.
+The <em>clique id</em> is a 32-bit value naming the dynamic group of GPUs.
+Attempting to import a logical endpoint onto a device that is not a member of the same clique as the exporter device will fail.
+Attempting to create a multicast logical endpoint by adding devices that don’t belong to the same clique will fail.
+A single device can be a member of several cliques.
+The program may query the cliques a device is part of using <code class="docutils literal notranslate"><span class="pre">cuDeviceGetCliqueCount</span></code> and <code class="docutils literal notranslate"><span class="pre">cuDeviceGetCliqueInfo</span></code>.</p>
+<p><strong>Endpoint Binding:</strong>
+Endpoint binding is the association between a range in a logical endpoint’s
+offset space and a physical memory allocation supplied by the application. The
+application can bind memory using a mapped virtual address with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindAddr</span></code> or by allocation handle with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindMem</span></code>. Fabric operations are valid only for endpoint
+ranges that have been bound, and bindings must satisfy the endpoint’s alignment
+and size limits. See <a class="reference internal" href="#cft-binding-memory"><span class="std std-numref">Section 4.18.8</span></a> and
+<a class="reference internal" href="#cft-limits-alignment"><span class="std std-numref">Section 4.18.6.1</span></a>.</p>
+<p>All fabric operations are asynchronous: issuing one only initiates the transfer.
+Their completion and status are reported explicitly through the completion
+mechanism provided by each operation (see <a class="reference internal" href="#cft-completion-status"><span class="std std-numref">Section 4.18.10</span></a>).</p>
+<p><strong>Put and Get Operations:</strong>
+Put and get are data-movement primitives that compute fabric transport provides.
+A put operation moves data from the issuing GPU to a target logical endpoint.
+The multimem variant, <code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_put_multimem</span></code>, performs a
+broadcast to a multicast logical endpoint, writing the source data to the
+corresponding offset in every replica. A get operation moves data from a target logical endpoint to the issuing GPU.
+In both directions, the remote side is identified by a logical endpoint id and
+offset rather than by a peer virtual address, and the remote allocation does
+not need to be mapped into the issuing process’s virtual address space.</p>
+<p><strong>Reduction and Pull-Reduction Operations:</strong>
+A reduction operation (<em>red</em>) combines data from the issuing GPU into a target
+logical endpoint using a reduction operator. A pull-reduction operation
+(<em>pull_red</em>) reads from a target multicast logical endpoint, combines values
+across the multicast team’s replicas with a reduction operator, and returns the
+result to the issuing GPU. It is the fabric counterpart of
+<code class="docutils literal notranslate"><span class="pre">multimem.ld_reduce</span></code>.</p>
+<p><strong>Atomic Operations:</strong>
+An atomic operation (<em>atom</em>) performs an atomic read-modify-write on a target
+logical endpoint. It reads the original value, overwrites it with a new value,
+and returns the original value. In contrast, a reduction operation does not
+return the original value. Operators for computing the new value include
+<code class="docutils literal notranslate"><span class="pre">add</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, bitwise <code class="docutils literal notranslate"><span class="pre">and</span></code>, <code class="docutils literal notranslate"><span class="pre">or</span></code>, and <code class="docutils literal notranslate"><span class="pre">xor</span></code>. An exchange
+operation stores a user-provided value, and compare-and-swap stores a new value
+only if the target holds the expected compare value.</p>
+<p id="cft-counted-operation"><strong>Counted Operation:</strong>
+A counted operation is a fabric operation that increments a target counter
+by the number of bytes written to the destination as data arrives. The receiver
+waits for the counter to reach an <em>expected byte count</em> before consuming the
+data. The receiver does not know which bytes have been written until this
+expected byte count is reached. Once the counter reaches the expected byte
+count, the receiver can safely consume the data. The counter must be aligned to
+a 256-byte boundary in endpoint memory. Endpoints must be created with counted
+operation support enabled (<code class="docutils literal notranslate"><span class="pre">CU_LOGICAL_ENDPOINT_FLAG_COUNTED_OPS</span></code>), and
+applications must query device support (<code class="docutils literal notranslate"><span class="pre">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_COUNTED_OPS_SUPPORTED</span></code>)
+before using this capability.</p>
+<p><strong>Completion Status and Error Reporting:</strong>
+A fabric operation is tracked by a <em>completion object</em>, which signals when the
+operation has completed and records the operation’s status. Waiting on that
+object indicates whether the tracked operations completed successfully or
+whether a fabric error occurred. When a failure is reported, the application
+can query the detailed per-operation error status and then retry, reroute, or
+otherwise recover instead of faulting the process.</p>
+<p>Because fabric operation updates are delivered out of order, observing
+that one destination location has been written — for example, the last byte of
+the destination region — does not imply that the rest of the transfer has
+landed. Observing that every destination location has been written does not
+indicate that the operation completed successfully and that the destination
+resource can be reused. For example, the producer may receive an error status
+if the response is dropped, causing it to retry the operation.
+Therefore, applications must wait for completion and inspect the reported status
+before treating the operation as complete. See <a class="reference internal" href="#cft-completion-status"><span class="std std-numref">Section 4.18.10</span></a>.</p>
+</section>
+<section id="query-for-support">
+<span id="cft-query-for-support"></span><h3><span class="section-number">4.18.2.2. </span>Query for Support<a class="headerlink" href="#query-for-support" title="Link to this heading">#</a></h3>
+<p>Applications should query support before using logical endpoint APIs, because
+availability depends on the GPU architecture, the driver, and the system
+configuration. The following device attributes describe the relevant
+capabilities. The features are independent, so an application should query
+exactly the ones it intends to use.</p>
+<p><strong>Unicast Logical Endpoint Support</strong></p>
+<p>Query whether a device supports unicast logical endpoints:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">unicastSupported</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">unicastSupported</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_UNICAST_SUPPORTED</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">device</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unicastSupported</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// `device` supports unicast logical endpoints</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Multicast Logical Endpoint Support</strong></p>
+<p>Query whether a device supports multicast logical endpoints:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">multicastSupported</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">multicastSupported</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_MULTICAST_SUPPORTED</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">device</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">multicastSupported</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// `device` supports multicast logical endpoints</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Logical Endpoint IPC Handle Support</strong></p>
+<p>Before exporting or importing an endpoint, query the IPC handle types that the device supports for logical endpoints. The attribute returns a bitmask of <code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointIpcHandleType</span></code> values.
+The following checks whether the fabric IPC handle type for logical endpoints is supported:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">supportedHandleTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuDeviceGetAttribute</span><span class="p">(</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="n">supportedHandleTypes</span><span class="p">,</span>
+<span class="w">    </span><span class="n">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_SUPPORTED_HANDLE_TYPES</span><span class="p">,</span>
+<span class="w">    </span><span class="n">device</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">supportedHandleTypes</span><span class="w"> </span><span class="o">&amp;</span>
+<span class="w">     </span><span class="n">CU_LOGICAL_ENDPOINT_IPC_HANDLE_TYPE_FABRIC</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// `device` supports fabric IPC handles for logical endpoints</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Counted Operations Support</strong></p>
+<p>Counted operations are an optional capability. Query whether a device supports
+them before requesting <code class="docutils literal notranslate"><span class="pre">CU_LOGICAL_ENDPOINT_FLAG_COUNTED_OPS</span></code> on an endpoint:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">countedOpsSupported</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">countedOpsSupported</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_COUNTED_OPS_SUPPORTED</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">device</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">countedOpsSupported</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// `device` supports counted operations via logical endpoints</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Unicast Access from Owner Device</strong></p>
+<p>The owner device of a unicast endpoint is specified in the endpoint properties
+passed to <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code>. The <code class="docutils literal notranslate"><span class="pre">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_UNICAST_ACCESS_ON_OWNER_DEVICE_SUPPORTED</span></code> device
+attribute indicates whether this device can access the unicast logical endpoints it owns. If this access is not supported, the device can access the
+bound memory through pointers, which currently provides the best performance for the owner device. Devices other than the owner can access a unicast endpoint through a logical
+endpoint id associated with that endpoint.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">ownerAccessSupported</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ownerAccessSupported</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">CU_DEVICE_ATTRIBUTE_LOGICAL_ENDPOINT_UNICAST_ACCESS_ON_OWNER_DEVICE_SUPPORTED</span><span class="p">,</span>
+<span class="w">                     </span><span class="n">device</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ownerAccessSupported</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// `device` supports unicast logical endpoint access on the owner device</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="api-overview">
+<span id="cft-api-overview"></span><h2><span class="section-number">4.18.3. </span>API Overview<a class="headerlink" href="#api-overview" title="Link to this heading">#</a></h2>
+<p>The logical endpoint APIs are part of the low-level <a class="reference internal" href="../03-advanced/driver-api.html#driver-api"><span class="std std-ref">CUDA Driver API</span></a>, and working with a logical endpoint follows a well-defined lifecycle. The steps below outline the workflow, and the sections that follow cover each step in detail. They fall into the following phases:</p>
+<ul class="simple">
+<li><p><strong>Setup phase (Steps 1-11):</strong> Verify participating devices are members of the same clique, reserve an id, describe and create the endpoint, share it with peers, confirm that it is ready, then allocate and bind its backing memory before data movement begins.</p></li>
+<li><p><strong>Use phase (Step 12):</strong> Issue fabric operations against the endpoint from the device.</p></li>
+<li><p><strong>Cleanup phase (Step 13):</strong> Unbind and destroy the endpoint, release its ids, and free the backing memory after all uses have completed.</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p><strong>Verify clique membership.</strong> Verify that participating devices belong to the same clique with <code class="docutils literal notranslate"><span class="pre">cuDeviceGetCliqueCount</span></code> and <code class="docutils literal notranslate"><span class="pre">cuDeviceGetCliqueInfo</span></code> as described in <a class="reference internal" href="#cft-clique-verification"><span class="std std-numref">Section 4.18.4</span></a>.</p></li>
+<li><p><strong>Reserve ids.</strong> Reserve a range of logical endpoint ids with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdReserve</span></code>. Reservation is per process. The id lifecycle
+and the rules for reuse and release are described in
+<a class="reference internal" href="#cft-logical-endpoint-ids"><span class="std std-numref">Section 4.18.6</span></a>.</p></li>
+<li><p><strong>Describe the endpoint.</strong> Populate a <code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointProp</span></code> with the
+endpoint type (unicast or multicast), the owner device for unicast or group
+size for multicast, the size, the requested IPC handle types
+(<code class="docutils literal notranslate"><span class="pre">ipcHandleTypes</span></code>), and any flags — for example,
+<code class="docutils literal notranslate"><span class="pre">CU_LOGICAL_ENDPOINT_FLAG_COUNTED_OPS</span></code> to request support for counted
+operations (see <a class="reference internal" href="#cft-counted-operation"><span class="std std-ref">Counted Operation</span></a>).</p></li>
+<li><p><strong>Check alignment and size limits.</strong> Call <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointGetLimits</span></code> for
+the proposed properties to obtain the required <code class="docutils literal notranslate"><span class="pre">bindAlignment</span></code> and
+<code class="docutils literal notranslate"><span class="pre">maxSize</span></code>. <code class="docutils literal notranslate"><span class="pre">maxSize</span></code> is the largest endpoint size the configuration permits. The
+endpoint size and all bindings must satisfy these limits.</p></li>
+<li><p><strong>Create the endpoint.</strong> Call <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> to associate one
+of the reserved ids with a newly created endpoint described by the
+<code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointProp</span></code> populated above.</p></li>
+<li><p><strong>Share the endpoint.</strong> Export the endpoint to a fabric IPC handle with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointExport</span></code>, transfer the handle through any IPC mechanism
+to the peer processes that need it, and have each peer process import it
+with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>. Exporting and importing the endpoint do
+not require memory to be bound to it.</p></li>
+<li><p><strong>Add devices (multicast only).</strong> For a multicast endpoint, every
+participating device must be added to the group with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointAddDevice</span></code>. Each process adds its own device after it
+holds the endpoint locally, so for multicast the endpoint is shared before
+the devices are added.</p></li>
+<li><p><strong>Confirm readiness.</strong> Both <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code> are non-blocking. Use
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointQuery</span></code> to confirm readiness before use. Confirm a locally
+created endpoint before binding its memory and an imported endpoint before a
+kernel issues operations against it.</p></li>
+<li><p><strong>Allocate backing memory.</strong> Allocate backing memory with the Virtual Memory
+Management APIs (<code class="docutils literal notranslate"><span class="pre">cuMemCreate</span></code>) or via <code class="docutils literal notranslate"><span class="pre">cudaMallocAsync</span></code>. The bound
+memory must be externally shareable if the endpoint will be shared with
+another process. The same requirement applies when memory is bound through an imported multicast endpoint.
+Configure the allocation for external sharing by requesting the fabric handle type (<code class="docutils literal notranslate"><span class="pre">CU_MEM_HANDLE_TYPE_FABRIC</span></code>) when creating it, and size the allocation to
+satisfy both <code class="docutils literal notranslate"><span class="pre">bindAlignment</span></code> and the allocation granularity. This step and
+endpoint creation are independent, but both must complete before binding.</p></li>
+<li><p><strong>Bind memory.</strong> Associate physical memory with the endpoint using
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindMem</span></code> (by allocation handle) or
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindAddr</span></code> (by mapped address). Memory cannot be bound to
+an imported unicast endpoint, but it can be bound to an imported multicast
+endpoint. Fabric operations are valid only for ranges that have been bound.</p></li>
+<li><p><strong>Synchronize after binding.</strong> Before any process issues fabric operations,
+participating processes must synchronize after binding, as described in
+<a class="reference internal" href="#cft-binding-memory"><span class="std std-numref">Section 4.18.8</span></a>.</p></li>
+<li><p><strong>Use the endpoint.</strong> Launch kernels that issue fabric operations against
+peer endpoint ids.</p></li>
+<li><p><strong>Clean up.</strong> Unbind memory, destroy the endpoints, release the id range,
+and free the backing memory.</p></li>
+</ol>
+</section>
+<section id="verify-clique-membership">
+<span id="cft-clique-verification"></span><h2><span class="section-number">4.18.4. </span>Verify clique membership<a class="headerlink" href="#verify-clique-membership" title="Link to this heading">#</a></h2>
+<p>Before we can issue any compute fabric transport operations, we need to make sure that all participating devices are members of a clique that supports the desired set of compute fabric transport operations, and that they are all members of the same clique for a particular clique type.
+Otherwise, the devices cannot reach each other over the network with that particular type of operation.</p>
+<p>First, we query how many cliques this device is a member of:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">cliqueCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// not modified if there are errors</span>
+<span class="w">  </span><span class="n">cuDeviceGetCliqueCount</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cliqueCount</span><span class="p">,</span><span class="w"> </span><span class="n">cuDevice</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Then, we query the clique information for all cliques this device is a member of and find the clique id of the clique we will be using.
+In this example we will be using the clique with type <code class="docutils literal notranslate"><span class="pre">CU_CLIQUE_TYPE_UNICAST_LOGICAL_ENDPOINT</span></code>.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">CUcliqueInfo</span><span class="o">&gt;</span><span class="w"> </span><span class="n">cliqueInfos</span><span class="p">(</span><span class="n">cliqueCount</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cuDeviceGetCliqueInfo</span><span class="p">(</span><span class="n">cliqueInfos</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">cliqueCount</span><span class="p">,</span><span class="w"> </span><span class="n">cuDevice</span><span class="p">);</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">localCliqueId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">bool</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">idx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">cliqueCount</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">idx</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cliqueInfos</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="n">type</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">CU_CLIQUE_TYPE_UNICAST_LOGICAL_ENDPOINT</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">localCliqueId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cliqueInfos</span><span class="p">[</span><span class="n">idx</span><span class="p">].</span><span class="n">id</span><span class="p">;</span>
+<span class="w">      </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">      </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Verify that all participating devices have the same clique id for that clique type.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">allCliqueIds</span><span class="p">(</span><span class="n">numRanks</span><span class="p">);</span>
+<span class="w">  </span><span class="n">MPI_Allgather</span><span class="p">(</span><span class="o">&amp;</span><span class="n">localCliqueId</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_BYTE</span><span class="p">,</span>
+<span class="w">                          </span><span class="n">allCliqueIds</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_BYTE</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numRanks</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">allCliqueIds</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">localCliqueId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Rank %d: Clique id %u does not match expected %u</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">allCliqueIds</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">localCliqueId</span><span class="p">);</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-an-endpoint">
+<h2><span class="section-number">4.18.5. </span>Creating an Endpoint<a class="headerlink" href="#creating-an-endpoint" title="Link to this heading">#</a></h2>
+<p>Creating and importing endpoints begins by determining how many logical
+endpoint ids the process needs. Then reserve a range of ids with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdReserve</span></code>, which returns the base id of the range. Choose
+a count large enough for every endpoint that the process will create or
+import. The endpoints associated with the range may have different properties.
+For example, an application may reserve one id per GPU plus one id for a multicast endpoint. The example
+reserves one id per rank:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">CUlogicalEndpointId</span><span class="w"> </span><span class="n">leId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointIdReserve</span><span class="p">(</span><span class="o">&amp;</span><span class="n">leId</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">numRanks</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>After reserving the range, associate its ids as endpoints are created or
+imported. Use <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> for a locally created endpoint and
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code> when a remote endpoint’s handle becomes available.
+For each endpoint that the process creates, describe its properties in a
+<code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointProp</span></code>. A unicast endpoint names the single owner device
+that will hold its bound memory. Set the endpoint type, the requested IPC
+handle types (<code class="docutils literal notranslate"><span class="pre">ipcHandleTypes</span></code>), and any flags, opting in to counted
+operations only when requested:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">CUlogicalEndpointProp</span><span class="w"> </span><span class="n">endpointProp</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">  </span><span class="n">endpointProp</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CU_LOGICAL_ENDPOINT_TYPE_UNICAST</span><span class="p">;</span>
+<span class="w">  </span><span class="n">endpointProp</span><span class="p">.</span><span class="n">unicast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{.</span><span class="n">device</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuDevice</span><span class="p">};</span>
+<span class="w">  </span><span class="n">endpointProp</span><span class="p">.</span><span class="n">ipcHandleTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CU_LOGICAL_ENDPOINT_IPC_HANDLE_TYPE_FABRIC</span><span class="p">;</span>
+<span class="w">  </span><span class="n">endpointProp</span><span class="p">.</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">useCounted</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">CU_LOGICAL_ENDPOINT_FLAG_COUNTED_OPS</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">CU_LOGICAL_ENDPOINT_FLAG_NONE</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The endpoint size is set separately, once its alignment and maximum-size
+limits are known. See <a class="reference internal" href="#cft-limits-alignment"><span class="std std-numref">Section 4.18.6.1</span></a> for how these are queried
+and how the size is chosen.</p>
+<p>Associate a reserved id with the described properties by calling
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code>. A process that creates a local endpoint and
+imports peer endpoints typically reserves one id per participant so that a
+peer is addressed as the base id plus its rank. Each rank creates its own
+endpoint at <code class="docutils literal notranslate"><span class="pre">leId</span> <span class="pre">+</span> <span class="pre">myRank</span></code>:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="n">cuLogicalEndpointCreate</span><span class="p">(</span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">endpointProp</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> is non-blocking, so the endpoint is not usable the
+moment it returns. Confirm that it is fully constructed with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointQuery</span></code> before binding memory to it, as described in
+<a class="reference internal" href="#cft-confirming-readiness"><span class="std std-numref">Section 4.18.7.1</span></a>.</p>
+<p><strong>Multicast endpoint.</strong> A multicast endpoint follows the same steps, differing
+in how it is described and in requiring a group of devices to be added. It is
+described with <code class="docutils literal notranslate"><span class="pre">type</span> <span class="pre">=</span> <span class="pre">CU_LOGICAL_ENDPOINT_TYPE_MULTICAST</span></code> and <code class="docutils literal notranslate"><span class="pre">multicast.numDevices</span></code> set to the number of devices in the multicast group.
+Once it has been created and shared, every participating device
+must join the group with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointAddDevice</span></code>. A process adds its
+own device only after it holds the endpoint locally — the creator after
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> and each peer after <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>. The
+endpoint is not ready for use until the multicast group is complete. Membership is
+permanent for the lifetime of the endpoint.</p>
+</section>
+<section id="logical-endpoint-ids">
+<span id="cft-logical-endpoint-ids"></span><h2><span class="section-number">4.18.6. </span>Logical Endpoint Ids<a class="headerlink" href="#logical-endpoint-ids" title="Link to this heading">#</a></h2>
+<p>A logical endpoint id is a process-local name whose lifecycle is separate from
+that of the endpoint it identifies. An endpoint id is always in one of the
+following states:</p>
+<ol class="arabic simple">
+<li><p><strong>Not reserved.</strong> The id is not owned by the process and cannot be
+associated with an endpoint. <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdReserve</span></code> reserves it.</p></li>
+<li><p><strong>Reserved.</strong> The id is owned by the process but names nothing. Calling
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> or <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code> with a reserved id
+associates it with an endpoint and moves it to the associated state.
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdRelease</span></code> returns it to the not-reserved state.</p></li>
+<li><p><strong>Associated.</strong> The id names an endpoint, and fabric operations that use the
+id target that endpoint. <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointDestroy</span></code> removes the association
+and returns the id to the reserved state.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdReserve</span></code> reserves a range of <code class="docutils literal notranslate"><span class="pre">count</span></code> endpoint ids and
+returns its base, <code class="docutils literal notranslate"><span class="pre">baseLeId</span></code>, so the reserved range is
+<code class="docutils literal notranslate"><span class="pre">[baseLeId,</span> <span class="pre">baseLeId</span> <span class="pre">+</span> <span class="pre">count)</span></code>. The base is an output: the caller does not
+choose which ids it receives, and reservation fails if no range of <code class="docutils literal notranslate"><span class="pre">count</span></code> ids
+is available, for example because another library in the process holds
+reservations.</p>
+<p>An endpoint may be associated with several ids at once. For instance, it can be
+associated with the owner’s id through <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> and with
+additional ids through <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>. Such ids are <em>aliases</em> for
+the same endpoint, and an operation issued against any of them reaches the same
+destination.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointDestroy</span></code> removes the association for one id. That id can then
+be associated with a different endpoint by a later create or import, without
+being reserved again. Destroy also unbinds any memory this process bound through
+the id. The endpoint itself is freed only when the last of its aliases is
+destroyed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdRelease(baseLeId,</span> <span class="pre">count)</span></code> releases up to <code class="docutils literal notranslate"><span class="pre">count</span></code> ids in
+the range <code class="docutils literal notranslate"><span class="pre">[baseLeId,</span> <span class="pre">baseLeId</span> <span class="pre">+</span> <span class="pre">count)</span></code>. Every id in the range must have been
+reserved, and every endpoint associated with an id in the range must first have
+been destroyed.</p>
+<p>Because reservation is per process, an endpoint need not be imported with the
+same id in every importing process. A convenient convention is for each process
+to reserve a range of the same size, one id per participant, and address a given
+peer’s endpoint as <code class="docutils literal notranslate"><span class="pre">baseLeId</span> <span class="pre">+</span> <span class="pre">peer</span></code> locally. Each process has its own reserved
+<code class="docutils literal notranslate"><span class="pre">baseLeId</span></code>, which need not match across processes. CUDA does not detect or
+report a mismatch if the same peer endpoint is imported with different ids in
+different processes. Maintaining the correct local peer-to-endpoint-id mapping
+is the application’s responsibility.</p>
+<section id="limits-and-alignment">
+<span id="cft-limits-alignment"></span><h3><span class="section-number">4.18.6.1. </span>Limits and Alignment<a class="headerlink" href="#limits-and-alignment" title="Link to this heading">#</a></h3>
+<p>The alignment and maximum-size requirements of an endpoint depend on its
+properties, so they must be queried for the specific configuration being
+created rather than assumed. <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointGetLimits</span></code> returns both values
+for a given <code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointProp</span></code>:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">cuuint64_t</span><span class="w"> </span><span class="n">bindAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuuint64_t</span><span class="w"> </span><span class="n">maxSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">cuLogicalEndpointGetLimits</span><span class="p">(</span><span class="o">&amp;</span><span class="n">bindAlignment</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">maxSize</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">prop</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The endpoint size and every bind offset must be a multiple of the returned
+<code class="docutils literal notranslate"><span class="pre">bindAlignment</span></code>. <code class="docutils literal notranslate"><span class="pre">maxSize</span></code> is the maximum size of the logical endpoint. If
+<code class="docutils literal notranslate"><span class="pre">maxSize</span></code> is less than <code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointProp::size</span></code>, the application must
+adjust the request to that smaller value. To expose the entire requested range,
+the application may partition it across multiple endpoints, each no larger than
+<code class="docutils literal notranslate"><span class="pre">maxSize</span></code>.</p>
+<p>A single allocation covering the whole endpoint is the simplest arrangement, but
+it is not a requirement. An endpoint’s offset space may equally be backed by
+several bindings that map distinct, possibly non-contiguous physical allocations,
+as long as every bound range is a multiple of <code class="docutils literal notranslate"><span class="pre">bindAlignment</span></code>.</p>
+</section>
+</section>
+<section id="sharing-an-endpoint">
+<h2><span class="section-number">4.18.7. </span>Sharing an Endpoint<a class="headerlink" href="#sharing-an-endpoint" title="Link to this heading">#</a></h2>
+<p>Sharing an endpoint with a peer follows an export-transfer-import exchange: the
+owner exports the endpoint to a fabric IPC handle, transfers that handle to the
+peers that need it, and each peer imports the endpoint and associates it with
+one of its own reserved logical endpoint ids that is not already associated with an endpoint.
+Sharing uses fabric IPC handles, so the endpoint must be bound to externally
+shareable memory, and the environment must meet the fabric IPC requirements
+described in <a class="reference internal" href="#cft-prerequisites-scope"><span class="std std-numref">Section 4.18.1</span></a>.</p>
+<p>Export the endpoint with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointExport</span></code>, requesting the same IPC
+handle type that the endpoint was described with (<code class="docutils literal notranslate"><span class="pre">ipcHandleTypes</span></code>). This
+produces a <code class="docutils literal notranslate"><span class="pre">CUlogicalEndpointFabricHandle</span></code>, the fabric IPC handle representing
+the logical endpoint. Transfer it to the peers using an inter-process
+communication mechanism of the application’s choice, and then have each peer
+import it with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>. The importing id is chosen locally
+import it with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>.
+The importer can chose the logical endpoint id at which to import the endpoint.
+This id must have been successfully reserved, and must not be assocaited with any other logical endpoint, but it does not have to match the id the owner used to create the endpoint.
+Every device can import the same endpoint at a different id, and even at multiple different ids (i.e. importing the same endpoint multiple times is allowed).</p>
+<p>The unicast point-to-point example below shares endpoints on a ring. Each rank exports
+its own endpoint and, with a single <code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code>, sends the handle to the
+receive neighbor while collecting the send neighbor’s handle. It imports that
+handle as <code class="docutils literal notranslate"><span class="pre">leId</span> <span class="pre">+</span> <span class="pre">sendRank</span></code>, the id it later uses to issue fabric operations
+against the imported endpoint’s bound memory:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Export our own endpoint to a fabric IPC handle, hand it to the peers that</span>
+<span class="w">  </span><span class="c1">// need it, and import each peer&#39;s handle to a locally reserved id.</span>
+<span class="w">  </span><span class="n">CUlogicalEndpointFabricHandle</span><span class="w"> </span><span class="n">localHandle</span><span class="p">;</span>
+<span class="w">  </span><span class="n">CUlogicalEndpointFabricHandle</span><span class="w"> </span><span class="n">sendRankHandle</span><span class="p">;</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointExport</span><span class="p">(</span><span class="o">&amp;</span><span class="n">localHandle</span><span class="p">,</span><span class="w"> </span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">CU_LOGICAL_ENDPOINT_IPC_HANDLE_TYPE_FABRIC</span><span class="p">);</span>
+<span class="w">  </span><span class="n">MPI_Sendrecv</span><span class="p">(</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="n">localHandle</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">CUlogicalEndpointFabricHandle</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_BYTE</span><span class="p">,</span><span class="w"> </span><span class="n">recvRank</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="o">&amp;</span><span class="n">sendRankHandle</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">CUlogicalEndpointFabricHandle</span><span class="p">),</span><span class="w"> </span><span class="n">MPI_BYTE</span><span class="p">,</span><span class="w"> </span><span class="n">sendRank</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">      </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointImport</span><span class="p">(</span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sendRank</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sendRankHandle</span><span class="p">,</span><span class="w"> </span><span class="n">CU_LOGICAL_ENDPOINT_IPC_HANDLE_TYPE_FABRIC</span><span class="p">);</span>
+</pre></div>
+</div>
+<section id="confirming-readiness">
+<span id="cft-confirming-readiness"></span><h3><span class="section-number">4.18.7.1. </span>Confirming Readiness<a class="headerlink" href="#confirming-readiness" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> and <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code> return as soon as
+the request is accepted. Using a
+logical endpoint id with an API that requires a fully constructed endpoint
+before <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointQuery</span></code> reports readiness is undefined behavior.
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointQuery</span></code> is itself non-blocking: it returns 0 if <em>any</em> id in
+the queried range is not yet ready, and a non-zero value once <em>all</em> ids in the given
+range are ready, so it is typically called in a polling loop.</p>
+<p>Before querying readiness, reserve the logical endpoint id and associate it
+with an endpoint through <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointCreate</span></code> or
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointImport</span></code>.
+Multicast endpoints do not become ready until all devices are added with  <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointAddDevice</span></code>,
+requiring multi-process programs to export them (<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointExport</span></code>) and share them before blocking on their readiness.</p>
+<p>Before performing any of the following operations on the logical endpoint, call
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointQuery</span></code> and wait until it reports that the logical endpoint
+is fully constructed:</p>
+<ul class="simple">
+<li><p>Bind memory with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindAddr</span></code> or <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindMem</span></code>.</p></li>
+<li><p>Unbind memory with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointUnbind</span></code>.</p></li>
+<li><p>Issue any <code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_*</span></code> operation.</p></li>
+</ul>
+<p>The following APIs do not require <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointQuery</span></code> to have reported
+readiness:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointExport</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointDestroy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdRelease</span></code></p></li>
+</ul>
+<p>These APIs do not require readiness, but their other lifecycle preconditions
+still apply.</p>
+</section>
+</section>
+<section id="binding-memory">
+<span id="cft-binding-memory"></span><h2><span class="section-number">4.18.8. </span>Binding Memory<a class="headerlink" href="#binding-memory" title="Link to this heading">#</a></h2>
+<p>An endpoint owns no memory. Binding associates a range of the
+endpoint’s offset space with a physical allocation, and fabric operations are
+valid only for ranges that have been bound. A binding is established per device,
+so a unicast binding applies to the owner device, while a multicast binding
+applies to an individual device in the multicast team.</p>
+<p>Memory can be bound in either of two ways, depending on how the application
+holds the allocation:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindMem</span></code> binds by allocation handle, using the
+<code class="docutils literal notranslate"><span class="pre">CUmemGenericAllocationHandle</span></code> returned by <code class="docutils literal notranslate"><span class="pre">cuMemCreate</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindAddr</span></code> binds by mapped virtual address. Examples
+include a pointer returned by <code class="docutils literal notranslate"><span class="pre">cudaMallocAsync</span></code> and an address in a range
+mapped with <code class="docutils literal notranslate"><span class="pre">cuMemMap</span></code>. See the CUDA Memory Management APIs for the
+currently supported allocation types.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not every CUDA-accessible allocation can be bound to a logical endpoint. See the CUDA Driver
+API docs for the allocation types currently supported by the binding APIs.</p>
+</div>
+<p>Both take the endpoint id, the device to which the binding applies, an offset
+into the endpoint’s offset space, the allocation to bind, and the size of the
+binding. <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindMem</span></code> additionally takes a <code class="docutils literal notranslate"><span class="pre">memOffset</span></code> into
+the allocation, letting a sub-range of the handle be bound. The endpoint
+offset, the size, and (for <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointBindMem</span></code>) the
+<code class="docutils literal notranslate"><span class="pre">memOffset</span></code> must all be multiples of <code class="docutils literal notranslate"><span class="pre">bindAlignment</span></code>, and the bound range
+must lie within the endpoint’s size (see <a class="reference internal" href="#cft-limits-alignment"><span class="std std-numref">Section 4.18.6.1</span></a>).</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// Bind the whole backing allocation at endpoint offset 0, by allocation handle.</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointBindMem</span><span class="p">(</span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">cuDevice</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">exportHandle</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">exportSize</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">  </span><span class="c1">// No rank may issue an operation until every destination has been bound.</span>
+<span class="w">  </span><span class="n">MPI_CHECK</span><span class="p">(</span><span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>After establishing the initial bindings, participating processes must
+synchronize before any process issues a fabric operation. For a unicast
+endpoint, each importer must synchronize with the exporting process after the
+owner binds its backing memory. For a multicast endpoint, all participating
+processes must wait until every participant has bound its backing memory. The
+application may use any inter-process synchronization mechanism that
+establishes this ordering.</p>
+<p>Because a peer imports the endpoint rather than the owner’s allocation, the
+owner can replace the memory behind an endpoint without any peer re-importing
+it. Unbind the current range with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointUnbind</span></code> and bind a new
+allocation through the same endpoint id to the same range of the endpoint’s
+offset space. The owner and its peers must synchronize across the rebind so
+that no peer issues an operation against the endpoint while it is unbound.
+Issuing an operation that lands outside the currently bound range is undefined
+behavior.</p>
+</section>
+<section id="fabric-operations">
+<h2><span class="section-number">4.18.9. </span>Fabric Operations<a class="headerlink" href="#fabric-operations" title="Link to this heading">#</a></h2>
+<p>Threads access endpoint resources by executing <em>fabric operations</em> that accept a
+compute fabric transport handle — a logical endpoint id and offset pair. Fabric
+operations are asynchronous, that is, programs must explicitly wait on their completion to observe their effects.
+Fabric operations are prefixed with a <code class="docutils literal notranslate"><span class="pre">try_</span></code> to indicate that they may fail.
+That is, after waiting for completion, threads must check the operation’s completion mechanism (see
+<a class="reference internal" href="#cft-completion-status"><span class="std std-numref">Section 4.18.10</span></a>) to determine whether the operation succeeded.
+This distinguishes fabric operations from ordinary pointer operations: failures from pointer-based accesses are reported to the application by destroying either the context or the entire application.
+Applications that want to handle these errors - for example, to recover from pointer failures - can only do so at the context or process level.
+Fabric operations allow applications to handle errors at the program thread level.</p>
+<p>Device code issues fabric operations through the following
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx</span></code> instructions:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Instruction</p></th>
+<th class="head"><p>Operation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_put</span></code></p></td>
+<td><p>Write to a compute fabric transport handle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_get</span></code></p></td>
+<td><p>Read from a compute fabric transport handle.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_red</span></code></p></td>
+<td><p>Reduction into a compute fabric transport handle.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_pullred</span></code></p></td>
+<td><p>Pull-reduction from a compute fabric transport handle.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_atom</span></code></p></td>
+<td><p>Atomic read-modify-write on a compute fabric transport handle.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The operations above - with the exception of <code class="docutils literal notranslate"><span class="pre">try_atom</span></code> - move data in 16-byte units, so both ends of a transfer must be
+16-byte aligned: the source pointer and the destination offset into the endpoint must
+each be a multiple of 16 bytes.</p>
+<p>The example issues fabric puts. A put reads data from a shared-memory buffer
+and writes it to a destination handle.
+Multiple threads write the input data to shared memory, then use <code class="docutils literal notranslate"><span class="pre">__syncthreads</span></code> to synchronize with the thread that issues the put.
+The put reads shared memory via the async-proxy, so the issuing thread calls
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::fence_proxy_async(cuda::ptx::space_shared)</span></code> to synchronize the generic-proxy shared memory writes to the async proxy.
+The put takes the destination handle, the source buffer base address, a byte
+count, and the <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> that will track completion:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Make the staged shared-memory source visible to the async proxy before the put reads it.</span>
+<span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">fence_proxy_async</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">fabric_try_put</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_sys</span><span class="p">,</span><span class="w"> </span><span class="n">putLeId</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">smemBuf</span><span class="p">,</span>
+<span class="w">                              </span><span class="n">FABRIC_CHUNK_SIZE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">putBar</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The call sets several instruction qualifiers whose full set — the access sizes,
+memory-ordering modes, and scopes each instruction accepts — is specified by the
+PTX ISA (see <a class="reference external" href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#fabric-operations">Fabric Instructions</a>).
+Two aspects of the operation are worth calling out here because they connect it to
+the rest of the program: how its completion is tracked and how memory ordering
+is specified.</p>
+<p><strong>Transaction count.</strong> Fabric operations that use an <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> for
+completion follow the same <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> transaction-accounting model as the
+pointer-addressed <code class="docutils literal notranslate"><span class="pre">cuda::ptx::cp_async_bulk</span></code> copies described in
+<a class="reference internal" href="async-copies.html#async-copies-tma-one-dim"><span class="std std-ref">Using TMA to transfer data</span></a>.
+As the put completes, it decrements its <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code>’s transaction count by
+1 per 16 bytes delivered. The barrier phase completes after all expected
+arrivals have occurred and the transaction count reaches zero. The put does
+not set the expected transaction count. A separate
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_arrive_expect_tx</span></code>, issued after the operation is
+submitted, records an arrival and increments the transaction count by the byte
+count divided by 16, because that is the amount the put will decrement it by.
+Fetching operations use byte-based transaction accounting instead.
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_get</span></code> and <code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_pullred</span></code> decrement
+the transaction count by 1 for every byte delivered, so
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_arrive_expect_tx</span></code> adds the full byte count.
+<a class="reference internal" href="#cft-completion-status"><span class="std std-numref">Section 4.18.10</span></a> covers the mbarrier layout requirement and how
+the fabric status is read back.</p>
+<p>A <strong>counted</strong> put additionally increments a destination-side byte counter as
+its data arrives, so the receiver can poll on the counter before accessing the
+local data instead of exchanging a separate completion message. The code below
+does this with <code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_put_counted</span></code> — the plain put’s
+<code class="docutils literal notranslate"><span class="pre">.counted::bytes</span></code> variant — passing a second destination offset, the endpoint
+offset of the counter:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1">// Make the staged shared-memory source visible to the async proxy before the put reads it.</span>
+<span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">fence_proxy_async</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">);</span>
+<span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">fabric_try_put_counted</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span>
+<span class="w">                                      </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_sys</span><span class="p">,</span><span class="w"> </span><span class="n">putLeId</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">counterOffset</span><span class="p">,</span>
+<span class="w">                                      </span><span class="n">smemBuf</span><span class="p">,</span><span class="w"> </span><span class="n">FABRIC_CHUNK_SIZE</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">putBar</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Counted operations require an endpoint created with counted-operation support
+(<code class="docutils literal notranslate"><span class="pre">CU_LOGICAL_ENDPOINT_FLAG_COUNTED_OPS</span></code>, see
+<a class="reference internal" href="#cft-query-for-support"><span class="std std-numref">Section 4.18.2.2</span></a>), and the target counter must be aligned to a
+256-byte boundary in endpoint memory. An application satisfies this when it
+lays out the endpoint’s backing memory, reserving the counter in a suitably
+aligned region.</p>
+<p>Although the example issues only puts, the get, reduction, and pull-reduction
+operations use the same submission, status-reporting, and wait sequence
+described in <a class="reference internal" href="#cft-completion-status"><span class="std std-numref">Section 4.18.10</span></a>. Their transaction-counting units
+are operation-specific, as described above.</p>
+<p><strong>Memory ordering.</strong> The example issues its fabric puts with <code class="docutils literal notranslate"><span class="pre">relaxed</span></code>
+ordering at <code class="docutils literal notranslate"><span class="pre">sys</span></code> scope. A fabric put spans several proxies: it accesses the
+remote data (and, for a counted put, the counter) through the <em>fabric-proxy</em>,
+reads its <code class="docutils literal notranslate"><span class="pre">.shared::cta</span></code> source through the <em>async-proxy</em>, and updates the
+completion <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> through the <em>generic-proxy</em>. Because the mbarrier is
+updated through the generic-proxy, completion is observed just by waiting at
+the barrier with block-scope operations. However, unlike
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::cp_async_bulk</span></code> operations, observing completion of a fabric
+operation does not order fabric-proxy accesses to the generic-proxy. Before
+accessing the data through the generic-proxy with a pointer,
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::fence_proxy_generic_fabric_alias</span></code> must be used to synchronize
+the fabric-proxy with the generic-proxy.</p>
+<p>An endpoint id alone does not provide pointer access to a remote destination.
+Importing an endpoint does not map its bound resource into the importer’s
+virtual address space. The following example therefore uses a unicast endpoint
+owned by the issuing thread’s device. <code class="docutils literal notranslate"><span class="pre">leId</span></code> is the endpoint id, and the
+memory bound at <code class="docutils literal notranslate"><span class="pre">dataOffset</span></code> is also mapped into the device’s virtual address
+space. <code class="docutils literal notranslate"><span class="pre">dataPtr</span></code> points to the same location.</p>
+<p>After issuing the put, the thread waits for completion. Before reading the
+destination through the generic-proxy with <code class="docutils literal notranslate"><span class="pre">dataPtr</span></code>, the thread must issue
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::fence_proxy_generic_fabric_alias</span></code> first with
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::sem_release</span></code> and then with <code class="docutils literal notranslate"><span class="pre">cuda::ptx::sem_acquire</span></code>. The
+completion wait alone does not order the fabric-proxy writes before the
+generic-proxy pointer load.  <code class="docutils literal notranslate"><span class="pre">waitForSuccessfulCompletion</span></code> represents the
+<code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> wait and status check described in
+<a class="reference internal" href="#cft-completion-status"><span class="std std-numref">Section 4.18.10</span></a>. Initially the destination is 0, and
+<code class="docutils literal notranslate"><span class="pre">smemSrcData</span></code> is a 16-byte shared-memory source whose first <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code>
+element holds 42.</p>
+<div class="pst-scrollable-table-container"><table class="small table">
+<colgroup>
+<col style="width: 100.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Issuing and loading from same thread (Thread 0)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="n">namespace</span><span class="w"> </span><span class="n">ptx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="p">;</span>
+
+<span class="n">ptx</span><span class="o">::</span><span class="n">fabric_try_put</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_sys</span><span class="p">,</span>
+<span class="w">    </span><span class="n">leId</span><span class="p">,</span><span class="w"> </span><span class="n">dataOffset</span><span class="p">,</span>
+<span class="w">    </span><span class="n">smemSrcData</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">);</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">fabric_submit</span><span class="p">();</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">mbarrier_arrive_expect_tx</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_acquire</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_cta</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">waitForSuccessfulCompletion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">);</span>
+
+<span class="c1">// Order the subsequent generic-proxy load after the fabric put.</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">fence_proxy_generic_fabric_alias</span><span class="p">(</span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_release</span><span class="p">);</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">fence_proxy_generic_fabric_alias</span><span class="p">(</span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_acquire</span><span class="p">);</span>
+
+<span class="n">assert</span><span class="p">(</span><span class="o">*</span><span class="n">dataPtr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">42</span><span class="p">);</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>After the mbarrier wait returns, the put has completed, but fabric-proxy writes are still unordered with respect to generic-proxy loads. The release and acquire fences establish that ordering, so the pointer load observes the value 42.</p>
+<p>The same release/acquire proxy-fence is also required when one thread
+publishes data with fabric operations and another thread on the endpoint
+owner’s device consumes the bound destination through pointers. In the
+following schematic message-passing example, the sender writes the data and
+signaling flag with fabric operations through the <em>fabric-proxy</em>. The receiver
+polls the flag and reads the data through pointers using the <em>generic-proxy</em>.
+<code class="docutils literal notranslate"><span class="pre">dataPtr</span></code> and <code class="docutils literal notranslate"><span class="pre">flagPtr</span></code> address the destination memory bound to the
+receiver-owned endpoint.
+Initially, the destination data and flag are both 0. <code class="docutils literal notranslate"><span class="pre">smemSrcData</span></code> and
+<code class="docutils literal notranslate"><span class="pre">smemSrcFlag</span></code> are 16-byte shared-memory sources composed of four
+<code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> elements. The first element of <code class="docutils literal notranslate"><span class="pre">smemSrcData</span></code> holds 42, and the
+first element of <code class="docutils literal notranslate"><span class="pre">smemSrcFlag</span></code> holds 1.</p>
+<div class="pst-scrollable-table-container"><table class="small table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Sender (Thread 0)</p></th>
+<th class="head"><p>Receiver (Thread 1)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="n">namespace</span><span class="w"> </span><span class="n">ptx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="p">;</span>
+
+<span class="n">ptx</span><span class="o">::</span><span class="n">fabric_try_put</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_sys</span><span class="p">,</span>
+<span class="w">    </span><span class="n">leId</span><span class="p">,</span><span class="w"> </span><span class="n">dataOffset</span><span class="p">,</span>
+<span class="w">    </span><span class="n">smemSrcData</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">);</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">fabric_submit</span><span class="p">();</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">mbarrier_arrive_expect_tx</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_acquire</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_cta</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">waitForSuccessfulCompletion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">);</span>
+
+<span class="n">ptx</span><span class="o">::</span><span class="n">fence_proxy_generic_fabric_alias</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_release</span><span class="p">);</span>
+
+<span class="n">ptx</span><span class="o">::</span><span class="n">fabric_try_put</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_sys</span><span class="p">,</span>
+<span class="w">    </span><span class="n">leId</span><span class="p">,</span><span class="w"> </span><span class="n">flagOffset</span><span class="p">,</span>
+<span class="w">    </span><span class="n">smemSrcFlag</span><span class="p">,</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">);</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">fabric_submit</span><span class="p">();</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">mbarrier_arrive_expect_tx</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_acquire</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_cta</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span>
+<span class="w">    </span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">waitForSuccessfulCompletion</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mBar</span><span class="p">);</span>
+</pre></div>
+</div>
+</td>
+<td><div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="n">namespace</span><span class="w"> </span><span class="n">ptx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="p">;</span>
+
+<span class="n">cuda</span><span class="o">::</span><span class="n">atomic_ref</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="p">,</span>
+<span class="n">cuda</span><span class="o">::</span><span class="n">thread_scope_system</span><span class="o">&gt;</span><span class="w"> </span><span class="n">flag</span><span class="p">(</span><span class="o">*</span><span class="n">flagPtr</span><span class="p">);</span>
+
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">flag</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">memory_order_relaxed</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// Order the data load after the observed flag update.</span>
+<span class="n">ptx</span><span class="o">::</span><span class="n">fence_proxy_generic_fabric_alias</span><span class="p">(</span>
+<span class="w">    </span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_acquire</span><span class="p">);</span>
+
+<span class="n">assert</span><span class="p">(</span><span class="o">*</span><span class="n">dataPtr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">42</span><span class="p">);</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>After the data put completes, the sender issues
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::fence_proxy_generic_fabric_alias(cuda::ptx::sem_release)</span></code> before
+issuing the flag put. When the receiver’s flag load observes the value 1 written
+by that put, the receiver knows that the sender has published the data. Before
+consuming the data, the receiver must issue
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::fence_proxy_generic_fabric_alias(cuda::ptx::sem_acquire)</span></code>. This
+acquire fence prevents the subsequent pointer load of the data from being
+ordered before the observed flag update. Together, the sender’s release fence
+and the receiver’s acquire fence order the sender’s data put before the
+receiver’s data load. In the absence of any other writes to the data, the load
+therefore observes the value 42.</p>
+<section id="per-thread-and-warp-collective-operations">
+<span id="cft-collective-operations"></span><h3><span class="section-number">4.18.9.1. </span>Per-Thread and Warp-Collective Operations<a class="headerlink" href="#per-thread-and-warp-collective-operations" title="Link to this heading">#</a></h3>
+<p>Each fabric instruction defines its execution granularity.
+<code class="docutils literal notranslate"><span class="pre">fabric.try_get</span></code>, <code class="docutils literal notranslate"><span class="pre">fabric.try_get.tensor</span></code>, <code class="docutils literal notranslate"><span class="pre">fabric.try_put</span></code>,
+<code class="docutils literal notranslate"><span class="pre">fabric.try_put.tensor</span></code>, and <code class="docutils literal notranslate"><span class="pre">fabric.try_red</span></code> are per-thread: each
+execution initiates an independent operation for the issuing thread.
+<code class="docutils literal notranslate"><span class="pre">fabric.try_pullred</span></code> is warp-collective: all 32 lanes of a warp must execute
+the instruction together. The PTX ISA specifies the required participation for
+each instruction.</p>
+<p>Execution granularity describes only how threads issue a fabric operation.
+Completion tracking is independent of that granularity; see
+<a class="reference internal" href="#cft-configuring-barrier"><span class="std std-numref">Section 4.18.10.1</span></a>.</p>
+</section>
+</section>
+<section id="completion-status-and-error-reporting">
+<span id="cft-completion-status"></span><h2><span class="section-number">4.18.10. </span>Completion Status and Error Reporting<a class="headerlink" href="#completion-status-and-error-reporting" title="Link to this heading">#</a></h2>
+<p>A fabric operation reports its status through its completion object. The
+operations described here use a shared-memory <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> for completion, so
+the same <code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> signals completion and records status. Initialize this
+<code class="docutils literal notranslate"><span class="pre">mbarrier</span></code> by calling <code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_init</span></code> with <code class="docutils literal notranslate"><span class="pre">cuda::ptx::layout_v1</span></code>. This layout extends the object with the field that holds the fabric operation status. The default <code class="docutils literal notranslate"><span class="pre">cuda::ptx::layout_v0</span></code> tracks
+only arrival and transaction counts and cannot carry that status, so it cannot
+be used with the reporting mechanism:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">mbarrier_init</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">layout_v1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">putBar</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">cuda::ptx::fabric_try_put</span></code> takes the mbarrier that tracks the operation. As
+the operation’s data is delivered, the fabric engine completes the corresponding transaction on the
+barrier and records the operation’s status there. The signal that the transfer
+has landed therefore comes from the put itself, not from the issuing thread.</p>
+<p>The put delivers its bytes but does not tell the barrier how many to expect. For
+the per-thread put shown here, the issuing thread supplies that count in a
+separate step. It first submits the operation with <code class="docutils literal notranslate"><span class="pre">fabric_submit</span></code> so the
+fabric engine eventually begins consuming it, then calls
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_arrive_expect_tx</span></code> to record an arrival and add the
+expected transaction count — the number of bytes the operation will deliver,
+counted in 16-byte units. Each fabric operation must be submitted before the
+barrier phase that tracks its completion advances.
+After submitting the operation, the issuing thread either performs a barrier operation required for the phase to advance (for example,
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_arrive_expect_tx</span></code> or <code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_expect_tx</span></code>), or it synchronizes with a different thread that does so.
+The issuing thread need not
+wait on the barrier itself. Another thread may perform that wait. Once all
+expected arrivals have occurred and the transaction count reaches zero, the
+barrier phase advances and the wait returns. The program must wait for every
+fabric operation to complete before the grid exits. Leaving an operation
+outstanding at grid exit is undefined behavior.</p>
+<p>The following sequence submits that put and waits for its completion:</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">fabric_submit</span><span class="p">();</span>
+<span class="w">    </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">mbarrier_arrive_expect_tx</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_cta</span><span class="p">,</span>
+<span class="w">                                         </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">space_shared</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">putBar</span><span class="p">,</span>
+<span class="w">                                         </span><span class="p">(</span><span class="n">FABRIC_CHUNK_SIZE</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">FABRIC_TX_GRANULARITY_BYTES</span><span class="p">));</span>
+<span class="w">    </span><span class="c1">// Spin while the barrier&#39;s phase hasn&#39;t flipped yet. The report outputs are</span>
+<span class="w">    </span><span class="c1">// only valid once the barrier completes, so inspect them after.</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">isReportSeen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">reportValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="n">complete</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">waitWithDebugTimeout</span><span class="p">(</span>
+<span class="w">        </span><span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="k">return</span><span class="w"> </span><span class="o">!</span><span class="n">mbarrierTryWaitParityWithReport</span><span class="p">(</span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">mbarrier_phase_primary</span><span class="p">,</span><span class="w"> </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">sem_relaxed</span><span class="p">,</span>
+<span class="w">                                                  </span><span class="n">cuda</span><span class="o">::</span><span class="n">ptx</span><span class="o">::</span><span class="n">scope_cta</span><span class="p">,</span><span class="w"> </span><span class="n">isReportSeen</span><span class="p">,</span><span class="w"> </span><span class="n">reportValue</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">putBar</span><span class="p">,</span>
+<span class="w">                                                  </span><span class="cm">/*phaseParity=*/</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="s">&quot;cftTryPutKernel: mbarrier try_wait parity&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">complete</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">__trap</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isReportSeen</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">reportFabricError</span><span class="p">(</span><span class="o">&amp;</span><span class="n">reportValue</span><span class="p">,</span><span class="w"> </span><span class="n">offset</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">phase_type::primary</span></code> form of the <code class="docutils literal notranslate"><span class="pre">mbarrier.try_wait.parity</span></code> PTX instruction has <em>report predicate</em> and <em>report value</em> destination operands alongside its <em>completion predicate</em>.
+Since the <code class="docutils literal notranslate"><span class="pre">cuda::ptx</span></code> wrappers do not yet expose these operands, the example introduces its own inline PTX wrapper.
+If the <em>completion predicate</em> is false, the <em>report predicate</em> and <em>report value</em> contain unspecified values.
+When the <code class="docutils literal notranslate"><span class="pre">try_wait</span></code> observes phase completion — that is, when the <em>completion predicate</em> is true — the <em>report predicate</em> and <em>report value</em> together contain additional information about the operations tracked by that barrier phase.
+If all operations tracked by the barrier phase were fabric operations, a false <em>report predicate</em> indicates that all fabric operations succeeded.
+Otherwise, if the <em>report predicate</em> is true, the <em>report value</em> may contain more information about the failures, and the program may use <code class="docutils literal notranslate"><span class="pre">cudaFabricOpErrorStatusCount</span></code> and <code class="docutils literal notranslate"><span class="pre">cudaFabricOpErrorStatusGet</span></code> to inspect this information.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="kr">inline</span><span class="w"> </span><span class="kt">__device__</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">reportFabricError</span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">reportValue</span><span class="p">,</span><span class="w"> </span><span class="kt">uint64_t</span><span class="w"> </span><span class="n">offset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">errCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cudaFabricOpErrorStatusCount</span><span class="p">(</span><span class="n">reportValue</span><span class="p">,</span><span class="w"> </span><span class="n">cudaFabricOpStatusSourceMbarrierV1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">errCount</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">cudaSuccess</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;cudaFabricOpErrorStatusCount failed at offset %llu</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">off</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">errCount</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cudaFabricOpStatusInfo</span><span class="w"> </span><span class="n">info</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudaFabricOpStatusInfoSuccess</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cudaFabricOpErrorStatusGet</span><span class="p">(</span><span class="n">reportValue</span><span class="p">,</span><span class="w"> </span><span class="n">cudaFabricOpStatusSourceMbarrierV1</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">info</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">cudaSuccess</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;fabric put error[%u/%u] at offset %llu: status=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">errCount</span><span class="p">,</span><span class="w"> </span><span class="n">off</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">info</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;cudaFabricOpErrorStatusGet failed for error[%u/%u] at offset %llu</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">errCount</span><span class="p">,</span><span class="w"> </span><span class="n">off</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The decoded status identifies why an operation failed, which lets the application
+recover instead of faulting the process. A transient fabric error such as a
+dropped packet or a link reset can be retried, rerouted, or handled by an
+application-specific fallback. The example prints the decoded
+errors, whereas a communication library would typically act on them to preserve
+forward progress.</p>
+<section id="configuring-barrier-arrivals-and-transaction-counts">
+<span id="cft-configuring-barrier"></span><h3><span class="section-number">4.18.10.1. </span>Configuring Barrier Arrivals and Transaction Counts<a class="headerlink" href="#configuring-barrier-arrivals-and-transaction-counts" title="Link to this heading">#</a></h3>
+<p>The completion sequence above records the arrival and expected-transaction
+contribution from the thread that issued the put. Which thread may record them
+depends on the operation’s execution granularity. For a per-thread operation,
+the issuing thread must record them for its own operation. For a warp-collective
+<code class="docutils literal notranslate"><span class="pre">fabric.try_pullred</span></code>, either a single lane of the participating warp records
+them on the warp’s behalf or every lane records its own arrival.
+<code class="docutils literal notranslate"><span class="pre">cuda::ptx::mbarrier_arrive_expect_tx</span></code> is a single fused operation: it counts
+one arrival and adds to the expected transaction count in the same step, so one
+thread must perform both. It must run after the operation is submitted with
+<code class="docutils literal notranslate"><span class="pre">fabric.submit</span></code> and before the wait observes completion. The thread that
+records the arrival and expected transaction count need not be the thread that
+waits on the barrier.</p>
+<p>Several independent operations can share one barrier. When a warp-collective
+<code class="docutils literal notranslate"><span class="pre">fabric.try_pullred</span></code> uses a single arrival, any one lane adds the expected
+transaction count equal to the number of bytes the warp delivers. When every
+lane records an arrival instead, the other 31 contribute zero transactions, so
+the barrier’s initialized arrival count must be the full warp width.</p>
+<p>Recording one arrival per thread inflates the barrier’s arrival count when many
+operations share it. A <code class="docutils literal notranslate"><span class="pre">layout::v1</span></code> mbarrier holds its arrival count in a
+9-bit field, so the count is capped at 511; exceeding it overflows the barrier.
+A block of 512 threads each arriving on one shared barrier would already cross
+that cap. Prefer one arrival per group where the granularity allows it:
+synchronize the warp and elect a single lane, or synchronize the block and
+record one arrival on a block-wide shared barrier.</p>
+</section>
+</section>
+<section id="cleaning-up">
+<h2><span class="section-number">4.18.11. </span>Cleaning Up<a class="headerlink" href="#cleaning-up" title="Link to this heading">#</a></h2>
+<p>Cleaning up requires synchronization between any process that may issue an
+operation against an endpoint and any process that has bound a resource to it.
+For a unicast endpoint, this means that the owner must not unbind or destroy
+the endpoint, or free its backing resource, while an importer might still issue
+an operation against it. For a multicast endpoint, each participating process
+owns its bound replica, so no participant may unbind or free its replica while
+another process might still issue an operation against the endpoint. What
+matters is the ordering, not the mechanism that enforces it: any inter-process
+synchronization that establishes this ordering before bindings are removed is
+sufficient.</p>
+<div class="highlight-cuda notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="c1">// ---- Clean up endpoints and free the backing allocation. ----</span>
+<span class="w">  </span><span class="c1">// Once every rank&#39;s stream has synchronized, all fabric puts</span>
+<span class="w">  </span><span class="c1">// have completed and no rank will issue another operation. Making that global</span>
+<span class="w">  </span><span class="c1">// with a barrier ensures no peer still targets an endpoint we clean up below.</span>
+<span class="w">  </span><span class="n">MPI_Barrier</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Destroy the imported endpoint (the peer target our puts addressed). An import</span>
+<span class="w">  </span><span class="c1">// is only a local reference to the peer&#39;s endpoint id and maps no peer memory,</span>
+<span class="w">  </span><span class="c1">// so once our puts have drained this just drops that reference.</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointDestroy</span><span class="p">(</span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sendRank</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Unbind and destroy our owned endpoint, then release the reserved id range.</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointUnbind</span><span class="p">(</span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myRank</span><span class="p">,</span><span class="w"> </span><span class="n">cuDevice</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">exportSize</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointDestroy</span><span class="p">(</span><span class="n">leId</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myRank</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cuLogicalEndpointIdRelease</span><span class="p">(</span><span class="n">leId</span><span class="p">,</span><span class="w"> </span><span class="n">numRanks</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Free the backing allocation in VMM cleanup order: unmap the range, release</span>
+<span class="w">  </span><span class="c1">// the physical handle, then free the reserved virtual address range.</span>
+<span class="w">  </span><span class="n">cuMemUnmap</span><span class="p">(</span><span class="n">exportPtr</span><span class="p">,</span><span class="w"> </span><span class="n">exportSize</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cuMemRelease</span><span class="p">(</span><span class="n">exportHandle</span><span class="p">);</span>
+<span class="w">  </span><span class="n">cuMemAddressFree</span><span class="p">(</span><span class="n">exportPtr</span><span class="p">,</span><span class="w"> </span><span class="n">exportSize</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><strong>Wait for fabric operations and all issuers to stop.</strong> A completion object
+that tracks fabric operations must be waited on before that object is
+deallocated. For fabric operations issued by a grid, a thread in the grid
+must wait for completion before the grid exits. Exiting without performing that wait is undefined behavior.
+In the example, each kernel waits for completion before returning, and stream synchronization
+confirms that those kernels and their waits have completed.</p>
+<p>Fabric operations issued by another process that target resources bound to the
+same logical endpoint may still be in flight. Before removing a
+unicast binding, the owner must therefore wait until every importer has stopped
+issuing. Before removing any multicast binding, every participant that owns a
+bound replica must know that all processes have stopped issuing. The example
+does this with a barrier after all ranks synchronize their CUDA streams. An
+application may use a narrower synchronization scheme when it preserves the
+required ordering.</p>
+<p><strong>Destroy imported endpoint ids.</strong> Each importing process destroys the logical
+endpoint id associated with its imported endpoint by calling
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointDestroy</span></code>. This drops only that local alias and unbinds
+nothing on the owner, so the destroy itself needs no cross-process
+coordination.</p>
+<p><strong>Destroy the owner’s endpoint id.</strong> Destroying the owner’s logical endpoint id also unbinds any
+memory this process bound through that id, so calling <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointUnbind</span></code>
+first is optional but recommended. The endpoint’s resources are released once every alias — the
+owner’s id and any imports — has been destroyed.</p>
+<p>The same path applies to unicast and multicast endpoints. Because multicast
+membership is permanent, changing a multicast group requires destroying the
+endpoint and creating a new one. A device cannot leave the group while the
+endpoint exists.</p>
+<p><strong>Reuse or release the endpoint ids.</strong> After an endpoint association is
+destroyed with <code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointDestroy</span></code>, its id remains reserved but
+unassociated and can be reused immediately. To return ids to the system, call
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdRelease</span></code> on the range reserved earlier with
+<code class="docutils literal notranslate"><span class="pre">cuLogicalEndpointIdReserve</span></code>.</p>
+<p><strong>Free the backing allocation.</strong> The endpoint does not own its backing memory, so
+that allocation is freed separately. Use the deallocation mechanism that
+corresponds to how the memory was allocated. For a VMM allocation, the usual
+order is <code class="docutils literal notranslate"><span class="pre">cuMemUnmap</span></code> to remove the mapping, <code class="docutils literal notranslate"><span class="pre">cuMemRelease</span></code> to release the
+physical handle, and <code class="docutils literal notranslate"><span class="pre">cuMemAddressFree</span></code> to return the reserved virtual
+address range. The program must not free an allocation while it is bound to
+an endpoint.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="virtual-memory-management.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.17. </span>Virtual Memory Management</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="extended-gpu-memory.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.19. </span>Extended GPU Memory</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+
+
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites-and-scope">4.18.1. Prerequisites and Scope</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preliminaries">4.18.2. Preliminaries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#definitions">4.18.2.1. Definitions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#query-for-support">4.18.2.2. Query for Support</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-overview">4.18.3. API Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-clique-membership">4.18.4. Verify clique membership</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-endpoint">4.18.5. Creating an Endpoint</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#logical-endpoint-ids">4.18.6. Logical Endpoint Ids</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#limits-and-alignment">4.18.6.1. Limits and Alignment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sharing-an-endpoint">4.18.7. Sharing an Endpoint</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#confirming-readiness">4.18.7.1. Confirming Readiness</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binding-memory">4.18.8. Binding Memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fabric-operations">4.18.9. Fabric Operations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#per-thread-and-warp-collective-operations">4.18.9.1. Per-Thread and Warp-Collective Operations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#completion-status-and-error-reporting">4.18.10. Completion Status and Error Reporting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-barrier-arrivals-and-transaction-counts">4.18.10.1. Configuring Barrier Arrivals and Transaction Counts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-up">4.18.11. Cleaning Up</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+<script type="text/javascript">if (typeof _satellite !== "undefined") {_satellite.pageBottom();}</script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+<a class="footer-brand logo" href="https://www.nvidia.com">
+  <img src="../_static/nvidia-logo-horiz-rgb-1c-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA"/>
+  <img src="../_static/nvidia-logo-horiz-rgb-1c-wht-for-screen.svg" class="logo__image only-dark" alt="NVIDIA"/>
+</a></div>
+      
+        <div class="footer-item">
+
+<div class="footer-links">
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/">Your Privacy Choices</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/company-policies/">Corporate Policies</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/product-security/">Product Security</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/contact/">Contact</a>
+  
+  
+  
+</div>
+</div>
+      
+        <div class="footer-item">
+
+
+
+
+  <p class="copyright">
+    
+      Copyright © 2007-2026, NVIDIA Corporation &amp; affiliates. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="last-updated">
+  Last updated on Sep 09, 2026.
+  <br/>
+</p></div>
+      
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+  </body>
+</html>

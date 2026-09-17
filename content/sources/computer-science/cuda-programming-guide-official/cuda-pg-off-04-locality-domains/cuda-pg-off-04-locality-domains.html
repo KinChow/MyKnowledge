@@ -1,0 +1,862 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.7. Locality Domains &#8212; CUDA Programming Guide</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/nvidia-sphinx-theme.css?v=933278ad" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=767de534" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/tables.css?v=0bf25c72" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+<script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" type="text/javascript"
+  data-document-language="true" charset="UTF-8" data-domain-script="3e2b62ff-7ae7-4ac5-87c8-d5949ecafff5">
+</script>
+<script type="text/javascript">
+  function OptanonWrapper() {
+    var event = new Event('bannerLoaded');
+    window.dispatchEvent(event);
+  }
+</script>
+<script src="https://images.nvidia.com/aem-dam/Solutions/ot-js/ot-custom.js" type="text/javascript">
+</script>
+
+
+    <script rel="preload" src="../_static/modal-table.js"></script>
+    <script src="../_static/documentation_options.js?v=532923de"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scrollspy-patch.js?v=edc4054a"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=65e89d2a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '04-special-topics/locality-domains';</script>
+    <script src="../_static/version-patch.js?v=3e13fdd2"></script>
+
+<script type="text/javascript" src="https://assets.adobedtm.com/5d4962a43b79/c1061d2c5e7b/launch-191c2462b890.min.js"></script>
+
+    <link rel="icon" href="../_static/favicon.ico"/>
+
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.8. Lazy Loading" href="lazy-loading.html" />
+    <link rel="prev" title="4.6. Green Contexts" href="green-contexts.html" />
+
+<link rel="preload" as="image" href="https://www.nvidia.com/content/dam/1x1-00000000.png">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Sep 09, 2026"/>
+
+
+  </head>
+
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+<img src="https://www.nvidia.com/content/dam/1x1-00000000.png" width="1" height="1" style="display:none;" alt="country_code">
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../contents.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="CUDA Programming Guide - Home"/>
+    <img src="../_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark pst-js-only" alt="CUDA Programming Guide - Home"/>
+  
+  
+    <p class="title logo__title">CUDA Programming Guide</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+
+<div>
+  <ul class="bd-navbar-elements navbar-nav">
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>v13.4 |</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://docs.nvidia.com/cuda/cuda-programming-guide/pdf/cuda-programming-guide.pdf">PDF</a>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>|</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://developer.nvidia.com/cuda-toolkit-archive">Archive</a>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../contents.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="CUDA Programming Guide - Home"/>
+    <img src="../_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark pst-js-only" alt="CUDA Programming Guide - Home"/>
+  
+  
+    <p class="title logo__title">CUDA Programming Guide</p>
+  
+</a>
+
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+
+<div>
+  <ul class="bd-navbar-elements navbar-nav">
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>v13.4 |</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://docs.nvidia.com/cuda/cuda-programming-guide/pdf/cuda-programming-guide.pdf">PDF</a>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <span>|</span>
+      
+    </li>
+  
+    <li class="nav-item pst-header-nav-item">
+      
+      <a class="nav-link nav-external" href="https://developer.nvidia.com/cuda-toolkit-archive">Archive</a>
+      
+    </li>
+  
+  </ul>
+</div>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Table of Contents">
+  <p class="bd-links__title" role="heading" aria-level="1">Table of Contents</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">CUDA Programming Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part1.html">1. Introduction to CUDA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../01-introduction/introduction.html">1.1. Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-introduction/programming-model.html">1.2. Programming Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../01-introduction/cuda-platform.html">1.3. The CUDA platform</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part2.html">2. Programming GPUs in CUDA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/intro-to-cuda-cpp.html">2.1. Intro to CUDA C++</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/intro-to-cuda-python.html">2.2. Intro to CUDA Python</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/writing-cuda-kernels.html">2.3. Writing SIMT Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/writing-tile-kernels.html">2.4. Writing Tile Kernels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/asynchronous-execution.html">2.5. Asynchronous Execution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/understanding-memory.html">2.6. Unified and System Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../02-basics/nvcc.html">2.7. NVCC: The NVIDIA CUDA Compiler</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part3.html">3. Advanced CUDA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/advanced-host-programming.html">3.1. Advanced CUDA APIs and Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/advanced-kernel-programming.html">3.2. Advanced Kernel Programming</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/driver-api.html">3.3. The CUDA Driver API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/multi-gpu-systems.html">3.4. Programming Systems with Multiple GPUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../03-advanced/feature-survey.html">3.5. A Tour of CUDA Features</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../part4.html">4. CUDA Features</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="unified-memory.html">4.1. Unified Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cuda-graphs.html">4.2. CUDA Graphs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stream-ordered-memory-allocation.html">4.3. Stream-Ordered Memory Allocator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cooperative-groups.html">4.4. Cooperative Groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="programmatic-dependent-launch.html">4.5. Programmatic Dependent Launch and Synchronization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="green-contexts.html">4.6. Green Contexts</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">4.7. Locality Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lazy-loading.html">4.8. Lazy Loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="error-log-management.html">4.9. Error Log Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="async-barriers.html">4.10. Asynchronous Barriers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pipelines.html">4.11. Pipelines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="async-copies.html">4.12. Asynchronous Data Copies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cluster-launch-control.html">4.13. Work Stealing with Cluster Launch Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2-cache-control.html">4.14. L2 Cache Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="memory-sync-domains.html">4.15. Memory Synchronization Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inter-process-communication.html">4.16. Interprocess Communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="virtual-memory-management.html">4.17. Virtual Memory Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compute-fabric-transport.html">4.18. Compute Fabric Transport</a></li>
+<li class="toctree-l3"><a class="reference internal" href="extended-gpu-memory.html">4.19. Extended GPU Memory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dynamic-parallelism.html">4.20. CUDA Dynamic Parallelism</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics-interop.html">4.21. CUDA Interoperability with APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="driver-entry-point-access.html">4.22. Driver Entry Point Access</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../part5.html">5. Technical Appendices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/compute-capabilities.html">5.1. Compute Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/environment-variables.html">5.2. CUDA Environment Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cpp-language-support.html">5.3. C++ Language Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cpp-language-extensions.html">5.4. C/C++ Language Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/mathematical-functions.html">5.5. Floating-Point Computation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/device-callable-apis.html">5.6. Device-Callable APIs and Intrinsics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cuda-cpp-memory-model.html">5.7. CUDA C++ Memory Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../05-appendices/cuda-cpp-execution-model.html">5.8. CUDA C++ Execution model</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../notices.html">6. Notices</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../contents.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">CUDA Programming Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../part4.html" class="nav-link"><span class="section-number">4. </span>CUDA Features</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><span class="section-number">4.7. </span>Locality Domains</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+<div class="header-article-item">
+  <div class="d-flex justify-content-end w-100">
+    <a href="https://surveys.hotjar.com/4904bf71-6484-47a7-83ff-4715cceabdb5" id="openPopupButton">Is this page helpful?</a>
+  </div>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="locality-domains">
+<span id="id1"></span><h1><span class="section-number">4.7. </span>Locality Domains<a class="headerlink" href="#locality-domains" title="Link to this heading">#</a></h1>
+<p>A <strong>locality domain</strong> is a portion of a GPU that contains streaming multiprocessors (SMs) and device memory. An application can allocate device memory in a locality domain and create a green context with SM resources in the same locality domain. Co-locating computation near the memory it accesses can improve performance on devices that have more than one locality domain. The compute localization API is described in <a class="reference internal" href="#locality-domains-compute"><span class="std std-ref">Localizing Compute Resources</span></a> and memory localization in <a class="reference internal" href="#locality-domains-memory"><span class="std std-ref">Allocating Localized Device Memory</span></a>.</p>
+<p>CUDA identifies the locality domains of a device by zero-based <strong>locality domain IDs</strong>. A locality domain ID is meaningful only together with its device ID. The same ID is used when localizing SM resources and memory, allowing an application to request matching placement for both.</p>
+<section id="discovering-locality-domains">
+<h2><span class="section-number">4.7.1. </span>Discovering Locality Domains<a class="headerlink" href="#discovering-locality-domains" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">cudaDeviceGetAttribute</span></code> with the following <code class="docutils literal notranslate"><span class="pre">cudaDeviceAttr</span></code> values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cudaDevAttrLocalityDomainCount</span></code> returns the number of locality domains on the device.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cudaDevAttrLocalityDomainMultiprocessorCount</span></code> returns the number of SMs in each locality domain.</p></li>
+</ul>
+<p>Applications should query these attributes rather than assume a particular topology. The number of locality domains available on a device is affected by the system configuration. The same device type may be presented with a different number of locality domains under different scenarios (<a class="reference internal" href="#locality-domains-support"><span class="std std-numref">Section 4.7.5.3</span></a>). All devices, including those with a single locality domain available, can use the locality domain APIs. On devices with a single locality domain, these APIs are the same as targeting the full device. Use the device attributes to programmatically query the locality domain properties of the device:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">smsPerLocalityDomain</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">cudaDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">localityDomainCount</span><span class="p">,</span><span class="w"> </span><span class="n">cudaDevAttrLocalityDomainCount</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">);</span>
+<span class="n">cudaDeviceGetAttribute</span><span class="p">(</span><span class="o">&amp;</span><span class="n">smsPerLocalityDomain</span><span class="p">,</span><span class="w"> </span><span class="n">cudaDevAttrLocalityDomainMultiprocessorCount</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="localizing-compute-resources">
+<span id="locality-domains-compute"></span><h2><span class="section-number">4.7.2. </span>Localizing Compute Resources<a class="headerlink" href="#localizing-compute-resources" title="Link to this heading">#</a></h2>
+<p>To localize SM resources to a specific locality domain, use the CUDA green context API. SMs placement is expressed through the green context resource APIs described in <a class="reference internal" href="green-contexts.html#green-contexts"><span class="std std-numref">Section 4.6</span></a>. The main steps to construct a localized SM partition are:</p>
+<ol class="arabic simple">
+<li><p>Obtain the device’s <code class="docutils literal notranslate"><span class="pre">cudaDevResourceTypeSm</span></code> resource with <code class="docutils literal notranslate"><span class="pre">cudaDeviceGetDevResource</span></code>.</p></li>
+<li><p>Describe a localized SM group with <code class="docutils literal notranslate"><span class="pre">cudaDevSmResourceGroupParams</span></code> (<a class="reference internal" href="#locality-domains-localized-sm-group"><span class="std std-ref">details</span></a>).</p></li>
+<li><p>Pass the group parameters to <code class="docutils literal notranslate"><span class="pre">cudaDevSmResourceSplit</span></code>.</p></li>
+<li><p>Generate a resource descriptor with <code class="docutils literal notranslate"><span class="pre">cudaDevResourceGenerateDesc</span></code>, create a green context with <code class="docutils literal notranslate"><span class="pre">cudaGreenCtxCreate</span></code>, and finally create a stream via <code class="docutils literal notranslate"><span class="pre">cudaExecutionCtxStreamCreate</span></code>.</p></li>
+<li><p>Launch kernels on the stream.</p></li>
+</ol>
+<p>Typical green context creation is described in <a class="reference internal" href="green-contexts.html#green-contexts-ease-of-use"><span class="std std-numref">Section 4.6.2</span></a>. The additions necessary to localize SM resources are illustrated below:</p>
+<p id="locality-domains-localized-sm-group">To describe a localized SM group, set <code class="docutils literal notranslate"><span class="pre">cudaDevSmResourceGroupLocalityDomainId</span></code> in <code class="docutils literal notranslate"><span class="pre">flags</span></code> and set the ID in <code class="docutils literal notranslate"><span class="pre">localityDomainId</span></code>. Valid IDs are between <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">cudaDevAttrLocalityDomainCount</span> <span class="pre">-</span> <span class="pre">1</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cudaDevResource</span><span class="w"> </span><span class="n">smResource</span><span class="p">;</span>
+<span class="n">cudaDeviceGetDevResource</span><span class="p">(</span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">smResource</span><span class="p">,</span><span class="w"> </span><span class="n">cudaDevResourceTypeSm</span><span class="p">);</span>
+
+<span class="p">{</span>
+<span class="w">    </span><span class="n">cudaDevSmResourceGroupParams</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">    </span><span class="c1">// all fields in params must be zero-initialized</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudaDevSmResourceGroupLocalityDomainId</span><span class="p">;</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">localityDomainId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localityDomainId</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cudaDevResource</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">    </span><span class="n">cudaDevSmResourceSplit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">smResource</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">params</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Multiple constraints may be specified in <code class="docutils literal notranslate"><span class="pre">params</span></code> in combination with requesting a locality domain. For example:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">smCount</span></code> constraint may be <code class="docutils literal notranslate"><span class="pre">0</span></code> (discovery mode) or positive. In discovery mode the API returns the number of SMs in the locality domain in <code class="docutils literal notranslate"><span class="pre">params.smCount</span></code>. On a full, un-partitioned, device resource, this value is the same as <code class="docutils literal notranslate"><span class="pre">cudaDevAttrLocalityDomainMultiprocessorCount</span></code>. When <code class="docutils literal notranslate"><span class="pre">smCount</span></code> is positive, the API will allocate up to the <code class="docutils literal notranslate"><span class="pre">cudaDevAttrLocalityDomainMultiprocessorCount</span></code> value. Larger <code class="docutils literal notranslate"><span class="pre">smCount</span></code> requests will fail.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">coscheduledSmCount</span></code> is <code class="docutils literal notranslate"><span class="pre">0</span></code> the API does not restrict SMs by coscheduled capability and the maximum number of localized SMs are available. The cluster capability of the partition can be dynamically queried later with <code class="docutils literal notranslate"><span class="pre">cudaOccupancyMaxPotentialClusterSize</span></code>. When <code class="docutils literal notranslate"><span class="pre">coscheduledSmCount</span></code> is nonzero, the the API will select only localized SMs satifsying the requested <code class="docutils literal notranslate"><span class="pre">coscheduledSmCount</span></code>.</p>
+<p>By default, all SMs in the <code class="docutils literal notranslate"><span class="pre">result</span></code> must satisfy the locality domain constraint and any additional constraints specified. To relax this behavior, add <code class="docutils literal notranslate"><span class="pre">cudaDevSmResourceGroupBackfill</span></code> to <code class="docutils literal notranslate"><span class="pre">params.flags</span></code>. With backfill, the API fills the group from the requested locality domain first, then from SMs not attributed to a locality domain, and finally from other locality domains. The call fails with <code class="docutils literal notranslate"><span class="pre">cudaErrorInvalidResourceConfiguration</span></code> if no SM can be found in the requested locality domain.</p>
+<p>Any unused SMs not returned in the <code class="docutils literal notranslate"><span class="pre">result</span></code> are returned in the API’s <code class="docutils literal notranslate"><span class="pre">remainder</span></code> parameter.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">result</span></code>’s <code class="docutils literal notranslate"><span class="pre">cudaDevResource.sm.flags</span></code> and <code class="docutils literal notranslate"><span class="pre">cudaDevResource.sm.localityDomainId</span></code> report the resource placement. When combining SM resources in one descriptor, the resources must have matching constraints, including <code class="docutils literal notranslate"><span class="pre">flags</span></code> and <code class="docutils literal notranslate"><span class="pre">localityDomainId</span></code> values.</p>
+<p>The following code queries the number of locality domains, and constructs one stream per locality domain.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cudaExecutionContext_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">contexts</span><span class="p">(</span><span class="n">localityDomainCount</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cudaStream_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">streams</span><span class="p">(</span><span class="n">localityDomainCount</span><span class="p">);</span>
+
+<span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cudaDevSmResourceGroupParams</span><span class="o">&gt;</span><span class="w"> </span><span class="n">params</span><span class="p">(</span><span class="n">localityDomainCount</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cudaDevResource</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="p">(</span><span class="n">localityDomainCount</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span>
+<span class="w">        </span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudaDevSmResourceGroupLocalityDomainId</span><span class="p">;</span>
+<span class="w">        </span><span class="n">params</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">localityDomainId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// A single split produces non-overlapping resources for all domains.</span>
+<span class="w">    </span><span class="n">cudaDevSmResourceSplit</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">smResource</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cudaDevResourceDesc_t</span><span class="w"> </span><span class="n">desc</span><span class="p">;</span>
+<span class="w">        </span><span class="n">cudaDevResourceGenerateDesc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cudaGreenCtxCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">contexts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="n">device</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">cudaExecutionCtxStreamCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">streams</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">contexts</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">cudaStreamDefault</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Each stream in <code class="docutils literal notranslate"><span class="pre">streams</span></code> executes on SMs from the locality domain with the corresponding index. Destroy the streams with <code class="docutils literal notranslate"><span class="pre">cudaStreamDestroy</span></code> and then destroy their contexts with <code class="docutils literal notranslate"><span class="pre">cudaExecutionCtxDestroy</span></code> when they are no longer needed.</p>
+</section>
+<section id="allocating-localized-device-memory">
+<span id="locality-domains-memory"></span><h2><span class="section-number">4.7.3. </span>Allocating Localized Device Memory<a class="headerlink" href="#allocating-localized-device-memory" title="Link to this heading">#</a></h2>
+<p>CUDA represents a localized memory location with a <code class="docutils literal notranslate"><span class="pre">cudaMemLocation</span></code> whose <code class="docutils literal notranslate"><span class="pre">type</span></code> is <code class="docutils literal notranslate"><span class="pre">cudaMemLocationTypeDeviceLocalityDomain</span></code>. For this location type, initialize both members of <code class="docutils literal notranslate"><span class="pre">cudaMemLocation.localized</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">deviceId</span></code> identifies the GPU.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">localityDomainId</span></code> identifies a locality domain on that GPU.</p></li>
+</ul>
+<p>The runtime API uses this location with stream-ordered memory pools (<a class="reference internal" href="stream-ordered-memory-allocation.html#stream-ordered-memory-allocator"><span class="std std-numref">Section 4.3</span></a>). The driver API additionally uses the corresponding <code class="docutils literal notranslate"><span class="pre">CUmemLocation</span></code> with virtual memory management allocations (<a class="reference internal" href="virtual-memory-management.html#virtual-memory-management"><span class="std std-numref">Section 4.17</span></a>).</p>
+<p>Allocations created through other mechanisms, for example <code class="docutils literal notranslate"><span class="pre">cudaMalloc</span></code> or unified memory, can not be localized. <a class="reference external" href="https://docs.nvidia.com/deploy/mps/index.html">MPS (Multi-Process Service)</a> in MLOPart mode can be used to transparently localize applications that rely on <code class="docutils literal notranslate"><span class="pre">cudaMalloc</span></code>.</p>
+<section id="creating-a-localized-memory-pool">
+<h3><span class="section-number">4.7.3.1. </span>Creating a Localized Memory Pool<a class="headerlink" href="#creating-a-localized-memory-pool" title="Link to this heading">#</a></h3>
+<p>To create a localized memory pool, set the location in <code class="docutils literal notranslate"><span class="pre">cudaMemPoolProps</span></code> and call <code class="docutils literal notranslate"><span class="pre">cudaMemPoolCreate</span></code>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cudaMemPool_t</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="p">{};</span>
+<span class="n">cudaMemPoolProps</span><span class="w"> </span><span class="n">props</span><span class="w"> </span><span class="p">{};</span>
+
+<span class="n">props</span><span class="p">.</span><span class="n">allocType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudaMemAllocationTypePinned</span><span class="p">;</span>
+<span class="n">props</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cudaMemLocationTypeDeviceLocalityDomain</span><span class="p">;</span>
+<span class="n">props</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">localized</span><span class="p">.</span><span class="n">deviceId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">device</span><span class="p">;</span>
+<span class="n">props</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">localized</span><span class="p">.</span><span class="n">localityDomainId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localityDomainId</span><span class="p">;</span>
+
+<span class="n">cudaMemPoolCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pool</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">props</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Allocate from this pool with <code class="docutils literal notranslate"><span class="pre">cudaMallocFromPoolAsync</span></code> and release the allocation with <code class="docutils literal notranslate"><span class="pre">cudaFreeAsync</span></code>. The location can also be passed to <code class="docutils literal notranslate"><span class="pre">cudaMemGetDefaultMemPool</span></code>, <code class="docutils literal notranslate"><span class="pre">cudaMemGetMemPool</span></code>, and <code class="docutils literal notranslate"><span class="pre">cudaMemSetMemPool</span></code> when selecting the default or current pinned-memory pool for that locality domain. For the general memory-pool programming model, see <a class="reference internal" href="stream-ordered-memory-allocation.html#stream-ordered-memory-pools"><span class="std std-ref">Memory Pools</span></a>.</p>
+</section>
+<section id="creating-a-localized-vmm-allocation">
+<h3><span class="section-number">4.7.3.2. </span>Creating a Localized VMM Allocation<a class="headerlink" href="#creating-a-localized-vmm-allocation" title="Link to this heading">#</a></h3>
+<p>The driver API can place physical memory created by <code class="docutils literal notranslate"><span class="pre">cuMemCreate</span></code> in a locality domain. Set <code class="docutils literal notranslate"><span class="pre">CUmemAllocationProp::location.type</span></code> to <code class="docutils literal notranslate"><span class="pre">CU_MEM_LOCATION_TYPE_DEVICE_LOCALITY_DOMAIN</span></code> and initialize <code class="docutils literal notranslate"><span class="pre">location.localized.deviceId</span></code> and <code class="docutils literal notranslate"><span class="pre">location.localized.localityDomainId</span></code>. The resulting physical allocation is reserved, mapped, and granted access in the same way as other VMM allocations. Access control set via <code class="docutils literal notranslate"><span class="pre">cuMemSetAccess</span></code> operates at full device granularity, not individual locality domains. See the <a class="reference internal" href="virtual-memory-management.html#vmm-locality-domains"><span class="std std-ref">localized VMM allocation section</span></a> for the complete allocation sequence and granularity requirements.</p>
+<p>Managed memory can not be localized: Requesting <code class="docutils literal notranslate"><span class="pre">cudaMemAllocationTypeManaged</span></code> with <code class="docutils literal notranslate"><span class="pre">cudaMemLocationTypeDeviceLocalityDomain</span></code> will return <code class="docutils literal notranslate"><span class="pre">CUDA_ERROR_NOT_SUPPORTED</span></code>.
+Similarly, <code class="docutils literal notranslate"><span class="pre">cudaMemPrefetchAsync</span></code> and <code class="docutils literal notranslate"><span class="pre">cudaMemAdvise</span></code> do not accept a device locality domain as a location and will return <code class="docutils literal notranslate"><span class="pre">CUDA_ERROR_NOT_SUPPORTED</span></code>.</p>
+<p>See <a class="reference internal" href="unified-memory.html#um-locality-domains"><span class="std std-ref">Locality Domains and Unified Memory</span></a> for the relationship between locality domains and Unified Memory.</p>
+</section>
+</section>
+<section id="querying-memory-placement">
+<h2><span class="section-number">4.7.4. </span>Querying Memory Placement<a class="headerlink" href="#querying-memory-placement" title="Link to this heading">#</a></h2>
+<p>Use <code class="docutils literal notranslate"><span class="pre">cudaMemPoolGetAttribute</span></code> with <code class="docutils literal notranslate"><span class="pre">cudaMemPoolAttrLocalityDomainId</span></code> to query a pool. It returns the locality domain ID for a localized pool and <code class="docutils literal notranslate"><span class="pre">-1</span></code> for a pool that is not localized.</p>
+<p>Use <code class="docutils literal notranslate"><span class="pre">cudaPointerGetAttributes</span></code> to query an allocation through its pointer. The returned <code class="docutils literal notranslate"><span class="pre">cudaPointerAttributes.localityDomainOrdinal</span></code> field contains the allocation’s locality domain ordinal, or <code class="docutils literal notranslate"><span class="pre">-1</span></code> when the allocation is not localized:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cudaPointerAttributes</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="p">{};</span>
+<span class="n">cudaPointerGetAttributes</span><span class="p">(</span><span class="o">&amp;</span><span class="n">attributes</span><span class="p">,</span><span class="w"> </span><span class="n">ptr</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">localityDomainId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attributes</span><span class="p">.</span><span class="n">localityDomainOrdinal</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="programming-guidance">
+<h2><span class="section-number">4.7.5. </span>Programming Guidance<a class="headerlink" href="#programming-guidance" title="Link to this heading">#</a></h2>
+<p>To localize a workload, launch kernels using compute resources from the same locality domain as their memory allocations.</p>
+<p>Localizing only compute or only memory resources typically does not improve performance.</p>
+<p>If a kernel must use memory from several locality domains, measure whether compute localization is beneficial.</p>
+<section id="localized-kernels-with-fork-join-pattern">
+<h3><span class="section-number">4.7.5.1. </span>Localized Kernels With Fork/Join Pattern<a class="headerlink" href="#localized-kernels-with-fork-join-pattern" title="Link to this heading">#</a></h3>
+<p>The <strong>fork/join pattern</strong> uses events and stream waits to express a parallel region. The application creates one stream from each localized green context by using <code class="docutils literal notranslate"><span class="pre">cudaExecutionCtxStreamCreate</span></code>. A separate main stream coordinates those localized streams. Create one fork event for the main stream and one join event per localized stream with <code class="docutils literal notranslate"><span class="pre">cudaEventCreateWithFlags</span></code>; timing should be disabled when the events are used only for ordering.</p>
+<p>To fork, record one event on the parent stream and make every localized stream wait for that event. Work previously submitted to the parent is therefore ordered before the localized work. Submit independent work to the localized streams, using memory from their corresponding locality domains.</p>
+<p>To join, record one event on each localized stream after its work and make the parent stream wait for all of those events. Work subsequently submitted to the parent is then ordered after the localized work.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">produceInputs</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">parentStream</span><span class="o">&gt;&gt;&gt;</span><span class="p">(...);</span>
+<span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">forkEvent</span><span class="p">,</span><span class="w"> </span><span class="n">parentStream</span><span class="p">);</span>
+
+<span class="c1">// localizedStreams[i] belongs to the green context for locality domain i.</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cudaStreamWaitEvent</span><span class="p">(</span><span class="n">localizedStreams</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">forkEvent</span><span class="p">);</span>
+<span class="w">    </span><span class="n">processPartition</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">localizedStreams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">&gt;&gt;&gt;</span><span class="p">(...);</span>
+<span class="w">    </span><span class="n">cudaEventRecord</span><span class="p">(</span><span class="n">joinEvents</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">localizedStreams</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cudaStreamWaitEvent</span><span class="p">(</span><span class="n">parentStream</span><span class="p">,</span><span class="w"> </span><span class="n">joinEvents</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="n">consumeResults</span><span class="o">&lt;&lt;&lt;</span><span class="n">grid</span><span class="p">,</span><span class="w"> </span><span class="n">block</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">parentStream</span><span class="o">&gt;&gt;&gt;</span><span class="p">(...);</span>
+</pre></div>
+</div>
+</section>
+<section id="cuda-graphs">
+<h3><span class="section-number">4.7.5.2. </span>CUDA Graphs<a class="headerlink" href="#cuda-graphs" title="Link to this heading">#</a></h3>
+<p>CUDA Graphs (<a class="reference internal" href="cuda-graphs.html#cuda-graphs"><span class="std std-numref">Section 4.2</span></a>) support localization through stream capture and manual graph construction. For some applications, CUDA graphs may offer improved performance over stream-based programming.</p>
+<section id="stream-capture">
+<h4><span class="section-number">4.7.5.2.1. </span>Stream Capture<a class="headerlink" href="#stream-capture" title="Link to this heading">#</a></h4>
+<p>A fork/join pattern can be captured to a CUDA graph. Begin capture on the parent stream, record the fork event, and wait on the fork event in each localized stream. Waiting on the fork event enrolls the localized streams in the same capture graph as the parent stream. Operations submitted to the localized streams become parallel graph branches. After launching all work on the localized streams, record the join event and wait on all the join events in the parent stream. These waits reconnect all branches to the parent stream. Every participating stream must be joined back to the origin stream before <code class="docutils literal notranslate"><span class="pre">cudaStreamEndCapture</span></code> is called.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cudaStreamBeginCapture</span><span class="p">(</span><span class="n">parentStream</span><span class="p">,</span><span class="w"> </span><span class="n">cudaStreamCaptureModeGlobal</span><span class="p">);</span>
+
+<span class="c1">// Record forkEvent, submit work to each localized stream, record the</span>
+<span class="c1">// joinEvents, and make parentStream wait as in the fork/join example above.</span>
+
+<span class="n">cudaGraph_t</span><span class="w"> </span><span class="n">graph</span><span class="p">;</span>
+<span class="n">cudaStreamEndCapture</span><span class="p">(</span><span class="n">parentStream</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">graph</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The locality restriction of each child stream is retained by the captured kernel nodes. Graph replay uses the original localized SMs even when the executable graph is launched on a different stream. The graph launch stream supplies ordering but does not replace the execution resources recorded in the nodes.</p>
+</section>
+<section id="graph-construction">
+<h4><span class="section-number">4.7.5.2.2. </span>Graph Construction<a class="headerlink" href="#graph-construction" title="Link to this heading">#</a></h4>
+<p>The same graph topology can be constructed explicitly. Add one kernel node for each locality domain, using the corresponding localized execution context in <code class="docutils literal notranslate"><span class="pre">cudaKernelNodeParamsV2.ctx</span></code>.</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">cudaGraph_t</span><span class="w"> </span><span class="n">graph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="n">cudaGraphCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cudaGraphNode_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">localizedNodes</span><span class="p">(</span><span class="n">localityDomainCount</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">localityDomainCount</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">cudaGraphNodeParams</span><span class="w"> </span><span class="n">params</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">CU_GRAPH_NODE_TYPE_KERNEL</span><span class="w"> </span><span class="p">};</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">kernel</span><span class="p">.</span><span class="n">kern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernel</span><span class="p">;</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">kernel</span><span class="p">.</span><span class="n">gridDim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">grid</span><span class="p">;</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">kernel</span><span class="p">.</span><span class="n">blockDim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">block</span><span class="p">;</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">kernel</span><span class="p">.</span><span class="n">kernelParams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kernelArgs</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">    </span><span class="n">params</span><span class="p">.</span><span class="n">kernel</span><span class="p">.</span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localizedContexts</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">cudaGraphAddNode</span><span class="p">(</span><span class="o">&amp;</span><span class="n">localizedNodes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="w"> </span><span class="n">graph</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">params</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="compatibility-notes">
+<span id="locality-domains-support"></span><h3><span class="section-number">4.7.5.3. </span>Compatibility Notes<a class="headerlink" href="#compatibility-notes" title="Link to this heading">#</a></h3>
+<p>vGPU and MIG devices do not support localization and will report only 1 locality domain.</p>
+<p>CUDA on Windows does not support localization and will report only 1 locality domain.</p>
+<p>CUDA Checkpoint does not guarantee that localized green contexts retain their localization properties when restored on a different device. The application may exhibit reduced performance after a restore.</p>
+<p><a class="reference external" href="https://docs.nvidia.com/deploy/mps/index.html">MPS (Multi-Process Service)</a> in MLOPart mode presents each MLOPart device as a CUDA device with a single locality domain. MPS static partitioning treats the full device as a single locality domain.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="green-contexts.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.6. </span>Green Contexts</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lazy-loading.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.8. </span>Lazy Loading</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+
+
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discovering-locality-domains">4.7.1. Discovering Locality Domains</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#localizing-compute-resources">4.7.2. Localizing Compute Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#allocating-localized-device-memory">4.7.3. Allocating Localized Device Memory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-localized-memory-pool">4.7.3.1. Creating a Localized Memory Pool</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-localized-vmm-allocation">4.7.3.2. Creating a Localized VMM Allocation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#querying-memory-placement">4.7.4. Querying Memory Placement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#programming-guidance">4.7.5. Programming Guidance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#localized-kernels-with-fork-join-pattern">4.7.5.1. Localized Kernels With Fork/Join Pattern</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cuda-graphs">4.7.5.2. CUDA Graphs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stream-capture">4.7.5.2.1. Stream Capture</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#graph-construction">4.7.5.2.2. Graph Construction</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compatibility-notes">4.7.5.3. Compatibility Notes</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+<script type="text/javascript">if (typeof _satellite !== "undefined") {_satellite.pageBottom();}</script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+<a class="footer-brand logo" href="https://www.nvidia.com">
+  <img src="../_static/nvidia-logo-horiz-rgb-1c-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA"/>
+  <img src="../_static/nvidia-logo-horiz-rgb-1c-wht-for-screen.svg" class="logo__image only-dark" alt="NVIDIA"/>
+</a></div>
+      
+        <div class="footer-item">
+
+<div class="footer-links">
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/">Your Privacy Choices</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/company-policies/">Corporate Policies</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/product-security/">Product Security</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/contact/">Contact</a>
+  
+  
+  
+</div>
+</div>
+      
+        <div class="footer-item">
+
+
+
+
+  <p class="copyright">
+    
+      Copyright © 2007-2026, NVIDIA Corporation &amp; affiliates. All rights reserved.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item"><p class="last-updated">
+  Last updated on Sep 09, 2026.
+  <br/>
+</p></div>
+      
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+  </body>
+</html>
