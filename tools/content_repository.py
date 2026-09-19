@@ -17,9 +17,12 @@ managed 类型与其物理根的**唯一枚举口径**是 `RepoPaths.object_root
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
+from . import contract
 from .common import safe_id
 from .contract import require_error_code
+from .front_matter import FrontMatter
 from .paths import RepoPaths
 
 
@@ -62,3 +65,93 @@ def locate_managed_object(owner_root: Path, object_type: str, object_id: str) ->
     if len(matches) > 1:
         raise ObjectResolutionError("object_id_ambiguous", matches=matches)
     return matches[0]
+
+
+def resolve_owner_root(root: Path, vault_id: str) -> Path:
+    """把 vault_id 解析为 owner 检出根（复用 VaultRegistry，只读）。
+
+    失败归一为 :class:`ObjectResolutionError`（与定位同一异常类型，调用方一处
+    catch）：``vault_unavailable``（可重试）保留原码，其余（vault 不存在/路径非法）
+    归为 ``invalid_object_ref``（引用本身不合法）。延迟导入 VaultRegistry 避免环。
+    """
+    from .vault_registry import VaultRegistry
+
+    try:
+        return VaultRegistry(Path(root).resolve()).resolve_vault_path(vault_id)
+    except (OSError, ValueError) as exc:
+        code = (
+            "vault_unavailable"
+            if str(exc) == "vault_unavailable"
+            else "invalid_object_ref"
+        )
+        raise ObjectResolutionError(code) from exc
+
+
+class ManagedObjectRepository:
+    """source/wiki 共享的读/列举/owner 解析/错误映射（各 repo 只加各自的 CRUD）。
+
+    高内聚：managed 对象“怎么定位/读/列举/把定位错误映射成统一信封”只此一份；
+    低耦合：``SourceRepository``/``WikiRepository`` 经继承复用，退休墓碑走
+    ``retire_ledger``，互不借对方私有 API。
+    """
+
+    object_type: str
+    read_schema: str
+    list_schema: str
+
+    def __init__(self, root: Path) -> None:
+        self.root = Path(root)
+
+    def _owner(self, vault_id: str) -> Path:
+        return resolve_owner_root(self.root, vault_id)
+
+    @staticmethod
+    def _error(schema: str, exc: ObjectResolutionError) -> dict[str, Any]:
+        # vault_unavailable 是环境不可用（可重试）→ unavailable；其余是调用方错误 → blocked。
+        status = "unavailable" if exc.code == "vault_unavailable" else "blocked"
+        return contract.result(schema, status, error_code=exc.code)
+
+    def _ref(self, vault_id: str, object_id: str) -> dict[str, str]:
+        return {
+            "vault_id": vault_id,
+            "object_type": self.object_type,
+            "object_id": object_id,
+        }
+
+    def read(self, vault_id: str, object_id: str) -> dict[str, Any]:
+        try:
+            path = locate_managed_object(
+                self._owner(vault_id), self.object_type, object_id
+            )
+        except ObjectResolutionError as exc:
+            return self._error(self.read_schema, exc)
+        try:
+            metadata, body = FrontMatter.parse(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, ValueError, TypeError) as exc:
+            return contract.blocked(
+                self.read_schema, "object_unreadable", reason=str(exc)
+            )
+        return contract.ok(
+            self.read_schema,
+            object_ref=self._ref(vault_id, object_id),
+            metadata=metadata,
+            body=body,
+        )
+
+    def list(self, vault_id: str = "public") -> dict[str, Any]:  # noqa: A003 - Repository 契约方法名
+        try:
+            owner = self._owner(vault_id)
+        except ObjectResolutionError as exc:
+            return self._error(self.list_schema, exc)
+        base = dict(RepoPaths(owner).object_roots)[self.object_type]
+        object_ids = (
+            sorted(
+                p.stem for p in base.rglob("*.md") if p.is_file() and not p.is_symlink()
+            )
+            if base.is_dir()
+            else []
+        )
+        return contract.ok(
+            self.list_schema,
+            items=[{"object_ref": self._ref(vault_id, oid)} for oid in object_ids],
+        )

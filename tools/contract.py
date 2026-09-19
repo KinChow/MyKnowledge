@@ -29,6 +29,7 @@ _LOCATE_CODES = frozenset(
         "object_id_ambiguous",
         "object_referenced",
         "vault_unavailable",
+        "object_unreadable",
         # wiki 校验历史码（resolution 报告沿用，语义不变，纳入统一词表）
         "source_not_found",
         "source_ambiguous",

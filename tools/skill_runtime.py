@@ -21,6 +21,7 @@ from typing import Any
 
 from .backup import BackupManager
 from .common import atomic_write, safe_id
+from .content_registry import ContentRegistry
 from .indexing import Retriever
 from .ingest.source_ingestor import SourceIngestor
 from .projection import PublicProjectionStore
@@ -161,18 +162,17 @@ def _handle_ask(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def _handle_read(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    # 公共 wiki 读经统领入口 ContentRegistry（单份 projection 读实现），此处只保留
+    # Skill 通道的 public-only 门禁与既有返回契约（read-result/v1，raise 由 dispatch 收敛）。
     object_id = _public_object_id(payload)
-    item = next(
-        (x for x in _public_projection_items(root) if x["object_id"] == object_id),
-        None,
-    )
-    if item is None:
-        raise ValueError("object_not_found")
+    result = ContentRegistry(root).read("wiki", object_id=object_id)
+    if result["status"] != "ok":
+        raise ValueError(result["error_code"])
     return {
         "schema_version": "read-result/v1",
         "object_ref": _public_object_ref(object_id),
-        "path": item["body_path"],
-        "body": item["body"],
+        "path": result["path"],
+        "body": result["body"],
     }
 
 

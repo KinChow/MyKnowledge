@@ -43,7 +43,7 @@ def test_registry_routes_known_object_type_read_and_list(tmp_path: Path):
 
     read = registry.read("wiki", object_id="one")
     assert read["status"] == "ok"
-    assert read["schema_version"] == "content-read/v1"
+    assert read["schema_version"] == "read-result/v1"
     assert read["body"] == "# One\n本文"
     assert read["object_ref"]["object_type"] == "wiki"
 
@@ -78,10 +78,10 @@ def test_registry_only_routes_injected_capabilities(tmp_path: Path):
 
     def fake_read(root: Path, **kwargs) -> dict:
         calls.append(("read", kwargs))
-        return {"schema_version": "content-read/v1", "status": "ok", "routed": True}
+        return {"schema_version": "read-result/v1", "status": "ok", "routed": True}
 
     def fake_list(root: Path, **kwargs) -> dict:
-        return {"schema_version": "content-list/v1", "status": "ok", "items": []}
+        return {"schema_version": "object-list/v1", "status": "ok", "items": []}
 
     registry = ContentRegistry(
         tmp_path,

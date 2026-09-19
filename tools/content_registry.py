@@ -21,8 +21,10 @@ from typing import Any
 from .contract import blocked
 from .projection import PublicProjectionStore
 
-READ_SCHEMA = "content-read/v1"
-LIST_SCHEMA = "content-list/v1"
+# 复用既有信封名（不另造 content-*/v1）：读=read-result/v1，列举=object-list/v1，
+# 与 skill/backend 现有公共读契约一致，便于这些入口直接委派本注册表。
+READ_SCHEMA = "read-result/v1"
+LIST_SCHEMA = "object-list/v1"
 
 # 能力函数签名：``(root, **kwargs) -> 统一信封 dict``。领域实现自带 status，
 # 本模块只在"路由未命中"时构造 blocked，不改写命中路径的返回。
