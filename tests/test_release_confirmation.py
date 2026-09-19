@@ -32,7 +32,8 @@ def event():
 
 def test_public_release_event_is_hashed_and_written(tmp_path: Path):
     result = write_event(tmp_path, event())
-    assert result["state"] == "created"
+    assert result["status"] == "ok"
+    assert result["changed"] is True
     assert validate_event({**event(), "event_sha256": result["event_sha256"]})["valid"]
 
 
@@ -44,10 +45,11 @@ def test_public_release_event_rejects_private_reason_or_target(tmp_path: Path):
 
 
 def test_public_release_nonce_cannot_be_reused_by_another_event(tmp_path: Path):
-    assert write_event(tmp_path, event())["state"] == "created"
+    assert write_event(tmp_path, event())["changed"] is True
     replay = {**event(), "event_id": "event-two", "operation_id": "op-two"}
     result = write_event(tmp_path, replay)
-    assert result == {"state": "blocked", "error_code": "confirmation_nonce_reused"}
+    assert result["status"] == "blocked"
+    assert result["error_code"] == "confirmation_nonce_reused"
 
 
 def test_public_release_rejects_operation_confirmation_masquerade(tmp_path: Path):
@@ -65,7 +67,7 @@ def test_public_release_rejects_operation_confirmation_masquerade(tmp_path: Path
         "valid": False,
         "error_code": "event_schema_invalid",
     }
-    assert write_event(tmp_path, masquerade)["state"] == "blocked"
+    assert write_event(tmp_path, masquerade)["status"] == "blocked"
 
 
 def test_relative_root_still_reports_a_repo_relative_path(
@@ -75,9 +77,10 @@ def test_relative_root_still_reports_a_repo_relative_path(
     "报错了"，无法判断确认到底有没有生效（实测就是这样丢掉一次人工确认的）。"""
     monkeypatch.chdir(tmp_path)
     created = write_event(Path("."), event())
-    assert created["state"] == "created"
+    assert created["status"] == "ok"
+    assert created["changed"] is True
     assert created["path"] == "release/public-confirmations/event-one.json"
-    assert write_event(Path("."), event())["state"] == "already_applied"
+    assert write_event(Path("."), event())["changed"] is False
 
 
 def test_repeating_the_same_confirmation_is_already_applied(tmp_path: Path):
@@ -88,7 +91,9 @@ def test_repeating_the_same_confirmation_is_already_applied(tmp_path: Path):
     created = write_event(tmp_path, event())
     repeated = write_event(tmp_path, event())
     assert repeated == {
-        "state": "already_applied",
+        "schema_version": "public-release-confirmation-write/v1",
+        "status": "ok",
+        "changed": False,
         "event_sha256": created["event_sha256"],
         "path": created["path"],
     }
@@ -96,9 +101,10 @@ def test_repeating_the_same_confirmation_is_already_applied(tmp_path: Path):
 
 def test_same_event_id_with_different_content_is_a_conflict(tmp_path: Path):
     """同 event_id、不同内容必须 fail-closed，不得混进 already_applied。"""
-    assert write_event(tmp_path, event())["state"] == "created"
+    assert write_event(tmp_path, event())["changed"] is True
     result = write_event(tmp_path, {**event(), "reason": "Reviewed again later"})
-    assert result == {"state": "blocked", "error_code": "event_id_conflict"}
+    assert result["status"] == "blocked"
+    assert result["error_code"] == "event_id_conflict"
 
 
 def test_real_generated_operation_id_passes_validation(tmp_path: Path):

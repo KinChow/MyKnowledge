@@ -10,6 +10,7 @@ from pathlib import Path
 import yaml
 
 from .common import atomic_write, canonical_json, safe_id
+from .contract import blocked, ok
 from .paths import RepoPaths
 
 
@@ -279,6 +280,7 @@ class VaultRegistry:
         """组装 vault-check/v1 并自哈希（report_sha256 不参与自身计算）。"""
         report = {
             "schema_version": "vault-check/v1",
+            "status": "ok",
             "generated_from": "sha256:"
             + hashlib.sha256(str(self.root).encode()).hexdigest(),
             "vaults": statuses,
@@ -477,19 +479,19 @@ class VaultRegistry:
             if x["state"] != "available"
             and (scope == "local" or x["vault_id"] != public_id)
         ]
-        return {
-            "schema_version": "local-projection/v1",
-            "scope": scope,
-            "generated_from": report["report_sha256"],
-            "items": items,
-            "unavailable_vaults": unavailable,
-            "projection_sha256": "sha256:"
+        return ok(
+            "local-projection/v1",
+            scope=scope,
+            generated_from=report["report_sha256"],
+            items=items,
+            unavailable_vaults=unavailable,
+            projection_sha256="sha256:"
             + hashlib.sha256(
                 canonical_json(
                     {"scope": scope, "items": items, "unavailable_vaults": unavailable}
                 )
             ).hexdigest(),
-        }
+        )
 
     def write_local_projection(
         self, scope: str = "local", output: Path | None = None
@@ -539,7 +541,5 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
     except (OSError, ValueError) as exc:
-        print(
-            json.dumps({"state": "blocked", "error_code": str(exc)}, ensure_ascii=False)
-        )
+        print(json.dumps(blocked("vault-check/v1", str(exc)), ensure_ascii=False))
         return 2

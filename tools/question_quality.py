@@ -9,9 +9,11 @@ from collections.abc import Callable
 from pathlib import Path
 
 from .common import atomic_write, canonical_json
+from .contract import blocked, ok
 from .question import QuestionStore
 
 QUALITY_SCHEMA = "question-quality/v1"
+QUALITY_RESULT_SCHEMA = "practice-quality/v1"
 
 QUALITY_RESPONSE_SCHEMA = {
     "type": "object",
@@ -90,15 +92,15 @@ class QuestionQualityService:
         llm_reviewer: Callable[[dict], dict] | None = None,
     ) -> dict:
         if mode not in {"deterministic", "llm"}:
-            return {"state": "blocked", "error_code": "quality_mode_invalid"}
+            return blocked(QUALITY_RESULT_SCHEMA, "quality_mode_invalid")
         try:
             question = self.store.load(question_id)
         except (OSError, ValueError, json.JSONDecodeError) as exc:
-            return {
-                "state": "blocked",
-                "error_code": "question_not_found",
-                "detail": type(exc).__name__,
-            }
+            return blocked(
+                QUALITY_RESULT_SCHEMA,
+                "question_not_found",
+                detail=type(exc).__name__,
+            )
 
         llm = None
         if mode == "llm":
@@ -131,7 +133,7 @@ class QuestionQualityService:
             canonical_json(report) + b"\n",
             0o600,
         )
-        return {"state": "validated", "report": report}
+        return ok(QUALITY_RESULT_SCHEMA, report=report)
 
     @staticmethod
     def _review_payload(question: dict) -> dict:

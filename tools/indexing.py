@@ -9,6 +9,7 @@ import tempfile
 from pathlib import Path
 
 from .common import hash_canonical
+from .contract import ok, unavailable
 from .projection import (
     public_allowlisted as _public_allowlisted,  # 单份过滤谓词（Step0-1）
 )
@@ -241,16 +242,16 @@ class SQLiteIndex:
         finally:
             if os.path.exists(tmp):
                 os.unlink(tmp)
-        return {
-            "schema_version": "index-manifest/v1",
-            "scope": scope,
-            "generated_from": generated_from,
-            "item_count": len(allowed),
-            "index_version": "fts5/v1",
-            "previous_path": str(previous.name)
+        return ok(
+            "index-manifest/v1",
+            scope=scope,
+            generated_from=generated_from,
+            item_count=len(allowed),
+            index_version="fts5/v1",
+            previous_path=str(previous.name)
             if self.path.with_suffix(self.path.suffix + ".previous").exists()
             else None,
-        }
+        )
 
     def recover(self, items: list[dict], scope: str = "local") -> dict:
         """Validate the current index and atomically rebuild it when stale/corrupt."""
@@ -270,30 +271,30 @@ class SQLiteIndex:
                     and integrity
                     and integrity[0] == "ok"
                 ):
-                    return {
-                        "state": "valid",
-                        "scope": scope,
-                        "generated_from": expected,
-                        "recovered": False,
-                    }
+                    return ok(
+                        "index-recovery/v1",
+                        scope=scope,
+                        generated_from=expected,
+                        recovered=False,
+                    )
             except (OSError, sqlite3.Error, TypeError):
                 pass
         try:
             rebuilt = self.rebuild(items, scope)
-            return {
-                "state": "recovered",
-                "scope": scope,
-                "generated_from": rebuilt["generated_from"],
-                "previous_path": rebuilt.get("previous_path"),
-                "recovered": True,
-            }
+            return ok(
+                "index-recovery/v1",
+                scope=scope,
+                generated_from=rebuilt["generated_from"],
+                previous_path=rebuilt.get("previous_path"),
+                recovered=True,
+            )
         except (OSError, sqlite3.Error, ValueError) as exc:
-            return {
-                "state": "failed",
-                "scope": scope,
-                "error_code": "index_recovery_failed",
-                "detail": type(exc).__name__,
-            }
+            return unavailable(
+                "index-recovery/v1",
+                "index_recovery_failed",
+                scope=scope,
+                detail=type(exc).__name__,
+            )
 
     def search(self, query: str, top_k: int = 8) -> list[dict]:
         db = sqlite3.connect(self.path)
@@ -392,6 +393,7 @@ class Retriever:
         ):
             return {
                 "schema_version": "query-result/v1",
+                "status": "ok",
                 "items": [],
                 "scope": scope,
                 "method": "deterministic-fallback",
@@ -422,6 +424,7 @@ class Retriever:
                 indexed = index.search(query, top_k)
                 return {
                     "schema_version": "query-result/v1",
+                    "status": "ok",
                     "items": indexed,
                     "scope": scope,
                     "method": "fts5",
@@ -472,6 +475,7 @@ class Retriever:
             )
         return {
             "schema_version": "query-result/v1",
+            "status": "ok",
             "items": result_items,
             "scope": scope,
             "method": "deterministic-fallback",

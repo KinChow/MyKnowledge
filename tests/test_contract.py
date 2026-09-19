@@ -57,3 +57,32 @@ def test_unavailable_builder():
 
 def test_require_error_code_roundtrip():
     assert contract.require_error_code("object_id_ambiguous") == "object_id_ambiguous"
+
+
+def test_is_retryable_only_for_unavailable():
+    assert contract.is_retryable("unavailable") is True
+    assert contract.is_retryable("blocked") is False
+    assert contract.is_retryable("ok") is False
+
+
+def test_error_codes_is_union_of_domain_subsets():
+    # 并行迁移时各 agent 填自己的子集；ERROR_CODES 是它们的 union。
+    assert contract._LOCATE_CODES <= contract.ERROR_CODES
+    assert "object_not_found" in contract.ERROR_CODES
+
+
+def test_migrated_module_error_codes_are_registered():
+    # 每纳入一个模块就在对应子集登记其码（TDD 首步）。以下为已迁移模块用到的码。
+    question = {"quality_mode_invalid", "question_not_found"}
+    misc = {
+        "event_schema_invalid",
+        "confirmation_nonce_reused",
+        "event_id_conflict",
+        "lock_busy",
+        "manifest_invalid",
+        "layout_invalid",
+        "index_recovery_failed",
+    }
+    assert question <= contract._QUESTION_CODES
+    assert misc <= contract._MISC_CODES
+    assert (question | misc) <= contract.ERROR_CODES

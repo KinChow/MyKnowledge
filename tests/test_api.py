@@ -360,7 +360,9 @@ def test_citation_replay_api_is_read_only_and_capability_scoped():
         json={"citation": citation, "snapshot": snapshot},
     )
     assert response.status_code == 200
-    assert response.json()["state"] == "valid"
+    body = response.json()
+    assert body["status"] == "ok"
+    assert body["report"]["valid"] is True
     assert (
         client.post(
             "/api/citation/replay",

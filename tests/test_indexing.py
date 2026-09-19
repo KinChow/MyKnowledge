@@ -200,7 +200,8 @@ class IndexingTests(unittest.TestCase):
             first = index.rebuild(ITEMS, "public")
             path.write_bytes(b"corrupt")
             recovered = index.recover(ITEMS, "public")
-            self.assertEqual(recovered["state"], "recovered")
+            self.assertEqual(recovered["status"], "ok")
+            self.assertTrue(recovered["recovered"])
             self.assertTrue((path.parent / "index.sqlite3.previous").exists())
             self.assertEqual(index.generated_from(), first["generated_from"])
 
@@ -210,7 +211,7 @@ class IndexingTests(unittest.TestCase):
             index = SQLiteIndex(path)
             index.rebuild(ITEMS, "public")
             result = index.recover(ITEMS, "public")
-            self.assertEqual(result["state"], "valid")
+            self.assertEqual(result["status"], "ok")
             self.assertFalse(result["recovered"])
 
     def test_index_cli_rebuild_and_recover_use_public_projection(self):
@@ -276,7 +277,9 @@ class IndexingTests(unittest.TestCase):
                 check=False,
             )
             self.assertEqual(second.returncode, 0)
-            self.assertEqual(__import__("json").loads(second.stdout)["state"], "valid")
+            second_body = __import__("json").loads(second.stdout)
+            self.assertEqual(second_body["status"], "ok")
+            self.assertFalse(second_body["recovered"])
 
 
 if __name__ == "__main__":

@@ -10,9 +10,11 @@ from typing import Any
 from filelock import FileLock, Timeout
 
 from .common import atomic_write, hash_canonical, safe_id, safe_operation_id
+from .contract import blocked, ok
 from .paths import RepoPaths
 
 SCHEMA = "public-release-confirmation/v1"
+WRITE_SCHEMA = "public-release-confirmation-write/v1"
 REQUIRED = {
     "event_id",
     "operation_id",
@@ -86,7 +88,8 @@ def validate_event(event: dict[str, Any]) -> dict[str, Any]:
 def write_event(root: Path, event: dict[str, Any]) -> dict[str, Any]:
     result = validate_event(event)
     if not result["valid"]:
-        return {"state": "blocked", **result}
+        extra = {k: v for k, v in result.items() if k not in {"valid", "error_code"}}
+        return blocked(WRITE_SCHEMA, result["error_code"], **extra)
     event = {**event, "event_sha256": result["event_sha256"]}
     paths = RepoPaths(root)
     path = paths.release_confirmations / f"{event['event_id']}.json"
@@ -101,7 +104,7 @@ def write_event(root: Path, event: dict[str, Any]) -> dict[str, Any]:
     try:
         lock.acquire(timeout=0)
     except Timeout:
-        return {"state": "blocked", "error_code": "lock_busy"}
+        return blocked(WRITE_SCHEMA, "lock_busy")
     try:
         if path.exists():
             # 重复执行同一条确认不是失败：append-only 记录已经在了，目标状态已达成。
@@ -110,14 +113,16 @@ def write_event(root: Path, event: dict[str, Any]) -> dict[str, Any]:
             try:
                 existing = json.loads(path.read_text(encoding="utf-8"))
             except (OSError, ValueError, json.JSONDecodeError):
-                return {"state": "blocked", "error_code": "event_unreadable"}
+                return blocked(WRITE_SCHEMA, "event_unreadable")
             if existing.get("event_sha256") != event["event_sha256"]:
-                return {"state": "blocked", "error_code": "event_id_conflict"}
-            return {
-                "state": "already_applied",
-                "event_sha256": event["event_sha256"],
-                "path": reported,
-            }
+                return blocked(WRITE_SCHEMA, "event_id_conflict")
+            # 幂等重复不是失败：目标状态已达成，写效果落在 changed=False（非 status 轴）。
+            return ok(
+                WRITE_SCHEMA,
+                changed=False,
+                event_sha256=event["event_sha256"],
+                path=reported,
+            )
         # Nonces are one-shot across event IDs; otherwise an attacker could replay
         # a valid approval by changing only the event filename/operation metadata.
         for existing in path.parent.glob("*.json"):
@@ -126,14 +131,15 @@ def write_event(root: Path, event: dict[str, Any]) -> dict[str, Any]:
             except (OSError, ValueError, json.JSONDecodeError):
                 continue
             if data.get("confirmation_nonce") == event.get("confirmation_nonce"):
-                return {"state": "blocked", "error_code": "confirmation_nonce_reused"}
+                return blocked(WRITE_SCHEMA, "confirmation_nonce_reused")
         atomic_write(
             path, json.dumps(event, ensure_ascii=False, indent=2).encode("utf-8"), 0o600
         )
-        return {
-            "state": "created",
-            "event_sha256": result["event_sha256"],
-            "path": reported,
-        }
+        return ok(
+            WRITE_SCHEMA,
+            changed=True,
+            event_sha256=result["event_sha256"],
+            path=reported,
+        )
     finally:
         lock.release()

@@ -382,7 +382,8 @@ def test_skill_publish_confirm_delegates_event_validation(tmp_path: Path):
         "confirmation_nonce": "nonce-skill",
     }
     result = dispatch("publish_confirm", {"event": event}, root=tmp_path)
-    assert result["state"] == "created"
+    assert result["status"] == "ok"
+    assert result["changed"] is True
     assert (tmp_path / "release" / "public-confirmations" / "event-skill.json").exists()
     invalid = dispatch(
         "publish_confirm",

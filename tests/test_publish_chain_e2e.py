@@ -233,7 +233,8 @@ def test_publish_chain_runs_from_clean_page_to_public_release(tmp_path: Path):
             leak_gate_sha256,
         ],
     )
-    assert event["state"] == "created", event
+    assert event["status"] == "ok", event
+    assert event["changed"] is True, event
 
     # ⑤ projection 独立重算 release_input 并比对 7 项 → public_release 派生为 true
     result = PublicProjectionGenerator(tmp_path).generate()

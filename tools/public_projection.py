@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from .common import atomic_write, canonical_json, hash_canonical
+from .contract import ok
 from .front_matter import FrontMatter
 from .paths import RepoPaths
 from .policy import policy_value
@@ -304,12 +305,12 @@ class PublicProjectionGenerator:
             "items": items,
         }
         atomic_write(output, canonical_json(manifest) + b"\n", 0o600)
-        return {
-            "state": "generated",
-            "path": str(output.relative_to(self.root))
+        return ok(
+            "public-projection-result/v1",
+            path=str(output.relative_to(self.root))
             if output.is_relative_to(self.root)
             else str(output),
-            "item_count": len(items),
-            "skipped": skipped,
-            "manifest_sha256": hash_canonical(manifest),
-        }
+            item_count=len(items),
+            skipped=skipped,
+            manifest_sha256=hash_canonical(manifest),
+        )

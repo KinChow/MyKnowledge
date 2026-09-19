@@ -118,7 +118,7 @@ def index_main(argv: list[str]) -> int:
         else index.recover(items, args.scope)
     )
     _print_json(result)
-    return 0 if result.get("state") not in {"failed"} else 2
+    return 0 if result.get("status") == "ok" else 2
 
 
 def projection_read_main(argv: list[str]) -> int:
@@ -407,9 +407,9 @@ def release_main(argv: list[str]) -> int:
         },
     )
     _print_json(result)
-    # already_applied 与 created 同为"目标状态已达成"，退出码 0；只有 blocked
-    # 是失败——原来无条件 return 0 会把阻断当成功回报给调用方。
-    return 0 if result["state"] in ("created", "already_applied") else 2
+    # created 与幂等重复（changed=False）同为"目标状态已达成"，退出码 0；只有
+    # status != ok（blocked）才是失败——原来无条件 return 0 会把阻断当成功回报。
+    return 0 if result["status"] == "ok" else 2
 
 
 def skill_main(argv: list[str]) -> int:

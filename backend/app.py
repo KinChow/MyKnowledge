@@ -197,10 +197,8 @@ def create_app(
             x_myknowledge_audience,
             force=scope != "public",
         )
-        return {
-            "schema_version": "citation-replay/v1",
-            **replay_citation(req.citation, req.snapshot),
-        }
+        # replay 现在直接返回统一信封（citation-replay/v1, status=ok, report.valid）。
+        return replay_citation(req.citation, req.snapshot)
 
     @app.post("/api/write")
     def write_object(
@@ -604,13 +602,13 @@ def create_app(
     ) -> dict:
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         result = state.question_quality.validate(question_id, mode=mode)
-        if result.get("state") == "blocked":
+        if result.get("status") == "blocked":
             if result.get("error_code") == "question_not_found":
                 raise api_error(
                     404, "question_not_found", "practice", "check question_id"
                 )
             raise api_error(422, result["error_code"], "practice", "check quality mode")
-        return {"schema_version": "practice-quality/v1", **result}
+        return result
 
     return app
 
