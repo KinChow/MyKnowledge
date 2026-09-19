@@ -212,7 +212,9 @@ def backup_main(argv: list[str]) -> int:
                 parser.error("--target is required for restore")
             result = manager.restore_manifest(args.manifest, args.target)
     _print_json(result)
-    return 0
+    # 退出码按契约 status 判据：ok=0，blocked/unavailable=2（原来无条件 return 0
+    # 会把校验失败/阻断当成功回报）。
+    return 0 if result.get("status") == "ok" else 2
 
 
 def projection_main(argv: list[str]) -> int:

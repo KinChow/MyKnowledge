@@ -13,6 +13,7 @@ import subprocess
 import uuid
 from pathlib import Path
 
+from .. import contract
 from ..common import atomic_write, canonical_json
 from .source_ingestor import SourceIngestor
 from .video_asr import transcribe_openai_whisper, transcribe_whisper_cpp
@@ -88,7 +89,17 @@ class VideoBatchRunner:
             self._save_report(report)
         self._refresh_counts(report, len(selected))
         self._save_report(report)
-        return report
+        # 顶层 contract 信封：批次跑完即 ok（逐项 applied/blocked 与整体
+        # complete/partial 都是领域字段，进 payload）。剔除已存在的 schema_version/
+        # status 再重建，避免续跑时（_load_report 读回带 status 的报告）重复传参。
+        finalized = contract.ok(
+            "video-batch-report/v1",
+            **{
+                k: v for k, v in report.items() if k not in {"schema_version", "status"}
+            },
+        )
+        self._save_report(finalized)
+        return finalized
 
     @staticmethod
     def _refresh_counts(report: dict, selected_count: int) -> None:
@@ -145,7 +156,8 @@ class VideoBatchRunner:
                 "transcript_provenance": asr.provenance,
             }
         )
-        if applied.get("state") != "applied":
+        # ingest 已归一到 contract 信封：按 status 判读（ok 才算落盘成功）。
+        if applied.get("status") != "ok":
             raise RuntimeError(str(applied.get("errors") or applied))
         frame_count = 0
         if mode == "sample":
@@ -160,7 +172,8 @@ class VideoBatchRunner:
             frame_extract = self.frames.extract(
                 source_path, media, [3.0, 10.0, 20.0], executable=self.ffmpeg_path
             )
-            if frame_extract.get("state") != "applied":
+            # 帧抽取同样按 contract status 判读。
+            if frame_extract.get("status") != "ok":
                 raise RuntimeError(str(frame_extract))
             frame_count = frame_extract["frame_count"]
         return {

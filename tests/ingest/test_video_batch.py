@@ -11,13 +11,25 @@ class FakeIngestor:
     def ingest(self, request: dict) -> dict:
         assert request["source_type"] == "video"
         assert request["transcript_provenance"]["kind"] == "asr"
-        return {"state": "applied", "snapshot_sha256": "sha256:snapshot"}
+        # SourceIngestor 已归一到 contract 信封：成功 = status ok + 领域字段。
+        return {
+            "schema_version": "source-ingest/v1",
+            "status": "ok",
+            "changed": True,
+            "snapshot_sha256": "sha256:snapshot",
+        }
 
 
 class FakeFrames:
     def extract(self, source, media, timestamps, *, executable):  # noqa: ARG002
         assert timestamps == [3.0, 10.0, 20.0]
-        return {"state": "applied", "frame_count": 3}
+        # VideoFrameService.extract 同样是 contract 信封。
+        return {
+            "schema_version": "video-frames/v1",
+            "status": "ok",
+            "changed": True,
+            "frame_count": 3,
+        }
 
 
 def test_batch_runner_is_resumable_and_records_per_item(monkeypatch, tmp_path: Path):

@@ -11,6 +11,7 @@ import argparse
 import json
 from pathlib import Path
 
+from .. import contract
 from ..common import canonical_body, sha256_text
 from ..front_matter import FrontMatter
 from ..paths import RepoPaths
@@ -131,8 +132,10 @@ class WikiValidator:
         warnings: list[dict] | None = None,
     ) -> dict:
         """报告骨架：object_ref 只带 vault/type/id，不含物理路径（不消费 wiki_path）。"""
-        return {
-            "schema_version": WIKI_SCHEMA_VERSION,
+        # 顶层 contract 信封（TD §14）：确定性校验"跑通"即 ok，valid 是领域结论
+        # （加法保留，别当 status）。唯一"跑不通"是可执行 JSON Schema 缺失
+        # （validator_unavailable），此时校验器本身不可用 → unavailable。
+        fields = {
             "validator": "wiki-validator",
             "object_ref": {
                 "vault_id": self.vault_id,
@@ -147,6 +150,11 @@ class WikiValidator:
             "validation_report": None,
             "resolution": None,
         }
+        if any(e.get("code") == "validator_unavailable" for e in errors):
+            return contract.unavailable(
+                WIKI_SCHEMA_VERSION, "validator_unavailable", **fields
+            )
+        return contract.ok(WIKI_SCHEMA_VERSION, **fields)
 
 
 def main(argv: list[str] | None = None) -> int:

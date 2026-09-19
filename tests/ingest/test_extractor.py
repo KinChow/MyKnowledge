@@ -55,7 +55,7 @@ class ExtractorTests(unittest.TestCase):
                     "media_type": "text/html",
                 }
             )
-            self.assertEqual(applied["state"], "applied", applied)
+            self.assertEqual(applied["status"], "ok", applied)
             snapshot = (
                 root
                 / "archive"

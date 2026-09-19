@@ -399,6 +399,9 @@ def run_doctor(root: Path) -> dict:
     root = Path(root).resolve()
     report: dict = {
         "schema_version": "doctor/v1",
+        # 顶层 contract 信封：doctor 跑通即 ok；健康结论（healthy/degraded/failing）
+        # 与逐项 state 都是领域字段，不进 status（TD §14：唯一 status 轴）。
+        "status": "ok",
         "root": str(root),
         "checks": [],
         "errors": 0,
@@ -521,20 +524,30 @@ def run_doctor(root: Path) -> dict:
         from .backup import BackupManager
 
         status = BackupManager(root).status()
-        unverified = [
-            v["vault_id"]
-            for v in status.get("vaults", [])
-            if v.get("backup_state") not in ("verified",) and v["vault_id"] != "public"
-        ]
-        add(
-            "vaults_backup",
-            "ok" if not unverified else "warning",
-            vault_count=len(status.get("vaults", [])),
-            unverified=unverified,
-            next_action=None
-            if not unverified
-            else "configure and verify owner-scoped backups",
-        )
+        # backup.status() 现在是 contract 信封（复用 vault-check/v1）：先按 status 判读，
+        # 非 ok 直接降级；ok 时再看领域字段（vaults/backup_state）。
+        if status.get("status") != "ok":
+            add(
+                "vaults_backup",
+                "warning",
+                reason=status.get("error_code", "backup_status_unavailable"),
+            )
+        else:
+            unverified = [
+                v["vault_id"]
+                for v in status.get("vaults", [])
+                if v.get("backup_state") not in ("verified",)
+                and v["vault_id"] != "public"
+            ]
+            add(
+                "vaults_backup",
+                "ok" if not unverified else "warning",
+                vault_count=len(status.get("vaults", [])),
+                unverified=unverified,
+                next_action=None
+                if not unverified
+                else "configure and verify owner-scoped backups",
+            )
     except (OSError, ValueError) as exc:
         add("vaults_backup", "warning", reason=str(exc))
 

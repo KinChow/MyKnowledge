@@ -108,7 +108,7 @@ def _ingest_and_anchor(root: Path) -> str:
             "media_type": "text/markdown",
         }
     )
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
 
     source_path = (
         root / "content" / "sources" / "tools" / f"{SOURCE_ID}" / f"{SOURCE_ID}.md"

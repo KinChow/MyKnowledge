@@ -81,7 +81,7 @@ class AnchorDirectWriteTests(unittest.TestCase):
                 "source_id": source_id,
             }
         )
-        assert applied["state"] == "applied", applied
+        assert applied["status"] == "ok", applied
         snapshot_path = (
             root / "archive" / "text" / f"{strip_sha256_prefix(sha256_text(body))}.md"
         )

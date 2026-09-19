@@ -22,6 +22,7 @@ import zlib
 from pathlib import Path
 from typing import NamedTuple, Protocol
 
+from .. import contract
 from ..archive_manifest import ArchiveManifest
 from ..common import (
     atomic_write,
@@ -42,6 +43,9 @@ from .source_validator import SourceValidator
 from .video_asr import transcribe_openai_whisper, transcribe_whisper_cpp
 from .video_subtitles import acquire_subtitles
 from .video_transcript import parse_subtitles, render_transcript
+
+# 公共出口统一走 tools.contract 信封（TD §14）；schema 名遵循 name/vN 约束。
+_INGEST_SCHEMA = "source-ingest/v1"
 
 
 def _block_error_code(exc: Exception) -> str:
@@ -374,18 +378,48 @@ class SourceIngestor:
                 payload["attachments"] = [a.to_dict() for a in acquired.attachments]
             return {"state": "ready", "payload": payload}
         except (OSError, RuntimeError, ValueError, LookupError, zlib.error) as exc:
-            return {"state": "blocked", "errors": [{"code": _block_error_code(exc)}]}
+            # 采集阶段异常（URL 非法/SSRF 拒绝/格式不支持/解码失败等）本质是
+            # 调用方输入/内容问题——保持迁移前语义为 blocked（不可重试），动态明细码
+            # 进 errors[]（见 ingest）。此处仍是内部实现态。
+            return {
+                "state": "blocked",
+                "errors": [{"code": _block_error_code(exc)}],
+            }
 
     def ingest(self, request: dict) -> dict:
-        """一次完成导入：校验 → 采集 → 落盘，返回结构化结果。
+        """一次完成导入：校验 → 采集 → 落盘，返回 ``tools.contract`` 统一信封。
 
         取代 preview→apply 两阶段（ADR-0019）：无 operation 记录、无 per-vault
         锁、无人工确认事件。失败一律结构化返回，不留半成品。
+
+        映射（保持迁移前语义，不擅改 retryable）：``ready`` → 落盘（``ok`` / 写失败
+        ``blocked``）；输入/校验/采集类失败 → ``blocked``（伞码 ``schema_invalid`` /
+        ``source_empty`` / ``source_ingest_failed``）。动态明细码一律在 ``errors[]``
+        里携带，不进 error_code 词表。
         """
         prepared = self._prepare(request)
-        if prepared["state"] != "ready":
-            return prepared
-        return self._commit(prepared["payload"])
+        state = prepared["state"]
+        if state == "ready":
+            return self._commit(prepared["payload"])
+        errors = prepared.get("errors", [])
+        return contract.blocked(
+            _INGEST_SCHEMA, self._blocked_umbrella(errors), errors=errors
+        )
+
+    @staticmethod
+    def _blocked_umbrella(errors: list[dict]) -> str:
+        """从明细码派生已登记的 blocked 伞码（KISS）。
+
+        空正文 → ``source_empty``；纯请求校验（明细码全为 ``schema_invalid``）→
+        ``schema_invalid``；其余（采集/解码/格式等动态明细码）→ 通用伞码
+        ``source_ingest_failed``，具体码见 ``errors[]``。
+        """
+        codes = {e.get("code") for e in errors}
+        if "source_empty" in codes:
+            return "source_empty"
+        if codes <= {"schema_invalid"}:
+            return "schema_invalid"
+        return "source_ingest_failed"
 
     def _commit(self, payload: dict) -> dict:
         """落盘主流程：写 source/snapshot/sidecar/manifest，I/O 失败即回滚。"""
@@ -402,19 +436,25 @@ class SourceIngestor:
             self._write_artifacts(payload, body, metadata, source_path, archive_path)
         except OSError:
             self._rollback_uncommitted(payload, source_path, source_id)
-            return {"state": "blocked", "error_code": "apply_failed"}
-        return {
-            "state": "applied",
-            "source_id": source_id,
-            "snapshot_sha256": snapshot_hash,
-            "source_path": str(source_path),
-            "applied_files": [
+            # 落盘 I/O 失败：保持迁移前语义为 blocked（伞码），明细码进 errors[]。
+            return contract.blocked(
+                _INGEST_SCHEMA,
+                "source_ingest_failed",
+                errors=[{"code": "apply_failed"}],
+            )
+        return contract.ok(
+            _INGEST_SCHEMA,
+            changed=True,
+            source_id=source_id,
+            snapshot_sha256=snapshot_hash,
+            source_path=str(source_path),
+            applied_files=[
                 str(source_path.relative_to(self.root)),
                 str(archive_path.relative_to(self.root)),
                 *([original_rel] if original_rel else []),
                 *([raw_rel] if raw_rel else []),
             ],
-        }
+        )
 
     def _source_metadata(self, record: dict, snapshot_hash: str) -> dict:
         """source front matter（§5.4）：不含 local 段，由 sidecar 写入时补。"""
@@ -780,4 +820,5 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("one of --from-file, --personal-note or --url is required")
     result = ingestor.ingest(request)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result.get("state") != "blocked" else 2
+    # 退出码由 status 派生：ok=0，否则 2（blocked/unavailable 同为非零失败）。
+    return 0 if result.get("status") == "ok" else 2

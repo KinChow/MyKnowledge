@@ -330,7 +330,7 @@ def test_skill_source_ingest_delegates_to_source_service(tmp_path: Path):
         "body": "A source body",
     }
     applied = dispatch("source_ingest", {"request": request}, root=tmp_path)
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
     assert applied["source_id"] == "skill-source"
     assert (
         tmp_path / "content" / "sources" / "tools" / "skill-source" / "skill-source.md"

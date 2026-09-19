@@ -39,7 +39,7 @@ def real_import():
                 "source_id": source_id,
             }
         )
-        assert applied["state"] == "applied", applied
+        assert applied["status"] == "ok", applied
         manifest = ArchiveManifest(root)
         return json.loads(
             manifest.path.read_text(encoding="utf-8").strip().splitlines()[-1]

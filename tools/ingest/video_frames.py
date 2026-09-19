@@ -8,9 +8,31 @@ import subprocess
 import uuid
 from pathlib import Path
 
+from .. import contract
 from ..common import atomic_write, canonical_json, read_stable, sha256_bytes
 from ..front_matter import FrontMatter
 from ..paths import RepoPaths
+
+_FRAMES_SCHEMA = "video-frames/v1"
+
+
+def _frame_result(domain: dict) -> dict:
+    """把 VideoFrameService 的遗留 state dict 归一为 contract 信封（加法式）。
+
+    ``state == "applied"`` → ``ok`` + ``changed=True``；其余（blocked）→ ``blocked``，
+    顶层 error_code 取已登记的具体码，动态/未预期码归伞码 ``video_frame_failed``
+    并把原始码放进 ``errors[]``。领域字段（state/source_id/frame_count…）保留。
+    """
+    fields = dict(domain)
+    if fields.get("state") == "applied":
+        return contract.ok(_FRAMES_SCHEMA, changed=True, **fields)
+    raw = str(fields.pop("error_code", "video_frame_failed"))
+    if raw in contract.ERROR_CODES:
+        code = raw
+    else:
+        code = "video_frame_failed"
+        fields.setdefault("errors", [{"code": raw}])
+    return contract.blocked(_FRAMES_SCHEMA, code, **fields)
 
 
 def _timestamp(value: float) -> str:
@@ -156,8 +178,8 @@ class VideoFrameService:
             source_path, media_path, timestamps, executable=executable
         )
         if prepared["state"] != "ready":
-            return prepared
-        return self._commit(prepared["payload"])
+            return _frame_result(prepared)
+        return _frame_result(self._commit(prepared["payload"]))
 
     def _commit(self, record: dict) -> dict:
         """落盘：写关键帧与 manifest、更新 source front matter；失败清理 staging。"""
@@ -240,4 +262,4 @@ def main(argv: list[str] | None = None) -> int:
         args.source, args.media, timestamps, executable=args.ffmpeg_path
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result.get("state") != "blocked" else 2
+    return 0 if result.get("status") == "ok" else 2

@@ -63,7 +63,7 @@ def test_video_preview_apply_writes_transcript_only_source_and_manifest(tmp_path
             "archive_policy": "transcript-only",
         }
     )
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
 
     source_path = (
         root / "content" / "sources" / "computer-science" / "cs336-p01" / "cs336-p01.md"
@@ -101,7 +101,7 @@ def test_video_collection_places_source_under_explicit_collection(tmp_path: Path
             "archive_policy": "transcript-only",
         }
     )
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
     assert (
         root
         / "content"
@@ -125,5 +125,5 @@ def test_video_request_rejects_non_platform_url(tmp_path: Path):
             "input_path": str(transcript),
         }
     )
-    assert result["state"] == "blocked"
+    assert result["status"] == "blocked"
     assert {error["path"] for error in result["errors"]} == {"url"}

@@ -33,7 +33,7 @@ class SourceRepository(ManagedObjectRepository):
     def create(self, request: dict) -> dict:
         schema = "source-create/v1"
         result = SourceIngestor(self.root).ingest(request)
-        if result.get("state") == "applied":
+        if result.get("status") == "ok":
             return contract.ok(
                 schema,
                 changed=True,
@@ -70,7 +70,7 @@ class SourceRepository(ManagedObjectRepository):
         old_snapshot = old_meta.get("snapshot_sha256")
 
         result = SourceIngestor(self.root).ingest(request)
-        if result.get("state") != "applied":
+        if result.get("status") != "ok":
             return contract.blocked(
                 schema, "source_ingest_failed", errors=self._ingest_errors(result)
             )

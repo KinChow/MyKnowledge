@@ -166,7 +166,7 @@ class ResolutionTests(WikiTestCase):
                 "source_id": "integrated-source",
             }
         )
-        assert ingested["state"] == "applied", ingested
+        assert ingested["status"] == "ok", ingested
         source_path = (
             root
             / "content"

@@ -63,7 +63,7 @@ def test_video_frame_apply_attaches_confirmed_pngs_and_manifest(
             "input_path": str(transcript),
         }
     )
-    assert ingested["state"] == "applied", ingested
+    assert ingested["status"] == "ok", ingested
     source = root / "content/sources/tools/frame-video/frame-video.md"
 
     def fake_run(command, **kwargs):  # noqa: ARG001

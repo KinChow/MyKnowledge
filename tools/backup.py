@@ -10,10 +10,39 @@ import time
 import uuid
 from pathlib import Path
 
+from . import contract
 from .common import atomic_write, canonical_json, hash_canonical, safe_id
 from .paths import RepoPaths
 from .release_confirmation import validate_event
 from .vault_registry import VaultRegistry
+
+# 备份结果统一走 tools.contract 信封（TD §14）：唯一 status 轴 + 领域细节进 payload。
+# 原状态机的 state（verified/restored/exported/failed/blocked）作为领域字段保留在
+# payload 里（"restore 结果/各步骤进 payload"），status 只表达契约层结论。
+_BACKUP_SCHEMA = "backup/v1"
+_OK_STATES = frozenset({"verified", "restored", "exported"})
+
+
+def _envelope(domain: dict) -> dict:
+    """把遗留 backup 结果 dict 归一为 contract 信封（加法式，保留领域字段）。
+
+    - ``state`` ∈ {verified, restored, exported} 或纯成功对象（如 manifest）→ ``ok``；
+    - 其余（failed/blocked）→ ``blocked``；顶层 ``error_code`` 取已登记的具体码，
+      未登记的动态/未预期码归伞码 ``backup_operation_failed`` 并把原始码放进
+      ``errors[]``。领域字段（state/backup_state/path/restored_entries…）原样保留。
+    """
+    fields = dict(domain)
+    schema = fields.pop("schema_version", _BACKUP_SCHEMA)
+    state = fields.get("state")
+    if state in _OK_STATES or (state is None and "error_code" not in fields):
+        return contract.ok(schema, **fields)
+    raw = str(fields.pop("error_code", "backup_operation_failed"))
+    if raw in contract.ERROR_CODES:
+        code = raw
+    else:
+        code = "backup_operation_failed"
+        fields.setdefault("errors", [{"code": raw}])
+    return contract.blocked(schema, code, **fields)
 
 
 class BackupManager:
@@ -164,7 +193,7 @@ class BackupManager:
         )
         path = RepoPaths(owner_root).audit_backup / f"{backup_id}.json"
         atomic_write(path, canonical_json(data) + b"\n", 0o600)
-        return {**data, "path": str(path.relative_to(owner_root))}
+        return _envelope({**data, "path": str(path.relative_to(owner_root))})
 
     def verify_manifest(self, manifest_path: Path) -> dict:
         """Verify one durable manifest without changing Vault or backup state."""
@@ -243,24 +272,28 @@ class BackupManager:
                 except ValueError as exc:
                     raise ValueError(f"domain_verifier_failed:{name}:{exc}") from exc
             relative = str(path.resolve().relative_to(owner_root.resolve()))
-            return {
-                "state": "verified",
-                "backup_state": "verified",
-                "vault_id": vault_id,
-                "manifest_sha256": expected,
-                "path": relative,
-            }
+            return _envelope(
+                {
+                    "state": "verified",
+                    "backup_state": "verified",
+                    "vault_id": vault_id,
+                    "manifest_sha256": expected,
+                    "path": relative,
+                }
+            )
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             try:
                 relative = str(path.resolve().relative_to(self.root.resolve()))
             except ValueError:
                 relative = None
-            return {
-                "state": "failed",
-                "backup_state": "failed",
-                "error_code": str(exc),
-                "path": relative,
-            }
+            return _envelope(
+                {
+                    "state": "failed",
+                    "backup_state": "failed",
+                    "error_code": str(exc),
+                    "path": relative,
+                }
+            )
 
     def export_manifest(self, manifest_path: Path, target: Path) -> dict:
         """Copy a verified owner manifest to an explicit external target.
@@ -269,43 +302,55 @@ class BackupManager:
         """
         checked = self.verify_manifest(manifest_path)
         if checked.get("backup_state") != "verified":
-            return {
-                "state": "blocked",
-                "error_code": checked.get("error_code", "manifest_unverified"),
-            }
+            return _envelope(
+                {
+                    "state": "blocked",
+                    "error_code": checked.get("error_code", "manifest_unverified"),
+                }
+            )
         source = Path(manifest_path)
         if not source.is_absolute():
             source = self.root / source
         destination = Path(target).expanduser().resolve()
         if destination == self.root or self.root in destination.parents:
-            return {"state": "blocked", "error_code": "backup_target_invalid"}
+            return _envelope(
+                {"state": "blocked", "error_code": "backup_target_invalid"}
+            )
         if destination.exists() and destination.is_dir():
             destination = destination / source.name
         destination.parent.mkdir(parents=True, exist_ok=True)
         atomic_write(destination, source.read_bytes(), 0o600)
-        return {
-            "state": "exported",
-            "backup_state": "configured",
-            "manifest_sha256": checked["manifest_sha256"],
-            "target": str(destination),
-        }
+        return _envelope(
+            {
+                "state": "exported",
+                "backup_state": "configured",
+                "manifest_sha256": checked["manifest_sha256"],
+                "target": str(destination),
+            }
+        )
 
     def export_bundle(self, manifest_path: Path, target: Path) -> dict:
         """Export manifest and listed owner files into an explicit offline bundle."""
         checked = self.verify_manifest(manifest_path)
         if checked.get("backup_state") != "verified":
-            return {
-                "state": "blocked",
-                "error_code": checked.get("error_code", "manifest_unverified"),
-            }
+            return _envelope(
+                {
+                    "state": "blocked",
+                    "error_code": checked.get("error_code", "manifest_unverified"),
+                }
+            )
         source_manifest = Path(manifest_path)
         if not source_manifest.is_absolute():
             source_manifest = self.root / source_manifest
         bundle = Path(target).expanduser().resolve()
         if bundle == self.root or self.root in bundle.parents:
-            return {"state": "blocked", "error_code": "backup_target_invalid"}
+            return _envelope(
+                {"state": "blocked", "error_code": "backup_target_invalid"}
+            )
         if bundle.exists() and any(bundle.iterdir()):
-            return {"state": "blocked", "error_code": "backup_target_not_empty"}
+            return _envelope(
+                {"state": "blocked", "error_code": "backup_target_not_empty"}
+            )
         bundle.mkdir(parents=True, exist_ok=True)
         data = json.loads(source_manifest.read_text(encoding="utf-8"))
         owner_root = self.registry.resolve_vault_path(str(data.get("vault_id", "")))
@@ -325,16 +370,18 @@ class BackupManager:
                 destination = bundle / "payload" / rel
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 atomic_write(destination, source.read_bytes(), 0o600)
-            return {
-                "state": "exported",
-                "backup_state": "configured",
-                "manifest_sha256": checked["manifest_sha256"],
-                "target": str(bundle),
-                "entry_count": len(data.get("entries", [])),
-            }
+            return _envelope(
+                {
+                    "state": "exported",
+                    "backup_state": "configured",
+                    "manifest_sha256": checked["manifest_sha256"],
+                    "target": str(bundle),
+                    "entry_count": len(data.get("entries", [])),
+                }
+            )
         except (OSError, ValueError) as exc:
             shutil.rmtree(bundle, ignore_errors=True)
-            return {"state": "failed", "error_code": str(exc)}
+            return _envelope({"state": "failed", "error_code": str(exc)})
 
     @staticmethod
     def verify_bundle(bundle: Path) -> dict:
@@ -374,14 +421,18 @@ class BackupManager:
                 actual = "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
                 if actual != entry.get("sha256"):
                     raise ValueError("hash_mismatch")
-            return {
-                "state": "verified",
-                "backup_state": "verified",
-                "manifest_sha256": expected,
-                "entry_count": len(data.get("entries", [])),
-            }
+            return _envelope(
+                {
+                    "state": "verified",
+                    "backup_state": "verified",
+                    "manifest_sha256": expected,
+                    "entry_count": len(data.get("entries", [])),
+                }
+            )
         except (OSError, ValueError, json.JSONDecodeError) as exc:
-            return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+            return _envelope(
+                {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+            )
 
     @staticmethod
     def verify_restored_bundle(
@@ -392,10 +443,12 @@ class BackupManager:
         target = Path(target).resolve()
         checked = BackupManager.verify_bundle(bundle)
         if checked.get("backup_state") != "verified":
-            return {
-                "state": "failed",
-                "error_code": checked.get("error_code", "bundle_unverified"),
-            }
+            return _envelope(
+                {
+                    "state": "failed",
+                    "error_code": checked.get("error_code", "bundle_unverified"),
+                }
+            )
         try:
             data = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
             expected_manifest = checked["manifest_sha256"]
@@ -464,30 +517,40 @@ class BackupManager:
                     extras.append(rel)
             if extras:
                 raise ValueError("restore_extra_entry")
-            return {
-                "state": "verified",
-                "backup_state": "verified",
-                "vault_id": data.get("vault_id"),
-                "manifest_sha256": expected_manifest,
-                "entry_count": len(expected_paths),
-            }
+            return _envelope(
+                {
+                    "state": "verified",
+                    "backup_state": "verified",
+                    "vault_id": data.get("vault_id"),
+                    "manifest_sha256": expected_manifest,
+                    "entry_count": len(expected_paths),
+                }
+            )
         except (OSError, ValueError, json.JSONDecodeError) as exc:
-            return {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+            return _envelope(
+                {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+            )
 
     def restore_bundle(self, bundle: Path, target: Path) -> dict:
         """Restore a verified offline bundle into an explicitly empty checkout."""
         bundle = Path(bundle).resolve()
         target = Path(target).expanduser().resolve()
         if target == self.root or self.root in target.parents:
-            return {"state": "blocked", "error_code": "restore_target_invalid"}
+            return _envelope(
+                {"state": "blocked", "error_code": "restore_target_invalid"}
+            )
         checked = self.verify_bundle(bundle)
         if checked.get("backup_state") != "verified":
-            return {
-                "state": "blocked",
-                "error_code": checked.get("error_code", "bundle_unverified"),
-            }
+            return _envelope(
+                {
+                    "state": "blocked",
+                    "error_code": checked.get("error_code", "bundle_unverified"),
+                }
+            )
         if target.exists() and any(target.iterdir()):
-            return {"state": "blocked", "error_code": "restore_target_not_empty"}
+            return _envelope(
+                {"state": "blocked", "error_code": "restore_target_not_empty"}
+            )
         target.mkdir(parents=True, exist_ok=True)
         created: list[Path] = []
         try:
@@ -536,13 +599,15 @@ class BackupManager:
                 raise ValueError(
                     verified.get("error_code", "restore_verification_failed")
                 )
-            return {
-                "state": "restored",
-                "backup_state": "verified",
-                "restored_entries": len(created),
-                "target": str(target),
-                "manifest_sha256": checked["manifest_sha256"],
-            }
+            return _envelope(
+                {
+                    "state": "restored",
+                    "backup_state": "verified",
+                    "restored_entries": len(created),
+                    "target": str(target),
+                    "manifest_sha256": checked["manifest_sha256"],
+                }
+            )
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             for path in reversed(created):
                 path.unlink(missing_ok=True)
@@ -555,7 +620,9 @@ class BackupManager:
                     directory.rmdir()
             with contextlib.suppress(OSError):
                 target.rmdir()
-            return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+            return _envelope(
+                {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+            )
 
     def restore_bundle_to_vault(
         self, bundle: Path, target: Path, target_vault_id: str
@@ -569,27 +636,31 @@ class BackupManager:
         try:
             owner = safe_id(str(target_vault_id))
         except ValueError:
-            return {"state": "blocked", "error_code": "vault_id_invalid"}
+            return _envelope({"state": "blocked", "error_code": "vault_id_invalid"})
         bundle_path = Path(bundle).resolve()
         checked = self.verify_bundle(bundle_path)
         if checked.get("backup_state") != "verified":
-            return {
-                "state": "blocked",
-                "error_code": checked.get("error_code", "bundle_unverified"),
-            }
+            return _envelope(
+                {
+                    "state": "blocked",
+                    "error_code": checked.get("error_code", "bundle_unverified"),
+                }
+            )
         try:
             data = json.loads(
                 (bundle_path / "manifest.json").read_text(encoding="utf-8")
             )
         except (OSError, ValueError, json.JSONDecodeError):
-            return {"state": "blocked", "error_code": "bundle_unreadable"}
+            return _envelope({"state": "blocked", "error_code": "bundle_unreadable"})
         if data.get("vault_id") != owner:
-            return {
-                "state": "blocked",
-                "error_code": "cross_vault_restore",
-                "source_vault_id": data.get("vault_id"),
-                "target_vault_id": owner,
-            }
+            return _envelope(
+                {
+                    "state": "blocked",
+                    "error_code": "cross_vault_restore",
+                    "source_vault_id": data.get("vault_id"),
+                    "target_vault_id": owner,
+                }
+            )
         restored = self.restore_bundle(bundle_path, target)
         if restored.get("state") == "restored":
             restored["target_vault_id"] = owner
@@ -599,16 +670,22 @@ class BackupManager:
         """Restore verified local entries into an explicitly empty checkout."""
         target = Path(target).resolve()
         if target == self.root or self.root in target.parents:
-            return {"state": "blocked", "error_code": "restore_target_invalid"}
+            return _envelope(
+                {"state": "blocked", "error_code": "restore_target_invalid"}
+            )
         checked = self.verify_manifest(manifest_path)
         if checked.get("backup_state") != "verified":
-            return {
-                "state": "blocked",
-                "error_code": checked.get("error_code", "manifest_unverified"),
-            }
+            return _envelope(
+                {
+                    "state": "blocked",
+                    "error_code": checked.get("error_code", "manifest_unverified"),
+                }
+            )
         target.mkdir(parents=True, exist_ok=True)
         if any(target.iterdir()):
-            return {"state": "blocked", "error_code": "restore_target_not_empty"}
+            return _envelope(
+                {"state": "blocked", "error_code": "restore_target_not_empty"}
+            )
         source_manifest = Path(manifest_path)
         if not source_manifest.is_absolute():
             source_manifest = self.root / source_manifest
@@ -649,12 +726,14 @@ class BackupManager:
                 canonical_json(marker) + b"\n",
                 0o600,
             )
-            return {
-                "state": "restored",
-                "backup_state": "verified",
-                "restored_entries": len(created),
-                "target": str(target),
-            }
+            return _envelope(
+                {
+                    "state": "restored",
+                    "backup_state": "verified",
+                    "restored_entries": len(created),
+                    "target": str(target),
+                }
+            )
         except (OSError, ValueError) as exc:
             for path in reversed(created):
                 path.unlink(missing_ok=True)
@@ -669,4 +748,6 @@ class BackupManager:
                     directory.rmdir()
             with contextlib.suppress(OSError):
                 target.rmdir()
-            return {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+            return _envelope(
+                {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+            )

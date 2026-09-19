@@ -130,7 +130,9 @@ class FetcherTests(unittest.TestCase):
                     "url": "http://example.com:abc/",
                 }
             )
-            self.assertEqual(result["state"], "blocked")
+            # 抓取阶段策略拒绝（SSRF 等）属调用方输入问题：blocked + 伞码，明细码进 errors[]。
+            self.assertEqual(result["status"], "blocked")
+            self.assertEqual(result["error_code"], "source_ingest_failed")
             self.assertEqual(result["errors"][0]["code"], "fetch_blocked:url_policy")
 
     def test_userinfo_url_is_blocked(self):

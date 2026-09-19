@@ -34,10 +34,10 @@ class SourceIngestorTests(unittest.TestCase):
                 "source_id": "personal-note-one",
             }
             applied = ingestor.ingest(request)
-            self.assertEqual(applied["state"], "applied")
+            self.assertEqual(applied["status"], "ok")
             # 直接写下：重复 ingest 同一内容必须幂等（快照内容寻址 + manifest 按 record_id 去重）
             repeated = ingestor.ingest(request)
-            self.assertEqual(repeated["state"], "applied")
+            self.assertEqual(repeated["status"], "ok")
             self.assertEqual(
                 len((root / "archive" / "manifest.jsonl").read_text().splitlines()), 1
             )
@@ -115,7 +115,8 @@ class SourceIngestorTests(unittest.TestCase):
                     "input_path": "/tmp/file",
                 }
             )
-            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["status"], "blocked")
+            self.assertEqual(result["error_code"], "schema_invalid")
             self.assertEqual(result["errors"][0]["code"], "schema_invalid")
 
     def test_url_ingest_not_schema_blocked(self):
@@ -128,7 +129,10 @@ class SourceIngestorTests(unittest.TestCase):
                     "url": "http://127.0.0.1/",
                 }
             )
-            self.assertEqual(result["state"], "blocked")
+            # 采集阶段抓取失败（SSRF 策略拒绝等）属调用方输入问题：blocked + 伞码，
+            # 动态明细码（fetch_blocked:private_network）留在 errors[]。
+            self.assertEqual(result["status"], "blocked")
+            self.assertEqual(result["error_code"], "source_ingest_failed")
             self.assertEqual(
                 result["errors"][0]["code"], "fetch_blocked:private_network"
             )
@@ -165,7 +169,7 @@ class SourceIngestorTests(unittest.TestCase):
                     "media_type": "text/plain",
                 }
             )
-            self.assertEqual(applied["state"], "applied")
+            self.assertEqual(applied["status"], "ok")
 
     def test_manifest_invalid_utf8_tolerated(self):
         """manifest 含非法 UTF-8 字节行时后续 ingest 仍成功。"""
@@ -197,7 +201,7 @@ class SourceIngestorTests(unittest.TestCase):
                     "media_type": "text/plain",
                 }
             )
-            self.assertEqual(applied["state"], "applied")
+            self.assertEqual(applied["status"], "ok")
 
     def test_manifest_deduplicates_snapshot_keeps_owners(self):
         """AC-F001-006：两个 source 相同内容 → archive 去重一个快照，manifest 两行 owner 保留。"""
@@ -215,7 +219,7 @@ class SourceIngestorTests(unittest.TestCase):
                         "source_id": source_id,
                     }
                 )
-                self.assertEqual(applied["state"], "applied")
+                self.assertEqual(applied["status"], "ok")
             manifest = root / "archive" / "manifest.jsonl"
             lines = [
                 json.loads(line)
@@ -251,7 +255,7 @@ class SourceIngestorTests(unittest.TestCase):
                     "source_id": "url-source",
                 }
             )
-            self.assertEqual(applied["state"], "applied")
+            self.assertEqual(applied["status"], "ok")
             source = (
                 root / "content" / "sources" / "tools" / "url-source" / "url-source.md"
             ).read_text(encoding="utf-8")
@@ -300,7 +304,7 @@ class SourceIngestorTests(unittest.TestCase):
                 )
             self.assertEqual(code, 0)
             applied = json.loads(captured[-1])
-            self.assertEqual(applied["state"], "applied", applied)
+            self.assertEqual(applied["status"], "ok", applied)
             snapshot = (
                 root
                 / "archive"
@@ -323,7 +327,8 @@ class SourceIngestorTests(unittest.TestCase):
                     "source_id": "bad-body",
                 }
             )
-            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["status"], "blocked")
+            self.assertEqual(result["error_code"], "schema_invalid")
             self.assertEqual(result["errors"][0]["code"], "schema_invalid")
 
     def test_ingest_failure_rolls_back_source(self):
@@ -342,8 +347,10 @@ class SourceIngestorTests(unittest.TestCase):
                     "source_id": "rollback-note",
                 }
             )
-            self.assertEqual(applied["state"], "blocked")
-            self.assertEqual(applied["error_code"], "apply_failed")
+            # 落盘 I/O 失败：blocked + 伞码（保持迁移前语义），明细码进 errors[]。
+            self.assertEqual(applied["status"], "blocked")
+            self.assertEqual(applied["error_code"], "source_ingest_failed")
+            self.assertEqual(applied["errors"][0]["code"], "apply_failed")
             self.assertFalse(
                 (
                     root
@@ -368,8 +375,9 @@ class SourceIngestorTests(unittest.TestCase):
                 applied = self._ingest_note(ingestor, "新版本正文内容", "keep-old-note")
             finally:
                 text_dir.chmod(0o755)
-            self.assertEqual(applied["state"], "blocked")
-            self.assertEqual(applied["error_code"], "apply_failed")
+            self.assertEqual(applied["status"], "blocked")
+            self.assertEqual(applied["error_code"], "source_ingest_failed")
+            self.assertEqual(applied["errors"][0]["code"], "apply_failed")
             source_text = (
                 root
                 / "content"
@@ -405,8 +413,9 @@ class SourceIngestorTests(unittest.TestCase):
             ingestor = SourceIngestor(root)
             with mock.patch.dict(os.environ, {"MYKNOWLEDGE_FAIL_AT": "after_source"}):
                 applied = self._ingest_note(ingestor, "新建正文内容", "fail-new-note")
-            self.assertEqual(applied["state"], "blocked")
-            self.assertEqual(applied["error_code"], "apply_failed")
+            self.assertEqual(applied["status"], "blocked")
+            self.assertEqual(applied["error_code"], "source_ingest_failed")
+            self.assertEqual(applied["errors"][0]["code"], "apply_failed")
             self.assertFalse(
                 (
                     root
@@ -438,7 +447,9 @@ class SourceIngestorTests(unittest.TestCase):
             self._ingest_note(ingestor, "旧版本正文内容", "fail-ovw-note")
             with mock.patch.dict(os.environ, {"MYKNOWLEDGE_FAIL_AT": "after_source"}):
                 applied = self._ingest_note(ingestor, "新版本正文内容", "fail-ovw-note")
-            self.assertEqual(applied["error_code"], "apply_failed")
+            self.assertEqual(applied["status"], "blocked")
+            self.assertEqual(applied["error_code"], "source_ingest_failed")
+            self.assertEqual(applied["errors"][0]["code"], "apply_failed")
 
             source_path = (
                 root
@@ -471,7 +482,9 @@ class SourceIngestorTests(unittest.TestCase):
                 applied = self._ingest_note(
                     ingestor, "新版本正文内容", "extra-rec-note"
                 )
-            self.assertEqual(applied["error_code"], "apply_failed")
+            self.assertEqual(applied["status"], "blocked")
+            self.assertEqual(applied["error_code"], "source_ingest_failed")
+            self.assertEqual(applied["errors"][0]["code"], "apply_failed")
             source_text = (
                 root
                 / "content"
@@ -541,7 +554,7 @@ class SourceIngestorTests(unittest.TestCase):
                     )
                     replayed = SourceIngestor(root).ingest(request)
                     self.assertEqual(
-                        replayed["state"], "applied", f"{point}: 重跑未收敛: {replayed}"
+                        replayed["status"], "ok", f"{point}: 重跑未收敛: {replayed}"
                     )
                     # 单一账目：SIGKILL 没有回滚，重复记录只能靠 record_id 幂等去重
                     manifest = root / "archive" / "manifest.jsonl"
@@ -590,7 +603,10 @@ class SourceIngestorTests(unittest.TestCase):
                     "subtitle_mode": "manual",
                 }
             )
-            self.assertEqual(result["state"], "blocked")
+            # 采集阶段抛的 ValueError 归一为结构化 blocked（不逃逸成 traceback），
+            # 明细码 transcript_format_unsupported 留在 errors[]。
+            self.assertEqual(result["status"], "blocked")
+            self.assertEqual(result["error_code"], "source_ingest_failed")
             self.assertEqual(
                 result["errors"][0]["code"], "transcript_format_unsupported"
             )

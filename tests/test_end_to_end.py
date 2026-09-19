@@ -21,7 +21,7 @@ def test_source_to_wiki_evidence_chain_is_replayable(tmp_path: Path):
             "media_type": "text/plain",
         }
     )
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
 
     source_path = (
         tmp_path / "content" / "sources" / "tools" / "e2e-source" / "e2e-source.md"

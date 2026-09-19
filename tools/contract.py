@@ -62,7 +62,17 @@ _QUESTION_CODES: frozenset[str] = frozenset(
         "scheduler_unavailable",
     }
 )  # agent-A1: question.py/question_quality
-_SOURCE_CODES: frozenset[str] = frozenset()  # agent-A1: ingest/source_ingestor
+_SOURCE_CODES: frozenset[str] = frozenset(
+    {
+        # ingest/source_ingestor（source 采集入口）：仅登记少数“伞码”作为顶层
+        # error_code。底层动态/明细码（fetch_blocked:*、injected_io_error:*、
+        # transcript_format_unsupported、异常类名……）不进词表，放 errors[]。
+        # 输入/校验类失败用这两个 blocked 伞码；网络/IO/解码类失败复用
+        # _CRUD_CODES 的 source_ingest_failed（unavailable）。
+        "schema_invalid",
+        "source_empty",
+    }
+)  # agent-A1: ingest/source_ingestor
 _ENTRY_CODES: frozenset[str] = frozenset(
     {
         # skill_runtime.dispatch 通道门禁与 catch-all
@@ -130,12 +140,64 @@ _CRUD_CODES: frozenset[str] = frozenset(
 )  # agent-B: source/wiki repository（CRUD 能力层）
 
 # A 线剩余迁移的按域子集（各 agent 只填自己那块，避免同一字面量并行冲突）。
-_BACKUP_CODES: frozenset[str] = frozenset()  # agent-backup: backup.py
-_VALIDATION_CODES: frozenset[str] = frozenset()  # agent-valing: validation/*
-_INGEST_CODES: frozenset[str] = (
-    frozenset()
-)  # agent-valing: ingest/*（含 source_ingestor）
-_DOCTOR_CODES: frozenset[str] = frozenset()  # agent-valing: doctor.py
+_BACKUP_CODES: frozenset[str] = frozenset(
+    {
+        # backup.py status/manifest/verify/restore 状态机的顶层伞码/明细码
+        # （测试断言的具体码语义保持；动态/未预期异常归 backup_operation_failed）。
+        "manifest_schema_invalid",
+        "hash_mismatch",
+        "vault_not_found",
+        "manifest_owner_mismatch",
+        "entry_path_invalid",
+        "entry_path_symlink",
+        "entry_missing",
+        "entry_hardlink",
+        "entry_invalid",
+        "entries_invalid",
+        "durable_record_hash_mismatch",
+        "confirmation_record_invalid",
+        "manifest_unverified",
+        "backup_target_invalid",
+        "backup_target_not_empty",
+        "vault_id_invalid",
+        "bundle_unverified",
+        "bundle_unreadable",
+        "cross_vault_restore",
+        "restored_entry_path_invalid",
+        "restored_entry_missing",
+        "restored_hash_mismatch",
+        "restore_marker_missing",
+        "restore_extra_entry",
+        "restore_target_invalid",
+        "restore_target_not_empty",
+        "restore_verification_failed",
+        "backup_operation_failed",
+    }
+)  # agent-backup: backup.py
+_VALIDATION_CODES: frozenset[str] = frozenset(
+    {
+        # WikiValidator.validate 无法跑通（可执行 JSON Schema 缺失）时的顶层伞码；
+        # 字段级校验码（source_missing/unknown_field 等）留在 errors[]，不登记。
+        "validator_unavailable",
+    }
+)  # agent-valing: validation/*
+_INGEST_CODES: frozenset[str] = frozenset(
+    {
+        # video_frames：帧抽取 blocked 的明细码（动态/未预期异常归 video_frame_failed）。
+        "source_not_video",
+        "frame_media_missing",
+        "frame_timestamps_missing",
+        "frame_timestamp_invalid",
+        "frame_extraction_timeout",
+        "frame_extraction_failed",
+        "frame_staging_missing",
+        "frame_apply_failed",
+        "video_frame_failed",
+        # video_inventory：采集失败的顶层伞码（明细码进 errors[]）。
+        "video_inventory_failed",
+    }
+)  # agent-valing: ingest/*（不含 source_ingestor）
+_DOCTOR_CODES: frozenset[str] = frozenset()  # agent-valing: doctor.py（顶层恒 ok）
 
 ERROR_CODES = (
     _LOCATE_CODES

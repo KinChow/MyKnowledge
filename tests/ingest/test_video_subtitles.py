@@ -91,7 +91,7 @@ def test_remote_video_preview_records_subtitle_provenance(monkeypatch, tmp_path:
             "allow_automatic": True,
         }
     )
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
     source = root / "content/sources/tools/remote-video/remote-video.md"
     text = source.read_text(encoding="utf-8")
     assert "automatic" in text

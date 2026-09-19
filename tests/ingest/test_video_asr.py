@@ -124,7 +124,7 @@ def test_video_source_records_asr_provenance_without_raw_media(
             "asr_threads": 2,
         }
     )
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
     source = root / "content/sources/computer-science/asr-video/asr-video.md"
     text = source.read_text(encoding="utf-8")
     assert "whisper.cpp" in text

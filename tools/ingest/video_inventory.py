@@ -13,6 +13,7 @@ import subprocess
 from pathlib import Path
 from urllib.parse import urlparse
 
+from .. import contract
 from ..common import atomic_write, canonical_json, safe_id, sha256_bytes
 
 INVENTORY_SCHEMA = "video-inventory/v1"
@@ -148,18 +149,20 @@ def build_inventory(
             item["excluded_reason"] = (
                 f"language_not_selected:{language}" if language else "not_selected"
             )
-    payload = {
-        "schema_version": INVENTORY_SCHEMA,
-        "source_url": source_url,
-        "platform": _platform(source_url),
-        "source_id": metadata.get("id"),
-        "title": metadata.get("title"),
-        "captured_at": metadata.get("timestamp"),
-        "inventory_item_count": len(items),
-        "selected_item_count": len(selected),
-        "selection_language": language,
-        "items": items,
-    }
+    # 成功清点即 contract ``ok``（TD §14）；领域字段（items/计数/inventory_sha256）
+    # 全留在 payload。inventory_sha256 自哈希覆盖 schema_version+status，保持自洽。
+    payload = contract.ok(
+        INVENTORY_SCHEMA,
+        source_url=source_url,
+        platform=_platform(source_url),
+        source_id=metadata.get("id"),
+        title=metadata.get("title"),
+        captured_at=metadata.get("timestamp"),
+        inventory_item_count=len(items),
+        selected_item_count=len(selected),
+        selection_language=language,
+        items=items,
+    )
     payload["inventory_sha256"] = sha256_bytes(canonical_json(payload))
     return payload
 
@@ -178,8 +181,16 @@ def main(argv: list[str] | None = None) -> int:
             args.url, language=args.language, executable=args.ytdlp_path
         )
     except (RuntimeError, ValueError) as exc:
+        # 采集失败归 contract 伞码，动态明细码进 errors[]（TD §14）。
         print(
-            json.dumps({"state": "blocked", "error_code": str(exc)}, ensure_ascii=False)
+            json.dumps(
+                contract.unavailable(
+                    INVENTORY_SCHEMA,
+                    "video_inventory_failed",
+                    errors=[{"code": str(exc)}],
+                ),
+                ensure_ascii=False,
+            )
         )
         return 2
     data = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
