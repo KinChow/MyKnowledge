@@ -40,6 +40,7 @@ Technical Design 回答“如何实现”，不取代系统规范，也不记录
 | 备份、恢复与可观测性 | Implemented | [正文](./backup-and-observability.md) |
 | Private Vaults 子仓库（0..N） | Implemented | [正文](./private-vault-submodule.md) |
 | Astro/Starlight 静态 Wiki 发布 | Implemented | [正文](./static-wiki-publishing.md) |
+| 内容 CRUD：Repository 契约 + 各实体实现 | Draft | [正文](./content-crud-repository.md) |
 | 2026-08-26 系统 Review 记录 | 历史快照（无状态行） | [正文](./system-review-2026-08-26.md) |
 
 > 状态从各设计正文「- 状态：」行读取并简化为 Implemented/Draft/Retired；正文无状态行的

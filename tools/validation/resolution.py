@@ -10,6 +10,7 @@ from __future__ import annotations
 import difflib
 
 from ..common import canonical_quote
+from ..content_repository import ObjectResolutionError, locate_managed_object
 from ..front_matter import FrontMatter
 from .schema import OWNER_VAULT_ID
 
@@ -25,21 +26,26 @@ SUPPORT_ORIGIN_MATRIX = {
 def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
     """owner Vault 内解析 source：按 id 匹配（A3 布局 `sources/<domain>/<id>/<id>.md`）。"""
     errors: list[dict] = []
-    hits = [p for p in paths.iter_source_files() if p.stem == source_id]
-    if not hits:
-        errors.append({"code": "source_not_found", "path": f"sources.{source_id}"})
-        return None, errors
-    if len(hits) > 1:
-        errors.append(
-            {
-                "code": "source_ambiguous",
-                "path": f"sources.{source_id}",
-                "reason": f"多个 source 匹配: {', '.join(str(h) for h in hits)}",
-            }
-        )
+    # 定位收敛到 content_repository.locate_managed_object（单份实现）；此处只把
+    # 结构化 code 适配回 wiki 校验既有码（AC-G2：source_not_found/source_ambiguous 不变）。
+    try:
+        hit = locate_managed_object(paths.root, "source", source_id)
+    except ObjectResolutionError as exc:
+        if exc.code == "object_id_ambiguous":
+            errors.append(
+                {
+                    "code": "source_ambiguous",
+                    "path": f"sources.{source_id}",
+                    "reason": (
+                        "多个 source 匹配: " + ", ".join(str(h) for h in exc.matches)
+                    ),
+                }
+            )
+        else:
+            errors.append({"code": "source_not_found", "path": f"sources.{source_id}"})
         return None, errors
     try:
-        text = hits[0].read_text(encoding="utf-8")
+        text = hit.read_text(encoding="utf-8")
         metadata, _ = FrontMatter.parse(text)
     except (OSError, UnicodeError, ValueError, TypeError) as exc:
         errors.append(
@@ -106,7 +112,7 @@ def resolve_source(source_id: str, paths) -> tuple[dict | None, list[dict]]:
     return {
         "metadata": metadata,
         "evidence_items": items,
-        "path": str(hits[0]),
+        "path": str(hit),
     }, errors
 
 

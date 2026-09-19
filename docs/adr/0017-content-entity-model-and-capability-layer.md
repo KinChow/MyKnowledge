@@ -1,11 +1,12 @@
 # ADR-0017：内容实体模型 = 共享 metadata + 统一动词 + 能力接口探测
 
-- 状态：Proposed
-- 日期：2026-09-14
+- 状态：Accepted
+- 日期：2026-09-14（2026-09-18 由 Proposed 提为 Accepted）
 - 相关规范：LAY、SRC、WIKI、EVD、QST、OPS
 - 相关 Feature：F001、F002、F003、F004、F008、F011
 - 相关 ADR：ADR-0006、ADR-0011、ADR-0014、ADR-0019、ADR-0020（本 ADR 一旦 Accepted，取代 ADR-0006 与 ADR-0014 的写入通道部分）
-- 取代目标：本 ADR Accepted 时，ADR-0006（Preview/Apply 写协议）与 ADR-0014（三条写入通道）标记 Superseded
+- 取代目标：ADR-0006（Preview/Apply 写协议）已 Superseded（ADR-0019）；ADR-0014 的**写入通道部分**由本 ADR 取代，其**数据分域与五层归属仍为现行权威**（故 ADR-0014 保持 Accepted，仅在其头部标注部分取代，见该文）。
+- 实现设计：[内容 CRUD：Repository 契约 + 各实体实现](../technical-design/content-crud-repository.md)（R/D/L 能力层的“如何实现”）
 
 ## 背景
 

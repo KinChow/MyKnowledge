@@ -10,8 +10,8 @@ from pathlib import Path
 from typing import Any
 
 from tools.common import safe_id
+from tools.content_repository import ObjectResolutionError, locate_managed_object
 from tools.front_matter import FrontMatter
-from tools.paths import RepoPaths
 from tools.vault_registry import VaultRegistry
 
 from .errors import api_error
@@ -99,19 +99,17 @@ def resolve_object_path(
         raise api_error(
             404, "vault_unavailable", "read", "check vault registry"
         ) from exc
-    paths = RepoPaths(owner_root)
-    base = paths.wiki_root if object_type == "wiki" else paths.sources_root
-    matches = [
-        p for p in base.rglob(f"{object_id}.md") if p.is_file() and not p.is_symlink()
-    ]
-    if not matches:
-        raise api_error(404, "object_not_found", "read", "check object_ref")
-    # AC-F006-003：同名对象不得按目录顺序猜测 owner（多匹配一律结构化拒绝）
-    if len(matches) > 1:
-        raise api_error(
-            409,
-            "object_id_ambiguous",
-            "read",
-            "disambiguate the object id within this vault",
-        )
-    return matches[0]
+    # 定位收敛到 content_repository.locate_managed_object（单份实现）；此处只把
+    # 结构化 code 适配回本层既有 HTTP 契约码（AC-G1：契约不变）。
+    # AC-F006-003：同名对象不得按目录顺序猜测 owner（多匹配一律结构化拒绝）。
+    try:
+        return locate_managed_object(owner_root, object_type, object_id)
+    except ObjectResolutionError as exc:
+        if exc.code == "object_id_ambiguous":
+            raise api_error(
+                409,
+                "object_id_ambiguous",
+                "read",
+                "disambiguate the object id within this vault",
+            ) from exc
+        raise api_error(404, "object_not_found", "read", "check object_ref") from exc
