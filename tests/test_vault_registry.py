@@ -368,13 +368,13 @@ class VaultRegistryTests(unittest.TestCase):
                 or all("path" in x and "sha256" in x for x in manifest["entries"])
             )
             checked = manager.verify_manifest(root / manifest["path"])
-            self.assertEqual(checked["backup_state"], "verified")
+            self.assertEqual(checked["status"], "ok")
             path = root / manifest["path"]
             data = json.loads(path.read_text(encoding="utf-8"))
             data["entries"] = [{"tampered": True}]
             path.write_text(json.dumps(data), encoding="utf-8")
             failed = manager.verify_manifest(path)
-            self.assertEqual(failed["backup_state"], "failed")
+            self.assertEqual(failed["status"], "blocked")
             self.assertEqual(failed["error_code"], "hash_mismatch")
 
     def test_backup_manifest_can_be_exported_without_claiming_verified_target(self):
@@ -387,8 +387,8 @@ class VaultRegistryTests(unittest.TestCase):
             try:
                 external.mkdir(parents=True, exist_ok=True)
                 result = manager.export_manifest(root / created["path"], external)
-                self.assertEqual(result["state"], "exported")
-                self.assertEqual(result["backup_state"], "configured")
+                self.assertEqual(result["status"], "ok")
+                self.assertEqual(result["schema_version"], "backup-export/v1")
                 self.assertTrue((external / Path(created["path"]).name).is_file())
             finally:
                 (external / Path(created["path"]).name).unlink(missing_ok=True)
@@ -405,9 +405,9 @@ class VaultRegistryTests(unittest.TestCase):
             bundle = root.parent / (root.name + "-bundle")
             try:
                 exported = manager.export_bundle(root / created["path"], bundle)
-                self.assertEqual(exported["state"], "exported")
+                self.assertEqual(exported["status"], "ok")
                 verified = BackupManager.verify_bundle(bundle)
-                self.assertEqual(verified["backup_state"], "verified")
+                self.assertEqual(verified["status"], "ok")
                 payload = bundle / "payload" / "content" / "wiki" / "note.md"
                 payload.write_text("tampered", encoding="utf-8")
                 self.assertEqual(
@@ -507,7 +507,7 @@ class VaultRegistryTests(unittest.TestCase):
                 self.assertEqual(blocked["error_code"], "cross_vault_restore")
                 self.assertFalse(target.exists())
                 restored = manager.restore_bundle_to_vault(bundle, target, "private")
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 self.assertEqual(restored["target_vault_id"], "private")
                 self.assertEqual(
                     (target / "content" / "wiki" / "secret.md").read_text(
@@ -534,7 +534,7 @@ class VaultRegistryTests(unittest.TestCase):
             try:
                 manager.export_bundle(root / created["path"], bundle)
                 restored = manager.restore_bundle(bundle, target)
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 self.assertEqual(
                     (target / "content" / "wiki" / "note.md").read_text(
                         encoding="utf-8"
@@ -620,7 +620,7 @@ class VaultRegistryTests(unittest.TestCase):
             try:
                 manager.export_bundle(root / created["path"], bundle)
                 restored = manager.restore_bundle(bundle, target)
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 (target / "unexpected.txt").write_text("unexpected", encoding="utf-8")
                 verified = BackupManager.verify_restored_bundle(bundle, target)
                 self.assertEqual(verified["error_code"], "restore_extra_entry")
@@ -715,7 +715,7 @@ class VaultRegistryTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 restored = manager.restore_manifest(root / manifest["path"], target)
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 self.assertEqual(
                     (target / "content" / "wiki" / "item.md").read_text(
                         encoding="utf-8"
@@ -807,7 +807,7 @@ class VaultRegistryTests(unittest.TestCase):
                 restored = manager.restore_manifest(
                     root / manifest["path"], Path(out) / "checkout"
                 )
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 restored_question = json.loads(
                     (
                         Path(out)
@@ -869,7 +869,7 @@ class VaultRegistryTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 restored = manager.restore_manifest(root / manifest["path"], target)
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 tampered = json.loads(
                     (
                         target / "content" / "practice" / "questions" / "q-one.json"
@@ -923,7 +923,7 @@ class VaultRegistryTests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as out:
                 target = Path(out) / "checkout"
                 restored = manager.restore_manifest(root / manifest["path"], target)
-                self.assertEqual(restored["state"], "restored")
+                self.assertEqual(restored["status"], "ok")
                 resumed = QuestionStore(target).review("q-fsrs", 4)
                 self.assertEqual(resumed["schedule"]["state"], "scheduled")
                 after = QuestionStore(target).load("q-fsrs")["review_state"]
@@ -957,8 +957,7 @@ class VaultRegistryTests(unittest.TestCase):
             paths = {entry["path"] for entry in result["entries"]}
             self.assertEqual(paths, {"content/practice/questions/q.md"})
             self.assertTrue(
-                manager.verify_manifest(private / result["path"])["backup_state"]
-                == "verified"
+                manager.verify_manifest(private / result["path"])["status"] == "ok"
             )
 
     def test_restore_requires_empty_target(self):
@@ -1006,7 +1005,7 @@ class VaultRegistryTests(unittest.TestCase):
 
                 with mock.patch("tools.backup.atomic_write", side_effect=fail_second):
                     result = manager.restore_manifest(root / manifest["path"], target)
-                self.assertEqual(result["state"], "failed")
+                self.assertEqual(result["status"], "blocked")
                 self.assertEqual(result["restored_entries"], 0)
                 self.assertFalse(target.exists() and any(target.rglob("*")))
 
@@ -1043,10 +1042,7 @@ class VaultRegistryTests(unittest.TestCase):
             )
             manager = BackupManager(root, config)
             created = manager.create_manifest("public")
-            assert (
-                manager.verify_manifest(root / created["path"])["backup_state"]
-                == "verified"
-            )
+            assert manager.verify_manifest(root / created["path"])["status"] == "ok"
             vault = next(
                 item
                 for item in manager.status()["vaults"]

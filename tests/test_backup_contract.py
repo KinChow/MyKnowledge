@@ -32,8 +32,10 @@ def test_manifest_and_verify_are_ok_envelopes():
 
         checked = manager.verify_manifest(root / created["path"])
         assert checked["status"] == "ok"
-        assert checked["schema_version"] == "backup/v1"
-        assert checked["backup_state"] == "verified"
+        assert checked["schema_version"] == "backup-verify/v1"
+        # 终态：无 dual-field——成功只由 status 表达，无结果级 state/backup_state。
+        assert "state" not in checked and "backup_state" not in checked
+        assert checked["manifest_sha256"].startswith("sha256:")
 
 
 def test_tampered_manifest_is_blocked_with_registered_code():
@@ -51,7 +53,8 @@ def test_tampered_manifest_is_blocked_with_registered_code():
         assert failed["status"] == "blocked"
         assert failed["error_code"] == "hash_mismatch"
         assert failed["error_code"] in contract.ERROR_CODES
-        assert failed["backup_state"] == "failed"
+        assert failed["schema_version"] == "backup-verify/v1"
+        assert "state" not in failed and "backup_state" not in failed
 
 
 def test_restore_target_precondition_is_blocked_envelope():

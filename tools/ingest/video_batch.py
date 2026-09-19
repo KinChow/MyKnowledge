@@ -110,7 +110,8 @@ class VideoBatchRunner:
         report["blocked_count"] = sum(
             item.get("state") == "blocked" for item in report["items"].values()
         )
-        report["state"] = (
+        # 整体进度是领域裁决，用 `progress` 而非 `state`，与顶层 contract `status` 正交。
+        report["progress"] = (
             "complete" if report["applied_count"] == selected_count else "partial"
         )
 
@@ -275,4 +276,4 @@ def main(argv: list[str] | None = None) -> int:
         args.inventory, mode=args.mode, limit=args.limit, retry_failed=args.retry_failed
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result.get("state") != "partial" else 2
+    return 0 if result.get("progress") != "partial" else 2

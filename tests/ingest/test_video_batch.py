@@ -63,9 +63,9 @@ def test_batch_runner_is_resumable_and_records_per_item(monkeypatch, tmp_path: P
     runner._download = lambda url, output, mode: output.write_bytes(b"media")  # type: ignore[method-assign]
 
     first = runner.run(inventory, mode="sample")
-    assert first["state"] == "complete"
+    assert first["progress"] == "complete"
     assert first["items"]["1"]["state"] == "applied"
     second = runner.run(inventory, mode="sample")
-    assert second["state"] == "complete"
+    assert second["progress"] == "complete"
     assert second["items"] == first["items"]
     assert (tmp_path / "task" / "video-batch-report.json").exists()

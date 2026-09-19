@@ -93,7 +93,7 @@ def _write_snapshot(root: Path, body: str) -> Path:
 def test_doctor_reports_missing_index_and_manifest_as_visible_warnings(tmp_path: Path):
     code, report = _run(tmp_path)
     assert code == 0  # 仅 warning 不是 error
-    assert report["state"] == "degraded"
+    assert report["health"] == "degraded"
     names = {c["name"]: c for c in report["checks"]}
     assert names["public_projection"]["state"] == "warning"  # manifest 缺失可见
     assert names["fts5_index"]["state"] == "warning"  # 索引缺失可见 + next_action
@@ -111,7 +111,7 @@ def test_doctor_flags_invalid_source_as_error(tmp_path: Path):
         encoding="utf-8",
     )
     code, report = _run(tmp_path)
-    assert code == 2 and report["state"] == "failing"
+    assert code == 2 and report["health"] == "failing"
     names = {c["name"]: c for c in report["checks"]}
     assert names["sources"]["state"] == "error"
 
@@ -136,7 +136,7 @@ def test_doctor_flags_externally_rewritten_archive_snapshot(tmp_path: Path):
     snapshot = _write_snapshot(tmp_path, "```python\na = 1;\n```\n")
     snapshot.write_text("```python\na = 1\n```\n", encoding="utf-8")
     code, report = _run(tmp_path)
-    assert code == 2 and report["state"] == "failing"
+    assert code == 2 and report["health"] == "failing"
     names = {c["name"]: c for c in report["checks"]}
     assert names["archive_integrity"]["state"] == "error"
     assert names["archive_integrity"]["drifted"] == [snapshot.name]
@@ -161,7 +161,7 @@ def test_doctor_flags_source_snapshot_missing_from_manifest(
 
     (tmp_path / "archive" / "manifest.jsonl").write_text("", encoding="utf-8")
     code, report = _run(tmp_path)
-    assert code == 2 and report["state"] == "failing"
+    assert code == 2 and report["health"] == "failing"
     names = {c["name"]: c for c in report["checks"]}
     assert names["sources"]["state"] == "ok"  # source 自身合法
     assert names["archive_integrity"]["state"] == "ok"  # 快照自证通过
@@ -183,7 +183,7 @@ def test_doctor_flags_owner_record_pointing_at_a_missing_snapshot(
     entry = real_import(tmp_path, "反向账目验证正文内容", "record-note")
     (tmp_path / entry["archive_path"]).unlink()
     code, report = _run(tmp_path)
-    assert code == 2 and report["state"] == "failing"
+    assert code == 2 and report["health"] == "failing"
     names = {c["name"]: c for c in report["checks"]}
     assert names["archive_integrity"]["state"] == "ok"
     assert names["manifest_coverage"]["state"] == "ok"
@@ -260,7 +260,7 @@ def test_doctor_fails_closed_when_content_exists_but_enumeration_is_empty(
     (tmp_path / "content" / "sources").rename(tmp_path / "sources")
 
     code, report = _run(tmp_path)
-    assert code == 2 and report["state"] == "failing"
+    assert code == 2 and report["health"] == "failing"
     names = {c["name"]: c for c in report["checks"]}
     for name in ("sources", "manifest_coverage"):
         assert names[name]["state"] == "error", name

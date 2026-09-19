@@ -551,7 +551,9 @@ def run_doctor(root: Path) -> dict:
     except (OSError, ValueError) as exc:
         add("vaults_backup", "warning", reason=str(exc))
 
-    report["state"] = (
+    # 健康结论是领域裁决（healthy/degraded/failing），与操作 status（doctor 是否跑通）
+    # 正交——用独立字段 `health`，避免与顶层 `status` 形成"双状态轴"命名歧义（TD §14）。
+    report["health"] = (
         "healthy"
         if report["errors"] == 0 and report["warnings"] == 0
         else ("degraded" if report["errors"] == 0 else "failing")
@@ -577,7 +579,7 @@ def main(argv: list[str] | None = None) -> int:
     if report["errors"]:
         print(json.dumps(report, ensure_ascii=False, indent=2), file=sys.stderr)
         return 2
-    print(f"doctor: {report['state']} (warnings={report['warnings']})")
+    print(f"doctor: {report['health']} (warnings={report['warnings']})")
     return 0
 
 

@@ -21,10 +21,13 @@ def _frame_result(domain: dict) -> dict:
 
     ``state == "applied"`` → ``ok`` + ``changed=True``；其余（blocked）→ ``blocked``，
     顶层 error_code 取已登记的具体码，动态/未预期码归伞码 ``video_frame_failed``
-    并把原始码放进 ``errors[]``。领域字段（state/source_id/frame_count…）保留。
+    并把原始码放进 ``errors[]``。领域字段（source_id/frame_count…）保留；顶层操作态
+    ``state`` 收敛进 ``status``，不保留（避免双状态轴）。
     """
     fields = dict(domain)
-    if fields.get("state") == "applied":
+    # 操作态 state(applied) 只表达成败，收敛到 status，不在顶层与 status 并列成双轴。
+    applied = fields.pop("state", None) == "applied"
+    if applied:
         return contract.ok(_FRAMES_SCHEMA, changed=True, **fields)
     raw = str(fields.pop("error_code", "video_frame_failed"))
     if raw in contract.ERROR_CODES:

@@ -87,7 +87,8 @@ def test_video_frame_apply_attaches_confirmed_pngs_and_manifest(
     monkeypatch.setattr("tools.ingest.video_frames.subprocess.run", fake_run)
     frames = VideoFrameService(root)
     applied = frames.extract(source, media, [1.5], executable="ffmpeg")
-    assert applied["state"] == "applied", applied
+    assert applied["status"] == "ok", applied
+    assert applied["changed"] is True
 
     frame_dir = source.parent / "media" / "frames"
     assert len(list(frame_dir.glob("frame-*.png"))) == 1

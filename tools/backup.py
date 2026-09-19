@@ -20,21 +20,21 @@ from .vault_registry import VaultRegistry
 # 原状态机的 state（verified/restored/exported/failed/blocked）作为领域字段保留在
 # payload 里（"restore 结果/各步骤进 payload"），status 只表达契约层结论。
 _BACKUP_SCHEMA = "backup/v1"
-_OK_STATES = frozenset({"verified", "restored", "exported"})
 
 
 def _envelope(domain: dict) -> dict:
     """把遗留 backup 结果 dict 归一为 contract 信封（加法式，保留领域字段）。
 
-    - ``state`` ∈ {verified, restored, exported} 或纯成功对象（如 manifest）→ ``ok``；
-    - 其余（failed/blocked）→ ``blocked``；顶层 ``error_code`` 取已登记的具体码，
-      未登记的动态/未预期码归伞码 ``backup_operation_failed`` 并把原始码放进
-      ``errors[]``。领域字段（state/backup_state/path/restored_entries…）原样保留。
+    单一 ``status`` 轴：无 ``error_code`` → ``ok``；有 ``error_code`` → ``blocked``
+    （已登记的具体码原样保留；未登记的动态/未预期码归伞码
+    ``backup_operation_failed`` 并把原始码放进 ``errors[]``）。操作**身份**由各方法
+    自带的 ``schema_version`` 表达；顶层操作态 ``state`` 不进返回信封（pop 丢弃），
+    其余领域字段（path/restored_entries/manifest_sha256…）原样保留。
     """
     fields = dict(domain)
     schema = fields.pop("schema_version", _BACKUP_SCHEMA)
-    state = fields.get("state")
-    if state in _OK_STATES or (state is None and "error_code" not in fields):
+    fields.pop("state", None)
+    if "error_code" not in fields:
         return contract.ok(schema, **fields)
     raw = str(fields.pop("error_code", "backup_operation_failed"))
     if raw in contract.ERROR_CODES:
@@ -274,8 +274,7 @@ class BackupManager:
             relative = str(path.resolve().relative_to(owner_root.resolve()))
             return _envelope(
                 {
-                    "state": "verified",
-                    "backup_state": "verified",
+                    "schema_version": "backup-verify/v1",
                     "vault_id": vault_id,
                     "manifest_sha256": expected,
                     "path": relative,
@@ -288,8 +287,7 @@ class BackupManager:
                 relative = None
             return _envelope(
                 {
-                    "state": "failed",
-                    "backup_state": "failed",
+                    "schema_version": "backup-verify/v1",
                     "error_code": str(exc),
                     "path": relative,
                 }
@@ -301,10 +299,10 @@ class BackupManager:
         This is transport evidence only; it never derives ``verified`` status.
         """
         checked = self.verify_manifest(manifest_path)
-        if checked.get("backup_state") != "verified":
+        if checked.get("status") != "ok":
             return _envelope(
                 {
-                    "state": "blocked",
+                    "schema_version": "backup-export/v1",
                     "error_code": checked.get("error_code", "manifest_unverified"),
                 }
             )
@@ -314,7 +312,10 @@ class BackupManager:
         destination = Path(target).expanduser().resolve()
         if destination == self.root or self.root in destination.parents:
             return _envelope(
-                {"state": "blocked", "error_code": "backup_target_invalid"}
+                {
+                    "schema_version": "backup-export/v1",
+                    "error_code": "backup_target_invalid",
+                }
             )
         if destination.exists() and destination.is_dir():
             destination = destination / source.name
@@ -322,8 +323,7 @@ class BackupManager:
         atomic_write(destination, source.read_bytes(), 0o600)
         return _envelope(
             {
-                "state": "exported",
-                "backup_state": "configured",
+                "schema_version": "backup-export/v1",
                 "manifest_sha256": checked["manifest_sha256"],
                 "target": str(destination),
             }
@@ -332,10 +332,10 @@ class BackupManager:
     def export_bundle(self, manifest_path: Path, target: Path) -> dict:
         """Export manifest and listed owner files into an explicit offline bundle."""
         checked = self.verify_manifest(manifest_path)
-        if checked.get("backup_state") != "verified":
+        if checked.get("status") != "ok":
             return _envelope(
                 {
-                    "state": "blocked",
+                    "schema_version": "backup-export/v1",
                     "error_code": checked.get("error_code", "manifest_unverified"),
                 }
             )
@@ -345,11 +345,17 @@ class BackupManager:
         bundle = Path(target).expanduser().resolve()
         if bundle == self.root or self.root in bundle.parents:
             return _envelope(
-                {"state": "blocked", "error_code": "backup_target_invalid"}
+                {
+                    "schema_version": "backup-export/v1",
+                    "error_code": "backup_target_invalid",
+                }
             )
         if bundle.exists() and any(bundle.iterdir()):
             return _envelope(
-                {"state": "blocked", "error_code": "backup_target_not_empty"}
+                {
+                    "schema_version": "backup-export/v1",
+                    "error_code": "backup_target_not_empty",
+                }
             )
         bundle.mkdir(parents=True, exist_ok=True)
         data = json.loads(source_manifest.read_text(encoding="utf-8"))
@@ -372,8 +378,7 @@ class BackupManager:
                 atomic_write(destination, source.read_bytes(), 0o600)
             return _envelope(
                 {
-                    "state": "exported",
-                    "backup_state": "configured",
+                    "schema_version": "backup-export/v1",
                     "manifest_sha256": checked["manifest_sha256"],
                     "target": str(bundle),
                     "entry_count": len(data.get("entries", [])),
@@ -381,7 +386,9 @@ class BackupManager:
             )
         except (OSError, ValueError) as exc:
             shutil.rmtree(bundle, ignore_errors=True)
-            return _envelope({"state": "failed", "error_code": str(exc)})
+            return _envelope(
+                {"schema_version": "backup-export/v1", "error_code": str(exc)}
+            )
 
     @staticmethod
     def verify_bundle(bundle: Path) -> dict:
@@ -423,15 +430,14 @@ class BackupManager:
                     raise ValueError("hash_mismatch")
             return _envelope(
                 {
-                    "state": "verified",
-                    "backup_state": "verified",
+                    "schema_version": "backup-verify/v1",
                     "manifest_sha256": expected,
                     "entry_count": len(data.get("entries", [])),
                 }
             )
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return _envelope(
-                {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+                {"schema_version": "backup-verify/v1", "error_code": str(exc)}
             )
 
     @staticmethod
@@ -442,10 +448,10 @@ class BackupManager:
         bundle = Path(bundle).resolve()
         target = Path(target).resolve()
         checked = BackupManager.verify_bundle(bundle)
-        if checked.get("backup_state") != "verified":
+        if checked.get("status") != "ok":
             return _envelope(
                 {
-                    "state": "failed",
+                    "schema_version": "backup-restore-verify/v1",
                     "error_code": checked.get("error_code", "bundle_unverified"),
                 }
             )
@@ -519,8 +525,7 @@ class BackupManager:
                 raise ValueError("restore_extra_entry")
             return _envelope(
                 {
-                    "state": "verified",
-                    "backup_state": "verified",
+                    "schema_version": "backup-restore-verify/v1",
                     "vault_id": data.get("vault_id"),
                     "manifest_sha256": expected_manifest,
                     "entry_count": len(expected_paths),
@@ -528,7 +533,7 @@ class BackupManager:
             )
         except (OSError, ValueError, json.JSONDecodeError) as exc:
             return _envelope(
-                {"state": "failed", "backup_state": "failed", "error_code": str(exc)}
+                {"schema_version": "backup-restore-verify/v1", "error_code": str(exc)}
             )
 
     def restore_bundle(self, bundle: Path, target: Path) -> dict:
@@ -537,19 +542,25 @@ class BackupManager:
         target = Path(target).expanduser().resolve()
         if target == self.root or self.root in target.parents:
             return _envelope(
-                {"state": "blocked", "error_code": "restore_target_invalid"}
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": "restore_target_invalid",
+                }
             )
         checked = self.verify_bundle(bundle)
-        if checked.get("backup_state") != "verified":
+        if checked.get("status") != "ok":
             return _envelope(
                 {
-                    "state": "blocked",
+                    "schema_version": "backup-restore/v1",
                     "error_code": checked.get("error_code", "bundle_unverified"),
                 }
             )
         if target.exists() and any(target.iterdir()):
             return _envelope(
-                {"state": "blocked", "error_code": "restore_target_not_empty"}
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": "restore_target_not_empty",
+                }
             )
         target.mkdir(parents=True, exist_ok=True)
         created: list[Path] = []
@@ -595,14 +606,13 @@ class BackupManager:
             verified = self.verify_restored_bundle(
                 bundle, target, extra_verifiers=self.extra_verifiers
             )
-            if verified.get("backup_state") != "verified":
+            if verified.get("status") != "ok":
                 raise ValueError(
                     verified.get("error_code", "restore_verification_failed")
                 )
             return _envelope(
                 {
-                    "state": "restored",
-                    "backup_state": "verified",
+                    "schema_version": "backup-restore/v1",
                     "restored_entries": len(created),
                     "target": str(target),
                     "manifest_sha256": checked["manifest_sha256"],
@@ -621,7 +631,11 @@ class BackupManager:
             with contextlib.suppress(OSError):
                 target.rmdir()
             return _envelope(
-                {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": str(exc),
+                    "restored_entries": 0,
+                }
             )
 
     def restore_bundle_to_vault(
@@ -636,13 +650,18 @@ class BackupManager:
         try:
             owner = safe_id(str(target_vault_id))
         except ValueError:
-            return _envelope({"state": "blocked", "error_code": "vault_id_invalid"})
-        bundle_path = Path(bundle).resolve()
-        checked = self.verify_bundle(bundle_path)
-        if checked.get("backup_state") != "verified":
             return _envelope(
                 {
-                    "state": "blocked",
+                    "schema_version": "backup-restore/v1",
+                    "error_code": "vault_id_invalid",
+                }
+            )
+        bundle_path = Path(bundle).resolve()
+        checked = self.verify_bundle(bundle_path)
+        if checked.get("status") != "ok":
+            return _envelope(
+                {
+                    "schema_version": "backup-restore/v1",
                     "error_code": checked.get("error_code", "bundle_unverified"),
                 }
             )
@@ -651,18 +670,23 @@ class BackupManager:
                 (bundle_path / "manifest.json").read_text(encoding="utf-8")
             )
         except (OSError, ValueError, json.JSONDecodeError):
-            return _envelope({"state": "blocked", "error_code": "bundle_unreadable"})
+            return _envelope(
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": "bundle_unreadable",
+                }
+            )
         if data.get("vault_id") != owner:
             return _envelope(
                 {
-                    "state": "blocked",
+                    "schema_version": "backup-restore/v1",
                     "error_code": "cross_vault_restore",
                     "source_vault_id": data.get("vault_id"),
                     "target_vault_id": owner,
                 }
             )
         restored = self.restore_bundle(bundle_path, target)
-        if restored.get("state") == "restored":
+        if restored.get("status") == "ok":
             restored["target_vault_id"] = owner
         return restored
 
@@ -671,20 +695,26 @@ class BackupManager:
         target = Path(target).resolve()
         if target == self.root or self.root in target.parents:
             return _envelope(
-                {"state": "blocked", "error_code": "restore_target_invalid"}
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": "restore_target_invalid",
+                }
             )
         checked = self.verify_manifest(manifest_path)
-        if checked.get("backup_state") != "verified":
+        if checked.get("status") != "ok":
             return _envelope(
                 {
-                    "state": "blocked",
+                    "schema_version": "backup-restore/v1",
                     "error_code": checked.get("error_code", "manifest_unverified"),
                 }
             )
         target.mkdir(parents=True, exist_ok=True)
         if any(target.iterdir()):
             return _envelope(
-                {"state": "blocked", "error_code": "restore_target_not_empty"}
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": "restore_target_not_empty",
+                }
             )
         source_manifest = Path(manifest_path)
         if not source_manifest.is_absolute():
@@ -728,8 +758,7 @@ class BackupManager:
             )
             return _envelope(
                 {
-                    "state": "restored",
-                    "backup_state": "verified",
+                    "schema_version": "backup-restore/v1",
                     "restored_entries": len(created),
                     "target": str(target),
                 }
@@ -749,5 +778,9 @@ class BackupManager:
             with contextlib.suppress(OSError):
                 target.rmdir()
             return _envelope(
-                {"state": "failed", "error_code": str(exc), "restored_entries": 0}
+                {
+                    "schema_version": "backup-restore/v1",
+                    "error_code": str(exc),
+                    "restored_entries": 0,
+                }
             )

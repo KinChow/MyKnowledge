@@ -12,6 +12,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from tools import contract
+from tools.backup import BackupManager
+from tools.doctor import run_doctor
 from tools.skill_runtime import dispatch
 from tools.source_repository import SourceRepository
 from tools.wiki_repository import WikiRepository
@@ -20,6 +22,9 @@ from tools.wiki_repository import WikiRepository
 def _assert_envelope(result: dict) -> None:
     assert isinstance(result, dict), result
     assert result.get("status") in contract.STATUSES, result
+    # 防回潮：顶层不得再出现与 status 并列的第二根状态轴 `state`
+    # （历史双轴：backup/doctor/video 的 state / review 的 fsrs state 均已下沉/改名）。
+    assert "state" not in result, result
     if result["status"] != "ok":
         assert result.get("error_code") in contract.ERROR_CODES, result
 
@@ -61,6 +66,9 @@ def test_representative_envelopes_conform(tmp_path: Path):
     _assert_envelope(dispatch("skill_status", {}, root=tmp_path))
     # 非法 payload 字段 → blocked
     _assert_envelope(dispatch("read", {"bogus": 1}, root=tmp_path))
+    # 曾经的双轴重灾区：doctor（health 非 state）、backup（status 非 state）
+    _assert_envelope(run_doctor(tmp_path))
+    _assert_envelope(BackupManager(tmp_path).status())
 
 
 def test_construction_is_fail_closed():

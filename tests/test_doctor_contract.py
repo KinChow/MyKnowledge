@@ -21,5 +21,5 @@ def test_run_doctor_report_is_ok_envelope_with_domain_state():
         assert report["schema_version"] == "doctor/v1"
         assert report["status"] == "ok"
         # 领域字段仍在：健康结论与逐项检查不被 status 吞掉。
-        assert report["state"] in {"healthy", "degraded", "failing"}
+        assert report["health"] in {"healthy", "degraded", "failing"}
         assert isinstance(report["checks"], list)
