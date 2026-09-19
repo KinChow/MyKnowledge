@@ -198,6 +198,50 @@ _INGEST_CODES: frozenset[str] = frozenset(
     }
 )  # agent-valing: ingest/*（不含 source_ingestor）
 _DOCTOR_CODES: frozenset[str] = frozenset()  # agent-valing: doctor.py（顶层恒 ok）
+# A 线闭环：剩余遗留生产者归一（各 agent 只填自己那块）。
+_ANCHOR_CODES: frozenset[str] = frozenset(
+    {
+        # evidence_anchor.main（CLI 定位/落盘入口）的 blocked 顶层码：
+        # anchor() 的引文/选择子校验码与 anchor_evidence() 的漂移码，语义不变。
+        "quote_too_short",
+        "selector_unresolved",
+        "ambiguous_selector",
+        "media_fragment_invalid",
+        "stale",
+        "path_unresolved",
+        # --from-jsonl 批量：存在未解析行时的顶层伞码
+        # （每行的动态/明细码留在 payload.unresolved[].error_code，不进词表）。
+        "anchor_batch_unresolved",
+    }
+)  # agent: evidence_anchor.py
+_AUDIT_CODES: frozenset[str] = frozenset(
+    {
+        # validation/audit.py（LLM 证据审计编排）。审计判定（not_run/pass/fail、
+        # 覆盖义务、引文二次校验等）是领域结果，进 payload，不登记为 error_code。
+        # 这里只登记「操作层」status != ok 的顶层码：
+        # provider 不可用/超时 → unavailable
+        "provider_unavailable",
+        "context_exceeded",
+        # 前置门禁（AuditBlocked，CLI 边界归一为 blocked）
+        "deterministic_blocked",
+        "ruleset_unavailable",
+        "evidence_missing",
+        "policy_invalid",
+        "wiki_unreadable",
+    }
+)  # agent: validation/audit.py
+_CONFIRM_CODES: frozenset[str] = frozenset(
+    {
+        # validation/confirm.py（人工审计确认 CLI 前置门禁 → blocked）
+        "invalid_decision",
+        "invalid_actor_id",
+        "deterministic_blocked",
+        "llm_state_blocks_confirmation",
+        "confirmation_write_failed",
+        "operation_write_failed",
+    }
+)  # validation/confirm.py
+_MATRIX_CODES: frozenset[str] = frozenset()  # agent: matrix_sync.py
 
 ERROR_CODES = (
     _LOCATE_CODES
@@ -210,6 +254,10 @@ ERROR_CODES = (
     | _VALIDATION_CODES
     | _INGEST_CODES
     | _DOCTOR_CODES
+    | _ANCHOR_CODES
+    | _AUDIT_CODES
+    | _CONFIRM_CODES
+    | _MATRIX_CODES
 )
 
 # 可重试是 status 的派生属性（gRPC 模型：仅 unavailable 可重试），供 HTTP 边界层使用。

@@ -46,6 +46,10 @@ def test_error_codes_is_union_of_domain_subsets_and_wellformed():
         contract._VALIDATION_CODES,
         contract._INGEST_CODES,
         contract._DOCTOR_CODES,
+        contract._ANCHOR_CODES,
+        contract._AUDIT_CODES,
+        contract._CONFIRM_CODES,
+        contract._MATRIX_CODES,
     ]
     union: set[str] = set()
     for block in subsets:

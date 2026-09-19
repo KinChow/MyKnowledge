@@ -17,12 +17,23 @@ import re
 import uuid
 from pathlib import Path
 
+from . import contract
 from .common import (
     atomic_write,
     canonical_quote,
     sha256_text,
 )
 from .front_matter import FrontMatter
+
+# 结果信封的模块 schema（TD §14）：领域方法仍返回 evidence dict（被别处消费），
+# 仅 CLI 入口 main()/_batch_main() 归一到 tools.contract 单一 status 轴。
+_ANCHOR_SCHEMA = "evidence-anchor/v1"
+_BATCH_SCHEMA = "evidence-anchor-batch/v1"
+
+
+def _exit_code(status: str) -> int:
+    """退出码由 status 派生：ok→0，其余（blocked/unavailable）→2。"""
+    return 0 if status == "ok" else 2
 
 
 class EvidenceAnchor:
@@ -131,7 +142,8 @@ class EvidenceAnchor:
 
 def _batch_main(args: argparse.Namespace) -> int:
     """批量锚定（AC-F001-012 --from-jsonl）：不降低唯一性与长度标准，未解析行进 unresolved。"""
-    report: dict[str, list[dict]] = {"ok": [], "unresolved": []}
+    resolved: list[dict] = []
+    unresolved: list[dict] = []
     with args.from_jsonl.open(encoding="utf-8") as handle:
         for line_no, raw_line in enumerate(handle, 1):
             line = raw_line.strip()
@@ -154,7 +166,7 @@ def _batch_main(args: argparse.Namespace) -> int:
                     min_chars,
                     item.get("media_fragment"),
                 )
-                report["ok"].append(
+                resolved.append(
                     {"line": line_no, "evidence_id": evidence["evidence_id"]}
                 )
             except (
@@ -164,9 +176,11 @@ def _batch_main(args: argparse.Namespace) -> int:
                 TypeError,
                 json.JSONDecodeError,
             ) as exc:
-                report["unresolved"].append(
+                unresolved.append(
                     {
                         "line": line_no,
+                        # 每行动态/明细码进 payload（不进词表）：ValueError 用其消息，
+                        # 其余异常用类名。
                         "error_code": (
                             str(exc)
                             if isinstance(exc, ValueError)
@@ -174,8 +188,18 @@ def _batch_main(args: argparse.Namespace) -> int:
                         ),
                     }
                 )
-    print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if not report["unresolved"] else 2
+    # 单一 status 轴：存在未解析行 → blocked（顶层伞码），否则 ok。领域明细进 payload。
+    if unresolved:
+        envelope = contract.blocked(
+            _BATCH_SCHEMA,
+            "anchor_batch_unresolved",
+            resolved=resolved,
+            unresolved=unresolved,
+        )
+    else:
+        envelope = contract.ok(_BATCH_SCHEMA, resolved=resolved, unresolved=unresolved)
+    print(json.dumps(envelope, ensure_ascii=False, indent=2))
+    return _exit_code(envelope["status"])
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -208,13 +232,8 @@ def main(argv: list[str] | None = None) -> int:
                 args.min_chars,
                 args.media_fragment,
             )
-            print(
-                json.dumps(
-                    {"state": "applied", "evidence": evidence},
-                    ensure_ascii=False,
-                    indent=2,
-                )
-            )
+            # 写效果进 payload（applied/evidence），不再用顶层 state 表达成败。
+            envelope = contract.ok(_ANCHOR_SCHEMA, applied=True, evidence=evidence)
         else:
             evidence = EvidenceAnchor.anchor(
                 args.snapshot.read_text(encoding="utf-8"),
@@ -222,11 +241,12 @@ def main(argv: list[str] | None = None) -> int:
                 args.min_chars,
                 media_fragment=args.media_fragment,
             )
-            print(json.dumps(evidence, ensure_ascii=False, indent=2))
+            # 纯定位（dry run，不落盘）：applied=False。
+            envelope = contract.ok(_ANCHOR_SCHEMA, applied=False, evidence=evidence)
     except ValueError as exc:
-        print(json.dumps({"state": "blocked", "error_code": str(exc)}))
-        return 2
+        # anchor()/anchor_evidence() 的校验/漂移码均为已登记顶层码。
+        envelope = contract.blocked(_ANCHOR_SCHEMA, str(exc))
     except OSError:
-        print(json.dumps({"state": "blocked", "error_code": "path_unresolved"}))
-        return 2
-    return 0
+        envelope = contract.blocked(_ANCHOR_SCHEMA, "path_unresolved")
+    print(json.dumps(envelope, ensure_ascii=False, indent=2))
+    return _exit_code(envelope["status"])

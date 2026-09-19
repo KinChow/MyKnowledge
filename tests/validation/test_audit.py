@@ -23,7 +23,10 @@ from wiki_fixtures import (
     _write_wiki,
 )
 
+from tools import contract
+from tools.validation import audit as audit_module
 from tools.validation.audit import (
+    AUDIT_OUTCOME_SCHEMA_VERSION,
     AuditBlocked,
     provider_allows_request,
     run_audit,
@@ -480,6 +483,98 @@ class AuditTests(AuditSetup):
         self.assertEqual(target["source_id"], "test-source")
         self.assertIn(QUOTE_EXACT, target["quote"])  # 上下文含 snapshot 片段
         self.assertIn("provenance", target)
+
+
+class AuditContractEnvelopeTests(AuditSetup):
+    """A 线闭环：审计结果信封归一到 tools.contract（status 单轴 + 领域字段分离）。"""
+
+    def _run(self, payload: dict | None = None, error_code: str | None = None):
+        self.provider.payload = payload
+        self.provider.error_code = error_code
+        return run_audit(self.root, self.wiki_path, self.provider)
+
+    def test_pass_outcome_is_ok_envelope(self):
+        """审计跑通（verdict pass）→ status ok；判定进 validation_state，不进 status。"""
+        outcome = self._run(_payload())
+        self.assertEqual(outcome["schema_version"], AUDIT_OUTCOME_SCHEMA_VERSION)
+        self.assertEqual(outcome["status"], "ok")
+        self.assertNotIn("error_code", outcome)
+        self.assertNotIn("state", outcome)  # 不得造与 status 并列的第二根轴
+        self.assertEqual(outcome["validation_state"], "pass")
+        self.assertEqual(outcome["verdict"], "pass")
+
+    def test_fail_verdict_is_still_ok_status(self):
+        """审计判定 fail 是领域结论，操作仍跑通 → status ok（判定另放 verdict 字段）。"""
+        outcome = self._run(_payload(verdicts=("unsupported",)))
+        self.assertEqual(outcome["status"], "ok")
+        self.assertNotIn("error_code", outcome)
+        self.assertEqual(outcome["verdict"], "fail")
+
+    def test_provider_unavailable_is_unavailable_status(self):
+        """provider 不可用 → status unavailable + 已登记顶层 error_code。"""
+        outcome = self._run(error_code="provider_unavailable")
+        self.assertEqual(outcome["status"], "unavailable")
+        self.assertEqual(outcome["error_code"], "provider_unavailable")
+        self.assertIn(outcome["error_code"], contract.ERROR_CODES)
+        self.assertEqual(outcome["validation_state"], "not_run")
+        self.assertEqual(outcome["not_run_reason"], "provider_unavailable")
+
+    def test_timeout_is_unavailable_with_context_exceeded(self):
+        class TimeoutProvider(FakeProvider):
+            def audit(self, request: dict, response_schema: dict) -> ProviderResult:
+                raise TimeoutError("deadline")
+
+        outcome = run_audit(self.root, self.wiki_path, TimeoutProvider())
+        self.assertEqual(outcome["status"], "unavailable")
+        self.assertEqual(outcome["error_code"], "context_exceeded")
+        self.assertIn(outcome["error_code"], contract.ERROR_CODES)
+
+    def test_malformed_output_is_ok_status_domain_not_run(self):
+        """provider 有响应但被拒（malformed）→ 领域 not_run；操作 status 仍 ok。"""
+        outcome = self._run(_payload(wiki_id="wrong-wiki"))
+        self.assertEqual(outcome["status"], "ok")
+        self.assertNotIn("error_code", outcome)
+        self.assertEqual(outcome["validation_state"], "not_run")
+        self.assertEqual(outcome["not_run_reason"], "malformed_output")
+
+    def test_incomplete_coverage_is_ok_status_domain_not_run(self):
+        """覆盖义务未满足是审计领域结论（not_run），不进 status → ok。"""
+        outcome = self._run(_payload(claim_ids=("c2",)))
+        self.assertEqual(outcome["status"], "ok")
+        self.assertNotIn("error_code", outcome)
+        self.assertEqual(outcome["not_run_reason"], "incomplete_coverage")
+
+    def test_all_outcomes_conform_to_contract_invariants(self):
+        for outcome in (
+            self._run(_payload()),
+            self._run(_payload(verdicts=("unsupported",))),
+            self._run(_payload(wiki_id="wrong-wiki")),
+            self._run(_payload(claim_ids=("c2",))),
+            self._run(error_code="provider_unavailable"),
+        ):
+            self.assertIn(outcome["status"], contract.STATUSES, outcome)
+            self.assertNotIn("state", outcome)
+            if outcome["status"] != "ok":
+                self.assertIn(outcome["error_code"], contract.ERROR_CODES, outcome)
+
+    def test_main_blocked_emits_contract_envelope_not_state(self):
+        """AuditBlocked（前置门禁）经 main() 归一为 contract blocked 信封，退出码按 status。"""
+        import contextlib
+        import io
+
+        bad_wiki = _write_wiki(
+            self.root,
+            {**_base_wiki(), "sources": ["ghost-source"]},
+        )
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            code = audit_module.main([str(bad_wiki), "--root", str(self.root)])
+        envelope = json.loads(buf.getvalue())
+        self.assertEqual(code, 2)
+        self.assertEqual(envelope["status"], "blocked")
+        self.assertNotIn("state", envelope)
+        self.assertEqual(envelope["error_code"], "deterministic_blocked")
+        self.assertIn(envelope["error_code"], contract.ERROR_CODES)
 
 
 class ConfirmTests(AuditSetup):

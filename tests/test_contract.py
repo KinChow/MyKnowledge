@@ -49,7 +49,10 @@ def test_blocked_accepts_registered_code_with_field_errors():
 
 def test_unavailable_builder():
     with pytest.raises(ValueError, match="error_code_not_registered"):
-        contract.unavailable("ask-result/v1", "provider_unavailable")
+        # 用一个明确不会被登记的假码做 fail-closed 金丝雀（原先借用的
+        # ``provider_unavailable`` 已随 validation/audit.py 迁移登记进
+        # _AUDIT_CODES，不再适合当"未登记"样例）。
+        contract.unavailable("ask-result/v1", "totally_unregistered_unavailable_code")
     r = contract.unavailable("x/v1", "vault_unavailable")
     assert r["status"] == "unavailable"
     assert r["error_code"] == "vault_unavailable"

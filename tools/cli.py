@@ -135,7 +135,7 @@ def projection_read_main(argv: list[str]) -> int:
         "read", {"vault_id": args.vault_id, "object_id": args.object_id}, root=args.root
     )
     _print_json(result, compact=True)
-    return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
+    return 0 if result.get("status") == "ok" else 2
 
 
 def projection_backlinks_main(argv: list[str]) -> int:
@@ -154,7 +154,7 @@ def projection_backlinks_main(argv: list[str]) -> int:
         root=args.root,
     )
     _print_json(result, compact=True)
-    return 0 if result.get("state") not in {"blocked", "unavailable"} else 2
+    return 0 if result.get("status") == "ok" else 2
 
 
 def backup_main(argv: list[str]) -> int:

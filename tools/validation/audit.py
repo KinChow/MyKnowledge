@@ -21,6 +21,7 @@ import subprocess
 import time
 from pathlib import Path
 
+from .. import contract
 from ..common import atomic_write, hash_canonical
 from ..paths import RepoPaths
 from ..policy import policy_value
@@ -48,6 +49,17 @@ RUNTIME_REPORT_FIELDS = frozenset(
         "fail_history",
     }
 )
+
+# 审计操作结果信封的 schema（TD §14）。信封只有一根 status 轴：审计"跑通"即
+# ``ok``（verdict pass/fail、覆盖义务未满足导致的领域 not_run 等判定都进 payload
+# 字段，不进 status）；provider 不可用/超时 → ``unavailable``（可重试）；前置门禁
+# 失败（AuditBlocked）在 CLI 边界归一为 ``blocked``。
+AUDIT_OUTCOME_SCHEMA_VERSION = "validation-audit/v1"
+
+# provider 侧失败码（ProviderResult.error_code）→ 操作 status unavailable 的顶层
+# error_code（已在 contract._AUDIT_CODES 登记）。malformed_output / incomplete_coverage
+# 是我们对 provider 输出的领域判定（not_run），不是 provider 不可用，故不在此列。
+_AUDIT_EXIT_CODES = {"ok": 0, "blocked": 2, "unavailable": 3}
 
 
 class AuditBlocked(Exception):
@@ -727,23 +739,30 @@ def _write_not_run(
 
 
 def _audit_outcome(result: ProviderResult, record: dict, vreport: dict) -> dict:
-    """归一审计结果（供 CLI/调用方展示）。
+    """归一审计结果为 tools.contract 信封（供 CLI/调用方展示）。
 
-    provider 身份一律取自 ``result.provider_identity``（ProviderResult 已带
-    opaque identity），不再额外传 provider 实例——旧签名里的 provider 参数
-    从未被消费。诊断信息（_diagnostic）只进 outcome 由 CLI 打印，不写入报告
-    文件（§8.4：报告只保存 opaque provider identity 与 not_run_reason）。
+    信封只有一根 status 轴（TD §14）：
+
+    - provider 不可用/超时（``result.error_code`` 已置）→ ``unavailable`` + 已登记
+      顶层 ``error_code``（可重试）；
+    - 其余一律 ``ok``——审计"跑通"即 ok。审计判定（verdict pass/fail、模型输出被
+      拒导致的 ``not_run``：malformed_output/incomplete_coverage、覆盖义务、引文
+      二次校验等）都是**领域结果**，放进 ``validation_state`` / ``verdict`` /
+      ``not_run_reason`` / ``quote_errors`` 等 payload 字段，**不进 status**。
+
+    provider 身份一律取自 ``result.provider_identity``（ProviderResult 已带 opaque
+    identity）。诊断信息（_diagnostic）只进 outcome 由 CLI 打印，不写入报告文件
+    （§8.4：报告只保存 opaque provider identity 与 not_run_reason）。
     """
-    return {
+    is_not_run = record.get("schema_version") == NOT_RUN_SCHEMA_VERSION
+    fields = {
         "wiki_id": record.get("wiki_id"),
         "provider_identity": result.provider_identity,
         "call_id": result.call_id,
         "input_hash": result.input_hash,
-        "schema_version": record.get("schema_version"),
+        # 领域结果：审计判定（不进 status）。not_run 记录无 verdict → not_run。
         "validation_state": (
-            "not_run"
-            if record.get("schema_version") == NOT_RUN_SCHEMA_VERSION
-            else record.get("verdict", "not_run")
+            "not_run" if is_not_run else record.get("verdict", "not_run")
         ),
         "not_run_reason": record.get("not_run_reason"),
         "verdict": record.get("verdict"),
@@ -756,6 +775,12 @@ def _audit_outcome(result: ProviderResult, record: dict, vreport: dict) -> dict:
         "fail_history": record.get("fail_history"),
         "deterministic_valid": vreport["valid"],
     }
+    if result.error_code is not None:
+        # provider 侧失败（provider_unavailable / context_exceeded）：操作不可用。
+        return contract.unavailable(
+            AUDIT_OUTCOME_SCHEMA_VERSION, result.error_code, **fields
+        )
+    return contract.ok(AUDIT_OUTCOME_SCHEMA_VERSION, **fields)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -790,13 +815,12 @@ def main(argv: list[str] | None = None) -> int:
             args.root, args.wiki, provider, quote_min_chars=args.min_chars
         )
     except AuditBlocked as exc:
-        print(
-            json.dumps(
-                {"state": "blocked", "error_code": exc.code, "message": exc.message},
-                ensure_ascii=False,
-                indent=2,
-            )
+        # 前置门禁失败归一为 contract blocked 信封（单一 status 轴，不造并列的 state）。
+        envelope = contract.blocked(
+            AUDIT_OUTCOME_SCHEMA_VERSION, exc.code, message=exc.message
         )
-        return 2
+        print(json.dumps(envelope, ensure_ascii=False, indent=2))
+        return _AUDIT_EXIT_CODES[envelope["status"]]
     print(json.dumps(outcome, ensure_ascii=False, indent=2))
-    return 0
+    # 退出码按 status（ok=0 / blocked=2 / unavailable=3）。
+    return _AUDIT_EXIT_CODES[outcome["status"]]

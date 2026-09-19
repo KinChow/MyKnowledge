@@ -24,6 +24,7 @@ import json
 import time
 from pathlib import Path
 
+from .. import contract
 from ..common import (
     atomic_write,
     canonical_json,
@@ -37,6 +38,8 @@ from .derived import fail_history
 from .validator import WikiValidator
 
 CONFIRMATION_SCHEMA_VERSION = "operation-confirmation/v1"
+# CLI 输出信封版本（写入结果），与落盘 record 的 operation-confirmation/v1 区分。
+CONFIRM_WRITE_SCHEMA = "operation-confirmation-write/v1"
 # LLM 状态中允许人工确认的集合（AC-F003-013：fail 阻断，其余不提高要求）
 ALLOWED_LLM_STATES = {"not_run", "pass", "stale_ruleset"}
 
@@ -219,13 +222,14 @@ def main(argv: list[str] | None = None) -> int:
             quote_min_chars=args.min_chars,
         )
     except ConfirmationBlocked as exc:
-        print(
-            json.dumps(
-                {"state": "blocked", "error_code": exc.code, "message": exc.message},
-                ensure_ascii=False,
-                indent=2,
-            )
-        )
+        envelope = contract.blocked(CONFIRM_WRITE_SCHEMA, exc.code, message=exc.message)
+        print(json.dumps(envelope, ensure_ascii=False, indent=2))
         return 2
-    print(json.dumps(record, ensure_ascii=False, indent=2))
+    # 成功：把确认 record 字段平铺进 contract 信封（顶层可读，无第二根 state 轴）；
+    # 落盘 record 自身仍是 operation-confirmation/v1。
+    envelope = contract.ok(
+        CONFIRM_WRITE_SCHEMA,
+        **{k: v for k, v in record.items() if k != "schema_version"},
+    )
+    print(json.dumps(envelope, ensure_ascii=False, indent=2))
     return 0
