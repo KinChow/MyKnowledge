@@ -19,6 +19,7 @@ from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
+from . import contract
 from .backup import BackupManager
 from .common import atomic_write, safe_id
 from .content_registry import ContentRegistry
@@ -111,24 +112,16 @@ def _require_mapping(
 def _handle_skill_status(root: Path, _payload: dict[str, Any]) -> dict[str, Any]:
     skill = root / "skills" / "myknowledge" / "SKILL.md"
     if not skill.is_file() or skill.is_symlink():
-        return {
-            "state": "unavailable",
-            "error_code": "skill_unavailable",
-            "reason": "canonical_skill_missing",
-        }
+        return contract.unavailable(
+            "skill-status/v1", "skill_unavailable", reason="canonical_skill_missing"
+        )
     text = skill.read_text(encoding="utf-8")
     required = ("name: myknowledge", "tools.cli", "explicit human confirmation")
     if any(marker not in text for marker in required):
-        return {
-            "state": "unavailable",
-            "error_code": "skill_unavailable",
-            "reason": "canonical_skill_invalid",
-        }
-    return {
-        "state": "available",
-        "schema_version": "skill-status/v1",
-        "skill": "myknowledge",
-    }
+        return contract.unavailable(
+            "skill-status/v1", "skill_unavailable", reason="canonical_skill_invalid"
+        )
+    return contract.ok("skill-status/v1", skill="myknowledge")
 
 
 def _handle_query(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -148,17 +141,19 @@ def _handle_query(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
 def _handle_ask(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     """Agent 通道没有 LLM provider，只回检索结果 + 不可用理由，绝不编造答案。"""
     retrieval = _handle_query(root, payload)
-    return {
-        "schema_version": "ask-result/v1",
-        "answer": None,
-        "citations": [],
-        "retrieval": retrieval,
-        "availability": "unavailable",
-        "availability_reason": "provider_unavailable",
-        "confidentiality": retrieval.get("confidentiality_max", "public"),
-        "limits": ["llm_unavailable"],
-        "warnings": ["No LLM provider configured"],
-    }
+    # 离线通道没有 LLM provider：这是**定义好的成功回退**（status=ok），
+    # provider 缺失作为 availability 领域字段暴露，绝不编造答案。
+    return contract.ok(
+        "ask-result/v1",
+        answer=None,
+        citations=[],
+        retrieval=retrieval,
+        availability="unavailable",
+        availability_reason="provider_unavailable",
+        confidentiality=retrieval.get("confidentiality_max", "public"),
+        limits=["llm_unavailable"],
+        warnings=["No LLM provider configured"],
+    )
 
 
 def _handle_read(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -168,12 +163,12 @@ def _handle_read(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     result = ContentRegistry(root).read("wiki", object_id=object_id)
     if result["status"] != "ok":
         raise ValueError(result["error_code"])
-    return {
-        "schema_version": "read-result/v1",
-        "object_ref": _public_object_ref(object_id),
-        "path": result["path"],
-        "body": result["body"],
-    }
+    return contract.ok(
+        "read-result/v1",
+        object_ref=_public_object_ref(object_id),
+        path=result["path"],
+        body=result["body"],
+    )
 
 
 def _handle_backlinks(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -192,11 +187,11 @@ def _handle_backlinks(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
             in {str(link).strip("/").split("/")[-1] for link in item.get("links", [])}
         )
     ]
-    return {
-        "schema_version": "backlinks-result/v1",
-        "target": _public_object_ref(object_id),
-        "items": results,
-    }
+    return contract.ok(
+        "backlinks-result/v1",
+        target=_public_object_ref(object_id),
+        items=results,
+    )
 
 
 def _vault_root(root: Path, vault_id: str) -> Path:
@@ -257,7 +252,12 @@ def _write_files(root: Path, files: Mapping[str, str], vault_id: str) -> dict[st
             # "临时文件 + os.replace"，多文件的半成品交给 git 审核与回滚）。
             raise ValueError("apply_failed") from None
         applied_files.append(str(path.relative_to(vault_root)))
-    return {"state": "applied", "vault_id": vault_id, "applied_files": applied_files}
+    return contract.ok(
+        "write-result/v1",
+        changed=True,
+        vault_id=vault_id,
+        applied_files=applied_files,
+    )
 
 
 def _handle_write(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -279,12 +279,19 @@ def _handle_wiki_validate(root: Path, payload: dict[str, Any]) -> dict[str, Any]
 def _handle_publish_preview(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     report = _handle_wiki_validate(root, payload)
     derived = report.get("derived") or {}
-    return {
-        "state": "previewed" if report.get("valid") else "blocked",
-        "wiki_report": report,
-        "public_publishable": derived.get("public_publishable", False),
-        "private_publishable": derived.get("private_publishable", False),
-    }
+    # 校验结论（可否发布）是领域判定，进 report.* 领域字段，不进 status 轴：
+    # 预览动作本身成功执行即 status=ok，wiki_report 透传底层校验器（未迁移）。
+    return contract.ok(
+        "publish-preview/v1",
+        wiki_report=report,
+        public_publishable=derived.get("public_publishable", False),
+        private_publishable=derived.get("private_publishable", False),
+        report={
+            "valid": bool(report.get("valid")),
+            "public_publishable": derived.get("public_publishable", False),
+            "private_publishable": derived.get("private_publishable", False),
+        },
+    )
 
 
 def _handle_publish_confirm(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -426,21 +433,23 @@ def dispatch(
     payload = payload or {}
     handler = _HANDLERS.get(action)
     if handler is None:
-        return {
-            "state": "blocked",
-            "error_code": "skill_action_not_allowed",
-            "action": action,
-        }
+        return contract.blocked(
+            "skill-dispatch/v1", "skill_action_not_allowed", action=action
+        )
     if not isinstance(payload, dict) or any(key in FORBIDDEN_KEYS for key in payload):
-        return {"state": "blocked", "error_code": "skill_payload_forbidden"}
+        return contract.blocked("skill-dispatch/v1", "skill_payload_forbidden")
     unknown = sorted(set(payload) - ACTION_FIELDS[action])
     if unknown:
-        return {
-            "state": "blocked",
-            "error_code": "skill_payload_unknown_field",
-            "fields": unknown,
-        }
+        return contract.blocked(
+            "skill-dispatch/v1", "skill_payload_unknown_field", fields=unknown
+        )
     try:
         return handler(Path(root).resolve(), payload)
     except (OSError, ValueError, TypeError) as exc:
-        return {"state": "blocked", "error_code": str(exc)}
+        # handler 以 ``raise ValueError("<error_code>")`` 表达字段级失败；已登记的码
+        # 直接作为 blocked 的 error_code，未登记（含 OSError 文本）归一到伞码
+        # ``skill_action_failed`` 并把原始文本留在 reason（fail-closed，不漂移词表）。
+        code = str(exc)
+        if code in contract.ERROR_CODES:
+            return contract.blocked("skill-dispatch/v1", code)
+        return contract.blocked("skill-dispatch/v1", "skill_action_failed", reason=code)

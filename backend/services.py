@@ -25,7 +25,7 @@ OBJECT_TYPES = frozenset({"wiki", "source"})
 
 def require_scope(scope: str) -> None:
     if scope not in SCOPES:
-        raise api_error(400, "scope_invalid", "request", "use public/local/private")
+        raise api_error("scope_invalid", "request", "use public/local/private")
 
 
 def attach_sources(result: dict, items: list[dict]) -> dict:
@@ -63,13 +63,12 @@ def run_retrieve(
     require_capability(state, token, req.scope, audience)
     if req.scope == "private" and not req.vault_ids:
         raise api_error(
-            400,
             "vault_ids_required",
             "request",
             "select one or more internal vault_ids",
         )
     if len(req.vault_ids or []) > MAX_VAULT_IDS:
-        raise api_error(400, "query_limit_exceeded", "request", "reduce vault_ids")
+        raise api_error("query_limit_exceeded", "request", "reduce vault_ids")
     result = state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
     # §12/§1958：include_sources/include_archive 是已定义契约，不允许
     # "被接受但被忽略"的静默参数（F006 review 修复）
@@ -89,16 +88,14 @@ def resolve_object_path(
         safe_id(object_id)
     except ValueError as exc:
         raise api_error(
-            422, "invalid_object_ref", "request", "use a safe vault_id/object_id"
+            "invalid_object_ref", "request", "use a safe vault_id/object_id"
         ) from exc
     if object_type not in OBJECT_TYPES:
-        raise api_error(404, "object_type_not_found", "read", "use wiki or source")
+        raise api_error("object_type_not_found", "read", "use wiki or source")
     try:
         owner_root = VaultRegistry(root).resolve_vault_path(vault_id)
     except (OSError, ValueError) as exc:
-        raise api_error(
-            404, "vault_unavailable", "read", "check vault registry"
-        ) from exc
+        raise api_error("vault_unavailable", "read", "check vault registry") from exc
     # 定位收敛到 content_repository.locate_managed_object（单份实现）；此处只把
     # 结构化 code 适配回本层既有 HTTP 契约码（AC-G1：契约不变）。
     # AC-F006-003：同名对象不得按目录顺序猜测 owner（多匹配一律结构化拒绝）。
@@ -107,9 +104,8 @@ def resolve_object_path(
     except ObjectResolutionError as exc:
         if exc.code == "object_id_ambiguous":
             raise api_error(
-                409,
                 "object_id_ambiguous",
                 "read",
                 "disambiguate the object id within this vault",
             ) from exc
-        raise api_error(404, "object_not_found", "read", "check object_ref") from exc
+        raise api_error("object_not_found", "read", "check object_ref") from exc

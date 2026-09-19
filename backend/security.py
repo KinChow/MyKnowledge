@@ -25,7 +25,7 @@ BODY_METHODS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
 
 
 def _too_large() -> JSONResponse:
-    return json_error(413, "request_too_large", "request", "reduce request body")
+    return json_error("request_too_large", "request", "reduce request body")
 
 
 def _declared_oversize(content_length: str, limit: int) -> bool:
@@ -39,10 +39,10 @@ def _declared_oversize(content_length: str, limit: int) -> bool:
 def _reject_non_loopback(request: Request) -> JSONResponse | None:
     host = (request.headers.get("host") or "").split(":", 1)[0].lower()
     if host and host not in LOOPBACK_HOSTS:
-        return json_error(403, "host_not_allowed", "auth", "use loopback host")
+        return json_error("host_not_allowed", "auth", "use loopback host")
     origin = request.headers.get("origin")
     if origin and not origin.startswith(LOOPBACK_ORIGINS):
-        return json_error(403, "origin_not_allowed", "auth", "use loopback origin")
+        return json_error("origin_not_allowed", "auth", "use loopback origin")
     return None
 
 
@@ -93,15 +93,10 @@ def require_capability(
     )
     if result is None:
         return
-    code, retryable, next_action = result
-    # token 缺失是 401，其余校验失败是 403
-    raise api_error(
-        401 if code == "capability_token_required" else 403,
-        code,
-        "auth",
-        next_action,
-        retryable=retryable,
-    )
+    code, _retryable, next_action = result
+    # HTTP status（token 缺失 401、其余 403）与 retryable 均由 errors 单表 +
+    # contract.is_retryable 派生，这里只交出结构化 code/stage/next_action。
+    raise api_error(code, "auth", next_action)
 
 
 def require_write_capability(

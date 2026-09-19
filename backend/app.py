@@ -145,7 +145,7 @@ def create_app(
     ) -> dict:
         if set(request.query_params) - QUERY_PARAMS:
             raise api_error(
-                400, "schema_invalid", "request", "remove unknown query parameters"
+                "schema_invalid", "request", "remove unknown query parameters"
             )
         ids = [x for x in vault_ids.split(",") if x] if vault_ids else None
         return retrieve(
@@ -173,6 +173,7 @@ def create_app(
         retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
         return {
             "schema_version": "ask-result/v1",
+            "status": "ok",
             "answer": None,
             "citations": [],
             "retrieval": retrieval,
@@ -212,12 +213,13 @@ def create_app(
         保留写能力门禁——审批由 `git diff` + `git commit` 承担。
         """
         authorize_write(x_myknowledge_capability, x_myknowledge_audience)
-        return {
-            "schema_version": "write-result/v1",
-            **dispatch(
-                "write", {"files": req.files, "vault_id": req.vault_id}, root=state.root
-            ),
-        }
+        result = dispatch(
+            "write", {"files": req.files, "vault_id": req.vault_id}, root=state.root
+        )
+        if result.get("status") != "ok":
+            # 越界/非法写入是调用方错误：按 status 轴判据映射到 422，透出结构化码。
+            raise api_error(result["error_code"], "write", "check write request")
+        return {**result, "schema_version": "write-result/v1"}
 
     @app.get("/api/vault/check")
     def vault_check(
@@ -243,7 +245,7 @@ def create_app(
         authorize_write(x_myknowledge_capability, x_myknowledge_audience)
         if object_type != "wiki":
             raise api_error(
-                404, "object_type_not_supported", "validate", "validate a wiki object"
+                "object_type_not_supported", "validate", "validate a wiki object"
             )
         path = object_path(vault_id, object_type, object_id)
         report = WikiValidator(
@@ -251,6 +253,7 @@ def create_app(
         ).validate(path)
         return {
             "schema_version": "validation-result/v1",
+            "status": "ok",
             "object_ref": _object_ref(vault_id, object_type, object_id),
             "report": report,
         }
@@ -275,6 +278,7 @@ def create_app(
         owner_root = VaultRegistry(state.root).resolve_vault_path(vault_id)
         return {
             "schema_version": "read-result/v1",
+            "status": "ok",
             "object_ref": _object_ref(vault_id, object_type, object_id),
             "path": str(path.relative_to(owner_root)),
             "body": path.read_text(encoding="utf-8"),
@@ -289,13 +293,13 @@ def create_app(
             safe_id(object_id)
         except ValueError as exc:
             raise api_error(
-                422, "invalid_object_ref", "request", "use a safe vault_id/object_id"
+                "invalid_object_ref", "request", "use a safe vault_id/object_id"
             ) from exc
         result = dispatch(
             "read", {"vault_id": "public", "object_id": object_id}, root=state.root
         )
-        if result.get("state") != "ok" and "body" not in result:
-            raise api_error(404, "object_not_found", "read", "check object_ref")
+        if result.get("status") != "ok":
+            raise api_error("object_not_found", "read", "check object_ref")
         return result
 
     @app.get("/api/backlinks/{vault_id}/{object_type}/{object_id}")
@@ -319,8 +323,8 @@ def create_app(
                 {"vault_id": "public", "object_id": object_id},
                 root=state.root,
             )
-            if result.get("target") is None:
-                raise api_error(404, "object_not_found", "read", "check object_ref")
+            if result.get("status") != "ok":
+                raise api_error("object_not_found", "read", "check object_ref")
             return result
         object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(state.root).resolve_vault_path(vault_id)
@@ -333,6 +337,7 @@ def create_app(
         ]
         return {
             "schema_version": "backlinks-result/v1",
+            "status": "ok",
             "target": _object_ref(vault_id, object_type, object_id),
             "items": items,
         }
@@ -350,15 +355,17 @@ def create_app(
     ) -> dict:
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
+            # 成功体透传领域信封的 status（含判分 unavailable/blocked 均为 200），
+            # 仅在题目缺失/损坏（load 抛错）时映射到结构化 404。
             return {
-                "schema_version": "practice-answer/v1",
                 **state.practice.answer(
                     question_id, response, scoring_mode=scoring_mode
                 ),
+                "schema_version": "practice-answer/v1",
             }
         except (OSError, ValueError) as exc:
             raise api_error(
-                404, "question_not_found", "practice", "check question_id"
+                "question_not_found", "practice", "check question_id"
             ) from exc
 
     @app.get("/api/practice/questions")
@@ -373,10 +380,10 @@ def create_app(
     ) -> dict:
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         return {
-            "schema_version": "practice-question-catalog/v1",
             **state.practice.list(
                 domain=domain, topic=topic, skill=skill, status=status
             ),
+            "schema_version": "practice-question-catalog/v1",
         }
 
     @app.post("/api/practice/import")
@@ -388,15 +395,16 @@ def create_app(
         authorize_write(x_myknowledge_capability, x_myknowledge_audience)
         if not isinstance(spec, dict):
             raise api_error(
-                422,
                 "question_spec_invalid",
                 "practice",
                 "send one question JSON object",
             )
-        result = state.practice.import_spec(spec)
-        if result.get("state") == "blocked":
-            return {"schema_version": "practice-import/v1", **result}
-        return {"schema_version": "practice-import/v1", **result}
+        # 导入效果（新写入 vs 幂等）在 changed 布尔，字段级失败在 blocked+errors；
+        # 两者都是 200 成功体，透传领域信封 status，仅覆盖对外 schema_version。
+        return {
+            **state.practice.import_spec(spec),
+            "schema_version": "practice-import/v1",
+        }
 
     @app.post("/api/practice/sessions")
     def practice_session_create(
@@ -417,7 +425,7 @@ def create_app(
             concept_id=concept_id,
             skill=skill,
         )
-        return {"schema_version": "practice-session/v1", **result}
+        return {**result, "schema_version": "practice-session/v1"}
 
     @app.post("/api/practice/sessions/{session_id}/progress")
     def practice_session_progress(
@@ -431,25 +439,23 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                "schema_version": "practice-session-progress/v1",
                 **state.practice.update_session(
                     session_id,
                     current_index=current_index,
                     completed=completed,
                 ),
+                "schema_version": "practice-session-progress/v1",
             }
         except OSError as exc:
             raise api_error(
-                404, "session_not_found", "practice", "check session_id"
+                "session_not_found", "practice", "check session_id"
             ) from exc
         except ValueError as exc:
             code = str(exc)
             if code in {"session_index_invalid", "session_completion_invalid"}:
-                raise api_error(
-                    422, code, "practice", "check session progress"
-                ) from exc
+                raise api_error(code, "practice", "check session progress") from exc
             raise api_error(
-                404, "session_not_found", "practice", "check session_id"
+                "session_not_found", "practice", "check session_id"
             ) from exc
 
     @app.get("/api/practice/sessions/{session_id}")
@@ -462,12 +468,12 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                "schema_version": "practice-session/v1",
                 **state.practice.get_session(session_id),
+                "schema_version": "practice-session/v1",
             }
         except (OSError, ValueError) as exc:
             raise api_error(
-                404, "session_not_found", "practice", "check session_id"
+                "session_not_found", "practice", "check session_id"
             ) from exc
 
     @app.get("/api/practice/errors")
@@ -483,7 +489,6 @@ def create_app(
     ) -> dict:
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         return {
-            "schema_version": "practice-error-queue/v1",
             **state.practice.error_queue(
                 limit=limit,
                 domain=domain,
@@ -491,6 +496,7 @@ def create_app(
                 concept_id=concept_id,
                 skill=skill,
             ),
+            "schema_version": "practice-error-queue/v1",
         }
 
     @app.get("/api/practice/queue")
@@ -507,7 +513,6 @@ def create_app(
     ) -> dict:
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         return {
-            "schema_version": "practice-review-queue/v1",
             **state.practice.review_queue(
                 size=size,
                 domain=domain,
@@ -516,6 +521,7 @@ def create_app(
                 skill=skill,
                 include_new=not only_due,
             ),
+            "schema_version": "practice-review-queue/v1",
         }
 
     @app.post("/api/practice/{question_id}/disable")
@@ -529,12 +535,12 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                "schema_version": "practice-question-lifecycle/v1",
                 **state.practice.disable(question_id, reason=reason),
+                "schema_version": "practice-question-lifecycle/v1",
             }
         except (OSError, ValueError) as exc:
             raise api_error(
-                404, "question_not_found", "practice", "check question_id"
+                "question_not_found", "practice", "check question_id"
             ) from exc
 
     @app.post("/api/practice/{question_id}/enable")
@@ -547,12 +553,12 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                "schema_version": "practice-question-lifecycle/v1",
                 **state.practice.enable(question_id),
+                "schema_version": "practice-question-lifecycle/v1",
             }
         except (OSError, ValueError) as exc:
             raise api_error(
-                404, "question_not_found", "practice", "check question_id"
+                "question_not_found", "practice", "check question_id"
             ) from exc
 
     @app.delete("/api/practice/{question_id}")
@@ -565,12 +571,12 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                "schema_version": "practice-question-lifecycle/v1",
                 **state.practice.delete(question_id),
+                "schema_version": "practice-question-lifecycle/v1",
             }
         except (OSError, ValueError) as exc:
             raise api_error(
-                404, "question_not_found", "practice", "check question_id"
+                "question_not_found", "practice", "check question_id"
             ) from exc
 
     @app.post("/api/practice/{question_id}/review")
@@ -584,12 +590,12 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                "schema_version": "practice-review/v1",
                 **state.practice.review(question_id, rating),
+                "schema_version": "practice-review/v1",
             }
         except (OSError, ValueError) as exc:
             raise api_error(
-                404, "question_not_found", "practice", "check question_id"
+                "question_not_found", "practice", "check question_id"
             ) from exc
 
     @app.post("/api/practice/{question_id}/quality")
@@ -604,10 +610,8 @@ def create_app(
         result = state.question_quality.validate(question_id, mode=mode)
         if result.get("status") == "blocked":
             if result.get("error_code") == "question_not_found":
-                raise api_error(
-                    404, "question_not_found", "practice", "check question_id"
-                )
-            raise api_error(422, result["error_code"], "practice", "check quality mode")
+                raise api_error("question_not_found", "practice", "check question_id")
+            raise api_error(result["error_code"], "practice", "check quality mode")
         return result
 
     return app

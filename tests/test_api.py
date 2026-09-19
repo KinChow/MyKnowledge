@@ -570,7 +570,7 @@ def test_practice_answer_returns_feedback_only_after_grading(tmp_path: Path):
     )
     assert response.status_code == 200
     body = response.json()
-    assert body["correct"] is False
+    assert body["grading"]["correct"] is False
     assert body["correct_option_ids"] == ["a"]
     assert body["explanation"] == "Reuse historical K/V during decoding."
     assert body["wiki_refs"] == ["wiki://kv-cache"]
@@ -600,14 +600,14 @@ def test_practice_import_api_requires_write_capability_and_is_idempotent(
     headers = {"X-MyKnowledge-Capability": "token"}
     first = client.post("/api/practice/import", headers=headers, json=spec)
     assert first.status_code == 200
-    assert first.json()["state"] == "imported"
+    assert first.json()["changed"] is True
     second = client.post("/api/practice/import", headers=headers, json=spec)
     assert second.status_code == 200
-    assert second.json()["state"] == "noop"
+    assert second.json()["changed"] is False
     invalid = {**spec, "id": "q-api-import-invalid", "content_sha256": "sha256:wrong"}
     rejected = client.post("/api/practice/import", headers=headers, json=invalid)
     assert rejected.status_code == 200
-    assert rejected.json()["state"] == "blocked"
+    assert rejected.json()["status"] == "blocked"
     assert rejected.json()["errors"][0]["code"] == "unknown_field"
 
 
@@ -757,7 +757,7 @@ def test_practice_question_lifecycle_api_is_private_and_preserves_history(
         headers=headers,
     )
     assert disabled.status_code == 200
-    assert disabled.json()["state"] == "disabled"
+    assert disabled.json()["lifecycle"] == "disabled"
     assert (
         client.post(
             "/api/practice/q-api-lifecycle/answer",
@@ -773,7 +773,8 @@ def test_practice_question_lifecycle_api_is_private_and_preserves_history(
         headers=headers,
     )
     assert deleted.status_code == 200
-    assert deleted.json()["state"] == "disabled"
+    assert deleted.json()["lifecycle"] == "disabled"
+    assert deleted.json()["deleted"] is False
     assert deleted.json()["reason"] == "review_history_preserved"
 
 
@@ -819,7 +820,7 @@ def test_practice_question_enable_api_restores_enabled_status(tmp_path: Path):
         headers=headers,
     )
     assert enabled.status_code == 200
-    assert enabled.json()["state"] == "enabled"
+    assert enabled.json()["lifecycle"] == "enabled"
     assert (
         client.get(
             "/api/practice/questions",
@@ -955,7 +956,7 @@ def test_practice_review_queue_api_returns_due_and_new_items(tmp_path: Path):
     assert response.status_code == 200
     body = response.json()
     assert body["schema_version"] == "practice-review-queue/v1"
-    assert body["state"] == "empty"
+    assert body["total"] == 0
     assert body["next_action"] == "import_question"
 
 
@@ -1080,7 +1081,8 @@ def test_write_lands_directly_and_requires_capability(tmp_path: Path):
     assert response.status_code == 200
     payload = response.json()
     assert payload["schema_version"] == "write-result/v1"
-    assert payload["state"] == "applied"
+    assert payload["status"] == "ok"
+    assert payload["changed"] is True
     assert payload["applied_files"] == ["content/wiki/api.md"]
     # 两阶段协议的残留字段不得再出现在响应里
     assert "operation_id" not in payload
@@ -1211,7 +1213,8 @@ def test_practice_api_exposes_deterministic_mode_and_llm_unavailable(tmp_path: P
     )
     assert (
         deterministic.status_code == 200
-        and deterministic.json()["scoring_provider"] == "deterministic_rubric"
+        and deterministic.json()["grading"]["scoring_provider"]
+        == "deterministic_rubric"
     )
     unavailable = client.post(
         "/api/practice/q-one/answer",

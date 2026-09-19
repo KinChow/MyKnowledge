@@ -18,11 +18,40 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from . import contract
 from .common import atomic_write, canonical_json, safe_id, sha256_bytes
 from .paths import RepoPaths
 from .validation.validator import WikiValidator
 
 QUESTION_SCHEMA = "question/v1"
+# 领域结果一律走 tools.contract 统一信封（TD §14）：唯一 status 轴（ok/blocked/
+# unavailable），写效果放 ``changed``/``lifecycle``，判分下沉 ``grading``，调度结果
+# 作为领域字段。每个操作一份 name/vN 信封 schema（与 CRUD 能力层同构）。
+CREATE_SCHEMA = "question-create/v1"
+IMPORT_SCHEMA = "question-import/v1"
+IMPORT_BATCH_SCHEMA = "question-import-batch/v1"
+LIST_SCHEMA = "question-list/v1"
+SESSION_SCHEMA = "question-session/v1"
+SESSION_PROGRESS_SCHEMA = "question-session-progress/v1"
+ERROR_QUEUE_SCHEMA = "question-error-queue/v1"
+REVIEW_QUEUE_SCHEMA = "question-review-queue/v1"
+LIFECYCLE_SCHEMA = "question-lifecycle/v1"
+REFRESH_SCHEMA = "question-refresh/v1"
+REFRESH_BATCH_SCHEMA = "question-refresh-batch/v1"
+ANSWER_SCHEMA = "question-answer/v1"
+REVIEW_SCHEMA = "question-review/v1"
+
+
+def _is_imported(result: dict) -> bool:
+    """批量导入：单条“新写入”= ok 信封且 ``changed`` 为真。"""
+    return result.get("status") == "ok" and result.get("changed") is True
+
+
+def _is_noop(result: dict) -> bool:
+    """批量导入：单条“幂等命中”= ok 信封且 ``changed`` 为假。"""
+    return result.get("status") == "ok" and result.get("changed") is False
+
+
 QUESTION_TYPES = {"single_choice", "multi_choice", "short_answer", "cloze"}
 QUESTION_FIELDS = {
     "id",
@@ -295,7 +324,9 @@ class QuestionStore:
             if spec.get("claim_id") not in claim_ids:
                 errors.append({"code": "claim_not_found"})
         if errors:
-            return {"state": "blocked", "errors": errors}
+            return contract.blocked(
+                CREATE_SCHEMA, "question_spec_invalid", errors=errors
+            )
         claim_id = str(spec["claim_id"])
         claim = {
             "vault_id": spec.get("vault_id", "public"),
@@ -326,7 +357,7 @@ class QuestionStore:
         atomic_write(
             self._file(question["id"]), canonical_json(question) + b"\n", 0o600
         )
-        return {"state": "created", "question": question}
+        return contract.ok(CREATE_SCHEMA, changed=True, question=question)
 
     @staticmethod
     def _validate_import_spec(spec: dict) -> list[dict]:  # noqa: PLR0915 - explicit import contract validation
@@ -462,15 +493,16 @@ class QuestionStore:
         try:
             spec = json.loads(source.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            return {
-                "state": "blocked",
-                "source": str(source),
-                "errors": [
+            return contract.blocked(
+                IMPORT_SCHEMA,
+                "question_json_invalid",
+                source=str(source),
+                errors=[
                     {"code": "question_json_invalid", "detail": type(exc).__name__}
                 ],
-            }
+            )
         result = self.import_spec(spec)
-        if result["state"] == "blocked":
+        if result["status"] == "blocked":
             result["source"] = str(source)
         return result
 
@@ -478,7 +510,9 @@ class QuestionStore:
         """Import one standalone personal question from an already parsed object."""
         errors = self._validate_import_spec(spec)
         if errors:
-            return {"state": "blocked", "errors": errors}
+            return contract.blocked(
+                IMPORT_SCHEMA, "question_spec_invalid", errors=errors
+            )
         question = {
             "schema_version": QUESTION_SCHEMA,
             "id": spec["id"],
@@ -505,35 +539,39 @@ class QuestionStore:
             try:
                 existing = self.load(question["id"])
             except (OSError, ValueError, json.JSONDecodeError) as exc:
-                return {
-                    "state": "blocked",
-                    "errors": [
+                return contract.blocked(
+                    IMPORT_SCHEMA,
+                    "existing_question_invalid",
+                    errors=[
                         {
                             "code": "existing_question_invalid",
                             "detail": type(exc).__name__,
                         }
                     ],
-                }
+                )
             if self._import_content_hash(existing) == self._import_content_hash(
                 question
             ):
-                return {
-                    "state": "noop",
-                    "question_id": question["id"],
-                    "content_sha256": question["content_sha256"],
-                }
-            return {
-                "state": "blocked",
-                "question_id": question["id"],
-                "errors": [{"code": "question_id_conflict"}],
-            }
+                return contract.ok(
+                    IMPORT_SCHEMA,
+                    changed=False,
+                    question_id=question["id"],
+                    content_sha256=question["content_sha256"],
+                )
+            return contract.blocked(
+                IMPORT_SCHEMA,
+                "question_id_conflict",
+                question_id=question["id"],
+                errors=[{"code": "question_id_conflict"}],
+            )
         atomic_write(target, canonical_json(question) + b"\n", 0o600)
-        return {
-            "state": "imported",
-            "question_id": question["id"],
-            "content_sha256": question["content_sha256"],
-            "path": str(target),
-        }
+        return contract.ok(
+            IMPORT_SCHEMA,
+            changed=True,
+            question_id=question["id"],
+            content_sha256=question["content_sha256"],
+            path=str(target),
+        )
 
     def import_path(self, source: Path) -> dict:
         source = Path(source)
@@ -545,25 +583,24 @@ class QuestionStore:
             else []
         )
         if not files:
-            return {
-                "state": "blocked",
-                "source": str(source),
-                "errors": [{"code": "question_import_source_empty"}],
-            }
+            return contract.blocked(
+                IMPORT_BATCH_SCHEMA,
+                "question_import_source_empty",
+                source=str(source),
+                errors=[{"code": "question_import_source_empty"}],
+            )
         results = [self.import_file(path) for path in files]
-        return {
-            "state": "imported"
-            if any(item["state"] == "imported" for item in results)
-            else "noop"
-            if all(item["state"] == "noop" for item in results)
-            else "blocked",
-            "source": str(source),
-            "total": len(results),
-            "imported": sum(item["state"] == "imported" for item in results),
-            "noop": sum(item["state"] == "noop" for item in results),
-            "blocked": sum(item["state"] == "blocked" for item in results),
-            "results": results,
-        }
+        imported = sum(_is_imported(item) for item in results)
+        return contract.ok(
+            IMPORT_BATCH_SCHEMA,
+            changed=imported > 0,
+            source=str(source),
+            total=len(results),
+            imported=imported,
+            noop=sum(_is_noop(item) for item in results),
+            blocked=sum(item["status"] == "blocked" for item in results),
+            results=results,
+        )
 
     @staticmethod
     def _catalog_item(question: dict) -> dict:
@@ -597,7 +634,7 @@ class QuestionStore:
     ) -> dict:
         """List valid local questions with optional classification filters."""
         if status not in {"enabled", "disabled", "all"}:
-            return {"state": "blocked", "error_code": "question_status_invalid"}
+            return contract.blocked(LIST_SCHEMA, "question_status_invalid")
         items: list[dict] = []
         invalid: list[dict] = []
         for path in sorted(self.paths.practice_questions.glob("*.json")):
@@ -621,12 +658,7 @@ class QuestionStore:
             if skill is not None and question.get("skill") != skill:
                 continue
             items.append(self._catalog_item(question))
-        return {
-            "state": "listed",
-            "total": len(items),
-            "items": items,
-            "invalid": invalid,
-        }
+        return contract.ok(LIST_SCHEMA, total=len(items), items=items, invalid=invalid)
 
     def create_session(
         self,
@@ -638,25 +670,26 @@ class QuestionStore:
         skill: str | None = None,
     ) -> dict:
         if size not in {3, 6, 10}:
-            return {"state": "blocked", "error_code": "session_size_invalid"}
+            return contract.blocked(SESSION_SCHEMA, "session_size_invalid")
         catalog = self.list(domain=domain, topic=topic, skill=skill)
         if catalog["invalid"]:
-            return {
-                "state": "blocked",
-                "error_code": "question_catalog_invalid",
-                "invalid": catalog["invalid"],
-            }
+            return contract.blocked(
+                SESSION_SCHEMA, "question_catalog_invalid", invalid=catalog["invalid"]
+            )
         candidates = [
             item
             for item in catalog["items"]
             if concept_id is None or item.get("concept_id") == concept_id
         ]
         if not candidates:
-            return {
-                "state": "empty",
-                "question_count": 0,
-                "next_action": "import_question",
-            }
+            return contract.ok(
+                SESSION_SCHEMA,
+                changed=False,
+                session=None,
+                items=[],
+                question_count=0,
+                next_action="import_question",
+            )
         # Build deterministic buckets: due reviews first, then active errors, then new
         # questions. Future reviews are eligible only as a final fallback.
         now = datetime.now(UTC)
@@ -763,12 +796,13 @@ class QuestionStore:
             canonical_json(session) + b"\n",
             0o600,
         )
-        return {
-            "state": "created",
-            "session": session,
-            "items": selected,
-            "question_count": len(selected),
-        }
+        return contract.ok(
+            SESSION_SCHEMA,
+            changed=True,
+            session=session,
+            items=selected,
+            question_count=len(selected),
+        )
 
     def update_session(
         self,
@@ -804,7 +838,7 @@ class QuestionStore:
         session["completed"] = completed
         session["status"] = "completed" if completed else "active"
         atomic_write(path, canonical_json(session) + b"\n", 0o600)
-        return {"state": "updated", "session": session}
+        return contract.ok(SESSION_PROGRESS_SCHEMA, changed=True, session=session)
 
     def get_session(self, session_id: str) -> dict:
         safe_id(session_id)
@@ -833,12 +867,12 @@ class QuestionStore:
             question = self.load(question_id)
             if question.get("status") == "enabled":
                 items.append(self._catalog_item(question))
-        return {
-            "state": "listed",
-            "session": session,
-            "items": items,
-            "question_count": len(items),
-        }
+        return contract.ok(
+            SESSION_SCHEMA,
+            session=session,
+            items=items,
+            question_count=len(items),
+        )
 
     def error_queue(
         self,
@@ -850,7 +884,7 @@ class QuestionStore:
         limit: int = 10,
     ) -> dict:
         if not 1 <= limit <= 50:
-            return {"state": "blocked", "error_code": "error_queue_limit_invalid"}
+            return contract.blocked(ERROR_QUEUE_SCHEMA, "error_queue_limit_invalid")
         catalog = self.list(
             domain=domain,
             topic=topic,
@@ -858,11 +892,11 @@ class QuestionStore:
             status="enabled",
         )
         if catalog["invalid"]:
-            return {
-                "state": "blocked",
-                "error_code": "question_catalog_invalid",
-                "invalid": catalog["invalid"],
-            }
+            return contract.blocked(
+                ERROR_QUEUE_SCHEMA,
+                "question_catalog_invalid",
+                invalid=catalog["invalid"],
+            )
         candidates = {
             item["id"]
             for item in catalog["items"]
@@ -916,12 +950,12 @@ class QuestionStore:
                 }
             )
         errors.sort(key=lambda item: (-item["last_error_at"], item["question_id"]))
-        return {
-            "state": "listed",
-            "total": min(len(errors), limit),
-            "items": errors[:limit],
-            "warnings": warnings,
-        }
+        return contract.ok(
+            ERROR_QUEUE_SCHEMA,
+            total=min(len(errors), limit),
+            items=errors[:limit],
+            warnings=warnings,
+        )
 
     def review_queue(
         self,
@@ -934,7 +968,7 @@ class QuestionStore:
         include_new: bool = True,
     ) -> dict:
         if size not in {3, 6, 10}:
-            return {"state": "blocked", "error_code": "queue_size_invalid"}
+            return contract.blocked(REVIEW_QUEUE_SCHEMA, "queue_size_invalid")
         catalog = self.list(
             domain=domain,
             topic=topic,
@@ -942,11 +976,11 @@ class QuestionStore:
             status="enabled",
         )
         if catalog["invalid"]:
-            return {
-                "state": "blocked",
-                "error_code": "question_catalog_invalid",
-                "invalid": catalog["invalid"],
-            }
+            return contract.blocked(
+                REVIEW_QUEUE_SCHEMA,
+                "question_catalog_invalid",
+                invalid=catalog["invalid"],
+            )
         candidates = [
             item
             for item in catalog["items"]
@@ -981,60 +1015,69 @@ class QuestionStore:
                 {"queue_kind": "new", "due": None, "question": item}
                 for item in new[: size - len(selected)]
             )
-        return {
-            "state": "listed" if selected else "empty",
-            "total": len(selected),
-            "items": selected,
-            "next_action": None if selected else "import_question",
-        }
+        return contract.ok(
+            REVIEW_QUEUE_SCHEMA,
+            total=len(selected),
+            items=selected,
+            next_action=None if selected else "import_question",
+        )
 
     def disable(self, question_id: str, *, reason: str = "manual") -> dict:
         question = self.load(question_id)
         if question.get("status") == "disabled":
-            return {
-                "state": "noop",
-                "question_id": question_id,
-                "status": "disabled",
-            }
+            return contract.ok(
+                LIFECYCLE_SCHEMA,
+                changed=False,
+                question_id=question_id,
+                lifecycle="disabled",
+            )
         question["status"] = "disabled"
         question["disabled_reason"] = reason
         atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
-        return {
-            "state": "disabled",
-            "question_id": question_id,
-            "status": "disabled",
-            "reason": reason,
-        }
+        return contract.ok(
+            LIFECYCLE_SCHEMA,
+            changed=True,
+            question_id=question_id,
+            lifecycle="disabled",
+            reason=reason,
+        )
 
     def enable(self, question_id: str) -> dict:
         question = self.load(question_id)
         if question.get("status", "enabled") == "enabled":
-            return {
-                "state": "noop",
-                "question_id": question_id,
-                "status": "enabled",
-            }
+            return contract.ok(
+                LIFECYCLE_SCHEMA,
+                changed=False,
+                question_id=question_id,
+                lifecycle="enabled",
+            )
         question["status"] = "enabled"
         question.pop("disabled_reason", None)
         atomic_write(self._file(question_id), canonical_json(question) + b"\n", 0o600)
-        return {
-            "state": "enabled",
-            "question_id": question_id,
-            "status": "enabled",
-        }
+        return contract.ok(
+            LIFECYCLE_SCHEMA,
+            changed=True,
+            question_id=question_id,
+            lifecycle="enabled",
+        )
 
     def delete(self, question_id: str) -> dict:
         self.load(question_id)
         review_path = self.paths.practice_reviews(question_id)
         if review_path.exists() and review_path.stat().st_size > 0:
-            result = self.disable(question_id, reason="delete_requested_with_history")
-            return {
-                **result,
-                "state": "disabled",
-                "reason": "review_history_preserved",
-            }
+            self.disable(question_id, reason="delete_requested_with_history")
+            return contract.ok(
+                LIFECYCLE_SCHEMA,
+                changed=True,
+                deleted=False,
+                question_id=question_id,
+                lifecycle="disabled",
+                reason="review_history_preserved",
+            )
         self._file(question_id).unlink()
-        return {"state": "deleted", "question_id": question_id}
+        return contract.ok(
+            LIFECYCLE_SCHEMA, changed=True, deleted=True, question_id=question_id
+        )
 
     def load(self, question_id: str) -> dict:
         question = json.loads(self._file(question_id).read_text(encoding="utf-8"))
@@ -1113,17 +1156,20 @@ class QuestionStore:
             and claim.get("content_sha256") == hashes.get("content_sha256")
             and claim.get("evidence_sha256") == hashes.get("evidence_sha256")
         )
-        if not valid and question.get("status") != "disabled":
+        newly_disabled = not valid and question.get("status") != "disabled"
+        if newly_disabled:
             question["status"] = "disabled"
             question["disabled_reason"] = "claim_binding_stale"
             atomic_write(
                 self._file(question_id), canonical_json(question) + b"\n", 0o600
             )
-        return {
-            "state": "enabled" if valid else "disabled",
-            "question_id": question_id,
-            "reason": None if valid else "claim_binding_stale",
-        }
+        return contract.ok(
+            REFRESH_SCHEMA,
+            changed=newly_disabled,
+            question_id=question_id,
+            lifecycle="enabled" if valid else "disabled",
+            reason=None if valid else "claim_binding_stale",
+        )
 
     def refresh_all(self, wiki_reports: dict[str, dict]) -> dict:
         """Revalidate every local question against reports keyed by wiki_id."""
@@ -1140,19 +1186,21 @@ class QuestionStore:
                 )
             except (OSError, ValueError, json.JSONDecodeError) as exc:
                 results.append(
-                    {
-                        "state": "disabled",
-                        "question_id": path.stem,
-                        "reason": "question_invalid",
-                        "detail": type(exc).__name__,
-                    }
+                    contract.ok(
+                        REFRESH_SCHEMA,
+                        changed=False,
+                        question_id=path.stem,
+                        lifecycle="disabled",
+                        reason="question_invalid",
+                        detail=type(exc).__name__,
+                    )
                 )
-        return {
-            "state": "refreshed",
-            "total": len(results),
-            "disabled": sum(x.get("state") == "disabled" for x in results),
-            "results": results,
-        }
+        return contract.ok(
+            REFRESH_BATCH_SCHEMA,
+            total=len(results),
+            disabled=sum(x.get("lifecycle") == "disabled" for x in results),
+            results=results,
+        )
 
     def answer(
         self,
@@ -1164,16 +1212,20 @@ class QuestionStore:
     ) -> dict:
         question = self.load(question_id)
         if question.get("status") != "enabled":
-            return {"state": "blocked", "error_code": "question_disabled"}
+            return contract.blocked(ANSWER_SCHEMA, "question_disabled")
 
-        def feedback(result: dict) -> dict:
-            return {
-                **result,
-                "correct_option_ids": question.get("correct_option_ids"),
-                "answer": question.get("answer"),
-                "explanation": question.get("explanation", ""),
-                "wiki_refs": question.get("wiki_refs", []),
-            }
+        def graded_with_feedback(grading: dict) -> dict:
+            # 判分结论下沉 grading 子字段（TD §14）；correct_option_ids/answer/
+            # explanation/wiki_refs 是判分后才揭示的题目反馈，留在顶层领域字段。
+            self._record_answer(question_id, grading, response)
+            return contract.ok(
+                ANSWER_SCHEMA,
+                grading=grading,
+                correct_option_ids=question.get("correct_option_ids"),
+                answer=question.get("answer"),
+                explanation=question.get("explanation", ""),
+                wiki_refs=question.get("wiki_refs", []),
+            )
 
         kind = question["type"]
         if kind == "single_choice":
@@ -1183,20 +1235,20 @@ class QuestionStore:
                 if isinstance(item, dict)
             }
             if not isinstance(response, str) or response not in option_ids:
-                return {"state": "blocked", "error_code": "response_option_unknown"}
+                return contract.blocked(ANSWER_SCHEMA, "response_option_unknown")
             score = (
                 1.0
                 if response == question.get("correct_option_ids", [None])[0]
                 else 0.0
             )
-            result = {"state": "graded", "score": score, "correct": score == 1.0}
-            self._record_answer(question_id, result, response)
-            return feedback(result)
+            return graded_with_feedback(
+                {"state": "graded", "score": score, "correct": score == 1.0}
+            )
         if kind == "multi_choice":
             expected = set(question.get("correct_option_ids") or [])
             values = response if isinstance(response, list) else []
             if len(values) != len(set(values)):
-                return {"state": "blocked", "error_code": "response_options_duplicate"}
+                return contract.blocked(ANSWER_SCHEMA, "response_options_duplicate")
             option_ids = {
                 item.get("id")
                 for item in (question.get("options") or [])
@@ -1206,24 +1258,32 @@ class QuestionStore:
                 not isinstance(value, str) or value not in option_ids
                 for value in values
             ):
-                return {"state": "blocked", "error_code": "response_option_unknown"}
+                return contract.blocked(ANSWER_SCHEMA, "response_option_unknown")
             actual = set(values)
             score = 1.0 if actual == expected else 0.0
-            result = {"state": "graded", "score": score, "correct": score == 1.0}
-            self._record_answer(question_id, result, response)
-            return feedback(result)
+            return graded_with_feedback(
+                {"state": "graded", "score": score, "correct": score == 1.0}
+            )
         if kind == "cloze":
-            return feedback(self._score_cloze(question, response))
+            # _score_cloze 自行落库并返回 grading 子结果（避免重复记录）。
+            return contract.ok(
+                ANSWER_SCHEMA,
+                grading=self._score_cloze(question, response),
+                correct_option_ids=question.get("correct_option_ids"),
+                answer=question.get("answer"),
+                explanation=question.get("explanation", ""),
+                wiki_refs=question.get("wiki_refs", []),
+            )
         if scoring_mode not in {"manual", "deterministic", "llm"}:
-            return {"state": "blocked", "error_code": "scoring_mode_invalid"}
+            return contract.blocked(ANSWER_SCHEMA, "scoring_mode_invalid")
         if scoring_mode == "manual":
-            result = {
+            grading = {
                 "state": "manual_review",
                 "rubric": question.get("rubric", []),
                 "response": response,
             }
-            self._record_answer(question_id, result, response)
-            return result
+            self._record_answer(question_id, grading, response)
+            return contract.ok(ANSWER_SCHEMA, grading=grading)
         if scoring_mode == "deterministic":
             rubric = question.get("rubric") or []
             matched = 0
@@ -1245,21 +1305,23 @@ class QuestionStore:
                 criteria.append({"criterion": criterion, "matched": ok})
                 matched += int(ok)
             score = matched / len(criteria) if criteria else 0.0
-            result = {
+            grading = {
                 "state": "graded",
                 "scoring_provider": "deterministic_rubric",
                 "score": score,
                 "correct": score == 1.0,
                 "criteria": criteria,
             }
-            self._record_answer(question_id, result, response)
-            return result
+            self._record_answer(question_id, grading, response)
+            return contract.ok(ANSWER_SCHEMA, grading=grading)
         if not callable(scorer):
-            return {
-                "state": "unavailable",
-                "reason": "provider_unavailable",
-                "scoring_provider": "llm",
-            }
+            return contract.unavailable(
+                ANSWER_SCHEMA,
+                "grading_provider_unavailable",
+                reason="provider_unavailable",
+                scoring_provider="llm",
+                grading={"state": "unavailable", "reason": "provider_unavailable"},
+            )
         try:
             observed = scorer(
                 {
@@ -1269,52 +1331,62 @@ class QuestionStore:
                 }
             )
         except Exception as exc:  # noqa: BLE001 - 调用方注入的打分器是外部实现，异常面未知
-            return {
-                "state": "unavailable",
-                "reason": "provider_error",
-                "detail": type(exc).__name__,
-                "scoring_provider": "llm",
-            }
+            return contract.unavailable(
+                ANSWER_SCHEMA,
+                "grading_provider_unavailable",
+                reason="provider_error",
+                detail=type(exc).__name__,
+                scoring_provider="llm",
+                grading={"state": "unavailable", "reason": "provider_error"},
+            )
         if (
             not isinstance(observed, dict)
             or not isinstance(observed.get("score"), (int, float))
             or not 0 <= float(observed["score"]) <= 1
         ):
-            return {
-                "state": "unavailable",
-                "reason": "provider_malformed",
-                "scoring_provider": "llm",
-            }
-        result = {
+            return contract.unavailable(
+                ANSWER_SCHEMA,
+                "grading_provider_unavailable",
+                reason="provider_malformed",
+                scoring_provider="llm",
+                grading={"state": "unavailable", "reason": "provider_malformed"},
+            )
+        grading = {
             "state": "graded",
             "scoring_provider": "llm",
             "score": float(observed["score"]),
             "correct": float(observed["score"]) == 1.0,
         }
         if isinstance(observed.get("rationale"), str):
-            result["rationale"] = observed["rationale"][:2000]
-        self._record_answer(question_id, result, response)
-        return result
+            grading["rationale"] = observed["rationale"][:2000]
+        self._record_answer(question_id, grading, response)
+        return contract.ok(ANSWER_SCHEMA, grading=grading)
 
     def review(self, question_id: str, rating: int) -> dict:
         if rating not in {1, 2, 3, 4}:
-            return {"state": "blocked", "error_code": "rating_invalid"}
+            return contract.blocked(REVIEW_SCHEMA, "rating_invalid")
         question = self.load(question_id)
         if question.get("status") != "enabled":
-            return {"state": "blocked", "error_code": "question_disabled"}
-        result = self.fsrs.review(question.get("review_state"), rating)
-        if result.get("state") == "scheduled":
+            return contract.blocked(REVIEW_SCHEMA, "question_disabled")
+        scheduling = self.fsrs.review(question.get("review_state"), rating)
+        if scheduling.get("state") == "scheduled":
             question["review_state"] = {
-                **result["card"],
-                "scheduler": result["scheduler"],
-                "scheduler_version": result["scheduler_version"],
-                "review_state_schema": result["review_state_schema"],
-                "rating": result["rating"],
+                **scheduling["card"],
+                "scheduler": scheduling["scheduler"],
+                "scheduler_version": scheduling["scheduler_version"],
+                "review_state_schema": scheduling["review_state_schema"],
+                "rating": scheduling["rating"],
             }
             atomic_write(
                 self._file(question_id), canonical_json(question) + b"\n", 0o600
             )
-        return result
+            # 调度结果是领域数据（不是 status 轴）：整块嵌到 ``schedule`` 子字段，
+            # 避免与顶层 status 并列出第二根状态轴（正交，单 status 轴）。
+            return contract.ok(REVIEW_SCHEMA, schedule=scheduling)
+        # 调度器缺失/异常是 provider 不可用 → unavailable 信封；领域细节进 schedule。
+        return contract.unavailable(
+            REVIEW_SCHEMA, "scheduler_unavailable", schedule=scheduling
+        )
 
 
 def practice_integrity_check(target: Path) -> None:

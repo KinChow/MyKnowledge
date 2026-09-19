@@ -42,10 +42,60 @@ _QUESTION_CODES: frozenset[str] = frozenset(
         # question_quality（练习题质量校验入口）
         "quality_mode_invalid",
         "question_not_found",
+        # question.py（authoring / import / lifecycle / grading / scheduling）
+        "question_spec_invalid",
+        "question_id_conflict",
+        "existing_question_invalid",
+        "question_json_invalid",
+        "question_import_source_empty",
+        "question_status_invalid",
+        "session_size_invalid",
+        "question_catalog_invalid",
+        "error_queue_limit_invalid",
+        "queue_size_invalid",
+        "question_disabled",
+        "response_option_unknown",
+        "response_options_duplicate",
+        "scoring_mode_invalid",
+        "rating_invalid",
+        "grading_provider_unavailable",
+        "scheduler_unavailable",
     }
 )  # agent-A1: question.py/question_quality
 _SOURCE_CODES: frozenset[str] = frozenset()  # agent-A1: ingest/source_ingestor
-_ENTRY_CODES: frozenset[str] = frozenset()  # agent-A2: backend/* / skill_runtime
+_ENTRY_CODES: frozenset[str] = frozenset(
+    {
+        # skill_runtime.dispatch 通道门禁与 catch-all
+        "skill_action_not_allowed",
+        "skill_payload_forbidden",
+        "skill_payload_unknown_field",
+        "skill_action_failed",
+        # skill_runtime handler 抛出的结构化字段级错误码
+        "skill_private_read_requires_api",
+        "skill_public_query_only",
+        "skill_unavailable",
+        "wiki_path_required",
+        "path_invalid",
+        "files_required",
+        "content_not_string",
+        "empty_write",
+        "path_symlink",
+        "path_outside_repo",
+        "invalid_target",
+        "path_hardlink",
+        "apply_failed",
+        "source_request_required",
+        "publish_event_required",
+        "spec_required",
+        "wiki_not_found",
+        # mcp_server / backend capability 门禁（tools.capability 的码，语义不变）
+        "capability_token_required",
+        "capability_token_invalid",
+        "capability_token_expired",
+        "capability_audience_invalid",
+        "capability_scope_invalid",
+    }
+)  # agent-A2: backend/* / skill_runtime / mcp_server
 _MISC_CODES: frozenset[str] = frozenset(
     {
         # release_confirmation（public-release-confirmation 写入门禁）
@@ -79,6 +129,14 @@ _CRUD_CODES: frozenset[str] = frozenset(
     }
 )  # agent-B: source/wiki repository（CRUD 能力层）
 
+# A 线剩余迁移的按域子集（各 agent 只填自己那块，避免同一字面量并行冲突）。
+_BACKUP_CODES: frozenset[str] = frozenset()  # agent-backup: backup.py
+_VALIDATION_CODES: frozenset[str] = frozenset()  # agent-valing: validation/*
+_INGEST_CODES: frozenset[str] = (
+    frozenset()
+)  # agent-valing: ingest/*（含 source_ingestor）
+_DOCTOR_CODES: frozenset[str] = frozenset()  # agent-valing: doctor.py
+
 ERROR_CODES = (
     _LOCATE_CODES
     | _QUESTION_CODES
@@ -86,6 +144,10 @@ ERROR_CODES = (
     | _ENTRY_CODES
     | _MISC_CODES
     | _CRUD_CODES
+    | _BACKUP_CODES
+    | _VALIDATION_CODES
+    | _INGEST_CODES
+    | _DOCTOR_CODES
 )
 
 # 可重试是 status 的派生属性（gRPC 模型：仅 unavailable 可重试），供 HTTP 边界层使用。

@@ -43,7 +43,7 @@ class QuestionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
             result = store.create(self.base(), wiki_report={"valid": False})
-            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["status"], "blocked")
             self.assertIn("wiki_unverified", {e["code"] for e in result["errors"]})
 
     def test_create_rejects_wiki_or_claim_identity_mismatch(self):
@@ -62,7 +62,7 @@ class QuestionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
             one = store.create(self.base(), wiki_report=REPORT)["question"]["id"]
-            self.assertTrue(store.answer(one, "a")["correct"])
+            self.assertTrue(store.answer(one, "a")["grading"]["correct"])
             self.assertTrue(
                 (Path(d) / "content" / "practice" / "reviews" / "q-one.jsonl").exists()
             )
@@ -70,14 +70,16 @@ class QuestionTests(unittest.TestCase):
             multi["id"] = "q-two"
             multi["correct_option_ids"] = ["a", "b"]
             store.create(multi, wiki_report=REPORT)
-            self.assertFalse(store.answer("q-two", ["a"])["correct"])
+            self.assertFalse(store.answer("q-two", ["a"])["grading"]["correct"])
 
     def test_short_answer_is_manual_and_disabled_is_blocked(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
             short = self.base("short_answer")
             store.create(short, wiki_report=REPORT)
-            self.assertEqual(store.answer("q-one", "answer")["state"], "manual_review")
+            self.assertEqual(
+                store.answer("q-one", "answer")["grading"]["state"], "manual_review"
+            )
             q = store.load("q-one")
             q["status"] = "disabled"
             store._file("q-one").write_text(
@@ -101,9 +103,11 @@ class QuestionTests(unittest.TestCase):
                 "包含核心概念，因为输入变化所以输出变化",
                 scoring_mode="deterministic",
             )
-            self.assertEqual(result["state"], "graded")
-            self.assertEqual(result["score"], 1.0)
-            self.assertEqual(result["scoring_provider"], "deterministic_rubric")
+            self.assertEqual(result["grading"]["state"], "graded")
+            self.assertEqual(result["grading"]["score"], 1.0)
+            self.assertEqual(
+                result["grading"]["scoring_provider"], "deterministic_rubric"
+            )
             self.assertEqual(
                 store.answer("q-one", "x", scoring_mode="llm")["reason"],
                 "provider_unavailable",
@@ -114,8 +118,8 @@ class QuestionTests(unittest.TestCase):
                 scoring_mode="llm",
                 scorer=lambda _: {"score": 0.5, "rationale": "部分覆盖"},
             )
-            self.assertEqual(observed["score"], 0.5)
-            self.assertEqual(observed["scoring_provider"], "llm")
+            self.assertEqual(observed["grading"]["score"], 0.5)
+            self.assertEqual(observed["grading"]["scoring_provider"], "llm")
             self.assertEqual(
                 store.answer("q-one", "x", scoring_mode="other")["error_code"],
                 "scoring_mode_invalid",
@@ -126,9 +130,10 @@ class QuestionTests(unittest.TestCase):
             store = QuestionStore(Path(d))
             store.create(self.base(), wiki_report=REPORT)
             result = store.review("q-one", 3)
-            self.assertEqual(result["state"], "scheduled")
-            self.assertEqual(result["review_state_schema"], "fsrs-card/v1")
-            self.assertRegex(result["scheduler_version"], r"^\d+\.\d+")
+            self.assertEqual(result["status"], "ok")
+            self.assertEqual(result["schedule"]["state"], "scheduled")
+            self.assertEqual(result["schedule"]["review_state_schema"], "fsrs-card/v1")
+            self.assertRegex(result["schedule"]["scheduler_version"], r"^\d+\.\d+")
             self.assertEqual(store.load("q-one")["review_state"]["state"], 1)
 
     def test_fsrs_persisted_card_can_be_reviewed_again(self):
@@ -137,10 +142,10 @@ class QuestionTests(unittest.TestCase):
             store = QuestionStore(Path(d))
             store.create(self.base(), wiki_report=REPORT)
             first = store.review("q-one", 3)
-            self.assertEqual(first["state"], "scheduled")
+            self.assertEqual(first["schedule"]["state"], "scheduled")
             first_card_id = store.load("q-one")["review_state"]["card_id"]
             second = store.review("q-one", 4)
-            self.assertEqual(second["state"], "scheduled")
+            self.assertEqual(second["schedule"]["state"], "scheduled")
             persisted = store.load("q-one")["review_state"]
             self.assertEqual(persisted["card_id"], first_card_id)
             self.assertEqual(persisted["state"], 2)
@@ -150,9 +155,8 @@ class QuestionTests(unittest.TestCase):
             store = QuestionStore(Path(d))
             store.create(self.base(), wiki_report=REPORT)
             result = store.review("q-one", 0)
-            self.assertEqual(
-                result, {"state": "blocked", "error_code": "rating_invalid"}
-            )
+            self.assertEqual(result["status"], "blocked")
+            self.assertEqual(result["error_code"], "rating_invalid")
 
     def test_claim_hash_change_disables_question(self):
         with tempfile.TemporaryDirectory() as d:
@@ -166,7 +170,7 @@ class QuestionTests(unittest.TestCase):
                 },
             }
             result = store.refresh_status("q-one", stale)
-            self.assertEqual(result["state"], "disabled")
+            self.assertEqual(result["lifecycle"], "disabled")
             self.assertEqual(
                 store.answer("q-one", "a")["error_code"], "question_disabled"
             )
@@ -180,7 +184,7 @@ class QuestionTests(unittest.TestCase):
                 "object_ref": {"object_type": "wiki", "object_id": "other-wiki"},
             }
             result = store.refresh_status("q-one", wrong)
-            self.assertEqual(result["state"], "disabled")
+            self.assertEqual(result["lifecycle"], "disabled")
             self.assertEqual(result["reason"], "claim_binding_stale")
 
     def test_refresh_all_disables_missing_or_stale_wiki_reports(self):
@@ -261,7 +265,7 @@ class QuestionTests(unittest.TestCase):
                     ],
                 }
             )
-            self.assertEqual(result["state"], "imported")
+            self.assertIs(result["changed"], True)
             question = store.load("q-meta")
             self.assertEqual(question["company_tags"], ["ByteDance", "NVIDIA"])
             self.assertEqual(question["source_refs"][0]["kind"], "official_docs")
@@ -360,8 +364,8 @@ class QuestionTests(unittest.TestCase):
             )
             store = QuestionStore(Path(d))
             first = store.import_file(source)
-            self.assertEqual(first["state"], "imported")
-            self.assertEqual(store.import_file(source)["state"], "noop")
+            self.assertIs(first["changed"], True)
+            self.assertIs(store.import_file(source)["changed"], False)
             changed = json.loads(source.read_text(encoding="utf-8"))
             changed["prompt"] = "changed"
             source.write_text(json.dumps(changed), encoding="utf-8")
@@ -392,7 +396,7 @@ class QuestionTests(unittest.TestCase):
                 encoding="utf-8",
             )
             result = QuestionStore(Path(d)).import_file(source)
-            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["status"], "blocked")
             self.assertEqual(result["errors"][0]["code"], "unknown_field")
 
     def test_import_and_score_cloze_with_alias_and_normalization(self):
@@ -423,14 +427,18 @@ class QuestionTests(unittest.TestCase):
                 encoding="utf-8",
             )
             store = QuestionStore(Path(d))
-            self.assertEqual(store.import_file(source)["state"], "imported")
+            self.assertIs(store.import_file(source)["changed"], True)
             correct = store.answer("q-cloze", "  CONTINUOUS   BATCHING ")
-            self.assertEqual(correct["state"], "graded")
-            self.assertEqual(correct["scoring_provider"], "deterministic_cloze")
-            self.assertTrue(correct["correct"])
-            self.assertEqual(correct["normalized_response"], "continuous batching")
+            self.assertEqual(correct["grading"]["state"], "graded")
+            self.assertEqual(
+                correct["grading"]["scoring_provider"], "deterministic_cloze"
+            )
+            self.assertTrue(correct["grading"]["correct"])
+            self.assertEqual(
+                correct["grading"]["normalized_response"], "continuous batching"
+            )
             wrong = store.answer("q-cloze", "dynamic batching")
-            self.assertFalse(wrong["correct"])
+            self.assertFalse(wrong["grading"]["correct"])
 
     def test_cloze_normalization_applies_unicode_nfkc(self):
         with tempfile.TemporaryDirectory() as d:
@@ -459,9 +467,9 @@ class QuestionTests(unittest.TestCase):
                 encoding="utf-8",
             )
             store = QuestionStore(Path(d))
-            self.assertEqual(store.import_file(source)["state"], "imported")
+            self.assertIs(store.import_file(source)["changed"], True)
             result = store.answer("q-cloze-nfkc", "  ｃｏｎｔｉｎｕｏｕｓ　 batching ")
-            self.assertTrue(result["correct"])
+            self.assertTrue(result["grading"]["correct"])
 
     def test_cloze_import_rejects_unknown_normalization_rule(self):
         with tempfile.TemporaryDirectory() as d:
@@ -485,7 +493,7 @@ class QuestionTests(unittest.TestCase):
                 encoding="utf-8",
             )
             result = QuestionStore(Path(d)).import_file(source)
-            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["status"], "blocked")
             self.assertEqual(
                 result["errors"][0]["code"], "answer_normalization_rule_unknown"
             )
@@ -514,7 +522,7 @@ class QuestionTests(unittest.TestCase):
                 encoding="utf-8",
             )
             result = QuestionStore(Path(d)).import_file(source)
-            self.assertEqual(result["state"], "blocked")
+            self.assertEqual(result["status"], "blocked")
             self.assertEqual(
                 {error["field"] for error in result["errors"] if "field" in error},
                 {"options", "correct_option_ids"},
@@ -627,17 +635,18 @@ class QuestionTests(unittest.TestCase):
             )
             store.import_file(source)
             disabled = store.disable("q-lifecycle", reason="manual_cleanup")
-            self.assertEqual(disabled["state"], "disabled")
+            self.assertEqual(disabled["lifecycle"], "disabled")
             self.assertEqual(
                 store.answer("q-lifecycle", "a")["error_code"], "question_disabled"
             )
-            self.assertEqual(store.delete("q-lifecycle")["state"], "deleted")
+            self.assertIs(store.delete("q-lifecycle")["deleted"], True)
             self.assertFalse(store._file("q-lifecycle").exists())
 
             store.import_file(source)
             store.answer("q-lifecycle", "a")
             preserved = store.delete("q-lifecycle")
-            self.assertEqual(preserved["state"], "disabled")
+            self.assertIs(preserved["deleted"], False)
+            self.assertEqual(preserved["lifecycle"], "disabled")
             self.assertEqual(preserved["reason"], "review_history_preserved")
             self.assertTrue(store._file("q-lifecycle").exists())
             self.assertEqual(store.load("q-lifecycle")["status"], "disabled")
@@ -668,10 +677,10 @@ class QuestionTests(unittest.TestCase):
             store.import_file(source)
             store.disable("q-enable", reason="manual_cleanup")
             enabled = store.enable("q-enable")
-            self.assertEqual(enabled["state"], "enabled")
-            self.assertTrue(store.answer("q-enable", "a")["correct"])
-            self.assertEqual(store.enable("q-enable")["state"], "noop")
-            self.assertEqual(store.import_file(source)["state"], "noop")
+            self.assertEqual(enabled["lifecycle"], "enabled")
+            self.assertTrue(store.answer("q-enable", "a")["grading"]["correct"])
+            self.assertIs(store.enable("q-enable")["changed"], False)
+            self.assertIs(store.import_file(source)["changed"], False)
 
     def test_create_session_is_stable_bounded_and_answer_safe(self):
         with tempfile.TemporaryDirectory() as d:
@@ -703,7 +712,7 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(store.import_path(source_dir)["imported"], 4)
             first = store.create_session(size=3, domain="llm-inference")
             second = store.create_session(size=3, domain="llm-inference")
-            self.assertEqual(first["state"], "created")
+            self.assertEqual(first["status"], "ok")
             self.assertEqual(first["question_count"], 3)
             self.assertEqual(
                 first["session"]["question_ids"], second["session"]["question_ids"]
@@ -721,7 +730,7 @@ class QuestionTests(unittest.TestCase):
                 store.create_session(size=4)["error_code"], "session_size_invalid"
             )
             self.assertEqual(
-                store.create_session(size=6, concept_id="missing")["state"], "empty"
+                store.create_session(size=6, concept_id="missing")["question_count"], 0
             )
 
     def test_create_session_prioritizes_due_then_errors_then_new(self):

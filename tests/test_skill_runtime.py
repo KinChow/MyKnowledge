@@ -39,7 +39,8 @@ def test_skill_runtime_write_is_direct_and_lands_content(tmp_path: Path):
     result = dispatch(
         "write", {"files": {"content/wiki/item.md": "# Item\n"}}, root=tmp_path
     )
-    assert result["state"] == "applied"
+    assert result["status"] == "ok"
+    assert result["changed"] is True
     assert result["applied_files"] == ["content/wiki/item.md"]
     assert "operation_id" not in result
     assert (tmp_path / "content" / "wiki" / "item.md").read_text(
@@ -56,7 +57,8 @@ def test_skill_runtime_write_is_direct_and_lands_content(tmp_path: Path):
     working = dispatch(
         "write", {"files": {"content/working/draft.md": "草稿\n"}}, root=tmp_path
     )
-    assert working["state"] == "applied"
+    assert working["status"] == "ok"
+    assert working["changed"] is True
     assert (tmp_path / "content" / "working" / "draft.md").read_text(
         encoding="utf-8"
     ) == "草稿\n"
@@ -316,7 +318,7 @@ def test_skill_status_is_fail_closed_for_canonical_skill(tmp_path: Path):
         "name: myknowledge\nUse tools.cli with explicit human confirmation.\n",
         encoding="utf-8",
     )
-    assert dispatch("skill_status", {}, root=tmp_path)["state"] == "available"
+    assert dispatch("skill_status", {}, root=tmp_path)["status"] == "ok"
 
 
 def test_skill_source_ingest_delegates_to_source_service(tmp_path: Path):
@@ -349,7 +351,8 @@ def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path)
     preview = dispatch(
         "publish_preview", {"wiki_path": "content/wiki/skill.md"}, root=tmp_path
     )
-    assert preview["state"] == "blocked"
+    assert preview["status"] == "ok"
+    assert preview["public_publishable"] is False
     assert "wiki_report" in preview
     assert (
         dispatch("wiki_validate", {"wiki_path": "../secret.md"}, root=tmp_path)[
@@ -417,8 +420,8 @@ def test_skill_question_answer_preserves_scoring_mode_boundary(tmp_path: Path):
         {"question_id": "q-one", "response": "核心", "scoring_mode": "deterministic"},
         root=tmp_path,
     )
-    assert deterministic["state"] == "graded"
-    assert deterministic["scoring_provider"] == "deterministic_rubric"
+    assert deterministic["grading"]["state"] == "graded"
+    assert deterministic["grading"]["scoring_provider"] == "deterministic_rubric"
     invalid = dispatch(
         "question_answer",
         {"question_id": "q-one", "response": "x", "scoring_mode": "other"},

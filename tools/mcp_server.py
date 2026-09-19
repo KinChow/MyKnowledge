@@ -9,6 +9,7 @@ import time
 from pathlib import Path
 from typing import Any, Literal
 
+from . import contract
 from .capability import check_capability
 from .skill_runtime import ALLOWED_ACTIONS, dispatch
 
@@ -74,11 +75,9 @@ def create_server(
         capability_token: str | None = None,
     ) -> dict[str, Any]:
         if action not in ALLOWED_ACTIONS:
-            return {
-                "state": "blocked",
-                "error_code": "skill_action_not_allowed",
-                "action": action,
-            }
+            return contract.blocked(
+                "skill-dispatch/v1", "skill_action_not_allowed", action=action
+            )
         if expected_token and action in protected_actions:
             # 单实现校验核（tools.capability）；MCP 侧将错误元组翻译为 blocked 结果
             result = check_capability(
@@ -90,11 +89,11 @@ def create_server(
             )
             if result is not None:
                 code, _retryable, _next = result
-                return {
-                    "state": "blocked",
-                    "error_code": code,
-                    "next_action": "provide the configured MCP capability token",
-                }
+                return contract.blocked(
+                    "skill-dispatch/v1",
+                    code,
+                    next_action="provide the configured MCP capability token",
+                )
         return dispatch(action, payload or {}, root=checkout)
 
     return server

@@ -169,4 +169,6 @@ def question_main(argv: list[str]) -> int:
     else:
         result = store.review(args.question_id, args.rating)
     _print_json(result)
-    return 0
+    # 领域结果统一走 tools.contract 信封：唯一 status 轴驱动退出码
+    # （ok=0；blocked/unavailable=1），拒绝/不可用对 CLI 调用方显性化。
+    return 0 if result.get("status") == "ok" else 1

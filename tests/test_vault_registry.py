@@ -911,7 +911,7 @@ class VaultRegistryTests(unittest.TestCase):
                 json.dumps(question) + "\n", encoding="utf-8"
             )
             first = store.review("q-fsrs", 3)
-            if first.get("state") == "unavailable":
+            if first["status"] == "unavailable":
                 return
             before = store.load("q-fsrs")["review_state"]
             from tools.question import practice_integrity_check
@@ -925,7 +925,7 @@ class VaultRegistryTests(unittest.TestCase):
                 restored = manager.restore_manifest(root / manifest["path"], target)
                 self.assertEqual(restored["state"], "restored")
                 resumed = QuestionStore(target).review("q-fsrs", 4)
-                self.assertEqual(resumed["state"], "scheduled")
+                self.assertEqual(resumed["schedule"]["state"], "scheduled")
                 after = QuestionStore(target).load("q-fsrs")["review_state"]
                 self.assertEqual(after["card_id"], before["card_id"])
                 self.assertEqual(after["review_state_schema"], "fsrs-card/v1")
