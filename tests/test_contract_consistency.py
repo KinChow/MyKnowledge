@@ -50,6 +50,7 @@ def test_error_codes_is_union_of_domain_subsets_and_wellformed():
         contract._AUDIT_CODES,
         contract._CONFIRM_CODES,
         contract._MATRIX_CODES,
+        contract._CLI_CODES,
     ]
     union: set[str] = set()
     for block in subsets:
@@ -73,6 +74,10 @@ def test_representative_envelopes_conform(tmp_path: Path):
     # 曾经的双轴重灾区：doctor（health 非 state）、backup（status 非 state）
     _assert_envelope(run_doctor(tmp_path))
     _assert_envelope(BackupManager(tmp_path).status())
+    # A 线闭环的遗留生产者：matrix_sync 检查（空仓 → blocked，信封合规、无顶层 state）
+    from tools import matrix_sync
+
+    _assert_envelope(matrix_sync.check(tmp_path))
 
 
 def test_construction_is_fail_closed():

@@ -213,7 +213,7 @@ class CheckTests(unittest.TestCase):
 
     def test_consistent_matrix_is_ok(self):
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
         self.assertEqual(result["rows"], 4)
         self.assertIn("WEB-001", result.get("no_refs", []))
 
@@ -227,7 +227,7 @@ class CheckTests(unittest.TestCase):
             text, encoding="utf-8"
         )
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         stale = self._matrix_checks(result)["stale"]
         self.assertEqual(stale[0]["id"], "WIKI-001")
         self.assertEqual(stale[0]["matrix"], "主体完成")
@@ -246,7 +246,7 @@ class CheckTests(unittest.TestCase):
             text, encoding="utf-8"
         )
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         matrix = self._matrix_checks(result)
         self.assertIn("dangling_refs", matrix)
         self.assertEqual(matrix["dangling_refs"][0]["id"], "SRC-001")
@@ -264,7 +264,7 @@ class CheckTests(unittest.TestCase):
             text, encoding="utf-8"
         )
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
         drift = result.get("status_drift", [])
         self.assertTrue(any(d["id"] == "LAY-004" for d in drift))
 
@@ -281,7 +281,7 @@ class CheckTests(unittest.TestCase):
             text, encoding="utf-8"
         )
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         stale = self._matrix_checks(result)["stale"]
         self.assertEqual(stale[0]["id"], "LAY-004")
         self.assertEqual(stale[0]["derived"], "未开始")
@@ -290,13 +290,13 @@ class CheckTests(unittest.TestCase):
         """非 UTF-8 矩阵 → matrix_unreadable 结构化错误，不抛 UnicodeDecodeError。"""
         (self.root / "docs" / "traceability-matrix.md").write_bytes(b"\xff\xfe\x00\x01")
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("matrix_unreadable", self._matrix_checks(result)["reason"])
 
     def test_check_missing_matrix_is_structured_error(self):
         (self.root / "docs" / "traceability-matrix.md").unlink()
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("matrix_unreadable", self._matrix_checks(result)["reason"])
 
     def test_check_unknown_status_is_reported_not_silent(self):
@@ -313,7 +313,7 @@ class CheckTests(unittest.TestCase):
             text, encoding="utf-8"
         )
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
         unknown = result.get("unknown_status", [])
         self.assertTrue(any(u["status"] == "Implemented (部分)" for u in unknown))
 
@@ -334,7 +334,7 @@ class SyncTests(unittest.TestCase):
         self.matrix_path.write_text(text, encoding="utf-8")
 
         result = ms.sync(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
         self.assertEqual(len(result["changed"]), 1)
         self.assertEqual(result["changed"][0]["id"], "WIKI-001")
         self.assertEqual(result["changed"][0]["completion"], "完成")
@@ -368,7 +368,7 @@ class SyncTests(unittest.TestCase):
         """矩阵缺失时 sync 返回结构化 error，不抛 FileNotFoundError 崩溃。"""
         self.matrix_path.unlink()
         result = ms.sync(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("matrix_unreadable", result["reason"])
 
     def test_sync_designed_hand_edit_is_fixed(self):
@@ -404,7 +404,7 @@ class FeatureListCheckTests(unittest.TestCase):
 
     def test_valid_feature_list_is_ok(self):
         result = ms.check_feature_list(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
         self.assertEqual(result["features"], 14)
 
     def test_invalid_category_is_error(self):
@@ -414,7 +414,7 @@ class FeatureListCheckTests(unittest.TestCase):
         )
         (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
         result = ms.check_feature_list(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertEqual(result["invalid_categories"][0]["id"], "F001")
         self.assertEqual(result["invalid_categories"][0]["category"], "随便分类")
 
@@ -423,7 +423,7 @@ class FeatureListCheckTests(unittest.TestCase):
         text = text.replace("| F014 | 音视频 |", "| F001 | 音视频 |", 1)
         (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
         result = ms.check_feature_list(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("F001", result["duplicate_ids"])
 
     def test_matrix_referenced_feature_missing_from_list_is_error(self):
@@ -432,7 +432,7 @@ class FeatureListCheckTests(unittest.TestCase):
         text = text.replace("| F013 | 布局 |", "| F900 | 布局 |", 1)
         (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
         result = ms.check_feature_list(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("F013", result["missing_in_feature_list"])
 
     def test_check_aggregates_feature_list_error(self):
@@ -443,7 +443,7 @@ class FeatureListCheckTests(unittest.TestCase):
         )
         (self.root / "docs" / "feature-list.md").write_text(text, encoding="utf-8")
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("feature_list", result["checks"])
 
 
@@ -456,7 +456,7 @@ class DocIndexCheckTests(unittest.TestCase):
 
     def test_symmetric_indexes_are_ok(self):
         result = ms.check_doc_indexes(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
         for name in ("adr", "technical-design", "acceptance"):
             self.assertEqual(result[name]["state"], "ok")
             self.assertEqual(result[name]["links"], result[name]["docs"])
@@ -466,7 +466,7 @@ class DocIndexCheckTests(unittest.TestCase):
         extra = self.root / "docs" / "acceptance" / "F999-new.md"
         extra.write_text("# F999\n", encoding="utf-8")
         result = ms.check_doc_indexes(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("F999-new.md", result["checks"]["acceptance"]["unindexed_docs"])
 
     def test_broken_link_is_error(self):
@@ -478,7 +478,7 @@ class DocIndexCheckTests(unittest.TestCase):
             encoding="utf-8",
         )
         result = ms.check_doc_indexes(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("9999-ghost.md", result["checks"]["adr"]["broken_links"])
 
     def test_status_mismatch_is_error(self):
@@ -488,7 +488,7 @@ class DocIndexCheckTests(unittest.TestCase):
         text = text.replace("| Accepted |", "| Proposed |", 1)
         readme.write_text(text, encoding="utf-8")
         result = ms.check_doc_indexes(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         mismatch = result["checks"]["adr"]["status_mismatches"]
         self.assertEqual(mismatch[0]["file"], "0001-source-first.md")
         self.assertEqual(mismatch[0]["readme"], "Proposed")
@@ -501,7 +501,7 @@ class DocIndexCheckTests(unittest.TestCase):
         text = text.replace("| Implemented |", "| （正文无状态行） |", 1)
         readme.write_text(text, encoding="utf-8")
         result = ms.check_doc_indexes(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         mismatch = result["checks"]["acceptance"]["status_mismatches"]
         self.assertEqual(
             mismatch[0]["reason"], "doc_has_status_but_readme_marks_missing"
@@ -516,14 +516,14 @@ class DocIndexCheckTests(unittest.TestCase):
         text = text.replace("| Implemented |", "| （正文无状态行） |", 1)
         readme.write_text(text, encoding="utf-8")
         result = ms.check_doc_indexes(self.root)
-        self.assertEqual(result["state"], "ok")
+        self.assertEqual(result["status"], "ok")
 
     def test_check_aggregates_doc_index_error(self):
         """综合 check 同时暴露文档索引漂移。"""
         extra = self.root / "docs" / "technical-design" / "new-design.md"
         extra.write_text("# new\n", encoding="utf-8")
         result = ms.check(self.root)
-        self.assertEqual(result["state"], "error")
+        self.assertEqual(result["status"], "blocked")
         self.assertIn("doc_index:technical-design", result["checks"])
 
 

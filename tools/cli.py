@@ -14,6 +14,7 @@ import json
 import sys
 from pathlib import Path
 
+from tools import contract
 from tools.backup import BackupManager
 from tools.doctor import main as doctor_main
 from tools.evidence_anchor import main as anchor_main
@@ -248,7 +249,11 @@ def override_main(argv: list[str]) -> int:
     args = parser.parse_args(argv)
 
     if args.mode == "list":
-        _print_json(_failed_reports(args.root, args.object_id))
+        _print_json(
+            contract.ok(
+                "override-list/v1", reports=_failed_reports(args.root, args.object_id)
+            )
+        )
         return 0
     missing = [
         name
@@ -271,9 +276,14 @@ def override_main(argv: list[str]) -> int:
             claim_ids=list(args.claims),
         )
     except OverrideBlocked as exc:
-        _print_json({"state": "blocked", "error_code": exc.code, "detail": exc.message})
+        _print_json(contract.blocked("override-write/v1", exc.code, detail=exc.message))
         return 2
-    _print_json({"state": "written", **record})
+    _print_json(
+        contract.ok(
+            "override-write/v1",
+            **{k: v for k, v in record.items() if k != "schema_version"},
+        )
+    )
     return 0
 
 
@@ -350,7 +360,7 @@ def release_main(argv: list[str]) -> int:
         args.object_id
     )
     if candidate is None:
-        _print_json({"state": "blocked", "error_code": error})
+        _print_json(contract.blocked("release-input/v1", error))
         return 2
     digest, material = compute(
         args.root,
@@ -360,15 +370,15 @@ def release_main(argv: list[str]) -> int:
     )
     if args.mode == "input":
         _print_json(
-            {
-                "schema_version": "release-input/v1",
-                "object_id": args.object_id,
-                "operation_id": args.operation_id,
-                "release_input_sha256": digest,
-                "material": material,
-                "reviewed_content_sha256": candidate["content_sha256"],
-                "reviewed_evidence_sha256": candidate["evidence_sha256"],
-            }
+            contract.ok(
+                "release-input/v1",
+                object_id=args.object_id,
+                operation_id=args.operation_id,
+                release_input_sha256=digest,
+                material=material,
+                reviewed_content_sha256=candidate["content_sha256"],
+                reviewed_evidence_sha256=candidate["evidence_sha256"],
+            )
         )
         return 0
     missing = [

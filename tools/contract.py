@@ -241,7 +241,30 @@ _CONFIRM_CODES: frozenset[str] = frozenset(
         "operation_write_failed",
     }
 )  # validation/confirm.py
-_MATRIX_CODES: frozenset[str] = frozenset()  # agent: matrix_sync.py
+_MATRIX_CODES: frozenset[str] = frozenset(
+    {
+        # matrix_sync.py（追踪矩阵/feature-list/文档索引一致性检查——发现不一致=blocked）
+        "matrix_inconsistent",
+        "feature_list_invalid",
+        "doc_index_inconsistent",
+        "matrix_unreadable",
+        "feature_list_unreadable",
+        "matrix_check_failed",
+    }
+)  # matrix_sync.py
+_CLI_CODES: frozenset[str] = frozenset(
+    {
+        # cli.py 内联生产者：override（人工复议）+ release（发布输入）
+        "actor_invalid",
+        "object_invalid",
+        "reason_required",
+        "report_not_failed",
+        "report_not_found",
+        "report_schema_invalid",
+        "write_failed",
+        "not_public_publishable",
+    }
+)  # cli.py（override_main / release_main）
 
 ERROR_CODES = (
     _LOCATE_CODES
@@ -258,6 +281,7 @@ ERROR_CODES = (
     | _AUDIT_CODES
     | _CONFIRM_CODES
     | _MATRIX_CODES
+    | _CLI_CODES
 )
 
 # 可重试是 status 的派生属性（gRPC 模型：仅 unavailable 可重试），供 HTTP 边界层使用。

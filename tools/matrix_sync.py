@@ -46,6 +46,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+from tools import contract
 from tools.common import atomic_write, is_contained_regular_file
 
 MATRIX_REL = "docs/traceability-matrix.md"
@@ -230,8 +231,10 @@ def check_doc_indexes(root: Path) -> dict:
 
     errors = {k: v for k, v in results.items() if v["state"] == "error"}
     if errors:
-        return {"state": "error", "checks": errors}
-    return {"state": "ok", **results}
+        return contract.blocked(
+            "doc-index-check/v1", "doc_index_inconsistent", checks=errors
+        )
+    return contract.ok("doc-index-check/v1", **results)
 
 
 # 裸文件名查找的已知前缀（与仓库测试布局一致）
@@ -482,7 +485,11 @@ def check_feature_list(root: Path) -> dict:
     root = Path(root).resolve()
     text, read_error = _read_feature_list(root)
     if read_error is not None:
-        return read_error
+        return contract.blocked(
+            "feature-list-check/v1",
+            "feature_list_unreadable",
+            reason=read_error["reason"],
+        )
 
     rows = _parse_feature_list(text)
     ids = [r["id"] for r in rows]
@@ -512,8 +519,10 @@ def check_feature_list(root: Path) -> dict:
             "修复 docs/feature-list.md 分类列（四象限之一：核心链路/横向基础/"
             "消费端/演进/独立域）或补全矩阵引用的 Feature 行"
         )
-        return {"state": "error", **fields}
-    return {"state": "ok", **fields}
+        return contract.blocked(
+            "feature-list-check/v1", "feature_list_invalid", **fields
+        )
+    return contract.ok("feature-list-check/v1", **fields)
 
 
 def _check_matrix_completion(root: Path) -> dict:
@@ -569,25 +578,34 @@ def check(root: Path) -> dict:
 
     任一项为 error 即整体 error；各部分的详情字段都保留在报告中。
     """
-    matrix_result = _check_matrix_completion(root)
-    fl_result = check_feature_list(root)
-    doc_result = check_doc_indexes(root)
+    matrix_result = _check_matrix_completion(root)  # 内部构件：仍返回 state 信封
+    fl_result = check_feature_list(root)  # contract status 信封
+    doc_result = check_doc_indexes(root)  # contract status 信封
     errors: dict[str, dict] = {}
-    if matrix_result["state"] == "error":
+    # 兼容判据：_check_matrix_completion 仍是内部 state，其余已是 contract status。
+    if (
+        matrix_result.get("status") == "blocked"
+        or matrix_result.get("state") == "error"
+    ):
         errors["matrix"] = matrix_result
-    if fl_result["state"] == "error":
+    if fl_result.get("status") == "blocked" or fl_result.get("state") == "error":
         errors["feature_list"] = fl_result
-    if doc_result["state"] == "error":
+    if doc_result.get("status") == "blocked" or doc_result.get("state") == "error":
         for name, detail in doc_result["checks"].items():
             errors[f"doc_index:{name}"] = detail
     if errors:
-        return {"state": "error", "checks": errors}
-    # ok 状态合并 rows / features 等摘要字段
-    merged: dict = {"state": "ok"}
-    merged.update({k: v for k, v in matrix_result.items() if k != "state"})
-    merged.update({k: v for k, v in fl_result.items() if k != "state"})
-    merged.update({k: v for k, v in doc_result.items() if k != "state"})
-    return merged
+        return contract.blocked("matrix-check/v1", "matrix_check_failed", checks=errors)
+    # ok 状态合并 rows / features 等摘要字段（排除信封控制键，避免重复传参）
+    merged: dict = {}
+    for sub in (matrix_result, fl_result, doc_result):
+        merged.update(
+            {
+                k: v
+                for k, v in sub.items()
+                if k not in ("state", "status", "schema_version")
+            }
+        )
+    return contract.ok("matrix-check/v1", **merged)
 
 
 def sync(root: Path, *, dry_run: bool = False) -> dict:
@@ -596,7 +614,9 @@ def sync(root: Path, *, dry_run: bool = False) -> dict:
     matrix_path = root / MATRIX_REL
     text, read_error = _read_matrix(root)
     if read_error is not None:
-        return read_error
+        return contract.blocked(
+            "matrix-sync/v1", "matrix_unreadable", reason=read_error["reason"]
+        )
 
     rows, _ = parse_rows(text)
     replacements: dict[str, str] = {}
@@ -629,10 +649,10 @@ def sync(root: Path, *, dry_run: bool = False) -> dict:
         if not dry_run:
             atomic_write(matrix_path, new_text.encode("utf-8"))
 
-    result: dict = {"state": "ok", "changed": changed}
+    fields: dict = {"changed": changed}
     if dry_run:
-        result["dry_run"] = True
-    return result
+        fields["dry_run"] = True
+    return contract.ok("matrix-sync/v1", **fields)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -649,11 +669,14 @@ def main(argv: list[str] | None = None) -> int:
     if args.action == "check":
         result = check(args.root)
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        return 0 if result["state"] == "ok" else 2
+        return 0 if result["status"] == "ok" else 2
     result = sync(args.root, dry_run=args.dry_run)
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    # 生成了改动 → 退出码 1（pre-commit 惯例：让提交被阻止、用户重新 add 后再提交）
-    return 1 if result.get("changed") else 0
+    # 生成了改动 → 退出码 1（pre-commit 惯例：让提交被阻止、用户重新 add 后再提交）；
+    # 其余按 status（ok=0，读失败等 blocked=2），保持"发现问题即非零退出"不变。
+    if result.get("changed"):
+        return 1
+    return 0 if result["status"] == "ok" else 2
 
 
 if __name__ == "__main__":

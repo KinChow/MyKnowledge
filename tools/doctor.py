@@ -378,7 +378,7 @@ def _check_matrix(root: Path) -> tuple[str, dict]:
     from .matrix_sync import check as matrix_check
 
     result = matrix_check(root)
-    state = result.pop("state", "warning")
+    state = "ok" if result.get("status") == "ok" else "error"
     # 文件缺失是环境事实（临时仓库/测试场景没有该文档），不拖累健康状态；
     # 存在但 stale/dangling/分类非法/索引漂移才是内容破坏（error，阻断提交）。
     if state == "error":
