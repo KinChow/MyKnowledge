@@ -97,7 +97,7 @@ class Updatable(Protocol):
 
 ### 5.3 删除语义：RESTRICT / CASCADE（借 SQL 外键）
 
-- **source.delete = RESTRICT**：被任一 `status != disabled` 的 wiki 通过 `evidence.targets`/`sources` 引用时返回 `{state: blocked, error_code: object_referenced}`；无引用时执行 retire。
+- **source.delete = RESTRICT**：被任一 `status != disabled` 的 wiki 通过 `evidence.targets`/`sources` 引用时返回 `{status: blocked, error_code: object_referenced}`；无引用时执行 retire。
 - **wiki.delete = CASCADE(deprecate)**：级联把绑定它的 question 经 `QuestionStore.refresh_status` 置 `disabled`，并**必须**在 `content/decisions/` 写一条 CDR（§4.5 强制），再 retire。
 - **question.delete**：叶子；有复习历史→`disable`（现状），无历史→删除文件（现状）。
 - retire 一律**软删**：不物理删 `archive/manifest`（append-only），向 `audit/retire`（`RepoPaths.audit_retire` 已预留）追加一条 append-only 记录；重复 retire 幂等为 `noop`。
@@ -172,7 +172,7 @@ class Updatable(Protocol):
 
 - 边界错误码要不要统一为一套（`object_not_found`）并让后端/resolution 一起改契约，还是保留各边界既有码只在内部统一实现？（本设计默认后者，AC-G1/G2 守旧契约。）
 - `source.update` 的“只改元数据”是否需要独立命令，还是并入重导入的幂等路径即可？
-- 是否借本次落地把 ADR-0017 从 Proposed 提升为 Accepted（需用户决定）。
+- ~~是否借本次落地把 ADR-0017 从 Proposed 提升为 Accepted~~ → 已决：2026-09-18 ADR-0017 由 Proposed 提为 Accepted。
 
 ## 14. 内容对象统一规范（规范 / 激进版：全项目归一）
 
@@ -210,10 +210,38 @@ class Updatable(Protocol):
 
 ### 14.3 单一 `error_code` 词汇
 
-`status != ok` 必带 `error_code`，取自 `tools/contract.ERROR_CODES` 单一词表（迁移中逐模块
-登记）。当前已登记：`invalid_object_ref`/`object_type_not_found`/`object_not_found`/
-`object_id_ambiguous`/`object_referenced`/`vault_unavailable`/`source_not_found`/
-`source_ambiguous`/`source_unreadable`。
+`status != ok` 必带 `error_code`，取自 `tools/contract.ERROR_CODES` 单一词表。**A 线已闭环**
+（2026-09-19）：全部生产者模块均已归一，词表由 15 个「按域子集」union 而成，共 **147** 个已登记码
+（各 agent 只追加自己那块的字面量、改不同代码行，避免并行合并冲突）。构造器对未登记码
+**fail-closed**（`ValueError: error_code_not_registered:*`），杜绝手写字面量漂移。
+
+**登记原则（防词表膨胀）**：只把「操作层 `status != ok` 的顶层码」登记进词表；字段级/动态明细码
+（如 `fetch_blocked:*`、异常类名、逐行解析失败等）一律落 `payload.errors[]` 或专用 payload 字段
+（`unresolved[].error_code` 等），**不进词表**。故若干模块只登记少数「伞码」（如
+`source_ingest_failed`/`video_frame_failed`/`validator_unavailable`），明细下沉 payload。
+
+当前各域子集（见 `tools/contract.py`，均为该文件内可核对的单一事实源）：
+
+| 子集 | 覆盖生产者 | 码数 |
+| --- | --- | --- |
+| `_LOCATE_CODES` | 内容对象定位 + wiki resolution 历史码 | 10 |
+| `_QUESTION_CODES` | `question.py` / `question_quality`（编题/导入/生命周期/判分/调度） | 19 |
+| `_SOURCE_CODES` | `ingest/source_ingestor`（输入/校验类伞码） | 2 |
+| `_ENTRY_CODES` | `backend/*` / `skill_runtime` / `mcp_server`（通道门禁 + capability 令牌） | 26 |
+| `_MISC_CODES` | release_confirmation / vault_registry / indexing 顶层码 | 17 |
+| `_CRUD_CODES` | source/wiki CRUD 能力层（采集委派伞码） | 1 |
+| `_BACKUP_CODES` | `backup.py`（status/manifest/verify/restore 状态机） | 28 |
+| `_VALIDATION_CODES` | `validation/*`（validator 不可用伞码） | 1 |
+| `_INGEST_CODES` | `ingest/*`（video_frames / video_inventory，不含 source_ingestor） | 10 |
+| `_DOCTOR_CODES` | `doctor.py`（顶层恒 `ok`，故为空集） | 0 |
+| `_ANCHOR_CODES` | `evidence_anchor.py`（定位/落盘/批量锚定） | 7 |
+| `_AUDIT_CODES` | `validation/audit.py`（LLM 证据审计编排的操作层码） | 7 |
+| `_CONFIRM_CODES` | `validation/confirm.py`（人工确认前置门禁） | 6 |
+| `_MATRIX_CODES` | `matrix_sync.py`（追踪矩阵/feature-list/文档索引一致性） | 6 |
+| `_CLI_CODES` | `cli.py` 内联生产者（override 复议 + release 发布） | 8 |
+
+> union 去重后为 147（`deterministic_blocked` 同时属于 audit/confirm 两域，语义一致，故子集码数之和
+> 148 − 1 重叠 = 147）。字段级细分继续用可选 `errors: [{code, path?, reason?}]`。
 
 ### 14.4 边界适配（保外部契约）
 
@@ -232,10 +260,12 @@ class Updatable(Protocol):
 （`backend` HTTP / `skill_runtime` / `tools.cli`）的内容读写**都经此注册表**取得能力，
 不再各自接线到领域函数——这消除“各自为战”的入口层。注册表只做路由与能力探测，不含领域逻辑。
 
-## 16. 迁移清单（激进版，TDD，全程全量绿）
+## 16. 迁移清单（激进版，TDD，全程全量绿）——**已闭环（A 线，2026-09-19）**
 
-1. `tools/contract.py`（3 值 `status` + `error_code` 词表 + `result/ok/blocked/unavailable` 构造器 + 校验；`status!=ok` 强制带已登记 `error_code`）——**先写 `tests/test_contract.py`**。
-2. `tools/content_repository.py` 与 P2/P3/P4 实体 repository 一律经 `contract` 构造结果。
-3. 逐模块把 `question.py`/`ingest/source_ingestor.py`/`skill_runtime.py`/`backend/*`/`validation/*`/`indexing.py`/`vault_registry.py`/`backup.py`/`release_*`/`doctor.py` 的手写信封替换为 `contract` 构造器：旧的成功态（created/applied/listed/enabled…）统一为 `status=ok` + 按需领域字段，失败态统一为 `blocked`/`unavailable`+`error_code`；作答/校验结论下沉 typed 字段；每换一处**同步改其测试断言**，跑对应测试→再跑全量。
-4. `tools/content_registry.py` 接入三入口（边界保 HTTP 契约）。
-5. 收尾：加一条一致性测试，断言全仓返回 dict 的 `state` 均 ∈ 受控词汇、`error_code` 均 ∈ 词表（防回潮）。
+全部步骤已落地，全程全量 `pytest` 绿。清单与对应实现/测试锚点：
+
+1. ✅ `tools/contract.py`（3 值 `status` + `error_code` 词表 + `result/ok/blocked/unavailable` 构造器 + 校验；`status!=ok` 强制带已登记 `error_code`）——先写 `tests/test_contract.py`。
+2. ✅ `tools/content_repository.py` 与 P2/P3/P4 实体 repository 一律经 `contract` 构造结果。
+3. ✅ 逐模块把 `question.py`/`ingest/source_ingestor.py`/`skill_runtime.py`/`backend/*`/`validation/*`/`indexing.py`/`vault_registry.py`/`backup.py`/`release_*`/`doctor.py`/`evidence_anchor.py`/`matrix_sync.py`/`cli.py` 的手写信封替换为 `contract` 构造器：旧的成功态（created/applied/listed/enabled…）统一为 `status=ok` + 按需领域字段，失败态统一为 `blocked`/`unavailable`+`error_code`；作答/校验结论下沉 typed 字段；每换一处**同步改其测试断言**，跑对应测试→再跑全量。
+4. ✅ `tools/content_registry.py` 接入三入口（边界保 HTTP 契约）。
+5. ✅ 收尾：一致性防回潮测试 `tests/test_contract_consistency.py`——断言 `STATUSES` 恰 3 值、`ERROR_CODES` = 15 个域子集之并、真实入口返回信封满足 `status ∈ STATUSES ∧ (status != ok ⇒ error_code ∈ ERROR_CODES)`，并**显式禁止顶层再出现与 `status` 并列的第二根状态轴 `state`**（backup/doctor/video 的历史 `state` 已下沉/改名，见 commit `58eb488`）。
