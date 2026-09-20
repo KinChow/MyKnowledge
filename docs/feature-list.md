@@ -105,6 +105,22 @@ Feature 按**两个正交轴**归类，任何新 Feature 必须且只能落在�
 
 F008 已转入独立 Feature，不改变 Source → Wiki → Evidence 主链路。它包含一个独立的 Question Platform：题目像 Wiki 一样是可插拔内容域，可通过 `question-package/v1` 导入，支持题目版本、启用/禁用、撤回和删除；运行面再提供按 domain/topic/concept/skill 分类的短回合学习、确定性评分和 FSRS 调度。题目可以绑定 Wiki，也可以来自面经、个人题目或外部题包；不强制所有题目先有 Wiki。Deep-ML 仅作为竞品和能力覆盖参考。现有 `question/v1` 仅代表基础后端能力。
 
+### 2026-09-21 个人仓验收范围与选型复核（KISS）
+
+本仓是**个人公开知识库**。上面 `Implemented` 各项的“完整验收未闭合”按**与个人仓相称**的标准收口：验收依据 = 常驻确定性测试套件（581 项，`pytest`）＋ `myk doctor` 内容完整性（哈希链）＋ 前端成功构建并发布到 `kinchow.github.io`。**不再追加企业级验收工装**（穷举式 25-AC 浏览器自动化、异地恢复演练、private/provider 安全矩阵）——对单用户本地场景属过度设计。据此，`F005/F006/F007/F008/F009` 的“…验收未闭合”不再视为待办缺口，而是**按 KISS 明确收窄的验收范围**；`F011/F012` 见上，对本部署 N/A。
+
+选型经联网对现役成熟方案复核（2026-09-21），结论是**无需替换、无死特性**：
+
+| 面 | 现选型 | 复核结论 |
+| --- | --- | --- |
+| 检索（F005/F007） | SQLite FTS5（API）+ Pagefind（静态站，上游 1.5.x） | 对 200+ 页个人库足够；语义/向量检索需嵌入模型与额外索引，属过度设计，不引入 |
+| 复习调度（F008） | FSRS 6.3.2 | 当前 SOTA（Anki 同款），已用最新，保持 |
+| 本地服务 / Agent（F006/F009） | FastAPI + MCP | 现役标准，保持 |
+| 静态站（F007） | Astro / Starlight / Cytoscape | 现役主流，保持 |
+| 摄取（F001/F014） | trafilatura + marker-pdf + pypdf | 现役主流，保持 |
+
+依赖新鲜度：`fsrs 6.3.2`、`trafilatura 2.2.0`、`marker-pdf 2.0.0` 已是上游最新；`fastapi`/`pagefind`/`astro`/`starlight`/`cytoscape` 为小版本落后、同主版本，可随手 patch。唯一跨主版本落后的是 **`mcp`（上游已 2.x，本仓 `>=1.29,<2`）**：1.x 可用，升级 2.x 为**可选、非必须**，按需再评估（MCP 封装很薄，升级风险小但当前无驱动）。
+
 ## 实施顺序
 
 ```text
