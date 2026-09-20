@@ -25,6 +25,12 @@ MyKnowledge 是一个**证据驱动型个人知识管理系统**：外部资料 
 > 机器校验：治理层索引与状态由 `python -m tools.cli matrix check` 统一校验
 > （pre-commit 自动执行），改动治理文档后如提交被拦，先跑该命令看差异。
 
+## 使用层（怎么用）
+
+| 文档 | 内容 | 适合 |
+| --- | --- | --- |
+| [Recipes](./recipes/README.md) | 任务导向操作指南（Diátaxis 的 How-to；如"写入 Source"） | 日常使用、照抄命令 |
+
 ## 内容域（知识）
 
 `docs/` 已不再承载知识内容：原知识域目录（`computer-science/`、`work-methods/`、
