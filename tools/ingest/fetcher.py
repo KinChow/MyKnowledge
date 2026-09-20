@@ -153,7 +153,13 @@ class URLFetcher:
 
     @staticmethod
     def _resolve_public_ip(host: str) -> str:
-        """解析主机为公网 IP；任一地址命中私网/回环/保留段即拒绝（防 SSRF）。"""
+        """解析主机为公网 IP；任一地址非全局可路由即拒绝（防 SSRF）。
+
+        用 ``not is_global`` 做 allowlist-deny，而非枚举 blocklist：一次覆盖
+        私网/回环/链路本地/保留/多播，并堵住此前漏掉的 RFC 6598 共享地址段
+        （``100.64.0.0/10`` CGNAT，``is_private=False`` 但 ``is_global=False``）与
+        未指定地址（``0.0.0.0``/``::``）。IPv4-mapped IPv6 也一并归一。
+        """
         try:
             infos = socket.getaddrinfo(host, None, type=socket.SOCK_STREAM)
         except OSError as exc:
@@ -161,13 +167,7 @@ class URLFetcher:
         addresses = []
         for info in infos:
             address = ipaddress.ip_address(info[4][0])
-            if (
-                address.is_private
-                or address.is_loopback
-                or address.is_link_local
-                or address.is_reserved
-                or address.is_multicast
-            ):
+            if not address.is_global or address.is_unspecified:
                 raise RuntimeError("fetch_blocked:private_network")
             addresses.append(str(address))
         if not addresses:

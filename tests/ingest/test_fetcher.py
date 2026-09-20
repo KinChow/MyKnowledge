@@ -120,6 +120,23 @@ class FetcherTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "private_network"):
             fetcher.fetch("http://127.0.0.1/")
 
+    def test_resolve_rejects_non_global_addresses(self):
+        """回归：is_global allowlist-deny 覆盖 CGNAT/未指定等 blocklist 漏网段。"""
+        for addr in ("100.64.0.1", "0.0.0.0", "169.254.169.254", "10.0.0.1", "::1"):
+            with mock.patch(
+                "tools.ingest.fetcher.socket.getaddrinfo",
+                return_value=[(0, 0, 0, "", (addr, 0))],
+            ):
+                with self.assertRaisesRegex(RuntimeError, "private_network"):
+                    URLFetcher._resolve_public_ip("evil.example")
+        with mock.patch(
+            "tools.ingest.fetcher.socket.getaddrinfo",
+            return_value=[(0, 0, 0, "", ("93.184.216.34", 0))],
+        ):
+            self.assertEqual(
+                URLFetcher._resolve_public_ip("ok.example"), "93.184.216.34"
+            )
+
     def test_invalid_port_url_blocked(self):
         """AC-F001-010：非法端口 URL 返回结构化 fetch_blocked 而非崩溃。"""
         with tempfile.TemporaryDirectory() as directory:
