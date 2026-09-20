@@ -7,6 +7,7 @@ FSRS is an optional runtime adapter: absence is reported explicitly.
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import importlib.metadata
 import json
@@ -42,6 +43,9 @@ REFRESH_BATCH_SCHEMA = "question-refresh-batch/v1"
 ANSWER_SCHEMA = "question-answer/v1"
 REVIEW_SCHEMA = "question-review/v1"
 READ_SCHEMA = "question-read/v1"
+
+# 个人库无需长期保留历史 practice 会话；新建会话时把会话文件数收敛到该上限。
+SESSION_RETENTION = 100
 
 
 def _is_imported(result: dict) -> bool:
@@ -798,6 +802,7 @@ class QuestionStore:
             canonical_json(session) + b"\n",
             0o600,
         )
+        self._prune_sessions()
         return contract.ok(
             SESSION_SCHEMA,
             changed=True,
@@ -805,6 +810,29 @@ class QuestionStore:
             items=selected,
             question_count=len(selected),
         )
+
+    def _prune_sessions(self, *, keep: int = SESSION_RETENTION) -> None:
+        """把 practice-session 文件收敛到最近 ``keep`` 个（按 mtime，新→旧保留）。
+
+        纯卫生操作、尽力而为：目录不存在、stat/删除失败都静默跳过，绝不阻断会话创建。
+        """
+        directory = self.paths.practice_sessions_root
+        try:
+            files = list(directory.glob("session-*.json"))
+        except OSError:
+            return
+        entries: list[tuple[float, Path]] = []
+        for path in files:
+            try:
+                entries.append((path.stat().st_mtime, path))
+            except OSError:
+                continue
+        if len(entries) <= keep:
+            return
+        entries.sort(key=lambda entry: entry[0], reverse=True)
+        for _, path in entries[keep:]:
+            with contextlib.suppress(OSError):
+                path.unlink()
 
     def update_session(
         self,

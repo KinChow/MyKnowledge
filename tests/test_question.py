@@ -728,6 +728,52 @@ class QuestionTests(unittest.TestCase):
                 store.create_session(size=6, concept_id="missing")["question_count"], 0
             )
 
+    def test_prune_sessions_keeps_recent_and_is_triggered_on_create(self):
+        import os
+
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            (source_dir / "q.json").write_text(
+                json.dumps(
+                    {
+                        "id": "q-sess",
+                        "type": "single_choice",
+                        "domain": "llm-inference",
+                        "topic": "serving",
+                        "concept_id": "c0",
+                        "skill": "recall",
+                        "prompt": "Question?",
+                        "options": [
+                            {"id": "a", "text": "yes"},
+                            {"id": "b", "text": "no"},
+                        ],
+                        "correct_option_ids": ["a"],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(store.import_path(source_dir)["imported"], 1)
+            sessions_dir = store.paths.practice_sessions_root
+            created = [
+                store.create_session(size=3, domain="llm-inference")["session"]["id"]
+                for _ in range(5)
+            ]
+            # 默认 keep=100，5 个会话都在
+            self.assertEqual(len(list(sessions_dir.glob("session-*.json"))), 5)
+            # 赋予确定的递增 mtime，保证"最近"顺序可判定
+            for idx, sid in enumerate(created):
+                os.utime(store.paths.practice_session(sid), (1000 + idx, 1000 + idx))
+            store._prune_sessions(keep=2)
+            remaining = {p.stem for p in sessions_dir.glob("session-*.json")}
+            self.assertEqual(remaining, {created[-1], created[-2]})
+            # create_session 会触发清理
+            calls: list[dict] = []
+            store._prune_sessions = lambda **kw: calls.append(kw)  # type: ignore[method-assign]
+            store.create_session(size=3, domain="llm-inference")
+            self.assertEqual(len(calls), 1)
+
     def test_create_session_prioritizes_due_then_errors_then_new(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
