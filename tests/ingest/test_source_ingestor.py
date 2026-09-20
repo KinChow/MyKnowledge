@@ -272,6 +272,59 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertIn("抓取正文内容", snapshot.read_text(encoding="utf-8"))
             self.assertTrue((root / "archive" / "manifest.jsonl").exists())
 
+    def test_manifest_records_extractor_options_hash(self):
+        """回归：extractor_options_hash 不再恒为空——HTML 记 trafilatura 参数，
+        personal-note 无抽取参数则为空 dict 的哈希。"""
+        from tools.common import hash_canonical
+        from tools.ingest.extractor import TRAFILATURA_OPTIONS
+
+        def _options(root: Path, source_id: str) -> str:
+            for line in (
+                (root / "archive" / "manifest.jsonl")
+                .read_text(encoding="utf-8")
+                .splitlines()
+            ):
+                entry = json.loads(line)
+                if entry.get("owner_object_ref", {}).get("id") == source_id:
+                    return entry["extractor_options_sha256"]
+            raise AssertionError("manifest entry not found")
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ingestor = SourceIngestor(root)
+
+            class _FakeFetcher:
+                def fetch(self, url: str) -> tuple[bytes, str, str]:
+                    return (
+                        "<html><body>trafilatura 正文</body></html>".encode(),
+                        url,
+                        "text/html",
+                    )
+
+            ingestor._acquirers["fetch"].fetcher = _FakeFetcher()
+            ingestor.ingest(
+                {
+                    "source_type": "doc",
+                    "domain": "tools",
+                    "url": "https://example.com/a",
+                    "source_id": "html-src",
+                }
+            )
+            ingestor.ingest(
+                {
+                    "source_type": "personal-note",
+                    "domain": "tools",
+                    "origin": "personal",
+                    "body": "手写笔记",
+                    "source_id": "note-src",
+                }
+            )
+            self.assertEqual(
+                _options(root, "html-src"), hash_canonical(TRAFILATURA_OPTIONS)
+            )
+            self.assertEqual(_options(root, "note-src"), hash_canonical({}))
+            self.assertNotEqual(_options(root, "html-src"), _options(root, "note-src"))
+
     def test_personal_note_at_path_reads_the_file_as_body(self):
         """`--personal-note @path` 必须把文件正文当 body，而不是把路径当正文。
 

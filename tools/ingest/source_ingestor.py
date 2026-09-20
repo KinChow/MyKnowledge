@@ -48,6 +48,18 @@ from .video_transcript import parse_subtitles, render_transcript
 _INGEST_SCHEMA = "source-ingest/v1"
 
 
+def _transcript_options(provenance: dict | None) -> dict:
+    """从转录 provenance 提取"影响产物的参数"作为 extractor_options。
+
+    只保留决定转录结果的配置（engine/model/model_sha256/language/format/extractor），
+    剔除内容派生的 ``*_input_sha256``（那是原件哈希，不是抽取参数）。
+    ASR 溯源尤为关键：不同 whisper 模型/参数产出的转录稿证据强度不同（见系统设计）。
+    """
+    return {
+        k: v for k, v in (provenance or {}).items() if not k.endswith("_input_sha256")
+    }
+
+
 def _block_error_code(exc: Exception) -> str:
     """将捕获的异常映射为结构化错误码。
 
@@ -104,6 +116,7 @@ class AcquireResult(NamedTuple):
     raw_data: bytes | None = None
     attachments: list = []
     provenance: dict | None = None
+    extractor_options: dict | None = None
 
 
 class SourceAcquirer(Protocol):
@@ -132,6 +145,7 @@ class LocalFileAcquirer:
             original_stat=stat,
             raw_data=data,
             attachments=result.attachments,
+            extractor_options=result.extractor_options,
         )
 
 
@@ -177,6 +191,7 @@ class VideoAcquirer:
                 original_hash=sha256_bytes(media_data),
                 original_stat=media_stat,
                 provenance=provenance,
+                extractor_options=_transcript_options(provenance),
             )
         if request.get("asr_engine"):
             path = Path(request["input_path"])
@@ -235,6 +250,7 @@ class VideoAcquirer:
             original_hash=original_hash,
             original_stat=stat,
             provenance=provenance,
+            extractor_options=_transcript_options(provenance),
         )
 
 
@@ -259,6 +275,7 @@ class FetchAcquirer:
             resolved_url=resolved_url,
             raw_data=fetched_body,
             attachments=result.attachments,
+            extractor_options=result.extractor_options,
         )
 
 
@@ -330,6 +347,7 @@ class SourceIngestor:
                 "snapshot_sha256": snapshot_hash,
                 "extractor": acquired.extractor,
                 "media_type": acquired.media_type,
+                "extractor_options": acquired.extractor_options or {},
                 "network_required": source_type not in {"local-file", "personal-note"},
                 "body": acquired.body,
                 "stat": (
@@ -658,7 +676,9 @@ class SourceIngestor:
             "confidentiality": "public",
             "media_type": record["media_type"],
             "extractor": record["extractor"],
-            "extractor_options_sha256": hash_canonical({}),
+            "extractor_options_sha256": hash_canonical(
+                record.get("extractor_options") or {}
+            ),
             "normalization_version": "canonical-text-v1",
             "canonical_byte_length": len(body.encode("utf-8")),
             "physical_blob_length": archive_path.stat().st_size,

@@ -21,7 +21,7 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
 
-from .extractor import TextExtractor
+from .extractor import TextExtractor, text_extractor_options
 
 # 媒体类型 → (match, handler) 注册表类型
 MatchFn = Callable[[bytes, str], bool]
@@ -86,6 +86,8 @@ class ParseResult:
     attachments: list[Attachment] = field(default_factory=list)
     metadata: dict = field(default_factory=dict)
     extractor: str = "utf8/1"
+    # 影响提取产物的配置（写入 manifest 的 extractor_options_hash，见系统设计 §归档）。
+    extractor_options: dict = field(default_factory=dict)
 
 
 def is_marker_type(data: bytes, media_type: str) -> bool:
@@ -144,6 +146,7 @@ class MarkerExtractor:
             attachments=attachments,
             metadata=metadata,
             extractor="marker/" + _marker_version(),
+            extractor_options={"workers": self.workers, "output_format": "markdown"},
         )
 
     @staticmethod
@@ -166,7 +169,11 @@ class MarkerExtractor:
     def _text_fallback(data: bytes, media_type: str) -> ParseResult:
         """Marker 不可用时回落到 TextExtractor（PDF→pypdf、DOCX→docling）。"""
         text, extractor = TextExtractor().extract(data, media_type)
-        return ParseResult(markdown=text, extractor=extractor)
+        return ParseResult(
+            markdown=text,
+            extractor=extractor,
+            extractor_options=text_extractor_options(extractor),
+        )
 
     def _suffix(self, media_type: str) -> str:
         mt = (media_type or "").lower()
@@ -230,7 +237,11 @@ class DocumentParser:
 
     def _parse_text(self, data: bytes, media_type: str) -> ParseResult:
         text, extractor = self._text.extract(data, media_type)
-        return ParseResult(markdown=text, extractor=extractor)
+        return ParseResult(
+            markdown=text,
+            extractor=extractor,
+            extractor_options=text_extractor_options(extractor),
+        )
 
     def register(self, match: MatchFn, handler: ParseFn) -> None:
         self._handlers.append((match, handler))

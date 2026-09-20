@@ -17,6 +17,22 @@ from collections.abc import Callable
 MatchFn = Callable[[bytes, str], bool]
 ExtractFn = Callable[[bytes, str], tuple[str, str]]
 
+# trafilatura 提取参数（影响正文产物 → 写入 manifest 的 extractor_options_hash）。
+# 单一事实源：_extract_html 与 parser 侧溯源共用，避免两处漂移。
+TRAFILATURA_OPTIONS = {
+    "include_comments": False,
+    "include_tables": False,
+    "favor_precision": True,
+    "output_format": "txt",
+}
+
+
+def text_extractor_options(extractor: str) -> dict:
+    """按 extractor 版本串回推其静态提取参数（trafilatura 有参，其余无）。"""
+    if extractor.startswith("trafilatura/"):
+        return dict(TRAFILATURA_OPTIONS)
+    return {}
+
 
 class TextExtractor:
     """按媒体类型从原始字节提取正文的提取器（注册表分派，开闭原则）。
@@ -76,10 +92,7 @@ class TextExtractor:
         try:
             text = trafilatura.extract(
                 data,
-                include_comments=False,
-                include_tables=False,
-                favor_precision=True,
-                output_format="txt",
+                **TRAFILATURA_OPTIONS,
             )
         except Exception as exc:
             raise RuntimeError("extract_failed:trafilatura") from exc
