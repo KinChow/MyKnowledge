@@ -59,7 +59,9 @@ def test_registry_capability_discovery_probes_verbs(tmp_path: Path):
         {"read", "list", "create", "update", "delete", "purge"}
     )
     assert registry.verbs("wiki") == frozenset({"read", "list", "delete", "purge"})
-    assert registry.verbs("question") == frozenset({"read", "list", "create", "delete"})
+    assert registry.verbs("question") == frozenset(
+        {"read", "list", "create", "delete", "purge"}
+    )
 
 
 def test_registry_unsupported_verb_is_blocked_capability_not_supported(tmp_path: Path):

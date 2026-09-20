@@ -210,6 +210,12 @@ def _question_delete(root: Path, *, object_id: str, **_: Any):
     return QuestionStore(root).delete(object_id)
 
 
+def _question_purge(root: Path, *, object_id: str, **_: Any):
+    from .question import QuestionStore
+
+    return QuestionStore(root).purge(object_id)
+
+
 def _probe(object_type: str, repo_cls: type, adapters: dict[str, CapabilityFn]):
     """K8s 式能力发现：只保留 (提供了适配器) 且 (结构上实现该动词) 的动词。"""
     kept = {
@@ -260,6 +266,7 @@ def _default_capabilities() -> tuple[ContentCapability, ...]:
                 "list": _question_list,
                 "create": _question_create,
                 "delete": _question_delete,
+                "purge": _question_purge,
             },
         ),
     )

@@ -194,13 +194,15 @@ Updatable/Deletable`（对标 `rest.Getter/Lister/Creater/Updater/GracefulDelete
 **git** `rm`→`gc --prune`）。软删的对外动词统一为 `delete`（弃用旧词 `retire`）：
 
 - **delete（软删，可恢复）**：向 `audit/retire/<type>.jsonl` append 一条 `event=delete` 墓碑（带
-  `at` 时间戳），不物理删盘；source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。
-- **purge（硬删，永久）**：`Purgeable` 能力，仅 source/wiki 暴露（question 尚不支持=
-  `capability_not_supported`）。前置门禁：必须**先 delete** 且**过宽限期**
+  `at` 时间戳），不物理删盘；source=RESTRICT、wiki=CASCADE+CDR、question=置 `disabled` + 墓碑。
+- **purge（硬删，永久）**：`Purgeable` 能力，source/wiki/question **三类均支持**。
+  前置门禁：必须**先 delete** 且**过宽限期**
   （`purge_precondition`：`not_deleted` / `retention_not_elapsed`；宽限默认 14 天，
   对齐 git `gc.pruneExpire`，可配 `policy.delete.purge_grace_days`）→ RESTRICT 复查 →
-  物理回收工作树（source 删 `content/sources/<domain>/<id>/` 目录，含 LFS 原件；wiki 删 `.md`）→
-  append `event=purge` 墓碑（幂等）。
+  物理回收工作树（source 删 `content/sources/<domain>/<id>/` 目录，含 LFS 原件；wiki 删 `.md`；
+  question 删 practice `.json` + 复习历史）→ append `event=purge` 墓碑（幂等）。
+- **question 两阶段对齐**：`delete` 现为**纯软删**（置 `disabled` + 登记墓碑，绝不物理删；
+  弃用旧的"无历史即 unlink"越轨硬删），物理回收统一交给 `purge`。
 - **本轮不动内容寻址的 archive/manifest**（append-only、可能去重共享）：其物理回收随
   `git lfs prune`（回收本地 LFS 大对象）与历史擦除 runbook（`git filter-repo` + force push，
   破坏性、需显式授权）处理，见 §12.3。

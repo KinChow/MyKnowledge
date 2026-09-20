@@ -775,7 +775,6 @@ def test_practice_question_lifecycle_api_is_private_and_preserves_history(
     assert deleted.status_code == 200
     assert deleted.json()["lifecycle"] == "disabled"
     assert deleted.json()["deleted"] is False
-    assert deleted.json()["reason"] == "review_history_preserved"
 
 
 def test_practice_question_enable_api_restores_enabled_status(tmp_path: Path):

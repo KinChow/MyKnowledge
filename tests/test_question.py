@@ -639,15 +639,10 @@ class QuestionTests(unittest.TestCase):
             self.assertEqual(
                 store.answer("q-lifecycle", "a")["error_code"], "question_disabled"
             )
-            self.assertIs(store.delete("q-lifecycle")["deleted"], True)
-            self.assertFalse(store._file("q-lifecycle").exists())
-
-            store.import_file(source)
-            store.answer("q-lifecycle", "a")
-            preserved = store.delete("q-lifecycle")
-            self.assertIs(preserved["deleted"], False)
-            self.assertEqual(preserved["lifecycle"], "disabled")
-            self.assertEqual(preserved["reason"], "review_history_preserved")
+            # 软删（对齐 source/wiki）：置 disabled + 登记删除墓碑，绝不物理删。
+            deleted = store.delete("q-lifecycle")
+            self.assertIs(deleted["deleted"], False)
+            self.assertEqual(deleted["lifecycle"], "disabled")
             self.assertTrue(store._file("q-lifecycle").exists())
             self.assertEqual(store.load("q-lifecycle")["status"], "disabled")
 

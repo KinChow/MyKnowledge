@@ -18,8 +18,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from . import contract
+from . import contract, retire_ledger
 from .common import atomic_write, canonical_json, safe_id, sha256_bytes
+from .content_repository import purge_precondition
 from .paths import RepoPaths
 from .validation.validator import WikiValidator
 
@@ -1063,21 +1064,65 @@ class QuestionStore:
         )
 
     def delete(self, question_id: str) -> dict:
-        self.load(question_id)
-        review_path = self.paths.practice_reviews(question_id)
-        if review_path.exists() and review_path.stat().st_size > 0:
-            self.disable(question_id, reason="delete_requested_with_history")
-            return contract.ok(
-                LIFECYCLE_SCHEMA,
-                changed=True,
-                deleted=False,
-                question_id=question_id,
-                lifecycle="disabled",
-                reason="review_history_preserved",
+        """软删（可恢复）：登记删除墓碑 + 置 disabled，**绝不物理删**（对齐 source/wiki）。
+
+        物理回收由 `purge`（过宽限期）承担，形成两阶段删除。复习历史随文件一起保留，
+        purge 时才一并回收。
+        """
+        self.load(question_id)  # 缺失/损坏 → raise，由边界归一
+        already = retire_ledger.is_retired(self.paths, "question", question_id)
+        self.disable(question_id, reason="deleted")
+        if not already:
+            retire_ledger.append_retire(
+                self.paths,
+                "question",
+                vault_id="local",
+                object_id=question_id,
+                reason="delete_requested",
             )
-        self._file(question_id).unlink()
         return contract.ok(
-            LIFECYCLE_SCHEMA, changed=True, deleted=True, question_id=question_id
+            LIFECYCLE_SCHEMA,
+            changed=not already,
+            deleted=False,
+            question_id=question_id,
+            lifecycle="disabled",
+        )
+
+    def purge(self, question_id: str, *, grace_days: int | None = None) -> dict:
+        """硬删（永久）：须先 delete（软删）且过宽限期，再物理删 practice 文件 + 复习历史。"""
+        schema = "question-purge/v1"
+        cond = purge_precondition(
+            self.paths, "question", question_id, self.root, grace_days=grace_days
+        )
+        if cond == "already":
+            return contract.ok(
+                schema, changed=False, purged=True, question_id=question_id
+            )
+        if cond is not None:
+            return contract.blocked(schema, cond, question_id=question_id)
+        try:
+            file = self._file(question_id)
+        except ValueError:
+            return contract.blocked(
+                schema, "question_not_found", question_id=question_id
+            )
+        existed = file.exists()
+        try:
+            file.unlink(missing_ok=True)
+            review = self.paths.practice_reviews(question_id)
+            if review.exists():
+                review.unlink()
+        except OSError as exc:
+            return contract.blocked(schema, "purge_failed", reason=str(exc))
+        retire_ledger.append_purge(
+            self.paths,
+            "question",
+            vault_id="local",
+            object_id=question_id,
+            reason="purge_requested",
+        )
+        return contract.ok(
+            schema, changed=existed, purged=True, question_id=question_id
         )
 
     def load(self, question_id: str) -> dict:

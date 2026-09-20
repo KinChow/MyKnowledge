@@ -182,14 +182,55 @@ def test_skill_purge_is_two_phase_and_reclaims_source_dir(tmp_path: Path):
     assert again["changed"] is False
 
 
-def test_question_purge_is_capability_not_supported(tmp_path: Path):
-    result = dispatch(
-        "purge",
-        {"object_type": "question", "vault_id": "local", "object_id": "q-x"},
+def test_question_delete_is_soft_and_purge_is_two_phase(tmp_path: Path):
+    from tools.question import QuestionStore
+
+    report = {
+        "valid": True,
+        "object_ref": {"object_type": "wiki", "object_id": "wiki-one"},
+        "metadata": {"evidence": [{"claim_id": "claim-one"}]},
+        "derived": {"evidence_state": "supported"},
+        "hashes": {"content_sha256": "sha256:c", "evidence_sha256": "sha256:e"},
+    }
+    spec = {
+        "id": "q-two-phase",
+        "type": "single_choice",
+        "wiki_id": "wiki-one",
+        "claim_id": "claim-one",
+        "prompt": "2+2?",
+        "confidentiality": "internal",
+        "options": [{"id": "a", "text": "4"}, {"id": "b", "text": "5"}],
+        "correct_option_ids": ["a"],
+    }
+    store = QuestionStore(tmp_path)
+    store.create(spec, wiki_report=report)
+
+    # delete = 软删：disabled + 保留文件（绝不物理删）
+    deleted = dispatch(
+        "delete",
+        {"object_type": "question", "vault_id": "local", "object_id": "q-two-phase"},
         root=tmp_path,
     )
-    assert result["status"] == "blocked"
-    assert result["error_code"] == "capability_not_supported"
+    assert deleted["status"] == "ok"
+    assert deleted["deleted"] is False
+    assert store._file("q-two-phase").exists()
+
+    # 未过宽限期 → retention_not_elapsed；过期后 → 物理回收
+    too_soon = dispatch(
+        "purge",
+        {"object_type": "question", "vault_id": "local", "object_id": "q-two-phase"},
+        root=tmp_path,
+    )
+    assert too_soon["error_code"] == "retention_not_elapsed"
+    _mark_deleted_long_ago(tmp_path, "question", "q-two-phase")
+    purged = dispatch(
+        "purge",
+        {"object_type": "question", "vault_id": "local", "object_id": "q-two-phase"},
+        root=tmp_path,
+    )
+    assert purged["status"] == "ok"
+    assert purged["purged"] is True
+    assert not store._file("q-two-phase").exists()
 
 
 def test_backend_purge_endpoint_two_phase(tmp_path: Path):
