@@ -237,7 +237,10 @@ def content_purge_main(argv: list[str]) -> int:
 
 def source_update_main(argv: list[str]) -> int:
     """source 重导入更新（幂等 + 保留 evidence_items）；请求体为 JSON 文件。"""
-    from tools.skill_runtime import dispatch
+    # 人用 CLI 是受信入口（与 `myk source add` 走 source_ingestor.main 同理）：
+    # 直接委派 SourceRepository（允许全部 scheme，含 file://），不经 dispatch 的
+    # agent 面 scheme 门禁。dispatch/HTTP 的 update 才收敛到 http(s)/data。
+    from tools.source_repository import SourceRepository
 
     parser = argparse.ArgumentParser(
         description="Re-import a source (idempotent, preserves evidence_items)"
@@ -246,7 +249,7 @@ def source_update_main(argv: list[str]) -> int:
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
     request = json.loads(args.request_file.read_text(encoding="utf-8"))
-    result = dispatch("source_update", {"request": request}, root=args.root)
+    result = SourceRepository(args.root).update(request)
     _print_json(result, compact=True)
     return 0 if result.get("status") == "ok" else 2
 

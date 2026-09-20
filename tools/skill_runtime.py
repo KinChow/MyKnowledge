@@ -438,7 +438,18 @@ def _handle_purge(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
 
 def _handle_source_update(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     """source 重导入更新（幂等 + 保留 evidence_items）经注册表路由。"""
+    from .ingest.source_request import LocatorError, normalize_source_request
+
     request = _require_mapping(payload, "request", "source_request_required")
+    # agent 面安全门禁：与 _handle_source_ingest 一致，只允许远程/内联
+    # （http/https/data），拒 file:// 与 legacy 本地 input_path——update 此前漏了
+    # 这道门禁，可经 file:// 重导入把任意本地文件读进 source 正文（本地文件泄露）。
+    try:
+        request = normalize_source_request(
+            request, allowed_schemes={"http", "https", "data"}
+        )
+    except LocatorError as exc:
+        return contract.blocked("source-update/v1", exc.code)
     return ContentRegistry(root).update("source", request=request)
 
 

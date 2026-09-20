@@ -416,11 +416,26 @@ def create_app(
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
         """source 重导入更新（幂等 + 保留 evidence_items）经 ContentRegistry 路由。"""
+        from tools.ingest.source_request import (
+            LocatorError,
+            normalize_source_request,
+        )
+
         authorize_write(x_myknowledge_capability, x_myknowledge_audience)
         if not isinstance(request, dict):
             raise api_error(
                 "source_request_required", "update", "send a source ingest request"
             )
+        # 与 create_source 一致的 scheme 门禁：拒 file://、legacy input_path，
+        # 堵住经 update 用 file:// 重导入读取本地盘（网络侧本地文件泄露）。
+        try:
+            request = normalize_source_request(
+                request, allowed_schemes={"http", "https", "data"}
+            )
+        except LocatorError as exc:
+            raise api_error(
+                exc.code, "update", "use an http(s)/data locator or inline content"
+            ) from exc
         result = ContentRegistry(state.root).update("source", request=request)
         if result.get("status") != "ok":
             raise api_error(result["error_code"], "update", "check source request")
