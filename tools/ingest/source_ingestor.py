@@ -397,6 +397,14 @@ class SourceIngestor:
         ``source_empty`` / ``source_ingest_failed``）。动态明细码一律在 ``errors[]``
         里携带，不进 error_code 词表。
         """
+        # 统一创建契约（locator/kind/content）→ 内部 request（受信编程入口不限 scheme）；
+        # 非统一请求原样透传。入口级 scheme 门禁由各入口预先归一化承担。
+        from .source_request import LocatorError, normalize_source_request
+
+        try:
+            request = normalize_source_request(request)
+        except LocatorError as exc:
+            return contract.blocked(_INGEST_SCHEMA, exc.code)
         prepared = self._prepare(request)
         state = prepared["state"]
         if state == "ready":
@@ -732,9 +740,28 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--source-id")
     parser.add_argument("--domain", default="tools")
     parser.add_argument("--media-type", default="text/plain")
+    # 统一创建契约（locator + kind）：与远程/本地/内联三态一致的单一入参。
+    parser.add_argument(
+        "--from", dest="locator", help="来源 URI：file:// / http(s):// / data:"
+    )
+    parser.add_argument("--content", help="内联正文（personal-note），与 --from 二选一")
+    parser.add_argument(
+        "--kind", help="语义类别：doc/blog/book/contest/pr/note/video-transcript"
+    )
     args = parser.parse_args(argv)
     ingestor = SourceIngestor(args.root)
-    if args.video_asr:
+    if args.locator or args.content is not None:
+        # 统一契约入口（CLI 允许全部 scheme，含 file://）
+        request = {
+            "domain": args.domain,
+            "source_id": args.source_id,
+            "kind": args.kind,
+        }
+        if args.content is not None:
+            request["content"] = args.content
+        if args.locator:
+            request["locator"] = args.locator
+    elif args.video_asr:
         request = {
             "source_type": "video",
             "domain": args.domain,

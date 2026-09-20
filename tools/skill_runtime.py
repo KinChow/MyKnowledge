@@ -272,7 +272,13 @@ def _handle_write(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
 
 def _handle_source_ingest(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     """Source 采集：直接写（ADR-0019），无 operation 记录、无确认事件。"""
+    from .ingest.source_request import normalize_source_request
+
     request = _require_mapping(payload, "request", "source_request_required")
+    # agent 面安全门禁：只允许远程/内联（http/https/data），拒 file:// 与本地 input_path。
+    request = normalize_source_request(
+        request, allowed_schemes={"http", "https", "data"}
+    )
     return SourceIngestor(root).ingest(request)
 
 

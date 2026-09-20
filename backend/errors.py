@@ -50,6 +50,9 @@ _ERROR_TABLE: dict[str, tuple[int, str]] = {
     # source 增改（重导入委派 / 请求缺失）
     "source_ingest_failed": (422, "blocked"),
     "source_request_required": (422, "blocked"),
+    # 统一创建契约 locator 归一化：非法 URI=422；scheme 越权（如 HTTP 侧 file://）=403
+    "locator_invalid": (422, "blocked"),
+    "locator_scheme_not_allowed": (403, "blocked"),
     # practice 层
     "question_not_found": (404, "blocked"),
     "session_not_found": (404, "blocked"),

@@ -216,6 +216,30 @@ purge 只回收工作树；要真正降低 `.git`/LFS 占用需单独维护动�
 2. 彻底抹除历史（合规/密钥泄漏）：`git filter-repo` 剔除路径 + `git gc --prune=now` + **force push**——
    破坏性、改写历史，必须显式授权，不做日常操作。
 
+### 12.4 统一创建契约（locator + kind，三入口一致）
+
+source 创建统一到一份**与传输无关的契约**，`local/remote` 由 URI scheme 决定（对齐
+`fsspec`/`smart_open` 的 URI 模型 + Apache Nutch 的 scheme 分派；`kind`/格式轴对齐 Apache
+Tika / LangChain Loader）：
+
+```jsonc
+{ "locator": "<uri>",   // file:// 本地 | http(s):// 远程 | data: 内联；与 content 二选一
+  "content": "<内联正文>",   // personal-note 内联
+  "kind":    "doc|blog|book|contest|pr|note|video-transcript",
+  "domain":  "…", "source_id": "可选", "options": { … } }
+```
+
+- 归一化 `tools/ingest/source_request.normalize_source_request` 把契约翻成**既有**
+  `SourceIngestor` 内部请求（`source_type`+`input_path`/`url`/`body`），**内部形状/哈希/
+  归档口径不变**（SRC-002 安全、可回滚）；`SourceIngestor.ingest` 前置调用它，故
+  `registry.create("source", request=…)` 直接吃统一契约。
+- **按入口的 scheme 白名单**（安全门禁）：CLI 允许全部（含 `file://`）；**skill / backend
+  HTTP 仅允许 `http(s)`/`data`**，拒 `file://` 与任何携带 `input_path` 的 legacy 请求——
+  堵住 agent/HTTP 读本地盘（`locator_scheme_not_allowed`）。
+- 三入口：`ContentRegistry.create("source", …)`（编程）、`POST /api/source`（HTTP，写能力）、
+  skill `source_ingest {request}`、CLI/porcelain `myk source add --from <uri>|--content … --kind …`。
+- 音频**暂不纳入**（无 `audio` kind）；未来若加走"新增 kind + 复用 whisper ASR"，不改现有口径。
+
 ## 13. 未决问题
 
 - 边界错误码要不要统一为一套（`object_not_found`）并让后端/resolution 一起改契约，还是保留各边界既有码只在内部统一实现？（本设计默认后者，AC-G1/G2 守旧契约。）

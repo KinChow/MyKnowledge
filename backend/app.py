@@ -426,6 +426,36 @@ def create_app(
             raise api_error(result["error_code"], "update", "check source request")
         return result
 
+    @app.post("/api/source")
+    def create_source(
+        request: Any = Body(...),  # noqa: B008 - FastAPI 依赖注入的既定写法
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        """统一创建：接受 {locator|content, kind, domain, …} 契约（仅远程/内联，拒 file://）。"""
+        from tools.ingest.source_request import (
+            LocatorError,
+            normalize_source_request,
+        )
+
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        if not isinstance(request, dict):
+            raise api_error(
+                "source_request_required", "create", "send a source create request"
+            )
+        try:
+            internal = normalize_source_request(
+                request, allowed_schemes={"http", "https", "data"}
+            )
+        except LocatorError as exc:
+            raise api_error(
+                exc.code, "create", "use an http(s)/data locator or inline content"
+            ) from exc
+        result = ContentRegistry(state.root).create("source", request=internal)
+        if result.get("status") != "ok":
+            raise api_error(result["error_code"], "create", "check source request")
+        return result
+
     @app.post("/api/practice/{question_id}/answer")
     def practice_answer(
         question_id: str,

@@ -74,6 +74,9 @@ _SOURCE_CODES: frozenset[str] = frozenset(
         # _CRUD_CODES 的 source_ingest_failed（unavailable）。
         "schema_invalid",
         "source_empty",
+        # 统一创建契约（locator/kind/content）归一化：非法 URI / scheme 越权（入口门禁）
+        "locator_invalid",
+        "locator_scheme_not_allowed",
     }
 )  # agent-A1: ingest/source_ingestor
 _ENTRY_CODES: frozenset[str] = frozenset(
