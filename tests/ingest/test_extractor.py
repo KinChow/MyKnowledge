@@ -79,6 +79,28 @@ class ExtractorTests(unittest.TestCase):
         self.assertIn("Marker fallback PDF", result.markdown)
         self.assertTrue(result.extractor.startswith("pypdf/"))
 
+    def test_document_parser_routes_docx_to_docling_when_marker_absent(self):
+        """DOCX 在 Marker 缺失时回落到 docling（此前 docling 分支在管线中死路）。
+
+        断言得到 docling 明确错误码，而非 extractor_unavailable:marker，也不会把
+        二进制 docx 当 UTF-8 文本硬解。
+        """
+        docx_media = (
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+        with mock.patch.dict(
+            sys.modules,
+            {
+                "marker": None,
+                "marker.converters.pdf": None,
+                "marker.models": None,
+                "docling": None,
+                "docling.document_converter": None,
+            },
+        ):
+            with self.assertRaisesRegex(RuntimeError, "extractor_unavailable:docling"):
+                DocumentParser().parse(b"PK\x03\x04fake-docx", docx_media)
+
     def test_html_extractor_unavailable_without_trafilatura(self):
         """无 trafilatura 环境：返回 extractor_unavailable:trafilatura，不降级。"""
         with mock.patch.dict(sys.modules, {"trafilatura": None}):

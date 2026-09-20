@@ -112,8 +112,8 @@ class MarkerExtractor:
             from marker.converters.pdf import PdfConverter
             from marker.models import create_model_dict
         except ImportError as exc:  # pragma: no cover - 依赖缺失路径
-            if self._is_pdf(data, media_type):
-                return self._pdf_fallback(data, media_type)
+            if self._can_fallback(data, media_type):
+                return self._text_fallback(data, media_type)
             raise RuntimeError("extractor_unavailable:marker") from exc
         try:
             import tempfile
@@ -126,9 +126,9 @@ class MarkerExtractor:
                 converter = PdfConverter(artifact_dict=artifacts)
                 result = converter(Path(handle.name))
         except Exception as exc:
-            if self._is_pdf(data, media_type):
+            if self._can_fallback(data, media_type):
                 try:
-                    return self._pdf_fallback(data, media_type)
+                    return self._text_fallback(data, media_type)
                 except RuntimeError:
                     pass
             raise RuntimeError("extract_failed:marker") from exc
@@ -151,8 +151,20 @@ class MarkerExtractor:
         return "pdf" in (media_type or "").lower() or data.startswith(b"%PDF")
 
     @staticmethod
-    def _pdf_fallback(data: bytes, media_type: str) -> ParseResult:
-        """Use the repository's mature pypdf extractor when Marker cannot run."""
+    def _is_docx(data: bytes, media_type: str) -> bool:
+        mt = (media_type or "").lower()
+        return "wordprocessingml" in mt or (
+            data.startswith(b"PK\x03\x04") and "docx" in mt
+        )
+
+    @classmethod
+    def _can_fallback(cls, data: bytes, media_type: str) -> bool:
+        """PDF→pypdf、DOCX→docling 有成熟兜底；PPTX 无非-Marker 提取器，不兜底。"""
+        return cls._is_pdf(data, media_type) or cls._is_docx(data, media_type)
+
+    @staticmethod
+    def _text_fallback(data: bytes, media_type: str) -> ParseResult:
+        """Marker 不可用时回落到 TextExtractor（PDF→pypdf、DOCX→docling）。"""
         text, extractor = TextExtractor().extract(data, media_type)
         return ParseResult(markdown=text, extractor=extractor)
 
