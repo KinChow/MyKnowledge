@@ -17,13 +17,42 @@ managed 类型与其物理根的**唯一枚举口径**是 `RepoPaths.object_root
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol, runtime_checkable
 
 from . import contract
 from .common import safe_id
 from .contract import require_error_code
 from .front_matter import FrontMatter
 from .paths import RepoPaths
+
+
+# 能力 Protocol（对标 K8s apiserver ``registry/rest`` 的 Getter/Lister/Creater/
+# Updater/GracefulDeleter 小接口）：结构化 + ``@runtime_checkable``，由 ContentRegistry
+# 用 ``isinstance`` 探测某实体支持哪些动词（PEP 544），据此决定暴露面——不给不支持的
+# 动词写硬编码分支。``runtime_checkable`` 只校验方法名存在，签名差异由适配层归一。
+@runtime_checkable
+class Readable(Protocol):
+    def read(self, *args: Any, **kwargs: Any) -> dict: ...
+
+
+@runtime_checkable
+class Listable(Protocol):
+    def list(self, *args: Any, **kwargs: Any) -> dict: ...  # noqa: A003
+
+
+@runtime_checkable
+class Creatable(Protocol):
+    def create(self, *args: Any, **kwargs: Any) -> dict: ...
+
+
+@runtime_checkable
+class Updatable(Protocol):
+    def update(self, *args: Any, **kwargs: Any) -> dict: ...
+
+
+@runtime_checkable
+class Deletable(Protocol):
+    def delete(self, *args: Any, **kwargs: Any) -> dict: ...
 
 
 class ObjectResolutionError(ValueError):

@@ -40,6 +40,7 @@ REFRESH_SCHEMA = "question-refresh/v1"
 REFRESH_BATCH_SCHEMA = "question-refresh-batch/v1"
 ANSWER_SCHEMA = "question-answer/v1"
 REVIEW_SCHEMA = "question-review/v1"
+READ_SCHEMA = "question-read/v1"
 
 
 def _is_imported(result: dict) -> bool:
@@ -1094,6 +1095,43 @@ class QuestionStore:
         if stored not in {expected, legacy_expected}:
             raise ValueError("question_hash_mismatch")
         return question
+
+    # ---- ADR-0017 能力接口别名：与 source/wiki Repository 的动词对齐 ----
+    # question 不是 vault 作用域的 managed 对象（单一 practice 根，无 object_ref），
+    # 故不继承 ManagedObjectRepository；这里只补齐 read/exists/retire 三个能力层别名，
+    # 使三类实体共享同一组动词，行为不变（read 信封化 load，retire 委托 delete）。
+    def exists(self, question_id: str) -> bool:
+        """题目文件是否存在（能力探测用；不做 schema/hash 校验）。非法 id 视为不存在。"""
+        try:
+            return self._file(question_id).exists()
+        except ValueError:
+            return False
+
+    def read(self, question_id: str) -> dict:
+        """信封化的单题读入口（对齐 source/wiki repo 的 read 契约）。
+
+        ``load`` 是内部严格加载（不合法即抛 ``ValueError``）；``read`` 是能力层入口：
+        缺失/非法 id → ``blocked/question_not_found``，存量损坏（schema/hash/id 不符）
+        → ``blocked/existing_question_invalid``，成功 → ``ok`` + ``question``。
+        """
+        if not self.exists(question_id):
+            return contract.blocked(
+                READ_SCHEMA, "question_not_found", question_id=question_id
+            )
+        try:
+            question = self.load(question_id)
+        except (OSError, ValueError) as exc:
+            return contract.blocked(
+                READ_SCHEMA,
+                "existing_question_invalid",
+                question_id=question_id,
+                reason=str(exc),
+            )
+        return contract.ok(READ_SCHEMA, question_id=question_id, question=question)
+
+    def retire(self, question_id: str) -> dict:
+        """delete↔retire 命名对齐：软删语义不变（有复习历史降 disable，否则删除）。"""
+        return self.delete(question_id)
 
     def _score_cloze(self, question: dict, response: Any) -> dict:
         answer = question.get("answer") or {}

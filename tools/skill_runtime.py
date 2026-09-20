@@ -68,6 +68,9 @@ ACTION_FIELDS = {
     "question_delete": {"question_id"},
     "question_answer": {"question_id", "response", "scoring_mode"},
     "question_review": {"question_id", "rating"},
+    "list": {"object_type", "vault_id", "domain", "topic", "skill", "status"},
+    "retire": {"object_type", "vault_id", "object_id"},
+    "source_update": {"request"},
 }
 
 
@@ -318,7 +321,10 @@ def _handle_question_create(root: Path, payload: dict[str, Any]) -> dict[str, An
     if not candidate.is_file() or candidate.is_symlink():
         raise ValueError("wiki_not_found")
     report = WikiValidator(root).validate(candidate)
-    return QuestionStore(root).create(spec, wiki_path=candidate, wiki_report=report)
+    # 经统领入口 ContentRegistry 路由（question create 能力）；wiki 校验编排仍在此。
+    return ContentRegistry(root).create(
+        "question", spec=spec, wiki_path=candidate, wiki_report=report
+    )
 
 
 def _handle_question_answer(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -336,7 +342,8 @@ def _handle_question_list(root: Path, payload: dict[str, Any]) -> dict[str, Any]
     status = payload.get("status", "enabled")
     if status not in {"enabled", "disabled", "all"}:
         raise ValueError("question_status_invalid")
-    return QuestionStore(root).list(
+    return ContentRegistry(root).list(
+        "question",
         domain=payload.get("domain"),
         topic=payload.get("topic"),
         skill=payload.get("skill"),
@@ -387,7 +394,36 @@ def _handle_question_enable(root: Path, payload: dict[str, Any]) -> dict[str, An
 
 
 def _handle_question_delete(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
-    return QuestionStore(root).delete(str(payload.get("question_id", "")))
+    return ContentRegistry(root).delete(
+        "question", object_id=str(payload.get("question_id", ""))
+    )
+
+
+def _handle_list(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """统一列举：object_type 经 ContentRegistry 路由（source/wiki 用 vault_id，question 用分类过滤）。"""
+    return ContentRegistry(root).list(
+        str(payload.get("object_type", "")),
+        vault_id=payload.get("vault_id", "public"),
+        domain=payload.get("domain"),
+        topic=payload.get("topic"),
+        skill=payload.get("skill"),
+        status=payload.get("status", "enabled"),
+    )
+
+
+def _handle_retire(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """统一软删/退休：source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。"""
+    return ContentRegistry(root).delete(
+        str(payload.get("object_type", "")),
+        vault_id=payload.get("vault_id", "public"),
+        object_id=str(payload.get("object_id", "")),
+    )
+
+
+def _handle_source_update(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """source 重导入更新（幂等 + 保留 evidence_items）经注册表路由。"""
+    request = _require_mapping(payload, "request", "source_request_required")
+    return ContentRegistry(root).update("source", request=request)
 
 
 def _handle_question_review(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
@@ -423,6 +459,9 @@ _HANDLERS: dict[str, Callable[[Path, dict[str, Any]], dict[str, Any]]] = {
     "question_delete": _handle_question_delete,
     "question_answer": _handle_question_answer,
     "question_review": _handle_question_review,
+    "list": _handle_list,
+    "retire": _handle_retire,
+    "source_update": _handle_source_update,
 }
 ALLOWED_ACTIONS = frozenset(_HANDLERS)
 

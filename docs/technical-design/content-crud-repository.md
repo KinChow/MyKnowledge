@@ -168,6 +168,26 @@ class Updatable(Protocol):
 
 **回滚原则**：P1 通过“旧读函数改为调用新 resolve 的薄壳”实现，任何一步失败可 `git revert` 单个 commit；ledger append-only，retire 不物理删，天然可逆。
 
+### 12.1 落地状态（2026-09-20：全动词注册表接入闭环）
+
+P1–P5 已落地：`ContentRegistry` 从"只路由 public wiki 读"扩为**全动词路由表**
+（read/list/create/update/delete），移植 K8s apiserver `registry/rest` 的能力发现——
+`tools/content_repository.py` 定义 `@runtime_checkable` 的 `Readable/Listable/Creatable/
+Updatable/Deletable`（对标 `rest.Getter/Lister/Creater/Updater/GracefulDeleter`），注册表用
+`issubclass` 探测每个实体支持的动词后建能力表（`_probe`），**不给不支持的动词写硬编码分支**。
+
+- **探测结果**：`source`=R/L/C/U/D、`wiki`=R/L/D（create/update 仍走通道 A）、
+  `question`=R/L/C/D（update 走生命周期动词 disable/enable/review）。
+- **失败语义**：未知 `object_type` → `object_type_not_found`；已知但动词不支持 →
+  `capability_not_supported`（HTTP 405，已登记 `contract._LOCATE_CODES`）。
+- **读 scope 分流**：wiki `vault_id=public` 走 projection（免 token），其余走 repository；
+  source 恒走 repository；question 用 `vault_id="local"` 约定（单一本地 practice 根）。
+- **三入口接入**：backend 新增 `GET /api/list/{vault}/{type}`、
+  `DELETE /api/object/{vault}/{type}/{id}`、`POST /api/source/update`，practice 删除改经注册表；
+  skill 新增 `list`/`retire`/`source_update` action 且 `question_*` 改经注册表；
+  plumbing `tools.cli` 增 `list`/`retire`/`source-update`，porcelain `myk` 增
+  `source list/retire/update`、`wiki list/retire/deprecate`（object_type 前置注入，kubectl 式）。
+
 ## 13. 未决问题
 
 - 边界错误码要不要统一为一套（`object_not_found`）并让后端/resolution 一起改契约，还是保留各边界既有码只在内部统一实现？（本设计默认后者，AC-G1/G2 守旧契约。）

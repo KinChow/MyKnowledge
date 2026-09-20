@@ -19,6 +19,7 @@ from fastapi import Body, FastAPI, Header, Query, Request
 
 from tools.citation import replay as replay_citation
 from tools.common import atomic_write, safe_id
+from tools.content_registry import ContentRegistry
 from tools.indexing import Retriever, default_public_index_path
 from tools.paths import RepoPaths
 from tools.projection import PublicProjectionStore
@@ -342,6 +343,65 @@ def create_app(
             "items": items,
         }
 
+    @app.get("/api/list/{vault_id}/{object_type}")
+    def list_objects(
+        vault_id: str,
+        object_type: str,
+        scope: str = "public",
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        """统一列举：经 ContentRegistry 路由（public wiki→projection，其余→repository）。"""
+        authorize(
+            x_myknowledge_capability,
+            "private" if vault_id != "public" else scope,
+            x_myknowledge_audience,
+        )
+        result = ContentRegistry(state.root).list(object_type, vault_id=vault_id)
+        if result.get("status") != "ok":
+            raise api_error(result["error_code"], "list", "check object_type/vault")
+        return result
+
+    @app.delete("/api/object/{vault_id}/{object_type}/{object_id}")
+    def delete_object(
+        vault_id: str,
+        object_type: str,
+        object_id: str,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        """统一软删/退休：source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。"""
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        try:
+            result = ContentRegistry(state.root).delete(
+                object_type, vault_id=vault_id, object_id=object_id
+            )
+        except (OSError, ValueError) as exc:
+            # question 域的严格加载对缺失/损坏抛异常；边界归一为 404，不泄漏内部文本。
+            raise api_error("object_not_found", "delete", "check object_ref") from exc
+        if result.get("status") != "ok":
+            raise api_error(
+                result["error_code"], "delete", "check object_ref / references"
+            )
+        return result
+
+    @app.post("/api/source/update")
+    def update_source(
+        request: Any = Body(...),  # noqa: B008 - FastAPI 依赖注入的既定写法
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        """source 重导入更新（幂等 + 保留 evidence_items）经 ContentRegistry 路由。"""
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        if not isinstance(request, dict):
+            raise api_error(
+                "source_request_required", "update", "send a source ingest request"
+            )
+        result = ContentRegistry(state.root).update("source", request=request)
+        if result.get("status") != "ok":
+            raise api_error(result["error_code"], "update", "check source request")
+        return result
+
     @app.post("/api/practice/{question_id}/answer")
     def practice_answer(
         question_id: str,
@@ -571,7 +631,7 @@ def create_app(
         authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
         try:
             return {
-                **state.practice.delete(question_id),
+                **ContentRegistry(state.root).delete("question", object_id=question_id),
                 "schema_version": "practice-question-lifecycle/v1",
             }
         except (OSError, ValueError) as exc:

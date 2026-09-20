@@ -30,6 +30,9 @@ _LOCATE_CODES = frozenset(
         "object_referenced",
         "vault_unavailable",
         "object_unreadable",
+        # 内容注册表全动词路由（ContentRegistry）：已知 object_type 但该实体不支持此动词
+        # （移植 K8s apiserver 能力发现——不支持的动词返回 405 语义，而非静默）。
+        "capability_not_supported",
         # wiki 校验历史码（resolution 报告沿用，语义不变，纳入统一词表）
         "source_not_found",
         "source_ambiguous",

@@ -33,6 +33,9 @@ NOUNS: dict[str, dict[str | None, str]] = {
         "video-inventory": "video-inventory",
         "video-frames": "video-frames",
         "video-batch": "video-batch",
+        "list": "list",
+        "retire": "retire",
+        "update": "source-update",
     },
     "wiki": {
         "anchor": "anchor",
@@ -41,6 +44,9 @@ NOUNS: dict[str, dict[str | None, str]] = {
         "confirm": "confirm",
         "override": "override",
         "publish": "release",
+        "list": "list",
+        "retire": "retire",
+        "deprecate": "retire",
     },
     "query": {
         None: "query",
@@ -68,6 +74,12 @@ PASSTHROUGH: dict[str, str] = {
 # actor 恒为本人，确认语义由显式 confirm/publish 动词承载，不因省略 id 而削弱。
 ACTOR_ID_COMMANDS = {"confirm", "release", "override"}
 
+# 泛型内容动词（list/retire 是 ContentRegistry 全动词，object_type 作首个位置参数）。
+# porcelain 是 noun-first，故把名词（object_type）前置注入到 forward——对齐 kubectl 的
+# ``get <resource>`` / ``delete <resource> <name>``。question 走自己的 plumbing（passthrough）。
+_CONTENT_TYPE_NOUNS = {"source", "wiki"}
+_TYPED_CONTENT_COMMANDS = {"list", "retire"}
+
 # 单结果 action 命令：默认打印一行人类摘要（--json 反选原始 JSON）。其余为 browse
 # 命令（query/read/backlinks/doctor/backup/question），输出原样透传。
 ACTION_COMMANDS = {
@@ -88,8 +100,8 @@ ACTION_COMMANDS = {
 
 # 只用于人可读的帮助文本；名词顺序即帮助里的展示顺序。
 NOUN_HELP: dict[str, str] = {
-    "source": "采集与原件（add / video-inventory / video-frames / video-batch）",
-    "wiki": "wiki 生命周期（anchor / validate / audit / confirm / override / publish）",
+    "source": "采集与原件（add / update / list / retire / video-inventory / video-frames / video-batch）",
+    "wiki": "wiki 生命周期（anchor / validate / audit / confirm / override / publish / list / retire / deprecate）",
     "question": "题库（create / list / session / answer / review / queue / ...）",
     "query": "检索一体（<文本> / read / backlinks）",
     "build": "派生重建（projection / index / local-projection）",
@@ -146,8 +158,8 @@ def _summarize(obj: dict) -> str:
     bits: list[str] = []
     if "valid" in obj:
         bits.append("valid=" + ("true" if obj["valid"] else "false"))
-    if obj.get("state"):
-        bits.append("state=" + str(obj["state"]))
+    if obj.get("status"):
+        bits.append("status=" + str(obj["status"]))
     if obj.get("error_code"):
         bits.append("error=" + str(obj["error_code"]))
     for key in ("operation_id", "object_id", "source_id", "id"):
@@ -233,6 +245,9 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print(_noun_usage(noun), file=sys.stderr)
         return 2
+    # 泛型内容动词把名词（object_type）前置为首位置参数（kubectl 式 verb + resource）。
+    if command in _TYPED_CONTENT_COMMANDS and noun in _CONTENT_TYPE_NOUNS:
+        forward = [noun, *forward]
     return _dispatch(command, forward)
 
 

@@ -968,5 +968,59 @@ class QuestionTests(unittest.TestCase):
             self.assertIsNone(store.load("q-disabled-review")["review_state"])
 
 
+class QuestionRepositoryAliasTests(unittest.TestCase):
+    """ADR-0017 能力接口别名：read/exists/retire 与 source/wiki 动词对齐。"""
+
+    def _base(self):
+        return {
+            "id": "q-one",
+            "type": "single_choice",
+            "wiki_id": "wiki-one",
+            "claim_id": "claim-one",
+            "prompt": "2+2?",
+            "confidentiality": "internal",
+            "options": [{"id": "a", "text": "4"}, {"id": "b", "text": "5"}],
+            "correct_option_ids": ["a"],
+        }
+
+    def test_exists_reflects_presence_and_tolerates_bad_id(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            self.assertFalse(store.exists("q-one"))
+            self.assertFalse(store.exists("../escape"))  # 非法 id → False，不抛
+            store.create(self._base(), wiki_report=REPORT)
+            self.assertTrue(store.exists("q-one"))
+
+    def test_read_returns_envelope(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            missing = store.read("q-one")
+            self.assertEqual(missing["status"], "blocked")
+            self.assertEqual(missing["error_code"], "question_not_found")
+            store.create(self._base(), wiki_report=REPORT)
+            found = store.read("q-one")
+            self.assertEqual(found["status"], "ok")
+            self.assertEqual(found["schema_version"], "question-read/v1")
+            self.assertEqual(found["question"]["id"], "q-one")
+
+    def test_read_reports_corrupt_stored_question(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            store.create(self._base(), wiki_report=REPORT)
+            store._file("q-one").write_text("{ not json", encoding="utf-8")
+            corrupt = store.read("q-one")
+            self.assertEqual(corrupt["status"], "blocked")
+            self.assertEqual(corrupt["error_code"], "existing_question_invalid")
+
+    def test_retire_is_alias_of_delete(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            store.create(self._base(), wiki_report=REPORT)
+            result = store.retire("q-one")
+            self.assertEqual(result["status"], "ok")
+            self.assertTrue(result["deleted"])
+            self.assertFalse(store.exists("q-one"))
+
+
 if __name__ == "__main__":
     unittest.main()

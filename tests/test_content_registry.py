@@ -39,7 +39,7 @@ def _seed_public_wiki(root: Path) -> None:
 def test_registry_routes_known_object_type_read_and_list(tmp_path: Path):
     _seed_public_wiki(tmp_path)
     registry = ContentRegistry(tmp_path)
-    assert registry.object_types() == frozenset({"wiki"})
+    assert registry.object_types() == frozenset({"source", "wiki", "question"})
 
     read = registry.read("wiki", object_id="one")
     assert read["status"] == "ok"
@@ -50,6 +50,38 @@ def test_registry_routes_known_object_type_read_and_list(tmp_path: Path):
     listing = registry.list("wiki")
     assert listing["status"] == "ok"
     assert {item["object_id"] for item in listing["items"]} == {"one"}
+
+
+def test_registry_capability_discovery_probes_verbs(tmp_path: Path):
+    """K8s 式能力发现：每类恰好暴露其结构上实现的动词。"""
+    registry = ContentRegistry(tmp_path)
+    assert registry.verbs("source") == frozenset(
+        {"read", "list", "create", "update", "delete"}
+    )
+    assert registry.verbs("wiki") == frozenset({"read", "list", "delete"})
+    assert registry.verbs("question") == frozenset({"read", "list", "create", "delete"})
+
+
+def test_registry_unsupported_verb_is_blocked_capability_not_supported(tmp_path: Path):
+    registry = ContentRegistry(tmp_path)
+    # wiki 不经注册表 create（走通道 A）；question 不实现 update（走生命周期动词）。
+    wiki_create = registry.create("wiki", request={})
+    assert wiki_create["status"] == "blocked"
+    assert wiki_create["error_code"] == "capability_not_supported"
+    assert wiki_create["verb"] == "create"
+    q_update = registry.update("question", object_id="q-x", payload={})
+    assert q_update["error_code"] == "capability_not_supported"
+
+
+def test_registry_unknown_type_blocked_across_all_verbs(tmp_path: Path):
+    registry = ContentRegistry(tmp_path)
+    for envelope in (
+        registry.create("nope", request={}),
+        registry.update("nope", object_id="x", payload={}),
+        registry.delete("nope", object_id="x"),
+    ):
+        assert envelope["status"] == "blocked"
+        assert envelope["error_code"] == "object_type_not_found"
 
 
 def test_registry_read_miss_is_blocked_object_not_found(tmp_path: Path):

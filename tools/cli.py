@@ -158,6 +158,74 @@ def projection_backlinks_main(argv: list[str]) -> int:
     return 0 if result.get("status") == "ok" else 2
 
 
+def content_list_main(argv: list[str]) -> int:
+    """列举某 object_type 的内容对象（经 ContentRegistry 统一路由）。"""
+    from tools.skill_runtime import dispatch
+
+    parser = argparse.ArgumentParser(
+        description="List content objects of a type via ContentRegistry"
+    )
+    parser.add_argument("object_type", choices=["source", "wiki", "question"])
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--vault-id", default="public")
+    parser.add_argument("--domain")
+    parser.add_argument("--topic")
+    parser.add_argument("--skill")
+    parser.add_argument("--status", default="enabled")
+    args = parser.parse_args(argv)
+    payload: dict = {"object_type": args.object_type, "vault_id": args.vault_id}
+    for key in ("domain", "topic", "skill"):
+        value = getattr(args, key)
+        if value is not None:
+            payload[key] = value
+    if args.object_type == "question":
+        payload["status"] = args.status
+    result = dispatch("list", payload, root=args.root)
+    _print_json(result, compact=True)
+    return 0 if result.get("status") == "ok" else 2
+
+
+def content_retire_main(argv: list[str]) -> int:
+    """软删/退休一个内容对象（source=RESTRICT / wiki=CASCADE+CDR / question）。"""
+    from tools.skill_runtime import dispatch
+
+    parser = argparse.ArgumentParser(
+        description="Retire (soft-delete) a content object via ContentRegistry"
+    )
+    parser.add_argument("object_type", choices=["source", "wiki", "question"])
+    parser.add_argument("object_id")
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--vault-id", default="public")
+    args = parser.parse_args(argv)
+    result = dispatch(
+        "retire",
+        {
+            "object_type": args.object_type,
+            "vault_id": args.vault_id,
+            "object_id": args.object_id,
+        },
+        root=args.root,
+    )
+    _print_json(result, compact=True)
+    return 0 if result.get("status") == "ok" else 2
+
+
+def source_update_main(argv: list[str]) -> int:
+    """source 重导入更新（幂等 + 保留 evidence_items）；请求体为 JSON 文件。"""
+    from tools.skill_runtime import dispatch
+
+    parser = argparse.ArgumentParser(
+        description="Re-import a source (idempotent, preserves evidence_items)"
+    )
+    parser.add_argument("request_file", type=Path, help="JSON 采集请求文件")
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    args = parser.parse_args(argv)
+    request = json.loads(args.request_file.read_text(encoding="utf-8"))
+    result = dispatch("source_update", {"request": request}, root=args.root)
+    _print_json(result, compact=True)
+    return 0 if result.get("status") == "ok" else 2
+
+
 def backup_main(argv: list[str]) -> int:
     parser = argparse.ArgumentParser(description="Local backup status/manifest")
     parser.add_argument(
@@ -455,6 +523,9 @@ COMMANDS = {
     "index": index_main,
     "read": projection_read_main,
     "backlinks": projection_backlinks_main,
+    "list": content_list_main,
+    "retire": content_retire_main,
+    "source-update": source_update_main,
     "backup": backup_main,
     "question": question_main,
     "doctor": doctor_main,
@@ -481,6 +552,9 @@ commands:
   index            重建/恢复 projection SQLite 索引（F005）
   read             从 public projection 读取单个对象（F005）
   backlinks        从 public projection 列出反链（F005）
+  list             列举某 object_type 的内容对象（经 ContentRegistry）
+  retire           软删/退休内容对象（source RESTRICT / wiki CASCADE / question）
+  source-update    source 重导入更新（幂等 + 保留 evidence_items）
   backup           备份状态与 durable manifest（F012）
   question         Question 创建、作答与复习（F008）
   doctor           健康自检（projection/索引/sources/备份，ADR-0011 降级显性化）

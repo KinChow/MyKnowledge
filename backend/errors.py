@@ -35,9 +35,17 @@ _ERROR_TABLE: dict[str, tuple[int, str]] = {
     # read / validate 层
     "object_type_not_found": (404, "blocked"),
     "object_type_not_supported": (404, "blocked"),
+    # 内容注册表全动词路由：动词不支持=405（对齐 apiserver MethodNotAllowed）
+    "capability_not_supported": (405, "blocked"),
     "vault_unavailable": (404, "blocked"),
     "object_not_found": (404, "blocked"),
     "object_id_ambiguous": (409, "blocked"),
+    "object_unreadable": (422, "blocked"),
+    # 删除引用完整性（RESTRICT）：被引用时 409 冲突
+    "object_referenced": (409, "blocked"),
+    # source 增改（重导入委派 / 请求缺失）
+    "source_ingest_failed": (422, "blocked"),
+    "source_request_required": (422, "blocked"),
     # practice 层
     "question_not_found": (404, "blocked"),
     "session_not_found": (404, "blocked"),
