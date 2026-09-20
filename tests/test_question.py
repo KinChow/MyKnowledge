@@ -774,6 +774,52 @@ class QuestionTests(unittest.TestCase):
             store.create_session(size=3, domain="llm-inference")
             self.assertEqual(len(calls), 1)
 
+    def test_queue_builders_read_each_question_once(self):
+        """回归：队列构造不再二次读盘——每题在一次构造中只 load 一次。"""
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for index in range(5):
+                (source_dir / f"q-{index}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": f"q-load-{index}",
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": "serving",
+                            "concept_id": f"concept-{index % 2}",
+                            "skill": "recall",
+                            "prompt": f"Question {index}",
+                            "options": [
+                                {"id": "a", "text": "yes"},
+                                {"id": "b", "text": "no"},
+                            ],
+                            "correct_option_ids": ["a"],
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            self.assertEqual(store.import_path(source_dir)["imported"], 5)
+
+            real_load = store.load
+            counter = {"n": 0}
+
+            def counting_load(question_id: str) -> dict:
+                counter["n"] += 1
+                return real_load(question_id)
+
+            store.load = counting_load  # type: ignore[method-assign]
+            for builder in (
+                lambda: store.create_session(size=3, domain="llm-inference"),
+                lambda: store.review_queue(size=3, domain="llm-inference"),
+                lambda: store.error_queue(domain="llm-inference"),
+            ):
+                counter["n"] = 0
+                builder()
+                # 5 个题文件，一次扫描 = 5 次 load；旧实现是 list(5) + 逐候选二次读(≈2N)
+                self.assertEqual(counter["n"], 5)
+
     def test_create_session_prioritizes_due_then_errors_then_new(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))

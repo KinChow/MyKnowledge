@@ -630,18 +630,21 @@ class QuestionStore:
             if key in question
         }
 
-    def list(
+    def _scan_questions(
         self,
         *,
         domain: str | None = None,
         topic: str | None = None,
         skill: str | None = None,
         status: str = "enabled",
-    ) -> dict:
-        """List valid local questions with optional classification filters."""
-        if status not in {"enabled", "disabled", "all"}:
-            return contract.blocked(LIST_SCHEMA, "question_status_invalid")
-        items: list[dict] = []
+    ) -> tuple[list[dict], list[dict]]:
+        """单次读盘扫描题库：每个题文件只 ``load`` 一次（读+schema+hash 校验）。
+
+        返回 ``(questions, invalid)``——已按分类过滤的**完整**题对象（含
+        ``review_state`` 等调度态）与损坏题清单。``list`` 与三个队列构造器共用它，
+        消除"先 list 读一遍、再逐题 load 二次读盘"的 N+1（为题量增长做准备）。
+        """
+        questions: list[dict] = []
         invalid: list[dict] = []
         for path in sorted(self.paths.practice_questions.glob("*.json")):
             try:
@@ -663,7 +666,59 @@ class QuestionStore:
                 continue
             if skill is not None and question.get("skill") != skill:
                 continue
-            items.append(self._catalog_item(question))
+            questions.append(question)
+        return questions, invalid
+
+    def _latest_review_record(self, question_id: str) -> tuple[dict | None, bool]:
+        """复习日志（append-only JSONL）中最新一条属于该题的记录。
+
+        返回 ``(record | None, read_failed)``：文件不存在 → ``(None, False)``；
+        读取/解析失败 → ``(None, True)``（调用方据此决定告警或忽略）。
+        """
+        path = self.paths.practice_reviews(question_id)
+        if not path.exists():
+            return None, False
+        latest: dict | None = None
+        try:
+            for line in path.read_text(encoding="utf-8").splitlines():
+                record = json.loads(line)
+                if (
+                    isinstance(record, dict)
+                    and record.get("question_id") == question_id
+                    and isinstance(record.get("recorded_at"), (int, float))
+                    and (
+                        latest is None or record["recorded_at"] > latest["recorded_at"]
+                    )
+                ):
+                    latest = record
+        except (OSError, UnicodeError, json.JSONDecodeError):
+            return None, True
+        return latest, False
+
+    @staticmethod
+    def _is_error_result(result: Any) -> bool:
+        """最近一次判分是否算"错题"：已判分且 correct=False 或 score<1。"""
+        return (
+            isinstance(result, dict)
+            and result.get("state") == "graded"
+            and (result.get("correct") is False or result.get("score", 1) < 1)
+        )
+
+    def list(
+        self,
+        *,
+        domain: str | None = None,
+        topic: str | None = None,
+        skill: str | None = None,
+        status: str = "enabled",
+    ) -> dict:
+        """List valid local questions with optional classification filters."""
+        if status not in {"enabled", "disabled", "all"}:
+            return contract.blocked(LIST_SCHEMA, "question_status_invalid")
+        questions, invalid = self._scan_questions(
+            domain=domain, topic=topic, skill=skill, status=status
+        )
+        items = [self._catalog_item(question) for question in questions]
         return contract.ok(LIST_SCHEMA, total=len(items), items=items, invalid=invalid)
 
     def create_session(
@@ -677,15 +732,17 @@ class QuestionStore:
     ) -> dict:
         if size not in {3, 6, 10}:
             return contract.blocked(SESSION_SCHEMA, "session_size_invalid")
-        catalog = self.list(domain=domain, topic=topic, skill=skill)
-        if catalog["invalid"]:
+        questions, invalid = self._scan_questions(
+            domain=domain, topic=topic, skill=skill, status="enabled"
+        )
+        if invalid:
             return contract.blocked(
-                SESSION_SCHEMA, "question_catalog_invalid", invalid=catalog["invalid"]
+                SESSION_SCHEMA, "question_catalog_invalid", invalid=invalid
             )
         candidates = [
-            item
-            for item in catalog["items"]
-            if concept_id is None or item.get("concept_id") == concept_id
+            question
+            for question in questions
+            if concept_id is None or question.get("concept_id") == concept_id
         ]
         if not candidates:
             return contract.ok(
@@ -702,82 +759,55 @@ class QuestionStore:
         due_ids: set[str] = set()
         reviewed_ids: set[str] = set()
         error_ids: set[str] = set()
-        for item in candidates:
-            question = self.load(item["id"])
+        for question in candidates:
+            qid = question["id"]
             review_state = question.get("review_state")
             if isinstance(review_state, dict):
-                reviewed_ids.add(item["id"])
+                reviewed_ids.add(qid)
                 try:
                     due = datetime.fromisoformat(str(review_state.get("due")))
                     if due.tzinfo is None:
                         due = due.replace(tzinfo=UTC)
                     if due <= now:
-                        due_ids.add(item["id"])
+                        due_ids.add(qid)
                 except (TypeError, ValueError):
                     pass
-            review_path = self.paths.practice_reviews(item["id"])
-            latest = None
-            if review_path.exists():
-                try:
-                    for line in review_path.read_text(encoding="utf-8").splitlines():
-                        record = json.loads(line)
-                        if (
-                            isinstance(record, dict)
-                            and record.get("question_id") == item["id"]
-                            and isinstance(record.get("recorded_at"), (int, float))
-                            and (
-                                latest is None
-                                or record["recorded_at"] > latest["recorded_at"]
-                            )
-                        ):
-                            latest = record
-                except (OSError, UnicodeError, json.JSONDecodeError):
-                    latest = None
+            latest, _ = self._latest_review_record(qid)
             result = latest.get("result") if isinstance(latest, dict) else None
-            if (
-                isinstance(result, dict)
-                and result.get("state") == "graded"
-                and (result.get("correct") is False or result.get("score", 1) < 1)
-            ):
-                error_ids.add(item["id"])
+            if self._is_error_result(result):
+                error_ids.add(qid)
 
         def stable(items: list[dict]) -> list[dict]:
-            return sorted(
-                items, key=lambda item: (str(item.get("concept_id", "")), item["id"])
-            )
+            return sorted(items, key=lambda q: (str(q.get("concept_id", "")), q["id"]))
 
-        due_items = stable([item for item in candidates if item["id"] in due_ids])
+        due_items = stable([q for q in candidates if q["id"] in due_ids])
         error_items = stable(
-            [
-                item
-                for item in candidates
-                if item["id"] in error_ids and item["id"] not in due_ids
-            ]
+            [q for q in candidates if q["id"] in error_ids and q["id"] not in due_ids]
         )
         new_items = stable(
             [
-                item
-                for item in candidates
-                if item["id"] not in reviewed_ids and item["id"] not in error_ids
+                q
+                for q in candidates
+                if q["id"] not in reviewed_ids and q["id"] not in error_ids
             ]
         )
         fallback_items = stable(
             [
-                item
-                for item in candidates
-                if item["id"] not in due_ids
-                and item["id"] not in error_ids
-                and item["id"] in reviewed_ids
+                q
+                for q in candidates
+                if q["id"] not in due_ids
+                and q["id"] not in error_ids
+                and q["id"] in reviewed_ids
             ]
         )
-        candidates = due_items + error_items + new_items + fallback_items
+        ordered = due_items + error_items + new_items + fallback_items
         selected: list[dict] = []
         concept_counts: dict[str, int] = {}
-        for item in candidates:
-            concept = str(item.get("concept_id", ""))
+        for question in ordered:
+            concept = str(question.get("concept_id", ""))
             if concept_counts.get(concept, 0) >= 2:
                 continue
-            selected.append(item)
+            selected.append(question)
             concept_counts[concept] = concept_counts.get(concept, 0) + 1
             if len(selected) == size:
                 break
@@ -807,7 +837,7 @@ class QuestionStore:
             SESSION_SCHEMA,
             changed=True,
             session=session,
-            items=selected,
+            items=[self._catalog_item(question) for question in selected],
             question_count=len(selected),
         )
 
@@ -915,61 +945,35 @@ class QuestionStore:
     ) -> dict:
         if not 1 <= limit <= 50:
             return contract.blocked(ERROR_QUEUE_SCHEMA, "error_queue_limit_invalid")
-        catalog = self.list(
-            domain=domain,
-            topic=topic,
-            skill=skill,
-            status="enabled",
+        questions, invalid = self._scan_questions(
+            domain=domain, topic=topic, skill=skill, status="enabled"
         )
-        if catalog["invalid"]:
+        if invalid:
             return contract.blocked(
-                ERROR_QUEUE_SCHEMA,
-                "question_catalog_invalid",
-                invalid=catalog["invalid"],
+                ERROR_QUEUE_SCHEMA, "question_catalog_invalid", invalid=invalid
             )
-        candidates = {
-            item["id"]
-            for item in catalog["items"]
-            if concept_id is None or item.get("concept_id") == concept_id
-        }
         errors: list[dict] = []
         warnings: list[dict] = []
-        for question_id in candidates:
-            path = self.paths.practice_reviews(question_id)
-            latest = None
-            if not path.exists():
+        for question in questions:
+            if concept_id is not None and question.get("concept_id") != concept_id:
                 continue
-            try:
-                for line in path.read_text(encoding="utf-8").splitlines():
-                    record = json.loads(line)
-                    if (
-                        isinstance(record, dict)
-                        and record.get("question_id") == question_id
-                        and isinstance(record.get("recorded_at"), (int, float))
-                        and (
-                            latest is None
-                            or record["recorded_at"] > latest["recorded_at"]
-                        )
-                    ):
-                        latest = record
-            except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            qid = question["id"]
+            latest, read_failed = self._latest_review_record(qid)
+            if read_failed:
                 warnings.append(
                     {
                         "code": "review_log_invalid",
-                        "question_id": question_id,
-                        "detail": type(exc).__name__,
+                        "question_id": qid,
+                        "detail": "review_log_unreadable",
                     }
                 )
                 continue
             result = latest.get("result") if isinstance(latest, dict) else None
-            if not isinstance(result, dict) or result.get("state") != "graded":
+            if not self._is_error_result(result):
                 continue
-            if result.get("correct") is not False and result.get("score", 1) >= 1:
-                continue
-            question = self.load(question_id)
             errors.append(
                 {
-                    "question_id": question_id,
+                    "question_id": qid,
                     "last_error_at": latest["recorded_at"],
                     "last_result": {
                         key: result[key]
@@ -999,31 +1003,25 @@ class QuestionStore:
     ) -> dict:
         if size not in {3, 6, 10}:
             return contract.blocked(REVIEW_QUEUE_SCHEMA, "queue_size_invalid")
-        catalog = self.list(
-            domain=domain,
-            topic=topic,
-            skill=skill,
-            status="enabled",
+        questions, invalid = self._scan_questions(
+            domain=domain, topic=topic, skill=skill, status="enabled"
         )
-        if catalog["invalid"]:
+        if invalid:
             return contract.blocked(
-                REVIEW_QUEUE_SCHEMA,
-                "question_catalog_invalid",
-                invalid=catalog["invalid"],
+                REVIEW_QUEUE_SCHEMA, "question_catalog_invalid", invalid=invalid
             )
         candidates = [
-            item
-            for item in catalog["items"]
-            if concept_id is None or item.get("concept_id") == concept_id
+            question
+            for question in questions
+            if concept_id is None or question.get("concept_id") == concept_id
         ]
         now = datetime.now(UTC)
         due: list[tuple[datetime, dict]] = []
         new: list[dict] = []
-        for item in candidates:
-            question = self.load(item["id"])
+        for question in candidates:
             review_state = question.get("review_state")
             if not isinstance(review_state, dict):
-                new.append(item)
+                new.append(question)
                 continue
             due_value = review_state.get("due")
             try:
@@ -1033,17 +1031,25 @@ class QuestionStore:
             except (TypeError, ValueError):
                 continue
             if parsed_due <= now:
-                due.append((parsed_due, item))
+                due.append((parsed_due, question))
         due.sort(key=lambda pair: (pair[0], pair[1]["id"]))
-        new.sort(key=lambda item: (str(item.get("concept_id", "")), item["id"]))
+        new.sort(key=lambda q: (str(q.get("concept_id", "")), q["id"]))
         selected: list[dict] = [
-            {"queue_kind": "due", "due": due_value.isoformat(), "question": item}
-            for due_value, item in due[:size]
+            {
+                "queue_kind": "due",
+                "due": due_value.isoformat(),
+                "question": self._catalog_item(question),
+            }
+            for due_value, question in due[:size]
         ]
         if include_new and len(selected) < size:
             selected.extend(
-                {"queue_kind": "new", "due": None, "question": item}
-                for item in new[: size - len(selected)]
+                {
+                    "queue_kind": "new",
+                    "due": None,
+                    "question": self._catalog_item(question),
+                }
+                for question in new[: size - len(selected)]
             )
         return contract.ok(
             REVIEW_QUEUE_SCHEMA,
