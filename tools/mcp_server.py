@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import json
 import os
 import time
 from pathlib import Path
@@ -28,7 +29,11 @@ def create_server(
 ):
     """Build an MCP server bound to one explicit checkout."""
     try:
-        from mcp.server.fastmcp import FastMCP
+        # mcp 2.x：FastMCP 更名为 MCPServer（`from mcp.server import MCPServer`），
+        # call_tool 返回单个 CallToolResult。工具返回 CallToolResult，把领域信封
+        # 同时给到 structured_content（结构化客户端）与 JSON 文本内容（纯文本客户端）。
+        from mcp.server import MCPServer
+        from mcp.types import CallToolResult, TextContent
     except ImportError as exc:  # pragma: no cover
         raise RuntimeError("mcp_unavailable") from exc
     checkout = Path(root).resolve()
@@ -56,7 +61,18 @@ def create_server(
         "question_answer",
         "question_review",
     }
-    server = FastMCP(
+
+    def _result(envelope: dict[str, Any]) -> CallToolResult:
+        """领域信封 → CallToolResult：不置 is_error——blocked/unavailable 是
+        领域 status 轴的正常返回，不是 MCP 工具级异常（单一 status 轴，见 contract）。"""
+        return CallToolResult(
+            content=[
+                TextContent(type="text", text=json.dumps(envelope, ensure_ascii=False))
+            ],
+            structured_content=envelope,
+        )
+
+    server = MCPServer(
         "myknowledge",
         instructions=(
             "Controlled MyKnowledge actions. Writes (write/source_ingest) land "
@@ -73,10 +89,15 @@ def create_server(
         action: Action,
         payload: dict[str, Any] | None = None,
         capability_token: str | None = None,
-    ) -> dict[str, Any]:
+    ):
+        # 无返回注解：`from __future__ import annotations` 把注解变字符串，mcp 2.x
+        # 会对着模块 globals 反解，而 CallToolResult 是 create_server 内的局部导入、
+        # 反解不到；工具直接返回 CallToolResult，无需注解即被原样采用。
         if action not in ALLOWED_ACTIONS:
-            return contract.blocked(
-                "skill-dispatch/v1", "skill_action_not_allowed", action=action
+            return _result(
+                contract.blocked(
+                    "skill-dispatch/v1", "skill_action_not_allowed", action=action
+                )
             )
         if expected_token and action in protected_actions:
             # 单实现校验核（tools.capability）；MCP 侧将错误元组翻译为 blocked 结果
@@ -89,12 +110,14 @@ def create_server(
             )
             if result is not None:
                 code, _retryable, _next = result
-                return contract.blocked(
-                    "skill-dispatch/v1",
-                    code,
-                    next_action="provide the configured MCP capability token",
+                return _result(
+                    contract.blocked(
+                        "skill-dispatch/v1",
+                        code,
+                        next_action="provide the configured MCP capability token",
+                    )
                 )
-        return dispatch(action, payload or {}, root=checkout)
+        return _result(dispatch(action, payload or {}, root=checkout))
 
     return server
 

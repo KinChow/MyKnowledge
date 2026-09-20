@@ -70,19 +70,19 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
         tools = await server.list_tools()
         assert len(tools) == 1
         assert tools[0].name == "myknowledge_dispatch"
-        assert "ask" in tools[0].inputSchema["properties"]["action"]["enum"]
-        assert "shell" not in tools[0].inputSchema["properties"]["action"]["enum"]
+        assert "ask" in tools[0].input_schema["properties"]["action"]["enum"]
+        assert "shell" not in tools[0].input_schema["properties"]["action"]["enum"]
         import pytest
 
         with pytest.raises(Exception, match="Input should be"):
             await server.call_tool(
                 "myknowledge_dispatch", {"action": "shell", "payload": {}}
             )
-        _, result = await server.call_tool(
+        result = await server.call_tool(
             "myknowledge_dispatch",
             {"action": "vault_check", "payload": {}},
         )
-        assert result["schema_version"] == "vault-check/v1"
+        assert result.structured_content["schema_version"] == "vault-check/v1"
 
     asyncio.run(exercise())
 
@@ -99,16 +99,16 @@ def test_mcp_server_enforces_configured_capability_for_sensitive_actions(
 
     async def exercise():
         server = create_server(tmp_path, capability_token="mcp-secret")
-        _, denied = await server.call_tool(
+        denied = await server.call_tool(
             "myknowledge_dispatch",
             {"action": "vault_check", "payload": {}},
         )
-        assert denied["error_code"] == "capability_token_required"
-        _, allowed = await server.call_tool(
+        assert denied.structured_content["error_code"] == "capability_token_required"
+        allowed = await server.call_tool(
             "myknowledge_dispatch",
             {"action": "vault_check", "payload": {}, "capability_token": "mcp-secret"},
         )
-        assert allowed["schema_version"] == "vault-check/v1"
+        assert allowed.structured_content["schema_version"] == "vault-check/v1"
 
     asyncio.run(exercise())
 
@@ -118,7 +118,7 @@ def test_mcp_server_expires_capability_token(tmp_path: Path):
         server = create_server(
             tmp_path, capability_token="short-lived", capability_token_ttl_seconds=-1
         )
-        _, expired = await server.call_tool(
+        expired = await server.call_tool(
             "myknowledge_dispatch",
             {
                 "action": "vault_check",
@@ -126,7 +126,7 @@ def test_mcp_server_expires_capability_token(tmp_path: Path):
                 "capability_token": "short-lived",
             },
         )
-        assert expired["error_code"] == "capability_token_expired"
+        assert expired.structured_content["error_code"] == "capability_token_expired"
 
     asyncio.run(exercise())
 
