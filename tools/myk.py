@@ -34,7 +34,8 @@ NOUNS: dict[str, dict[str | None, str]] = {
         "video-frames": "video-frames",
         "video-batch": "video-batch",
         "list": "list",
-        "retire": "retire",
+        "delete": "delete",
+        "purge": "purge",
         "update": "source-update",
     },
     "wiki": {
@@ -45,8 +46,9 @@ NOUNS: dict[str, dict[str | None, str]] = {
         "override": "override",
         "publish": "release",
         "list": "list",
-        "retire": "retire",
-        "deprecate": "retire",
+        "delete": "delete",
+        "deprecate": "delete",
+        "purge": "purge",
     },
     "query": {
         None: "query",
@@ -78,7 +80,7 @@ ACTOR_ID_COMMANDS = {"confirm", "release", "override"}
 # porcelain 是 noun-first，故把名词（object_type）前置注入到 forward——对齐 kubectl 的
 # ``get <resource>`` / ``delete <resource> <name>``。question 走自己的 plumbing（passthrough）。
 _CONTENT_TYPE_NOUNS = {"source", "wiki"}
-_TYPED_CONTENT_COMMANDS = {"list", "retire"}
+_TYPED_CONTENT_COMMANDS = {"list", "delete", "purge"}
 
 # 单结果 action 命令：默认打印一行人类摘要（--json 反选原始 JSON）。其余为 browse
 # 命令（query/read/backlinks/doctor/backup/question），输出原样透传。
@@ -100,8 +102,8 @@ ACTION_COMMANDS = {
 
 # 只用于人可读的帮助文本；名词顺序即帮助里的展示顺序。
 NOUN_HELP: dict[str, str] = {
-    "source": "采集与原件（add / update / list / retire / video-inventory / video-frames / video-batch）",
-    "wiki": "wiki 生命周期（anchor / validate / audit / confirm / override / publish / list / retire / deprecate）",
+    "source": "采集与原件（add / update / list / delete / purge / video-inventory / video-frames / video-batch）",
+    "wiki": "wiki 生命周期（anchor / validate / audit / confirm / override / publish / list / delete / deprecate / purge）",
     "question": "题库（create / list / session / answer / review / queue / ...）",
     "query": "检索一体（<文本> / read / backlinks）",
     "build": "派生重建（projection / index / local-projection）",

@@ -185,12 +185,12 @@ def content_list_main(argv: list[str]) -> int:
     return 0 if result.get("status") == "ok" else 2
 
 
-def content_retire_main(argv: list[str]) -> int:
-    """软删/退休一个内容对象（source=RESTRICT / wiki=CASCADE+CDR / question）。"""
+def content_delete_main(argv: list[str]) -> int:
+    """软删（可恢复）一个内容对象（source=RESTRICT / wiki=CASCADE+CDR / question）。"""
     from tools.skill_runtime import dispatch
 
     parser = argparse.ArgumentParser(
-        description="Retire (soft-delete) a content object via ContentRegistry"
+        description="Soft-delete a content object via ContentRegistry"
     )
     parser.add_argument("object_type", choices=["source", "wiki", "question"])
     parser.add_argument("object_id")
@@ -198,7 +198,32 @@ def content_retire_main(argv: list[str]) -> int:
     parser.add_argument("--vault-id", default="public")
     args = parser.parse_args(argv)
     result = dispatch(
-        "retire",
+        "delete",
+        {
+            "object_type": args.object_type,
+            "vault_id": args.vault_id,
+            "object_id": args.object_id,
+        },
+        root=args.root,
+    )
+    _print_json(result, compact=True)
+    return 0 if result.get("status") == "ok" else 2
+
+
+def content_purge_main(argv: list[str]) -> int:
+    """硬删（永久）一个内容对象：须先 delete 且过宽限期（source/wiki）。"""
+    from tools.skill_runtime import dispatch
+
+    parser = argparse.ArgumentParser(
+        description="Purge (permanently delete after grace) a content object"
+    )
+    parser.add_argument("object_type", choices=["source", "wiki", "question"])
+    parser.add_argument("object_id")
+    parser.add_argument("--root", type=Path, default=Path.cwd())
+    parser.add_argument("--vault-id", default="public")
+    args = parser.parse_args(argv)
+    result = dispatch(
+        "purge",
         {
             "object_type": args.object_type,
             "vault_id": args.vault_id,
@@ -524,7 +549,8 @@ COMMANDS = {
     "read": projection_read_main,
     "backlinks": projection_backlinks_main,
     "list": content_list_main,
-    "retire": content_retire_main,
+    "delete": content_delete_main,
+    "purge": content_purge_main,
     "source-update": source_update_main,
     "backup": backup_main,
     "question": question_main,
@@ -553,7 +579,8 @@ commands:
   read             从 public projection 读取单个对象（F005）
   backlinks        从 public projection 列出反链（F005）
   list             列举某 object_type 的内容对象（经 ContentRegistry）
-  retire           软删/退休内容对象（source RESTRICT / wiki CASCADE / question）
+  delete           软删（可恢复）内容对象（source RESTRICT / wiki CASCADE / question）
+  purge            硬删（永久）内容对象：须先 delete 且过宽限期（source/wiki）
   source-update    source 重导入更新（幂等 + 保留 evidence_items）
   backup           备份状态与 durable manifest（F012）
   question         Question 创建、作答与复习（F008）

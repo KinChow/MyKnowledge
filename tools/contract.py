@@ -139,6 +139,10 @@ _CRUD_CODES: frozenset[str] = frozenset(
         # RESTRICT/CASCADE/定位/vault 相关码复用 _LOCATE_CODES（object_referenced/
         # object_not_found/invalid_object_ref/source_unreadable/vault_unavailable 等）。
         "source_ingest_failed",
+        # 两阶段硬删（purge）前置门禁：必须先软删、且过宽限期，物理回收失败归伞码。
+        "not_deleted",
+        "retention_not_elapsed",
+        "purge_failed",
     }
 )  # agent-B: source/wiki repository（CRUD 能力层）
 

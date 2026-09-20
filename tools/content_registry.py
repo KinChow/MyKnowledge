@@ -22,7 +22,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from .content_repository import Creatable, Deletable, Listable, Readable, Updatable
+from .content_repository import (
+    Creatable,
+    Deletable,
+    Listable,
+    Purgeable,
+    Readable,
+    Updatable,
+)
 from .contract import blocked, ok
 from .projection import PublicProjectionStore
 
@@ -33,6 +40,7 @@ LIST_SCHEMA = "object-list/v1"
 CREATE_SCHEMA = "content-create/v1"
 UPDATE_SCHEMA = "content-update/v1"
 DELETE_SCHEMA = "content-delete/v1"
+PURGE_SCHEMA = "content-purge/v1"
 
 # 能力函数签名：``(root, **kwargs) -> 统一信封 dict``。领域实现自带 status，
 # 本模块只在"路由未命中/动词不支持"时构造 blocked，不改写命中路径的返回。
@@ -45,6 +53,7 @@ _VERBS: dict[str, tuple[type, str]] = {
     "create": (Creatable, CREATE_SCHEMA),
     "update": (Updatable, UPDATE_SCHEMA),
     "delete": (Deletable, DELETE_SCHEMA),
+    "purge": (Purgeable, PURGE_SCHEMA),
 }
 
 
@@ -58,6 +67,7 @@ class ContentCapability:
     create: CapabilityFn | None = None
     update: CapabilityFn | None = None
     delete: CapabilityFn | None = None
+    purge: CapabilityFn | None = None
 
     def verb(self, name: str) -> CapabilityFn | None:
         return getattr(self, name)
@@ -92,6 +102,12 @@ def _source_delete(root: Path, *, vault_id: str = "public", object_id: str, **_:
     from .source_repository import SourceRepository
 
     return SourceRepository(root).delete(vault_id, object_id)
+
+
+def _source_purge(root: Path, *, vault_id: str = "public", object_id: str, **_: Any):
+    from .source_repository import SourceRepository
+
+    return SourceRepository(root).purge(vault_id, object_id)
 
 
 # ---- wiki 适配器：读/列举 scope 感知（public→projection，免 token；private→repo） ----
@@ -144,6 +160,12 @@ def _wiki_delete(root: Path, *, vault_id: str = "public", object_id: str, **_: A
     return WikiRepository(root).delete(vault_id, object_id)
 
 
+def _wiki_purge(root: Path, *, vault_id: str = "public", object_id: str, **_: Any):
+    from .wiki_repository import WikiRepository
+
+    return WikiRepository(root).purge(vault_id, object_id)
+
+
 # ---- question 适配器：单一本地 practice 根（ObjectRef 约定 vault_id="local"） ----
 def _question_read(root: Path, *, object_id: str, **_: Any):
     from .question import QuestionStore
@@ -185,7 +207,7 @@ def _question_create(
 def _question_delete(root: Path, *, object_id: str, **_: Any):
     from .question import QuestionStore
 
-    return QuestionStore(root).retire(object_id)
+    return QuestionStore(root).delete(object_id)
 
 
 def _probe(object_type: str, repo_cls: type, adapters: dict[str, CapabilityFn]):
@@ -217,12 +239,18 @@ def _default_capabilities() -> tuple[ContentCapability, ...]:
                 "create": _source_create,
                 "update": _source_update,
                 "delete": _source_delete,
+                "purge": _source_purge,
             },
         ),
         _probe(
             "wiki",
             WikiRepository,
-            {"read": _wiki_read, "list": _wiki_list, "delete": _wiki_delete},
+            {
+                "read": _wiki_read,
+                "list": _wiki_list,
+                "delete": _wiki_delete,
+                "purge": _wiki_purge,
+            },
         ),
         _probe(
             "question",
@@ -295,3 +323,6 @@ class ContentRegistry:
 
     def delete(self, object_type: str, **kwargs: Any) -> dict[str, Any]:
         return self._route("delete", object_type, kwargs)
+
+    def purge(self, object_type: str, **kwargs: Any) -> dict[str, Any]:
+        return self._route("purge", object_type, kwargs)

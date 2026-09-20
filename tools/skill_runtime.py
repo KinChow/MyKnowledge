@@ -69,7 +69,8 @@ ACTION_FIELDS = {
     "question_answer": {"question_id", "response", "scoring_mode"},
     "question_review": {"question_id", "rating"},
     "list": {"object_type", "vault_id", "domain", "topic", "skill", "status"},
-    "retire": {"object_type", "vault_id", "object_id"},
+    "delete": {"object_type", "vault_id", "object_id"},
+    "purge": {"object_type", "vault_id", "object_id"},
     "source_update": {"request"},
 }
 
@@ -411,9 +412,18 @@ def _handle_list(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
     )
 
 
-def _handle_retire(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
-    """统一软删/退休：source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。"""
+def _handle_delete(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """统一软删（可恢复）：source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。"""
     return ContentRegistry(root).delete(
+        str(payload.get("object_type", "")),
+        vault_id=payload.get("vault_id", "public"),
+        object_id=str(payload.get("object_id", "")),
+    )
+
+
+def _handle_purge(root: Path, payload: dict[str, Any]) -> dict[str, Any]:
+    """统一硬删（永久）：必须先 delete 且过宽限期，再物理回收（source/wiki）。"""
+    return ContentRegistry(root).purge(
         str(payload.get("object_type", "")),
         vault_id=payload.get("vault_id", "public"),
         object_id=str(payload.get("object_id", "")),
@@ -460,7 +470,8 @@ _HANDLERS: dict[str, Callable[[Path, dict[str, Any]], dict[str, Any]]] = {
     "question_answer": _handle_question_answer,
     "question_review": _handle_question_review,
     "list": _handle_list,
-    "retire": _handle_retire,
+    "delete": _handle_delete,
+    "purge": _handle_purge,
     "source_update": _handle_source_update,
 }
 ALLOWED_ACTIONS = frozenset(_HANDLERS)

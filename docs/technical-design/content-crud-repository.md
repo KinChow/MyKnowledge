@@ -188,6 +188,32 @@ Updatable/Deletable`（对标 `rest.Getter/Lister/Creater/Updater/GracefulDelete
   plumbing `tools.cli` 增 `list`/`retire`/`source-update`，porcelain `myk` 增
   `source list/retire/update`、`wiki list/retire/deprecate`（object_type 前置注入，kubectl 式）。
 
+### 12.2 两阶段删除：delete（软删）+ purge（硬删）
+
+命名复用成熟概念、不造新词（**Azure Key Vault** `delete`→`purge`、**IMAP** `\Deleted`→`EXPUNGE`、
+**git** `rm`→`gc --prune`）。软删的对外动词统一为 `delete`（弃用旧词 `retire`）：
+
+- **delete（软删，可恢复）**：向 `audit/retire/<type>.jsonl` append 一条 `event=delete` 墓碑（带
+  `at` 时间戳），不物理删盘；source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。
+- **purge（硬删，永久）**：`Purgeable` 能力，仅 source/wiki 暴露（question 尚不支持=
+  `capability_not_supported`）。前置门禁：必须**先 delete** 且**过宽限期**
+  （`purge_precondition`：`not_deleted` / `retention_not_elapsed`；宽限默认 14 天，
+  对齐 git `gc.pruneExpire`，可配 `policy.delete.purge_grace_days`）→ RESTRICT 复查 →
+  物理回收工作树（source 删 `content/sources/<domain>/<id>/` 目录，含 LFS 原件；wiki 删 `.md`）→
+  append `event=purge` 墓碑（幂等）。
+- **本轮不动内容寻址的 archive/manifest**（append-only、可能去重共享）：其物理回收随
+  `git lfs prune`（回收本地 LFS 大对象）与历史擦除 runbook（`git filter-repo` + force push，
+  破坏性、需显式授权）处理，见 §12.3。
+- **入口命名对齐**：plumbing/registry/HTTP = `delete`(软) + `purge`(硬)；porcelain `myk` 人用面
+  = `delete`/`purge`（`wiki deprecate` 为软删同义词）。
+
+### 12.3 物理体积回收 runbook（archive/LFS/历史）
+
+purge 只回收工作树；要真正降低 `.git`/LFS 占用需单独维护动作：
+1. `git lfs prune`：回收本地不再被检出/近期提交引用的 LFS 原件（可从 remote 重拉）。
+2. 彻底抹除历史（合规/密钥泄漏）：`git filter-repo` 剔除路径 + `git gc --prune=now` + **force push**——
+   破坏性、改写历史，必须显式授权，不做日常操作。
+
 ## 13. 未决问题
 
 - 边界错误码要不要统一为一套（`object_not_found`）并让后端/resolution 一起改契约，还是保留各边界既有码只在内部统一实现？（本设计默认后者，AC-G1/G2 守旧契约。）

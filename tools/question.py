@@ -1098,8 +1098,8 @@ class QuestionStore:
 
     # ---- ADR-0017 能力接口别名：与 source/wiki Repository 的动词对齐 ----
     # question 不是 vault 作用域的 managed 对象（单一 practice 根，无 object_ref），
-    # 故不继承 ManagedObjectRepository；这里只补齐 read/exists/retire 三个能力层别名，
-    # 使三类实体共享同一组动词，行为不变（read 信封化 load，retire 委托 delete）。
+    # 故不继承 ManagedObjectRepository；这里补齐 read/exists 两个能力层别名，
+    # 使三类实体共享同一组读动词，行为不变（read 信封化 load）。delete 沿用既有方法。
     def exists(self, question_id: str) -> bool:
         """题目文件是否存在（能力探测用；不做 schema/hash 校验）。非法 id 视为不存在。"""
         try:
@@ -1128,10 +1128,6 @@ class QuestionStore:
                 reason=str(exc),
             )
         return contract.ok(READ_SCHEMA, question_id=question_id, question=question)
-
-    def retire(self, question_id: str) -> dict:
-        """delete↔retire 命名对齐：软删语义不变（有复习历史降 disable，否则删除）。"""
-        return self.delete(question_id)
 
     def _score_cloze(self, question: dict, response: Any) -> dict:
         answer = question.get("answer") or {}

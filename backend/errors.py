@@ -43,6 +43,10 @@ _ERROR_TABLE: dict[str, tuple[int, str]] = {
     "object_unreadable": (422, "blocked"),
     # 删除引用完整性（RESTRICT）：被引用时 409 冲突
     "object_referenced": (409, "blocked"),
+    # 两阶段硬删 purge 前置门禁：未先软删 / 未过宽限期 → 409；物理回收失败 → 422
+    "not_deleted": (409, "blocked"),
+    "retention_not_elapsed": (409, "blocked"),
+    "purge_failed": (422, "blocked"),
     # source 增改（重导入委派 / 请求缺失）
     "source_ingest_failed": (422, "blocked"),
     "source_request_required": (422, "blocked"),

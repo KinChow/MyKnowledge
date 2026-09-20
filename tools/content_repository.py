@@ -55,6 +55,56 @@ class Deletable(Protocol):
     def delete(self, *args: Any, **kwargs: Any) -> dict: ...
 
 
+@runtime_checkable
+class Purgeable(Protocol):
+    def purge(self, *args: Any, **kwargs: Any) -> dict: ...
+
+
+# 两阶段硬删（purge）的宽限期：软删（delete）后需过 N 天才允许物理回收。
+# 默认 14 天，对齐 git gc 的 prune 宽限期（``gc.pruneExpire="2 weeks ago"``）。
+DEFAULT_PURGE_GRACE_DAYS = 14
+
+
+def purge_grace_days(root: Path) -> int:
+    from .policy import policy_value
+
+    value = policy_value(
+        root, "delete", "purge_grace_days", default=DEFAULT_PURGE_GRACE_DAYS
+    )
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return DEFAULT_PURGE_GRACE_DAYS
+
+
+def purge_precondition(
+    paths: RepoPaths,
+    object_type: str,
+    object_id: str,
+    root: Path,
+    *,
+    grace_days: int | None = None,
+) -> str | None:
+    """两阶段硬删前置门禁（Azure soft-delete→purge / IMAP \\Deleted→EXPUNGE 语义）。
+
+    返回 ``None``=可 purge；``"already"``=已 purge（幂等 noop）；否则为 error_code：
+    ``not_deleted``（未先软删）/ ``retention_not_elapsed``（未过宽限期或删除时间不可判定）。
+    """
+    import time
+
+    from . import retire_ledger
+
+    if retire_ledger.is_purged(paths, object_type, object_id):
+        return "already"
+    if not retire_ledger.is_retired(paths, object_type, object_id):
+        return "not_deleted"
+    at = retire_ledger.deleted_at(paths, object_type, object_id)
+    grace = purge_grace_days(root) if grace_days is None else grace_days
+    if at is None or (time.time() - at) < grace * 86400:
+        return "retention_not_elapsed"
+    return None
+
+
 class ObjectResolutionError(ValueError):
     """结构化定位失败。
 

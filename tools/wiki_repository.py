@@ -17,6 +17,7 @@ from .content_repository import (
     ManagedObjectRepository,
     ObjectResolutionError,
     locate_managed_object,
+    purge_precondition,
 )
 from .paths import RepoPaths
 from .question import QuestionStore
@@ -62,6 +63,49 @@ class WikiRepository(ManagedObjectRepository):
     # deprecate 与 delete 在本能力层同义（软删 + CASCADE），提供别名以贴合调用语义。
     def deprecate(self, vault_id: str, object_id: str) -> dict:
         return self.delete(vault_id, object_id)
+
+    # ---- P：purge（硬删）——过宽限期后物理回收 wiki 正文文件 ----
+    def purge(
+        self, vault_id: str, object_id: str, *, grace_days: int | None = None
+    ) -> dict:
+        """两阶段硬删：必须先 delete（软删/CASCADE）且过宽限期，再物理删 wiki `.md`。
+
+        CASCADE（禁用绑定 question + 写 CDR）在软删阶段已完成；purge 只回收正文文件。
+        archive/manifest 本轮不动（见 SourceRepository.purge 说明）。
+        """
+        schema = "wiki-purge/v1"
+        ref = self._ref(vault_id, object_id)
+        try:
+            owner = self._owner(vault_id)
+        except ObjectResolutionError as exc:
+            return self._error(schema, exc)
+        paths = RepoPaths(owner)
+        cond = purge_precondition(
+            paths, self.object_type, object_id, self.root, grace_days=grace_days
+        )
+        if cond == "already":
+            return contract.ok(schema, changed=False, purged=True, object_ref=ref)
+        if cond is not None:
+            return contract.blocked(schema, cond, object_ref=ref)
+        try:
+            path = locate_managed_object(owner, self.object_type, object_id)
+        except ObjectResolutionError:
+            path = None
+        try:
+            if path is not None:
+                path.unlink()
+        except OSError as exc:
+            return contract.blocked(schema, "purge_failed", reason=str(exc))
+        retire_ledger.append_purge(
+            paths,
+            self.object_type,
+            vault_id=vault_id,
+            object_id=object_id,
+            reason="purge_requested",
+        )
+        return contract.ok(
+            schema, changed=path is not None, purged=True, object_ref=ref
+        )
 
     # ---- helpers ----
     @staticmethod

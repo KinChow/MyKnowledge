@@ -56,9 +56,9 @@ def test_registry_capability_discovery_probes_verbs(tmp_path: Path):
     """K8s 式能力发现：每类恰好暴露其结构上实现的动词。"""
     registry = ContentRegistry(tmp_path)
     assert registry.verbs("source") == frozenset(
-        {"read", "list", "create", "update", "delete"}
+        {"read", "list", "create", "update", "delete", "purge"}
     )
-    assert registry.verbs("wiki") == frozenset({"read", "list", "delete"})
+    assert registry.verbs("wiki") == frozenset({"read", "list", "delete", "purge"})
     assert registry.verbs("question") == frozenset({"read", "list", "create", "delete"})
 
 

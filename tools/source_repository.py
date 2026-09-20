@@ -9,6 +9,7 @@
 
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 
 from . import contract, retire_ledger
@@ -16,6 +17,7 @@ from .content_repository import (
     ManagedObjectRepository,
     ObjectResolutionError,
     locate_managed_object,
+    purge_precondition,
 )
 from .front_matter import FrontMatter
 from .ingest.source_ingestor import SourceIngestor
@@ -116,6 +118,56 @@ class SourceRepository(ManagedObjectRepository):
             changed=True,
             retired=True,
             object_ref=self._ref(vault_id, object_id),
+        )
+
+    # ---- P：purge（硬删）——过宽限期后物理回收 source 工作树目录（含 LFS 原件） ----
+    def purge(
+        self, vault_id: str, object_id: str, *, grace_days: int | None = None
+    ) -> dict:
+        """两阶段硬删：必须先 delete（软删）且过宽限期，再物理删 `content/sources/<domain>/<id>/`。
+
+        对齐 git ``rm``→``gc --prune=<grace>``：软删=墓碑（可恢复），purge=过期回收。
+        内容寻址的 archive/manifest（快照/原始归档）本轮不动（append-only、可能被去重共享），
+        其物理回收随 `git lfs prune` / 历史擦除 runbook 处理。
+        """
+        schema = "source-purge/v1"
+        ref = self._ref(vault_id, object_id)
+        try:
+            owner = self._owner(vault_id)
+        except ObjectResolutionError as exc:
+            return self._error(schema, exc)
+        paths = RepoPaths(owner)
+        cond = purge_precondition(
+            paths, self.object_type, object_id, self.root, grace_days=grace_days
+        )
+        if cond == "already":
+            return contract.ok(schema, changed=False, purged=True, object_ref=ref)
+        if cond is not None:
+            return contract.blocked(schema, cond, object_ref=ref)
+        # RESTRICT 复查：软删后若仍被活跃 wiki 引用，禁止物理回收（证据悬挂）。
+        referrers = self._active_referrers(owner, object_id)
+        if referrers:
+            return contract.blocked(
+                schema, "object_referenced", referenced_by=referrers
+            )
+        try:
+            path = locate_managed_object(owner, self.object_type, object_id)
+        except ObjectResolutionError:
+            path = None
+        try:
+            if path is not None:
+                shutil.rmtree(path.parent)
+        except OSError as exc:
+            return contract.blocked(schema, "purge_failed", reason=str(exc))
+        retire_ledger.append_purge(
+            paths,
+            self.object_type,
+            vault_id=vault_id,
+            object_id=object_id,
+            reason="purge_requested",
+        )
+        return contract.ok(
+            schema, changed=path is not None, purged=True, object_ref=ref
         )
 
     # ---- helpers ----

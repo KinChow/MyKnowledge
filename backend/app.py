@@ -385,6 +385,30 @@ def create_app(
             )
         return result
 
+    @app.post("/api/object/{vault_id}/{object_type}/{object_id}/purge")
+    def purge_object(
+        vault_id: str,
+        object_type: str,
+        object_id: str,
+        x_myknowledge_capability: str | None = Header(default=None),
+        x_myknowledge_audience: str | None = Header(default=None),
+    ) -> dict:
+        """永久硬删（两阶段）：须先 DELETE（软删）且过宽限期，再物理回收（source/wiki）。"""
+        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        try:
+            result = ContentRegistry(state.root).purge(
+                object_type, vault_id=vault_id, object_id=object_id
+            )
+        except (OSError, ValueError) as exc:
+            raise api_error("object_not_found", "purge", "check object_ref") from exc
+        if result.get("status") != "ok":
+            raise api_error(
+                result["error_code"],
+                "purge",
+                "soft-delete first and wait out retention",
+            )
+        return result
+
     @app.post("/api/source/update")
     def update_source(
         request: Any = Body(...),  # noqa: B008 - FastAPI 依赖注入的既定写法

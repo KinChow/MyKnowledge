@@ -1012,15 +1012,6 @@ class QuestionRepositoryAliasTests(unittest.TestCase):
             self.assertEqual(corrupt["status"], "blocked")
             self.assertEqual(corrupt["error_code"], "existing_question_invalid")
 
-    def test_retire_is_alias_of_delete(self):
-        with tempfile.TemporaryDirectory() as d:
-            store = QuestionStore(Path(d))
-            store.create(self._base(), wiki_report=REPORT)
-            result = store.retire("q-one")
-            self.assertEqual(result["status"], "ok")
-            self.assertTrue(result["deleted"])
-            self.assertFalse(store.exists("q-one"))
-
 
 if __name__ == "__main__":
     unittest.main()
