@@ -61,6 +61,41 @@ def test_normalize_scheme_allowlist_blocks_local_reads():
     assert e2.value.code == "locator_scheme_not_allowed"
 
 
+def test_normalize_unified_rejects_unknown_top_level_field():
+    """统一契约拒绝未知顶层字段（防 domian/media_type 之类拼写被静默忽略）。"""
+    with pytest.raises(LocatorError) as exc:
+        normalize_source_request(
+            {
+                "locator": "https://x/a",
+                "kind": "doc",
+                "domian": "tools",  # 拼错的 domain
+            }
+        )
+    assert exc.value.code == "locator_invalid"
+    # 附加参数放进 options 则放行
+    ok = normalize_source_request(
+        {
+            "locator": "https://x/a",
+            "kind": "doc",
+            "domain": "tools",
+            "options": {"collection": "c1"},
+        }
+    )
+    assert ok["source_type"] == "doc" and ok["collection"] == "c1"
+
+
+def test_backend_create_source_rejects_unknown_field(tmp_path: Path):
+    client = TestClient(create_app(root=tmp_path, capability_token="token"))
+    headers = {"X-MyKnowledge-Capability": "token"}
+    resp = client.post(
+        "/api/source",
+        headers=headers,
+        json={"locator": "https://x/a", "kind": "doc", "domian": "tools"},
+    )
+    assert resp.status_code == 422
+    assert resp.json()["detail"]["code"] == "locator_invalid"
+
+
 def test_registry_create_accepts_unified_inline(tmp_path: Path):
     result = ContentRegistry(tmp_path).create(
         "source",

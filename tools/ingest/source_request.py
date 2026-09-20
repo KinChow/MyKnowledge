@@ -22,6 +22,9 @@ from urllib.request import url2pathname
 _FETCH_KINDS = {"blog", "doc", "book", "contest", "pr"}
 # 归一化认识的 URI scheme。
 _KNOWN_SCHEMES = {"http", "https", "file", "data"}
+# 统一创建契约的合法顶层字段（见 content-crud-repository.md §12）；其余一律拒，
+# 不接受"被接受但被忽略"的入参（与 backend/schemas.py 的 extra=forbid 一致）。
+_UNIFIED_KEYS = {"locator", "content", "kind", "domain", "source_id", "options"}
 
 
 class LocatorError(ValueError):
@@ -35,6 +38,15 @@ class LocatorError(ValueError):
 def _is_unified(request: dict) -> bool:
     """统一契约：带 locator/content/kind 之一；否则视为既有内部 request。"""
     return any(key in request for key in ("locator", "content", "kind"))
+
+
+def _reject_unknown_unified_keys(request: dict) -> None:
+    """统一契约下拒绝未知顶层字段（拼错的 domain、错放顶层的 media_type 等）。
+
+    否则会被静默忽略、悄悄退化成 doc/None domain。附加参数应放进 ``options``。
+    """
+    if set(request) - _UNIFIED_KEYS:
+        raise LocatorError("locator_invalid")
 
 
 def normalize_source_request(
@@ -53,6 +65,7 @@ def normalize_source_request(
             raise LocatorError("locator_scheme_not_allowed")
         return request
 
+    _reject_unknown_unified_keys(request)
     base: dict[str, Any] = {"domain": request.get("domain")}
     if request.get("source_id"):
         base["source_id"] = request["source_id"]
