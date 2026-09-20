@@ -19,6 +19,7 @@ import os
 import time
 import uuid
 import zlib
+from datetime import datetime
 from pathlib import Path
 from typing import NamedTuple, Protocol
 
@@ -46,6 +47,11 @@ from .video_transcript import parse_subtitles, render_transcript
 
 # 公共出口统一走 tools.contract 信封（TD §14）；schema 名遵循 name/vN 约束。
 _INGEST_SCHEMA = "source-ingest/v1"
+
+
+def _now_local_iso() -> str:
+    """本地时区、精确到秒的 ISO 8601 抓取时间戳（对齐系统设计 retrieval.fetched_at）。"""
+    return datetime.now().astimezone().isoformat(timespec="seconds")
 
 
 def _transcript_options(provenance: dict | None) -> dict:
@@ -509,6 +515,10 @@ class SourceIngestor:
                     if record.get("resolved_url")
                     else {}
                 ),
+                # 外部来源记录采集时间（个人库里"这篇是什么时候存的"）；
+                # personal-note 是自撰内容，无采集语义，不记。快照哈希只覆盖正文，
+                # 该时间戳不影响内容寻址/幂等。
+                **({} if personal else {"fetched_at": _now_local_iso()}),
             },
             "snapshot_sha256": snapshot_hash,
             "extractor": record["extractor"],

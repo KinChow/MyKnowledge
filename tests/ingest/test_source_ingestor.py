@@ -325,6 +325,51 @@ class SourceIngestorTests(unittest.TestCase):
             self.assertEqual(_options(root, "note-src"), hash_canonical({}))
             self.assertNotEqual(_options(root, "html-src"), _options(root, "note-src"))
 
+    def test_fetch_source_records_fetched_at_note_does_not(self):
+        """外部来源记录 retrieval.fetched_at（ISO 8601），personal-note 不记。"""
+        from datetime import datetime
+
+        from tools.front_matter import FrontMatter
+
+        def _retrieval(root: Path, source_id: str) -> dict:
+            path = (
+                root / "content" / "sources" / "tools" / source_id / f"{source_id}.md"
+            )
+            metadata, _ = FrontMatter.parse(path.read_text(encoding="utf-8"))
+            return metadata.get("retrieval") or {}
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ingestor = SourceIngestor(root)
+
+            class _FakeFetcher:
+                def fetch(self, url: str) -> tuple[bytes, str, str]:
+                    return (b"<html><body>web body</body></html>", url, "text/html")
+
+            ingestor._acquirers["fetch"].fetcher = _FakeFetcher()
+            ingestor.ingest(
+                {
+                    "source_type": "doc",
+                    "domain": "tools",
+                    "url": "https://example.com/a",
+                    "source_id": "ts-web",
+                }
+            )
+            ingestor.ingest(
+                {
+                    "source_type": "personal-note",
+                    "domain": "tools",
+                    "origin": "personal",
+                    "body": "自撰笔记",
+                    "source_id": "ts-note",
+                }
+            )
+            fetched_at = _retrieval(root, "ts-web").get("fetched_at")
+            self.assertIsInstance(fetched_at, str)
+            # 可被解析为带时区的 ISO 8601（不崩即认为格式正确）
+            self.assertIsNotNone(datetime.fromisoformat(fetched_at).tzinfo)
+            self.assertNotIn("fetched_at", _retrieval(root, "ts-note"))
+
     def test_personal_note_at_path_reads_the_file_as_body(self):
         """`--personal-note @path` 必须把文件正文当 body，而不是把路径当正文。
 
