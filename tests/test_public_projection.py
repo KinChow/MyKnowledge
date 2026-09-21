@@ -277,3 +277,60 @@ def test_release_input_binds_route_and_body_path_not_only_body(tmp_path: Path):
             operation_id="op-one",
         )
         assert changed != baseline, field
+
+
+def test_release_input_invariant_to_stale_ruleset(tmp_path: Path):
+    """AC-F003-015：规则集漂移把 pass 标为 stale_ruleset，但不使人工确认失效。
+
+    实测动机：release_input 曾直接绑定易变的 validation_state，规范文档措辞一改，
+    全部已签发布确认就 release_input_mismatch，myk build projection 重生成为 0 项。
+    release_input 必须对 stale_ruleset 归一（视同底层 pass），使既有确认在规则集
+    漂移后仍然匹配。
+    """
+    from tools.release_input import compute as _compute
+
+    wiki = tmp_path / "content" / "wiki"
+    wiki.mkdir(parents=True, exist_ok=True)
+    (wiki / "one.md").write_text("# One\n", encoding="utf-8")
+    passed = {
+        "valid": True,
+        "object_ref": {
+            "vault_id": "public",
+            "object_type": "wiki",
+            "object_id": "one",
+        },
+        "derived": {
+            "public_publishable": True,
+            "public_release_ready": True,
+            "validation_state": "pass",
+            "strength": "attested",
+        },
+        "hashes": {"content_sha256": "sha256:one", "evidence_sha256": "sha256:e1"},
+    }
+    stale = json.loads(json.dumps(passed))
+    stale["derived"]["validation_state"] = "stale_ruleset"
+
+    at_pass = PublicProjectionGenerator(tmp_path, FakeValidator({"one": passed}))
+    at_stale = PublicProjectionGenerator(tmp_path, FakeValidator({"one": stale}))
+    cand_pass, _ = at_pass.release_candidate("one")
+    cand_stale, _ = at_stale.release_candidate("one")
+    input_pass, _ = _compute(
+        tmp_path,
+        item=cand_pass["item"],
+        content_sha256="sha256:one",
+        operation_id="op-one",
+    )
+    input_stale, _ = _compute(
+        tmp_path,
+        item=cand_stale["item"],
+        content_sha256="sha256:one",
+        operation_id="op-one",
+    )
+    assert input_stale == input_pass
+
+    (tmp_path / "release" / "public-confirmations").mkdir(parents=True)
+    write_event(
+        tmp_path, _event(tmp_path, "one", "sha256:one", "sha256:e1", at_pass.validator)
+    )
+    result = at_stale.generate()
+    assert result["item_count"] == 1, result["skipped"]

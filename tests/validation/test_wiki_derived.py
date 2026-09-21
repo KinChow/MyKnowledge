@@ -108,6 +108,9 @@ class DerivedTests(WikiTestCase):
         )
         report = WikiValidator(root).validate(wiki_path)
         self.assertEqual(report["derived"]["validation_state"], "stale_ruleset")
+        # AC-F003-015：规则集漂移标 stale_ruleset，但沿用底层 pass 判据，
+        # strength 不得降级（否则 release_input 随规则集措辞漂移，projection 归零）。
+        self.assertEqual(report["derived"]["strength"], "attested")
         # F003：不绑定当前 hash 的报告视为未运行（旧内容不得驱动 verified）
         (report_dir / "attestation1.json").write_text(
             json.dumps({"verdict": "pass", "claim_verdicts": {"c1": "supported"}}),

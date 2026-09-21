@@ -504,10 +504,15 @@ def compute_strength(
         return "attested"
     if evidence_state == "corroborated":
         return "corroborated"
-    if validation_state == "pass" and report:
+    if validation_state in {"pass", "stale_ruleset"} and report:
         # owner 2026-09-01 决策：`verified` 保留给多来源互证；单一来源的审计通过
         # 落 `attested`（已核实的转述，未交叉验证）。读者据此区分"一本书说的"
         # 与"多个独立来源都说的"。
+        # AC-F003-015：规则集漂移把 pass 标记为 stale_ruleset（可见、不阻断、可重跑，
+        # 人工确认仍有效）。publishable 门禁的 validation_ok 已把 stale_ruleset 视同
+        # 通过；strength 若在此把已发布页降级为 None，既与门禁自相矛盾，也让
+        # release_input（含 strength）随规则集措辞变更而漂移，导致 projection 重生成
+        # 为 0 项。故 strength 沿用底层 pass 判据，规则集漂移不改发布相关派生态。
         sources = {
             target.get("source_id")
             for target in resolution.get("resolved_targets") or []

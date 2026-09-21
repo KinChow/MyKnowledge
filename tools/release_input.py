@@ -33,7 +33,19 @@ def public_metadata(item: dict[str, Any], root: Path) -> dict[str, Any]:
         schemas_value(root, "public_projection", "public_metadata_fields", default=[])
         or []
     )
-    return {field: item.get(field) for field in sorted(fields)}
+    meta = {field: item.get(field) for field in sorted(fields)}
+    # AC-F003-015：规则集漂移（规范文档章节重排/措辞变更 → extract_sha256 →
+    # ruleset_sha256 变化）会把既有 `pass` 结论标记为 `stale_ruleset`，但规范明确
+    # “人工确认只绑定 (content, evidence)，规则集变化不使人工确认失效”。若把这个
+    # 易变的审计态直接喂进 release_input，任何规范文档改动都会让全部已签发布确认
+    # 失配（release_input_mismatch），projection 因此重生成为 0 项（确认态漂移）。
+    # 这里把 `stale_ruleset` 归一回其底层判据 `pass`（见 validation/derived.py：
+    # stale_ruleset 仅在 verdict==pass 且规则集过期时产生），使 release_input 对
+    # 规则集漂移不变。归一只作用于 release_input 计算，不改 manifest 展示态与 F003
+    # 的可见性/重跑语义。
+    if meta.get("validation_state") == "stale_ruleset":
+        meta["validation_state"] = "pass"
+    return meta
 
 
 def lineage_commitment(root: Path, operation_id: str) -> str:
