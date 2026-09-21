@@ -386,8 +386,11 @@ const domainOptions = [
 				const copy = document.getElementById('practice-entry-copy');
 				if (!nav || !entry || !status || !copy) return;
 				const pageExists = await practicePageAvailable(baseUrl);
+				// 公开站（无 practice 页、无本地后端）不应无限轮询 /local-api/health，
+				// 否则每个访客标签页每 3s 打一次 404。仅在 practice 页存在时才监听。
+				if (!pageExists) return;
 				watchLocalApi((health) => {
-					const ready = pageExists && health.available;
+					const ready = health.available;
 					nav.hidden = !ready;
 					entry.hidden = !ready;
 					if (!ready) return;
