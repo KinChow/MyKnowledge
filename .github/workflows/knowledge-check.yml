@@ -12,7 +12,7 @@ on:
       - 'frontend/**'
       - 'tests/**'
       - 'scripts/**'
-      - 'queries/public/**'
+      - 'var/queries/public/**'
       - 'release/public-confirmations/**'
       - 'pyproject.toml'
       - 'requirements.txt'
@@ -29,7 +29,7 @@ on:
       - 'frontend/**'
       - 'tests/**'
       - 'scripts/**'
-      - 'queries/public/**'
+      - 'var/queries/public/**'
       - 'release/public-confirmations/**'
       - 'pyproject.toml'
       - 'requirements.txt'
@@ -95,11 +95,11 @@ jobs:
         id: projection
         shell: bash
         run: |
-          if [[ -f ../queries/public/manifest.json ]]; then
+          if [[ -f ../var/queries/public/manifest.json ]]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "No queries/public/manifest.json; projection validation is deferred until migration creates it."
+            echo "No var/queries/public/manifest.json; projection validation is deferred until migration creates it."
           fi
       - name: Validate public projection and release gates
         if: steps.projection.outputs.present == 'true'
