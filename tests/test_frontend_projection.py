@@ -52,7 +52,8 @@ def test_homepage_practice_entry_is_gated_and_probes_health():
     assert "practicePageAvailable" in home
     assert "watchLocalApi" in home
     assert "hidden" in home
-    assert "pageExists && health.available" in home
+    # 门禁：practice 页不存在（公开站）时直接 return，不再无限轮询 /local-api/health。
+    assert "if (!pageExists) return" in home
     assert "/local-api" in helper
     assert "health/v1" in helper
     assert "watchLocalApi" in helper
