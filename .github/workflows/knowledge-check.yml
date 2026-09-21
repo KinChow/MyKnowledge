@@ -48,7 +48,13 @@ jobs:
       matrix:
         python-version: ['3.12', '3.14']
     steps:
+      # 官方资料 PDF 走 Git LFS（见 .gitattributes: /content/sources/**/*.pdf）。
+      # 默认 lfs:false 时工作区只有指针文件，其 sha256 与 SHA256SUMS 记录的真实
+      # 文件哈希不符 → “Verify pinned official course materials”必失败。
+      # 只有 3.12 leg 跑该校验，故仅在 3.12 拉取 LFS，避免 3.14 leg 多余带宽。
       - uses: actions/checkout@v4
+        with:
+          lfs: ${{ matrix.python-version == '3.12' }}
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
