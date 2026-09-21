@@ -22,7 +22,7 @@ const base = import.meta.env.BASE_URL;
 			<section class="mk-practice-heading">
 				<div>
 					<p class="mk-practice-kicker">PERSONAL PRACTICE</p>
-					<h1>大模型知识练习</h1>
+					<h1>知识练习</h1>
 					<p>按领域选择一个短回合，完成后立即查看反馈。</p>
 				</div>
 				<div class="mk-practice-status" id="connection-status" aria-live="polite">未连接</div>
@@ -191,7 +191,32 @@ const base = import.meta.env.BASE_URL;
 				submit.className = 'mk-practice-primary';
 				submit.type = 'submit';
 				submit.textContent = '提交答案';
-				form.append(submit);
+				// 跳过：不判分、不记录，直接推进到下一题（会话模式下同步 current_index 进度）。
+				const skip = document.createElement('button');
+				skip.className = 'mk-practice-skip';
+				skip.type = 'button';
+				skip.textContent = '跳过';
+				skip.addEventListener('click', async () => {
+					if (state.answered) return;
+					skip.disabled = true;
+					submit.disabled = true;
+					const nextIndex = state.index + 1;
+					if (state.sessionId) {
+						try {
+							await request(`/practice/sessions/${encodeURIComponent(state.sessionId)}/progress`, {
+								current_index: nextIndex,
+								completed: nextIndex === state.items.length,
+							}, { method: 'POST' });
+							if (nextIndex === state.items.length) sessionStorage.removeItem(sessionStorageKey);
+						} catch (error) { /* 进度保存失败不阻塞跳过 */ }
+					}
+					state.index += 1;
+					renderQuestion();
+				});
+				const submitRow = document.createElement('div');
+				submitRow.className = 'mk-practice-submit-row';
+				submitRow.append(submit, skip);
+				form.append(submitRow);
 				const feedback = document.createElement('div');
 				feedback.className = 'mk-practice-feedback';
 				feedback.setAttribute('aria-live', 'polite');
@@ -212,6 +237,7 @@ const base = import.meta.env.BASE_URL;
 					try {
 						const result = await request(`/practice/${encodeURIComponent(item.id)}/answer`, {}, { method: 'POST', body: JSON.stringify(response), headers: { 'Content-Type': 'application/json' } });
 						state.answered = true;
+						skip.disabled = true;
 						// 判分结论下沉在 result.grading（state/score/correct）；顶层没有 correct/score。
 						const grading = result.grading || {};
 						const isGraded = grading.state === 'graded';
@@ -232,7 +258,12 @@ const base = import.meta.env.BASE_URL;
 							feedback.append(answer);
 						} else if (result.correct_option_ids?.length) {
 							const answer = document.createElement('div');
-							answer.textContent = `正确选项：${result.correct_option_ids.join('、')}`;
+							// 选项展示已随机化，字母 id（a/b/…）不再对应显示顺序，改为直接展示正确选项文本，避免歧义。
+							const correctTexts = result.correct_option_ids.map((id) => {
+								const opt = (item.options || []).find((o) => o.id === id);
+								return opt ? opt.text : id;
+							});
+							answer.textContent = `正确答案：${correctTexts.join('；')}`;
 							feedback.append(answer);
 						}
 						if (result.wiki_refs?.length) {
@@ -350,7 +381,8 @@ const base = import.meta.env.BASE_URL;
 			}
 			async function startSession() {
 				try {
-					const result = await request('/practice/sessions', { size: 6, domain: $('domain').value, topic: $('topic').value.trim() }, { method: 'POST' });
+					// shuffle=true：在 FSRS 优先级桶（到期→错题→新题）内随机取题，避免每次开局都按 (concept_id,id) 固定顺序、"总做同几道"。
+					const result = await request('/practice/sessions', { size: 6, shuffle: true, domain: $('domain').value, topic: $('topic').value.trim() }, { method: 'POST' });
 					state.items = result.items || [];
 					state.sessionId = result.session?.id || null;
 					if (state.sessionId) sessionStorage.setItem(sessionStorageKey, state.sessionId);
@@ -384,7 +416,10 @@ const base = import.meta.env.BASE_URL;
 	</body>
 </html>
 
-<style>
+<!-- is:global：本页题目表单（选项/反馈/质量/复习等）由客户端 JS 动态 createElement 生成，
+     不带 Astro 的 scoped 作用域标记，scoped 样式无法命中会退化为 inline 原生控件。
+     本块选择器均以 .mk-practice-* 命名（本页专属），置为全局安全且能覆盖动态节点。 -->
+<style is:global>
 	.mk-practice-page { min-width: 320px; min-height: 100vh; margin: 0; background: var(--mk-bg); color: var(--mk-ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; }
 	.mk-practice-topbar { display: flex; align-items: center; gap: 1.5rem; min-height: 60px; padding: 0 1.5rem; border-bottom: 1px solid var(--mk-line); background: var(--mk-surface); }
 	.mk-practice-brand { font-weight: 700; text-decoration: none; }
@@ -427,6 +462,9 @@ const base = import.meta.env.BASE_URL;
 	.mk-practice-option { display: flex; align-items: center; gap: .7rem; padding: .85rem; border: 1px solid var(--mk-line); border-radius: 5px; cursor: pointer; }
 	.mk-practice-option:hover { border-color: var(--mk-accent); background: var(--mk-accent-soft); }
 	.mk-practice-answer > input { min-height: 44px; padding: 0 .75rem; border: 1px solid var(--mk-line-strong); border-radius: 5px; background: var(--mk-bg); color: var(--mk-ink); }
+	.mk-practice-submit-row { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; }
+	.mk-practice-skip { min-height: 38px; padding: 0 .8rem; border: 1px solid var(--mk-line-strong); border-radius: 5px; background: var(--mk-surface); color: var(--mk-ink); cursor: pointer; }
+	.mk-practice-skip:hover { border-color: var(--mk-accent); }
 	.mk-practice-feedback { display: grid; gap: .7rem; min-height: 1.4rem; color: var(--mk-muted); font-size: .85rem; }
 	.mk-practice-review-actions { display: flex; flex-wrap: wrap; gap: .45rem; }
 	.mk-practice-review-actions button { min-height: 34px; padding: 0 .7rem; border: 1px solid var(--mk-line-strong); border-radius: 5px; background: var(--mk-surface); color: var(--mk-ink); cursor: pointer; }
