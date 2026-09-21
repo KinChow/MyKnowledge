@@ -7,7 +7,13 @@ import { fileURLToPath } from 'node:url';
 const frontendDir = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(frontendDir, '..');
 
+// 项目页部署在 https://kinchow.github.io/<repo>/ 子路径下，需要 base 前缀。
+// 本地开发与私有构建默认根路径 '/'；CI 发布项目页时用 PUBLIC_BASE_PATH 注入（如 /MyKnowledge/）。
+// 站内链接与资源已统一走 import.meta.env.BASE_URL，设置 base 后整体生效，无需改组件。
+const base = process.env.PUBLIC_BASE_PATH || '/';
+
 export default defineConfig({
+	base,
 	output: 'static',
 	vite: {
 		server: {

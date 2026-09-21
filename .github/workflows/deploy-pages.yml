@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+# 参照 model-structure-viewer 的做法：本仓库用自己的工作流把 frontend/ 构建产物
+# 发布到项目页 https://kinchow.github.io/MyKnowledge/，主站只外链，不再内嵌产物。
+#
+# 一次性前置（仓库管理员在 GitHub 网页端操作，工作流用默认 github.token 无法代劳）：
+#   Settings → Pages → Build and deployment → Source 选 "GitHub Actions"。
+#
+# 安全：npm run build == build:release，内含 leak-gate（input-tree/staging/dist 三段）
+# 与 validate-build，且会剔除 practice 私有路由——只有过闸的公开子集会被发布。
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      # 项目页子路径。若将来把仓库改名或更换项目页地址，改这一处即可。
+      PUBLIC_BASE_PATH: /MyKnowledge/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
