@@ -12,6 +12,7 @@ import hashlib
 import importlib.metadata
 import json
 import os
+import random
 import time
 import unicodedata
 import uuid
@@ -729,6 +730,8 @@ class QuestionStore:
         topic: str | None = None,
         concept_id: str | None = None,
         skill: str | None = None,
+        shuffle: bool = False,
+        seed: int | None = None,
     ) -> dict:
         if size not in {3, 6, 10}:
             return contract.blocked(SESSION_SCHEMA, "session_size_invalid")
@@ -777,21 +780,31 @@ class QuestionStore:
             if self._is_error_result(result):
                 error_ids.add(qid)
 
-        def stable(items: list[dict]) -> list[dict]:
+        # 默认按 (concept_id, id) 稳定排序，重复调用顺序一致；shuffle=True 时在每个
+        # 优先级桶内做可选随机（seed 可复现）。保留 due→errors→new 的桶优先级，
+        # 只打乱桶内次序——既满足"乱序做题"，又不破坏 FSRS 到期题优先的调度语义。
+        # S311: 顺序打乱与安全无关，用普通伪随机即可（可选 seed 复现）。
+        rng = random.Random(seed) if shuffle else None  # noqa: S311
+
+        def order(items: list[dict]) -> list[dict]:
+            if rng is not None:
+                shuffled = list(items)
+                rng.shuffle(shuffled)
+                return shuffled
             return sorted(items, key=lambda q: (str(q.get("concept_id", "")), q["id"]))
 
-        due_items = stable([q for q in candidates if q["id"] in due_ids])
-        error_items = stable(
+        due_items = order([q for q in candidates if q["id"] in due_ids])
+        error_items = order(
             [q for q in candidates if q["id"] in error_ids and q["id"] not in due_ids]
         )
-        new_items = stable(
+        new_items = order(
             [
                 q
                 for q in candidates
                 if q["id"] not in reviewed_ids and q["id"] not in error_ids
             ]
         )
-        fallback_items = stable(
+        fallback_items = order(
             [
                 q
                 for q in candidates
@@ -826,6 +839,7 @@ class QuestionStore:
             "question_ids": [item["id"] for item in selected],
             "current_index": 0,
             "completed": False,
+            "order": "random" if shuffle else "smart",
         }
         atomic_write(
             self.paths.practice_session(session_id),

@@ -862,6 +862,62 @@ class QuestionTests(unittest.TestCase):
                 ["q-priority-0", "q-priority-1", "q-priority-2"],
             )
 
+    def test_create_session_optional_shuffle(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            source_dir = Path(d) / "imports"
+            source_dir.mkdir()
+            for index in range(6):
+                (source_dir / f"q-{index}.json").write_text(
+                    json.dumps(
+                        {
+                            "id": f"q-shuffle-{index}",
+                            "type": "single_choice",
+                            "domain": "llm-inference",
+                            "topic": "serving",
+                            "concept_id": f"concept-{index}",
+                            "skill": "recall",
+                            "prompt": f"Question {index}",
+                            "options": [
+                                {"id": "a", "text": "correct"},
+                                {"id": "b", "text": "wrong"},
+                            ],
+                            "correct_option_ids": ["a"],
+                        }
+                    ),
+                    encoding="utf-8",
+                )
+            self.assertEqual(store.import_path(source_dir)["imported"], 6)
+            stable_ids = [f"q-shuffle-{i}" for i in range(6)]
+
+            # Default (shuffle=False) stays deterministic/stable across calls.
+            first = store.create_session(size=6)
+            second = store.create_session(size=6)
+            self.assertEqual(first["session"]["question_ids"], stable_ids)
+            self.assertEqual(
+                first["session"]["question_ids"], second["session"]["question_ids"]
+            )
+            self.assertEqual(first["session"]["order"], "smart")
+
+            # Shuffle keeps the same selection set but can reorder it.
+            orders = [
+                store.create_session(size=6, shuffle=True, seed=seed)["session"][
+                    "question_ids"
+                ]
+                for seed in range(10)
+            ]
+            for ids in orders:
+                self.assertEqual(sorted(ids), stable_ids)
+            self.assertTrue(any(ids != stable_ids for ids in orders))
+
+            # A fixed seed is reproducible.
+            seeded = store.create_session(size=6, shuffle=True, seed=7)
+            repeat = store.create_session(size=6, shuffle=True, seed=7)
+            self.assertEqual(
+                seeded["session"]["question_ids"], repeat["session"]["question_ids"]
+            )
+            self.assertEqual(seeded["session"]["order"], "random")
+
     def test_update_session_persists_progress_and_completion(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))

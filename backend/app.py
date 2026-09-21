@@ -542,6 +542,8 @@ def create_app(
         topic: str | None = Query(default=None, max_length=128),
         concept_id: str | None = Query(default=None, max_length=128),
         skill: str | None = Query(default=None, max_length=128),
+        shuffle: bool = Query(default=False),
+        seed: int | None = Query(default=None),
         scope: str = "local",
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
@@ -553,6 +555,8 @@ def create_app(
             topic=topic,
             concept_id=concept_id,
             skill=skill,
+            shuffle=shuffle,
+            seed=seed,
         )
         return {**result, "schema_version": "practice-session/v1"}
 
