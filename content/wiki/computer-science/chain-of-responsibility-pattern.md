@@ -3,6 +3,7 @@ aliases:
 - 责任链
 - 职责链模式
 - Chain of Responsibility Pattern
+- chain-of-responsibility
 confidentiality: public
 domain: computer-science
 evidence:

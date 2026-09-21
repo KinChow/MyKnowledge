@@ -1,6 +1,7 @@
 ---
 aliases:
 - source-4ed827b8730d
+- 正交四原则
 confidentiality: public
 domain: computer-science
 evidence:
