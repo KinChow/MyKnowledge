@@ -212,3 +212,15 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }
+
+/* Client-rendered Mermaid diagrams (see components/MermaidRenderer.astro). */
+.mk-mermaid {
+	display: flex;
+	justify-content: center;
+	margin: 1rem 0;
+	overflow-x: auto;
+}
+.mk-mermaid svg {
+	max-width: 100%;
+	height: auto;
+}

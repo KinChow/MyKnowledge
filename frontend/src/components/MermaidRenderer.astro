@@ -1,0 +1,64 @@
+---
+// Client-side Mermaid renderer.
+//
+// Wiki content ships fenced ```mermaid blocks that Starlight/Expressive Code
+// renders as highlighted <pre data-language="mermaid"> code. This component
+// reconstructs the original source from those blocks and replaces them with a
+// rendered <svg> on the client, so we avoid a build-time headless-browser
+// dependency (rehype-mermaid/playwright). Mermaid itself is dynamically
+// imported only when a page actually contains a mermaid block.
+---
+
+<script>
+	function currentTheme() {
+		return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'default';
+	}
+
+	// Expressive Code splits the source into per-line `.ec-line` nodes. Join
+	// their text to recover the raw mermaid definition; fall back to textContent.
+	function extractSource(pre) {
+		const lines = pre.querySelectorAll('.ec-line');
+		if (lines.length) {
+			return Array.from(lines, (line) => line.textContent ?? '').join('\n');
+		}
+		return pre.textContent ?? '';
+	}
+
+	let mermaidPromise;
+	let counter = 0;
+
+	async function renderAll() {
+		const blocks = document.querySelectorAll(
+			'pre[data-language="mermaid"]:not([data-mermaid-done]), code.language-mermaid:not([data-mermaid-done])',
+		);
+		if (!blocks.length) return;
+
+		mermaidPromise ??= import('mermaid').then(({ default: mermaid }) => mermaid);
+		const mermaid = await mermaidPromise;
+		// Theme is global; (re)initialize each pass so it tracks the active theme.
+		mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: currentTheme() });
+
+		for (const block of blocks) {
+			const pre = block.tagName === 'PRE' ? block : block.closest('pre') ?? block;
+			const source = extractSource(pre).trim();
+			if (!source) continue;
+			pre.setAttribute('data-mermaid-done', '');
+			const target = pre.closest('figure') ?? pre;
+			try {
+				const { svg } = await mermaid.render(`mk-mermaid-${Date.now()}-${counter++}`, source);
+				const container = document.createElement('div');
+				container.className = 'mk-mermaid';
+				container.setAttribute('data-mermaid-rendered', '');
+				container.innerHTML = svg;
+				target.replaceWith(container);
+			} catch (error) {
+				pre.removeAttribute('data-mermaid-done');
+				console.error('mermaid render failed', error);
+			}
+		}
+	}
+
+	renderAll();
+	// Re-run after Starlight client-side navigation (view transitions).
+	document.addEventListener('astro:page-load', renderAll);
+</script>

@@ -1,5 +1,6 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
+import MermaidRenderer from './MermaidRenderer.astro';
 import {
 	KIND_LABELS,
 	degreeMap,
@@ -54,6 +55,8 @@ const relationTotal = new Set([...outgoing, ...incoming, ...tagPeers].map((item)
 		{relationTotal === 0 && <p>暂无关系文章。</p>}
 	</div>
 </details>}
+
+<MermaidRenderer />
 
 <script>
 	import { isFavorite, recordRecent, subscribeToWorkbenchState, toggleFavorite } from '../lib/workbench-state.js';
