@@ -63,7 +63,9 @@ def _issue_capability_token(state: Any, capability_token: str | None) -> None:
     """装配 capability token 与作用域；未显式传 token 时落一份 0600 的本地凭据。"""
     state.capability_token = capability_token or secrets.token_urlsafe(32)
     state.capability_token_created_at = time.time()
-    state.capability_token_ttl_seconds = 3600
+    # 令牌随进程生命周期有效、不过期（每次启动重新签发）：避免"跑满 1 小时后
+    # 全功能停摆、只能重启"的可用性缺陷；鉴权控制不变（写/私有读仍需令牌）。
+    state.capability_token_ttl_seconds = None
     state.capability_scopes = {"local-read", "private-read", "vault-check", "write"}
     state.capability_token_path = None
 

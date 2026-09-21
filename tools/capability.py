@@ -58,7 +58,7 @@ def check_capability(
     expected: str | None,
     *,
     created_at: float,
-    ttl_seconds: float,
+    ttl_seconds: float | None,
     scopes: set[str],
     required_scope: str | None = None,
     audience: str | None = None,
@@ -77,7 +77,9 @@ def check_capability(
         return _CAPABILITY_TOKEN_REQUIRED
     if not expected or not secrets.compare_digest(provided, expected):
         return _CAPABILITY_TOKEN_INVALID
-    if time.time() - created_at > ttl_seconds:
+    # ttl_seconds=None → 令牌随进程生命周期有效，不过期（本地单用户 KISS，
+    # 每次启动重新签发；鉴权控制仍在，仅去掉强制过期带来的停摆）。
+    if ttl_seconds is not None and time.time() - created_at > ttl_seconds:
         return _CAPABILITY_TOKEN_EXPIRED
     if audience is not None and audience != CAPABILITY_AUDIENCE:
         return _CAPABILITY_AUDIENCE_INVALID

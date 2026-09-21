@@ -306,18 +306,18 @@ def test_capability_audience_is_checked_when_supplied():
     assert response.json()["detail"]["code"] == "capability_audience_invalid"
 
 
-def test_capability_token_expires_by_process_ttl():
+def test_capability_token_does_not_expire_within_process():
+    # 令牌随进程生命周期有效（ttl_seconds=None）：即使签发时间远在过去也不过期，
+    # 避免"跑满固定 TTL 后全功能停摆、只能重启"。鉴权控制本身不变。
     client = TestClient(create_app(items=ITEMS, capability_token="token"))
-    client.app.state.capability_token_created_at -= (
-        client.app.state.capability_token_ttl_seconds + 1
-    )
+    assert client.app.state.capability_token_ttl_seconds is None
+    client.app.state.capability_token_created_at -= 10_000
     response = client.post(
         "/api/retrieve",
         headers={"X-MyKnowledge-Capability": "token"},
         json={"query": "内部", "scope": "local"},
     )
-    assert response.status_code == 403
-    assert response.json()["detail"]["code"] == "capability_token_expired"
+    assert response.status_code == 200
 
 
 def test_capability_scope_registry_is_enforced():

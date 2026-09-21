@@ -25,7 +25,7 @@ Action = Literal[*_ACTIONS]
 def create_server(
     root: Path,
     capability_token: str | None = None,
-    capability_token_ttl_seconds: float = 3600.0,
+    capability_token_ttl_seconds: float | None = None,
 ):
     """Build an MCP server bound to one explicit checkout."""
     try:
