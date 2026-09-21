@@ -89,6 +89,7 @@ IMPORT_FIELDS = {
     "correct_option_ids",
     "answer",
     "explanation",
+    "rubric",
     "wiki_refs",
     "company_tags",
     "source_refs",
@@ -379,11 +380,25 @@ class QuestionStore:
             safe_id(str(spec.get("id", "")))
         except ValueError:
             errors.append({"code": "question_id_invalid"})
-        if spec.get("type") not in {"single_choice", "multi_choice", "cloze"}:
+        if spec.get("type") not in {
+            "single_choice",
+            "multi_choice",
+            "cloze",
+            "short_answer",
+        }:
             errors.append({"code": "question_type_invalid"})
         for field in ("prompt", "domain", "topic", "concept_id", "skill"):
             if not isinstance(spec.get(field), str) or not spec[field].strip():
                 errors.append({"code": f"{field}_required"})
+        # rubric 仅 short_answer 使用；其余题型出现即非法（与 cloze 的 field_not_allowed 一致）。
+        if spec.get("type") != "short_answer" and spec.get("rubric") is not None:
+            errors.append(
+                {
+                    "code": "field_not_allowed",
+                    "field": "rubric",
+                    "type": spec.get("type"),
+                }
+            )
         options = spec.get("options")
         correct = spec.get("correct_option_ids")
         option_ids = []
@@ -434,6 +449,33 @@ class QuestionStore:
                     errors.append({"code": "answer_normalization_invalid"})
                 elif set(normalization) - {"casefold", "trim", "collapse_whitespace"}:
                     errors.append({"code": "answer_normalization_rule_unknown"})
+        if spec.get("type") == "short_answer":
+            for field in ("options", "correct_option_ids", "answer"):
+                if field in spec and spec[field] is not None:
+                    errors.append(
+                        {
+                            "code": "field_not_allowed",
+                            "field": field,
+                            "type": "short_answer",
+                        }
+                    )
+            rubric = spec.get("rubric")
+            # rubric = 评分要点列表；每项为字符串（既是准则也是关键词）或
+            # {label?, keywords: [str]}，与 answer() 确定性/人工/LLM 判分口径一致。
+            if not isinstance(rubric, list) or not rubric:
+                errors.append({"code": "rubric_required"})
+            else:
+                for item in rubric:
+                    valid = (isinstance(item, str) and item.strip()) or (
+                        isinstance(item, dict)
+                        and isinstance(item.get("keywords"), list)
+                        and bool(item["keywords"])
+                        and all(
+                            isinstance(k, str) and k.strip() for k in item["keywords"]
+                        )
+                    )
+                    if not valid:
+                        errors.append({"code": "rubric_item_invalid"})
         if len(option_ids) != len(set(option_ids)):
             errors.append({"code": "option_ids_invalid"})
         if spec.get("type") in {"single_choice", "multi_choice"}:
@@ -533,6 +575,7 @@ class QuestionStore:
             "correct_option_ids": spec.get("correct_option_ids"),
             "answer": spec.get("answer"),
             "explanation": spec.get("explanation", ""),
+            "rubric": spec.get("rubric"),
             "wiki_refs": spec.get("wiki_refs", []),
             "company_tags": spec.get("company_tags", []),
             "source_refs": spec.get("source_refs", []),

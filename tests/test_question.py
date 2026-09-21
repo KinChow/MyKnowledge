@@ -310,6 +310,64 @@ class QuestionTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "question_hash_mismatch"):
                 store.review("q-one", 3)
 
+    def _short_answer_spec(self, qid="q-sa"):
+        return {
+            "id": qid,
+            "type": "short_answer",
+            "domain": "llm-inference",
+            "topic": "serving",
+            "concept_id": "batching",
+            "skill": "explain",
+            "prompt": "解释 continuous batching 的核心思想。",
+            "rubric": [
+                "按迭代粒度调度",
+                {"label": "空位复用", "keywords": ["空位", "利用率"]},
+            ],
+            "explanation": "continuous batching 在每个解码步动态换入换出请求。",
+        }
+
+    def test_import_short_answer_and_grade(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            ok = store.import_spec(self._short_answer_spec())
+            self.assertEqual(ok["status"], "ok", ok)
+            stored = store.load("q-sa")
+            self.assertEqual(stored["type"], "short_answer")
+            self.assertEqual(len(stored["rubric"]), 2)
+            # 确定性 rubric 判分：命中全部要点 → score 1.0
+            graded = store.answer(
+                "q-sa",
+                "它按迭代粒度调度，空位复用提升利用率",
+                scoring_mode="deterministic",
+            )
+            self.assertEqual(graded["status"], "ok")
+            self.assertEqual(graded["grading"]["score"], 1.0)
+
+    def test_import_short_answer_requires_rubric(self):
+        with tempfile.TemporaryDirectory() as d:
+            store = QuestionStore(Path(d))
+            spec = self._short_answer_spec("q-sa-bad")
+            del spec["rubric"]
+            bad = store.import_spec(spec)
+            self.assertEqual(bad["status"], "blocked")
+            self.assertIn("rubric_required", {e["code"] for e in bad["errors"]})
+            # rubric 只允许 short_answer：单选带 rubric 应被拒
+            choice = {
+                "id": "q-choice-rubric",
+                "type": "single_choice",
+                "domain": "llm-inference",
+                "topic": "serving",
+                "concept_id": "batching",
+                "skill": "recall",
+                "prompt": "选一个",
+                "options": [{"id": "a", "text": "x"}, {"id": "b", "text": "y"}],
+                "correct_option_ids": ["a"],
+                "rubric": ["nope"],
+            }
+            r = store.import_spec(choice)
+            self.assertEqual(r["status"], "blocked")
+            self.assertIn("field_not_allowed", {e["code"] for e in r["errors"]})
+
     def test_multi_choice_response_rejects_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as d:
             store = QuestionStore(Path(d))
