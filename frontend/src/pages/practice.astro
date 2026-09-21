@@ -117,6 +117,15 @@ const base = import.meta.env.BASE_URL;
 					(queue.items || []).filter((item) => item.queue_kind === 'due').length,
 				);
 			}
+			// Fisher-Yates：返回打乱后的新数组，不改原 options。
+			function shuffleOptions(options) {
+				const result = options.slice();
+				for (let i = result.length - 1; i > 0; i--) {
+					const j = Math.floor(Math.random() * (i + 1));
+					[result[i], result[j]] = [result[j], result[i]];
+				}
+				return result;
+			}
 			function renderQuestion() {
 				const item = state.items[state.index];
 				if (!item) {
@@ -166,7 +175,8 @@ const base = import.meta.env.BASE_URL;
 					input.placeholder = '输入答案';
 					form.append(input);
 				} else {
-					for (const option of item.options || []) {
+					// 选项展示顺序随机化，避免"正确项恒在 a / 恒为最长"被无脑通关；判分按 option id 在服务端做，打乱展示不影响正确性。
+					for (const option of shuffleOptions(item.options || [])) {
 						const label = document.createElement('label');
 						label.className = 'mk-practice-option';
 						const input = document.createElement('input');
@@ -202,10 +212,16 @@ const base = import.meta.env.BASE_URL;
 					try {
 						const result = await request(`/practice/${encodeURIComponent(item.id)}/answer`, {}, { method: 'POST', body: JSON.stringify(response), headers: { 'Content-Type': 'application/json' } });
 						state.answered = true;
-						feedback.className = `mk-practice-feedback ${result.correct ? 'is-correct' : 'is-wrong'}`;
+						// 判分结论下沉在 result.grading（state/score/correct）；顶层没有 correct/score。
+						const grading = result.grading || {};
+						const isGraded = grading.state === 'graded';
+						const isCorrect = isGraded && grading.correct === true;
+						feedback.className = `mk-practice-feedback ${isGraded ? (isCorrect ? 'is-correct' : 'is-wrong') : 'is-pending'}`;
 						feedback.replaceChildren();
 						const resultText = document.createElement('div');
-						resultText.textContent = result.correct ? '回答正确' : `回答错误，得分 ${result.score ?? 0}`;
+						resultText.textContent = isGraded
+							? (isCorrect ? '回答正确' : `回答错误，得分 ${grading.score ?? 0}`)
+							: (grading.state === 'manual_review' ? '已记录，待人工评阅' : '本题暂未判分');
 						feedback.append(resultText);
 						const explanation = document.createElement('div');
 						explanation.textContent = result.explanation || '暂无解析';
@@ -238,7 +254,8 @@ const base = import.meta.env.BASE_URL;
 								try {
 									const review = await request(`/practice/${encodeURIComponent(item.id)}/review`, { rating }, { method: 'POST' });
 									const reviewStatus = document.createElement('div');
-									reviewStatus.textContent = review.state === 'scheduled' ? '复习计划已更新' : '复习计划暂不可用';
+									// 调度结果下沉在 review.schedule（state=scheduled/unavailable）；顶层没有 state。
+									reviewStatus.textContent = review.schedule?.state === 'scheduled' ? '复习计划已更新' : '复习计划暂不可用';
 									feedback.append(reviewStatus);
 								} catch (error) {
 									const reviewStatus = document.createElement('div');
@@ -337,7 +354,9 @@ const base = import.meta.env.BASE_URL;
 					state.items = result.items || [];
 					state.sessionId = result.session?.id || null;
 					if (state.sessionId) sessionStorage.setItem(sessionStorageKey, state.sessionId);
-					state.index = 0; state.mode = 'session'; renderQuestion();
+					state.index = 0; state.mode = 'session';
+					if (!state.items.length) { showMessage('没有可练习的题目', '当前领域/主题下没有匹配题目，换个筛选条件再试。'); return; }
+					renderQuestion();
 				} catch (error) { showMessage('无法开始练习', error.message, 'error'); }
 			}
 			async function loadErrors() {
@@ -346,6 +365,7 @@ const base = import.meta.env.BASE_URL;
 					state.items = (result.items || []).map((item) => item.question);
 					state.index = 0; state.mode = 'errors'; state.sessionId = null;
 					sessionStorage.removeItem(sessionStorageKey);
+					if (!state.items.length) { showMessage('暂无错题', '当前筛选条件下没有错题，可切到「全部领域」或先做几轮短回合。', 'success'); return; }
 					renderQuestion();
 				} catch (error) { showMessage('无法加载错题', error.message, 'error'); }
 			}
@@ -412,6 +432,7 @@ const base = import.meta.env.BASE_URL;
 	.mk-practice-review-actions button { min-height: 34px; padding: 0 .7rem; border: 1px solid var(--mk-line-strong); border-radius: 5px; background: var(--mk-surface); color: var(--mk-ink); cursor: pointer; }
 	.mk-practice-feedback.is-correct { color: #0f766e; }
 	.mk-practice-feedback.is-wrong { color: #b91c1c; }
+	.mk-practice-feedback.is-pending { color: #b45309; }
 	.mk-practice-next { justify-self: start; }
 	@media (max-width: 720px) { .mk-practice-heading { align-items: start; flex-direction: column; } .mk-practice-layout { grid-template-columns: 1fr; gap: 1.5rem; } .mk-practice-controls { padding: 0 0 1.25rem; border-right: 0; border-bottom: 1px solid var(--mk-line); } .mk-practice-question { padding: 1.25rem; } }
 </style>
