@@ -36,6 +36,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
+      # Materialize fetched LFS objects before the release-input cleanliness
+      # guard runs. This keeps the guard strict while avoiding pointer-file
+      # worktree changes on GitHub-hosted runners.
+      - name: Materialize Git LFS files
+        run: git lfs checkout
       - uses: actions/setup-node@v4
         with:
           node-version: 22

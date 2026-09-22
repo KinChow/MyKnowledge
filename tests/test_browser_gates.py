@@ -26,6 +26,38 @@ def test_pages_upload_is_after_real_build_and_public_browser_gate():
     assert "if" not in steps[browser]
 
 
+def test_release_workflows_materialize_lfs_before_release_checks():
+    pages = yaml.safe_load((ROOT / ".github/workflows/deploy-pages.yml").read_text())
+    pages_steps = pages["jobs"]["build"]["steps"]
+    pages_lfs = next(
+        i for i, s in enumerate(pages_steps) if s.get("run") == "git lfs checkout"
+    )
+    pages_checkout = next(
+        i for i, s in enumerate(pages_steps) if s.get("uses") == "actions/checkout@v4"
+    )
+    pages_build = next(
+        i for i, s in enumerate(pages_steps) if s.get("run") == "npm run build"
+    )
+    assert pages_checkout < pages_lfs < pages_build
+
+    ci = yaml.safe_load((ROOT / ".github/workflows/knowledge-check.yml").read_text())
+    frontend_steps = ci["jobs"]["frontend-gates"]["steps"]
+    frontend_lfs = next(
+        i for i, s in enumerate(frontend_steps) if s.get("run") == "git lfs checkout"
+    )
+    frontend_checkout = next(
+        i
+        for i, s in enumerate(frontend_steps)
+        if s.get("uses") == "actions/checkout@v4"
+    )
+    frontend_build = next(
+        i
+        for i, s in enumerate(frontend_steps)
+        if s.get("run") == "npm run check:browser"
+    )
+    assert frontend_checkout < frontend_lfs < frontend_build
+
+
 def test_check_command_and_pre_push_cover_both_browser_surfaces():
     scripts = json.loads((ROOT / "frontend/package.json").read_text())["scripts"]
     assert scripts["check:browser"] == "npm run build && npm run test:browser"
