@@ -19,7 +19,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
 
-from . import contract
+from . import contract, retire_ledger
 from .common import safe_id
 from .contract import require_error_code
 from .front_matter import FrontMatter
@@ -94,9 +94,13 @@ def purge_precondition(
 
     from . import retire_ledger
 
-    if retire_ledger.is_purged(paths, object_type, object_id):
+    try:
+        state = retire_ledger.current_lifecycle_state(paths, object_type, object_id)
+    except (OSError, ValueError):
+        return "retention_not_elapsed"
+    if state == "purged":
         return "already"
-    if not retire_ledger.is_retired(paths, object_type, object_id):
+    if state != "deleted":
         return "not_deleted"
     at = retire_ledger.deleted_at(paths, object_type, object_id)
     grace = purge_grace_days(root) if grace_days is None else grace_days
@@ -199,9 +203,10 @@ class ManagedObjectRepository:
 
     def read(self, vault_id: str, object_id: str) -> dict[str, Any]:
         try:
-            path = locate_managed_object(
-                self._owner(vault_id), self.object_type, object_id
-            )
+            owner = self._owner(vault_id)
+            if retire_ledger.is_retired(RepoPaths(owner), self.object_type, object_id):
+                raise ObjectResolutionError("object_not_found")
+            path = locate_managed_object(owner, self.object_type, object_id)
         except ObjectResolutionError as exc:
             return self._error(self.read_schema, exc)
         try:
@@ -223,9 +228,12 @@ class ManagedObjectRepository:
         except ObjectResolutionError as exc:
             return self._error(self.list_schema, exc)
         base = dict(RepoPaths(owner).object_roots)[self.object_type]
+        retired = retire_ledger.retired_object_ids(RepoPaths(owner), self.object_type)
         object_ids = (
             sorted(
-                p.stem for p in base.rglob("*.md") if p.is_file() and not p.is_symlink()
+                p.stem
+                for p in base.rglob("*.md")
+                if p.is_file() and not p.is_symlink() and p.stem not in retired
             )
             if base.is_dir()
             else []

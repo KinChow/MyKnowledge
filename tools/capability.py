@@ -46,13 +46,6 @@ _CAPABILITY_SCOPE_INVALID = (
 )
 
 
-def required_scope_for(scope: str, *, force: bool = False) -> str | None:
-    """Map a query scope to the capability scope it demands (None = 无需 scope)."""
-    if scope != "public":
-        return {"private": "private-read", "local": "local-read"}.get(scope)
-    return "local-read" if force else None
-
-
 def check_capability(
     provided: str | None,
     expected: str | None,

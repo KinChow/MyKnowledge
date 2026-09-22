@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from tools.common import canonical_body, sha256_text
 from tools.indexing import IndexBuilder, Retriever, SQLiteIndex
 from tools.vault_registry import VaultRegistry
 
@@ -232,6 +233,11 @@ class IndexingTests(unittest.TestCase):
                                 **ITEMS[0],
                                 "id": "pub",
                                 "body_path": "content/wiki/pub.md",
+                                "content_sha256": sha256_text(
+                                    canonical_body(
+                                        (root / "content/wiki/pub.md").read_text()
+                                    )
+                                ),
                             }
                         ],
                     }
@@ -312,6 +318,11 @@ class F005WiringTests(unittest.TestCase):
                                 **ITEMS[0],
                                 "id": "pub",
                                 "body_path": "content/wiki/pub.md",
+                                "content_sha256": sha256_text(
+                                    canonical_body(
+                                        (root / "content/wiki/pub.md").read_text()
+                                    )
+                                ),
                             }
                         ],
                     }

@@ -17,6 +17,7 @@ from typing import Any
 
 from fastapi import Body, FastAPI, Header, Query, Request
 
+from tools.access_policy import CAPABILITY_SCOPES
 from tools.citation import replay as replay_citation
 from tools.common import atomic_write, safe_id
 from tools.content_registry import ContentRegistry
@@ -35,8 +36,11 @@ from .schemas import (
     RetrieveRequest,
     WritePreviewRequest,
 )
-from .security import local_origin_guard, require_capability, require_write_capability
-from .services import require_scope, resolve_object_path, run_retrieve
+from .security import (
+    local_origin_guard,
+    require_action,
+)
+from .services import resolve_object_path, run_retrieve
 
 QUERY_PARAMS = frozenset(
     {"q", "scope", "vault_ids", "top_k", "include_sources", "include_archive"}
@@ -66,7 +70,7 @@ def _issue_capability_token(state: Any, capability_token: str | None) -> None:
     # 令牌随进程生命周期有效、不过期（每次启动重新签发）：避免"跑满 1 小时后
     # 全功能停摆、只能重启"的可用性缺陷；鉴权控制不变（写/私有读仍需令牌）。
     state.capability_token_ttl_seconds = None
-    state.capability_scopes = {"local-read", "private-read", "vault-check", "write"}
+    state.capability_scopes = set(CAPABILITY_SCOPES)
     state.capability_token_path = None
 
 
@@ -97,6 +101,7 @@ def create_app(
     app = FastAPI(title="MyKnowledge Local API", version="v1", lifespan=_lifespan)
     state = app.state
     state.root = Path(root or ".").resolve()
+    state.projection_backed = items is None
     # F005：默认接线 var/state/index/public.sqlite3（存在即用；陈旧/损坏自动降级 LIKE）
     default_index = default_public_index_path(state.root)
     state.retriever = Retriever(
@@ -112,8 +117,7 @@ def create_app(
     app.middleware("http")(local_origin_guard)
 
     # 端点内统一用这几个绑定好 state/root 的闭包，避免每处重复传状态
-    authorize = partial(require_capability, state)
-    authorize_write = partial(require_write_capability, state)
+    authorize_action = partial(require_action, state)
     retrieve = partial(run_retrieve, state)
     object_path = partial(resolve_object_path, state.root)
 
@@ -129,8 +133,11 @@ def create_app(
     ) -> dict:
         # 顺序与门禁语义绑定：force=True 的能力校验先行，scope 合法性由
         # run_retrieve 统一判定（未授权请求不应先泄露参数级错误）
-        authorize(
-            x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True
+        authorize_action(
+            "retrieve",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=req.scope,
         )
         return retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
 
@@ -170,8 +177,8 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(
-            x_myknowledge_capability, req.scope, x_myknowledge_audience, force=True
+        authorize_action(
+            "ask", x_myknowledge_capability, x_myknowledge_audience, scope=req.scope
         )
         retrieval = retrieve(req, x_myknowledge_capability, x_myknowledge_audience)
         return {
@@ -194,12 +201,11 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        require_scope(scope)
-        authorize(
+        authorize_action(
+            "citation_replay",
             x_myknowledge_capability,
-            scope,
             x_myknowledge_audience,
-            force=scope != "public",
+            scope=scope,
         )
         # replay 现在直接返回统一信封（citation-replay/v1, status=ok, report.valid）。
         return replay_citation(req.citation, req.snapshot)
@@ -215,7 +221,7 @@ def create_app(
         与 Skill 通道共用同一实现（`skill_runtime` 的 write action），只在 HTTP 层
         保留写能力门禁——审批由 `git diff` + `git commit` 承担。
         """
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action("write", x_myknowledge_capability, x_myknowledge_audience)
         result = dispatch(
             "write", {"files": req.files, "vault_id": req.vault_id}, root=state.root
         )
@@ -229,10 +235,8 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize_write(
-            x_myknowledge_capability,
-            x_myknowledge_audience,
-            required_scope="vault-check",
+        authorize_action(
+            "vault_check", x_myknowledge_capability, x_myknowledge_audience
         )
         return VaultRegistry(state.root).check()
 
@@ -245,7 +249,9 @@ def create_app(
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
         # 校验一律需要写能力（scope 在这里没有语义，不接受被忽略的入参）
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action(
+            "wiki_validate", x_myknowledge_capability, x_myknowledge_audience
+        )
         if object_type != "wiki":
             raise api_error(
                 "object_type_not_supported", "validate", "validate a wiki object"
@@ -270,12 +276,17 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(
+        if object_type not in {"wiki", "source"}:
+            raise api_error("object_type_not_found", "read", "use wiki or source")
+        authorize_action(
+            "read",
             x_myknowledge_capability,
-            "private" if vault_id != "public" else scope,
             x_myknowledge_audience,
+            scope=scope,
+            vault_id=vault_id,
+            object_type=object_type,
         )
-        if vault_id == "public":
+        if vault_id == "public" and object_type == "wiki":
             return _read_public(object_id)
         path = object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(state.root).resolve_vault_path(vault_id)
@@ -298,11 +309,17 @@ def create_app(
             raise api_error(
                 "invalid_object_ref", "request", "use a safe vault_id/object_id"
             ) from exc
-        result = dispatch(
-            "read", {"vault_id": "public", "object_id": object_id}, root=state.root
+        result = ContentRegistry(state.root).read(
+            "wiki", vault_id="public", object_id=object_id
         )
         if result.get("status") != "ok":
-            raise api_error("object_not_found", "read", "check object_ref")
+            raise api_error(
+                "object_not_found"
+                if result["error_code"] == "manifest_invalid"
+                else result["error_code"],
+                "read",
+                "regenerate the public projection",
+            )
         return result
 
     @app.get("/api/backlinks/{vault_id}/{object_type}/{object_id}")
@@ -314,12 +331,17 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(
+        authorize_action(
+            "backlinks",
             x_myknowledge_capability,
-            "private" if vault_id != "public" else scope,
             x_myknowledge_audience,
+            scope=scope,
+            vault_id=vault_id,
+            object_type=object_type,
         )
-        if vault_id == "public":
+        if object_type not in {"wiki", "source"}:
+            raise api_error("object_type_not_found", "read", "use wiki or source")
+        if vault_id == "public" and object_type == "wiki":
             # 同上：public 反链来自 projection，不扫 canonical
             result = dispatch(
                 "backlinks",
@@ -327,7 +349,11 @@ def create_app(
                 root=state.root,
             )
             if result.get("status") != "ok":
-                raise api_error("object_not_found", "read", "check object_ref")
+                raise api_error(
+                    result["error_code"],
+                    "read",
+                    "regenerate the public projection",
+                )
             return result
         object_path(vault_id, object_type, object_id)
         owner_root = VaultRegistry(state.root).resolve_vault_path(vault_id)
@@ -354,10 +380,13 @@ def create_app(
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
         """统一列举：经 ContentRegistry 路由（public wiki→projection，其余→repository）。"""
-        authorize(
+        authorize_action(
+            "list",
             x_myknowledge_capability,
-            "private" if vault_id != "public" else scope,
             x_myknowledge_audience,
+            scope=scope,
+            vault_id=vault_id,
+            object_type=object_type,
         )
         result = ContentRegistry(state.root).list(object_type, vault_id=vault_id)
         if result.get("status") != "ok":
@@ -373,7 +402,7 @@ def create_app(
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
         """统一软删/退休：source=RESTRICT、wiki=CASCADE+CDR、question=有历史降 disable。"""
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action("delete", x_myknowledge_capability, x_myknowledge_audience)
         try:
             result = ContentRegistry(state.root).delete(
                 object_type, vault_id=vault_id, object_id=object_id
@@ -396,7 +425,7 @@ def create_app(
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
         """永久硬删（两阶段）：须先 DELETE（软删）且过宽限期，再物理回收（source/wiki）。"""
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action("purge", x_myknowledge_capability, x_myknowledge_audience)
         try:
             result = ContentRegistry(state.root).purge(
                 object_type, vault_id=vault_id, object_id=object_id
@@ -423,7 +452,9 @@ def create_app(
             normalize_source_request,
         )
 
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action(
+            "source_update", x_myknowledge_capability, x_myknowledge_audience
+        )
         if not isinstance(request, dict):
             raise api_error(
                 "source_request_required", "update", "send a source ingest request"
@@ -455,7 +486,9 @@ def create_app(
             normalize_source_request,
         )
 
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action(
+            "source_ingest", x_myknowledge_capability, x_myknowledge_audience
+        )
         if not isinstance(request, dict):
             raise api_error(
                 "source_request_required", "create", "send a source create request"
@@ -484,7 +517,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_answer",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             # 成功体透传领域信封的 status（含判分 unavailable/blocked 均为 200），
             # 仅在题目缺失/损坏（load 抛错）时映射到结构化 404。
@@ -509,7 +547,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_list",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         return {
             **state.practice.list(
                 domain=domain, topic=topic, skill=skill, status=status
@@ -523,7 +566,9 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize_write(x_myknowledge_capability, x_myknowledge_audience)
+        authorize_action(
+            "question_create", x_myknowledge_capability, x_myknowledge_audience
+        )
         if not isinstance(spec, dict):
             raise api_error(
                 "question_spec_invalid",
@@ -550,7 +595,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_session",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         result = state.practice.create_session(
             size=size,
             domain=domain,
@@ -571,7 +621,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_session_progress",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             return {
                 **state.practice.update_session(
@@ -600,7 +655,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_session_get",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             return {
                 **state.practice.get_session(session_id),
@@ -622,7 +682,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_errors",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         return {
             **state.practice.error_queue(
                 limit=limit,
@@ -646,7 +711,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_queue",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         return {
             **state.practice.review_queue(
                 size=size,
@@ -667,7 +737,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_disable",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             return {
                 **state.practice.disable(question_id, reason=reason),
@@ -685,7 +760,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_enable",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             return {
                 **state.practice.enable(question_id),
@@ -703,7 +783,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_delete",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             return {
                 **ContentRegistry(state.root).delete("question", object_id=question_id),
@@ -722,7 +807,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_review",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         try:
             return {
                 **state.practice.review(question_id, rating),
@@ -741,7 +831,12 @@ def create_app(
         x_myknowledge_capability: str | None = Header(default=None),
         x_myknowledge_audience: str | None = Header(default=None),
     ) -> dict:
-        authorize(x_myknowledge_capability, scope, x_myknowledge_audience)
+        authorize_action(
+            "question_quality",
+            x_myknowledge_capability,
+            x_myknowledge_audience,
+            scope=scope,
+        )
         result = state.question_quality.validate(question_id, mode=mode)
         if result.get("status") == "blocked":
             if result.get("error_code") == "question_not_found":

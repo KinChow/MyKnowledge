@@ -39,6 +39,11 @@ _ERROR_TABLE: dict[str, tuple[int, str]] = {
     "capability_not_supported": (405, "blocked"),
     "vault_unavailable": (404, "blocked"),
     "object_not_found": (404, "blocked"),
+    "projection_body_stale": (409, "blocked"),
+    "projection_path_invalid": (422, "blocked"),
+    "projection_body_unavailable": (404, "blocked"),
+    "manifest_invalid": (422, "blocked"),
+    "projection_invalid": (422, "blocked"),
     "object_id_ambiguous": (409, "blocked"),
     "object_unreadable": (422, "blocked"),
     # 删除引用完整性（RESTRICT）：被引用时 409 冲突

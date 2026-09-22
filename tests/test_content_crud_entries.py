@@ -71,10 +71,14 @@ def test_skill_list_unknown_type_and_source_update_requires_request(tmp_path: Pa
     assert bad["error_code"] == "source_request_required"
 
 
-def test_backend_list_source_is_anonymous_for_public(tmp_path: Path):
+def test_backend_list_source_requires_local_capability(tmp_path: Path):
     _seed_source(tmp_path, "src-http")
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
-    resp = client.get("/api/list/public/source")
+    assert client.get("/api/list/public/source").status_code == 401
+    resp = client.get(
+        "/api/list/public/source",
+        headers={"X-MyKnowledge-Capability": "token"},
+    )
     assert resp.status_code == 200
     ids = {item["object_ref"]["object_id"] for item in resp.json()["items"]}
     assert "src-http" in ids

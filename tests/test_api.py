@@ -11,6 +11,7 @@ from fastapi.testclient import TestClient
 
 from backend.app import create_app
 from backend.server import _loopback_host
+from tools.common import canonical_body, sha256_text
 
 ITEMS = [
     {
@@ -22,7 +23,7 @@ ITEMS = [
         "public_release": True,
         "status": "published",
         "effective_confidentiality": "public",
-        "content_sha256": "sha256:one",
+        "content_sha256": sha256_text(canonical_body("离线查询")),
     },
     {
         "vault_id": "private",
@@ -83,6 +84,7 @@ def test_cli_read_and_backlinks_use_public_projection(tmp_path: Path):
                 "status": "published",
                 "effective_confidentiality": "public",
                 "body_path": "content/wiki/one.md",
+                "content_sha256": sha256_text(canonical_body("one")),
                 "title": "One",
             },
             {
@@ -93,6 +95,7 @@ def test_cli_read_and_backlinks_use_public_projection(tmp_path: Path):
                 "status": "published",
                 "effective_confidentiality": "public",
                 "body_path": "content/wiki/two.md",
+                "content_sha256": sha256_text(canonical_body("See [one](/wiki/one).")),
                 "title": "Two",
             },
         ],
@@ -407,7 +410,7 @@ def _released_item(object_id: str, body: str) -> dict:
         "public_publishable": True,
         "public_release": True,
         "effective_confidentiality": "public",
-        "content_sha256": f"sha256:{object_id}",
+        "content_sha256": sha256_text(canonical_body(body)),
         "links": [],
     }
 
@@ -425,8 +428,11 @@ def test_public_read_and_backlinks(tmp_path: Path):
     _write_public_manifest(
         tmp_path,
         [
-            _released_item("target", "# Target"),
-            {**_released_item("consumer", "See target"), "links": ["/wiki/target"]},
+            _released_item("target", "# Target\n正文"),
+            {
+                **_released_item("consumer", "See [/wiki/target](/wiki/target)"),
+                "links": ["/wiki/target"],
+            },
         ],
     )
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
@@ -1270,12 +1276,18 @@ def test_include_sources_attaches_references_not_silently_ignored(tmp_path: Path
     wiki = tmp_path / "content" / "wiki"
     wiki.mkdir(parents=True, exist_ok=True)
     (wiki / "aar.md").write_text(
-        '---\ntitle: AAR\nsources: ["aar"]\nrelated: []\n---\n# AAR\n事后回顾\n',
+        '---\ntitle: AAR\nstatus: published\npublication_scope: public\nconfidentiality: public\nsources: ["aar"]\nrelated: []\n---\n# AAR\n事后回顾\n',
         encoding="utf-8",
     )
     _write_public_manifest(
         tmp_path,
-        [{**_released_item("aar", "# AAR"), "sources": ["aar"], "related": []}],
+        [
+            {
+                **_released_item("aar", "# AAR\n事后回顾\n"),
+                "sources": ["aar"],
+                "related": [],
+            }
+        ],
     )
     client = TestClient(create_app(root=tmp_path, capability_token="token"))
     result = client.get(

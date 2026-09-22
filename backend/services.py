@@ -9,14 +9,17 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from tools import retire_ledger
 from tools.common import safe_id
 from tools.content_repository import ObjectResolutionError, locate_managed_object
 from tools.front_matter import FrontMatter
+from tools.paths import RepoPaths
+from tools.projection import PublicProjectionStore
 from tools.vault_registry import VaultRegistry
 
 from .errors import api_error
 from .schemas import RetrieveRequest
-from .security import require_capability
+from .security import require_action
 
 SCOPES = frozenset({"public", "local", "private"})
 MAX_VAULT_IDS = 16
@@ -42,8 +45,8 @@ def attach_sources(result: dict, items: list[dict]) -> dict:
         except ValueError:
             meta = {}
         by_id[item["object_id"]] = {
-            "sources": meta.get("sources", []),
-            "related": meta.get("related", []),
+            "sources": item.get("sources", meta.get("sources", [])),
+            "related": item.get("related", item.get("links", meta.get("related", []))),
         }
     for hit in result.get("items", []):
         oid = (hit.get("object_ref") or {}).get("object_id")
@@ -60,7 +63,7 @@ def run_retrieve(
     audience: str | None = None,
 ) -> dict:
     require_scope(req.scope)
-    require_capability(state, token, req.scope, audience)
+    require_action(state, "query", token, audience, scope=req.scope)
     if req.scope == "private" and not req.vault_ids:
         raise api_error(
             "vault_ids_required",
@@ -69,6 +72,27 @@ def run_retrieve(
         )
     if len(req.vault_ids or []) > MAX_VAULT_IDS:
         raise api_error("query_limit_exceeded", "request", "reduce vault_ids")
+    if getattr(state, "projection_backed", False):
+        # Do not keep serving a startup snapshot after a page is changed/retired.
+        try:
+            state.retriever.items = PublicProjectionStore(state.root).public_items(
+                with_body=True
+            )
+        except (OSError, ValueError) as exc:
+            code = str(exc)
+            if code == "manifest_invalid":
+                # Offline/empty checkout keeps the existing empty-search contract.
+                state.retriever.items = []
+                result = state.retriever.search(req.query, req.scope, req.top_k)
+                result.setdefault("warnings", []).append("projection_unavailable")
+                return result
+            if code not in {
+                "projection_body_stale",
+                "projection_path_invalid",
+                "projection_body_unavailable",
+            }:
+                code = "projection_invalid"
+            raise api_error(code, "read", "regenerate the public projection") from exc
     result = state.retriever.search(req.query, req.scope, req.top_k, req.vault_ids)
     # §12/§1958：include_sources/include_archive 是已定义契约，不允许
     # "被接受但被忽略"的静默参数（F006 review 修复）
@@ -100,6 +124,8 @@ def resolve_object_path(
     # 结构化 code 适配回本层既有 HTTP 契约码（AC-G1：契约不变）。
     # AC-F006-003：同名对象不得按目录顺序猜测 owner（多匹配一律结构化拒绝）。
     try:
+        if retire_ledger.is_retired(RepoPaths(owner_root), object_type, object_id):
+            raise ObjectResolutionError("object_not_found")
         return locate_managed_object(owner_root, object_type, object_id)
     except ObjectResolutionError as exc:
         if exc.code == "object_id_ambiguous":

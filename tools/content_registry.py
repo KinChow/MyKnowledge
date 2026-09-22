@@ -119,7 +119,10 @@ def _wiki_read(
     **_: Any,
 ) -> dict[str, Any]:
     if vault_id == "public":
-        items = PublicProjectionStore(root).public_items(with_body=True)
+        try:
+            items = PublicProjectionStore(root).public_items(with_body=True)
+        except (OSError, ValueError) as exc:
+            return _projection_error(READ_SCHEMA, exc)
         item = next((x for x in items if x["object_id"] == object_id), None)
         if item is None:
             return blocked(READ_SCHEMA, "object_not_found", object_id=object_id)
@@ -140,7 +143,10 @@ def _wiki_read(
 
 def _wiki_list(root: Path, *, vault_id: str = "public", **_: Any) -> dict[str, Any]:
     if vault_id == "public":
-        items = PublicProjectionStore(root).public_items(with_body=False)
+        try:
+            items = PublicProjectionStore(root).public_items(with_body=False)
+        except (OSError, ValueError) as exc:
+            return _projection_error(LIST_SCHEMA, exc)
         return ok(
             LIST_SCHEMA,
             object_type="wiki",
@@ -152,6 +158,18 @@ def _wiki_list(root: Path, *, vault_id: str = "public", **_: Any) -> dict[str, A
     from .wiki_repository import WikiRepository
 
     return WikiRepository(root).list(vault_id)
+
+
+def _projection_error(schema: str, exc: Exception) -> dict[str, Any]:
+    code = str(exc)
+    if code not in {
+        "manifest_invalid",
+        "projection_body_stale",
+        "projection_path_invalid",
+        "projection_body_unavailable",
+    }:
+        code = "projection_invalid"
+    return blocked(schema, code)
 
 
 def _wiki_delete(root: Path, *, vault_id: str = "public", object_id: str, **_: Any):

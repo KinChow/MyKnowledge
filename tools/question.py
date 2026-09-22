@@ -690,7 +690,10 @@ class QuestionStore:
         """
         questions: list[dict] = []
         invalid: list[dict] = []
+        retired = retire_ledger.retired_object_ids(self.paths, "question")
         for path in sorted(self.paths.practice_questions.glob("*.json")):
+            if path.stem in retired:
+                continue
             try:
                 question = self.load(path.stem)
             except (OSError, ValueError, json.JSONDecodeError) as exc:
@@ -1137,10 +1140,19 @@ class QuestionStore:
 
     def enable(self, question_id: str) -> dict:
         question = self.load(question_id)
+        restored = retire_ledger.is_retired(self.paths, "question", question_id)
+        if restored:
+            retire_ledger.append_restore(
+                self.paths,
+                "question",
+                vault_id="local",
+                object_id=question_id,
+                reason="enabled",
+            )
         if question.get("status", "enabled") == "enabled":
             return contract.ok(
                 LIFECYCLE_SCHEMA,
-                changed=False,
+                changed=restored,
                 question_id=question_id,
                 lifecycle="enabled",
             )
@@ -1250,7 +1262,9 @@ class QuestionStore:
         缺失/非法 id → ``blocked/question_not_found``，存量损坏（schema/hash/id 不符）
         → ``blocked/existing_question_invalid``，成功 → ``ok`` + ``question``。
         """
-        if not self.exists(question_id):
+        if not self.exists(question_id) or retire_ledger.is_retired(
+            self.paths, "question", question_id
+        ):
             return contract.blocked(
                 READ_SCHEMA, "question_not_found", question_id=question_id
             )
@@ -1416,7 +1430,11 @@ class QuestionStore:
             )
         if kind == "multi_choice":
             expected = set(question.get("correct_option_ids") or [])
-            values = response if isinstance(response, list) else []
+            if not isinstance(response, list):
+                return contract.blocked(ANSWER_SCHEMA, "response_option_unknown")
+            values = response
+            if not all(isinstance(value, str) for value in values):
+                return contract.blocked(ANSWER_SCHEMA, "response_option_unknown")
             if len(values) != len(set(values)):
                 return contract.blocked(ANSWER_SCHEMA, "response_options_duplicate")
             option_ids = {

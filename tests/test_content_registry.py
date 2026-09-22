@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from tools.common import canonical_body, sha256_text
 from tools.content_registry import ContentCapability, ContentRegistry
 
 
@@ -28,6 +29,7 @@ def _seed_public_wiki(root: Path) -> None:
                         "status": "published",
                         "confidentiality": "public",
                         "body_path": "content/wiki/one.md",
+                        "content_sha256": sha256_text(canonical_body("# One\n本文")),
                     }
                 ],
             }

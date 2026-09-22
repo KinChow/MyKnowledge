@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+from tools.common import canonical_body, sha256_text
 from tools.mcp_server import create_server
 from tools.skill_runtime import ACTION_FIELDS, ALLOWED_ACTIONS, dispatch
 
@@ -82,7 +83,7 @@ def test_mcp_server_exposes_one_controlled_tool_bound_to_checkout(tmp_path: Path
             "myknowledge_dispatch",
             {"action": "vault_check", "payload": {}},
         )
-        assert result.structured_content["schema_version"] == "vault-check/v1"
+        assert result.structured_content["error_code"] == "capability_token_required"
 
     asyncio.run(exercise())
 
@@ -192,6 +193,7 @@ def test_skill_public_query_and_read_use_projection_allowlist(tmp_path: Path):
                 "status": "published",
                 "effective_confidentiality": "public",
                 "body_path": "content/wiki/one.md",
+                "content_sha256": sha256_text(canonical_body("中文 projection")),
                 "title": "One",
             }
         ],
@@ -232,6 +234,7 @@ def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
                 "status": "published",
                 "effective_confidentiality": "public",
                 "body_path": "content/wiki/one.md",
+                "content_sha256": sha256_text(canonical_body("one")),
                 "title": "One",
             },
             {
@@ -242,6 +245,7 @@ def test_skill_retrieve_and_backlinks_are_projection_only(tmp_path: Path):
                 "status": "published",
                 "effective_confidentiality": "public",
                 "body_path": "content/wiki/two.md",
+                "content_sha256": sha256_text(canonical_body("See [one](/wiki/one).")),
                 "title": "Two",
             },
         ],
@@ -289,6 +293,9 @@ def test_skill_ask_reuses_public_retrieval_and_offline_boundary(tmp_path: Path):
                         "status": "published",
                         "effective_confidentiality": "public",
                         "body_path": "content/wiki/one.md",
+                        "content_sha256": sha256_text(
+                            canonical_body("中文 projection")
+                        ),
                         "title": "One",
                     }
                 ],

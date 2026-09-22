@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Literal
 
 from . import contract
+from .access_policy import CAPABILITY_SCOPES, capability_for
 from .capability import check_capability
 from .skill_runtime import ALLOWED_ACTIONS, dispatch
 
@@ -41,26 +42,6 @@ def create_server(
         "MYKNOWLEDGE_MCP_CAPABILITY_TOKEN"
     )
     issued_at = time.time()
-    protected_actions = {
-        "ask",
-        "write",
-        "source_ingest",
-        "wiki_validate",
-        "publish_preview",
-        "publish_confirm",
-        "vault_check",
-        "backup_manifest",
-        "question_create",
-        "question_list",
-        "question_session",
-        "question_errors",
-        "question_queue",
-        "question_disable",
-        "question_enable",
-        "question_delete",
-        "question_answer",
-        "question_review",
-    }
 
     def _result(envelope: dict[str, Any]) -> CallToolResult:
         """领域信封 → CallToolResult：不置 is_error——blocked/unavailable 是
@@ -99,14 +80,16 @@ def create_server(
                     "skill-dispatch/v1", "skill_action_not_allowed", action=action
                 )
             )
-        if expected_token and action in protected_actions:
+        required_scope = capability_for(action, payload or {})
+        if required_scope is not None:
             # 单实现校验核（tools.capability）；MCP 侧将错误元组翻译为 blocked 结果
             result = check_capability(
                 capability_token,
                 expected_token,
                 created_at=issued_at,
                 ttl_seconds=capability_token_ttl_seconds,
-                scopes={"write"},  # MCP 侧无 scope 分级，token 有效即视为 write 级
+                scopes=set(CAPABILITY_SCOPES),
+                required_scope=required_scope,
             )
             if result is not None:
                 code, _retryable, _next = result

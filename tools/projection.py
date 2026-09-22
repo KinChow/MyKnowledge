@@ -26,7 +26,9 @@ import json
 from pathlib import Path
 from typing import Any
 
+from . import retire_ledger
 from .paths import RepoPaths
+from .published_files import read_public_body
 
 SCHEMA_VERSION = "public-projection/v1"
 
@@ -73,32 +75,19 @@ class PublicProjectionStore:
         items = [
             item for item in self.load_manifest()["items"] if public_allowlisted(item)
         ]
-        if not with_body:
-            return items
         loaded: list[dict[str, Any]] = []
-        wiki_prefix = RepoPaths(self.root).wiki_root.relative_to(self.root).parts
+        retired = retire_ledger.retired_object_ids(RepoPaths(self.root), "wiki")
         for item in items:
-            rel = Path(str(item.get("body_path", "")))
-            if (
-                rel.is_absolute()
-                or ".." in rel.parts
-                or not rel.parts
-                or rel.parts[: len(wiki_prefix)] != wiki_prefix
-            ):
-                raise ValueError("projection_path_invalid")
-            body_path = self.root / rel
-            if not body_path.is_file() or body_path.is_symlink():
-                raise ValueError("projection_body_unavailable")
-            loaded.append(
-                {
-                    **item,
-                    "object_type": "wiki",
-                    "object_id": item["id"],
-                    "body": body_path.read_text(encoding="utf-8"),
-                    "availability": "available",
-                    "confidentiality": "public",
-                }
-            )
+            if item.get("id") in retired:
+                continue
+            _metadata, body, _text = read_public_body(self.root, item)
+            # Keep canonical front matter private; public consumers get body only.
+            current = {**item, "object_type": "wiki", "object_id": item["id"]}
+            if with_body:
+                current.update(
+                    body=body, availability="available", confidentiality="public"
+                )
+            loaded.append(current)
         return loaded
 
     def degraded_items(self) -> list[dict[str, Any]]:
