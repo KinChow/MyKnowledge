@@ -369,38 +369,10 @@ def test_skill_wiki_validate_and_publish_preview_are_domain_only(tmp_path: Path)
     )
 
 
-def test_skill_publish_confirm_delegates_event_validation(tmp_path: Path):
-    event = {
-        "schema_version": "public-release-confirmation/v1",
-        "event_id": "event-skill",
-        "operation_id": "op-skill",
-        "target_ref": {
-            "vault_id": "public",
-            "object_type": "wiki",
-            "object_id": "skill",
-        },
-        "target_vault": "public",
-        "actor_type": "human",
-        "actor_id": "alice",
-        "decision": "approve",
-        "release_input_sha256": "sha256:input",
-        "reviewed_content_sha256": "sha256:content",
-        "reviewed_evidence_sha256": "sha256:evidence",
-        "leak_gate_report_sha256": "sha256:leak",
-        "leak_gate_report_scope": "input-tree",
-        "reason": "Reviewed public knowledge release",
-        "confirmation_nonce": "nonce-skill",
-    }
-    result = dispatch("publish_confirm", {"event": event}, root=tmp_path)
-    assert result["status"] == "ok"
-    assert result["changed"] is True
-    assert (tmp_path / "release" / "public-confirmations" / "event-skill.json").exists()
-    invalid = dispatch(
-        "publish_confirm",
-        {"event": {**event, "event_id": "event-bad", "reason": "https://private"}},
-        root=tmp_path,
-    )
-    assert invalid["error_code"] == "reason_not_public_safe"
+def test_skill_publish_confirm_is_retired_without_writing(tmp_path: Path):
+    result = dispatch("publish_confirm", {"event": {}}, root=tmp_path)
+    assert result["error_code"] == "release_confirmation_retired"
+    assert not (tmp_path / "release").exists()
 
 
 def test_skill_question_answer_preserves_scoring_mode_boundary(tmp_path: Path):

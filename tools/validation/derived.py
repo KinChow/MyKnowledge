@@ -306,7 +306,7 @@ def compute_derived(
     content_sha256 = hashes["content_sha256"]
     evidence_sha256_value = hashes["evidence_sha256"]
     object_id = str(metadata.get("id", ""))
-    has_audit = has_private_confirmation(
+    has_audit = scope == "private" and has_private_confirmation(
         object_id,
         content_sha256,
         evidence_sha256_value,
@@ -323,18 +323,19 @@ def compute_derived(
         and availability == "available"
     )
     private_publishable = base_publishable and scope == "private"
-    # public 门禁分两段：前段（内容、证据、审计确认、保密等级、scope）与后段
-    # （public 发布确认事件）。分开是必需的——`release input` 要先把待审材料算
-    # 出来给人看，人才可能签发布确认；如果把发布确认也算进"能不能算材料"的前
-    # 提，链路自锁：没有确认算不出材料，算不出材料签不了确认（实测 2026-09-01，
-    # aar 之所以有确认事件是因为那份文件是手工编造的）。
+    # Public publication is Git-approved and deterministic. LLM evidence/strength
+    # remain visible advisory signals, but cannot silently filter a public page.
+    deterministic_evidence = compute_evidence_state(
+        metadata, resolution, None, availability, paths
+    )
     public_release_ready = (
-        base_publishable and scope == "public" and effective_confidentiality == "public"
+        status == "published"
+        and scope == "public"
+        and effective_confidentiality == "public"
+        and availability == "available"
+        and deterministic_evidence not in BLOCKED_EVIDENCE_STATES
     )
-    # F011：public confirmation 须为人类 approve 事件（F007 阶段仍恒 false）
-    public_publishable = public_release_ready and has_public_confirmation(
-        object_id, paths
-    )
+    public_publishable = public_release_ready
 
     # publication_warning（§6.8）
     publication_warning = (
@@ -602,32 +603,5 @@ def has_private_confirmation(
             "wiki_evidence_sha256"
         )
         if rec_content == content_sha256 and rec_evidence == evidence_sha256:
-            return True
-    return False
-
-
-def has_public_confirmation(object_id: str, paths) -> bool:
-    """public-release-confirmation/v1 事件存在性。
-
-    F011：仅人类 approve 事件有效（F002 阶段 public_release 恒 false，
-    F007 派生 true 时同样依赖该判定）。
-    """
-    release_dir = paths.release_confirmations
-    if not release_dir.exists():
-        return False
-    # 与 PublicProjectionGenerator._confirmation / write_event 一致：safe_id 允许
-    # 连字符（evt-xxx），不能只匹配 evt_* 下划线前缀（曾导致发布确认永不生效）
-    for path in sorted(release_dir.glob("*.json"), reverse=True):
-        event = read_json_dict(path)
-        if event is None:
-            continue
-        if event.get("decision") != "approve":
-            continue
-        if event.get("actor_type") != "human":
-            continue
-        target = event.get("target_ref") or {}
-        if not isinstance(target, dict):
-            continue
-        if target.get("object_type") == "wiki" and target.get("object_id") == object_id:
             return True
     return False

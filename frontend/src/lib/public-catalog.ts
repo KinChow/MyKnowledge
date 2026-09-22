@@ -62,11 +62,7 @@ export function domainColor(domain?: string | null): string {
 	return DOMAIN_META.find((item) => item.key === domain)?.color || '#64748b';
 }
 
-export function routePath(base: string, routeOrId: string): string {
-	const cleanRoute = routeOrId.replace(/^\/+|\/+$/g, '');
-	const cleanBase = base === './' ? '.' : base.replace(/\/+$/, '');
-	return `${cleanBase}/${cleanRoute}/`;
-}
+export { routePath } from './routes.js';
 
 export function degreeMap(edges: GraphEdge[]): Map<string, number> {
 	const degrees = new Map<string, number>();

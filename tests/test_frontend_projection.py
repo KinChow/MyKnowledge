@@ -5,6 +5,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
+import pytest
+
 SCRIPT = Path(__file__).parents[1] / "frontend" / "scripts" / "validate-projection.mjs"
 FRONTEND = Path(__file__).parents[1] / "frontend"
 
@@ -156,14 +158,11 @@ def test_release_lock_record_has_fencing_token():
         lock.unlink(missing_ok=True)
 
 
-def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
+def test_prepare_content_requires_body_hash(tmp_path: Path):
     root = tmp_path / "repo"
     frontend = tmp_path / "frontend"
     frontend.mkdir(parents=True, exist_ok=True)
-    script = frontend / "prepare-content.mjs"
-    shutil.copy(
-        Path(__file__).parents[1] / "frontend/scripts/prepare-content.mjs", script
-    )
+    script = FRONTEND / "scripts/prepare-content.mjs"
     body = root / "content" / "wiki" / "item.md"
     body.parent.mkdir(parents=True)
     body.write_text("# Item\n", encoding="utf-8")
@@ -199,22 +198,19 @@ def test_prepare_content_requires_matching_confirmation(tmp_path: Path):
         text=True,
         check=False,
     )
-    assert result.returncode != 0 and "confirmation_missing" in result.stderr
+    assert result.returncode != 0 and "projection_body_stale" in result.stderr
 
 
 def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path):
     root = tmp_path / "repo"
     frontend = tmp_path / "frontend"
     frontend.mkdir(parents=True, exist_ok=True)
-    script = frontend / "prepare-content.mjs"
+    script = FRONTEND / "scripts/prepare-content.mjs"
     script.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy(
-        Path(__file__).parents[1] / "frontend/scripts/prepare-content.mjs", script
-    )
     body = root / "content" / "wiki" / "item.md"
     body.parent.mkdir(parents=True)
     body.write_text("# Item\n", encoding="utf-8")
-    from tools.release_confirmation import write_event
+    from legacy_release_fixture import archive_event
 
     (root / "release" / "public-confirmations").mkdir(parents=True)
     event = {
@@ -238,7 +234,7 @@ def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path)
         "reason": "Reviewed public release",
         "confirmation_nonce": "nonce-one",
     }
-    written = write_event(root, event)
+    written = archive_event(root, event)
     manifest = {
         "schema_version": "public-projection/v1",
         "projection": "public",
@@ -274,9 +270,7 @@ def test_prepare_content_rejects_confirmation_precondition_drift(tmp_path: Path)
         capture_output=True,
         text=True,
     )
-    assert (
-        result.returncode != 0 and "confirmation_precondition_mismatch" in result.stderr
-    )
+    assert result.returncode != 0 and "projection_body_stale" in result.stderr
 
 
 def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
@@ -291,7 +285,7 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
     wiki.mkdir(parents=True)
     (wiki / "one.md").write_text("# One\n\n中文 attention\n", encoding="utf-8")
     (wiki / "two.md").write_text("# Two\n\nEnglish transformer\n", encoding="utf-8")
-    from tools.release_confirmation import write_event
+    from legacy_release_fixture import archive_event
 
     (root / "var" / "queries" / "public").mkdir(parents=True)
     (root / "release" / "public-confirmations").mkdir(parents=True)
@@ -320,7 +314,7 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
             "reason": "Reviewed public release",
             "confirmation_nonce": f"nonce-{ident}",
         }
-        written = write_event(root, event)
+        written = archive_event(root, event)
         items.append(
             {
                 "id": ident,
@@ -357,7 +351,7 @@ def test_projection_prepare_and_graph_build_multi_page_fixture(tmp_path: Path):
         "MYKNOWLEDGE_CONTENT_MODE": "projection",
     }
     prepared = subprocess.run(
-        ["node", str(frontend / "scripts" / "prepare-content.mjs")],
+        ["node", str(FRONTEND / "scripts" / "prepare-content.mjs")],
         cwd=frontend,
         env=env,
         capture_output=True,
@@ -423,6 +417,26 @@ def test_leak_gate_rejects_question_payload_even_under_public_path(tmp_path: Pat
     )
     assert result.returncode == 2
     assert "leaked.md" in json.loads(result.stderr)["findings"][0]
+
+
+@pytest.mark.parametrize("suffix", [".js", ".mjs", ".map"])
+def test_leak_gate_scans_script_and_source_map_payloads(tmp_path: Path, suffix: str):
+    target = tmp_path / f"bundle{suffix}"
+    target.write_text('{"review_state":"private"}', encoding="utf-8")
+    result = subprocess.run(
+        [
+            "node",
+            str(Path(__file__).parents[1] / "frontend/scripts/leak-gate.mjs"),
+            "--scope",
+            "dist",
+            str(target),
+        ],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 2
+    assert f"bundle{suffix}" in json.loads(result.stderr)["findings"][0]
 
 
 def test_leak_gate_rejects_active_html_and_mermaid_callbacks(tmp_path: Path):
@@ -530,3 +544,20 @@ def test_validate_build_requires_exact_sitemap_catalog_closure(tmp_path: Path):
         check=False,
     )
     assert result.returncode == 0
+
+
+def test_shared_route_helper_keeps_base_and_fragment():
+    helper = (FRONTEND / "src/lib/routes.js").as_uri()
+    program = f"""
+import {{routePath}} from {json.dumps(helper)};
+const cases = [
+  ['/', '/wiki/one/', '/wiki/one/'],
+  ['/MyKnowledge/', '/wiki/one/', '/MyKnowledge/wiki/one/'],
+  ['/MyKnowledge/', '/MyKnowledge/wiki/one/', '/MyKnowledge/wiki/one/'],
+  ['/MyKnowledge/', '/wiki/one?x=1#part', '/MyKnowledge/wiki/one/?x=1#part'],
+];
+for(const [base,route,expected] of cases) {{
+  if(routePath(base,route)!==expected) throw new Error(routePath(base,route));
+}}
+"""
+    subprocess.run(["node", "--input-type=module", "-e", program], check=True)

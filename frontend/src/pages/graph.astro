@@ -58,6 +58,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 		<script type="application/json" id="graph-data" set:html={graphJson}></script>
 		<script>
 			import cytoscape from 'cytoscape';
+			import {routePath} from '../lib/routes.js';
 			const baseUrl = document.querySelector('.mk-graph-brand a')?.getAttribute('href')?.replace(/\/$/, '') || '';
 			const data = JSON.parse(document.getElementById('graph-data').textContent || '{"nodes":[],"edges":[]}');
 			const domainColors = { 'computer-science': '#3b82f6', multimedia: '#14b8a6', 'work-methods': '#f59e0b', tools: '#a78bfa', 'reading-notes': '#f472b6', other: '#94a3b8' };
@@ -91,7 +92,7 @@ const graphJson = JSON.stringify({ nodes, edges }).replace(/</g, '\\u003c');
 					...data.edges.map((edge, index) => ({ ...edge, index })).filter((edge) => ids.has(edge.source) && ids.has(edge.target) && (!graphEdge.value || edge.kind === graphEdge.value)).map((edge) => ({ group: 'edges', data: { id: `edge-${edge.index}`, source: edge.source, target: edge.target, kind: edge.kind, weight: edge.weight || 1 } })),
 				];
 			}
-			function routeFor(id) { const node = nodeById.get(id); return `${baseUrl}/${node?.route || `wiki/${node?.id || id}`}/`; }
+			function routeFor(id) { const node = nodeById.get(id); return routePath(baseUrl, node?.route || `wiki/${node?.id || id}`); }
 			function updateAccessible(ids) {
 				accessibleList.replaceChildren();
 				for (const node of nodeData.filter((item) => ids.has(item.id))) { const li = document.createElement('li'); const link = document.createElement('a'); link.href = routeFor(node.id); link.textContent = `${node.title || node.id}（${degree.get(node.id) || 0} 条关联）`; li.append(link); accessibleList.append(li); }

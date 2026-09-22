@@ -8,7 +8,7 @@ import sqlite3
 import tempfile
 from pathlib import Path
 
-from .common import hash_canonical
+from .common import atomic_write, hash_canonical
 from .contract import ok, unavailable
 from .projection import (
     public_allowlisted as _public_allowlisted,  # 单份过滤谓词（Step0-1）
@@ -57,6 +57,12 @@ def rebuild_default_public_index(root: Path) -> dict:
     return SQLiteIndex(default_public_index_path(root), root=root).rebuild(
         items, "public"
     )
+
+
+def mark_public_index_stale(root: Path) -> None:
+    """A projection write invalidates the disposable index; rebuilding is explicit."""
+    marker = default_public_index_path(root).with_suffix(".sqlite3.stale")
+    atomic_write(marker, b"projection_changed\n", 0o600)
 
 
 def _scope_items(items: list[dict], scope: str) -> list[dict]:
@@ -242,6 +248,7 @@ class SQLiteIndex:
         finally:
             if os.path.exists(tmp):
                 os.unlink(tmp)
+        self.path.with_suffix(self.path.suffix + ".stale").unlink(missing_ok=True)
         return ok(
             "index-manifest/v1",
             scope=scope,
@@ -268,6 +275,7 @@ class SQLiteIndex:
                     row
                     and row[0] == scope
                     and row[1] == expected
+                    and not self.path.with_suffix(self.path.suffix + ".stale").exists()
                     and integrity
                     and integrity[0] == "ok"
                 ):
@@ -417,6 +425,10 @@ class Retriever:
                 index = SQLiteIndex(
                     self.index_path, root=_infer_index_root(self.index_path)
                 )
+                if self.index_path.with_suffix(
+                    self.index_path.suffix + ".stale"
+                ).exists():
+                    raise ValueError("index_stale")
                 if index.scope() != scope:
                     raise ValueError("index_scope_mismatch")
                 if index.generated_from() != hash_canonical(public):

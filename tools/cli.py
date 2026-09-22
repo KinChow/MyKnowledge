@@ -428,11 +428,11 @@ def _failed_reports(root: Path, object_id: str) -> dict:
 
 
 def release_main(argv: list[str]) -> int:
-    """发布输入的计算与人工确认事件写入（§6.8 / ADR-0010）。
+    """Inspect historical release input material.
 
-    `input` 只读：打印参与 `release_input_sha256` 的全部材料与结果，供人核对——
-    只给一个 hash 让人签，人无法核对。`confirm` 由人在本地终端显式执行，
-    不得接入自动化脚本。
+    ``confirm`` remains a compatibility command for old scripts, but it no
+    longer writes an approval event.  The approval boundary is the Git commit
+    consumed by the release builder.
     """
     from tools.public_projection import PublicProjectionGenerator
     from tools.release_confirmation import write_event
@@ -444,13 +444,19 @@ def release_main(argv: list[str]) -> int:
     parser.add_argument("mode", choices=("input", "confirm"))
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--object-id", required=True)
-    parser.add_argument("--operation-id", required=True)
-    parser.add_argument("--actor-id")
-    parser.add_argument("--reason")
-    parser.add_argument("--nonce")
-    parser.add_argument("--event-id")
-    parser.add_argument("--leak-gate-report-sha256")
+    parser.add_argument("--operation-id", default="op-history")
+    for legacy_arg in (
+        "actor-id",
+        "reason",
+        "nonce",
+        "event-id",
+        "leak-gate-report-sha256",
+    ):
+        parser.add_argument("--" + legacy_arg, help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
+    if args.mode == "confirm":
+        _print_json(write_event(args.root, {}))
+        return 2
 
     candidate, error = PublicProjectionGenerator(args.root).release_candidate(
         args.object_id
@@ -464,60 +470,18 @@ def release_main(argv: list[str]) -> int:
         content_sha256=candidate["content_sha256"],
         operation_id=args.operation_id,
     )
-    if args.mode == "input":
-        _print_json(
-            contract.ok(
-                "release-input/v1",
-                object_id=args.object_id,
-                operation_id=args.operation_id,
-                release_input_sha256=digest,
-                material=material,
-                reviewed_content_sha256=candidate["content_sha256"],
-                reviewed_evidence_sha256=candidate["evidence_sha256"],
-            )
+    _print_json(
+        contract.ok(
+            "release-input/v1",
+            object_id=args.object_id,
+            operation_id=args.operation_id,
+            release_input_sha256=digest,
+            material=material,
+            reviewed_content_sha256=candidate["content_sha256"],
+            reviewed_evidence_sha256=candidate["evidence_sha256"],
         )
-        return 0
-    missing = [
-        name
-        for name, value in (
-            ("--actor-id", args.actor_id),
-            ("--reason", args.reason),
-            ("--nonce", args.nonce),
-            ("--event-id", args.event_id),
-            ("--leak-gate-report-sha256", args.leak_gate_report_sha256),
-        )
-        if not value
-    ]
-    if missing:
-        parser.error("confirm 模式必须提供：" + ", ".join(missing))
-    result = write_event(
-        args.root,
-        {
-            "schema_version": "public-release-confirmation/v1",
-            "event_id": args.event_id,
-            "operation_id": args.operation_id,
-            "target_ref": {
-                "vault_id": "public",
-                "object_type": "wiki",
-                "object_id": args.object_id,
-            },
-            "target_vault": "public",
-            "actor_type": "human",
-            "actor_id": args.actor_id,
-            "decision": "approve",
-            "release_input_sha256": digest,
-            "reviewed_content_sha256": candidate["content_sha256"],
-            "reviewed_evidence_sha256": candidate["evidence_sha256"],
-            "leak_gate_report_sha256": args.leak_gate_report_sha256,
-            "leak_gate_report_scope": "input-tree",
-            "reason": args.reason,
-            "confirmation_nonce": args.nonce,
-        },
     )
-    _print_json(result)
-    # created 与幂等重复（changed=False）同为"目标状态已达成"，退出码 0；只有
-    # status != ok（blocked）才是失败——原来无条件 return 0 会把阻断当成功回报。
-    return 0 if result["status"] == "ok" else 2
+    return 0
 
 
 def skill_main(argv: list[str]) -> int:
@@ -589,7 +553,7 @@ commands:
   question         Question 创建、作答与复习（F008）
   doctor           健康自检（projection/索引/sources/备份，ADR-0011 降级显性化）
   projection       生成 public projection manifest（F007）
-  release          发布输入计算与 public release 人工确认（§6.8/ADR-0010）
+  release          历史发布输入查看（confirm 已退役，Git commit 为发布审批）
   matrix           追踪矩阵完成度机器派生（check / sync，勿手改完成度列）
   skill            Agent Skill 受控 action 分发（F009）"""
 

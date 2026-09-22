@@ -175,16 +175,10 @@ release:
     confirmation_event_path: release/public-confirmations/<event_id>.json
     target_operation_path: audit/operations/<operation_id>.json
     source_lineage_operation_path: source-owner-vault/audit/operations/<operation_id>.json
-    required_match_fields:
-      - release_input_sha256
-      - reviewed_content_sha256
-      - reviewed_evidence_sha256
-      - leak_gate_report_sha256
-      - target_ref
-      - operation_id
-      - confirmation_nonce
-    hash_change_behavior: retain-old-event-but-derive-false
-    missing_record_behavior: derive-false-and-block-publish
+    # Paths above describe historical records, not live publication prerequisites.
+    approval_boundary: current_git_commit
+    historical_record_behavior: retain_and_validate_only
+    llm_audit: advisory
 
 backup:
   states: [unconfigured, configured, verified, failed]
@@ -240,7 +234,7 @@ projection:
   reject_duplicate_routes: true
   reject_unresolved_links: true
   verify_body_hash: true
-  verify_confirmation_event: true
+  verify_confirmation_event: false
   reject_active_content: true
   allowed_frontmatter_fields:
     - title

@@ -444,8 +444,11 @@ def run_doctor(root: Path) -> dict:
     else:
         try:
             index = SQLiteIndex(index_path)
-            expected = hash_canonical([i for i in items]) if items else None
-            fresh = expected is None or index.generated_from() == expected
+            expected = hash_canonical(items)
+            fresh = (
+                not index_path.with_suffix(index_path.suffix + ".stale").exists()
+                and index.generated_from() == expected
+            )
             tokenizer = index.tokenizer()
             add(
                 "fts5_index",

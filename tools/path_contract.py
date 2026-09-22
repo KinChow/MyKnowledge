@@ -112,12 +112,12 @@ RULES: tuple[Rule, ...] = (
     ),
     (
         "schemas",
-        ("public_release_authority", "authoritative_records", "confirmation_event"),
+        ("public_release_authority", "historical_records", "confirmation_event"),
         lambda p: p.release_confirmations,
     ),
     (
         "schemas",
-        ("public_release_authority", "authoritative_records", "target_operation"),
+        ("public_release_authority", "historical_records", "target_operation"),
         lambda p: p.audit_operations,
     ),
     ("schemas", ("backup", "durable_manifest_path"), lambda p: p.audit_backup),

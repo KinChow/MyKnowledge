@@ -101,6 +101,8 @@ public_projection:
     - policy_version
     - manifest_sha256
     - generator_version
+    - source_revision
+    - approval
     - items
   required_item_fields:
     - id
@@ -114,26 +116,20 @@ public_projection:
     - route
     - body_path
     - attachments
-    - public_confirmation_path
     - status
     - publication_scope
     - public_publishable
     - public_release
-    - release_input_sha256
-    - public_confirmation_sha256
-    - public_lineage_commitment
     - effective_confidentiality
     - validation_state
     - evidence_state
     - links
     - content_sha256
     - evidence_sha256
-    - leak_gate_report_sha256
-    - leak_gate_report_scope
   allowed_vault_id: public
   allowed_object_type: wiki
   body_hash_must_match: true
-  confirmation_event_must_match: true
+  # Approval is the committed source_revision; historical confirmations are not inputs.
   public_metadata_fields:
     - id
     - title
@@ -147,7 +143,6 @@ public_projection:
     - strength
     - content_sha256
     - evidence_sha256
-    - leak_gate_report_scope
   manifest_hash_volatile_fields:
     - generated_at
     - generatedAt
@@ -170,24 +165,14 @@ public_release_authority:
   default: false
   frontmatter_direct_write: forbidden
   materialized_projection_only: true
-  authoritative_records:
+  historical_records:
     confirmation_event: release/public-confirmations/<event_id>.json
     target_operation: audit/operations/<operation_id>.json
     source_lineage_operation: source-owner-vault/audit/operations/<operation_id>.json
-  derive_true_when:
-    - confirmation_event_schema_valid
-    - confirmation_event_actor_type_human
-    - confirmation_event_decision_approve
-    - confirmation_event_nonce_unconsumed
-    - confirmation_event_matches_current_release_input_sha256
-    - confirmation_event_matches_current_content_sha256
-    - confirmation_event_matches_current_evidence_sha256
-    - confirmation_event_matches_current_input_leak_gate_hash
-    - target_operation_record_hash_chain_valid
-    - target_operation_record_matches_confirmation_event
-    - target_ref_owner_is_public
-  hash_change_behavior: retain-old-event-but-derive-false
-  missing_record_behavior: derive-false-and-block-publish
+  # Historical record paths above are retained for backup/path compatibility only.
+  approval_boundary: current_git_commit
+  historical_record_behavior: retain_and_validate_only
+  llm_audit: advisory
 
 hash_inputs:
   source_semantic:

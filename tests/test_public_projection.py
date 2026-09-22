@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
 
+from legacy_release_fixture import archive_event
+
 from tools.public_projection import PublicProjectionGenerator
-from tools.release_confirmation import write_event
 from tools.release_input import compute as compute_release_input
 
 
@@ -65,7 +66,7 @@ def _event(root: Path, object_id: str, content: str, evidence: str, validator):
     }
 
 
-def test_public_projection_generator_requires_matching_confirmation(tmp_path: Path):
+def test_public_projection_generator_no_longer_requires_confirmation(tmp_path: Path):
     wiki = tmp_path / "content" / "wiki"
     wiki.mkdir(parents=True, exist_ok=True)
     (wiki / "one.md").write_text("# One\n", encoding="utf-8")
@@ -94,16 +95,18 @@ def test_public_projection_generator_requires_matching_confirmation(tmp_path: Pa
     }
     (tmp_path / "release" / "public-confirmations").mkdir(parents=True)
     validator = FakeValidator(reports)
-    write_event(tmp_path, _event(tmp_path, "one", "sha256:one", "sha256:e1", validator))
+    archive_event(
+        tmp_path, _event(tmp_path, "one", "sha256:one", "sha256:e1", validator)
+    )
     result = PublicProjectionGenerator(tmp_path, validator).generate()
-    assert result["item_count"] == 1
+    assert result["item_count"] == 2
     assert {
         item["id"]
         for item in json.loads(
             (tmp_path / "var" / "queries" / "public" / "manifest.json").read_text()
         )["items"]
-    } == {"one"}
-    assert {item["object_id"] for item in result["skipped"]} == {"two"}
+    } == {"one", "two"}
+    assert result["skipped"] == []
 
 
 def test_public_projection_generator_does_not_emit_private_or_unconfirmed_items(
@@ -159,7 +162,9 @@ def test_public_projection_ignores_adjacent_private_checkout(tmp_path: Path):
     }
     (public / "release" / "public-confirmations").mkdir(parents=True)
     validator = FakeValidator(reports)
-    write_event(public, _event(public, "same", "sha256:public", "sha256:e", validator))
+    archive_event(
+        public, _event(public, "same", "sha256:public", "sha256:e", validator)
+    )
     result = PublicProjectionGenerator(public, validator).generate()
     manifest = json.loads(
         (public / "var" / "queries" / "public" / "manifest.json").read_text(
@@ -214,7 +219,9 @@ def test_manifest_items_cover_every_declared_required_field(tmp_path: Path):
     }
     (tmp_path / "release" / "public-confirmations").mkdir(parents=True)
     validator = FakeValidator(reports)
-    write_event(tmp_path, _event(tmp_path, "one", "sha256:one", "sha256:e1", validator))
+    archive_event(
+        tmp_path, _event(tmp_path, "one", "sha256:one", "sha256:e1", validator)
+    )
     result = PublicProjectionGenerator(tmp_path, validator).generate()
     assert result["item_count"] == 1, result
     item = json.loads(
@@ -329,7 +336,7 @@ def test_release_input_invariant_to_stale_ruleset(tmp_path: Path):
     assert input_stale == input_pass
 
     (tmp_path / "release" / "public-confirmations").mkdir(parents=True)
-    write_event(
+    archive_event(
         tmp_path, _event(tmp_path, "one", "sha256:one", "sha256:e1", at_pass.validator)
     )
     result = at_stale.generate()

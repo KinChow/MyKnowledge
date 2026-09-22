@@ -30,81 +30,20 @@ def event():
     }
 
 
-def test_public_release_event_is_hashed_and_written(tmp_path: Path):
+def test_confirmation_writer_is_retired_without_touching_history(tmp_path):
+    path = tmp_path / "release/public-confirmations/history.json"
+    path.parent.mkdir(parents=True)
+    path.write_text("historical bytes")
+    before = path.read_bytes()
     result = write_event(tmp_path, event())
-    assert result["status"] == "ok"
-    assert result["changed"] is True
-    assert validate_event({**event(), "event_sha256": result["event_sha256"]})["valid"]
+    assert result["error_code"] == "release_confirmation_retired"
+    assert path.read_bytes() == before
+    assert list(path.parent.iterdir()) == [path]
 
 
-def test_public_release_event_rejects_private_reason_or_target(tmp_path: Path):
-    bad = {**event(), "reason": "see https://internal.example/private"}
-    assert validate_event(bad)["error_code"] == "reason_not_public_safe"
-    bad = {**event(), "target_vault": "private"}
-    assert validate_event(bad)["error_code"] == "event_authority_invalid"
-
-
-def test_public_release_nonce_cannot_be_reused_by_another_event(tmp_path: Path):
-    assert write_event(tmp_path, event())["changed"] is True
-    replay = {**event(), "event_id": "event-two", "operation_id": "op-two"}
-    result = write_event(tmp_path, replay)
-    assert result["status"] == "blocked"
-    assert result["error_code"] == "confirmation_nonce_reused"
-
-
-def test_public_release_rejects_operation_confirmation_masquerade(tmp_path: Path):
-    """AC-F004-011：public release 只接受 public-release-confirmation/v1。"""
-    masquerade = {
-        "schema_version": "operation-confirmation/v1",
-        "operation_id": "op-one",
-        "scope": "public_release",
-        "actor_type": "human",
-        "actor_id": "alice",
-        "input_hash": "sha256:input",
-        "diff_hash": "sha256:diff",
-    }
-    assert validate_event(masquerade) == {
-        "valid": False,
-        "error_code": "event_schema_invalid",
-    }
-    assert write_event(tmp_path, masquerade)["status"] == "blocked"
-
-
-def test_relative_root_still_reports_a_repo_relative_path(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-):
-    """`--root .` 必须能正常返回：事件已落盘却以 traceback 收尾时，人只看到
-    "报错了"，无法判断确认到底有没有生效（实测就是这样丢掉一次人工确认的）。"""
-    monkeypatch.chdir(tmp_path)
-    created = write_event(Path("."), event())
-    assert created["status"] == "ok"
-    assert created["changed"] is True
-    assert created["path"] == "release/public-confirmations/event-one.json"
-    assert write_event(Path("."), event())["changed"] is False
-
-
-def test_repeating_the_same_confirmation_is_already_applied(tmp_path: Path):
-    """重复执行同一条确认不是失败：报 already_applied 并回带已存记录的 hash。
-
-    原来返回 blocked/event_exists，人会以为签名失败而去删 append-only 记录重签。
-    """
-    created = write_event(tmp_path, event())
-    repeated = write_event(tmp_path, event())
-    assert repeated == {
-        "schema_version": "public-release-confirmation-write/v1",
-        "status": "ok",
-        "changed": False,
-        "event_sha256": created["event_sha256"],
-        "path": created["path"],
-    }
-
-
-def test_same_event_id_with_different_content_is_a_conflict(tmp_path: Path):
-    """同 event_id、不同内容必须 fail-closed，不得混进 already_applied。"""
-    assert write_event(tmp_path, event())["changed"] is True
-    result = write_event(tmp_path, {**event(), "reason": "Reviewed again later"})
-    assert result["status"] == "blocked"
-    assert result["error_code"] == "event_id_conflict"
+def test_history_validator_still_accepts_old_events():
+    assert validate_event(event())["valid"]
+    assert not validate_event({**event(), "target_vault": "private"})["valid"]
 
 
 def test_real_generated_operation_id_passes_validation(tmp_path: Path):

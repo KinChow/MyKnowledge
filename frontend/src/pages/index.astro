@@ -380,6 +380,7 @@ const domainOptions = [
 			});
 			subscribeToWorkbenchState(renderState);
 			async function syncLocalPracticeEntry() {
+				if (!import.meta.env.DEV) return;
 				const nav = document.getElementById('practice-nav');
 				const entry = document.getElementById('practice-entry');
 				const status = document.getElementById('api-status');

@@ -104,7 +104,7 @@ npm run dev
 
 访问 ➡️ [http://127.0.0.1:4321](http://127.0.0.1:4321/)。`astro dev` 通过 `/local-api` 代理本机 FastAPI；静态 `dist` 预览不含练习页。
 
-正式 public projection 预览/验证必须显式选择投影输入，并在 manifest、人工确认和 leak gate 全部满足后才可构建：
+正式 public projection 预览/验证必须显式选择投影输入，并在 manifest、确定性校验和 leak gate 全部满足后才可构建：
 
 ```bash
 cd frontend
@@ -118,18 +118,18 @@ MYKNOWLEDGE_CONTENT_MODE=projection npm run dev
 
 1. 通过 Source-first 工具导入或创建 `content/sources/` 记录；不要把无来源正文直接标记为 published。
 2. 综合 source 写出 `content/wiki/` 页面与 claim/evidence 映射，跑确定性校验与 LLM 审计；落盘一次到位，审批由 `git diff` + `git commit` 承担（ADR-0019）。
-3. 公开站点只消费 `public_publishable` projection；`public_release` 默认是 `false`，只有人工对当前 hash 完成 public release confirmation（`python -m tools.cli release confirm`）才派生为 `true`；internal 内容写入用户明确选择的 private vault，并在私有发布时显示告警。
+3. 公开站点只消费通过确定性门禁的 public projection；Git commit 是公开发布审批边界，`public_release` 从合格内容派生，不可手写。逐页 `release confirm` 已退役，历史文件保留；LLM 审计仅 advisory，不阻断公开发布（ADR-0022）。internal 内容仍写入用户明确选择的 private vault。
 
 ### 4. 部署发布
 
-frontend 已临时移除，以下为重建后的规划发布链路：
+公开前端部署到 GitHub Pages 的 `/MyKnowledge/` 项目页；FastAPI/MCP 仅本地运行。
+practice 页面与专用资源从 release 剔除，公开页面不探测本机 API、不携带本地 token。
 
 ```bash
-# 正式 public 发布前必须先在 frontend 中完成 projection、人工确认和三段 leak gate：
-cd frontend
-MYKNOWLEDGE_CONTENT_MODE=projection npm run validate:projection
-# 本仓库当前只生成并验证 dist，不自动 deploy；实际 GitHub Pages 命令
-# 由部署仓库维护，且 public CI 不得 checkout 任何 private vault。
+# 先人工审阅并提交发布输入。dirty canonical/config/build-code 会被构建拒绝。
+PUBLIC_BASE_PATH=/MyKnowledge/ npm --prefix frontend run build
+# build 从当前提交重新生成 projection，执行三段 leak-gate 与链接闭包校验。
+# .github/workflows/deploy-pages.yml 使用同一入口；本地 build 不部署。
 ```
 
 ------
@@ -173,13 +173,11 @@ git diff && git commit
 python -m tools.myk wiki anchor <snapshot.md> "<引文>" --source content/sources/<dom>/<id>/<id>.md  # 证据锚定
 python -m tools.myk wiki validate content/wiki/<dom>/<id>.md    # 确定性校验
 python -m tools.myk wiki audit    content/wiki/<dom>/<id>.md    # LLM 证据审计（默认复用本机 agent CLI，零配置）
-python -m tools.myk wiki confirm  content/wiki/<dom>/<id>.md    # 人工审计确认（actor-id 自动取 git 身份）
-# 公开发布（发布确认，非已退场的写入门禁）：先算待签输入，再写 public-release-confirmation/v1
-python -m tools.myk wiki publish input   --object-id <wiki-id> --operation-id op_<id>
-python -m tools.myk wiki publish confirm --object-id <wiki-id> --operation-id op_<id> \
-  --nonce <nonce> --event-id evt-<...> --leak-gate-report-sha256 <hash>   # actor-id 自动
-python -m tools.myk build projection               # 重建 public projection manifest
-python -m tools.myk build index --index <索引路径>    # 重建 projection SQLite 索引
+# LLM 结果仅作建议；公开发布不再要求 wiki confirm / wiki publish confirm。
+python -m tools.myk build projection               # 本地预览 projection（标记 FTS stale）
+python -m tools.myk build index --scope public --index var/state/index/public.sqlite3
+# 审阅并提交后，正式构建绑定当前 Git commit
+PUBLIC_BASE_PATH=/MyKnowledge/ npm --prefix frontend run build
 ```
 
 （每条 action 默认打印一行人类摘要，加 `--json` 看完整结构。）
