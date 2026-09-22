@@ -37,6 +37,7 @@ from ..common import (
     strip_sha256_prefix,
 )
 from ..front_matter import FrontMatter
+from ..git_lfs import require_pdf_lfs
 from ..paths import RepoPaths
 from .fetcher import URLFetcher
 from .parser import Attachment, DocumentParser, ParseResult, media_suffix
@@ -142,6 +143,8 @@ class LocalFileAcquirer:
         """稳定读取本地文件并提取正文，返回正文/提取器与 hash/stat。"""
         data, stat = read_stable(Path(request["input_path"]))
         media_type = request.get("media_type") or "application/octet-stream"
+        if data.startswith(b"%PDF"):
+            media_type = "application/pdf"
         result = extractor.parse(data, media_type)
         return AcquireResult(
             body=result.markdown,
@@ -271,6 +274,8 @@ class FetchAcquirer:
     def acquire(self, request: dict, extractor: Extractor) -> AcquireResult:
         """抓取 URL 并提取正文，返回正文/提取器与解析后 URL。"""
         fetched_body, resolved_url, content_type = self.fetcher.fetch(request["url"])
+        if fetched_body.startswith(b"%PDF"):
+            content_type = "application/pdf"
         result = extractor.parse(fetched_body, content_type)
         return AcquireResult(
             body=result.markdown,
@@ -306,7 +311,27 @@ class SourceIngestor:
             FetchAcquirer.source_type: FetchAcquirer(fetcher),
         }
 
-    def _prepare(self, request: dict) -> dict:
+    def _pdf_import_error(self, request: dict, source_id: str) -> dict | None:
+        """Return a structured error when the destination cannot use Git LFS."""
+        pdf_path = self.paths.source_attachment(
+            request["domain"],
+            source_id,
+            f"{source_id}.pdf",
+            request.get("collection"),
+        )
+        error = require_pdf_lfs(self.root, str(pdf_path.relative_to(self.root)))
+        if not error:
+            return None
+        return {
+            "code": error,
+            "path": str(pdf_path.relative_to(self.root)),
+            "reason": (
+                "PDF originals must be imported in a Git repository "
+                "with the matching Git LFS rule"
+            ),
+        }
+
+    def _prepare(self, request: dict) -> dict:  # noqa: C901 - ingestion state machine
         """校验请求并采集正文，组装写入所需的 payload；异常统一转为结构化 blocked。"""
         try:
             errors = self.validator.validate_request(request)
@@ -316,11 +341,25 @@ class SourceIngestor:
                 "source-" + uuid.uuid4().hex[:12]
             )
             source_type = request["source_type"]
+            # Refuse before expensive PDF parsing when the local repository is
+            # not prepared to commit the original through Git LFS. The
+            # post-acquisition check below still covers PDFs detected by magic
+            # bytes and PDFs fetched from a URL.
+            if source_type == "local-file" and str(
+                request.get("input_path", "")
+            ).lower().endswith(".pdf"):
+                pdf_error = self._pdf_import_error(request, source_id)
+                if pdf_error:
+                    return {"state": "blocked", "errors": [pdf_error]}
             acquirer = (
                 self._acquirers.get(source_type)
                 or self._acquirers[FetchAcquirer.source_type]
             )
             acquired = acquirer.acquire(request, self.extractor)
+            if acquired.raw_data is not None and acquired.raw_data.startswith(b"%PDF"):
+                pdf_error = self._pdf_import_error(request, source_id)
+                if pdf_error:
+                    return {"state": "blocked", "errors": [pdf_error]}
             body = acquired.body
             if not isinstance(body, str):
                 return {

@@ -53,7 +53,7 @@ class SourceRequest(TypedDict):
 
 解析来源 → 判断 `fetch`/`local-file`/`personal-note` → 获取或读取正文 → 保存不可变 text snapshot → 按需保存 raw → 生成 evidence item/selector → 计算 hash → schema 校验 → 原子落盘（source + snapshot + sidecar + manifest）。输入是本机路径时强制 `source_type: local-file`；原始网页类型只能写入 provenance。
 
-抓取失败、来源不完整、selector 无法绑定、vault 不可用、raw 超过 `raw_max_bytes` 或 raw 的 LFS 前置检查失败时，不得产生可发布 Source；允许的 text-only 降级必须记录原因，且不影响 snapshot 作为权威证据载体。`personal-note` 也必须从 canonical note body 生成 snapshot；它可以离线，但不能用可变 Markdown 正文替代快照。
+抓取失败、来源不完整、selector 无法绑定、vault 不可用、raw 超过 `raw_max_bytes` 或 raw 的 LFS 前置检查失败时，不得产生可发布 Source。PDF 等不可 diff 的原始字节必须同时满足 `.gitattributes` 的 LFS 规则、Git LFS 可用和 index/tree 中最终为 pointer；导入器在解析前对本地 `.pdf` 拒绝未配置仓库，在检测到 PDF magic bytes 后对所有入口再次拒绝。不得用 text-only 降级掩盖原始 PDF 缺失；只有没有原始附件语义的纯文本导入才允许 text-only。`personal-note` 也必须从 canonical note body 生成 snapshot；它可以离线，但不能用可变 Markdown 正文替代快照。
 
 ### 网络抓取安全
 
@@ -87,7 +87,7 @@ sidecar 文件和父目录必须由当前用户拥有、不可被 symlink 替换
 
 ## 测试策略
 
-覆盖 URL、local-file HTML/PDF/代码/日志、personal-note、抓取失败、重复导入、空正文、locator、Unicode offset/hash 稳定性、raw LFS 检查、多个 Vault 的明确 target、单 Vault unavailable 隔离和跨 Vault 同 snapshot 去重；增加文件 hash 变化不覆盖旧 snapshot 的回归。
+覆盖 URL、local-file HTML/PDF/代码/日志、personal-note、抓取失败、重复导入、空正文、locator、Unicode offset/hash 稳定性、raw LFS 检查、PDF LFS 前置拒绝、多个 Vault 的明确 target、单 Vault unavailable 隔离和跨 Vault 同 snapshot 去重；增加文件 hash 变化不覆盖旧 snapshot 的回归。
 
 ## 离线 HTML/PDF 入口
 

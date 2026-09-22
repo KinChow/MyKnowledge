@@ -461,7 +461,7 @@ git lfs track "ledger/archive/raw/**"      # 写入 .gitattributes 并提交
 # 确认 .gitattributes 已生效后，才允许 Source 导入工具写入 raw
 ```
 
-Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；不存在时拒绝写入 `ledger/archive/raw/`，只写 `ledger/archive/text/` 并降级为 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
+Source 导入工具启动时必须检查 `.gitattributes` 中存在对应的 LFS 规则；PDF 等带原始二进制附件的导入若缺少规则或 Git LFS，必须整体拒绝，不能只写 `ledger/archive/text/` 掩盖原件缺失。没有原始附件语义的纯文本 Source 才允许 `archive_policy: text-only`。这条检查把"忘记配 LFS"变成一次明确失败，而不是一堆已经进了主仓历史的二进制文件。
 
 `ledger/archive/text/` 保持普通入库：它是可解压回 canonical 文本的压缩 blob，体积在几 MB 量级，需要 Git 历史可追溯性，不适合放进 LFS；snapshot hash 和 selector 永远对解压后的逻辑文本计算。
 

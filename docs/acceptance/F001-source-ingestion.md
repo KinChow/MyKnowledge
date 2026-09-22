@@ -31,7 +31,7 @@
 - Then：规则生效才允许 raw，否则拒写或按契约降级 text-only，并记录原因；
 - 自动化级别：Repository。
 - 对应测试：无（当前无 raw 写入路径）
-- 当前状态：待界定。当前实现只写 `archive/text`（metadata 硬编码 `archive_policy: text-only`），不存在 raw 写入路径，故无 LFS 门禁需求；raw 归档功能启用时随 archive_source 实现 `.gitattributes`/LFS 检测与降级原因记录。
+- 当前状态：已实现。`.gitattributes` 为 `content/sources/**/*.pdf` 与 `archive/raw/**` 配置 LFS；`tools.git_lfs` 检查 index/tree 中的 LFS pointer，CI、pre-commit 和 release 均执行该检查；PDF 导入在本地文件预解析前及所有入口检测到 PDF magic bytes 后拒绝缺少 Git LFS 规则的仓库。
 
 ## AC-F001-004 local-file HTML/PDF 统一入口
 
@@ -145,7 +145,7 @@
 - 复核人：zhouzijian01
 - 基线垂直切片：`tests/test_end_to_end.py::test_source_to_wiki_evidence_chain_is_replayable` 串联 Source 导入（一次调用）、snapshot、EvidenceAnchor selector、Wiki validation 和 evidence hash replay；原始输入与 canonical 事实链均可复核。
 - 未决项（不影响 Implemented，阻却 Accepted）：
-- AC-003：raw 归档/LFS 门禁随 raw 功能启用时落地；当前实现固定 text-only，无 raw 写入路径。
+- AC-003：raw 归档/LFS 门禁已落地；PDF 原件不能以普通 Git blob 进入 `content/sources`，发布前的 index/tree 检查会阻断违规提交。
 
 ## URL redirect/response 门禁证据（2026-08-27）
 

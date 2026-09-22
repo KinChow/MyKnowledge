@@ -50,6 +50,13 @@ repos:
         files: ^frontend/package-lock\.json$
         pass_filenames: false
 
+      - id: git-lfs-integrity
+        name: Git LFS pointer integrity
+        entry: .venv/bin/python -m tools.git_lfs
+        language: system
+        pass_filenames: false
+        always_run: true
+
       # 唯一权威的内容完整性门禁（0.4s）：archive 快照必须自证（文件名 ==
       # 正文 sha256）、sources front-matter 与快照一致。exclude 是黑名单、永远
       # 落后于工具演进；这条是白名单式因果闭环——不管是谁改写了内容，提交前必失败。

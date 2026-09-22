@@ -40,6 +40,7 @@ jobs:
       # guard runs. This keeps the guard strict while avoiding pointer-file
       # worktree changes on GitHub-hosted runners.
       - name: Materialize Git LFS files
+        working-directory: ${{ github.workspace }}
         run: git lfs checkout
       - uses: actions/setup-node@v4
         with:
@@ -50,6 +51,9 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r ../requirements-release.txt
+      - name: Verify Git LFS pointers
+        working-directory: ${{ github.workspace }}
+        run: python -m tools.git_lfs
       - run: npm ci
       - run: npm run build
       - run: npx playwright install --with-deps chromium

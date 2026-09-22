@@ -82,6 +82,6 @@ echo "== 6/6 自检 =="
 echo
 echo "可选外部依赖（按需安装，缺失时对应能力自动降级并显式告警）："
 echo "  qmd      - 语义/向量检索（缺失 -> FTS5 降级）"
-echo "  git lfs  - archive/raw 二进制快照（缺失 -> text-only 归档）"
+echo "  git lfs  - PDF/source 原件与 archive/raw 二进制快照必需；缺失时拒绝导入"
 echo "  marker   - PDF/PPT/DOCX → 结构化 Markdown（已随 requirements 安装；模型 ~2-4GB 首次使用下载）"
 echo "完成。日常入口：python -m tools.cli（查看命令列表）/ python -m tools.cli doctor"

@@ -42,7 +42,7 @@
 | 规范 ID | Feature | ADR | 实现设计 | 验收 | 测试 | 状态 | 完成度 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | SRC-001 | F001 | ADR-0001 | source-ingestion | AC-F001-001/002/004/005/009/010 | tests/ingest/test_source_ingestor.py（来源完备性三通道、request 跨字段约束、source file schema/snapshot hash 一致性，SourceValidator 复用自同一文件）；raw/LFS 待 F001 后续接线 | Implemented（部分） | 主体完成 |
-| ARC-001 | F001 | ADR-0003 | source-ingestion | AC-F001-003/006 | tests/ingest/test_source_ingestor.py（append-only manifest owner/snapshot/extractor/normalization/record hash 与重复 Apply 幂等）；当前 archive policy 固定 text-only，raw/LFS 功能尚未启用 | Implemented（部分） | 主体完成 |
+| ARC-001 | F001 | ADR-0003 | source-ingestion | AC-F001-003/006 | tests/ingest/test_source_ingestor.py、tests/test_git_lfs.py（append-only manifest owner/snapshot/extractor/normalization/record hash、重复导入幂等、PDF/LFS pointer 门禁）；PDF 原件与 archive/raw 受 LFS 规则保护 | Implemented（部分） | 主体完成 |
 | ARC-002 | F001/F003 | ADR-0003/0005 | source-ingestion, evidence-anchoring, wiki-claim-validation | AC-F001-001/004/006/011/012/013, AC-F003-001/002/006 | tests/test_end_to_end.py::test_source_to_wiki_evidence_chain_is_replayable（Source→snapshot→EvidenceAnchor→Wiki claim/evidence validation→hash replay）；跨 Vault unavailable 与 public confirmation 仍分别由 F011/F007 验收 | Implemented（部分） | 主体完成 |
 | WIKI-001 | F002 | ADR-0001 | wiki-claim-validation | AC-F002-001/002/004/005 | tests/validation/test_wiki_validator.py + test_wiki_schema.py + test_wiki_rules.py（schema 必填/状态机/正文契约、owner 引用、kind/status 组合）；跨域组合与 private 挂载待补 | Implemented（部分） | 主体完成 |
 | WIKI-002 | F002 | ADR-0004 | wiki-claim-validation | AC-F002-003/004 | tests/validation/test_wiki_rules.py + test_wiki_derived.py（声明/派生字段分离、手写派生值拒绝、非法状态组合拒绝、evidence hash 绑定） | Implemented（部分） | 主体完成 |

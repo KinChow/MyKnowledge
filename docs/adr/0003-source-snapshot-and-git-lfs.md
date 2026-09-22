@@ -11,7 +11,7 @@
 
 ## 后果
 
-原文可离线复核，设计文档可正常 diff；raw 写入前必须检查 LFS 规则已生效。LFS 未配置时按规范拒写 raw 或降级为 text-only。
+原文可离线复核，设计文档可正常 diff；raw 写入前必须检查 LFS 规则已生效。PDF 等带原始二进制附件的 Source 在导入时必须有 Git LFS 和对应 `.gitattributes` 规则，否则拒绝导入；没有原始附件语义的纯文本 Source 才允许 text-only。
 
 ## 重新评估条件
 

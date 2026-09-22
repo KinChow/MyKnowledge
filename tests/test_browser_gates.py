@@ -39,6 +39,13 @@ def test_release_workflows_materialize_lfs_before_release_checks():
         i for i, s in enumerate(pages_steps) if s.get("run") == "npm run build"
     )
     assert pages_checkout < pages_lfs < pages_build
+    assert pages_steps[pages_lfs]["working-directory"] == "${{ github.workspace }}"
+    pages_verify = next(
+        i
+        for i, s in enumerate(pages_steps)
+        if s.get("run") == "python -m tools.git_lfs"
+    )
+    assert pages_lfs < pages_verify < pages_build
 
     ci = yaml.safe_load((ROOT / ".github/workflows/knowledge-check.yml").read_text())
     frontend_steps = ci["jobs"]["frontend-gates"]["steps"]
@@ -56,6 +63,15 @@ def test_release_workflows_materialize_lfs_before_release_checks():
         if s.get("run") == "npm run check:browser"
     )
     assert frontend_checkout < frontend_lfs < frontend_build
+    assert (
+        frontend_steps[frontend_lfs]["working-directory"] == "${{ github.workspace }}"
+    )
+    frontend_verify = next(
+        i
+        for i, s in enumerate(frontend_steps)
+        if s.get("run") == "python -m tools.git_lfs"
+    )
+    assert frontend_lfs < frontend_verify < frontend_build
 
 
 def test_check_command_and_pre_push_cover_both_browser_surfaces():
