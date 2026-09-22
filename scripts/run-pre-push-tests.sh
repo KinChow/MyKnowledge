@@ -38,4 +38,8 @@ if [[ ! -x "$python" ]]; then
   exit 1
 fi
 
-exec "$python" -m pytest -q
+cd "$repo_root"
+"$python" -m pytest -q
+# Release inputs must already be committed. Never bypass the Git gate or test a
+# previous dist in place of this checkout. Browser installation is explicit.
+PUBLIC_BASE_PATH=/MyKnowledge/ npm --prefix frontend run check:browser

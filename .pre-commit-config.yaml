@@ -75,7 +75,7 @@ repos:
         always_run: true
 
       - id: pytest
-        name: pytest (pre-push)
+        name: Python + release/browser gates (pre-push)
         entry: scripts/run-pre-push-tests.sh
         language: system
         pass_filenames: false

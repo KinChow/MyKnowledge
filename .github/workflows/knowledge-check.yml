@@ -17,8 +17,15 @@ on:
       - 'pyproject.toml'
       - 'requirements.txt'
       - 'requirements-dev.txt'
+      - 'requirements-browser.txt'
+      - 'requirements-release.txt'
+      - 'content/wiki/**'
+      - 'content/sources/**'
+      - 'archive/**'
+      - 'audit/retire/**'
+      - 'audit/validation/**'
       - '.pre-commit-config.yaml'
-      - '.github/workflows/knowledge-check.yml'
+      - '.github/workflows/**'
   push:
     paths:
       - 'docs/**'
@@ -34,8 +41,15 @@ on:
       - 'pyproject.toml'
       - 'requirements.txt'
       - 'requirements-dev.txt'
+      - 'requirements-browser.txt'
+      - 'requirements-release.txt'
+      - 'content/wiki/**'
+      - 'content/sources/**'
+      - 'archive/**'
+      - 'audit/retire/**'
+      - 'audit/validation/**'
       - '.pre-commit-config.yaml'
-      - '.github/workflows/knowledge-check.yml'
+      - '.github/workflows/**'
 
 jobs:
   # 全部业务逻辑在 Python 侧，CI 必须覆盖它：格式/lint 与本地 pre-commit 同配置同版本。
@@ -81,7 +95,7 @@ jobs:
         working-directory: content/sources/computer-science/cs336-2026/official-materials
         run: sha256sum -c SHA256SUMS
 
-  # 前端只有校验脚本（无发布），config/docs 常驻；projection 仅在 manifest 存在时校验
+  # Same real release + browser checks as local pre-push; practice uses disposable data.
   frontend-gates:
     runs-on: ubuntu-latest
     defaults:
@@ -89,12 +103,19 @@ jobs:
         working-directory: frontend
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r ../requirements-browser.txt
+      - run: npx playwright install --with-deps chromium
       - run: npm run validate:config
       - run: npm run validate:docs
       - name: Detect public projection manifest
@@ -110,3 +131,15 @@ jobs:
       - name: Validate public projection and release gates
         if: steps.projection.outputs.present == 'true'
         run: npm run validate:projection
+      - name: Build committed release and run public + local browser tests
+        env:
+          PUBLIC_BASE_PATH: /MyKnowledge/
+        run: npm run check:browser
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: frontend-browser-failure
+          path: |
+            frontend/playwright-report/
+            frontend/test-results/
+          retention-days: 7

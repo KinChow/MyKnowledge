@@ -1,0 +1,5 @@
+# Minimal offline API fixture; no PDF/ASR/model/provider dependencies.
+-r requirements-release.txt
+fastapi>=0.115,<1
+uvicorn>=0.30,<1
+fsrs>=6.3,<7

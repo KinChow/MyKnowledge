@@ -80,8 +80,8 @@ const base = import.meta.env.BASE_URL;
 			async function request(path, params = {}, options = {}) {
 				const response = await fetch(apiUrl(path, params), options);
 				const body = await response.json().catch(() => ({}));
-				if (!response.ok) {
-					const code = body?.detail?.code || `HTTP ${response.status}`;
+				if (!response.ok || body.status === 'blocked' || body.status === 'unavailable') {
+					const code = body?.detail?.code || body.error_code || `HTTP ${response.status}`;
 					if (response.status === 401 || code === 'capability_token_expired') {
 						throw new Error('本地服务令牌无效，请重启后端和前端开发服务');
 					}

@@ -184,6 +184,12 @@ PUBLIC_BASE_PATH=/MyKnowledge/ npm --prefix frontend run build
 
 ### 静态站（浏览器）
 
+提交/CI 浏览器门禁见 [Browser regression gates](frontend/e2e/README.md)：
+pre-push 先跑 Python 回归，再构建 `/MyKnowledge/` 并运行公开站与隔离本地练习
+两组 Playwright 用例；PR/push CI 同样执行，Pages 上传前必须通过公开站用例。
+没有本地定时看护。首次运行需要安装 Playwright Chromium；可设置
+`MYK_E2E_CHANNEL=chrome` 使用本机 Google Chrome。
+
 ```bash
 cd frontend && MYKNOWLEDGE_CONTENT_MODE=projection MYKNOWLEDGE_ROOT=.. npm run build
 cd dist && python3 -m http.server 8766    # http://127.0.0.1:8766/wiki/<id>/
